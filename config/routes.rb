@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :taskas
   devise_for :parents
   devise_for :teachers
   devise_for :admins

@@ -1,0 +1,2 @@
+class Taska < ApplicationRecord
+end
