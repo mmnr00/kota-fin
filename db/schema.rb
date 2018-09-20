@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_20_074927) do
+ActiveRecord::Schema.define(version: 2018_09_20_080516) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -38,6 +38,11 @@ ActiveRecord::Schema.define(version: 2018_09_20_074927) do
     t.index ["email"], name: "index_parents_on_email", unique: true
     t.index ["reset_password_token"], name: "index_parents_on_reset_password_token", unique: true
     t.index ["username"], name: "index_parents_on_username", unique: true
+  end
+
+  create_table "taska_admins", force: :cascade do |t|
+    t.integer "taska_id"
+    t.integer "admin_id"
   end
 
   create_table "taskas", force: :cascade do |t|
