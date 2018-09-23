@@ -1,4 +1,9 @@
 <p id="notice"><%= notice %></p>
 
+
+<h3>Welcome to <%= @taska.name %>'s page</h3></br>
+
 <%= link_to 'Edit', edit_taska_path(@taska) %> |
-<%= link_to 'Back', taskas_path %>
+<%= link_to 'Back', taskas_path %></br>
+<%= if @admin_taska.count > 1 ; link_to "Taska Listing", admin_index_path end %></br>
+<%= link_to "logout", destroy_admin_session_path, method: :delete %>

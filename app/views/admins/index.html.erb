@@ -1,3 +1,20 @@
-<h1> You are an admin </h1>
+<h1> Welcome Back <%= @admin.username %> </h1>
+
+<% if @admin_taska.count > 0 %>
+	
+		<% @admin_taska.each do |kuli|%>
+			<% if @admin_taska.count > 1 %>
+			 	<%= link_to kuli.name, taska_path(kuli) %></br>
+			 <% else %>
+			 	Redirect
+				
+				<% end %>
+				<% end %>
+
+		
+<% else %>
+	<p> Takdak Taska <p>
+<% end %>
+
 
 <%= link_to "logout", destroy_admin_session_path, method: :delete %>

@@ -10,6 +10,8 @@ class TaskasController < ApplicationController
   # GET /taskas/1
   # GET /taskas/1.json
   def show
+    # ada kt bawah func set_taska
+    @admin_taska = current_admin.taskas
   end
 
   # GET /taskas/new
