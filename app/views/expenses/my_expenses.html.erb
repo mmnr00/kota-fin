@@ -1,0 +1,32 @@
+<h1> SEARCH </h1>
+
+<div id="month-lookup"> <!-- From Finance Tracker views/users/myportfolio.html  -->
+	<%= form_tag search_expense_path, remote: true, method: :get, id: "finds_expense" do %>
+		<div class="form-group row no-padding text-center col-md-8">
+      		<div class="col-md-4">
+      			<%= text_field_tag :month,  params[:month], 
+                    placeholder: "month", 
+                    autofocus: true,  
+                   	class: "form-control search-box input-lg" %>
+      		</div>
+      		<div class="col-md-4">
+      			<%= text_field_tag :year, params[:year], 
+                    placeholder: "year", 
+                    autofocus: true,  
+                   	class: "form-control search-box input-lg" %>
+      		</div>
+      		<div class="col-md-2">
+        		<%= button_tag(type: :submit, class: "btn btn-lg btn-success", id: "submit_expense") do %>
+          			<i class="fa fa-search"></i> Hantar
+        		<% end %>
+    		</div>
+      	</div>
+	<%end%>
+		
+
+</div>
+
+<div id="results">
+    <%= render 'expenses/result' %> 
+  </div>
+

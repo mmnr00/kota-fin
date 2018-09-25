@@ -1,0 +1,40 @@
+
+	<% if @expenses_search %>
+		<% if @expenses_search.size > 0 %>
+			<div id="friend-lookup-result" class="well results-block col-md-10">
+				<%= params[:month] %> 
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Cost</th>
+							<th>Month</th>
+							<th>Year</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% total = 0 %>
+						<% @expenses_search.each do |expense| %>
+						<% total = total + expense.cost %>
+						<tr>
+							<td><%= expense.name %></td>
+							<td><%= expense.cost %></td>
+							<td><%= expense.month %></td>
+							<td><%= expense.year %></td>
+							<td><%= link_to "Delete", expense_path(expense), method: :delete, data: { confirm: "Are you sure you want to delete the expense?"},class: "btn btn-xs btn-danger" %></td>
+							<td><%= link_to "Edit", edit_expense_path(expense),class: "btn btn-xs btn-primary" %></td>
+						</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+		<% end %>
+	<% end %>
+
+<div id="results" class="col-md-12">
+	<%= link_to "Create New Expense", new_expense_path %>
+	<h2>Current Month Expense: <%= total %> </h2>
+</div>
+
+

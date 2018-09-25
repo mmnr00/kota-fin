@@ -16,3 +16,17 @@
 //= require activestorage
 //= require turbolinks
 //= require_tree .
+
+//$(document).ready(function(){
+//$("#finds_expense").trigger('submit');
+//});
+
+$(document).ready(function(){
+  var formData = $("#finds_expense").serialize();
+  $.ajax({
+   url: 'search_expense',
+   data: formData,
+   type: 'GET',
+   contentType: 'application/script'
+  });
+});
