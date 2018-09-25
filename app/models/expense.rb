@@ -1,4 +1,5 @@
 class Expense < ApplicationRecord
+	belongs_to :taska
 
 	def self.search(param_1, param_2)
 		to_send_back = expenses_matches(param_1, param_2)

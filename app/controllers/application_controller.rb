@@ -1,6 +1,11 @@
 class ApplicationController < ActionController::Base
 	 before_action :configure_permitted_parameters, if: :devise_controller?
 
+	 #def current_taska
+	 	#return unless session[:Taska_id]
+	 	#@current_taska ||= Taska.find(session[:Taska_id])
+	 #end
+
 	 
 
   protected

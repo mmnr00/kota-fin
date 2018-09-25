@@ -8,10 +8,14 @@ class TaskasController < ApplicationController
   end
 
   # GET /taskas/1
+
   # GET /taskas/1.json
   def show
     # ada kt bawah func set_taska
     @admin_taska = current_admin.taskas
+    session[:taska_id] = @taska.id
+    session[:taska_name] = @taska.name
+    
   end
 
   # GET /taskas/new

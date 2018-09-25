@@ -1,4 +1,5 @@
 <h1> SEARCH </h1>
+<h4>Taska ID :<%= session[:taska_id] %></h4></br>
 
 <div id="month-lookup"> <!-- From Finance Tracker views/users/myportfolio.html  -->
 	<%= form_tag search_expense_path, remote: true, method: :get, id: "finds_expense" do %>
@@ -15,6 +16,7 @@
                     autofocus: true,  
                    	class: "form-control search-box input-lg" %>
       		</div>
+          
       		<div class="col-md-2">
         		<%= button_tag(type: :submit, class: "btn btn-lg btn-success", id: "submit_expense") do %>
           			<i class="fa fa-search"></i> Hantar

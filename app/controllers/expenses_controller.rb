@@ -38,7 +38,9 @@ class ExpensesController < ApplicationController
 	
 
 	def create
+
 		@expense = Expense.new(expense_params)
+		#@expense.taska = session[:taska_id]
 		if @expense.save			
 			flash[:notice] = "Expense was successfully created"					
 			redirect_ori();									
@@ -76,7 +78,7 @@ class ExpensesController < ApplicationController
 			@expense = Expense.find(params[:id])
 	end
 	def expense_params
-			params.require(:expense).permit(:name, :cost, :month, :year)
+			params.require(:expense).permit(:name, :cost, :month, :year, :taska_id)
 	end
 	def redirect_ori
 		redirect_to my_expenses_path("utf8"=>"✓", month:@expense.month, year:@expense.year, "button"=>""), :method => :get

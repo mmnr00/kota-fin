@@ -3,6 +3,12 @@
 
 <h3>Welcome to <%= @taska.name %>'s page</h3></br>
 
+<h4>Taska ID :<%= session[:taska_id] %></h4></br>
+
+<h4><%= link_to 'my_expenses', my_expenses_path %></h4></br>
+			
+
+
 <%= link_to 'Edit', edit_taska_path(@taska) %> |
 <%= link_to 'Back', taskas_path %></br>
 <%= if @admin_taska.count > 1 ; link_to "Taska Listing", admin_index_path end %></br>

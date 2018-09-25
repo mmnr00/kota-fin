@@ -6,7 +6,7 @@
 			<% if @admin_taska.count > 1 %>
 			 	<%= link_to kuli.name, taska_path(kuli) %></br>
 			 <% else %>
-			 	Redirect
+			 	<% redirect_to taska_path(kuli) %>
 				
 				<% end %>
 				<% end %>
