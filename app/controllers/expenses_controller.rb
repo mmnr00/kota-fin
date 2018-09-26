@@ -81,7 +81,7 @@ class ExpensesController < ApplicationController
 			params.require(:expense).permit(:name, :cost, :month, :year, :taska_id)
 	end
 	def redirect_ori
-		redirect_to my_expenses_path("utf8"=>"✓", month:@expense.month, year:@expense.year, "button"=>""), :method => :get
+		redirect_to my_expenses_path("utf8"=>"✓", month:@expense.month, year:@expense.year, id:@expense.taska_id, "button"=>""), :method => :get
 	end
 
 

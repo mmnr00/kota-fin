@@ -24,7 +24,7 @@
 $(document).ready(function(){
   var formData = $("#finds_expense").serialize();
   $.ajax({
-   url: 'search_expense',
+   url: 'expenses_search',
    data: formData,
    type: 'GET',
    contentType: 'application/script'

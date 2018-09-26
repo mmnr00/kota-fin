@@ -25,7 +25,7 @@
 							<td><%= expense.month %></td>
 							<td><%= expense.year %></td>
 							<td><%= expense.taska.name %></td>
-							<td><%= expense.taska.id %></td>
+							<td><%= expense.taska_id %></td>
 							<td><%= link_to "Delete", expense_path(expense), method: :delete, data: { confirm: "Are you sure you want to delete the expense?"},class: "btn btn-xs btn-danger" %></td>
 							<td><%= link_to "Edit", edit_expense_path(expense),class: "btn btn-xs btn-primary" %></td>
 						</tr>
@@ -37,7 +37,7 @@
 	<% end %>
 
 <div id="results" class="col-md-12">
-	<%= link_to "Create New Expense", new_expense_path %>
+	
 	<h2>Current Month Expense: <%= total %> </h2>
 </div>
 
