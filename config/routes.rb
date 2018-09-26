@@ -13,4 +13,5 @@ Rails.application.routes.draw do
   get 'search_expense', to: 'expenses#search'
   get 'search_expense_existing', to: 'expenses#search_existing'
   get 'my_expenses', to: 'expenses#my_expenses'
+  get '/taska/:id/search_teacher', to: 'teachers#search', as: 'search_teacher'
 end
