@@ -1,0 +1,30 @@
+<h2>My Teachers</h2>
+
+<% if @taska_teachers.size > 0 %>
+			<div id="friend-lookup-result" class="well results-block col-md-10">				
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Username</th>
+							<th>Email</th>
+						</tr>
+					</thead>
+					<tbody>
+						
+						<% @taska_teachers.each do |teacher| %>
+						
+						<tr>
+							<td><%= teacher.username %></td>
+							<td><%= teacher.email %></td>
+							
+						</tr>
+						<% end %>
+
+					</tbody>
+
+				</table>
+				<%= link_to "Add User", root_path, data: { confirm: "Are you sure you want to delete the expense?"},class: "btn btn-xs btn-primary" %>
+			</div>
+		<% else %>
+			Please add someone
+		<% end %>

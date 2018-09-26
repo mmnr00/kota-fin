@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get 'admin_index', to: 'admins#index'
   get 'teacher_index', to: 'teachers#index'
   get 'parent_index', to: 'parents#index'
+  get '/taska/:id/teachers', to: 'taskas#taska_teachers', as: 'taska_teachers'
   get 'search_expense', to: 'expenses#search'
   get 'search_expense_existing', to: 'expenses#search_existing'
   get 'my_expenses', to: 'expenses#my_expenses'

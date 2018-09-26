@@ -1,11 +1,12 @@
 <p id="notice"><%= notice %></p>
 
 
-<h3>Welcome to <%= @taska.name %>'s page</h3></br>
+<h3>Welcome to <%= @taska.name %>'s page (ID: <%= session[:taska_id] %>)</h3></br>
 
-<h4>Taska ID :<%= session[:taska_id] %></h4></br>
 
-<h4><%= link_to 'my_expenses', my_expenses_path %></h4></br>
+
+<h5><%= link_to 'View My Expenses', my_expenses_path %></h5>
+<h5><%= link_to 'View My Teachers', taska_teachers_path(@taska) %></h5></br></br>
 			
 
 

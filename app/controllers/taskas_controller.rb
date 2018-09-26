@@ -1,5 +1,5 @@
 class TaskasController < ApplicationController
-  before_action :set_taska, only: [:show, :edit, :update, :destroy]
+  before_action :set_taska, only: [:show, :taska_teachers, :edit, :update, :destroy]
 
   # GET /taskas
   # GET /taskas.json
@@ -14,8 +14,12 @@ class TaskasController < ApplicationController
     # ada kt bawah func set_taska
     @admin_taska = current_admin.taskas
     session[:taska_id] = @taska.id
-    session[:taska_name] = @taska.name
-    
+    session[:taska_name] = @taska.name   
+  end
+
+  def taska_teachers
+    @taska_teachers = @taska.teachers
+
   end
 
   # GET /taskas/new
