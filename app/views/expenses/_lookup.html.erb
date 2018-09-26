@@ -13,6 +13,16 @@
                     autofocus: true,  
                    	class: "form-control search-box input-lg" %>
       		</div>
+          <div class="col-md-4">
+            <%= text_field_tag :taska_id, params[:taska_id],
+                    placeholder: "Stock ticker symbol", 
+                    autofocus: true,  
+                    class: "form-control search-box input-lg" %>
+          </div>
+          <!--
+          <div class="col-md-4">
+                  <%= hidden_field_tag :taska_id, params[:taska_id], :value => 2 %>
+              </div>-->
       		<div class="col-md-2">
         		<%= button_tag(type: :submit, class: "btn btn-lg btn-success", id: "submit_expense") do %>
           			<i class="fa fa-search"></i> Hantar

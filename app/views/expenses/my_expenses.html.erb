@@ -1,5 +1,5 @@
-<h1> SEARCH </h1>
-<h4>Taska ID :<%= session[:taska_id] %></h4></br>
+<h3>EXPENSES FOR <%= session[:taska_name] %> | <%= session[:taska_id] %></h3></br>
+<h4> SEARCH FOR EXPENSES </h4>
 
 <div id="month-lookup"> <!-- From Finance Tracker views/users/myportfolio.html  -->
 	<%= form_tag search_expense_path, remote: true, method: :get, id: "finds_expense" do %>
@@ -15,7 +15,10 @@
                     placeholder: "year", 
                     autofocus: true,  
                    	class: "form-control search-box input-lg" %>
-      		</div>
+      		</div>          
+          <div class="col-md-4">
+                  <%= hidden_field_tag :taska_id, params[:taska_id], value: session[:taska_id] %>
+          </div>
           
       		<div class="col-md-2">
         		<%= button_tag(type: :submit, class: "btn btn-lg btn-success", id: "submit_expense") do %>
