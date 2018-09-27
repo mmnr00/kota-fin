@@ -24,7 +24,8 @@ class ExpensesController < ApplicationController
 		if params[:month].blank? || params[:year].blank? 
 			flash.now[:danger] = "You have entered an empty request"
 		else
-			
+			session[:month] = params[:month]
+			session[:year] = params[:year]
 			@expenses_search = Expense.search(params[:month], params[:year], params[:taska_id])
 			@expenses_search = @expenses_search.order('updated_at DESC')
 			flash.now[:danger] = "You have entered an invalid stock" unless @expenses_search

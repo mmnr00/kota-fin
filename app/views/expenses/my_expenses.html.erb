@@ -1,5 +1,7 @@
 <h3>EXPENSES FOR <%= session[:taska_name] %> | <%= params[:id] %></h3></br>
-<h4> SEARCH FOR EXPENSES </h4>
+<h4> SEARCH FOR EXPENSES </h4> 
+
+
 
 <div id="month-lookup"> <!-- From Finance Tracker views/users/myportfolio.html  -->
 	<%= form_tag search_expense_path, remote: true, method: :get, id: "finds_expense" do %>
@@ -30,11 +32,11 @@
 		
 
 </div>
-<div>
-<%= link_to "Create New Expense", new_expense_path(params[:id]) %>
-</div>
+
 
 <div id="results">
     <%= render 'expenses/result' %> 
-  </div>
+</div>
+
+
 

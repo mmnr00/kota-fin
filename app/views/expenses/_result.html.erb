@@ -2,7 +2,7 @@
 	<% if @expenses_search %>
 		<% if @expenses_search.size > 0 %>
 			<div id="friend-lookup-result" class="well results-block col-md-10">
-				
+				<%= link_to "Create New Expense", new_expense_path(params[:id]), class: "btn btn-xs btn-primary active" %></br></br>
 				<table class="table table-striped">
 					<thead>
 						<tr>
@@ -33,12 +33,17 @@
 					</tbody>
 				</table>
 			</div>
-		<% end %>
+			<div id="results" class="col-md-12">	
+				<h3>Current Month Expense: <strong><%= total %></strong> </h3>
+			</div>
+		<% else %>	
+			<div id="results" class="col-md-12">
+				<h3> You dont have any expense for the selected month </h3>
+				<%= link_to "Create New Expense", new_expense_path(params[:id]), class: "btn btn-xs btn-primary" %></br></br>
+			</div>
+		<% end %>	
 	<% end %>
 
-<div id="results" class="col-md-12">
-	
-	<h2>Current Month Expense: <%= total %> </h2>
-</div>
+
 
 
