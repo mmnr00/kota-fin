@@ -1,0 +1,34 @@
+
+	<% if @teachers_search %>
+		<% if @teachers_search.size > 0 %>
+			
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Username</th>
+							<th>Email</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @teachers_search.each do |teacher| %>
+						<tr>
+							<td><%= teacher.username %></td>
+							<td><%= teacher.email %></td>
+						</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+			Ada Teacher
+		<% else %>	
+			<div id="results" class="col-md-12">
+				<p> No Teacher Exist. Please check your details </p>
+			</div>
+		<% end %>	
+	<% end %>
+
+	
+
+
+
+

@@ -26,8 +26,8 @@
 							<td><%= expense.year %></td>
 							<td><%= expense.taska.name %></td>
 							<td><%= expense.taska_id %></td>
-							<td><%= link_to "Delete", expense_path(expense), method: :delete, data: { confirm: "Are you sure you want to delete the expense?"},class: "btn btn-xs btn-danger" %></td>
-							<td><%= link_to "Edit", edit_expense_path(expense),class: "btn btn-xs btn-primary" %></td>
+							<td><%= link_to "Delete", expense_path(expense), method: :delete, data: { confirm: "Are you sure you want to delete the expense?"},class: "btn btn-xs btn-danger active" %></td>
+							<td><%= link_to "Edit", edit_expense_path(expense),class: "btn btn-xs btn-primary active" %></td>
 						</tr>
 						<% end %>
 					</tbody>

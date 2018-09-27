@@ -11,8 +11,8 @@ Rails.application.routes.draw do
   get 'parent_index', to: 'parents#index'
   get '/taska/:id/teachers', to: 'taskas#taska_teachers', as: 'taska_teachers'
   get '/taska/:id/expenses_search', to: 'expenses#search', as: 'search_expense'
-  get 'search_expense_existing', to: 'expenses#search_existing'
   get '/taska/:id/expenses', to: 'expenses#my_expenses', as: 'my_expenses'
   get '/taska/:id/expenses/new', to: 'expenses#new', as: 'new_expense'
   get '/taska/:id/search_teacher', to: 'teachers#search', as: 'search_teacher'
+  get '/taska/:id/find_teacher', to: 'teachers#find', as: 'find_teacher'
 end
