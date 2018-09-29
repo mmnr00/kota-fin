@@ -1,30 +1,32 @@
 <h2>My Teachers</h2>
 
-<% if @taska_teachers.size > 0 %>
+<% if @taskateachers.size > 0 %>
 			<div id="friend-lookup-result" class="well results-block col-md-10">				
 				<table class="table table-striped">
 					<thead>
 						<tr>
 							<th>Username</th>
 							<th>Email</th>
+							<th>Email</th>
 						</tr>
 					</thead>
 					<tbody>
 						
-						<% @taska_teachers.each do |teacher| %>
+						<% @taskateachers.each do |teacher| %>
 						
 						<tr>
 							<td><%= teacher.username %></td>
 							<td><%= teacher.email %></td>
-							
+							<td><%= link_to "Delete Teacher", delete_teacher_path(teacher: teacher, taska: params[:id]), class: "btn btn-xs btn-primary active", method: :delete %></td>								
 						</tr>
 						<% end %>
 
 					</tbody>
 
 				</table>
-				<%= link_to "Add Teacher", search_teacher_path ,class: "btn btn-xs btn-primary active" %>
+				
 			</div>
 		<% else %>
-			Please add someone
+			You do not have any teachers. Please find using the form above.
 		<% end %>
+<%= link_to "Search Teacher", search_teacher_path ,class: "btn btn-xs btn-primary active" %>

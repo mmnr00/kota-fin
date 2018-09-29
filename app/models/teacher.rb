@@ -22,7 +22,7 @@ class Teacher < ApplicationRecord
 	
 
 	def self.matches(field_name1, param_1, field_name2, param_2)
-    	where("#{field_name1}='#{param_1}' AND #{field_name2}='#{param_2}'")
+    	where("#{field_name1}='#{param_1}' OR #{field_name2}='#{param_2}'")
 
   	end
 end

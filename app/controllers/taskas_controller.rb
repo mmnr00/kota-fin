@@ -1,5 +1,5 @@
 class TaskasController < ApplicationController
-  before_action :set_taska, only: [:show, :taska_teachers, :edit, :update, :destroy]
+  before_action :set_taska, only: [:show, :taskateachers, :edit, :update, :destroy]
 
   # GET /taskas
   # GET /taskas.json
@@ -17,8 +17,8 @@ class TaskasController < ApplicationController
     session[:taska_name] = @taska.name   
   end
 
-  def taska_teachers
-    @taska_teachers = @taska.teachers
+  def taskateachers
+    @taskateachers = @taska.teachers
 
   end
 
