@@ -16,15 +16,22 @@
 						<tr>
 							<td><%= teacher.username %></td>
 							<td><%= teacher.email %></td>
-							<% @id_teacher = teacher.id %>
-							<td><%= @id_teacher %></td>
-							<td><%= link_to "Add Teacher", add_teacher_path(teacher: teacher), class: "btn btn-xs btn-primary active", method: :post %></td>
+							<td><%= teacher.id %></td>
+							<% if teacher.already_has_taska?(teacher.id) %>
+								<% if teacher.has_same_taska?(teacher.id, params[:id]) %>
+									<td>You already added this techer</td>
+								<% else %>
+									<td>Already has Taska</td>
+								<% end %>
+							<% else %>
+								<td><%= link_to "Add Teacher", add_teacher_path(teacher: teacher), class: "btn btn-xs btn-primary active", method: :post %></td>
+							<% end %>
 						</tr>
 						<% end %>
 					</tbody>
 				</table>
 			</div>
-			Ada Teacher
+			
 		<% else %>	
 			<div id="results" class="col-md-12">
 				<p> No Teacher Exist. Please check your details </p>

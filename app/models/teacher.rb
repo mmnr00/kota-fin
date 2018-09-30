@@ -9,6 +9,14 @@ class Teacher < ApplicationRecord
 
  	 validates_presence_of :username, :email
 
+ 	 def already_has_taska?(teacher_id)
+ 	 	TaskaTeacher.where(teacher_id: teacher_id).exists?
+ 	 end
+
+ 	 def has_same_taska?(teacher_id, taska_id)
+ 	 	TaskaTeacher.where(teacher_id: teacher_id, taska_id: taska_id).exists?
+ 	 end
+
  	 def self.search(param_1, param_2)
 		to_send_back = teachers_matches(param_1, param_2)
 		return nil unless to_send_back

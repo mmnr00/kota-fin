@@ -8,8 +8,6 @@ class TaskaTeachersController < ApplicationController
 	end
 
 	def destroy
-		#taska = Taska.find(params[:id])
-		#teacher = Teacher.find(params[:teacher])
 		@taska_teacher = TaskaTeacher.where(taska_id: params[:id], teacher_id: params[:teacher]).first
 		@taska_teacher.destroy
 		flash[:notice]="Teacher successfully deleted"
