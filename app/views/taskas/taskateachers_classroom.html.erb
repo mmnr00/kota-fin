@@ -1,0 +1,39 @@
+<h2>My Teachers in Classroom</h2>
+
+<% if @taskateachers.size > 0 %>
+			<div id="friend-lookup-result" class="well results-block col-md-10">				
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Username</th>
+							<th>Email</th>
+							<th>Email</th>
+						</tr>
+					</thead>
+					<tbody>
+						
+						<% @taskateachers.each do |teacher| %>
+						
+						<tr>
+							<td><%= teacher.username %></td>
+							<td><%= teacher.email %></td>
+							<% if teacher.classrooms.present? %>
+								<% teacher.classrooms.each do |classroom| %>
+									<td><button class="btn btn-xs btn-danger active">Already in <%= classroom.classroom_name %></button></td>
+								<% end %>
+							<% else %>
+								<td><%= link_to "Add Teacher", add_teacher_classroom_path(teacher: teacher), class: "btn btn-xs btn-primary active", method: :post %></td>
+							<% end %>
+															
+						</tr>
+						<% end %>
+
+					</tbody>
+
+				</table>
+				
+			</div>
+		<% else %>
+			You do not have any teachers. Please find using the form above.
+		<% end %>
+

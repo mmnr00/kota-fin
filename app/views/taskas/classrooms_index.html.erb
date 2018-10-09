@@ -1,0 +1,27 @@
+<h1> Index Classrooms </h1>
+
+<div id="" class="results-block col-md-10">
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th>Classroom Name</th>
+        <th>No of Students</th>
+        <th>No of Teachers</th>
+        <th>Actions</th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @taska_classrooms.each do |classroom| %>
+        <tr>
+          <td><%= classroom.classroom_name %></td>
+          <td>5 children</td>
+          <td><strong><%= classroom.teachers.count %></strong> teachers</td>
+          <td><%= link_to "View Classrooms", classroom_path(classroom), class: "btn btn-xs btn-primary active" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+

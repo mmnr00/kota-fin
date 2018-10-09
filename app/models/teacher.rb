@@ -4,10 +4,14 @@ class Teacher < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   	has_many :taska_teachers
 	has_many :taskas, through: :taska_teachers
+	has_many :teachers_classrooms
+	has_many :classrooms, through: :teachers_classrooms
   	devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
  	 validates_presence_of :username, :email
+ 	 
+
 
  	 def already_has_taska?(teacher_id)
  	 	TaskaTeacher.where(teacher_id: teacher_id).exists?

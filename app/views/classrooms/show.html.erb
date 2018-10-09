@@ -1,0 +1,55 @@
+<h1> <%= @classroom.classroom_name %>'s Page </h1>
+
+<div class="results-block col-md-12">
+	<caption><h3>TEACHER'S LIST</h3></caption>
+  <table class="table table-striped table-bordered">
+  <%= link_to "ADD TEACHER", list_teacher_classroom_path(@classroom), class: "btn btn-xs btn-danger active" %>
+    <thead>   	
+      <tr>
+        <th>NAME</th>
+        <th>EMAIL</th>
+        <th>Actions</th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+    	<% @classroom.teachers.each do |teacher| %>
+        <tr>
+          <td><%= teacher.username %></td>
+          <td><%= teacher.email %></td>
+          <td><button type="button" class="btn btn-xs btn-primary active">View Profile</button> <%= link_to "DELETE", destroy_admin_session_path, class: "btn btn-xs btn-danger active", method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+        <% end %>
+    </tbody>
+  </table>
+</div>
+
+
+<div class="results-block col-md-12">
+  <caption><h3>CHILDREN'S LIST</h3></caption>
+  <table class="table table-striped table-bordered">
+  	<button type="button" class="btn btn-xs btn-primary active">ADD NEW CHILDREN</button>
+    <thead>
+      <tr>
+        <th>NAME</th>
+        <th>PARENT</th>
+        <th>Actions</th>
+
+      </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+          <td>Classroom Name</td>
+          <td>5 children</td>
+          <td><button type="button" class="btn btn-xs btn-primary active">View Profile</button> <%= link_to "DELETE", destroy_admin_session_path, class: "btn btn-xs btn-danger active", method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="results-block col-md-12">
+	<%= link_to "Back to Classroom Listing", classroom_index_path(@classroom.taska_id), class: "btn btn-xs btn-primary active" %>
+  <%= link_to "Back to Admin View", taska_path(@classroom.taska_id), class: "btn btn-xs btn-primary active" %>
+</div>

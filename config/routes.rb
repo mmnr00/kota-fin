@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :taskas
   resources :expenses, only:[:create,:destroy,:update,:edit]
+  resources :classrooms, only:[:show]
   #resources :taska_teachers, only:[:create,:destroy]
   devise_for :parents
   devise_for :teachers
@@ -18,6 +19,9 @@ Rails.application.routes.draw do
   get '/taska/:id/find_teacher', to: 'teachers#find', as: 'find_teacher'
   post '/taska/:id/add_teacher', to: 'taska_teachers#create', as: 'add_teacher'
   delete '/taska/:id/delete_teacher', to: 'taska_teachers#destroy', as: 'delete_teacher'
+  get '/taska/:id/classroom', to: 'taskas#classrooms_index', as: 'classroom_index'
+  get '/classrooms/:id/teachers', to: 'classrooms#taskateachers_classroom', as: 'list_teacher_classroom'
+  post '/classrooms/:id/add_teachers', to: 'teachers_classrooms#create', as: 'add_teacher_classroom'
 
   
 end
