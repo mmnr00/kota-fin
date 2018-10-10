@@ -1,5 +1,6 @@
 class TeachersController < ApplicationController
 	before_action :authenticate_teacher!, except: [:search, :find]
+	#before_action :set_teacher, only: [:index]
 	def index
 
 	end
@@ -23,4 +24,11 @@ class TeachersController < ApplicationController
 		end
 
 	end
+	
+	#private
+    
+    #def set_teacher
+      #@teacher = Teacher.find(params[:id])
+    #end
+    
 end
