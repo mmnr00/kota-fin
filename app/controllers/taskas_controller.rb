@@ -1,5 +1,5 @@
 class TaskasController < ApplicationController
-  before_action :set_taska, only: [:show, :taskateachers, :taskateachers_classroom,:classrooms_index, :edit, :update, :destroy]
+  before_action :set_taska, only: [:show,:children_index, :taskateachers, :taskateachers_classroom,:classrooms_index, :edit, :update, :destroy]
 
   # GET /taskas
   # GET /taskas.json
@@ -27,6 +27,10 @@ class TaskasController < ApplicationController
   end
 
   def classrooms_index
+    @taska_classrooms = @taska.classrooms
+  end
+
+  def children_index
     @taska_classrooms = @taska.classrooms
   end
 

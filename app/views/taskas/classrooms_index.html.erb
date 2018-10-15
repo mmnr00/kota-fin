@@ -16,7 +16,7 @@
       <% @taska_classrooms.each do |classroom| %>
         <tr>
           <td><%= classroom.classroom_name %></td>
-          <td>5 children</td>
+          <td><strong><%= classroom.kids.count %></strong> children</td>
           <td><strong><%= classroom.teachers.count %></strong> teachers</td>
           <td><%= link_to "View Classrooms", classroom_path(classroom), class: "btn btn-xs btn-primary active" %></td>
         </tr>

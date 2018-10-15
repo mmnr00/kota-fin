@@ -1,31 +1,32 @@
-<h1>Search Teacher ID:<%= params[:id] %></h1>
+<h2> Search Children for <%= @classroom.classroom_name %></h2>
 
-<div id="teacher-lookup"> <!-- From Finance Tracker views/users/myportfolio.html  -->
-	<%= form_tag find_teacher_path, remote: true, method: :get, id: "find_teacher" do %>
+<div id="kid-lookup"> <!-- From Finance Tracker views/users/myportfolio.html  -->
+	<%= form_tag find_kid_path, remote: true, method: :get, id: "find_kid" do %>
 		<div class="form-group row no-padding text-center col-md-8">
       		<div class="col-md-4">
-            <%= label_tag :"TEACHER EMAIL" %>
+            <%= label_tag :"PARENT'S EMAIL" %>
       			<%= text_field_tag :email,  params[:email], 
                     placeholder: "email", 
                     autofocus: true,  
                    	class: "form-control search-box input-lg" %>
       		</div>
       		<div class="col-md-4">
-            <%= label_tag :"TEACHER USERNAME" %>
-      			<%= text_field_tag :username, params[:username], 
-                    placeholder: "username", 
+            <%= label_tag :"CHILDREN'S NAME" %>
+      			<%= text_field_tag :name, params[:name], 
+                    placeholder: "name", 
                     autofocus: true,  
                    	class: "form-control search-box input-lg" %>
       		</div></br>                 
       		<div class="col-md-2">
         		<%= button_tag(type: :submit, class: "btn btn-lg btn-success active", id: "submit_expense") do %>
-          			<i class="fa fa-search"></i> Find Teacher
+          			<i class="fa fa-search"></i> Find Children
         		<% end %>
     		</div>
       	</div>
 	<%end%>		
 </div>
 
-<div id="result_teacher">
-    <%= render 'teachers/result' %> 
+<div id="result_kid">
+    <%= render 'kids/result' %> 
 </div>
+

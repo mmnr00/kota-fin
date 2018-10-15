@@ -2,6 +2,7 @@
 
 <div class="results-block col-md-12">
 	<caption><h3>MY CHILDREN</h3></caption>
+  <%= link_to "Register Children", new_kid_path(@parent.id), class: "btn btn-lg btn-success active"%></br></br>
   <table class="table table-striped table-bordered">
     <thead>   	
       <tr>
@@ -15,14 +16,24 @@
     </thead>
 
     <tbody><!-- from /view/classroom/show -->
-    	<% @parent.kids.each do |child| %>
-        <tr>
-          <td><%= child.name %></td>
-          <td><%= child.classroom.taska.name %></td>
-          <td><%= child.classroom.classroom_name %></td>
-          <td>RM 312.50</td>
-          <td><%= link_to "Pay Bills", root_path, class: "btn btn-xs btn-primary active"%></td>
-        </tr>
+    	<% @mykids.each do |child| %>
+        <% if child.classroom.present? %>
+          <tr>
+            <td><%= child.name %></td>
+            <td><%= child.classroom.taska.name %></td>
+            <td><%= child.classroom.classroom_name %></td>
+            <td>RM 312.50</td>
+            <td><%= link_to "Pay Bills", root_path, class: "btn btn-xs btn-primary active"%></td>
+          </tr>
+        <% else %>
+          <tr>
+            <td><%= child.name %></td>
+            <td>PLEASE ADD CLASSROOM</td>
+            <td>PLEASE ADD TASKA</td>
+            <td>NA</td>
+            <td>NA</td>
+          </tr>
+        <% end %>
       <% end %>
         
     </tbody>

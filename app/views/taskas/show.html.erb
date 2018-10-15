@@ -5,13 +5,14 @@
 
 
 
-<h5><%= link_to 'View My Expenses', my_expenses_path %></h5>
-<h5><%= link_to 'View My Teachers', taskateachers_path(@taska) %></h5>
-<h5><%= link_to 'View My Class', classroom_index_path(@taska) %></h5></br></br>
+<h5><%= link_to 'View My Expenses',my_expenses_path,class: "btn btn-xs btn-primary active" %></h5>
+<h5><%= link_to 'View My Teachers',taskateachers_path(@taska), class: "btn btn-xs btn-primary active" %></h5>
+<h5><%= link_to 'View My Class',classroom_index_path(@taska), class: "btn btn-xs btn-primary active" %></h5>
+<h5><%= link_to 'View My Children',children_index_path(@taska), class: "btn btn-xs btn-primary active" %></h5></br></br>
 			
 
 
 <%= link_to 'Edit', edit_taska_path(@taska) %> |
 <%= link_to 'Back', taskas_path %></br>
-<%= if @admin_taska.count > 1 ; link_to "Taska Listing", admin_index_path end %></br>
+<%= if @admin_taska.count > 1 ; link_to "Taska Listing", admin_index_path, class: "btn btn-xs btn-primary active" end %></br>
 <%= link_to "logout", destroy_admin_session_path, method: :delete %>
