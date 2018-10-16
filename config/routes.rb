@@ -29,22 +29,17 @@ Rails.application.routes.draw do
   get '/parent/:id/kids/new', to: 'kids#new', as: 'new_kid'
   get '/classroom/:id/search_kid', to: 'kids#search', as: 'search_kid'
   get '/classroom/:id/find_kid', to: 'kids#find', as: 'find_kid'
+  get 'add_classroom', to: 'kids#add_classroom'
+  get 'remove_classroom', to: 'kids#remove_classroom'
   #TASKA_TEACHERS
   post '/taska/:id/add_teacher', to: 'taska_teachers#create', as: 'add_teacher'
   delete '/taska/:id/delete_teacher', to: 'taska_teachers#destroy', as: 'delete_teacher'
   #CLASSROOMS
   get '/classroom/:id/teachers', to: 'classrooms#taskateachers_classroom', as: 'list_teacher_classroom'
   #TEACHERS_CLASSROOMS
-   post '/classrooms/:id/add_teachers', to: 'teachers_classrooms#create', as: 'add_teacher_classroom'
+  post '/classrooms/:id/add_teachers', to: 'teachers_classrooms#create', as: 'add_teacher_classroom'
   
   
- 
-  
-  
-  
-  
-  
- 
 
   
 end

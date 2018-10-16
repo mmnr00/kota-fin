@@ -16,7 +16,8 @@
 								<% if kid.classroom.present? %>
 									<td><button class="btn btn-xs btn-danger active">Already enrolled</td>
 								<% else %>
-									<td><%= link_to "Enrol to #{@classroom.classroom_name}", root_path, class: "btn btn-xs btn-success active" %></td>
+									<% params[:kid_id] = kid.id %>
+									<td><%= link_to "Enrol to #{@classroom.classroom_name}", add_classroom_path(kid: kid, classroom: @classroom), class: "btn btn-xs btn-success active" %></td>
 								<% end %>
 							</tr>
 						<% end %>

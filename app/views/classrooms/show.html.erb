@@ -39,11 +39,11 @@
     </thead>
 
     <tbody>
-      <% @classroom.kids.each do |kid| %>
+      <% @classroom_kids.each do |kid| %>
         <tr>
           <td><%= kid.name %></td>
           <td><%= kid.parent.username %></td>
-          <td><button type="button" class="btn btn-xs btn-primary active">ADD BILL</button> <%= link_to "REMOVE FROM CLASS", destroy_admin_session_path, class: "btn btn-xs btn-danger active", method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><button type="button" class="btn btn-xs btn-primary active">ADD BILL</button> | <%= link_to "EDIT DETAILS", edit_kid_path(kid, classroom: @classroom), class: "btn btn-xs btn-success active" %> | <%= link_to "REMOVE FROM CLASS", remove_classroom_path(kid: kid, classroom: @classroom), class: "btn btn-xs btn-danger active", data: { confirm: 'Are you sure?' } %></td>
         </tr>
       <% end %>
     </tbody>

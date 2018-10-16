@@ -5,7 +5,8 @@ class ClassroomsController < ApplicationController
 	end
 
 	def show
-		@classroom = Classroom.find(params[:id])		
+		@classroom = Classroom.find(params[:id])
+		@classroom_kids = @classroom.kids.order('updated_at DESC')		
 	end
 
 	def taskateachers_classroom

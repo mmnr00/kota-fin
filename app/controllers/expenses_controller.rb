@@ -39,7 +39,6 @@ class ExpensesController < ApplicationController
 	
 
 	def create
-
 		@expense = Expense.new(expense_params)
 		#@expense.taska = session[:taska_id]
 		if @expense.save			
