@@ -18,8 +18,8 @@
 						<%= f.label :classroom %>
 					</div>
 					<div class="col-sm-8">
-						<% options = options_from_collection_for_select(@classroom.taska.classrooms, 'id','classroom_name') %>
-						<%= f.select :classroom_id, options, class: "form-control", :selected => @classroom.id%>
+						<% options = options_from_collection_for_select(@classroom.taska.classrooms, 'id','classroom_name', @classroom.id) %>
+						<%= f.select :classroom_id, options, class: "form-control" %>
 					</div>
 				</div>
 
