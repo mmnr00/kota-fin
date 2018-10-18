@@ -1,5 +1,7 @@
 class KidsController < ApplicationController
 	#before_action :set_kid, only: [:add_classroom]
+	#before_action :rep_responsible?
+	#before_action :authenticate_parent! || :authenticate_admin!
 
 	def new
 		@kid = Kid.new
@@ -19,15 +21,19 @@ class KidsController < ApplicationController
 
 	def edit
 		@kid = Kid.find(params[:id])
-		@classroom = Classroom.find(params[:classroom])
+		@classroom = Classroom.find(params[:classroom]) if @kid.classroom.present?
 	end
 
 	def update
 		@kid = Kid.find(params[:id])
 		#@classroom = Classroom.find(params[:classroom])
 		if @kid.update(kid_params)
-			flash[:notice] = "Article was successfully updated"
-			redirect_to classroom_path(@kid.classroom_id)
+			flash[:notice] = "Children was successfully updated"
+			if (current_admin)
+				redirect_to classroom_path(@kid.classroom_id)
+			else 
+				redirect_to parent_index_path(@kid.parent)
+			end
 			
 		else
 			render 'edit'
@@ -77,6 +83,10 @@ class KidsController < ApplicationController
 
 
 	private
+
+	def rep_responsible?
+		@parent.present? || @admin.present?
+	end
 	
 	def kid_params
       params.require(:kid).permit(:name, :classroom_id, :parent_id)

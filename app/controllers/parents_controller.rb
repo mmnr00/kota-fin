@@ -2,6 +2,7 @@ class ParentsController < ApplicationController
 	before_action :authenticate_parent!
 	before_action :set_parent, only: [:index]
 	def index
+		#@parent = current_parent
 		@mykids = @parent.kids.order('updated_at DESC')
 		
 

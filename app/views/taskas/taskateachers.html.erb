@@ -17,7 +17,7 @@
 						<tr>
 							<td><%= teacher.username %></td>
 							<td><%= teacher.email %></td>
-							<td><%= link_to "Delete Teacher", delete_teacher_path(teacher: teacher, taska: params[:id]), class: "btn btn-xs btn-primary active", method: :delete %></td>								
+							<td><%= link_to "Delete Teacher", delete_teacher_path(teacher: teacher, taska: params[:id]), class: "btn btn-xs btn-primary active", method: :delete, data: { confirm: 'Are you sure?' }  %></td>								
 						</tr>
 						<% end %>
 

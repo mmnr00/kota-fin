@@ -23,7 +23,7 @@
             <td><%= child.classroom.taska.name %></td>
             <td><%= child.classroom.classroom_name %></td>
             <td>RM 312.50</td>
-            <td><%= link_to "Pay Bills", root_path, class: "btn btn-xs btn-primary active"%></td>
+            <td><%= link_to "Pay Bills", root_path, class: "btn btn-xs btn-primary active"%> | <%= link_to "EDIT DETAILS", edit_kid_path(child, classroom: child.classroom), class: "btn btn-xs btn-success active" %></td>
           </tr>
         <% else %>
           <tr>
@@ -31,7 +31,7 @@
             <td>PLEASE ADD CLASSROOM</td>
             <td>PLEASE ADD TASKA</td>
             <td>NA</td>
-            <td>NA</td>
+            <td><%= link_to "EDIT DETAILS", edit_kid_path(child, classroom: child.classroom), class: "btn btn-xs btn-success active" %></td>
           </tr>
         <% end %>
       <% end %>

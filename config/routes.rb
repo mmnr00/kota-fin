@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :expenses, only:[:create,:destroy,:update,:edit]
   resources :classrooms, only:[:show]
   resources :kids, only:[:create,:destroy,:update,:edit]
+  resources :teachers, only:[:show]
   #resources :taska_teachers, only:[:create,:destroy]
   devise_for :parents
   devise_for :teachers
@@ -38,7 +39,7 @@ Rails.application.routes.draw do
   get '/classroom/:id/teachers', to: 'classrooms#taskateachers_classroom', as: 'list_teacher_classroom'
   #TEACHERS_CLASSROOMS
   post '/classrooms/:id/add_teachers', to: 'teachers_classrooms#create', as: 'add_teacher_classroom'
-  
+  delete '/classrooms/:id/delete_teachers', to: 'teachers_classrooms#destroy', as: 'delete_teacher_classroom'
   
 
   

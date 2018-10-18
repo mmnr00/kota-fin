@@ -18,7 +18,7 @@
         <tr>
           <td><%= teacher.username %></td>
           <td><%= teacher.email %></td>
-          <td><button type="button" class="btn btn-xs btn-primary active">View Profile</button> <%= link_to "DELETE", destroy_admin_session_path, class: "btn btn-xs btn-danger active", method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td><%= link_to "View profile", teacher_path(teacher: teacher), class: "btn btn-xs btn-success active" %> | <%= link_to "Remove from #{@classroom.classroom_name}", delete_teacher_classroom_path(teacher: teacher), class: "btn btn-xs btn-danger active", method: :delete, data: { confirm: "Are you sure to remove #{teacher.username}?" } %></td>
         </tr>
         <% end %>
     </tbody>
@@ -43,7 +43,7 @@
         <tr>
           <td><%= kid.name %></td>
           <td><%= kid.parent.username %></td>
-          <td><button type="button" class="btn btn-xs btn-primary active">ADD BILL</button> | <%= link_to "EDIT DETAILS", edit_kid_path(kid, classroom: @classroom), class: "btn btn-xs btn-success active" %> | <%= link_to "REMOVE FROM CLASS", remove_classroom_path(kid: kid, classroom: @classroom), class: "btn btn-xs btn-danger active", data: { confirm: 'Are you sure?' } %></td>
+          <td><button type="button" class="btn btn-xs btn-primary active">ADD BILL</button> | <%= link_to "EDIT DETAILS", edit_kid_path(kid, classroom: @classroom), class: "btn btn-xs btn-success active" %> | <%= link_to "REMOVE FROM TASKA", remove_classroom_path(kid: kid, classroom: @classroom), class: "btn btn-xs btn-danger active", data: { confirm: 'Are you sure?' } %></td>
         </tr>
       <% end %>
     </tbody>
