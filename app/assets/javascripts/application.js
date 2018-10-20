@@ -17,6 +17,7 @@
 //= require turbolinks
 //= require_tree .
 
+
 //$(document).ready(function(){
 //$("#finds_expense").trigger('submit');
 //});

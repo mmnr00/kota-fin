@@ -40,7 +40,9 @@ Rails.application.routes.draw do
   #TEACHERS_CLASSROOMS
   post '/classrooms/:id/add_teachers', to: 'teachers_classrooms#create', as: 'add_teacher_classroom'
   delete '/classrooms/:id/delete_teachers', to: 'teachers_classrooms#destroy', as: 'delete_teacher_classroom'
-  
+  #payments
+  get 'payment_index', to: 'payments#index'
+  get 'create_collection', to: 'payments#create_collection'
 
   
 end
