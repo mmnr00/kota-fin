@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_20_014440) do
+ActiveRecord::Schema.define(version: 2018_10_20_135732) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -88,6 +88,8 @@ ActiveRecord::Schema.define(version: 2018_10_20_014440) do
     t.string "region"
     t.string "email"
     t.string "name"
+    t.string "collection_id"
+    t.index ["collection_id"], name: "index_taskas_on_collection_id", unique: true
     t.index ["email"], name: "index_taskas_on_email", unique: true
     t.index ["name"], name: "index_taskas_on_name", unique: true
   end

@@ -1,5 +1,10 @@
-<h1> This is the payment index </h1>
+<h1> This is the payment index for <%= @taska.name %></h1>
 
-
-<%= @data %>
+<% if !@taska.collection_id.present? %>
+	<h5><%= link_to 'START CREATING BILLS',create_collection_path(@taska), class: "btn btn-xs btn-primary active" %></h5>
+	<%= @taska.collection_id %>
+<% else %>
+	SEARCH MONTH (TULIS SUMMARY KT ATAS)
+	<h5><%= link_to 'START CREATING BILLS',create_bill_path(@taska), class: "btn btn-xs btn-primary active" %></h5>
+<% end %>
 

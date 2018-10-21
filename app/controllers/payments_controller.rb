@@ -1,8 +1,52 @@
 class PaymentsController < ApplicationController
   require 'json'
 
+  def index
+    @taska = Taska.find(params[:id])
+  end
 
-  def index #working 1
+  def create_collection
+    @taska = Taska.find(params[:id])
+    url_collection = 'https://www.billplz.com/api/v3/collections/'
+    api_key = '68abd407-b8c7-4bee-9e16-620a578b2a48'
+    title = @taska.name
+    emails = @taska.email
+
+    data_billplz = HTTParty.post(url_collection.to_str,
+                  :body  => { :title => title,
+                              :split_payment => {
+                                :email => emails, 
+                                :fixed_cut => 0, 
+                                :split_header => true}
+                            }.to_json,
+                  :basic_auth => { :username => api_key },
+                  :headers => { 'Content-Type' => 'application/json', 
+                                'Accept' => 'application/json' })
+    data = JSON.parse(data_billplz.to_s)
+    @taska.collection_id = data["id"]
+    @taska.save
+    redirect_to payment_index_path(@taska)
+  end
+
+  def create_bill
+    url_bill = 'https://www.billplz.com/api/v3/bills'
+    api_key = '68abd407-b8c7-4bee-9e16-620a578b2a48'
+    @taska = Taska.find(params[:id])
+    @bill = HTTParty.post(url_bill.to_str,
+            :body  => { :collection_id => "#{@taska.collection_id}", 
+                        :email=> "email@gmail.com",
+                        :name=> "John Smith", 
+                        :amount=>  260,
+                        :callback_url=> "http://localhost:3000/taska/#{params[:id]}/create_bill",
+                        :description=>"First Bills from Rails"}.to_json, 
+                        #:callback_url=>  "YOUR RETURN URL"}.to_json,
+            :basic_auth => { :username => api_key },
+            :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+    render json: @bill
+  end
+
+
+  def index_eg #working 1
     url_collection = 'https://www.billplz.com/api/v3/collections/wyjwzbvz'
     api_key = '68abd407-b8c7-4bee-9e16-620a578b2a48'
     #GET COLLECTION
@@ -31,7 +75,7 @@ class PaymentsController < ApplicationController
      #@collection.collection_name = "data"=>"title"
   end
 
-  def create_collection #working 2
+  def create_collection_eg #working 2
     url_collection = 'https://www.billplz.com/api/v3/collections/'
     api_key = '68abd407-b8c7-4bee-9e16-620a578b2a48'
     title = "masuk jadi"

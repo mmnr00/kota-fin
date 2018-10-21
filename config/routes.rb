@@ -41,8 +41,9 @@ Rails.application.routes.draw do
   post '/classrooms/:id/add_teachers', to: 'teachers_classrooms#create', as: 'add_teacher_classroom'
   delete '/classrooms/:id/delete_teachers', to: 'teachers_classrooms#destroy', as: 'delete_teacher_classroom'
   #payments
-  get 'payment_index', to: 'payments#index'
-  get 'create_collection', to: 'payments#create_collection'
+  get '/taska/:id/payment_index', to: 'payments#index', as: 'payment_index'
+  get '/taska/:id/create_collection', to: 'payments#create_collection', as: 'create_collection'
+  get '/taska/:id/create_bill', to: 'payments#create_bill', as: 'create_bill'
 
   
 end
