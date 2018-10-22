@@ -5,6 +5,30 @@
 	<%= @taska.collection_id %>
 <% else %>
 	SEARCH MONTH (TULIS SUMMARY KT ATAS)
-	<h5><%= link_to 'START CREATING BILLS',create_bill_path(@taska), class: "btn btn-xs btn-primary active" %></h5>
+	
+	<div id="month-lookup"> <!-- From Finance Tracker views/users/myportfolio.html  -->
+		<%= form_tag search_bill_path, method: :get, id: "finds_expenses" do %>
+			<div class="form-group row no-padding text-center col-md-8">
+	      		<div class="col-md-2">
+	      			<%= select_tag :month, 
+	      				options_for_select((1..12).step(1))%>
+	      		</div>
+	      		<div class="col-md-2">
+	      			<%= select_tag :year, 
+	      				options_for_select((2018..2025).step(1)) %>
+	      		</div>
+	      		<div >
+                  <%= hidden_field_tag :taska_id, params[:taska_id], value: params[:id] %>
+          		</div>
+	      		
+	          
+	      		<div class="col-md-2">
+	        		<%= button_tag(type: :submit, class: "btn btn-xs btn-success", id: "submit_expense") do %>
+	          			<i class="fa fa-search"></i> Search
+	        		<% end %>
+	    		</div>
+	      	</div>
+		<%end%>
+	</div>
 <% end %>
 

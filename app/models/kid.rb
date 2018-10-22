@@ -1,6 +1,7 @@
 class Kid < ApplicationRecord
 	belongs_to :parent
 	belongs_to :classroom, optional: true
+	has_many :payments
 
 	#validates_uniqueness_of :name, :case_sensitive => false
 

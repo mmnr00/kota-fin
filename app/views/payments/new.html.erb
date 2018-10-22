@@ -1,0 +1,57 @@
+<h2>New Bill for <%= @kid.name %> (<%= @taska.name %>)</h2> 
+
+<div class='row'>
+		<div class='col-xs-12'>
+			<%= form_for(@payment, :html => {class: "form-horizontal", role: "form"}) do |f| %>
+
+				<div class="form-group"> 
+					<div class="control-label col-sm-2">
+						<%= f.label :amount %>
+					</div>
+					<div class="col-sm-2">
+						<%= f.number_field :amount, rows: 10, class: "form-control", :step => 0.01,placeholder: "e.g 32.10" %>
+					</div>
+				</div>
+
+
+				<div class="form-group"> 
+					<div class="control-label col-sm-2">
+						<%= f.label :description %>
+					</div>
+					<div class="col-sm-10">
+						<%= f.text_area :description, class: "form-control", placeholder: "Max 200 characters", autofocus: true %>
+					</div>
+				</div>
+
+				
+				<div class="form-group"> <!-- name -->
+					<div class="control-label col-sm-2">
+						<%= f.label :month %>
+					</div>
+					<div class="col-sm-2">
+						<%= f.text_field :month, class: "form-control", placeholder: "Children Name", autofocus: true, value: params[:month], readonly: true %>
+					</div>
+					<div class="control-label col-sm-2">
+						<%= f.label :year %>
+					</div>
+					<div class="col-sm-2">
+						<%= f.text_field :year, class: "form-control", placeholder: "Children Name", autofocus: true, value: params[:year], readonly: true %>
+					</div>
+				</div>
+
+					
+					
+					<div>
+            			<%= f.hidden_field :kid_id, value: @kid.id %>
+            			<%= f.hidden_field :taska_id, value: @taska.id %>
+         			</div>
+         			
+				<div class="form-group">
+					<div class="col-sm-offset-0 col-sm-10">
+						<%= f.submit class: 'btn btn-primary btn-m' %>
+					</div>
+				</div>
+			<% end %>
+			
+		</div>
+	</div>

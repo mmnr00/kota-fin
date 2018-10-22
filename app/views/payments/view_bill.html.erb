@@ -1,0 +1,47 @@
+
+
+<div class="results-block col-md-12">
+	<caption><h3>View Bills for <%= @kid.name %> (month: <%= params[:month]%> & year: <%= params[:year]%> ) </h3></caption>
+  <table class="table table-striped table-bordered">
+    <thead>   	
+      <tr>
+        <th>MONTH</th>
+        <th>YEAR</th>
+        <th>AMOUNT</th>
+        <th>PAYMENT</th>
+
+      </tr>
+    </thead>
+    <tbody><!-- from /view/classroom/show -->
+        <% @kid_bills.each do |bill| %>
+        <tr>
+          <td><%= bill.bill_month %></td>
+          <td><%= bill.bill_year %></td>
+          <td><%= bill.amount %></td>
+          <td>	<% if bill.paid? %>
+          			<button class="btn btn-xs btn-success active"> YES </button>
+          		<% else %>
+          			<button class="btn btn-xs btn-danger active"> NO </button>
+          		<% end %>
+          </td>
+
+        </tr>
+        <% end %>
+        
+    </tbody>
+  </table>
+</div>
+
+<%= link_to "Create New Bills", new_bill_path(child: @kid, 
+																							month: params[:month], 
+																							year: params[:year]), 
+																							class: "btn btn-xs btn-success active"%></br></br>
+<%= link_to "View all bills for month #{params[:month]}-#{params[:year]}", 
+		search_bill_path(	taska_id: params[:id], 
+											month: params[:month], 
+											year: params[:year]), 
+											class: "btn btn-m btn-primary active"%>	
+
+
+
+

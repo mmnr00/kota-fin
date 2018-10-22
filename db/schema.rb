@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_20_135732) do
+ActiveRecord::Schema.define(version: 2018_10_22_085437) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -68,8 +68,14 @@ ActiveRecord::Schema.define(version: 2018_10_20_135732) do
   create_table "payments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "collection_id"
-    t.string "collection_name"
+    t.integer "bill_month"
+    t.integer "bill_year"
+    t.string "bill_id"
+    t.string "description"
+    t.string "state"
+    t.boolean "paid"
+    t.integer "kid_id"
+    t.float "amount"
   end
 
   create_table "taska_admins", force: :cascade do |t|

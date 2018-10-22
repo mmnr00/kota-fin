@@ -28,7 +28,90 @@ class PaymentsController < ApplicationController
     redirect_to payment_index_path(@taska)
   end
 
-  def create_bill
+
+
+  def search_bill
+    @taska = Taska.find(params[:taska_id])
+    @taska_classrooms = @taska.classrooms
+    @month = params[:month]
+    @year = params[:year]
+    #redirect_to display_children_path(@taska_classrooms)
+  end
+
+  def new
+    @taska = Taska.find(params[:id])
+    @kid = Kid.find(params[:child])
+    @payment = Payment.new
+  end
+
+  def create
+    params.require(:payment).permit(:amount, :description, :month, :year, :kid_id, :taska_id)
+    amount = params[:payment][:amount].to_f*100
+    @payment = Payment.new
+    @taska = Taska.find(params[:payment][:taska_id])
+    @kid = Kid.find(params[:payment][:kid_id])
+    url_bill = 'https://www.billplz.com/api/v3/bills'
+    api_key = '68abd407-b8c7-4bee-9e16-620a578b2a48'
+    data_billplz = HTTParty.post(url_bill.to_str,
+            :body  => { :collection_id => "#{@taska.collection_id}", 
+                        :email=> "#{@kid.parent.email}",
+                        :name=> "#{@kid.name}", 
+                        :amount=>  amount,
+                        :callback_url=> "http://localhost:3000/taska/#{params[:id]}/new_bill",
+                        :description=>"#{params[:payment][:description]}"}.to_json, 
+                        #:callback_url=>  "YOUR RETURN URL"}.to_json,
+            :basic_auth => { :username => api_key },
+            :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+    data = JSON.parse(data_billplz.to_s)
+    @payment.amount = params[:payment][:amount].to_f
+    @payment.description = params[:payment][:description]
+    @payment.bill_month = params[:payment][:month]
+    @payment.bill_year = params[:payment][:year]
+    @payment.kid_id = params[:payment][:kid_id]
+    @payment.state = data["state"]
+    @payment.paid = data["paid"]
+    @payment.bill_id = data["id"]
+    @payment.save
+    #if child ada satu bill, pergi search bill, if more, pergi view bill
+    redirect_to search_bill_path(params[:id] = "#{params[:payment][:taska_id]}",
+                                  "utf8"=>"✓", 
+                                  month: "#{params[:payment][:month]}", 
+                                  year: "#{params[:payment][:year]}", 
+                                  taska_id: "#{params[:payment][:taska_id]}", 
+                                  "button"=>""), :method => :get
+
+
+    
+
+  end
+
+  def view_bill
+    @kid = Kid.find(params[:kid])
+    @kid_bills = @kid.payments
+  end
+
+
+  def create_temp
+    
+    
+    url_bill = 'https://www.billplz.com/api/v3/bills'
+    api_key = '68abd407-b8c7-4bee-9e16-620a578b2a48'
+    data_billplz = HTTParty.post(url_bill.to_str,
+            :body  => { :collection_id => "#{@taska.collection_id}", 
+                        :email=> "#{@kid.parent.email}",
+                        :name=> "#{@kid.name}", 
+                        :amount=>  260,
+                        :callback_url=> "http://localhost:3000/taska/#{params[:id]}/new_bill",
+                        :description=>"First Bills from Rails"}.to_json, 
+                        #:callback_url=>  "YOUR RETURN URL"}.to_json,
+            :basic_auth => { :username => api_key },
+            :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+    render json: data_billplz
+  end
+
+  #EXAMPLE WORKING CONTROLLERS
+
+  def create_bill_old
     url_bill = 'https://www.billplz.com/api/v3/bills'
     api_key = '68abd407-b8c7-4bee-9e16-620a578b2a48'
     @taska = Taska.find(params[:id])
