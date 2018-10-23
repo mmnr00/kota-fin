@@ -9,7 +9,7 @@
 						<%= f.label :amount %>
 					</div>
 					<div class="col-sm-2">
-						<%= f.number_field :amount, rows: 10, class: "form-control", :step => 0.01,placeholder: "e.g 32.10" %>
+						<%= f.number_field :amount, rows: 10, class: "form-control", :step => 0.01,placeholder: "e.g 32.10", value: @kid.base_fee %>
 					</div>
 				</div>
 
@@ -19,7 +19,7 @@
 						<%= f.label :description %>
 					</div>
 					<div class="col-sm-10">
-						<%= f.text_area :description, class: "form-control", placeholder: "Max 200 characters", autofocus: true %>
+						<%= f.text_area :description, class: "form-control", placeholder: "Max 200 characters", autofocus: true, value: "Bill for month #{params[:month]}-#{params[:year]} from #{@taska.name}" %>
 					</div>
 				</div>
 

@@ -1,0 +1,36 @@
+ <table class="table table-striped table-bordered">
+    <thead>   	
+      <tr>
+        <th>NAME</th>
+        <th>TASKA</th>
+        <th>CLASS</th>
+        <th>PENDING AMOUNT</th>
+        <th>ACTION</th>
+
+      </tr>
+    </thead>
+
+    <tbody><!-- from /view/classroom/show -->
+    	<% @mykids.each do |child| %>
+        <% if child.classroom.present? %>
+          <tr>
+            <td><%= child.name %></td>
+            <td><%= child.classroom.taska.name %></td>
+            <td><%= child.classroom.classroom_name %></td>
+            <td>RM 312.50</td>
+            <td><%= link_to "Pay Bills", root_path, class: "btn btn-xs btn-primary active"%> | <%= link_to "EDIT DETAILS", edit_kid_path(child, classroom: child.classroom), class: "btn btn-xs btn-success active" %></td>
+          </tr>
+        <% else %>
+          <tr>
+            <td><%= child.name %></td>
+            <td>PLEASE ADD CLASSROOM</td>
+            <td>PLEASE ADD TASKA</td>
+            <td>NA</td>
+            <td><%= link_to "EDIT DETAILS", edit_kid_path(child, classroom: child.classroom), class: "btn btn-xs btn-success active" %></td>
+          </tr>
+        <% end %>
+      <% end %>
+        
+    </tbody>
+  </table>
+</div>

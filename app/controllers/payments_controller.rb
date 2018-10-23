@@ -1,14 +1,22 @@
 class PaymentsController < ApplicationController
   require 'json'
+ 
 
   def index
     @taska = Taska.find(params[:id])
   end
 
+  def update
+    @bill = Payment.find(bill.id)
+    @bill.paid = bill.status
+    @bill.save
+
+  end
+
   def create_collection
     @taska = Taska.find(params[:id])
-    url_collection = 'https://www.billplz.com/api/v3/collections/'
-    api_key = '68abd407-b8c7-4bee-9e16-620a578b2a48'
+    url_collection = 'https://billplz-staging.herokuapp.com/api/v3/collections/'
+    api_key = '6d78d9dd-81ac-4932-981b-75e9004a4f11'
     title = @taska.name
     emails = @taska.email
 
@@ -50,18 +58,19 @@ class PaymentsController < ApplicationController
     @payment = Payment.new
     @taska = Taska.find(params[:payment][:taska_id])
     @kid = Kid.find(params[:payment][:kid_id])
-    url_bill = 'https://www.billplz.com/api/v3/bills'
-    api_key = '68abd407-b8c7-4bee-9e16-620a578b2a48'
+    url_bill = 'https://billplz-staging.herokuapp.com/api/v3/bills'
+    api_key = '6d78d9dd-81ac-4932-981b-75e9004a4f11'
     data_billplz = HTTParty.post(url_bill.to_str,
             :body  => { :collection_id => "#{@taska.collection_id}", 
                         :email=> "#{@kid.parent.email}",
                         :name=> "#{@kid.name}", 
                         :amount=>  amount,
-                        :callback_url=> "http://localhost:3000/taska/#{params[:id]}/new_bill",
+                        :callback_url=> "http://localhost:3000/payments/update",
                         :description=>"#{params[:payment][:description]}"}.to_json, 
                         #:callback_url=>  "YOUR RETURN URL"}.to_json,
             :basic_auth => { :username => api_key },
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+    #render json: data_billplz
     data = JSON.parse(data_billplz.to_s)
     @payment.amount = params[:payment][:amount].to_f
     @payment.description = params[:payment][:description]
@@ -73,8 +82,9 @@ class PaymentsController < ApplicationController
     @payment.bill_id = data["id"]
     @payment.save
     #if child ada satu bill, pergi search bill, if more, pergi view bill
-    redirect_to search_bill_path(params[:id] = "#{params[:payment][:taska_id]}",
+    redirect_to view_bill_path(params[:id] = "#{params[:payment][:taska_id]}",
                                   "utf8"=>"✓", 
+                                  kid: "#{params[:payment][:kid_id]}",
                                   month: "#{params[:payment][:month]}", 
                                   year: "#{params[:payment][:year]}", 
                                   taska_id: "#{params[:payment][:taska_id]}", 
@@ -90,6 +100,24 @@ class PaymentsController < ApplicationController
     @kid_bills = @kid.payments
   end
 
+  def destroy
+    url_bill = "https://billplz-staging.herokuapp.com/api/v3/bills/#{params[:bill_id]}"
+    api_key = '6d78d9dd-81ac-4932-981b-75e9004a4f11'
+    @payment = Payment.find(params[:bill])
+    data_billplz = HTTParty.delete(url_bill.to_str,
+                                  :basic_auth => { :username => api_key },
+                                  :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+    @payment.destroy
+    flash[:notice] = "Bills was successfully deleted"
+    redirect_to view_bill_path(params[:taska],
+                                  "utf8"=>"✓", 
+                                  kid: "#{params[:kid]}",
+                                  month: "#{params[:month]}", 
+                                  year: "#{params[:year]}", 
+                                  "button"=>""), :method => :get
+  end
+
+#EXAMPLE WORKING CONTROLLERS
 
   def create_temp
     
@@ -109,7 +137,7 @@ class PaymentsController < ApplicationController
     render json: data_billplz
   end
 
-  #EXAMPLE WORKING CONTROLLERS
+  
 
   def create_bill_old
     url_bill = 'https://www.billplz.com/api/v3/bills'
@@ -222,6 +250,9 @@ class PaymentsController < ApplicationController
 		@paid = @get_bill.parsed_response["paid"]
 		#others data you can check at billplz api
   end
+
+  private
+  
 
 
 

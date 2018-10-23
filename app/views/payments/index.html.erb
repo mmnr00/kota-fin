@@ -4,8 +4,6 @@
 	<h5><%= link_to 'START CREATING BILLS',create_collection_path(@taska), class: "btn btn-xs btn-primary active" %></h5>
 	<%= @taska.collection_id %>
 <% else %>
-	SEARCH MONTH (TULIS SUMMARY KT ATAS)
-	
 	<div id="month-lookup"> <!-- From Finance Tracker views/users/myportfolio.html  -->
 		<%= form_tag search_bill_path, method: :get, id: "finds_expenses" do %>
 			<div class="form-group row no-padding text-center col-md-8">

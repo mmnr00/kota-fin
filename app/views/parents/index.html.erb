@@ -3,41 +3,29 @@
 <div class="results-block col-md-12">
 	<caption><h3>MY CHILDREN</h3></caption>
   <%= link_to "Register Children", new_kid_path(@parent.id), class: "btn btn-lg btn-success active"%></br></br>
-  <table class="table table-striped table-bordered">
-    <thead>   	
-      <tr>
-        <th>NAME</th>
-        <th>TASKA</th>
-        <th>CLASS</th>
-        <th>PENDING AMOUNT</th>
-        <th>ACTION</th>
+ 
 
-      </tr>
-    </thead>
-
-    <tbody><!-- from /view/classroom/show -->
-    	<% @mykids.each do |child| %>
-        <% if child.classroom.present? %>
-          <tr>
-            <td><%= child.name %></td>
-            <td><%= child.classroom.taska.name %></td>
-            <td><%= child.classroom.classroom_name %></td>
-            <td>RM 312.50</td>
-            <td><%= link_to "Pay Bills", root_path, class: "btn btn-xs btn-primary active"%> | <%= link_to "EDIT DETAILS", edit_kid_path(child, classroom: child.classroom), class: "btn btn-xs btn-success active" %></td>
-          </tr>
-        <% else %>
-          <tr>
-            <td><%= child.name %></td>
-            <td>PLEASE ADD CLASSROOM</td>
-            <td>PLEASE ADD TASKA</td>
-            <td>NA</td>
-            <td><%= link_to "EDIT DETAILS", edit_kid_path(child, classroom: child.classroom), class: "btn btn-xs btn-success active" %></td>
-          </tr>
-        <% end %>
-      <% end %>
-        
-    </tbody>
-  </table>
-</div>
-
-<%= link_to "logout", destroy_parent_session_path, class: "btn btn-xs btn-danger active",method: :delete %>
+<div id="month-lookup"> <!-- From Finance Tracker views/users/myportfolio.html  -->
+    <%= form_tag root_path, method: :get, id: "finds_expenses" do %>
+      <div class="form-group row no-padding text-center col-md-8">
+            <div class="col-md-2">
+              <%= select_tag :month, 
+                options_for_select((1..12).step(1))%>
+            </div>
+            <div class="col-md-2">
+              <%= select_tag :year, 
+                options_for_select((2018..2025).step(1)) %>
+            </div>
+            <div >
+                  <%= hidden_field_tag :taska_id, params[:taska_id], value: params[:id] %>
+              </div>
+            
+            
+            <div class="col-md-2">
+              <%= button_tag(type: :submit, class: "btn btn-xs btn-success", id: "submit_expense") do %>
+                  <i class="fa fa-search"></i> Search
+              <% end %>
+          </div>
+          </div>
+    <%end%>
+  </div>

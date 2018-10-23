@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   get '/taska/:id/search_teacher', to: 'teachers#search', as: 'search_teacher'
   get '/taska/:id/find_teacher', to: 'teachers#find', as: 'find_teacher'
   #PARENTS
-  get 'parent_index', to: 'parents#index'
+  get '/parent/:id/parent_index', to: 'parents#index', as: 'parent_index'
   #TASKAS
   get '/taska/:id/teachers', to: 'taskas#taskateachers', as: 'taskateachers'
   get '/taska/:id/classroom', to: 'taskas#classrooms_index', as: 'classroom_index'
@@ -48,6 +48,7 @@ Rails.application.routes.draw do
   get '/taska/:id/search_bill', to: 'payments#search_bill', as: 'search_bill'
   get '/taska/:id/new_bill', to: 'payments#new', as: 'new_bill'
   get '/taska/:id/view_bill', to: 'payments#view_bill', as: 'view_bill'
+  get '/payments/update', to: 'payments#update', as: 'payment_update'
 
 
 
