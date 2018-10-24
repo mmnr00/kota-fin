@@ -23,7 +23,7 @@
           <td><%= child.name %></td>
           <td><%= child.parent.username %></td>
           <td><%= child.classroom.classroom_name %></td>
-          <% if child.payments.where(bill_month: @month).count > 0 %>
+          <% if child.payments.where(bill_month: @month).count > 0 && child.payments.where(bill_year: @year).count > 0 %>
           	<% if child.payments.where(paid: false).count > 0 %>
           		<td><%= link_to "View Unpaid Bills", view_bill_path(kid: child, month: @month, year: @year), class: "btn btn-xs btn-danger active"%></td>
           	<% else %>

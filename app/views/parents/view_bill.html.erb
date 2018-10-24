@@ -1,10 +1,11 @@
+ <h2> Displaying your bills for month <%= params[:month] %> of <%= params[:year] %> </h2>
+
  <table class="table table-striped table-bordered">
     <thead>   	
       <tr>
         <th>NAME</th>
         <th>TASKA</th>
         <th>CLASS</th>
-        <th>PENDING AMOUNT</th>
         <th>ACTION</th>
 
       </tr>
@@ -12,24 +13,27 @@
 
     <tbody><!-- from /view/classroom/show -->
     	<% @mykids.each do |child| %>
-        <% if child.classroom.present? %>
           <tr>
+        <% if child.classroom.present? %>
             <td><%= child.name %></td>
             <td><%= child.classroom.taska.name %></td>
             <td><%= child.classroom.classroom_name %></td>
-            <td>RM 312.50</td>
-            <td><%= link_to "Pay Bills", root_path, class: "btn btn-xs btn-primary active"%> | <%= link_to "EDIT DETAILS", edit_kid_path(child, classroom: child.classroom), class: "btn btn-xs btn-success active" %></td>
-          </tr>
         <% else %>
-          <tr>
             <td><%= child.name %></td>
             <td>PLEASE ADD CLASSROOM</td>
             <td>PLEASE ADD TASKA</td>
-            <td>NA</td>
-            <td><%= link_to "EDIT DETAILS", edit_kid_path(child, classroom: child.classroom), class: "btn btn-xs btn-success active" %></td>
-          </tr>
-        <% end %>
-      <% end %>
+        <% end %> <!-- For classroom present -->
+        <% if child.payments.where(bill_month: params[:month]).count > 0 && child.payments.where(bill_year: params[:year]).count > 0 %>
+          <% if child.payments.where(paid: false).count > 0 %>
+            <td><%= link_to "Pay Bills", parents_individual_bill_path(kid: child, month: params[:month], year: params[:year]), class: "btn btn-xs btn-danger active"%></td>
+          <% else %>
+            <td><%= link_to "View Receipts", parents_individual_bill_path(kid: child, month: params[:month], year: params[:year]), class: "btn btn-xs btn-success active"%></td>
+          <% end %> <!-- For payment paid status -->
+        <% else %>
+            <td><button class= "btn btn-xs btn-primary active">No Bills</button></td>
+        <% end %> <!-- For payment_present -->
+      </tr>
+      <% end %> <!-- For child loop -->
         
     </tbody>
   </table>

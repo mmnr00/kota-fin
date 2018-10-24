@@ -18,7 +18,9 @@ Rails.application.routes.draw do
   get '/taska/:id/search_teacher', to: 'teachers#search', as: 'search_teacher'
   get '/taska/:id/find_teacher', to: 'teachers#find', as: 'find_teacher'
   #PARENTS
-  get '/parent/:id/parent_index', to: 'parents#index', as: 'parent_index'
+  get 'parent_index', to: 'parents#index', as: 'parent_index'
+  get '/parent/:id/view_bill', to: 'parents#view_bill', as: 'parents_view_bill'
+  get '/parent/:id/individual_bill', to: 'parents#individual_bill', as: 'parents_individual_bill'
   #TASKAS
   get '/taska/:id/teachers', to: 'taskas#taskateachers', as: 'taskateachers'
   get '/taska/:id/classroom', to: 'taskas#classrooms_index', as: 'classroom_index'

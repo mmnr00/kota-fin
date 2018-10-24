@@ -97,7 +97,7 @@ class PaymentsController < ApplicationController
 
   def view_bill
     @kid = Kid.find(params[:kid])
-    @kid_bills = @kid.payments
+    @kid_bills = @kid.payments.where(bill_month: params[:month], bill_year: params[:year])
   end
 
   def destroy
