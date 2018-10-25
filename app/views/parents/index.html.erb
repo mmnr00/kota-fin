@@ -4,9 +4,6 @@
 	<caption><h3>MY CHILDREN</h3></caption>
   <%= link_to "Register Children", new_kid_path(@parent.id), class: "btn btn-lg btn-success active"%></br></br>
 
-  <%= link_to "VIEW", parents_view_bill_path(@parent), class: "btn btn-lg btn-success active"%>
- 
-
 <div id="month-lookup"> <!-- From Finance Tracker views/users/myportfolio.html  -->
     <%= form_tag parents_view_bill_path(@parent), method: :get, id: "find_bills_for_parents" do %>
       <div class="form-group row no-padding text-center col-md-8">
@@ -20,7 +17,7 @@
             </div>
             <div >
                   <%= hidden_field_tag :taska_id, params[:parent_id], value: @parent.id %>
-              </div>
+            </div>
             
             
             <div class="col-md-2">

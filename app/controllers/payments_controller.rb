@@ -1,5 +1,7 @@
 class PaymentsController < ApplicationController
   require 'json'
+  $billplz_url = "https://billplz-staging.herokuapp.com/api/v3/"
+  $api_key = "6d78d9dd-81ac-4932-981b-75e9004a4f11"
  
 
   def index
@@ -28,8 +30,7 @@ class PaymentsController < ApplicationController
 
   def create_collection
     @taska = Taska.find(params[:id])
-    url_collection = 'https://billplz-staging.herokuapp.com/api/v3/collections/'
-    api_key = '6d78d9dd-81ac-4932-981b-75e9004a4f11'
+    url_collection = "#{$billplz_url}collections/"
     title = @taska.name
     emails = @taska.email
 
@@ -40,7 +41,7 @@ class PaymentsController < ApplicationController
                                 :fixed_cut => 0, 
                                 :split_header => true}
                             }.to_json,
-                  :basic_auth => { :username => api_key },
+                  :basic_auth => { :username => $api_key },
                   :headers => { 'Content-Type' => 'application/json', 
                                 'Accept' => 'application/json' })
     data = JSON.parse(data_billplz.to_s)
@@ -71,8 +72,7 @@ class PaymentsController < ApplicationController
     @payment = Payment.new
     @taska = Taska.find(params[:payment][:taska_id])
     @kid = Kid.find(params[:payment][:kid_id])
-    url_bill = 'https://billplz-staging.herokuapp.com/api/v3/bills'
-    api_key = '6d78d9dd-81ac-4932-981b-75e9004a4f11'
+    url_bill = "#{$billplz_url}bills"
     data_billplz = HTTParty.post(url_bill.to_str,
             :body  => { :collection_id => "#{@taska.collection_id}", 
                         :email=> "#{@kid.parent.email}",
@@ -82,7 +82,7 @@ class PaymentsController < ApplicationController
                         :redirect_url=> "http://localhost:3000/payments/update",
                         :description=>"#{params[:payment][:description]}"}.to_json, 
                         #:callback_url=>  "YOUR RETURN URL"}.to_json,
-            :basic_auth => { :username => api_key },
+            :basic_auth => { :username => $api_key },
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
     #render json: data_billplz
     data = JSON.parse(data_billplz.to_s)
@@ -115,11 +115,10 @@ class PaymentsController < ApplicationController
   end
 
   def destroy
-    url_bill = "https://billplz-staging.herokuapp.com/api/v3/bills/#{params[:bill_id]}"
-    api_key = '6d78d9dd-81ac-4932-981b-75e9004a4f11'
+    url_bill = "#{$billplz_url}bills/#{params[:bill_id]}"
     @payment = Payment.find(params[:bill])
     data_billplz = HTTParty.delete(url_bill.to_str,
-                                  :basic_auth => { :username => api_key },
+                                  :basic_auth => { :username => $api_key },
                                   :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
     @payment.destroy
     flash[:notice] = "Bills was successfully deleted"

@@ -5,6 +5,7 @@ class Taska < ApplicationRecord
 	has_many :taska_teachers
 	has_many :teachers, through: :taska_teachers
 	has_many :classrooms
+	has_many :feedbacks
 
 
 end
