@@ -20,13 +20,13 @@
           <td><%= bill.bill_month %></td>
           <td><%= bill.bill_year %></td>
           <td><%= bill.amount %></td>
-          <td>	<% if bill.paid? %>
-          			<button class="btn btn-xs btn-success active"> YES </button>
-          		<% else %>
-          			<button class="btn btn-xs btn-danger active"> NO </button>
-          		<% end %>
-          <td><%= link_to "DELETE BILL", payment_path(bill_id: bill.bill_id, bill: bill, kid: @kid, month: params[:month], year: params[:year], taska: params[:id] ), method: :delete, data: { confirm: "Are you sure you want to delete the bill?"},class: "btn btn-xs btn-danger active" %></td>
-           <td><%= link_to "PAY BILLS", "https://billplz-staging.herokuapp.com/bills/#{bill.bill_id}", class: "btn btn-xs btn-danger active", target: :_blank %></td>
+          <% if bill.paid? %>
+          	<td><button class="btn btn-xs btn-success active"> YES </button></td>
+            <td><%= link_to "VIEW RECEIPTS", "https://billplz-staging.herokuapp.com/bills/#{bill.bill_id}", class: "btn btn-xs btn-success active", target: :_blank %></td
+      		<% else %>
+      			<td><button class="btn btn-xs btn-danger active"> NO </button></td>   
+            <td><%= link_to "DELETE BILL", payment_path(bill_id: bill.bill_id, bill: bill, kid: @kid, month: params[:month], year: params[:year], taska: params[:id] ), method: :delete, data: { confirm: "Are you sure you want to delete the bill?"},class: "btn btn-xs btn-danger active" %></td>
+      		<% end %>>
         </tr>
         </tr>
         <% end %>

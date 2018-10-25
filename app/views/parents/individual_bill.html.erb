@@ -23,7 +23,7 @@
           	<td><%= link_to "VIEW RECEIPTS", "https://billplz-staging.herokuapp.com/bills/#{bill.bill_id}", class: "btn btn-xs btn-success active", target: :_blank %></td>
           <% else %>
           	<td><button class="btn btn-xs btn-danger active"> UNPAID </button></td>
-          	<td><%= link_to "PAY BILLS", "https://billplz-staging.herokuapp.com/bills/#{bill.bill_id}", class: "btn btn-xs btn-danger active", target: :_blank %></td>
+          	<td><%= link_to "PAY BILLS", "https://billplz-staging.herokuapp.com/bills/#{bill.bill_id}", class: "btn btn-xs btn-danger active"%></td>
           <% end %>
            
         </tr>

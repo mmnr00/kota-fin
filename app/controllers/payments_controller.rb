@@ -7,9 +7,22 @@ class PaymentsController < ApplicationController
   end
 
   def update
-    @bill = Payment.find(bill.id)
-    @bill.paid = bill.status
+   @bill = Payment.where(bill_id: "#{params[:billplz][:id]}").first
+   if @bill.present?
+    @kid = @bill.kid
+    @bill.paid = params[:billplz][:paid]
     @bill.save
+    if @bill.paid
+      flash[:success] = "Bill was successfully paid"
+    else
+      flash[:danger] = "Bill was not paid due to bank rejection"
+    end
+    redirect_to parents_individual_bill_path( id: @kid.parent_id, 
+                                              kid: @kid, 
+                                              month: @bill.bill_month, 
+                                              year: @bill.bill_year)
+   end
+   
 
   end
 
@@ -66,6 +79,7 @@ class PaymentsController < ApplicationController
                         :name=> "#{@kid.name}", 
                         :amount=>  amount,
                         :callback_url=> "http://localhost:3000/payments/update",
+                        :redirect_url=> "http://localhost:3000/payments/update",
                         :description=>"#{params[:payment][:description]}"}.to_json, 
                         #:callback_url=>  "YOUR RETURN URL"}.to_json,
             :basic_auth => { :username => api_key },
