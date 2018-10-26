@@ -1,6 +1,7 @@
 class PaymentsController < ApplicationController
   require 'json'
   $billplz_url = "https://billplz-staging.herokuapp.com/api/v3/"
+  $billplz = "https://billplz-staging.herokuapp.com/"
   $api_key = "6d78d9dd-81ac-4932-981b-75e9004a4f11"
  
 
@@ -17,12 +18,9 @@ class PaymentsController < ApplicationController
     if @bill.paid
       flash[:success] = "Bill was successfully paid"
     else
-      flash[:danger] = "Bill was not paid due to bank rejection"
+      flash[:danger] = "Bill was not paid due to bank rejection. Please try again"
     end
-    redirect_to parents_individual_bill_path( id: @kid.parent_id, 
-                                              kid: @kid, 
-                                              month: @bill.bill_month, 
-                                              year: @bill.bill_year)
+    redirect_to parent_index_path
    end
    
 
@@ -91,6 +89,7 @@ class PaymentsController < ApplicationController
     @payment.bill_month = params[:payment][:month]
     @payment.bill_year = params[:payment][:year]
     @payment.kid_id = params[:payment][:kid_id]
+    @payment.parent_id = @kid.parent.id
     @payment.state = data["state"]
     @payment.paid = data["paid"]
     @payment.bill_id = data["id"]

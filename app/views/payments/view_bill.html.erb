@@ -11,7 +11,6 @@
         <th>AMOUNT</th>
         <th>PAYMENT</th>
         <th>ACTION</th>
-
       </tr>
     </thead>
     <tbody><!-- from /view/classroom/show -->
@@ -38,10 +37,12 @@
  <% end %>
 </div>
 
-<%= link_to "Create New Bills for #{@kid.name}", new_bill_path(child: @kid, 
+<% if @kid_bills.count < 1 %>
+  <%= link_to "Create New Bills for #{@kid.name}", new_bill_path(child: @kid, 
 																							month: params[:month], 
 																							year: params[:year]), 
 																							class: "btn btn-xs btn-success active"%></br></br>
+<% end %>
 <%= link_to "View all bills for month #{params[:month]}-#{params[:year]}", 
 		search_bill_path(	taska_id: params[:id], 
 											month: params[:month], 

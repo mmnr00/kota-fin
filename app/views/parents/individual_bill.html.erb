@@ -20,11 +20,13 @@
           <td><%= bill.amount %></td>
           <% if bill.paid? %>
           	<td><button class="btn btn-xs btn-success active"> PAID </button></td>
-          	<td><%= link_to "VIEW RECEIPTS", "#{$billplz_url}bills/#{bill.bill_id}", class: "btn btn-xs btn-success active", target: :_blank %></td>
+          	<td><%= link_to "VIEW RECEIPTS", "#{$billplz}bills/#{bill.bill_id}", class: "btn btn-xs btn-success active", target: :_blank %></td>
           <% else %>
           	<td><button class="btn btn-xs btn-danger active"> UNPAID </button></td>
           	<td><%= link_to "PAY BILLS", 
-          			parents_pay_bill_path(bill_id: bill.bill_id, 
+          			parents_pay_bill_path(bill_id: bill.bill_id,
+          														bill: bill.id,
+          														kid: bill.kid, 
           														taska_id: bill.kid.classroom.taska.id,
           														classroom_id: bill.kid.classroom.id),  
           			class: "btn btn-xs btn-danger active"%></td>

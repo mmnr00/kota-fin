@@ -1,0 +1,40 @@
+ 
+
+ <div class="results-block col-md-12">
+  <caption><h3> Displaying payment receipt for <%= @parent.username %> </h3></caption>
+</div>  
+
+<% if @bills.present? %>
+  <div class="results-block col-md-12">
+    <table class="table table-striped table-bordered">
+      <thead>     
+        <tr>
+          <th>CHILDREN NAME</th>
+          <th>TASKA NAME</th>
+          <th>MONTH</th>
+          <th>YEAR</th>
+          <th>AMOUNT</th>
+          <th>ACTION</th>
+        </tr>
+      </thead>
+      <% @bills.each do |bill| %>
+        <tbody>
+          <tr>
+            <td><%= bill.kid.name %></td>
+            <td><%= bill.kid.classroom.taska.name %></td>
+            <td><%= bill.bill_month %></td>
+            <td><%= bill.bill_year %></td>
+            <td><%= bill.amount %></td>
+            <td><%= link_to "VIEW RECEIPT","#{$billplz}bills/#{bill.bill_id}",
+                                          class: "btn btn-xs btn-primary active",
+                                          target: "_blank"%></td>
+                            
+          </tr>
+        </tbody>
+      <% end %>
+    </table>
+  </div>
+
+<% else %>
+  NO RECEIPT TO DISPLAY
+<% end %>

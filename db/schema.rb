@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_25_032847) do
+ActiveRecord::Schema.define(version: 2018_10_26_033605) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -86,6 +86,7 @@ ActiveRecord::Schema.define(version: 2018_10_25_032847) do
     t.boolean "paid"
     t.integer "kid_id"
     t.float "amount"
+    t.integer "parent_id"
   end
 
   create_table "taska_admins", force: :cascade do |t|
