@@ -5,8 +5,6 @@
     <%= form_tag parents_feedback_path, method: :get, id: "find_bills_for_parents" do %>
       <div class="form-group row no-padding col-md-8">
 
-      			Speed  : <%= rating_for @feedback, 'rating', star: 10 %>
-
             <div class="col-md-8">
             	<h4>FEEDBACK FOR <%= @kid.classroom.taska.name %></h4>
             	Rating</br>
