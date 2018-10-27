@@ -11,6 +11,7 @@ gem 'devise'
 gem 'twitter-bootstrap-rails'
 gem 'jquery-rails'
 gem 'devise-bootstrap-views'
+gem 'ratyrate'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 gem 'httparty'

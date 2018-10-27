@@ -5,12 +5,6 @@
     <%= form_tag parents_feedback_path, method: :get, id: "find_bills_for_parents" do %>
       <div class="form-group row no-padding col-md-8">
 
-      			<ul class="rating">
-      				<% (1..5).each do |i|%>
-      					<li class="glyphicon glyphicon glyphicon-star-empty" ></li>
-      				<% end %>
-      			</ul>
-
             <div class="col-md-8">
             	<h4>FEEDBACK FOR <%= @kid.classroom.taska.name %></h4>
             	Rating</br>
