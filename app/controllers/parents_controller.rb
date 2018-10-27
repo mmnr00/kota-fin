@@ -23,6 +23,7 @@ class ParentsController < ApplicationController
 	def parents_pay_bill
 		@kid = Kid.find(params[:kid])
 		@bill = Payment.find(params[:bill])
+		current_user = current_parent
 		@feedback = Feedback.new
 		if @bill.bill_month != $quarter; redirect_to "#{$billplz}bills/#{params[:bill_id]}" end
 
