@@ -22,12 +22,28 @@
 //$("#finds_expense").trigger('submit');
 //});
 
-$(document).ready(function(){
-  var formData = $("#finds_expense").serialize();
-  $.ajax({
-   url: 'expenses_search',
-   data: formData,
-   type: 'GET',
-   contentType: 'application/script'
-  });
+
+$(function(){
+	$('.rating').click(function(){
+		var star = $(this);
+		var stars = $(this).attr('data-stars');
+
+		for (i=1;i<=5;i++){
+			if(i <= stars){
+				$('#' + 'rating_star' + '_' + i).removeClass('glyphicon glyphicon-star-empty');
+				$('#' + 'rating_star' + '_' + i).addClass('glyphicon glyphicon-star');
+			} else {
+				$('#' + 'rating_star' + '_' + i).removeClass('glyphicon glyphicon-star');
+				$('#' + 'rating_star' + '_' + i).addClass('glyphicon glyphicon-star-empty');
+			}
+		}
+
+	});
 });
+
+
+
+
+
+
+

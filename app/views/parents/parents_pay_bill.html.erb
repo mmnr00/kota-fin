@@ -4,22 +4,14 @@
 <div id="month-lookup"> <!-- From Finance Tracker views/users/myportfolio.html  -->
     <%= form_tag parents_feedback_path, method: :get, id: "find_bills_for_parents" do %>
       <div class="form-group row no-padding col-md-8">
-
-            <div class="col-md-8">
-            	<h4>FEEDBACK FOR <%= @kid.classroom.taska.name %></h4>
-            	Rating</br>
-              <%= select_tag :taska_rating, 
-                options_for_select((1..5).step(1))%>
-                <h2 class="glyphicon glyphicon glyphicon-star"></h2>
-            </div></br></br></br></br></br>
-
-            <div class="col-md-8">
-            	<h4>FEEDBACK FOR <%= @kid.classroom.classroom_name %></h4>
-            	Rating</br>
-              <%= select_tag :classroom_rating, 
-                options_for_select((1..5).step(1)),
-                required: true %>
-            </div></br></br>
+          <h1>TASKA CERIA</h1>
+              <% (1..5).each do |i| %>
+                <h1 id="rating_star_<%= i %>" data-stars="<%= i %>" class="rating glyphicon glyphicon-star-empty"></h1>
+              <% end %>
+          <h1>TASKA CERIA</h1>
+              <% (1..5).each do |i| %>
+                <h1 id="rating_star_<%= i %>" data-stars="<%= i %>" class="rating glyphicon glyphicon-star-empty"></h1>
+              <% end %>
 
             <div>
                   <%= hidden_field_tag :classroom_id, params[:classroom_id] %>

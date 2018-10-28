@@ -1,7 +1,7 @@
 class ParentsController < ApplicationController
 	before_action :authenticate_parent!
 	before_action :set_parent, only: [:index,:view_receipt]
-	$quarter = 3 || 6 || 9 || 12
+	#$quarter = 3 || 6 || 9 || 12
 
 	def index
 		@parent = current_parent
@@ -12,7 +12,7 @@ class ParentsController < ApplicationController
 	def view_receipt
 		@mykids = @parent.kids
 		bills = @parent.payments.where(paid: true)
-		@bills = bills.order('updated_at DESC	')
+		@bills = bills.order('updated_at DESC')
 	end
 
 	def individual_bill
@@ -23,9 +23,12 @@ class ParentsController < ApplicationController
 	def parents_pay_bill
 		@kid = Kid.find(params[:kid])
 		@bill = Payment.find(params[:bill])
+		month = @bill.bill_month
 		current_user = current_parent
 		@feedback = Feedback.new
-		if @bill.bill_month != $quarter; redirect_to "#{$billplz}bills/#{params[:bill_id]}" end
+		#feedback will be only on every quarter
+		if month % 3 != 0 ; redirect_to "#{$billplz}bills/#{params[:bill_id]}" end
+
 
 	end
 
