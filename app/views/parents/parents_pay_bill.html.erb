@@ -3,15 +3,31 @@
 
 <div id="month-lookup"> <!-- From Finance Tracker views/users/myportfolio.html  -->
     <%= form_tag parents_feedback_path, method: :get, id: "find_bills_for_parents" do %>
+    
       <div class="form-group row no-padding col-md-8">
-          <h1>TASKA CERIA</h1>
+        <div class="col-md-12">
+          <% data_form = "Taska_#{@kid.classroom.taska.id}" %>
+          <h3><%= @kid.classroom.taska.name %></h3>   
               <% (1..5).each do |i| %>
-                <h1 id="rating_star_<%= i %>" data-stars="<%= i %>" class="rating glyphicon glyphicon-star-empty"></h1>
+                <h1 id="rating_<%= data_form %>_<%= i %>" 
+                    data-form="<%= data_form %>" 
+                    data-stars="<%= i %>" 
+                    class="rating-star glyphicon glyphicon-star-empty">
+                </h1>
               <% end %>
-          <h1>TASKA CERIA</h1>
+        </div>
+
+        <div class="col-md-12">
+          <% data_form = "Classroom_#{@kid.classroom.id}" %>
+          <h3><%= @kid.classroom.classroom_name %></h3>
               <% (1..5).each do |i| %>
-                <h1 id="rating_star_<%= i %>" data-stars="<%= i %>" class="rating glyphicon glyphicon-star-empty"></h1>
+                <h1 id="rating_<%= data_form %>_<%= i %>" 
+                    data-form="<%= data_form %>" 
+                    data-stars="<%= i %>" 
+                    class="rating-star glyphicon glyphicon-star-empty">
+                </h1>
               <% end %>
+        </div>
 
             <div>
                   <%= hidden_field_tag :classroom_id, params[:classroom_id] %>

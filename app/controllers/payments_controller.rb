@@ -1,8 +1,8 @@
 class PaymentsController < ApplicationController
   require 'json'
-  $billplz_url = "https://billplz-staging.herokuapp.com/api/v3/"
-  $billplz = "https://billplz-staging.herokuapp.com/"
-  $api_key = "6d78d9dd-81ac-4932-981b-75e9004a4f11"
+  #$billplz_url = "https://billplz-staging.herokuapp.com/api/v3/"
+  #$billplz = "https://billplz-staging.herokuapp.com/"
+  #$api_key = "6d78d9dd-81ac-4932-981b-75e9004a4f11"
  
 
   def index

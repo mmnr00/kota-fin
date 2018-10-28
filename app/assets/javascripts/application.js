@@ -24,17 +24,18 @@
 
 
 $(function(){
-	$('.rating').click(function(){
+	$('.rating-star').click(function(){
 		var star = $(this);
+		var data_form = $(this).attr('data-form');
 		var stars = $(this).attr('data-stars');
 
 		for (i=1;i<=5;i++){
 			if(i <= stars){
-				$('#' + 'rating_star' + '_' + i).removeClass('glyphicon glyphicon-star-empty');
-				$('#' + 'rating_star' + '_' + i).addClass('glyphicon glyphicon-star');
+				$('#' + 'rating' + '_' + data_form + '_' + i).removeClass('glyphicon glyphicon-star-empty');
+				$('#' + 'rating' + '_' + data_form + '_' + i).addClass('glyphicon glyphicon-star');
 			} else {
-				$('#' + 'rating_star' + '_' + i).removeClass('glyphicon glyphicon-star');
-				$('#' + 'rating_star' + '_' + i).addClass('glyphicon glyphicon-star-empty');
+				$('#' + 'rating' + '_' + data_form + '_' + i).removeClass('glyphicon glyphicon-star');
+				$('#' + 'rating' + '_' + data_form + '_' + i).addClass('glyphicon glyphicon-star-empty');
 			}
 		}
 

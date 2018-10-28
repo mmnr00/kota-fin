@@ -3,6 +3,7 @@ class ParentsController < ApplicationController
 	before_action :set_parent, only: [:index,:view_receipt]
 	#$quarter = 3 || 6 || 9 || 12
 
+
 	def index
 		@parent = current_parent
 		@mykids = @parent.kids.order('updated_at DESC')
