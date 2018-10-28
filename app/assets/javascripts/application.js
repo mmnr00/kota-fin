@@ -23,7 +23,7 @@
 //});
 
 
-$(function(){
+document.addEventListener("turbolinks:load",function(){
 	$('.rating-star').click(function(){
 		var star = $(this);
 		var data_form = $(this).attr('data-form');
