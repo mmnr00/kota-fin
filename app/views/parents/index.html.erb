@@ -29,7 +29,7 @@
             <td><%= bill.bill_year %></td>
             <td><%= bill.amount %></td>
             <%= form_tag parents_pay_bill_path, method: :get, id: "find_bills_for_parents" do %>
-              <%= hidden_field_tag :id, @parent.id %>
+              <%= hidden_field_tag :id, @parent %>
               <%= hidden_field_tag :kid, bill.kid.id %>
               <%= hidden_field_tag :bill, bill.id %>
               <%= hidden_field_tag :bill_id, bill.bill_id %>
