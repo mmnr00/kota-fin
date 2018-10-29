@@ -27,6 +27,7 @@ document.addEventListener("turbolinks:load",function(){
 	$('.rating-star').click(function(){
 		var star = $(this);
 		var data_form = $(this).attr('data-form');
+		var data_field = $(this).attr('data-field');
 		var stars = $(this).attr('data-stars');
 
 		for (i=1;i<=5;i++){
@@ -39,6 +40,15 @@ document.addEventListener("turbolinks:load",function(){
 			}
 		}
 
+		$('#' + data_field).val(stars);
+		//$('#' + 'rating' + '_' + data_form).val(stars);
+/*
+		$.ajax({
+			type: "POST"
+			url: $('#' + 'rating' + '_' + data_form).attr('action'),
+			data: $('#' + 'rating' + '_' + data_form).serialize()
+		});
+*/
 	});
 });
 

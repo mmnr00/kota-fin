@@ -30,7 +30,9 @@
                             parents_pay_bill_path(id: @parent.id, 
                                                   kid: bill.kid.id, 
                                                   bill: bill.id,
-                                                  bill_id: bill.bill_id),  
+                                                  bill_id: bill.bill_id,
+                                                  classroom_id: bill.kid.classroom.id,
+                                                  taska_id: bill.kid.classroom.taska.id),  
                             class: "btn btn-xs btn-danger active"%></td>
           </tr>
         </tbody>
