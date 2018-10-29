@@ -21,8 +21,8 @@ Rails.application.routes.draw do
   get 'parent_index', to: 'parents#index', as: 'parent_index'
   get '/parent/:id/view_receipt', to: 'parents#view_receipt', as: 'view_receipt'
   get '/parent/:id/individual_bill', to: 'parents#individual_bill', as: 'parents_individual_bill'
-  get '/parent/:id/pay_bill', to: 'parents#parents_pay_bill', as: 'parents_pay_bill'
-  get '/parent/:id/feedback', to: 'parents#parents_feedback', as: 'parents_feedback'
+  get '/pay_bill', to: 'parents#parents_pay_bill', as: 'parents_pay_bill'
+  get '/feedback', to: 'parents#parents_feedback', as: 'parents_feedback'
   #TASKAS
   get '/taska/:id/teachers', to: 'taskas#taskateachers', as: 'taskateachers'
   get '/taska/:id/classroom', to: 'taskas#classrooms_index', as: 'classroom_index'

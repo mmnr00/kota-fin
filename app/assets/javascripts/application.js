@@ -22,7 +22,7 @@
 //$("#finds_expense").trigger('submit');
 //});
 
-
+//function for Star Rating
 document.addEventListener("turbolinks:load",function(){
 	$('.rating-star').click(function(){
 		var star = $(this);
@@ -39,18 +39,12 @@ document.addEventListener("turbolinks:load",function(){
 				$('#' + 'rating' + '_' + data_form + '_' + i).addClass('glyphicon glyphicon-star-empty');
 			}
 		}
-
 		$('#' + data_field).val(stars);
-		//$('#' + 'rating' + '_' + data_form).val(stars);
-/*
-		$.ajax({
-			type: "POST"
-			url: $('#' + 'rating' + '_' + data_form).attr('action'),
-			data: $('#' + 'rating' + '_' + data_form).serialize()
-		});
-*/
+		$('#' + 'feedback').val(stars);
 	});
 });
+
+//function for Yes
 
 
 

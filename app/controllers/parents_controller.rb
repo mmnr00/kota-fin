@@ -22,13 +22,14 @@ class ParentsController < ApplicationController
 	end
 
 	def parents_pay_bill
-		@kid = Kid.find(params[:kid])
+
 		@bill = Payment.find(params[:bill])
 		month = @bill.bill_month
+		if (params[:dofeed] != "1"); redirect_to "#{$billplz}bills/#{params[:bill_id]}" end
+		@kid = Kid.find(params[:kid])
 		current_user = current_parent
 		@feedback = Feedback.new
 		#feedback will be only on every quarter
-		if month % 3 != 0 ; redirect_to "#{$billplz}bills/#{params[:bill_id]}" end
 
 
 	end

@@ -16,7 +16,7 @@
           <th>MONTH</th>
           <th>YEAR</th>
           <th>AMOUNT</th>
-          <th>FEEDBACK</th>
+          <th>FEEDBACK?</th>
           <th>ACTION</th>
         </tr>
       </thead>
@@ -28,26 +28,15 @@
             <td><%= bill.bill_month %></td>
             <td><%= bill.bill_year %></td>
             <td><%= bill.amount %></td>
-            <%= form_tag parents_pay_bill_path, method: :get, id: "find_bills_for_parents" do %>
-              <%= hidden_field_tag :id, @parent.id %>
-              <%= hidden_field_tag :kid, bill.kid.id %>
-              <%= hidden_field_tag :bill, bill.id %>
-              <%= hidden_field_tag :bill_id, bill.bill_id %>
-              <%= hidden_field_tag :classroom_id, bill.kid.classroom.id %>
-              <%= hidden_field_tag :taska_id, bill.kid.classroom.taska.id %>
-              <% if bill.bill_month % 3 == 0 %>
-                <%= hidden_field_tag :dofeed, "1" %>
-                <td> Available </td>
-              <% else %>
-                <td><%= check_box_tag :dofeed %> Yes</td>
-              <% end %>
-              <td><%= button_tag(type: :submit, 
-                         class: "btn btn-s btn-danger", 
-                         id: "submit_expense") do %>
-                    <i class="fa fa-search"></i> Pay Bills
-                  <% end %>
-              </td>
-            <% end %>
+            <td><input type="checkbox" id="feedback"> Yes</td>
+            <td><%= link_to "PAY BILLS", 
+                            parents_pay_bill_path(id: @parent.id, 
+                                                  kid: bill.kid.id, 
+                                                  bill: bill.id,
+                                                  bill_id: bill.bill_id,
+                                                  classroom_id: bill.kid.classroom.id,
+                                                  taska_id: bill.kid.classroom.taska.id),  
+                            class: "btn btn-xs btn-danger active"%></td>
           </tr>
         </tbody>
       <% end %>
