@@ -42,6 +42,7 @@ class ParentsController < ApplicationController
                                         bill: params[:bill],
                                         bill_id: params[:bill_id],
                                         classroom_id: params[:classroom_id],
+                                        dofeed: "1",
                                         taska_id: params[:taska_id])
 		else 
 			f_taska = Feedback.create(rating: params[:taska_rating],
