@@ -1,6 +1,6 @@
 class ParentsController < ApplicationController
 	before_action :authenticate_parent!
-	before_action :set_parent, only: [:index,:view_receipt]
+	before_action :set_parent
 	#$quarter = 3 || 6 || 9 || 12
 
 
@@ -34,12 +34,24 @@ class ParentsController < ApplicationController
 	end
 
 	def parents_feedback
-		f_taska = Feedback.create(rating: params[:taska_rating], 
-															taska_id: params[:taska_id])
-		f_classroom = Feedback.create(rating: params[:classroom_rating], 
-																	classroom_id: params[:classroom_id])
-		flash[:success] = "Thanks for the feedback"
-		redirect_to "#{$billplz}bills/#{params[:bill_id]}"
+		if (!params[:taska_rating].present? || !params[:classroom_rating].present?)
+			flash[:danger] = "Please provide rating for both Taska & Classroom"
+			redirect_to parents_pay_bill_path(id: @parent.id, 
+                                        kid: params[:kid], 
+                                        bill: params[:bill],
+                                        bill_id: params[:bill_id],
+                                        classroom_id: params[:classroom_id],
+                                        taska_id: params[:taska_id])
+		else 
+			f_taska = Feedback.create(rating: params[:taska_rating],
+																review: params[:taska_review], 
+																taska_id: params[:taska_id])
+			f_classroom = Feedback.create(rating: params[:classroom_rating],
+																		review: params[:classroom_review],  
+																		classroom_id: params[:classroom_id])
+			flash[:success] = "Thanks for the feedback"
+			redirect_to "#{$billplz}bills/#{params[:bill_id]}"
+		end
 	end
 
 

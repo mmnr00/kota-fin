@@ -18,6 +18,7 @@
                 </h1>
               <% end %>
               <%= hidden_field_tag :"#{data_field}" %>
+              <%= text_area_tag :taska_review %>
         </div>
 
         <div class="col-md-12">
@@ -33,12 +34,15 @@
                 </h1>
               <% end %>
               <%= hidden_field_tag :"#{data_field}" %>
+              <%= text_area_tag :classroom_review %>
         </div>
 
             <div>
                   <%= hidden_field_tag :classroom_id, params[:classroom_id] %>
                   <%= hidden_field_tag :taska_id, params[:taska_id] %>
                   <%= hidden_field_tag :bill_id, params[:bill_id] %>
+                  <%= hidden_field_tag :bill, params[:bill] %>
+                  <%= hidden_field_tag :kid, params[:kid] %>
             </div></br></br>
 
         </div>
