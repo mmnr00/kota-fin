@@ -44,7 +44,15 @@ document.addEventListener("turbolinks:load",function(){
 	});
 });
 
-//function for Yes
+$(document).ready(function(){
+  var formData = $("#finds_expense").serialize();
+  $.ajax({
+   url: 'expenses_search',
+   data: formData,
+   type: 'GET',
+   contentType: 'application/script'
+  });
+});
 
 
 
