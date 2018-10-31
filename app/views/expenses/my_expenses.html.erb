@@ -23,7 +23,7 @@
               <tbody>
                 <tr>
                   <td><%= year %></td><!-- year -->
-                  <td><%= month %></td><!-- month -->
+                  <td><%= $month_name[month] %></td><!-- month -->
                   <td><%= @taska_bills_paid_order.where(bill_month: month).where(bill_year: year).sum("amount") - @taska_expenses_order.where(month: month).where(year: year).sum("cost")  %></td><!-- nett income -->
                   <td><%= @taska_expenses_order.where(month: month).where(year: year).sum("cost")  %></td><!-- total expense -->
                   <td><%= @taska_bills_paid_order.where(bill_month: month).where(bill_year: year).sum("amount") %></td><!-- total bills paid -->
