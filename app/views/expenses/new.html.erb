@@ -37,7 +37,7 @@
 								<%= f.label :year %>
 							</div>
 							<div class="col-sm-4">
-								<%= f.select :year, Date.today.year.. 8.years.from_now.year, rows: 10, class: "form-control", placeholder: "Month" %> <!-- Default current year -->
+								<%= f.select :year, 2017..2024, rows: 10, class: "form-control", placeholder: "Month" %> <!-- Default current year Date.today.year.. 8.years.from_now.year-->
 							</div>						
 						</div>
 					</div>

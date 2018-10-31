@@ -15,7 +15,33 @@ class ExpensesController < ApplicationController
 	end
 
 	def my_expenses
+		@taska = Taska.find(params[:id])
 
+		expense_year_max = @taska.expenses.maximum("year")
+		payment_year_max = @taska.payments.maximum("bill_year")
+		expense_year_min = @taska.expenses.minimum("year")
+		payment_year_min = @taska.payments.minimum("bill_year")
+
+		if expense_year_max >= payment_year_max
+			@year_max = expense_year_max
+		else
+			@year_max = payment_year_max
+		end
+
+		if expense_year_min <= payment_year_min
+			@year_min = expense_year_min
+		else
+			@year_min = payment_year_min
+		end
+
+		taska_expenses_raw = @taska.expenses
+		@taska_expenses_order = taska_expenses_raw.order("year ASC").order("month ASC")
+
+		taska_bills_paid_raw = @taska.payments.where(paid: true)
+		@taska_bills_paid_order = taska_bills_paid_raw.order("bill_year ASC").order("bill_month ASC")
+
+		taska_bills_due_raw = @taska.payments.where(paid: false)
+		@taska_bills_due_order = taska_bills_due_raw.order("bill_year ASC").order("bill_month ASC")
 
 	end
 

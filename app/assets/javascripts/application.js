@@ -43,7 +43,7 @@ document.addEventListener("turbolinks:load",function(){
 		$('#' + 'feedback').val(stars);
 	});
 });
-
+/*
 $(document).ready(function(){
   var formData = $("#finds_expense").serialize();
   $.ajax({
@@ -53,6 +53,7 @@ $(document).ready(function(){
    contentType: 'application/script'
   });
 });
+*/
 
 
 

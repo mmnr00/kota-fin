@@ -90,6 +90,7 @@ class PaymentsController < ApplicationController
     @payment.bill_year = params[:payment][:year]
     @payment.kid_id = params[:payment][:kid_id]
     @payment.parent_id = @kid.parent.id
+    @payment.taska_id = @kid.classroom.taska.id
     @payment.state = data["state"]
     @payment.paid = data["paid"]
     @payment.bill_id = data["id"]

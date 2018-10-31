@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_26_033605) do
+ActiveRecord::Schema.define(version: 2018_10_31_005853) do
 
   create_table "admins", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -38,9 +38,9 @@ ActiveRecord::Schema.define(version: 2018_10_26_033605) do
     t.decimal "cost"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "month"
-    t.string "year"
     t.integer "taska_id"
+    t.integer "month"
+    t.integer "year"
   end
 
   create_table "feedbacks", force: :cascade do |t|
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 2018_10_26_033605) do
     t.integer "kid_id"
     t.float "amount"
     t.integer "parent_id"
+    t.integer "taska_id"
   end
 
   create_table "taska_admins", force: :cascade do |t|

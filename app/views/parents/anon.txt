@@ -1,0 +1,53 @@
+
+
+    <% form_id = "movie_#{movie.id}_rating" %>
+      <%= form_for movie.ratings.last || movie.ratings.build, :html => {:id => "movie_#{movie.id}_rating}" do |f|%>
+      <%= f.hidden_field :movie_id %>
+      <%= f.hidden_field :stars, :id => "#{form_id}_stars" %>
+      <% end %>
+
+
+<h2>Paying bills for <%= @kid.name %></h2>
+<p>Please provide ratings and reviews before proceeding with payment</p></br>
+
+<div id="month-lookup"> <!-- From Finance Tracker views/users/myportfolio.html  -->
+    <%= form_tag parents_feedback_path, method: :get, id: "find_bills_for_parents" do %>
+      <div class="form-group row no-padding col-md-8">
+          <h1>TASKA CERIA</h1>
+              <% (1..5).each do |i| %>
+                <h1 id="rating_star_<%= i %>" data-stars="<%= i %>" class="rating glyphicon glyphicon-star-empty"></h1>
+                <%= hidden_field_tag :taska_rating, data-stars %>
+              <% end %>
+
+            <div class="col-md-8">
+            	<h4>FEEDBACK FOR <%= @kid.classroom.taska.name %></h4>
+            	Rating</br>
+              <%= select_tag :taska_rating, 
+                options_for_select((1..5).step(1))%>
+
+            </div></br></br></br></br></br>
+
+            <div class="col-md-8">
+            	<h4>FEEDBACK FOR <%= @kid.classroom.classroom_name %></h4>
+            	Rating</br>
+              <%= select_tag :classroom_rating, 
+                options_for_select((1..5).step(1)),
+                required: true %>
+            </div></br></br>
+
+            <div>
+                  <%= hidden_field_tag :classroom_id, params[:classroom_id] %>
+                  <%= hidden_field_tag :taska_id, params[:taska_id] %>
+                  <%= hidden_field_tag :bill_id, params[:bill_id] %>
+            </div></br></br>
+
+        </div>
+            <div class="col-md-8">
+              <%= button_tag(type: :submit, 
+              				 class: "btn btn-xs btn-success", 
+              				 id: "submit_expense") do %>
+                  <i class="fa fa-search"></i> Proceed to Pay
+              <% end %>
+          </div>
+    <%end%>
+  </div>
