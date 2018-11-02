@@ -1,44 +1,11 @@
 <h3>EXPENSES SUMMARY FOR <%= @taska.name %></h3></br>
 
-<% if @taska_expenses_order.present? || @taska_bills_paid_order.present? || @taska_bills_due_order.present? %>
-    <table class="table table-striped table-bordered">
-      <thead>     
-        <tr>
-          <th>YEAR</th>
-          <th>MONTH</th>
-          <th>NETT INCOME(RM)</th>
-          <th>TOTAL EXPENSE(RM)</th>
-          <th>TOTAL BILLS PAID</th>
-          <th>TOTAL BILLS DUE</th>
-        </tr>
-      </thead>
-      <% (@year_min..@year_max).each do |year| %>
-        <% if @taska_expenses_order.where(year: year).present? || 
-              @taska_bills_paid_order.where(bill_year: year).present? ||
-              @taska_bills_due_order.where(bill_year: year).present? %>
-          <% (1..12).each do |month| %>
-            <% if @taska_expenses_order.where(month: month).where(year: year).present? || 
-              @taska_bills_paid_order.where(bill_month: month).where(bill_year: year).present? ||
-              @taska_bills_due_order.where(bill_month: month).where(bill_year: year).present? %>
-              <tbody>
-                <tr>
-                  <td><%= year %></td><!-- year -->
-                  <td><%= $month_name[month] %></td><!-- month -->
-                  <td><%= @taska_bills_paid_order.where(bill_month: month).where(bill_year: year).sum("amount") - @taska_expenses_order.where(month: month).where(year: year).sum("cost")  %></td><!-- nett income -->
-                  <td><%= @taska_expenses_order.where(month: month).where(year: year).sum("cost")  %></td><!-- total expense -->
-                  <td><%= @taska_bills_paid_order.where(bill_month: month).where(bill_year: year).sum("amount") %></td><!-- total bills paid -->
-                  <td><%= @taska_bills_due_order.where(bill_month: month).where(bill_year: year).sum("amount") %></td><!-- total bills due -->
-                </tr>
-              </tbody>
-            <% end %>
-          <% end %>
-        <% end %>
-      <% end %>
-    </table>
-  
-
+<% if @data.present? %>
+  <% @data %>
+  <% @dummy = {["payment","2017"]=>{["paid","2017"]=>130,["due","2017"]=>120},["payment","2018"]=>{["paid","2018"]=>130,["due","2018"]=>120}} %>
+  <%= column_chart @data, download: true, colors: ["red", "blue", "orange", "green"] %>
 <% else %>
-  No information to display
+  No Data to Display
 <% end %>
 
 

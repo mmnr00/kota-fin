@@ -1,61 +1,37 @@
 <h1> Welcome back <strong><%= @parent.username %></strong>!  </h1>
 
-  <%= link_to "Register New Children", new_kid_path(@parent.id), class: "btn btn-xs btn-primary active"%> <%= link_to "View Payments Receipts", view_receipt_path(@parent), class: "btn btn-xs btn-success active"%></br></br>
-<div class="results-block col-md-12">
-	<caption><h3>VIEWING PENDING BILLS</h3></caption>
-  <p> Click <strong>YES</strong> in the feedback column if you want to rate and review</p>
-</div>  
+<%= link_to "Register New Children", new_kid_path(@parent.id), class: "btn btn-xs btn-primary active"%> <%= link_to "View Payments Receipts", view_receipt_path(@parent), class: "btn btn-xs btn-success active"%></br></br>
 
+<div class="col-md-12">
 <% if @unpaid_bills.present? %>
-  <div class="results-block col-md-12">
-    <%= form_tag parents_pay_bill_path(@parent), method: :get, id: "find_bills_for_parents" do %>
-      <table class="table table-striped table-bordered">
-        <thead>     
-          <tr>
-            <th>CHILDREN NAME</th>
-            <th>TASKA NAME</th>
-            <th>MONTH</th>
-            <th>YEAR</th>
-            <th>AMOUNT</th>
-            <th>FEEDBACK</th>
-            <th>ACTION</th>
-          </tr>
-        </thead>
-        <% @unpaid_bills.each do |bill| %>
-          <tbody>
-            <tr>
-              <td><%= bill.kid.name %></td>
-              <td><%= bill.kid.classroom.taska.name %></td>
-              <td><%= bill.bill_month %></td>
-              <td><%= bill.bill_year %></td>
-              <td><%= bill.amount %></td>
-              
-                <%= hidden_field_tag :id, @parent %>
-                <%= hidden_field_tag :kid, bill.kid.id %>
-                <%= hidden_field_tag :bill, bill.id %>
-                <%= hidden_field_tag :bill_id, bill.bill_id %>
-                <%= hidden_field_tag :classroom_id, bill.kid.classroom.id %>
-                <%= hidden_field_tag :taska_id, bill.kid.classroom.taska.id %>
-                <% if bill.bill_month % 3 == 0 %>
-                  <%= hidden_field_tag :dofeed, "1" %>
-                  <td> Available </td>
-                <% else %>
-                  <td><%= check_box_tag :dofeed %> Yes</td>
-                <% end %>
-                <td><%= button_tag(type: :submit, 
-                           class: "btn btn-s btn-danger", 
-                           id: "submit_expense") do %>
-                      <i class="fa fa-search"></i> Pay Bills
-                    <% end %>
-                </td>
-              
-            </tr>
-          </tbody>
-        <% end %>
-      </table>
-    <% end %>
-  </div>
-
+  <% @unpaid_bills.each do |bill| %>
+    <div class="col-md-3 border border-primary">
+      <h3><strong>RM<%= bill.amount %></strong></h3>
+      <p>Name: <strong><%= bill.kid.name %></strong></p>
+      <p>Taska: <strong><%= bill.kid.classroom.taska.name %></strong></p>
+      <p>Month: <strong><%= $month_name[bill.bill_month] %></strong></p>
+      <p>Year: <strong><%= bill.bill_year %></strong></p>
+      <%= form_tag parents_pay_bill_path(@parent), method: :get, id: "find_bills_for_parents" do %>
+        <%= hidden_field_tag :id, @parent %>
+        <%= hidden_field_tag :kid, bill.kid.id %>
+        <%= hidden_field_tag :bill, bill.id %>
+        <%= hidden_field_tag :bill_id, bill.bill_id %>
+        <%= hidden_field_tag :classroom_id, bill.kid.classroom.id %>
+        <%= hidden_field_tag :taska_id, bill.kid.classroom.taska.id %>
+        <% if bill.bill_month % 3 == 0 %>
+          <%= hidden_field_tag :dofeed, "1" %>
+            <p> Feedback Available <p>
+          <% else %>
+            <p><%= check_box_tag :dofeed %> Tick here to perform feedback </p>
+          <% end %>
+        <%= button_tag(type: :submit, class: "btn btn-s btn-danger", id: "submit_expense") do %>
+                        <i class="fa fa-search"></i> Pay Bills
+                      <% end %>
+      <% end %>
+    </div>
+  <% end %>
 <% else %>
   NO UNPAID BILLS
 <% end %>
+</div>
+

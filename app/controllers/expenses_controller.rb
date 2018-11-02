@@ -16,6 +16,108 @@ class ExpensesController < ApplicationController
 
 	def my_expenses
 		@taska = Taska.find(params[:id])
+		@data = Hash.new
+
+		expense_year_min = @taska.expenses.minimum("year")
+		payment_year_min = @taska.payments.minimum("bill_year")
+		paid_year_min = @taska.payments.where(paid: true).minimum("bill_year")
+		expense_month_min = @taska.expenses.minimum("month")
+		payment_month_min = @taska.payments.minimum("bill_month")
+		paid_month_min = @taska.payments.where(paid: true).minimum("bill_month")
+
+		if expense_year_min <= payment_year_min
+			year = expense_year_min
+			month = expense_month_min
+		else
+			year = payment_year_min
+			month = payment_month_min
+		end
+
+		@data = {["Expense", "#{month}-#{year}"]=>0}
+
+		@raw_expense = @taska.expenses.order("year ASC").order("month ASC")
+		@raw_due = @taska.payments.where(paid: false).order("bill_year ASC").order("bill_month ASC")
+		@raw_paid = @taska.payments.where(paid: true).order("bill_year ASC").order("bill_month ASC")
+		@raw_paid.each do |paid|
+			if @data[["Paid","#{paid.bill_month}-#{paid.bill_year}"]].present?
+				@data[["Paid","#{paid.bill_month}-#{paid.bill_year}"]] = @data[["Paid","#{paid.bill_month}-#{paid.bill_year}"]]+paid.amount
+			else
+				@data[["Paid","#{paid.bill_month}-#{paid.bill_year}"]] = paid.amount
+			end
+		end
+
+		@raw_due.each do |due|
+			if @data[["Due","#{due.bill_month}-#{due.bill_year}"]].present?
+				@data[["Due","#{due.bill_month}-#{due.bill_year}"]] = @data[["Due","#{due.bill_month}-#{due.bill_year}"]]+due.amount
+			else
+				@data[["Due","#{due.bill_month}-#{due.bill_year}"]] = due.amount
+			end
+		end
+
+		@raw_expense.each do |e|
+			if @data[["Expense","#{e.month}-#{e.year}"]].present?
+				@data[["Expense","#{e.month}-#{e.year}"]] = @data[["Expense","#{e.month}-#{e.year}"]]-e.cost
+			else
+				@data[["Expense","#{e.month}-#{e.year}"]] = -e.cost
+			end
+		end
+
+		expense_year_max = @taska.expenses.maximum("year")
+		paid_year_max = @taska.payments.where(paid: true).maximum("bill_year")
+
+		if expense_year_max >= paid_year_max
+			year_max = expense_year_max
+			year_min = paid_year_max
+		else
+			year_max = paid_year_max
+			year_min = expense_year_max
+		end
+
+		(year_max..year_min).each do |yr|
+			(1..12).each do |mon|
+				if @data[["Expense","#{mon}-#{yr}"]].present? && @data[["Paid","#{mon}-#{yr}"]].present?
+					@data[["Profit","#{mon}-#{yr}"]] = @data[["Paid","#{mon}-#{yr}"]] + @data[["Expense","#{mon}-#{yr}"]]
+				elsif !@data[["Expense","#{mon}-#{yr}"]].present? && @data[["Paid","#{mon}-#{yr}"]].present?
+					@data[["Profit","#{mon}-#{yr}"]] = @data[["Paid","#{mon}-#{yr}"]]
+				elsif @data[["Expense","#{mon}-#{yr}"]].present? && !@data[["Paid","#{mon}-#{yr}"]].present?
+					@data[["Profit","#{mon}-#{yr}"]] = @data[["Expense","#{mon}-#{yr}"]]
+				end	
+			end
+		end
+		
+
+
+		
+
+	end
+
+	def my_expenses_old
+
+		if expense_year_min <= payment_year_min
+			@raw_expense.each do |e|
+				paid_similar = @taska.payments.where(paid: true).where(bill_month: e.month).where(bill_year: e.year)
+				if paid_similar.present?
+					paid_similar.each do |paid|
+						if @data[["Profit","#{paid.bill_month}-#{paid.bill_year}"]].present?
+							@data[["Profit","#{paid.bill_month}-#{paid.bill_year}"]] = @data[["Profit","#{paid.bill_month}-#{paid.bill_year}"]]+paid.amount
+						else
+							@data[["Profit","#{paid.bill_month}-#{paid.bill_year}"]] = paid.amount-e.cost
+						end
+					end
+				else
+				end
+			end
+		else
+			@raw_paid.each do |paid|
+				if @data[["Profit","#{paid.bill_month}-#{paid.bill_year}"]].present?
+					#@data[["Profit","#{paid.bill_month}-#{paid.bill_year}"]] = @data[["Profit","#{paid.bill_month}-#{paid.bill_year}"]]+paid.amount
+				else
+					#@data[["Profit","#{paid.bill_month}-#{paid.bill_year}"]] = paid.amount
+				end
+			end
+		end
+
+		@taska = Taska.find(params[:id])
 
 		expense_year_max = @taska.expenses.maximum("year")
 		payment_year_max = @taska.payments.maximum("bill_year")

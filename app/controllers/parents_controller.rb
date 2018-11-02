@@ -6,8 +6,8 @@ class ParentsController < ApplicationController
 
 	def index
 		@parent = current_parent
-		@mykids = @parent.kids.order('updated_at DESC')
-		@unpaid_bills = @parent.payments.where(paid: false)
+		#@mykids = @parent.kids.order('updated_at DESC')
+		@unpaid_bills = @parent.payments.where(paid: false).order("bill_month DESC")
 	end
 
 	def view_receipt
@@ -24,11 +24,14 @@ class ParentsController < ApplicationController
 	def parents_pay_bill
 
 		@bill = Payment.find(params[:bill])
-		month = @bill.bill_month
-		if (params[:dofeed] != "1"); redirect_to "#{$billplz}bills/#{params[:bill_id]}" end
-		@kid = Kid.find(params[:kid])
-		current_user = current_parent
-		@feedback = Feedback.new
+		#month = @bill.bill_month
+		if (params[:dofeed] != "1")
+			redirect_to "#{$billplz}bills/#{@bill.bill_id}" 
+		else
+			@kid = Kid.find(params[:kid])
+			current_user = current_parent
+			@feedback = Feedback.new
+		end
 		#feedback will be only on every quarter
 
 
