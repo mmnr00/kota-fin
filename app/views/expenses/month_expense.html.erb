@@ -4,7 +4,7 @@
 
 <h3 align="center">PROFIT(RM): <strong><%= @data["Profit"] %></strong></h3>
 EXPENSE(RM): <strong><%= link_to "#{@data["Expense"]}", root_path %></strong></br>
-PAID(RM): <strong>RM <%= @data["Paid"] %></strong></br>
-DUE(RM): <strong>RM <%= @data["Due"]  %></strong></br></br>
+PAID(RM): <strong><%= @data["Paid"] %></strong></br>
+DUE(RM): <strong><%= @data["Due"]  %></strong></br></br>
 
 <%= link_to "Back to Summary", my_expenses_path, class: "btn btn-xs btn-success active" %>
