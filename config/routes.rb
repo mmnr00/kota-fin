@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   get '/taska/:id/expenses_search', to: 'expenses#search', as: 'search_expense'
   get '/taska/:id/expenses', to: 'expenses#my_expenses', as: 'my_expenses'
   get '/taska/:id/expenses/new', to: 'expenses#new', as: 'new_expense'
+  get '/taska/:id/expenses/month_expense', to: 'expenses#month_expense', as: 'month_expense'
   #KIDS
   get '/parent/:id/kids/new', to: 'kids#new', as: 'new_kid'
   get '/classroom/:id/search_kid', to: 'kids#search', as: 'search_kid'

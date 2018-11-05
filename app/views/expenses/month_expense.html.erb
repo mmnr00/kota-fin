@@ -1,0 +1,10 @@
+<h4> Account Summary for <strong><%= @month %>-<%= params[:year] %></strong></h4>
+
+<%= column_chart @data, download: "Account Report for #{@taska.name}", colors: ["green", "blue", "orange", "green"], prefix: "RM " %>
+
+<h3 align="center">PROFIT(RM): <strong><%= @data["Profit"] %></strong></h3>
+EXPENSE(RM): <strong><%= link_to "#{@data["Expense"]}", root_path %></strong></br>
+PAID(RM): <strong>RM <%= @data["Paid"] %></strong></br>
+DUE(RM): <strong>RM <%= @data["Due"]  %></strong></br></br>
+
+<%= link_to "Back to Summary", my_expenses_path, class: "btn btn-xs btn-success active" %>

@@ -3,7 +3,50 @@
 <% if @data.present? %>
   <% @data %>
   <% @dummy = {["payment","2017"]=>{["paid","2017"]=>130,["due","2017"]=>120},["payment","2018"]=>{["paid","2018"]=>130,["due","2018"]=>120}} %>
-  <%= column_chart @data, download: true, colors: ["red", "blue", "orange", "green"] %>
+  <%= column_chart @data, download: "Account Report for #{@taska.name}", colors: ["red", "blue", "orange", "green"], points: true, prefix: "RM " %></br>
+
+  <div id="Expenses-Summary" class="col-md-12">        
+    <table class="table table-striped">
+      </br></br>
+      <caption><h4> Expenses Ledger for <%= @taska.name %></h4></caption>
+
+      <thead>
+        <%= link_to "Create New Expense for #{$month_name[Date.today.month]}-#{Date.today.year}", new_expense_path(params[:id], year: Date.today.year, month: Date.today.month), class: "btn btn-xs btn-primary active" %>
+        <tr>
+          <th>MONTH-YEAR</th>
+          <th>NETT PROFIT (RM)</th>
+          <th>TOTAL EXPENSES (RM)</th>
+          <th>TOTAL PAID (RM)</th>
+          <th>TOTAL DUE (RM)</th>
+        </tr>
+      </thead>
+      <% (@year_min_view..@year_max_view).each do |yr| %> 
+        <% (1..12).each do |mon| %>
+          <% if @data[["Expense", "#{$month_name[mon]}-#{yr}"]].present? || @data[["Profit", "#{$month_name[mon]}-#{yr}"]] || @data[["Due", "#{$month_name[mon]}-#{yr}"]] || @data[["Paid", "#{$month_name[mon]}-#{yr}"]].present? %>
+
+            <tbody>
+              <tr>
+                <td><strong><%= link_to "#{$month_name[mon]}-#{yr}", month_expense_path(params[:id], month: mon, year: yr), class: "btn btn-xs btn-primary active" %></strong></td>
+                <% if @data[["Profit", "#{$month_name[mon]}-#{yr}"]] > 0 %>
+                  <td bgcolor="green"><font color="white" align="center"><h5 align="center"><%= @data[["Profit", "#{$month_name[mon]}-#{yr}"]] %></h5></font></td> <!-- Profit -->
+                <% elsif @data[["Profit", "#{$month_name[mon]}-#{yr}"]] == 0 %>
+                  <td bgcolor="orange"><font color="white" align="center"><h5 align="center"><%= @data[["Profit", "#{$month_name[mon]}-#{yr}"]] %></h5></font></td> <!-- Profit -->
+                <% else %>
+                  <td bgcolor="red"><font color="white" align="center"><h5 align="center"><%= @data[["Profit", "#{$month_name[mon]}-#{yr}"]] %></h5></font></td> <!-- Profit -->
+                <% end %>
+                <td><p align="center"><%= -1*@data[["Expense", "#{$month_name[mon]}-#{yr}"]] %></p></td> <!-- Expense -->
+                <td><p align="center"><%= @data[["Paid", "#{$month_name[mon]}-#{yr}"]] %></td> <!-- Paid -->
+                <td><p align="center"><%= @data[["Due", "#{$month_name[mon]}-#{yr}"]] %></td> <!-- Due -->           
+              </tr>
+            </tbody>
+
+          <% end %>
+        <% end %>
+      <% end %>
+    </table>
+  </div>
+
+
 <% else %>
   No Data to Display
 <% end %>
