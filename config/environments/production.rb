@@ -9,7 +9,7 @@ Rails.application.configure do
   # and those relying on copy on write to perform better.
   # Rake tasks automatically ignore this option for performance.
   config.eager_load = true
-  config.secret_key_base = ENV["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDlxnvkZBh6bVPH9uYjsJDLzz1QWUcy8+BZ13bG3nH7cfSJ7Sd8X+jtOpxcnZmY0kKUVswov/cHDCyhIHhJUhoTNzMQ3P4mCjaFyw3C/C6bz7T1kBoqBEXXtAJyCoTq1T7UpscCINGx4tIxIJQWX5zXm3zs1+mSu4d3hs1FVWUJR+xJQuCFIe4hOzsBXtlJrkkq48hXTwOZ0FZhhP4pSnfM6uM2+71VCwGw6c4Jaz/TKWo5plron9ufYc68ODJhIN/ur1bBzB6mTlb8cIwk0EpcYf0Qqhklo43kLByvR6y5z6PdIfFdaudqyVfhqU7+GLgYrhAOfsOd4TJhrQE3BsLD"]
+  config.secret_key_base ="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDlxnvkZBh6bVPH9uYjsJDLzz1QWUcy8+BZ13bG3nH7cfSJ7Sd8X+jtOpxcnZmY0kKUVswov/cHDCyhIHhJUhoTNzMQ3P4mCjaFyw3C/C6bz7T1kBoqBEXXtAJyCoTq1T7UpscCINGx4tIxIJQWX5zXm3zs1+mSu4d3hs1FVWUJR+xJQuCFIe4hOzsBXtlJrkkq48hXTwOZ0FZhhP4pSnfM6uM2+71VCwGw6c4Jaz/TKWo5plron9ufYc68ODJhIN/ur1bBzB6mTlb8cIwk0EpcYf0Qqhklo43kLByvR6y5z6PdIfFdaudqyVfhqU7+GLgYrhAOfsOd4TJhrQE3BsLD"
 
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false
