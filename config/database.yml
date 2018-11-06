@@ -26,5 +26,5 @@ production:
   database: mus-kidcare-sgp1
   pool: 5
   username: mus-kidcare-sgp1
-  password:
+  password: Geometr3
   timeout: 5000
