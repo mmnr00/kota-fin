@@ -23,8 +23,8 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: demo_test_test
+  database: mus-kidcare-sgp1
   pool: 5
-  username: dave
+  username: mus-kidcare-sgp1
   password:
   timeout: 5000
