@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   # For dtails on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   #ADMINS
   get 'admin_index', to: 'admins#index'
+  get 'webarch', to: 'admins#webarch'
   #TEACHERS
   get 'teacher_index', to: 'teachers#index'
   get '/taska/:id/search_teacher', to: 'teachers#search', as: 'search_teacher'

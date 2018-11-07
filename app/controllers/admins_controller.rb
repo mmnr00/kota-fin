@@ -11,5 +11,8 @@ class AdminsController < ApplicationController
 
 	end
 
+	def webarch
+	end
+
 	
 end
