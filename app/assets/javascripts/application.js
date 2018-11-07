@@ -16,6 +16,16 @@
 //= require activestorage
 //= require Chart.bundle
 //= require chartkick
+//= require pace/pace.min
+//= require jquery_ujs
+//= require bootstrapv3/js/bootstrap.min
+//= require jquery-block-ui/jqueryblockui.min
+//= require jquery-unveil/jquery.unveil.min
+//= require jquery-scrollbar/jquery.scrollbar.min
+//= require jquery-numberAnimate/jquery.animateNumbers
+//= require jquery-validation/js/jquery.validate.min
+//= require bootstrap-select2/select2.min
+//= require js/webarch
 //= require turbolinks
 //= require_tree .
 
