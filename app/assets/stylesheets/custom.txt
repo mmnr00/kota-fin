@@ -8,5 +8,5 @@
  *= require_self
  */
 
- from application.js
+from application.js
 //= require twitter/bootstrap
