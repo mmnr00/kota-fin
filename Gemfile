@@ -9,6 +9,7 @@ gem 'rails', '~> 5.2.1'
 
 gem 'devise'
 gem 'bootstrap-sass'
+gem 'bootstrap'
 #gem 'twitter-bootstrap-rails'
 gem 'jquery-rails'
 #gem 'devise-bootstrap-views'
