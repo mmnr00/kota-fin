@@ -8,8 +8,6 @@ gem 'rails', '~> 5.2.1'
 # Use sqlite3 as the database for Active Record
 
 gem 'devise'
-gem 'bootstrap-sass'
-gem 'bootstrap'
 #gem 'twitter-bootstrap-rails'
 gem 'jquery-rails'
 #gem 'devise-bootstrap-views'
@@ -20,7 +18,8 @@ gem 'chartkick'
 # Use SCSS for stylesheets
 #gem 'sass-rails', '~> 3.2.6'
 #gem 'sass', '~> 3.2.0'
-gem 'sass-rails', '~> 5.0'
+gem 'bootstrap-sass'
+#gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
