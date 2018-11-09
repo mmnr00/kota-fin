@@ -15,6 +15,11 @@ gem 'jquery-rails'
 gem 'puma', '~> 3.11'
 gem 'httparty'
 gem 'chartkick'
+#new from webarch
+gem 'execjs'
+gem 'therubyracer'
+gem "less-rails"
+
 # Use SCSS for stylesheets
 #gem 'sass-rails', '~> 3.2.6'
 #gem 'sass', '~> 3.2.0'

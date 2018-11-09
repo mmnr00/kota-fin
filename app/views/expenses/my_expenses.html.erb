@@ -1,9 +1,52 @@
 <h3>EXPENSES SUMMARY FOR <%= @taska.name %></h3></br>
 
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta charset="utf-8" />
+    <title>Webarch - Responsive Admin Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <!-- BEGIN PLUGIN CSS -->
+    <link rel="stylesheet" href="/assets/plugins/jquery-ricksaw-chart/css/rickshaw.css" type="text/css" media="screen">
+    <link rel="stylesheet" href="/assets/plugins/jquery-morris-chart/css/morris.css" type="text/css" media="screen">
+    <!-- BEGIN PLUGIN CSS -->
+    <link href="/assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="/assets/plugins/bootstrapv3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/plugins/bootstrapv3/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="/assets/plugins/animate.min.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/plugins/jquery-scrollbar/jquery.scrollbar.css" rel="stylesheet" type="text/css" />
+    <!-- END PLUGIN CSS -->
+    <!-- BEGIN CORE CSS FRAMEWORK -->
+    <link href="/assets/webarch/themes/css/webarch.coporate.css" rel="stylesheet" type="text/css" />
+    <!-- END CORE CSS FRAMEWORK -->
+  </head>
+
 <% if @data.present? %>
+
+  
+    <div class="col-md-12">
+      <div class="grid simple">
+        <div class="grid-title no-border">
+          <h4>Flot <span class="semi-bold">Charts</span></h4>
+          <div class="tools">
+            <a href="javascript:;" class="collapse"></a> 
+            <a href="javascript:;" class="reload"></a>  
+          </div>
+        </div>
+        <div class="grid-body no-border">
+          <h3>Flot <span class="semi-bold">Charts</span></h3>
+          <%= line_chart @data, download: "Account Report for #{@taska.name}", colors: ["red", "blue", "orange", "green"], points: true, prefix: "RM " %></br>
+          <br>
+        </div>
+      </div>
+    </div>
+         
+        
   <% @data %>
   <% @dummy = {["payment","2017"]=>{["paid","2017"]=>130,["due","2017"]=>120},["payment","2018"]=>{["paid","2018"]=>130,["due","2018"]=>120}} %>
-  <%= column_chart @data, download: "Account Report for #{@taska.name}", colors: ["red", "blue", "orange", "green"], points: true, prefix: "RM " %></br>
+  
 
   <div id="Expenses-Summary" class="col-md-12">        
     <table class="table table-striped">

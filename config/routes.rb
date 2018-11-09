@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   #ADMINS
   get 'admin_index', to: 'admins#index'
   get 'webarch', to: 'admins#webarch'
+  get 'webarchv2', to: 'admins#webarchv2'
+
   #TEACHERS
   get 'teacher_index', to: 'teachers#index'
   get '/taska/:id/search_teacher', to: 'teachers#search', as: 'search_teacher'
