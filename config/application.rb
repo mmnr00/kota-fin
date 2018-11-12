@@ -9,7 +9,7 @@ Bundler.require(*Rails.groups)
 module KidcareTaskaV3
   class Application < Rails::Application
     config.load_defaults 5.2
-    config.assets.paths << Rails.root.join("vendor","assets", "fonts")
+    #config.assets.paths << Rails.root.join("vendor","assets", "fonts")
     #config.assets.paths << File.join(Rails.root, '/vendor/webarch-cores')
     #config.assets.paths << File.join(Rails.root, '/vendor/webarch-plugins')
 
