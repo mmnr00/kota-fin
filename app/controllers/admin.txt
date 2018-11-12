@@ -1,0 +1,7 @@
+<% if current_admin %>
+                  <strong><%= link_to "LOGOUT", destroy_admin_session_path, class: "btn btn-xs btn-danger active", method: :delete %></strong>
+                <% elsif current_teacher %>
+                  <strong><%= link_to "LOGOUT", destroy_teacher_session_path, class: "btn btn-xs btn-danger active", method: :delete %></strong>
+                <% else current_parent %>
+                  <strong><%= link_to "LOGOUT", destroy_parent_session_path, class: "btn btn-xs btn-danger active", method: :delete %></strong>
+                <% end %>

@@ -9,8 +9,13 @@ Rails.application.routes.draw do
   devise_for :parents
   devise_for :teachers
   devise_for :admins
-	root 'welcomes#index'
+	root 'welcomes#index2'
+
+
   # For dtails on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+   #WELCOME
+  get 'login', to: 'welcomes#login'
+
   #ADMINS
   get 'admin_index', to: 'admins#index'
   get 'webarch', to: 'admins#webarch'
