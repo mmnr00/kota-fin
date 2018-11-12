@@ -17,8 +17,9 @@
 //= require activestorage
 //= require Chart.bundle
 //= require chartkick
-//= require pace/pace.min
 //= require jquery_ujs
+// Start for WEBARCH
+//= require pace/pace.min
 //= require bootstrapv3/js/bootstrap.min
 //= require jquery-block-ui/jqueryblockui.min
 //= require jquery-unveil/jquery.unveil.min
@@ -27,6 +28,7 @@
 //= require jquery-validation/js/jquery.validate.min
 //= require bootstrap-select2/select2.min
 //= require js/webarch
+// End for  WEBARCH
 //= require turbolinks
 //= require_tree .
 
