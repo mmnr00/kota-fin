@@ -26,7 +26,7 @@
 //= require jquery-numberAnimate/jquery.animateNumbers
 //= require jquery-validation/js/jquery.validate.min
 //= require bootstrap-select2/select2.min
-//= require js/webarch
+// require js/webarch
 //= require turbolinks
 //= require_tree .
 
