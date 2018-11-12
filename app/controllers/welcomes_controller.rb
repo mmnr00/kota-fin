@@ -1,7 +1,7 @@
 class WelcomesController < ApplicationController
 	#before_action :authenticate_admin!
 	
-	#layout "homepage"
+	#layout "page"
 
 	def index
 		

@@ -18,6 +18,7 @@
 //= require Chart.bundle
 //= require chartkick
 //= require jquery_ujs
+
 // Start for WEBARCH
 //= require pace/pace.min
 //= require bootstrapv3/js/bootstrap.min
@@ -29,6 +30,11 @@
 //= require bootstrap-select2/select2.min
 //= require js/webarch
 // End for  WEBARCH
+
+// Start for AGENCY
+// End for AGENCY
+
+
 //= require turbolinks
 //= require_tree .
 
