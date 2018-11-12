@@ -10,25 +10,36 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require pace/pace-theme-flash
- *= require bootstrapv3/css/bootstrap.min
- *= require bootstrapv3/css/bootstrap-theme.min
- *= require font-awesome/css/font-awesome
- *= require animate.min
- *= require jquery-scrollbar/jquery.scrollbar
- *= require css/webarch.css
+ Start for WEBARCH
+ * require pace/pace-theme-flash
+ * require bootstrapv3/css/bootstrap.min
+ * require bootstrapv3/css/bootstrap-theme.min
+ * require font-awesome/css/font-awesome
+ * require animate.min
+ * require jquery-scrollbar/jquery.scrollbar
+ * require css/webarch.css
+ End for WEBARCH
+
+ Start for AGENCY
+ *= require bootstrap/css/bootstrap
+ *= require fontawesome-free/css/all.min
+ *= require css/agency.css
+ End for AGENCY
+
  *= require_tree .
  *= require_self
 
 
  */
 
+/*
 html {
    -webkit-background-size: cover;
    -moz-background-size: cover;
    -o-background-size: cover;
    background-size: cover;
 }
+*/
 
  
 

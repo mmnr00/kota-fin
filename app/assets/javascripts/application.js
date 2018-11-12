@@ -20,15 +20,15 @@
 //= require jquery_ujs
 
 // Start for WEBARCH
-//= require pace/pace.min
-//= require bootstrapv3/js/bootstrap.min
-//= require jquery-block-ui/jqueryblockui.min
-//= require jquery-unveil/jquery.unveil.min
-//= require jquery-scrollbar/jquery.scrollbar.min
-//= require jquery-numberAnimate/jquery.animateNumbers
-//= require jquery-validation/js/jquery.validate.min
-//= require bootstrap-select2/select2.min
-//= require js/webarch
+// require pace/pace.min
+// require bootstrapv3/js/bootstrap.min
+// require jquery-block-ui/jqueryblockui.min
+// require jquery-unveil/jquery.unveil.min
+// require jquery-scrollbar/jquery.scrollbar.min
+// require jquery-numberAnimate/jquery.animateNumbers
+// require jquery-validation/js/jquery.validate.min
+// require bootstrap-select2/select2.min
+// require js/webarch
 // End for  WEBARCH
 
 // Start for AGENCY
