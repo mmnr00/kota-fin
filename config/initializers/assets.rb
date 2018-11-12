@@ -10,6 +10,8 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 #Rails.application.config.assets.paths << Rails.root.join("vendor","assets", "webarch_core")
 #Rails.application.config.assets.paths << Rails.root.join("vendor","assets", "webarch_plugins")
 Rails.application.config.assets.precompile += %w( functions.js )
+Rails.application.config.assets.precompile += %w[*.png *.jpg *.jpeg *.gif] 
+#Rails.application.config.assets.precompile = ['*.js', '*.css']
 
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
