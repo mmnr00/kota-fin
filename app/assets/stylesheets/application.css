@@ -22,11 +22,11 @@
 
  Start for AGENCY
  *= require bootstrap/css/bootstrap
- *= require fontawesome-free/css/all
+ * require fontawesome-free/css/all
  * require_tree ../../../vendor/assets/agency/font-awesome-free
  * require font-awesome
  * require_directory ../../../../../vendor/assets/agency/fontawesome-free
- *= require_fontawesome-free
+ * require_agenc/fontawesome-free
  *= require css_agency/agency.css.scss
  End for AGENCY
 
