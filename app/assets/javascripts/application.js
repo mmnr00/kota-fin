@@ -32,6 +32,12 @@
 // End for  WEBARCH
 
 // Start for AGENCY
+//= require jquery/jquery
+//= require bootstrap/js/bootstrap.bundle
+//= require jquery-easing/jquery.easing
+//= require js_agency/jqBootstrapValidation
+//= require js_agency/contact_me
+//= require js_agency/agency.min
 // End for AGENCY
 
 
