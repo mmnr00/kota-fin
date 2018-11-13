@@ -23,7 +23,7 @@
  Start for AGENCY
  *= require bootstrap/css/bootstrap
  *= require fontawesome-free/css/all
- *= require css/agency.css.scss
+ * require css/agency.css.scss
  End for AGENCY
 
  *= require_tree .
