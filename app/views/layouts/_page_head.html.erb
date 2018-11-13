@@ -6,6 +6,7 @@
     <meta name="author" content="">
 
     <title><%= content_for?(:title) ? yield(:title) : "KidCare - Uplifting Childcare Quality" %></title>
+    <%= favicon_link_tag 'kidcare_logo/kidcare_logo_top.png' %>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag "application", :media => "all", "data-turbolinks-track" => true %>
