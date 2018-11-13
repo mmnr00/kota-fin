@@ -27,7 +27,7 @@
  * require font-awesome
  * require_directory ../../../../../vendor/assets/agency/fontawesome-free
  * require_agenc/fontawesome-free
- *= require css_agency/agency.css.scss
+ *= require css_agency/agency
  End for AGENCY
 
  *= require_tree .
