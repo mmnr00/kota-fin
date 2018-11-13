@@ -24,6 +24,7 @@ gem "less-rails"
 #gem 'sass-rails', '~> 3.2.6'
 #gem 'sass', '~> 3.2.0'
 gem 'bootstrap-sass'
+gem 'font-awesome-rails'
 #gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
