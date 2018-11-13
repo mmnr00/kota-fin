@@ -21,8 +21,8 @@
  End for WEBARCH
 
  Start for AGENCY
- *= require bootstrap/css/bootstrap.min
- *= require fontawesome-free/css/all.min
+ *= require bootstrap/css/bootstrap
+ *= require fontawesome-free/css/all
  *= require css/agency.css.scss
  End for AGENCY
 
