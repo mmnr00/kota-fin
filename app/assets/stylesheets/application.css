@@ -21,10 +21,10 @@
  End for WEBARCH
 
  Start for AGENCY
- *= require bootstrap/css/bootstrap
- *= require fontawesome-free/css/all
+ * require bootstrap/css/bootstrap
+ * require fontawesome-free/css/all
  * require font-awesome
- *= require css/agency.css.scss
+ * require css/agency.css.scss
  End for AGENCY
 
  *= require_tree .
