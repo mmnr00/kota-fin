@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   # For dtails on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
    #WELCOME
   get 'login', to: 'welcomes#login'
+  get 'sb_dashboard', to: 'welcomes#sb_dashboard'
 
   #ADMINS
   get 'admin_index', to: 'admins#index'

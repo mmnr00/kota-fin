@@ -40,6 +40,15 @@
 //= require js_agency/agency.min
 // End for AGENCY
 
+//START FOR ADMIN
+//= require chart.js/Chart.min
+//= require datatables/jquery.dataTables
+//= require datatables/dataTables.bootstrap4
+//= require js_sb-admin/sb-admin.min
+//= require js_sb-admin/demo/datatables-demo
+//= require js_sb-admin/demo/chart-area-demo
+//END FOR ADMIN
+
 
 //= require turbolinks
 //= require_tree .

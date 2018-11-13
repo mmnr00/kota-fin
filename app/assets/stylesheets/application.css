@@ -23,12 +23,13 @@
  Start for AGENCY
  *= require bootstrap/css/bootstrap
  *= require fontawesome-free/css/all
- * require_tree ../../../vendor/assets/agency/font-awesome-free
- * require font-awesome
- * require_directory ../../../../../vendor/assets/agency/fontawesome-free
- * require_agenc/fontawesome-free
  *= require css_agency/agency
  End for AGENCY
+
+ START FOR ADMIN
+ *= require datatables/dataTables.bootstrap4
+ *= require css_sb-admin/sb-admin
+ END FOR ADMIN
 
  *= require_tree .
  *= require_self
