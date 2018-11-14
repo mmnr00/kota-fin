@@ -8,7 +8,7 @@ class WelcomesController < ApplicationController
 	end
 
 	def index2
-		render action: "index2", layout: "homepage"
+		render action: "index2", layout: "homepage2"
 		
 	end
 
