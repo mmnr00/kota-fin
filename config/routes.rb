@@ -16,6 +16,7 @@ Rails.application.routes.draw do
    #WELCOME
   get 'login', to: 'welcomes#login'
   get 'sb_dashboard', to: 'welcomes#sb_dashboard'
+  get 'sb_table', to: 'welcomes#sb_table'
 
   #ADMINS
   get 'admin_index', to: 'admins#index'
