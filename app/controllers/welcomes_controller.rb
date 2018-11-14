@@ -8,7 +8,7 @@ class WelcomesController < ApplicationController
 	end
 
 	def index2
-		render action: "index2", layout: "homepage2"
+		render action: "index2", layout: "homepage"
 		
 	end
 
@@ -26,7 +26,7 @@ class WelcomesController < ApplicationController
 	end
 
 	def sb_dashboard
-		render action: "sb_dashboard", layout: "dashboard"
+		render action: "sb_dashboard", layout: "dashboard-admin"
 	end
 
 

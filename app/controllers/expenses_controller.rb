@@ -15,8 +15,10 @@ class ExpensesController < ApplicationController
 	end
 
 	def my_expenses
+
 		@taska = Taska.find(params[:id])
 		@data = Hash.new
+
 
 		expense_year_min = @taska.expenses.minimum("year")
 		payment_year_min = @taska.payments.minimum("bill_year")
@@ -87,6 +89,7 @@ class ExpensesController < ApplicationController
 				end	
 			end
 		end
+		render action: "my_expenses", layout: "dashboard-admin"
 	end
 
 def month_expense
