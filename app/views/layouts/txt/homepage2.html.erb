@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <%= render 'layouts/page_head' %>
+
+   <body id="page-top">   
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+      <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">
+          <img src="<%= image_path('kidcare_logo/kidcare_logo_top.png') %>" class="" alt="" data-src="<%= image_path('kidcare_logo/kidcare_logo_top.png') %>" data-src-retina="<%= image_path('kidcare_logo/kidcare_logo_top.png') %>" width="145" height="50" />
+        </a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="true" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav text-uppercase ml-auto">
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#services">Services</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#portfolio">Portfolio</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#team">Team</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+            </li>
+            <!-- start login/logout -->
+              <% if current_admin || current_parent %>
+               <li class="nav-item dropdown no-arrow mx-1">
+                <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <button class="btn btn-sm btn-success active">YOUR PROFILE</button>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
+                  <a class="dropdown-item" href="/admin_index">Back to Dashboard</a>
+                  <a class="dropdown-item" href="/parent_index">Edit Profile</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">LOGOUT</a>
+                </div>
+              <% else %>
+                <li class="nav-item dropdown no-arrow mx-1">
+                <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <button class="btn btn-sm btn-danger active">LOGIN</button>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
+                  <a class="dropdown-item" href="/admin_index">Login as Taska Admin</a>
+                  <a class="dropdown-item" href="/parent_index">Login as Parent</a>
+                </div>
+              </li>
+              <% end %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+    
+        
+            <%= yield %>
+          
+          
+    
+  
+
+        
+        <%= render 'layouts/page_foot' %>
+
+        
+  
+</body>
+      
+  </html>

@@ -5819,7 +5819,7 @@ button.close {
 }
 
 .carousel-item {
-  position: relative;
+  position: relative
   display: none;
   -ms-flex-align: center;
   align-items: center;

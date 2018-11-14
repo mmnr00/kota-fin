@@ -89,7 +89,9 @@ class ExpensesController < ApplicationController
 				end	
 			end
 		end
-		render action: "my_expenses", layout: "dashboard-admin"
+
+		render action: "my_expenses", layout: "dsb-admin-bill"
+
 	end
 
 def month_expense

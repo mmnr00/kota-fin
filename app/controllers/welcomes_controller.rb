@@ -26,8 +26,13 @@ class WelcomesController < ApplicationController
 	end
 
 	def sb_dashboard
-		render action: "sb_dashboard", layout: "dashboard-admin"
+
+		render action: "sb_dashboard", layout: "dsb-admin-eg"
+
 	end
 
+	def sb_table
+		render action: "sb_table", layout: "dsb-admin-eg"
+	end
 
 end
