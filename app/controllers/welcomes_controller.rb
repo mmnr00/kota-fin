@@ -1,7 +1,7 @@
 class WelcomesController < ApplicationController
 	#before_action :authenticate_admin!
 	
-	layout "page"
+	#layout "page"
 
 	def index
 		
@@ -13,7 +13,7 @@ class WelcomesController < ApplicationController
 	end
 
 	def login
-		
+		#render action: "login", layout: "dashboard"
 		if current_admin || current_teacher || current_parent
 			if current_admin
 				redirect_to admin_index_path
