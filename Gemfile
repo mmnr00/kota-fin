@@ -83,8 +83,8 @@ group :test do
 end
 
 group :production do
-  #gem 'pg', '~>0.11' 
-  gem 'sqlite3'
+  gem 'pg', '~>0.11' 
+  #gem 'sqlite3'
 end
 
 
