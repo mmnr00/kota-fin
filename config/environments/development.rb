@@ -38,6 +38,7 @@ Rails.application.configure do
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
   config.serve_static_assets = true 
+  config.assets.js_compressor = Uglifier.new(:mangle => false, harmony: true)
 
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
