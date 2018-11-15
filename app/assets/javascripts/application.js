@@ -13,13 +13,14 @@
 
 
 // require rails-ujs
+//= require turbolinks
 //= require jquery
 //= require activestorage
 //= require Chart.bundle
 //= require chartkick
 //= require jquery_ujs
-//= require bootstrap-sprockets
-//= require turbolinks
+// require bootstrap-sprockets
+
 
 // Start for WEBARCH
 // require pace/pace.min
@@ -55,7 +56,7 @@
 
 
 
-//= require_tree .
+// require_tree .
 
 
 //$(document).ready(function(){
