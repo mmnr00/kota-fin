@@ -18,6 +18,7 @@
 //= require Chart.bundle
 //= require chartkick
 //= require jquery_ujs
+//= require bootstrap-sprockets
 //= require turbolinks
 
 // Start for WEBARCH
