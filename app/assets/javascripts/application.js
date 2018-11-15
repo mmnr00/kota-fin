@@ -32,15 +32,17 @@
 // End for  WEBARCH
 
 // Start for AGENCY
-//= require jquery/jquery
+// require jquery/jquery
 //= require bootstrap/js/bootstrap.bundle
-//= require jquery-easing/jquery.easing
+// require jquery-easing/jquery.easing
 //= require js_agency/jqBootstrapValidation
 //= require js_agency/contact_me
 //= require js_agency/agency.min
 // End for AGENCY
 
 //START FOR ADMIN
+//= require jquery_sb-admin/jquery
+//= require jquery-easing_sb-admin/jquery.easing
 //= require chart.js/Chart.min
 //= require datatables/jquery.dataTables
 //= require datatables/dataTables.bootstrap4
