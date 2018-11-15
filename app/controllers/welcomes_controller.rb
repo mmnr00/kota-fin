@@ -35,4 +35,7 @@ class WelcomesController < ApplicationController
 		render action: "sb_table", layout: "dsb-admin-eg"
 	end
 
+	def star_rating
+		render action: "star_rating", layout: "dsb-admin-eg"
+	end
 end

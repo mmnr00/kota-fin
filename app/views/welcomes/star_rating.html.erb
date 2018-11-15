@@ -1,0 +1,32 @@
+<div class="form-group row no-padding col-md-8">
+        <div class="col-md-12">
+          <% data_form = "Taska_try" %>
+          <% data_field = "taska_rating" %> <!--the field for the stars -->
+            
+              <% (1..5).each do |i| %>
+                <h1 id="rating_<%= data_form %>_<%= i %>" 
+                    data-form="<%= data_form %>" 
+                    data-stars="<%= i %>" 
+                    data-field="<%= data_field %>"
+                    class="rating-star glyphicon glyphicon-star-empty">
+                </h1>
+              <% end %>
+              <%= hidden_field_tag :"#{data_field}" %>
+              <%= text_area_tag :taska_review %>
+        </div>
+
+        <div class="col-md-12">
+          <% data_form = "Classroom_try" %>
+          <% data_field = "classroom_rating" %> <!--the field for the stars -->
+          
+              <% (1..5).each do |i| %>
+                <h1 id="rating_<%= data_form %>_<%= i %>" 
+                    data-form="<%= data_form %>" 
+                    data-stars="<%= i %>" 
+                    data-field="<%= data_field %>"
+                    class="rating-star glyphicon glyphicon-star-empty">
+                </h1>
+              <% end %>
+              <%= hidden_field_tag :"#{data_field}" %>
+              <%= text_area_tag :classroom_review %>
+        </div>
