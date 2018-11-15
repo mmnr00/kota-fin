@@ -18,6 +18,7 @@
 //= require Chart.bundle
 //= require chartkick
 //= require jquery_ujs
+//= require turbolinks
 
 // Start for WEBARCH
 // require pace/pace.min
@@ -52,7 +53,7 @@
 //END FOR ADMIN
 
 
-//= require turbolinks
+
 //= require_tree .
 
 
