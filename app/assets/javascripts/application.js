@@ -12,12 +12,12 @@
 //
 
 
-//= require rails-ujs
+// require rails-ujs
 //= require jquery
 //= require activestorage
 //= require Chart.bundle
 //= require chartkick
-//= require jquery_ujs
+// require jquery_ujs
 //= require turbolinks
 
 // Start for WEBARCH
