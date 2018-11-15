@@ -12,8 +12,8 @@ module KidcareTaskaV3
     config.assets.paths << Rails.root.join("vendor","assets", "fonts")
     #config.assets.paths << File.join(Rails.root, '/vendor/webarch_core')
     #config.assets.paths << File.join(Rails.root, '/vendor/agency')
-    config.assets.enabled = true
-    config.serve_static_assets = true
+    #config.assets.enabled = true
+    #config.serve_static_assets = true
 
     # Initialize configuration defaults for originally generated Rails version.
     
