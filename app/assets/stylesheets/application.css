@@ -10,7 +10,7 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require bootstrap-glyphicons
+ *= require bootstrap-glyphicons.css.scss
  Start for WEBARCH
  * require pace/pace-theme-flash
  * require bootstrapv3/css/bootstrap.min
