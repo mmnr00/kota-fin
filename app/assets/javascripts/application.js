@@ -67,8 +67,8 @@ $( document ).on('turbolinks:load', function() {
   
 })
 
-//function for Star Rating
-document.addEventListener("turbolinks:load",function(){
+//function for Star Rating document.addEventListener
+$( document ).on("turbolinks:load",function(){
 	$('.rating-star').click(function(){
 		var star = $(this);
 		var data_form = $(this).attr('data-form');
