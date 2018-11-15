@@ -20,15 +20,15 @@ test:
   <<: *default
   database: db/test.sqlite3
 
-# production:
-#   <<: *default
-#   database: db/development.sqlite3
-
 production:
-  adapter: postgresql
-  encoding: unicode
-  database: mus-kidcare-sgp1
-  pool: 5
-  username: mus-kidcare-sgp1
-  password: Geometr3
-  timeout: 5000
+  <<: *default
+  database: db/development.sqlite3
+
+# production:
+#   adapter: postgresql
+#   encoding: unicode
+#   database: mus-kidcare-sgp1
+#   pool: 5
+#   username: mus-kidcare-sgp1
+#   password: Geometr3
+#   timeout: 5000

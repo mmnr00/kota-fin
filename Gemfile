@@ -28,7 +28,7 @@ gem 'bootstrap-sass'
 gem 'font-awesome-rails'
 #gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier'
+#gem 'uglifier'
 # See https://github.com/rails/execjs#readme for more supported runtimes
 # gem 'mini_racer', platforms: :ruby
 
@@ -83,8 +83,8 @@ group :test do
 end
 
 group :production do
-  gem 'pg', '~>0.11' 
-  #gem 'sqlite3'
+  #gem 'pg', '~>0.11' 
+  gem 'sqlite3'
 end
 
 
