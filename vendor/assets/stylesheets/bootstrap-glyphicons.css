@@ -10,7 +10,7 @@
 
 
 
-@font-face{font-family:'Glyphicons Halflings';src:asset-url('../assets/glyphicons-halflings-regular.eot');src:asset-url('../assets/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),asset-url('../assets/glyphicons-halflings-regular.woff') format('woff'),asset-url('../assets/glyphicons-halflings-regular.ttf') format('truetype'),asset-url('../assets/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');}.glyphicon{position:relative;top:1px;display:inline-block;font-family:'Glyphicons Halflings';font-style:normal;font-weight:normal;line-height:1;-webkit-font-smoothing:antialiased;}
+@font-face{font-family:'Glyphicons Halflings';src:url('/assets/glyphicons-halflings-regular.eot');src:url('/assets/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),url('/assets/glyphicons-halflings-regular.woff') format('woff'),url('/assets/glyphicons-halflings-regular.ttf') format('truetype'),url('/assets/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg');}.glyphicon{position:relative;top:1px;display:inline-block;font-family:'Glyphicons Halflings';font-style:normal;font-weight:normal;line-height:1;-webkit-font-smoothing:antialiased;}
 .glyphicon-asterisk:before{content:"\2a";}
 .glyphicon-plus:before{content:"\2b";}
 .glyphicon-euro:before{content:"\20ac";}
