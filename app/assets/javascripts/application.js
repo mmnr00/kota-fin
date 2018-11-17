@@ -41,26 +41,27 @@
 //= require_tree .
 
 var turbolinks = jQuery.Event('turbolinks:load');
-$(document).on('ready turbolinks:load',function(){
-	$('.rating-star').click(function(){
-		var star = $(this);
-		var data_form = $(this).attr('data-form');
-		var data_field = $(this).attr('data-field');
-		var stars = $(this).attr('data-stars');
+// $(document).trigger(
+// 	$(document).on('ready turbolinks:load',function(){
+// 	$('.rating-star').click(function(){
+// 		var star = $(this);
+// 		var data_form = $(this).attr('data-form');
+// 		var data_field = $(this).attr('data-field');
+// 		var stars = $(this).attr('data-stars');
 
-		for (i=1;i<=5;i++){
-			if(i <= stars){
-				$('#' + 'rating' + '_' + data_form + '_' + i).removeClass('glyphicon glyphicon-star-empty');
-				$('#' + 'rating' + '_' + data_form + '_' + i).addClass('glyphicon glyphicon-star');
-			} else {
-				$('#' + 'rating' + '_' + data_form + '_' + i).removeClass('glyphicon glyphicon-star');
-				$('#' + 'rating' + '_' + data_form + '_' + i).addClass('glyphicon glyphicon-star-empty');
-			}
-		}
-		$('#' + data_field).val(stars);
-		$('#' + 'feedback').val(stars);
-	});
-});
+// 		for (i=1;i<=5;i++){
+// 			if(i <= stars){
+// 				$('#' + 'rating' + '_' + data_form + '_' + i).removeClass('glyphicon glyphicon-star-empty');
+// 				$('#' + 'rating' + '_' + data_form + '_' + i).addClass('glyphicon glyphicon-star');
+// 			} else {
+// 				$('#' + 'rating' + '_' + data_form + '_' + i).removeClass('glyphicon glyphicon-star');
+// 				$('#' + 'rating' + '_' + data_form + '_' + i).addClass('glyphicon glyphicon-star-empty');
+// 			}
+// 		}
+// 		$('#' + data_field).val(stars);
+// 		$('#' + 'feedback').val(stars);
+// 	});
+// }));
 
 
 
