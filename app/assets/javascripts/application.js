@@ -11,40 +11,24 @@
 // about supported directives.
 //
 
-
-// require rails-ujs
-//= require turbolinks
 //= require jquery
+//= require twitter/bootstrap
+// require jquery_ujs
+//= require bootstrap/js/bootstrap.bundle
 //= require activestorage
 //= require Chart.bundle
 //= require chartkick
-//= require jquery_ujs
-// require bootstrap-sprockets
-
-
-// Start for WEBARCH
-// require pace/pace.min
-// require bootstrapv3/js/bootstrap.min
-// require jquery-block-ui/jqueryblockui.min
-// require jquery-unveil/jquery.unveil.min
-// require jquery-scrollbar/jquery.scrollbar.min
-// require jquery-numberAnimate/jquery.animateNumbers
-// require jquery-validation/js/jquery.validate.min
-// require bootstrap-select2/select2.min
-// require js/webarch
-// End for  WEBARCH
+//= require turbolinks
+//= require turbolinks-compatibility
 
 // Start for AGENCY
-// require jquery/jquery
-//= require bootstrap/js/bootstrap.bundle
-// require jquery-easing/jquery.easing
 //= require js_agency/jqBootstrapValidation
 //= require js_agency/contact_me
 //= require js_agency/agency.min
 // End for AGENCY
 
 //START FOR ADMIN
-//= require jquery_sb-admin/jquery
+// require jquery_sb-admin/jquery
 //= require jquery-easing_sb-admin/jquery.easing
 //= require chart.js/Chart.min
 //= require datatables/jquery.dataTables
@@ -53,22 +37,11 @@
 //= require js_sb-admin/demo/datatables-demo
 //= require js_sb-admin/demo/chart-area-demo
 //END FOR ADMIN
-
-
-
+//= require_self
 //= require_tree .
 
-
-//$(document).ready(function(){
-//$("#finds_expense").trigger('submit');
-//});
-
-$( document ).on('turbolinks:load', function() {
-  
-})
-
-//function for Star Rating document.addEventListener
-$( document ).on("turbolinks:load",function(){
+var turbolinks = jQuery.Event('turbolinks:load');
+$(document).on('ready turbolinks:load',function(){
 	$('.rating-star').click(function(){
 		var star = $(this);
 		var data_form = $(this).attr('data-form');
@@ -88,17 +61,8 @@ $( document ).on("turbolinks:load",function(){
 		$('#' + 'feedback').val(stars);
 	});
 });
-/*
-$(document).ready(function(){
-  var formData = $("#finds_expense").serialize();
-  $.ajax({
-   url: 'expenses_search',
-   data: formData,
-   type: 'GET',
-   contentType: 'application/script'
-  });
-});
-*/
+
+
 
 
 

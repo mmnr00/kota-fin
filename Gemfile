@@ -9,7 +9,7 @@ gem 'rails', '~> 5.2.1'
 
 
 gem 'devise'
-#gem 'twitter-bootstrap-rails'
+gem 'twitter-bootstrap-rails'
 gem 'jquery-rails'
 #gem 'devise-bootstrap-views'
 # Use Puma as the app server
@@ -83,8 +83,8 @@ group :test do
 end
 
 group :production do
-  gem 'pg', '~>0.11' 
-  #gem 'sqlite3'
+  #gem 'pg', '~>0.11' 
+  gem 'sqlite3'
 end
 
 

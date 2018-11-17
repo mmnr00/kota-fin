@@ -1,7 +1,7 @@
 <h2>New Bill for <%= @kid.name %> (<%= @taska.name %>)</h2> 
 
 <div class='row'>
-		<div class='col-xs-12'>
+		<div class='col-sm-12'>
 			<%= form_for(@payment, :html => {class: "form-horizontal", role: "form"}) do |f| %>
 
 				<div class="form-group"> 
@@ -18,7 +18,7 @@
 					<div class="control-label col-sm-2">
 						<%= f.label :description %>
 					</div>
-					<div class="col-sm-10">
+					<div class="col-sm-8">
 						<%= f.text_area :description, class: "form-control", placeholder: "Max 200 characters", autofocus: true, value: "Bill for month #{params[:month]}-#{params[:year]} from #{@taska.name}" %>
 					</div>
 				</div>
