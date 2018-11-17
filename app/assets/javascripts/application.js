@@ -31,10 +31,10 @@
 // require jquery_sb-admin/jquery
 //= require jquery-easing_sb-admin/jquery.easing
 //= require chart.js/Chart.min
-//= require datatables/jquery.dataTables
-//= require datatables/dataTables.bootstrap4
+// require datatables/jquery.dataTables
+// require datatables/dataTables.bootstrap4
 //= require js_sb-admin/sb-admin.min
-//= require js_sb-admin/demo/datatables-demo
+// require js_sb-admin/demo/datatables-demo
 //= require js_sb-admin/demo/chart-area-demo
 //END FOR ADMIN
 //= require_self
