@@ -1,5 +1,6 @@
 class WelcomesController < ApplicationController
 	#before_action :authenticate_admin!
+	before_filter :allow_iframe_requests
 	
 	#layout "page"
 
@@ -38,4 +39,29 @@ class WelcomesController < ApplicationController
 	def star_rating
 		render action: "star_rating", layout: "dsb-admin-eg"
 	end
+
+
+
+	private
+
+	def allow_iframe_requests
+  	response.headers.delete('X-Frame-Options')
+	end
+
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
