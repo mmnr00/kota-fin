@@ -1,6 +1,6 @@
 class WelcomesController < ApplicationController
 	#before_action :authenticate_admin!
-	before_filter :allow_iframe_requests
+	before_action :allow_iframe_requests
 	
 	#layout "page"
 
