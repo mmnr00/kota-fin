@@ -4,14 +4,24 @@
 #   Ensure the SQLite 3 gem is defined in your Gemfile
 #   gem 'sqlite3'
 #
-default: &default
-  adapter: sqlite3
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 5000
+# default: &default
+#   adapter: sqlite3
+#   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+#   timeout: 5000
 
 development:
-  <<: *default
-  database: db/development.sqlite3
+  # adapter: sqlite3
+  # database: db/development.sqlite3
+  # pool: 5
+  # timeout: 5000
+  adapter: postgresql
+  encoding: unicode
+  database: kidcare-pg-dev
+  pool: 5
+  username: #mus-kidcare-sgp1
+  password: #Geometr3
+  timeout: 5000
+  
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
