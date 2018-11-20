@@ -2,6 +2,8 @@
 
 <%= link_to "Register New Children", new_kid_path(@parent.id), class: "btn btn-xs btn-primary active"%> <%= link_to "View Payments Receipts", view_receipt_path(@parent), class: "btn btn-xs btn-success active"%></br></br>
 
+<%= link_to "logout", destroy_admin_session_path, method: :delete %>
+
 <div class="col-md-12">
 <% if @unpaid_bills.present? %>
   <% @unpaid_bills.each do |bill| %>

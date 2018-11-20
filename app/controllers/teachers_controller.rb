@@ -8,7 +8,7 @@ class TeachersController < ApplicationController
 	end
 
 	def show
-		@teacher = Teacher.find(params[:teacher])
+		#@teacher = Teacher.find(params[:teacher])
 	end
 
 	def search

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :classrooms, only:[:show]
   resources :kids, only:[:create,:destroy,:update,:edit]
   resources :payments, only:[:create,:destroy]
-  resources :teachers, only:[:show]
+  #resources :teachers, only:[:show]
   #resources :taska_teachers, only:[:create,:destroy]
   devise_for :parents
   devise_for :teachers

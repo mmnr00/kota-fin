@@ -14,7 +14,7 @@ module KidcareTaskaV3
     #config.assets.paths << File.join(Rails.root, '/vendor/agency')
     #config.assets.enabled = true
     #config.serve_static_assets = true
-
+    #config.force_ssl = true
     # Initialize configuration defaults for originally generated Rails version.
     
 

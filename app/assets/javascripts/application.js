@@ -13,7 +13,7 @@
 
 //= require jquery
 // require twitter/bootstrap
-// require jquery_ujs
+//= require jquery_ujs
 //= require bootstrap/js/bootstrap.bundle
 //= require activestorage
 //= require Chart.bundle
