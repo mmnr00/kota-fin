@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
-  devise_for :owners
+  
   #devise_for :college_admins
   resources :taskas
   resources :expenses, only:[:create,:destroy,:update,:edit]
+  resources :courses, only:[:create,:destroy,:update,:edit]
+  resources :colleges, only:[:create,:destroy,:update,:edit]
   resources :classrooms, only:[:show]
   resources :kids, only:[:create,:destroy,:update,:edit]
   resources :payments, only:[:create,:destroy]
@@ -11,6 +13,7 @@ Rails.application.routes.draw do
   devise_for :parents
   devise_for :teachers
   devise_for :admins
+  devise_for :owners
 	root 'welcomes#index2'
 
 
@@ -28,6 +31,9 @@ Rails.application.routes.draw do
 
   #OWNERS (FOR COLLEGE)
   get 'owner_index', to: 'owners#index'
+
+  #COLLEGES
+  get '/owner/:id/colleges/new', to: 'colleges#new', as: 'new_college'
 
 
   #TEACHERS

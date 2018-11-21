@@ -1,3 +1,30 @@
-<h1> Owner Page</h1>
+<h1> Viewing page for <%= @owner.username %></h1>
+<%= link_to "Create New College", new_college_path(id: @owner.id), class: "btn btn-xs btn-primary active" %></br></br>
+
+<% if @owner.colleges.present? %>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th> Name </th>
+					<th> Address </th>
+					<th> Action </th>
+				</tr>
+				<% @owner.colleges.each do |college| %>
+					<tbody>
+						<tr>
+							<td><%= college.name %></td>
+							<td><%= college.address %></td>
+							<td class= "btn btn-xs btn-success active"><button>VIEW COLLEGE</button></td>
+						</tr>
+					</tbody>
+				<% end %>
+			</thead>
+		</table>
+<% else %>
+	No Colleges to display
+<% end %>
+
+
+	</br></br>
 
 <%= link_to "logout", destroy_owner_session_path, method: :delete %>

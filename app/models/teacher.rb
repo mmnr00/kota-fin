@@ -6,6 +6,9 @@ class Teacher < ApplicationRecord
 	has_many :taskas, through: :taska_teachers
 	has_many :teachers_classrooms
 	has_many :classrooms, through: :teachers_classrooms
+	has_many :payments
+	has_many :teacher_courses
+	has_many :courses, through: :teacher_courses
   	devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_21_002117) do
+ActiveRecord::Schema.define(version: 2018_11_21_123041) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,24 @@ ActiveRecord::Schema.define(version: 2018_11_21_002117) do
     t.index ["username"], name: "index_college_admins_on_username", unique: true
   end
 
+  create_table "colleges", force: :cascade do |t|
+    t.string "name"
+    t.string "address"
+    t.string "collection_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["collection_id"], name: "index_colleges_on_collection_id", unique: true
+    t.index ["name"], name: "index_colleges_on_name", unique: true
+  end
+
+  create_table "courses", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "college_id"
+    t.float "base_fee"
+  end
+
   create_table "expenses", id: :integer, default: nil, force: :cascade do |t|
     t.text "name"
     t.decimal "cost"
@@ -76,6 +94,13 @@ ActiveRecord::Schema.define(version: 2018_11_21_002117) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.float "base_fee"
+  end
+
+  create_table "owner_colleges", force: :cascade do |t|
+    t.integer "owner_id"
+    t.integer "college_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "owners", force: :cascade do |t|
@@ -119,6 +144,8 @@ ActiveRecord::Schema.define(version: 2018_11_21_002117) do
     t.float "amount"
     t.integer "parent_id"
     t.integer "taska_id"
+    t.integer "course_id"
+    t.integer "teacher_id"
   end
 
   create_table "taska_admins", id: :integer, default: nil, force: :cascade do |t|
@@ -141,6 +168,13 @@ ActiveRecord::Schema.define(version: 2018_11_21_002117) do
     t.index ["collection_id"], name: "index_taskas_on_collection_id", unique: true
     t.index ["email"], name: "index_taskas_on_email", unique: true
     t.index ["name"], name: "index_taskas_on_name", unique: true
+  end
+
+  create_table "teacher_courses", force: :cascade do |t|
+    t.integer "teacher_id"
+    t.integer "course_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "teachers", id: :integer, default: nil, force: :cascade do |t|
