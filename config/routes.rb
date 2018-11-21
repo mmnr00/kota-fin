@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  devise_for :owners
+  #devise_for :college_admins
   resources :taskas
   resources :expenses, only:[:create,:destroy,:update,:edit]
   resources :classrooms, only:[:show]
@@ -23,6 +25,10 @@ Rails.application.routes.draw do
   get 'admin_index', to: 'admins#index'
   get 'webarch', to: 'admins#webarch'
   get 'webarchv2', to: 'admins#webarchv2'
+
+  #OWNERS (FOR COLLEGE)
+  get 'owner_index', to: 'owners#index'
+
 
   #TEACHERS
   get 'teacher_index', to: 'teachers#index'
