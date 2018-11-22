@@ -81,11 +81,13 @@ Rails.application.routes.draw do
   #payments
   get '/taska/:id/payment_index', to: 'payments#index', as: 'payment_index'
   get '/taska/:id/create_collection', to: 'payments#create_collection', as: 'create_collection'
+
   #get '/taska/:id/create_bill', to: 'payments#create_bill', as: 'create_bill'
   get '/taska/:id/search_bill', to: 'payments#search_bill', as: 'search_bill'
   get '/taska/:id/new_bill', to: 'payments#new', as: 'new_bill'
   get '/taska/:id/view_bill', to: 'payments#view_bill', as: 'view_bill'
   get '/payments/update', to: 'payments#update', as: 'payment_update'
+  post '/teacher/:id/new_bill', to: 'payments#teacher_create_bill', as: 'teacher_create_bill'
 
 
 

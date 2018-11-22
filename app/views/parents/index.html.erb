@@ -23,12 +23,12 @@
         <% if bill.bill_month % 3 == 0 %>
           <%= hidden_field_tag :dofeed, "1" %>
             <p> Feedback Available <p>
-          <% else %>
+        <% else %>
             <p><%= check_box_tag :dofeed %> Tick here to perform feedback </p>
-          <% end %>
+        <% end %>
         <%= button_tag(type: :submit, class: "btn btn-s btn-danger", id: "submit_expense") do %>
-                        <i class="fa fa-search"></i> Pay Bills
-                      <% end %>
+          <i class="fa fa-search"></i> Pay Bills
+        <% end %>
       <% end %>
     </div>
   <% end %>

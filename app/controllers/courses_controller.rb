@@ -7,6 +7,7 @@ class CoursesController < ApplicationController
 	end
 
 	def teacher_course
+		@payment = Payment.new
 		@teacher = Teacher.find(params[:id])
 		@course = Course.find(params[:course])
 	end

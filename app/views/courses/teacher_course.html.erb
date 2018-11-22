@@ -4,8 +4,12 @@
 <strong> Course Description: </strong> <%= @course.description %></br>
 <strong> Total Fee: </strong> RM <%= @course.base_fee %></br>
 <strong> Payment Plans: </strong> 
-<ul>
-  <li><input type="checkbox"> &nbsp One off payment (RM <%= @course.base_fee %>)</li>
-  <li><input type="checkbox"> &nbsp 3 times payment (RM <%= @course.base_fee/3 %>) per month</li>
-</ul>
-<%= link_to "SIGN UP", "#", class: "btn btn-sm btn-success active" %> 
+<%= form_tag teacher_create_bill_path(@teacher, course: @course), method: :post, id: "find_bills_for_parents" do %>
+  <ul>
+    <li><%= radio_button_tag :plan, 'plan1' %> PLAN 1 </li>
+    <li><%= radio_button_tag :plan, 'plan2' %> PLAN 2 </li>
+  </ul>
+  <%= button_tag(type: :submit, class: "btn btn-s btn-success", id: "submit_expense") do %>
+    <i class="fa fa-check"></i> Sign Up
+  <% end %>
+<% end %>
