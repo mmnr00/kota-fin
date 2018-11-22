@@ -1,0 +1,35 @@
+<h2> Welcome to <%= @college.name %>'s page </h2>
+
+<% if @college.courses.present? %>
+	<table class="table table-striped">
+			<thead>
+				<tr>
+					<th> Name </th>
+					<th> Description </th>
+					<th> Base Fee (RM) </th>
+					<th> No of students </th>
+					<th> Pending Payments </th>
+					<th> Action </th>
+				</tr>
+				<% @college.courses.each do |course| %>
+					<tbody>
+						<tr>
+							<td><%= course.name %></td>
+							<td><%= course.description %></td>
+							<td><%= course.base_fee %></td>
+							<td><%= course.teachers.count %></td>
+							<td> 9 unpaid bills </td>
+							<td> 
+								<%= link_to "Edit", edit_course_path(id: course, owner_id: @owner.id, college: params[:college]), class: "btn btn-sm btn-success active" %> <!-- ID is for course -->
+								| DELETE
+							</td>
+						</tr>
+					</tbody>
+				<% end %>
+			</thead>
+		</table>
+<% else %>
+	</br></br>
+	No courses present. Please create one. 
+<% end %>
+	

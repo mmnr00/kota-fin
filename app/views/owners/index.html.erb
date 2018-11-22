@@ -14,7 +14,9 @@
 						<tr>
 							<td><%= college.name %></td>
 							<td><%= college.address %></td>
-							<td><button class= "btn btn-xs btn-success active">VIEW COLLEGE</button></td>
+							<td>
+								<%= link_to "View College", show_owner_path(@owner, college: college), class: "btn btn-sm btn-primary active" %> | <%= link_to "Edit College", show_owner_path(@owner, college: college), class: "btn btn-sm btn-success active" %>
+							</td>
 						</tr>
 					</tbody>
 				<% end %>

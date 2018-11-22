@@ -17,8 +17,14 @@ class CollegesController < ApplicationController
 		else
 			render :new
 		end
-
 	end
+
+	def show_owner
+		@college = College.find(params[:college])
+	end
+
+
+
 
 	private
 
@@ -31,3 +37,8 @@ class CollegesController < ApplicationController
 	end
 
 end
+
+
+
+
+

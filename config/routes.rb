@@ -34,6 +34,7 @@ Rails.application.routes.draw do
 
   #COLLEGES
   get '/owner/:id/colleges/new', to: 'colleges#new', as: 'new_college'
+  get '/owner/:id/colleges/show', to: 'colleges#show_owner', as: 'show_owner'
 
 
   #TEACHERS
