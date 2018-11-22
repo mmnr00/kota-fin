@@ -1,0 +1,11 @@
+<h3><%= @teacher.username %>, information for <%= @course.name %> </h3>
+
+<strong> Course Name: </strong> <%= @course.name %></br>
+<strong> Course Description: </strong> <%= @course.description %></br>
+<strong> Total Fee: </strong> RM <%= @course.base_fee %></br>
+<strong> Payment Plans: </strong> 
+<ul>
+  <li><input type="checkbox"> &nbsp One off payment (RM <%= @course.base_fee %>)</li>
+  <li><input type="checkbox"> &nbsp 3 times payment (RM <%= @course.base_fee/3 %>) per month</li>
+</ul>
+<%= link_to "SIGN UP", "#", class: "btn btn-sm btn-success active" %> 

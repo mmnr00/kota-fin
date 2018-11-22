@@ -35,16 +35,19 @@ Rails.application.routes.draw do
   #COLLEGES
   get '/owner/:id/colleges/new', to: 'colleges#new', as: 'new_college'
   get '/owner/:id/colleges/show', to: 'colleges#show_owner', as: 'show_owner'
+  get '/teacher/:id/colleges/show', to: 'colleges#show_teacher', as: 'show_teacher'
 
   #COURSE
   get '/college/:id/courses/new', to: 'courses#new', as: 'new_course'
+  get '/teacher/:id/courses/show', to: 'courses#teacher_course', as: 'teacher_course'
 
   #TEACHERS
   get 'teacher_index', to: 'teachers#index'
   get '/taska/:id/search_teacher', to: 'teachers#search', as: 'search_teacher'
   get '/taska/:id/find_teacher', to: 'teachers#find', as: 'find_teacher'
   get '/teacher/:id/my_college', to: 'teachers#college', as: 'teacher_college'
-  post '/teacher/:id/add_teacher', to: 'teachers#add_college', as: 'add_college'
+  post '/teacher/:id/add_college', to: 'teachers#add_college', as: 'add_college'
+  post '/teacher/:id/remove_college', to: 'teachers#remove_college', as: 'remove_college'
 
   #PARENTS
   get 'parent_index', to: 'parents#index', as: 'parent_index'

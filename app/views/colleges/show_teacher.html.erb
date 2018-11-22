@@ -1,0 +1,37 @@
+<h2> Welcome back <%= @teacher.username %>! </h2>
+
+
+<% if @college.courses.present? %>
+  <table class="table table-striped">
+    <header>Viewing All Courses for <%= @college.name %></header>
+      <thead>
+
+        <tr>
+          <th> Name </th>
+          <th> Description </th>
+          <th> Invoices </th>
+          <th> Action </th>
+        </tr>
+        <% @college.courses.each do |course| %>
+          <tbody>
+            <tr>
+              <td><%= course.name %></td>
+              <td><%= course.description %></td>
+              <td> 9 unpaid bills </td>
+              <td> 
+                <% if !@teacher.courses.where(id: course.id).present? %>
+                  <%= link_to "Sign Up", teacher_course_path(course: course), class: "btn btn-sm btn-primary active" %> 
+                <% else %>
+                  <%= link_to "Already Added", "#", class: "btn btn-sm btn-success active" %> 
+                <% end %>
+              </td>
+            </tr>
+          </tbody>
+        <% end %>
+      </thead>
+    </table>
+<% else %>
+  </br></br>
+  No courses present. Please create one. 
+<% end %>
+  

@@ -5,22 +5,20 @@
 			<thead>
 				<tr>
 					<th> College Name </th>
-					<th> Course List </th>
 					<th> Payment Status </th>
+          <th> Action </th>
 				</tr>
 				<% @teacher.colleges.each do |college| %>
 					<tbody>
 						<tr>
 							<td><%= college.name %></td>
 							<td>
-								<% college.courses.each do |course| %>
-									<%if @teacher.courses.where(id: course.id).present? %>
-										<button class= "btn btn-sm btn-success active"><%= course.name %></button>
-										</br></br>
-									<% end %>
-								<% end %>
-							</td>
-							<td><button class= "btn btn-sm btn-danger active">PENDING PAYMENTS</button></td>
+                <%= link_to "DUE", root_path, class: "btn btn-sm btn-success active", method: :delete, data: {confirm: "Are You Sure?"} %> 
+              </td>
+              <td>
+                <%= link_to "View College", show_teacher_path(@teacher, college: college), class: "btn btn-sm btn-primary active" %> &nbsp
+                <%= link_to "Remove", remove_college_path(@teacher, college: college), class: "btn btn-sm btn-danger active", method: :post %>
+              </td>
 						</tr>
 					</tbody>
 				<% end %>
@@ -35,18 +33,12 @@
 	<thead>
 		<tr>
 			<th> College Name </th>
-			<th> Course List </th>
 			<th> Action </th>
 		</tr>
 			<tbody>
 				<% @college_list.each do |college| %>
 				<tr>
 					<td><%= college.name %></td>
-					<td>
-						<% college.courses.each do |course| %>
-							<button class= "btn btn-sm btn-success active"><%= course.name %></button></br></br>
-						<% end %>
-					</td>
 					<% if !@teacher.colleges.where(id: college.id).present? %>
 						<td>
 							<%= link_to "Add College", add_college_path(college: college), class: "btn btn-xs btn-primary active", method: :post %>

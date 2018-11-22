@@ -1,6 +1,6 @@
 class TeachersController < ApplicationController
 	before_action :authenticate_teacher!, except: [:search, :find, :show]
-	before_action :set_teacher, only: [:index, :college, :add_college]
+	before_action :set_teacher, only: [:index, :college, :add_college, :remove_college]
 
 
 	def index
@@ -38,6 +38,17 @@ class TeachersController < ApplicationController
 	def add_college
 		teacher_college = TeacherCollege.new(teacher_id: params[:id], college_id: params[:college])
 		if teacher_college.save
+			flash.now[:success] = "Adding College Successful"
+			redirect_to teacher_college_path
+		else
+			flash.now[:danger] = "Adding College Unsuccessful.Please try again"
+			redirect_to teacher_college_path
+		end
+	end
+
+	def remove_college
+		teacher_college = TeacherCollege.where(teacher_id: params[:id], college_id: params[:college]).first
+		if teacher_college.destroy
 			flash.now[:success] = "Adding College Successful"
 			redirect_to teacher_college_path
 		else

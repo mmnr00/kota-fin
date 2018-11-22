@@ -6,6 +6,11 @@ class CoursesController < ApplicationController
 	def index
 	end
 
+	def teacher_course
+		@teacher = Teacher.find(params[:id])
+		@course = Course.find(params[:course])
+	end
+
 	def new
 		@college = College.find(params[:id])
 		@course = Course.new

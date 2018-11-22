@@ -24,6 +24,11 @@ class CollegesController < ApplicationController
 		@college = College.find(params[:college])
 	end
 
+	def show_teacher
+		@teacher = Teacher.find(params[:id])
+		@college = College.find(params[:college])
+	end
+
 	def edit
 	end
 
