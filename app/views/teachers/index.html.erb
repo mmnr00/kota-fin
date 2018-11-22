@@ -1,3 +1,9 @@
-<h1> You are a teacher </h1>
+<h1> Welcome back <%= @teacher.username %> </h1>
 
-<%= link_to "logout", destroy_teacher_session_path, method: :delete %>
+<%= link_to "MY TASKA", root_path, class: "btn btn-lg btn-success active" %>
+
+<%= link_to "MY COLLEGE", teacher_college_path(id: @teacher.id), class: "btn btn-lg btn-success active" %>
+
+</br> </br>
+
+<%= link_to "logout", destroy_teacher_session_path, class: "btn btn-xs btn-danger active", method: :delete %>

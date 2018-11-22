@@ -1,6 +1,6 @@
 class TeachersController < ApplicationController
 	before_action :authenticate_teacher!, except: [:search, :find, :show]
-	#before_action :set_teacher, only: [:index]
+	before_action :set_teacher, only: [:index, :college, :add_college]
 
 
 	def index
@@ -28,13 +28,46 @@ class TeachersController < ApplicationController
 		respond_to do |format|
 			format.js { render partial: 'teachers/result' } 
 		end
+	end
+
+	def college
+		@college_list = College.all
 
 	end
+
+	def add_college
+		teacher_college = TeacherCollege.new(teacher_id: params[:id], college_id: params[:college])
+		if teacher_college.save
+			flash.now[:success] = "Adding College Successful"
+			redirect_to teacher_college_path
+		else
+			flash.now[:danger] = "Adding College Unsuccessful.Please try again"
+			redirect_to teacher_college_path
+		end
+	end
+
 	
-	#private
+	private
     
-    #def set_teacher
-      #@teacher = Teacher.find(params[:id])
-    #end
+    def set_teacher
+      @teacher = current_teacher
+    end
     
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

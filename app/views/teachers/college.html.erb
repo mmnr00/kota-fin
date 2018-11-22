@@ -1,0 +1,65 @@
+<h3> Viewing College for <%= @teacher.username %> </h3>
+
+<% if @teacher.colleges.present? %>
+	<table class="table table-striped">
+			<thead>
+				<tr>
+					<th> College Name </th>
+					<th> Course List </th>
+					<th> Payment Status </th>
+				</tr>
+				<% @teacher.colleges.each do |college| %>
+					<tbody>
+						<tr>
+							<td><%= college.name %></td>
+							<td>
+								<% college.courses.each do |course| %>
+									<%if @teacher.courses.where(id: course.id).present? %>
+										<button class= "btn btn-sm btn-success active"><%= course.name %></button>
+										</br></br>
+									<% end %>
+								<% end %>
+							</td>
+							<td><button class= "btn btn-sm btn-danger active">PENDING PAYMENTS</button></td>
+						</tr>
+					</tbody>
+				<% end %>
+			</thead>
+		</table>
+<% else %>
+	No Colleges to display. Please add college below
+<% end %>
+
+<caption> Add New College </caption>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th> College Name </th>
+			<th> Course List </th>
+			<th> Action </th>
+		</tr>
+			<tbody>
+				<% @college_list.each do |college| %>
+				<tr>
+					<td><%= college.name %></td>
+					<td>
+						<% college.courses.each do |course| %>
+							<button class= "btn btn-sm btn-success active"><%= course.name %></button></br></br>
+						<% end %>
+					</td>
+					<% if !@teacher.colleges.where(id: college.id).present? %>
+						<td>
+							<%= link_to "Add College", add_college_path(college: college), class: "btn btn-xs btn-primary active", method: :post %>
+						</td>
+					<% else %>
+						<td>
+							<button class= "btn btn-sm btn-success active">Already Added</button></br></br>
+						</td>
+					<% end %>
+				</tr>
+				<% end %>
+			</tbody>
+		
+	</thead>
+</table>
+

@@ -9,6 +9,8 @@ class Teacher < ApplicationRecord
 	has_many :payments
 	has_many :teacher_courses
 	has_many :courses, through: :teacher_courses
+	has_many :teacher_colleges
+	has_many :colleges, through: :teacher_colleges
   	devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
