@@ -6,6 +6,21 @@ class CoursesController < ApplicationController
 	def index
 	end
 
+	def new
+		@college = College.find(params[:id])
+		@course = Course.new
+	end
+
+	def create
+		@course = Course.new(course_params)
+		if @course.save		
+			flash[:notice] = "College was successfully created"					
+			redirect_to show_owner_path(id: current_owner, college: @course.college.id), :method => :get;									
+		else
+			render :new
+		end
+	end
+
 	def edit
 	end
 
@@ -16,6 +31,12 @@ class CoursesController < ApplicationController
 		else
 			render 'edit'
 		end
+	end
+
+	def destroy
+		@course.destroy
+		flash[:notice] = "Expenses was successfully deleted"
+		redirect_to show_owner_path(id: current_owner, college: @course.college.id), :method => :get;
 	end
 
 

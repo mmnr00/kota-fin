@@ -1,8 +1,18 @@
 <h2> Welcome to <%= @college.name %>'s page </h2>
 
+<div align="right">  
+	<%= link_to "Edit College", edit_college_path(@college), class: "btn btn-sm btn-success active" %>
+</div>
+
+<div align="left">  
+  <%= link_to "Create Course", new_course_path(@college), class: "btn btn-lg btn-primary active" %>
+</div>
+
 <% if @college.courses.present? %>
 	<table class="table table-striped">
+		<header>Viewing All Courses</header>
 			<thead>
+
 				<tr>
 					<th> Name </th>
 					<th> Description </th>
@@ -21,7 +31,6 @@
 							<td> 9 unpaid bills </td>
 							<td> 
 								<%= link_to "Edit", edit_course_path(id: course, owner_id: @owner.id, college: params[:college]), class: "btn btn-sm btn-success active" %> <!-- ID is for course -->
-								| DELETE
 							</td>
 						</tr>
 					</tbody>

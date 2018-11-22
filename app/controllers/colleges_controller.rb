@@ -1,5 +1,6 @@
 class CollegesController < ApplicationController
 	before_action :set_owner
+	before_action :set_college, only: [:edit, :update, :destroy]
 
 	def index
 	end
@@ -23,6 +24,26 @@ class CollegesController < ApplicationController
 		@college = College.find(params[:college])
 	end
 
+	def edit
+	end
+
+	def update
+		if @college.update(college_params)
+			flash[:notice] = "#{@college.name} was successfully updated"
+			redirect_to owner_index_path
+		else
+			render 'edit'
+		end
+	end
+
+	def destroy
+		owner_college = OwnerCollege.where(college_id: @college.id) 
+		owner_college.delete_all
+		@college.destroy
+		flash[:notice] = "Expenses was successfully deleted"
+		redirect_to owner_index_path;
+	end
+
 
 
 
@@ -30,6 +51,10 @@ class CollegesController < ApplicationController
 
 	def set_owner
 		@owner = current_owner
+	end
+
+	def set_college
+		@college = College.find(params[:id])
 	end
 
 	def college_params

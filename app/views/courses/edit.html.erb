@@ -47,6 +47,8 @@
 				</div>
 			</div>
 
-		<% end %>	
+		<% end %>
+		<%= link_to "DELETE COURSE", course_path(@course), class: "btn btn-md btn-success active", method: :delete, data: {confirm: "Are You Sure?"} %> 
 	</div>
+
 </div>
