@@ -5,13 +5,13 @@
   <table class="table table-striped">
     <header>Viewing All Courses for <%= @college.name %></header>
       <thead>
-
         <tr>
           <th> Name </th>
           <th> Description </th>
           <th> Invoices </th>
           <th> Action </th>
         </tr>
+      </thead>
         <% @college.courses.each do |course| %>
           <tbody>
             <tr>
@@ -22,7 +22,11 @@
                 <% unpaid = course_payment.where(paid: false) %>
                 <% paid = course_payment.where(paid: true) %> 
                 <% if unpaid.present? %>
-                  <td> <strong><%= unpaid.count %></strong> unpaid bills </td>
+                  <td>
+                    <%= link_to "#{unpaid.count} unpaid bills", 
+                        teacher_pay_bill_path(course_id: course.id), 
+                        class: "btn btn-sm btn-danger active" %>
+                  </td>
                 <% else %>
                   <td> VIEW RECEIPTS </td>
                 <% end %>
@@ -34,13 +38,12 @@
                 <% if !@teacher.courses.where(id: course.id).present? %>
                   <%= link_to "Sign Up", teacher_course_path(course: course), class: "btn btn-sm btn-primary active" %> 
                 <% else %>
-                  <%= link_to "Already Added", "#", class: "btn btn-sm btn-success active" %> 
+                  <%= link_to "Already Added", "#", class: "btn btn-sm btn-primary active" %> 
                 <% end %>
               </td>
             </tr>
           </tbody>
         <% end %>
-      </thead>
     </table>
 <% else %>
   </br></br>

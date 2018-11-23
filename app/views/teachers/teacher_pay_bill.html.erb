@@ -1,0 +1,25 @@
+<h1> Teacher Pay Bill </h1>
+
+<% if @course_payment.present? %>
+  <table class="table table-striped">
+    <header>Viewing All Bills for <%= @teacher.username %></header>
+    <thead>
+      <tr>
+        <th> DESCRIPTION </th>
+        <th> AMOUNT </th>
+        <th> ACTION </th>
+      </tr>
+    </thead>
+    <% @course_payment.each do |payment| %>
+      <tbody>
+        <tr>
+          <td><%= payment.description %></td>
+          <td>RM <%= payment.amount %></td>
+          <td>PAY BILLS</td>
+        </tr>
+      </tbody>   
+    <% end %>  
+  </table>
+<% else %>
+  No bills created for <%= @course.name %>
+<% end %>

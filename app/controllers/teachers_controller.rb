@@ -1,6 +1,6 @@
 class TeachersController < ApplicationController
 	before_action :authenticate_teacher!, except: [:search, :find, :show]
-	before_action :set_teacher, only: [:index, :college, :add_college, :remove_college, :payment_signup]
+	before_action :set_teacher #, only: [:index, :college, :add_college, :remove_college, :payment_signup]
 
 
 	def index
@@ -65,6 +65,12 @@ class TeachersController < ApplicationController
 				TeacherCollege.create(teacher_id: @teacher.id, college_id: params[:college_id])
 		end
 		redirect_to show_teacher_path(@teacher, college: params[:college_id])
+
+	end
+
+	def teacher_pay_bill
+		@course = Course.find(params[:course_id])
+		@course_payment = Payment.where(teacher_id: @teacher.id, course_id: params[:course_id])
 
 	end
 
