@@ -1,6 +1,6 @@
 class TeachersController < ApplicationController
 	before_action :authenticate_teacher!, except: [:search, :find, :show]
-	before_action :set_teacher, only: [:index, :college, :add_college, :remove_college]
+	before_action :set_teacher, only: [:index, :college, :add_college, :remove_college, :payment_signup]
 
 
 	def index
@@ -55,6 +55,17 @@ class TeachersController < ApplicationController
 			flash.now[:danger] = "Adding College Unsuccessful.Please try again"
 			redirect_to teacher_college_path
 		end
+	end
+
+	def payment_signup
+		if (!TeacherCourse.where(teacher_id: @teacher.id, course_id: params[:course_id]).present?)
+				TeacherCourse.create(teacher_id: @teacher.id, course_id: params[:course_id])
+		end
+		if (!TeacherCollege.where(teacher_id: @teacher.id, college_id: params[:college_id]).present?)
+				TeacherCollege.create(teacher_id: @teacher.id, college_id: params[:college_id])
+		end
+		redirect_to show_teacher_path(@teacher, college: params[:college_id])
+
 	end
 
 	

@@ -17,7 +17,19 @@
             <tr>
               <td><%= course.name %></td>
               <td><%= course.description %></td>
-              <td> 9 unpaid bills </td>
+              <% course_payment = @teacher_payments.where(course_id: course.id) %>
+              <% if (course_payment.present?) %>
+                <% unpaid = course_payment.where(paid: false) %>
+                <% paid = course_payment.where(paid: true) %> 
+                <% if unpaid.present? %>
+                  <td> <strong><%= unpaid.count %></strong> unpaid bills </td>
+                <% else %>
+                  <td> VIEW RECEIPTS </td>
+                <% end %>
+                
+              <% else %>
+                <td> No Bills created </td>
+              <% end %>
               <td> 
                 <% if !@teacher.courses.where(id: course.id).present? %>
                   <%= link_to "Sign Up", teacher_course_path(course: course), class: "btn btn-sm btn-primary active" %> 

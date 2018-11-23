@@ -27,6 +27,7 @@ class CollegesController < ApplicationController
 	def show_teacher
 		@teacher = Teacher.find(params[:id])
 		@college = College.find(params[:college])
+		@teacher_payments = @teacher.payments
 	end
 
 	def edit

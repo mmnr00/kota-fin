@@ -48,6 +48,7 @@ Rails.application.routes.draw do
   get '/teacher/:id/my_college', to: 'teachers#college', as: 'teacher_college'
   post '/teacher/:id/add_college', to: 'teachers#add_college', as: 'add_college'
   post '/teacher/:id/remove_college', to: 'teachers#remove_college', as: 'remove_college'
+  get '/teacher/:id/payment_signup', to: 'teachers#payment_signup', as: 'payment_signup'
 
   #PARENTS
   get 'parent_index', to: 'parents#index', as: 'parent_index'

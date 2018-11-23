@@ -106,12 +106,14 @@ class PaymentsController < ApplicationController
   end
 
   def teacher_create_bill
+    
     @teacher = Teacher.find(params[:id])
     @course = Course.find(params[:course])
     @college = @course.college
     amount = @course.base_fee.to_f*100
     url_bill = "#{$billplz_url}bills"
     if (params[:plan] == "plan1")
+      @payment = Payment.new
       data_billplz = HTTParty.post(url_bill.to_str,
                       :body  => { :collection_id => "#{@college.collection_id}", 
                       :email=> "#{@teacher.email}",
@@ -123,10 +125,27 @@ class PaymentsController < ApplicationController
                       #:callback_url=>  "YOUR RETURN URL"}.to_json,
             :basic_auth => { :username => $api_key },
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
-    data = JSON.parse(data_billplz.to_s)
-    redirect_to root_path
+      data = JSON.parse(data_billplz.to_s)
+
+      if (data["id"].present?)
+        @payment.amount = data["amount"].to_f/100
+        @payment.description = data["description"]
+        @payment.bill_month = Date.today.month
+        @payment.bill_year = Date.today.year
+        @payment.course_id = @course.id
+        @payment.teacher_id = @teacher.id
+        @payment.state = data["state"]
+        @payment.paid = data["paid"]
+        @payment.bill_id = data["id"]
+        @payment.save
+      else
+        flash[:danger] = "Sign Up failed. Please try again"
+        redirect_to root_path and return
+      end
+      
     else
       (1..3).each do |i|
+        @payment = Payment.new
         data_billplz = HTTParty.post(url_bill.to_str,
                       :body  => { :collection_id => "#{@college.collection_id}", 
                       :email=> "#{@teacher.email}",
@@ -138,12 +157,26 @@ class PaymentsController < ApplicationController
                       #:callback_url=>  "YOUR RETURN URL"}.to_json,
             :basic_auth => { :username => $api_key },
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
-    data = JSON.parse(data_billplz.to_s)
-
-        
+        data = JSON.parse(data_billplz.to_s)
+        if (data["id"].present?)
+            @payment.amount = data["amount"].to_f/100
+            @payment.description = data["description"]
+            @payment.bill_month = Date.today.month
+            @payment.bill_year = Date.today.year
+            @payment.course_id = @course.id
+            @payment.teacher_id = @teacher.id
+            @payment.state = data["state"]
+            @payment.paid = data["paid"]
+            @payment.bill_id = data["id"]
+            @payment.save
+        else
+            flash[:danger] = "Sign Up failed. Please try again"
+            redirect_to root_path and return
+        end
       end
-      redirect_to teacher_index_path
+      #redirect_to teacher_index_path
     end
+    redirect_to payment_signup_path(@teacher, college_id: @college.id, course_id: @course.id)
   end
 
   def view_bill
