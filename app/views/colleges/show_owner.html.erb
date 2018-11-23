@@ -28,9 +28,12 @@
 							<td><%= course.description %></td>
 							<td><%= course.base_fee %></td>
 							<td><%= course.teachers.count %></td>
-							<td> 9 unpaid bills </td>
+							<td><%= link_to "#{course.payments.where(paid: false).count} unpaid bills ", 
+                  "#", class: "btn btn-sm btn-danger active" %></td>
 							<td> 
-								<%= link_to "Edit", edit_course_path(id: course, owner_id: @owner.id, college: params[:college]), class: "btn btn-sm btn-success active" %> <!-- ID is for course -->
+								<%= link_to "View", owner_course_path(course: course), class: "btn btn-sm btn-primary active" %> <!-- ID is for course -->
+                &nbsp
+                <%= link_to "Edit", edit_course_path(id: course, owner_id: @owner.id, college: params[:college]), class: "btn btn-sm btn-success active" %>
 							</td>
 						</tr>
 					</tbody>

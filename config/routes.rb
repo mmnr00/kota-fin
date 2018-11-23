@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   #COURSE
   get '/college/:id/courses/new', to: 'courses#new', as: 'new_course'
   get '/teacher/:id/courses/show', to: 'courses#teacher_course', as: 'teacher_course'
+  get '/owner/:id/courses/show', to: 'courses#owner_course', as: 'owner_course'
 
   #TEACHERS
   get 'teacher_index', to: 'teachers#index'

@@ -12,6 +12,13 @@ class CoursesController < ApplicationController
 		@course = Course.find(params[:course])
 	end
 
+	def owner_course
+		@owner = Owner.find(params[:id])
+		@course = Course.find(params[:course])
+		@course_teachers = @course.teachers
+		@course_payments = @course.payments
+	end
+
 	def new
 		@college = College.find(params[:id])
 		@course = Course.new

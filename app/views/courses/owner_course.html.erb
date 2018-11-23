@@ -1,0 +1,35 @@
+<h3> View Course <%= @course.name %> </h3>
+
+<% if @course_teachers.present? %>
+  <table class="table table-striped">
+    <header>Viewing All Teachers</header>
+    <thead>
+      <tr>
+        <th> Name </th>
+        <th> Email </th>
+        <th> Payment Information </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @course_teachers.each do |teacher|%>
+        <tr>
+          <td><%= teacher.username %></td>
+          <td><%= teacher.email %></td>
+          <td>
+            <% teacher.payments.where(course_id: @course.id).each do |bill| %>
+              <strong>RM <%= bill.amount %></strong>&nbsp&nbsp
+              <% if bill.paid %>
+                <%= link_to "PAID", "#", class: "btn btn-sm btn-success active" %>
+              <% else %>
+                <%= link_to "DUE", "#", class: "btn btn-sm btn-danger active" %>
+              <% end %>
+              </br> </br>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  No student had signed up for this course
+<% end %>
