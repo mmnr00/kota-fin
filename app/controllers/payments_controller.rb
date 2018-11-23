@@ -40,9 +40,9 @@ class PaymentsController < ApplicationController
     data_billplz = HTTParty.post(url_collection.to_str,
                   :body  => { :title => title,
                               :split_payment => {
-                                :email => emails, 
-                                :fixed_cut => 0, 
-                                :split_header => true}
+                              :email => emails, 
+                              :fixed_cut => 0, 
+                              :split_header => true}
                             }.to_json,
                   :basic_auth => { :username => $api_key },
                   :headers => { 'Content-Type' => 'application/json', 
@@ -51,6 +51,30 @@ class PaymentsController < ApplicationController
     @taska.collection_id = data["id"]
     @taska.save
     redirect_to payment_index_path(@taska)
+  end
+
+  def create_collection_college
+    @owner = Owner.find(params[:id])
+    @college = College.find(params[:college_id])
+    url_collection = "#{$billplz_url}collections/"
+    title = @college.name
+    emails = @owner.email
+
+    data_billplz = HTTParty.post(url_collection.to_str,
+                  :body  => { :title => title,
+                              :split_payment => {
+                              :email => "mustrivium@yahoo.com", 
+                              :fixed_cut => 1.5, 
+                              :split_header => true}
+                            }.to_json,
+                  :basic_auth => { :username => $api_key },
+                  :headers => { 'Content-Type' => 'application/json', 
+                                'Accept' => 'application/json' })
+    data = JSON.parse(data_billplz.to_s)
+    @college.collection_id = data["id"]
+    @college.save
+    #render json: data_billplz
+    redirect_to owner_index_path;
   end
 
 
