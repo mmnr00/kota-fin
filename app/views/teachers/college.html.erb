@@ -9,11 +9,27 @@
           <th> Action </th>
 				</tr>
 				<% @teacher.colleges.each do |college| %>
+          <% unpaid = false %>
+          <% has_bills = false %>
 					<tbody>
 						<tr>
 							<td><%= college.name %></td>
 							<td>
-                <%= link_to "DUE", root_path, class: "btn btn-sm btn-success active", method: :delete, data: {confirm: "Are You Sure?"} %> 
+                <% college.courses.each do |course| %>
+                  <% if course.payments.where(paid: false, teacher_id: @teacher.id).present? %>
+                    <% unpaid = true %>
+                  <% end %>
+                  <% if course.payments.where(teacher_id: @teacher.id).present? %>
+                    <% has_bills = true %>
+                  <% end %>
+                <% end %>
+                <% if unpaid %>
+                  <%= link_to "UNPAID", "#", class: "btn btn-sm btn-success active" %> 
+                <% elsif !has_bills %>
+                  No Bills Created 
+                <% else %>
+                  <%= link_to "PAID", "#", class: "btn btn-sm btn-success active" %> 
+                <% end %>
               </td>
               <td>
                 <%= link_to "View College", show_teacher_path(@teacher, college: college), class: "btn btn-sm btn-primary active" %> &nbsp

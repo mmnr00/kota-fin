@@ -12,7 +12,7 @@ class PaymentsController < ApplicationController
   def update
    @bill = Payment.where(bill_id: "#{params[:billplz][:id]}").first
    if @bill.present?
-    @kid = @bill.kid
+    #@kid = @bill.kid
     @bill.paid = params[:billplz][:paid]
     @bill.save
     if @bill.paid
@@ -20,7 +20,12 @@ class PaymentsController < ApplicationController
     else
       flash[:danger] = "Bill was not paid due to bank rejection. Please try again"
     end
-    redirect_to parent_index_path
+    if (@bill.kid.present?)
+      @kid = @bill.kid
+      redirect_to parent_index_path
+    elsif (@bill.teacher.present?)
+      redirect_to teacher_pay_bill_path(id: @bill.teacher.id, course_id: @bill.course.id)
+    end
    end
    
 

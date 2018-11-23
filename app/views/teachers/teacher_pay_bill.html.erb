@@ -15,7 +15,15 @@
         <tr>
           <td><%= payment.description %></td>
           <td>RM <%= payment.amount %></td>
-          <td>PAY BILLS</td>
+          <% if payment.paid %>
+          <td>
+            <%= link_to "VIEW RECEIPTS", "#{$billplz}bills/#{payment.bill_id}", class: "btn btn-sm btn-success active" %>
+          </td>
+          <% else %>
+            <td>
+              <%= link_to "PAYBILLS", "#{$billplz}bills/#{payment.bill_id}", class: "btn btn-sm btn-danger active" %>
+            </td>
+          <% end %>
         </tr>
       </tbody>   
     <% end %>  

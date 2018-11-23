@@ -28,7 +28,11 @@
                         class: "btn btn-sm btn-danger active" %>
                   </td>
                 <% else %>
-                  <td> VIEW RECEIPTS </td>
+                  <td> 
+                    <%= link_to "VIEW RECEIPTS", 
+                        teacher_pay_bill_path(course_id: course.id), 
+                        class: "btn btn-sm btn-success active" %>
+                  </td>
                 <% end %>
                 
               <% else %>
