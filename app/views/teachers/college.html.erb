@@ -44,30 +44,47 @@
 	No Colleges to display. Please add college below
 <% end %>
 
-<caption> Add New College </caption>
-<table class="table table-striped">
+<div class="row">
+  <div class="col-md-12">
+    <div class="grid simple ">
+      <div class="grid-title no-border">
+        <caption> Add New College </caption>
+        <div class="tools">
+          <a href="javascript:;" class="collapse"></a>
+          <!-- <a href="#grid-config" data-toggle="modal" class="config"></a>
+          <a href="javascript:;" class="reload"></a>
+          <a href="javascript:;" class="remove"></a> -->
+        </div>
+      </div>
+      <div class="grid-body no-border">
+
+<table class="table table-striped table-bordered">
 	<thead>
 		<tr>
-			<th> College Name </th>
-			<th> Action </th>
+			<th><h4 align="center">COLLEGE NAME</h4></th>
+			<th><h4 align="center">ACTION</h4></th>
 		</tr>
+    
 			<tbody>
 				<% @college_list.each do |college| %>
 				<tr>
 					<td><%= college.name %></td>
 					<% if !@teacher.colleges.where(id: college.id).present? %>
 						<td>
-							<%= link_to "Add College", add_college_path(college: college), class: "btn btn-xs btn-primary active", method: :post %>
+							<p align="center"><%= link_to "Add College", add_college_path(college: college), class: "btn btn-sm btn-primary active", method: :post %></p>
 						</td>
 					<% else %>
 						<td>
-							<button class= "btn btn-sm btn-success active">Already Added</button></br></br>
+							<p align="center"><button class= "btn btn-sm btn-success active">Already Added</button></p>
 						</td>
 					<% end %>
 				</tr>
-				<% end %>
+				 <% end %>
 			</tbody>
+
 		
 	</thead>
 </table>
+
+
 
