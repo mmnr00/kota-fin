@@ -10,7 +10,7 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-// require rails-ujs
+//= require rails-ujs
 //= require jquery
 // require twitter/bootstrap
 //= require jquery_ujs
@@ -21,11 +21,15 @@
 //= require turbolinks
 //= require turbolinks-compatibility
 
+
+
 // Start for AGENCY
 //= require js_agency/jqBootstrapValidation
 //= require js_agency/contact_me
 //= require js_agency/agency.min
 // End for AGENCY
+
+//= require js/webarch
 
 //START FOR ADMIN
 // require jquery_sb-admin/jquery

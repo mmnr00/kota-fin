@@ -24,6 +24,15 @@ Rails.application.routes.draw do
   get 'sb_table', to: 'welcomes#sb_table'
   get 'star_rating', to: 'welcomes#star_rating'
 
+  #PAGES
+  get 'about', to: 'pages#about'
+  get 'buttons', to: 'pages#buttons'
+  get 'charts', to: 'pages#charts'
+  get 'icons', to: 'pages#icons'
+  get 'invoice', to: 'pages#invoice'
+  get 'dashboard_v1', to: 'pages#dashboard_v1'
+  get 'tables', to: 'pages#tables'
+
   #ADMINS
   get 'admin_index', to: 'admins#index'
   get 'webarch', to: 'admins#webarch'

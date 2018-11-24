@@ -12,13 +12,10 @@
  *
  *= require bootstrap-glyphicons
  Start for WEBARCH
- * require pace/pace-theme-flash
- * require bootstrapv3/css/bootstrap.min
- * require bootstrapv3/css/bootstrap-theme.min
- * require font-awesome/css/font-awesome
- * require animate.min
- * require jquery-scrollbar/jquery.scrollbar
- * require css/webarch.css
+ * require plugins/bootstrapv3/css/bootstrap.min.css
+ *= require plugins/bootstrapv3/css/bootstrap-theme.min.css
+ *= require webarch/css/webarch.css
+ 
  End for WEBARCH
 
  Start for AGENCY
@@ -47,6 +44,8 @@ html {
    -o-background-size: cover;
    background-size: cover;
 }
+
+
 */
 
  

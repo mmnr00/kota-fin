@@ -27,17 +27,27 @@
       </ul>
 
       <div id="content-wrapper">
-
         <div class="container-fluid">
-
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
               Guest Dashboard
             </li>
             <li class="breadcrumb-item active">My Bills</li>
           </ol>
-          <%= yield %>
+          <div class="bg-light">
+            <div class="container">
+              <div class="row">
+                <%= yield %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
 <%= render 'layouts/dsb-admin-foot' %>
+
+
+        
+          
 
           
