@@ -1,7 +1,23 @@
 <h3> Viewing College for <%= @teacher.username %> </h3>
 
 <% if @teacher.colleges.present? %>
-	<table class="table table-striped">
+<div class="row">
+  <div class="col-md-12">
+    <div class="grid simple ">
+      <div class="grid-title no-border">
+        <caption> <h3 align="center"> MY COLLEGES</h3> </caption>
+        <!-- <div class="tools">
+          <a href="javascript:;" class="collapse"></a>
+          <a href="#grid-config" data-toggle="modal" class="config"></a>
+          <a href="javascript:;" class="reload"></a>
+          <a href="javascript:;" class="remove"></a>
+        </div> -->
+      </div>
+      <div class="grid-body no-border">
+<div class="card-body">
+              <div class="table-responsive">
+<table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
+	<table class="table table-striped table-bordered">
 			<thead>
 				<tr>
 					<th> College Name </th>
@@ -40,6 +56,13 @@
 				<% end %>
 			</thead>
 		</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
 <% else %>
 	No Colleges to display. Please add college below
 <% end %>
@@ -48,17 +71,18 @@
   <div class="col-md-12">
     <div class="grid simple ">
       <div class="grid-title no-border">
-        <caption> Add New College </caption>
-        <div class="tools">
+        <caption> <h3 align="center">ADD NEW COLLEGE</h3> </caption>
+        <!-- <div class="tools">
           <a href="javascript:;" class="collapse"></a>
-          <!-- <a href="#grid-config" data-toggle="modal" class="config"></a>
+          <a href="#grid-config" data-toggle="modal" class="config"></a>
           <a href="javascript:;" class="reload"></a>
-          <a href="javascript:;" class="remove"></a> -->
-        </div>
+          <a href="javascript:;" class="remove"></a>
+        </div> -->
       </div>
       <div class="grid-body no-border">
-
-<table class="table table-striped table-bordered">
+<div class="card-body">
+              <div class="table-responsive">
+<table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
 	<thead>
 		<tr>
 			<th><h4 align="center">COLLEGE NAME</h4></th>
@@ -86,5 +110,6 @@
 	</thead>
 </table>
 
-
+<%= render 'js-script/datatables-demo' %>
+<%= render 'js-script/jquery-datatables' %>
 
