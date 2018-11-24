@@ -31,7 +31,9 @@ class TeachersController < ApplicationController
 	end
 
 	def college
+
 		@college_list = College.all
+		render action: "college", layout: "dsb-admin-eg"
 
 	end
 
