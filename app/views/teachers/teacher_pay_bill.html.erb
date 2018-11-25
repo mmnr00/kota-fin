@@ -31,11 +31,11 @@
             <td>RM <%= payment.amount %></td>
             <% if payment.paid %>
             <td>
-              <%= link_to "VIEW RECEIPTS", "#{$billplz}bills/#{payment.bill_id}", target: "_blank", class: "btn btn-sm btn-success active" %>
+              <%= link_to "VIEW RECEIPTS", course_payment_path(payment: payment), class: "btn btn-sm btn-success active" %>
             </td>
             <% else %>
               <td>
-                <%= link_to "PAYBILLS", "#{$billplz}bills/#{payment.bill_id}", target: "_blank", class: "btn btn-sm btn-danger active" %>
+                <%= link_to "PAYBILLS", course_payment_path(payment: payment), class: "btn btn-sm btn-danger active" %>
               </td>
             <% end %>
           </tr>

@@ -6,7 +6,7 @@
         <div class="clearfix"></div>
         <div class="content">
           <div class="row">
-            <div class="col-md-11">
+            <div class="col-md-12">
               <div class="grid simple">
                 <div class="grid-body no-border invoice-body">
                   <br>
@@ -19,7 +19,7 @@
               </address>
                   </div>
                   <div class="pull-right">
-                    <h2>invoice</h2>
+                    <h2>INVOICE for <strong><%= @course.name %></strong></h2>
                   </div>
                   <div class="clearfix"></div>
                   <br>
@@ -27,84 +27,68 @@
                   <br>
                   <div class="row">
                     <div class="col-md-9">
-                      <h4 class="semi-bold">Daren forthway</h4>
+                      <h4 class="semi-bold"><%= @teacher.username.upcase %></h4>
+                      <h5 class="semi-bold"><%= @teacher.email %></h5>
                       <address>
-                <strong>Webarch Holdings.</strong><br>
-                795 Folsom Ave, Suite 600<br>
-                San Francisco, CA 94107<br>
-                <abbr title="Phone">P:</abbr> (123) 456-7890
-                </address>
+                        <strong>No Address Provided</strong><br>
+                        <br>
+                        <br>
+                        <abbr title="Phone">Phone:</abbr> No Phone Provided
+                      </address>
                     </div>
                     <div class="col-md-3">
                       <br>
                       <div>
-                        <div class="pull-left"> INVOICE NO : </div>
-                        <div class="pull-right"> 000985 </div>
+                        <div class="pull-left"> BILL ID : <%= @payment.bill_id %></div>
                         <div class="clearfix"></div>
                       </div>
                       <div>
-                        <div class="pull-left"> INVOICE DATE : </div>
-                        <div class="pull-right"> 15/02/13 </div>
+                        <div class="pull-left"> BILL DATE : <%= @payment.created_at.strftime("%b %d, %Y") %></div>
+                        <div class="clearfix"></div>
+                      </div>
+                      <div>
+                        <div class="pull-left"> PAYMENT DATE : <%= @payment.updated_at.strftime("%b %d, %Y") %></div>
                         <div class="clearfix"></div>
                       </div>
                       <br>
-                      <div class="well well-small green">
-                        <div class="pull-left"> Total Due : </div>
-                        <div class="pull-right"> 84,000 USD </div>
-                        <div class="clearfix"></div>
-                      </div>
                     </div>
                   </div>
                   <table class="table">
                     <thead>
                       <tr>
-                        <th style="width:60px" class="unseen text-center">QTY</th>
                         <th class="text-left">DESCRIPTION</th>
-                        <th style="width:140px" class="text-right">UNIT PRICE</th>
-                        <th style="width:90px" class="text-right">TOTAL</th>
+                        <th></th>
+                        <th style="width:140px" class="text-right">AMOUNT (RM)</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td class="unseen text-center">1</td>
-                        <td>iPhone 5 32GB White &amp; Silver (GSM) Unlocked</td>
-                        <td class="text-right">$749.00</td>
-                        <td class="text-right">$749.00</td>
+                        <td><%= @payment.description %></td>
+                        <td></td>
+                        <td class="text-right"><%= @payment.amount %></td>
                       </tr>
                       <tr>
-                        <td class="unseen text-center">2</td>
-                        <td>iPad mini with Wi-Fi 32GB - White &amp; Silver</td>
-                        <td class="text-right">$429.00</td>
-                        <td class="text-right">$858.00</td>
-                      </tr>
-                      <tr>
-                        <td colspan="2" rowspan="4">
+                        <td colspan="0" rowspan="4">
                           <h4 class="semi-bold">terms and conditions</h4>
-                          <p>Thank you for your business. We do expect payment within 21 days, so please process this invoice within that time. There will be a 1.5% interest charge per month on late invoices.</p>
-                          <h5 class="text-right semi-bold">Thank you for your business</h5></td>
-                        <td class="text-right"><strong>Subtotal</strong></td>
-                        <td class="text-right">$1607.00</td>
+                          <p>Please make the payment based on the schedule provided by the owner</p>
+                          </td>
                       </tr>
                       <tr>
-                        <td class="text-right no-border"><strong>Shipping</strong></td>
-                        <td class="text-right">$0.00</td>
-                      </tr>
-                      <tr>
-                        <td class="text-right no-border"><strong>VAT Included in Total</strong></td>
-                        <td class="text-right">$0.00</td>
+                        <td class="text-right no-border"><strong>TAX</strong></td>
+                        <td class="text-right">0.00</td>
                       </tr>
                       <tr>
                         <td class="text-right no-border">
-                          <div class="well well-small green"><strong>Total</strong></div>
+                          <div class="well well-small green"><strong>TOTAL</strong></div>
                         </td>
-                        <td class="text-right"><strong>$1607.00</strong></td>
+                        <td class="text-right"><strong><%= @payment.amount %></strong></td>
                       </tr>
                     </tbody>
                   </table>
                   <br>
                   <br>
                   <h5 class="text-right text-black">
-                    <%= link_to "PAYBILLS", "#{$billplz}", target: "_blank", class: "btn btn-sm btn-danger active" %>
+                    <%= link_to "PAYBILLS", "#{$billplz}bills/#{@payment.bill_id}", target: "_blank", class: "btn btn-sm btn-danger active" %>
                   </h5>
                   <br>
                   <br>
@@ -126,4 +110,10 @@
       </div>
       
     </div>
+
+<%= link_to "BACK", :back, class: "btn btn-sm btn-primary active"%>
+
+
+
+
     
