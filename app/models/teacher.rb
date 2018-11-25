@@ -11,10 +11,11 @@ class Teacher < ApplicationRecord
 	has_many :courses, through: :teacher_courses
 	has_many :teacher_colleges
 	has_many :colleges, through: :teacher_colleges
-  	devise :database_authenticatable, :registerable,
+  	devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :validatable
 
  	 validates_presence_of :username, :email
+ 	 #attr_accessor :password, :password_confirmation
  	 
 
 
