@@ -1,19 +1,32 @@
-<h2> Welcome back <%= @teacher.username %>! </h2>
-
-
 <% if @college.courses.present? %>
-  <table class="table table-striped">
-    <header>Viewing All Courses for <%= @college.name %></header>
-      <thead>
-        <tr>
-          <th> Name </th>
-          <th> Description </th>
-          <th> Invoices </th>
-          <th> Action </th>
-        </tr>
-      </thead>
-        <% @college.courses.each do |course| %>
-          <tbody>
+
+  <div class="card mb-3">
+  <div class="card-header">
+    <i class="fas fa-chalkboard"></i>
+    MY COURSES IN <%= @college.name %>
+  </div>
+
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered" id="" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th> Name </th>
+            <th> Description </th>
+            <th> Invoices </th>
+            <th> Action </th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            <th> Name </th>
+            <th> Description </th>
+            <th> Invoices </th>
+            <th> Action </th>
+          </tr>
+        </foot>
+        <tbody>
+          <% @college.courses.each do |course| %>
             <tr>
               <td><%= course.name %></td>
               <td><%= course.description %></td>
@@ -34,7 +47,6 @@
                         class: "btn btn-sm btn-success active" %>
                   </td>
                 <% end %>
-                
               <% else %>
                 <td> No Bills created </td>
               <% end %>
@@ -46,11 +58,27 @@
                 <% end %>
               </td>
             </tr>
-          </tbody>
-        <% end %>
-    </table>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+
 <% else %>
-  </br></br>
-  No courses present. Please create one. 
+</br></br>
+  No courses present. Please contact the college owner. 
 <% end %>
-  
+
+
+
+
+
+
+
+
+
+
+
+
+

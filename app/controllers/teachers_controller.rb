@@ -48,6 +48,7 @@ class TeachersController < ApplicationController
 			flash.now[:danger] = "Adding College Unsuccessful.Please try again"
 			redirect_to teacher_college_path
 		end
+
 	end
 
 	def remove_college
@@ -75,7 +76,7 @@ class TeachersController < ApplicationController
 	def teacher_pay_bill
 		@course = Course.find(params[:course_id])
 		@course_payment = Payment.where(teacher_id: @teacher.id, course_id: params[:course_id])
-
+		render action: "teacher_pay_bill", layout: "dsb-teacher-edu"
 	end
 
 	

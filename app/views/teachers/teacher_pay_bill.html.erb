@@ -1,33 +1,53 @@
-<h1> Teacher Pay Bill </h1>
-
 <% if @course_payment.present? %>
-  <table class="table table-striped">
-    <header>Viewing All Bills for <%= @teacher.username %></header>
-    <thead>
-      <tr>
-        <th> DESCRIPTION </th>
-        <th> AMOUNT </th>
-        <th> ACTION </th>
-      </tr>
-    </thead>
-    <% @course_payment.each do |payment| %>
-      <tbody>
-        <tr>
-          <td><%= payment.description %></td>
-          <td>RM <%= payment.amount %></td>
-          <% if payment.paid %>
-          <td>
-            <%= link_to "VIEW RECEIPTS", "#{$billplz}bills/#{payment.bill_id}", class: "btn btn-sm btn-success active" %>
-          </td>
-          <% else %>
+
+  <div class="card mb-3">
+  <div class="card-header">
+    <i class="fas fa-file-invoice-dollar"></i>
+    Showing My Bills for <strong><%= @course.name %></strong>
+  </div>
+
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered" id="" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th> DESCRIPTION </th>
+            <th> AMOUNT </th>
+            <th> ACTION </th>
+          </tr>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            <th> DESCRIPTION </th>
+            <th> AMOUNT </th>
+            <th> ACTION </th>
+          </tr>
+        </foot>
+        <tbody>
+          <% @course_payment.each do |payment| %>
+          <tr>
+            <td><%= payment.description %></td>
+            <td>RM <%= payment.amount %></td>
+            <% if payment.paid %>
             <td>
-              <%= link_to "PAYBILLS", "#{$billplz}bills/#{payment.bill_id}", class: "btn btn-sm btn-danger active" %>
+              <%= link_to "VIEW RECEIPTS", "#{$billplz}bills/#{payment.bill_id}", target: "_blank", class: "btn btn-sm btn-success active" %>
             </td>
+            <% else %>
+              <td>
+                <%= link_to "PAYBILLS", "#{$billplz}bills/#{payment.bill_id}", target: "_blank", class: "btn btn-sm btn-danger active" %>
+              </td>
+            <% end %>
+          </tr>
           <% end %>
-        </tr>
-      </tbody>   
-    <% end %>  
-  </table>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  </div>
+
 <% else %>
+
   No bills created for <%= @course.name %>
+
 <% end %>

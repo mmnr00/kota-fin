@@ -29,6 +29,7 @@ class CollegesController < ApplicationController
 		@teacher = Teacher.find(params[:id])
 		@college = College.find(params[:college])
 		@teacher_payments = @teacher.payments
+		render action: "show_teacher", layout: "dsb-teacher-edu"
 	end
 
 	def edit

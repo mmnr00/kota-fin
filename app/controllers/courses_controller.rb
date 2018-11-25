@@ -10,6 +10,7 @@ class CoursesController < ApplicationController
 		@payment = Payment.new
 		@teacher = Teacher.find(params[:id])
 		@course = Course.find(params[:course])
+		render action: "teacher_course", layout: "dsb-teacher-edu"
 	end
 
 	def owner_course
