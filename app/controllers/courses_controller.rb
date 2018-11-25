@@ -32,7 +32,7 @@ class CoursesController < ApplicationController
 		   render pdf: "Receipt for #{@course.name} (#{@teacher.username})",
 		   template: "courses/payment_pdf.html.erb",
 		   #disposition: "attachment",
-		   page_size: "A6",
+		   #page_size: "A6",
 		   #orientation: "landscape",
 		   layout: 'pdf.html.erb'
 			end
