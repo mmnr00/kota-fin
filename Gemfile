@@ -22,6 +22,9 @@ gem 'sinatra', github: 'sinatra/sinatra'
 gem 'execjs'
 gem 'therubyracer'
 gem "less-rails"
+#from wicked_pdf
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
 
 # Use SCSS for stylesheets
 #gem 'sass-rails', '~> 3.2.6'

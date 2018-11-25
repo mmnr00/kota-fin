@@ -2,12 +2,6 @@
       <!-- BEGIN PAGE CONTAINER-->
       <div class="page-content">
         <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
-        <% if @payment.paid %>
-          <h1 align="center"><%= link_to "PAID", "#", class: "btn btn-lg btn-success active" %></h1>
-        <% else %>
-          <h1 align="center"><%= link_to "PENDING PAYMENT", "#", class: "btn btn-lg btn-danger active" %></h1>
-        <% end %>
-        
         
         <div class="clearfix"></div>
         <div class="content">
@@ -25,13 +19,7 @@
               </address>
                   </div>
                   <div class="pull-right">
-                    <% if @payment.paid %>
-                      <h2>Receipt for 
-                    <% else %>
-                    <h2>INVOICE for 
-                    <% end %>
-
-                      <strong><%= @course.name %></strong></h2>
+                    <h2>Receipt for <strong><%= @course.name %></strong></h2>
                   </div>
                   <div class="clearfix"></div>
                   <br>
@@ -59,9 +47,7 @@
                         <div class="clearfix"></div>
                       </div>
                       <div>
-                        <% if @payment.paid %>
                         <div class="pull-left"> PAYMENT DATE : <%= @payment.updated_at.strftime("%b %d, %Y") %></div>
-                        <% end %>
                         <div class="clearfix"></div>
                       </div>
                       <br>
@@ -101,16 +87,9 @@
                   </table>
                   <br>
                   <br>
-                  <h5 class="text-right text-black">
-                    <% if @payment.paid %>
-                      <%= link_to "PRINT RECEIPT", course_payment_pdf_path(payment: @payment.id, format: :pdf), target: "_blank", class: "btn btn-sm btn-success active" %>
-                    <% else %>
-                      <%= link_to "PAYBILLS", "#{$billplz}bills/#{@payment.bill_id}", target: "_blank", class: "btn btn-sm btn-danger active" %>
-                    <% end %>
-                  </h5>
                   <br>
                   <br>
-                  Powered by&nbsp<img src="<%= image_path('kidcare_logo/kidcare_logo_top.png') %>" class="" alt="" width="87" height="30" />
+                  Powered by&nbsp<img src="http://kidcare-staging.herokuapp.com/assets/kidcare_logo/kidcare_logo_top-2b09ac57470ad9c46d851f10ca40f74bbf26226674f9bc7f3bc8598cfb55572e.png" class="" alt="" width="87" height="30" />
                   www.kidcare.my
                 </div>
 
@@ -133,9 +112,7 @@
       
     </div> -->
 
-<%= link_to 'Create PDF document', course_payment_pdf_path(payment: @payment.id, format: :pdf), target: "_blank" %>
 
-<%= link_to "BACK", :back, class: "btn btn-sm btn-primary active"%>
 
 
 

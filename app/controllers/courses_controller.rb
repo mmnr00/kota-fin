@@ -22,6 +22,24 @@ class CoursesController < ApplicationController
 		end
 	end
 
+	def payment_pdf
+		@payment = Payment.find(params[:payment])
+		@teacher = Teacher.find(@payment.teacher_id)
+		@course = Course.find(@payment.course_id)
+		respond_to do |format|
+	 		format.html
+	 		format.pdf do
+		   render pdf: "Receipt for #{@course.name} (#{@teacher.username})",
+		   template: "courses/payment_pdf.html.erb",
+		   #disposition: "attachment",
+		   page_size: "A6",
+		   #orientation: "landscape",
+		   layout: 'pdf.html.erb'
+			end
+		end
+		
+	end
+
 	def owner_course
 		@owner = Owner.find(params[:id])
 		@course = Course.find(params[:course])

@@ -33,6 +33,9 @@ Rails.application.routes.draw do
   get 'dashboard_v1', to: 'pages#dashboard_v1'
   get 'tables', to: 'pages#tables'
 
+  #PDF
+  get 'print_payment_course', to: 'pdfs#print_payment_course'
+
   #ADMINS
   get 'admin_index', to: 'admins#index'
   get 'webarch', to: 'admins#webarch'
@@ -51,6 +54,7 @@ Rails.application.routes.draw do
   get '/teacher/:id/courses/show', to: 'courses#teacher_course', as: 'teacher_course'
   get '/owner/:id/courses/show', to: 'courses#owner_course', as: 'owner_course'
   get '/course/payment', to: 'courses#payment', as: 'course_payment'
+  get '/course/payment_pdf', to: 'courses#payment_pdf', as: 'course_payment_pdf'
 
   #TEACHERS
   get 'teacher_index', to: 'teachers#index'

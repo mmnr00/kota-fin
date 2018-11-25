@@ -24,7 +24,7 @@ class PaymentsController < ApplicationController
       @kid = @bill.kid
       redirect_to parent_index_path
     elsif (@bill.teacher.present?)
-      redirect_to teacher_pay_bill_path(id: @bill.teacher.id, course_id: @bill.course.id)
+      redirect_to course_payment_pdf_path(payment: @bill.id, format: :pdf)
     end
    end
    
