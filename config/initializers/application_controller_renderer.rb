@@ -7,17 +7,17 @@
 #   )
 # end
 
-## BILLPLZ LOCAL
-$billplz_url = "https://billplz-staging.herokuapp.com/api/v3/"
-$billplz = "https://billplz-staging.herokuapp.com/"
-$api_key = "6d78d9dd-81ac-4932-981b-75e9004a4f11"
-$root_url = "http://localhost:3000/"
-
-# ## BILLPLZ STAGING 
+# ## BILLPLZ LOCAL
 # $billplz_url = "https://billplz-staging.herokuapp.com/api/v3/"
 # $billplz = "https://billplz-staging.herokuapp.com/"
 # $api_key = "6d78d9dd-81ac-4932-981b-75e9004a4f11"
-# $root_url = "http://kidcare-staging.herokuapp.com/"
+# $root_url = "http://localhost:3000/"
+
+## BILLPLZ STAGING 
+$billplz_url = "https://billplz-staging.herokuapp.com/api/v3/"
+$billplz = "https://billplz-staging.herokuapp.com/"
+$api_key = "6d78d9dd-81ac-4932-981b-75e9004a4f11"
+$root_url = "http://kidcare-staging.herokuapp.com/"
 
 # # BILLPLZ PRODUCTION
 # $billplz_url = "https://billplz-staging.herokuapp.com/api/v3/"
