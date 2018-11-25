@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin - Dashboard</title>
+
+    <%= favicon_link_tag 'kidcare_logo/kidcare_logo_only.png' %>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag "application", :media => "all", "data-turbolinks-track" => true %>
+
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+
+  </head>
+
+  <body id="page-top">
+    <nav class="navbar navbar-expand navbar-blue bg-blue static-top">
+      
+      <a class="navbar-brand mr-1" href="#">
+        <img src="<%= image_path('kidcare_logo/kidcare_logo_top.png') %>" class="" alt="" data-src="<%= image_path('kidcare_logo/kidcare_logo_top.png') %>" data-src-retina="<%= image_path('kidcare_logo/kidcare_logo_top.png') %>" width="145" height="50" />
+      </a>
+
+      <!-- Navbar Search (should be here if not all will pull left-->
+      <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">    
+      </form>
+
+      <!-- Navbar -->
+      <ul class="navbar-nav ml-auto ml-md-0">
+        <li class="nav-item dropdown no-arrow mx-1">
+          <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Welcome Back <strong><%= @teacher.username.upcase %></strong>!
+          </a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-lg fa-user-circle fa-fw"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+            <a class="dropdown-item" href="/teachers/edit">Edit Profile
+            </a>
+            <a class="dropdown-item" href="#"></a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+            	<p align="center"><%= link_to "LOGOUT", destroy_teacher_session_path, class: "btn btn-sm btn-danger active", method: :delete, :data => {:confirm => 'Are you sure to logout?'} %></p>
+            </a>
+          </div>
+        </li>
+      </ul>
+    
+    </nav>
+
+    <div id="wrapper">

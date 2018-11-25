@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   devise_for :parents
   devise_for :teachers
   devise_for :admins
-  devise_for :owners
+  devise_for :owners#, :controllers => { :passwords => 'passwords' }
 	root 'welcomes#index2'
 
 

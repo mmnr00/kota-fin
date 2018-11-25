@@ -4,6 +4,8 @@ class TeachersController < ApplicationController
 
 
 	def index
+		#render action: "index", layout: "dsb-teacher-main"
+		redirect_to teacher_college_path(@teacher)
 
 	end
 
@@ -33,7 +35,7 @@ class TeachersController < ApplicationController
 	def college
 
 		@college_list = College.all
-		render action: "college", layout: "dsb-admin-eg"
+		render action: "college", layout: "dsb-teacher-edu"
 
 	end
 
