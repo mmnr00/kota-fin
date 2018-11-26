@@ -42,7 +42,7 @@ class TeachersController < ApplicationController
 	def add_college
 		teacher_college = TeacherCollege.new(teacher_id: params[:id], college_id: params[:college])
 		if teacher_college.save
-			flash.now[:success] = "Adding College Successful"
+			flash[:success] = "Adding College Successful"
 			redirect_to teacher_college_path
 		else
 			flash.now[:danger] = "Adding College Unsuccessful.Please try again"
