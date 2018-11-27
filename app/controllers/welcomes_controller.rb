@@ -9,6 +9,10 @@ class WelcomesController < ApplicationController
 	end
 
 	def index2
+		@teacher = current_teacher
+		@admin = current_admin
+		@owner = current_owner
+		@parent = current_parent
 		render action: "index2", layout: "homepage2"
 		
 	end

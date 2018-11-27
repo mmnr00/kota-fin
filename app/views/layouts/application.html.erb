@@ -15,28 +15,7 @@
         </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav text-uppercase ml-auto">
-          <% if current_admin || current_parent %>
-               <li class="nav-item dropdown no-arrow mx-1">
-                <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <button class="btn btn-sm btn-success active">YOUR PROFILE</button>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
-                  <a class="dropdown-item" href="/admin_index">Back to Dashboard</a>
-                  <a class="dropdown-item" href="/parent_index">Edit Profile</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">LOGOUT</a>
-                </div>
-              <% else %>
-                <li class="nav-item dropdown no-arrow mx-1">
-                <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <button class="btn btn-sm btn-danger active">LOGIN</button>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
-                  <a class="dropdown-item" href="/admin_index">Login as Taska Admin</a>
-                  <a class="dropdown-item" href="/parent_index">Login as Parent</a>
-                </div>
-              </li>
-              <% end %>
+          <%= render 'layouts/login-button' %>
         </ul>
       </div>
     </div>
