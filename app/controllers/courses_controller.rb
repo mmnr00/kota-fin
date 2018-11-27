@@ -55,7 +55,7 @@ class CoursesController < ApplicationController
 		@owner = current_owner
 		@college = College.find(params[:id])
 		@course = Course.new
-		@course.images.build
+		@course.fotos.build
 		render action: "new", layout: "dsb-owner-college"
 	end
 
@@ -100,7 +100,11 @@ class CoursesController < ApplicationController
 	end
 
 	def course_params
-			params.require(:course).permit(:name, :college_id, :base_fee, :description, images_attributes: [:image, :picture])
+			params.require(:course).permit(	:name, 
+																			:college_id, 
+																			:base_fee, 
+																			:description, 
+																			fotos_attributes: [:foto, :picture])
 			
 	end
 
