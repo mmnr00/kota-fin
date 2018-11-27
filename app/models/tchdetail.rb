@@ -1,0 +1,2 @@
+class Tchdetail < ApplicationRecord
+end
