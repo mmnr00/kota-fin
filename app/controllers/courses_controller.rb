@@ -41,15 +41,18 @@ class CoursesController < ApplicationController
 	end
 
 	def owner_course
-		@owner = Owner.find(params[:id])
+		@owner = current_owner
 		@course = Course.find(params[:course])
 		@course_teachers = @course.teachers
 		@course_payments = @course.payments
+		render action: "owner_course", layout: "dsb-owner-college"
 	end
 
 	def new
+		@owner = current_owner
 		@college = College.find(params[:id])
 		@course = Course.new
+		render action: "new", layout: "dsb-owner-college"
 	end
 
 	def create
@@ -63,18 +66,22 @@ class CoursesController < ApplicationController
 	end
 
 	def edit
+		@owner = current_owner
+		render action: "edit", layout: "dsb-owner-college"
 	end
 
 	def update
+		@owner = current_owner
 		if @course.update(course_params)
 			flash[:notice] = "#{@course.name} was successfully updated"
-			redirect_to show_owner_path(id: current_owner, college: @course.college.id), :method => :get;
+			redirect_to show_owner_path(id: @owner.id, college: @course.college.id)
 		else
 			render 'edit'
 		end
 	end
 
 	def destroy
+		@owner = current_owner
 		@course.destroy
 		flash[:notice] = "Expenses was successfully deleted"
 		redirect_to show_owner_path(id: current_owner, college: @course.college.id), :method => :get;

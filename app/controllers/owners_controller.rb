@@ -3,6 +3,7 @@ class OwnersController < ApplicationController
 	before_action :set_owner
 
 	def index
+		render action: "index", layout: "dsb-owner-college"
 
 	end
 	

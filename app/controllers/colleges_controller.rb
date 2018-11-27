@@ -7,6 +7,7 @@ class CollegesController < ApplicationController
 
 	def new
 		@college = College.new
+		render action: "new", layout: "dsb-owner-college"
 	end
 
 	def create
@@ -23,6 +24,7 @@ class CollegesController < ApplicationController
 
 	def show_owner
 		@college = College.find(params[:college])
+		render action: "show_owner", layout: "dsb-owner-college"
 	end
 
 	def show_teacher
@@ -33,6 +35,7 @@ class CollegesController < ApplicationController
 	end
 
 	def edit
+		render action: "show_owner", layout: "dsb-owner-college"
 	end
 
 	def update
