@@ -16,7 +16,7 @@
           <%= f.label :name %>
         </div>
         <div class="col-sm-8">
-          <%= f.text_field :name, class: "form-control", placeholder: "Course Name", autofocus: true %>
+          <%= f.text_field :name, class: "form-control", placeholder: "Course Name", autofocus: true, required: true %>
         </div>
       </div>
 
@@ -26,7 +26,7 @@
           <%= f.label :description %>
         </div>
         <div class="col-sm-8">
-          <%= f.text_area :description, class: "form-control", placeholder: "Course Description", autofocus: true %>
+          <%= f.text_area :description, class: "form-control", placeholder: "Course Description", autofocus: true, required: true %>
         </div>
       </div>
 
@@ -36,7 +36,7 @@
           <%= f.label :fee %>
         </div>
         <div class="col-sm-2">
-          <%= f.number_field :base_fee, rows: 10, class: "form-control", :step => 0.01,placeholder: "e.g 32.10" %>
+          <%= f.number_field :base_fee, rows: 10, class: "form-control", :step => 0.01,placeholder: "e.g 32.10", required: true %>
         </div>
       </div>
 
