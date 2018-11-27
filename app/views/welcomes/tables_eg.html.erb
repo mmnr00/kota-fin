@@ -1,37 +1,42 @@
 <div class="card mb-3">
-<div class="card-header">
-  <i class="fas fa-search"></i>
-  MY COLLEGES
-</div>
-<div class="card-body">
-  <div class="table-responsive">
-    <table class="table table-striped table-bordered" id="" width="100%" cellspacing="0">
-      <thead>
-        <tr>
-          <th> College Name </th>
-          <th> Payment Status </th>
-          <th> Action </th>
-        </tr>
-      </thead>
-      <tfoot>
-        <tr>
-          <th> College Name </th>
-          <th> Payment Status </th>
-          <th> Action </th>
-        </tr>
-      </foot>
-      <tbody>
-        <% @teacher.colleges.each do |college| %>
-        <% unpaid = false %>
-        <% has_bills = false %>
-        <tr>
-          <td><%= college.name %></td>
-          <td>UNPAID</td>
-          <td>VIEW COLLEGE</td>
-        </tr>
-        <% end %>
-      </tbody>
-    </table>
+  <div class="card-header">
+    <i class="fas fa-search"></i>
+    MY COLLEGES
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered" id="" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th> College Name </th>
+            <th> Payment Status </th>
+            <th> Action </th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            <th> College Name </th>
+            <th> Payment Status </th>
+            <th> Action </th>
+          </tr>
+        </foot>
+        <tbody>
+          <% @teacher.colleges.each do |college| %>
+          <% unpaid = false %>
+          <% has_bills = false %>
+            <tr>
+              <td><%= college.name %></td>
+              <td>UNPAID</td>
+              <td>VIEW COLLEGE</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
-</div>
+
+<%= render 'js-script/datatables-demo' %>
+<%= render 'js-script/jquery-datatables' %>
+
+<%= link_to "BACK", :back, class: 'btn btn-sm btn-info btn-lg' %></br></br>

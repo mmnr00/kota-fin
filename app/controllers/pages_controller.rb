@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
 
-	layout "dsb-admin-eg"
+	#layout "dsb-admin-eg"
 
 	def index
 	end

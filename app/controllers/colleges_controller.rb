@@ -35,7 +35,7 @@ class CollegesController < ApplicationController
 	end
 
 	def edit
-		render action: "show_owner", layout: "dsb-owner-college"
+		render action: "edit", layout: "dsb-owner-college"
 	end
 
 	def update

@@ -1,35 +1,55 @@
-<h3> View Course <%= @course.name %> </h3>
+<div class="card mb-3">
+  <div class="card-header" style="background-color:#0050be">
+    <h3 align="center" style="color:white"> View Course <%= @course.name %> </h3>
+  </div>
+</div>
 
 <% if @course_teachers.present? %>
-  <table class="table table-striped">
-    <header>Viewing All Teachers</header>
-    <thead>
-      <tr>
-        <th> Name </th>
-        <th> Email </th>
-        <th> Payment Information </th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @course_teachers.each do |teacher|%>
-        <tr>
-          <td><%= teacher.username %></td>
-          <td><%= teacher.email %></td>
-          <td>
-            <% teacher.payments.where(course_id: @course.id).each do |bill| %>
-              <strong>RM <%= bill.amount %></strong>&nbsp&nbsp
-              <% if bill.paid %>
-                <%= link_to "PAID", "#", class: "btn btn-sm btn-success active" %>
-              <% else %>
-                <%= link_to "DUE", "#", class: "btn btn-sm btn-danger active" %>
-              <% end %>
-              </br> </br>
-            <% end %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <div class="card mb-3">
+  <div class="card-header">
+    <i class="fas fa-search"></i>
+    VIEWING ALL TEACHERS
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered" id="" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th> Name </th>
+            <th> Email </th>
+            <th> Payment Information </th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr>
+            <th> Name </th>
+            <th> Email </th>
+            <th> Payment Information </th>
+          </tr>
+        </foot>
+        <tbody>
+          <% @course_teachers.each do |teacher|%>
+            <tr>
+              <td><%= teacher.username %></td>
+              <td><%= teacher.email %></td>
+              <td>
+                <% teacher.payments.where(course_id: @course.id).each do |bill| %>
+                  <strong>RM <%= bill.amount %></strong>&nbsp&nbsp
+                  <% if bill.paid %>
+                    <%= link_to "VIEW RECEIPT", course_payment_path(payment: bill), class: "btn btn-sm btn-success active" %>
+                  <% else %>
+                    <%= link_to "DUE", "#", class: "btn btn-sm btn-danger active" %>
+                  <% end %>
+                  </br> </br>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 <% else %>
   No student had signed up for this course
 <% end %>

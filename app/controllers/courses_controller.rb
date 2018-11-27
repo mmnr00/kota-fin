@@ -17,8 +17,11 @@ class CoursesController < ApplicationController
 		@payment = Payment.find(params[:payment])
 		@teacher = Teacher.find(@payment.teacher_id)
 		@course = Course.find(@payment.course_id)
+		@owner = current_owner
 		if current_teacher
 			render action: "payment", layout: "dsb-teacher-edu"
+		elsif current_owner
+			render action: "payment", layout: "dsb-owner-college"
 		end
 	end
 

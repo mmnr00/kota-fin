@@ -1,4 +1,8 @@
-<h1> Editing <%= @college.name %> </h1>
+<div class="card mb-3">
+  <div class="card-header" style="background-color:#0050be">
+    <h3 align="center" style="color:white"> EDITING <%= @college.name %> </h3>
+  </div>
+</div>
 
 <div class='row'>
   <div class='col-lg-12'>
@@ -28,12 +32,12 @@
 
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-          <%= f.submit class: 'btn btn-primary btn-lg' %>
+          <%= f.submit "Update Agency", class: 'btn btn-primary btn-lg' %>
         </div>
       </div>
 
     <% end %>
-    <%= link_to "DELETE COLLEGE", college_path(@college), class: "btn btn-md btn-success active", method: :delete, data: {confirm: "Are You Sure?"} %> 
+    <%= link_to "DELETE AGENCY", college_path(@college), class: "btn btn-md btn-success active", method: :delete, data: {confirm: "Are You Sure?"} %> 
   </div>
 
 </div>
