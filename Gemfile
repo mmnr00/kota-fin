@@ -25,6 +25,11 @@ gem "less-rails"
 #from wicked_pdf
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
+#for image upload
+gem 'carrierwave'
+gem 'mini_magick'
+gem 'fog'
+
 
 # Use SCSS for stylesheets
 #gem 'sass-rails', '~> 3.2.6'

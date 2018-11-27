@@ -8,7 +8,7 @@
 
 <div class='row'>
   <div class='col-lg-12'>
-    <%= form_for(@course, :html => {class: "form-horizontal", role: "form"}) do |f| %>
+    <%= form_for(@course, :html => {multipart: true, class: "form-horizontal", role: "form"}) do |f| %>
 
       <!-- name -->
       <div class="form-group"> 
@@ -39,6 +39,17 @@
           <%= f.number_field :base_fee, rows: 10, class: "form-control", :step => 0.01,placeholder: "e.g 32.10" %>
         </div>
       </div>
+
+      <%= f.fields_for :images do |h| %>
+        <div class="form-group"> 
+          <div class="control-label col-sm-2">
+            <%= h.label :picture %>
+          </div>
+          <div class="col-sm-2">
+            <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
+          </div>
+        </div>
+      <% end %>
 
 
       <div>

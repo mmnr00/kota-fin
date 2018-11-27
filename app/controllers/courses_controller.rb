@@ -55,12 +55,13 @@ class CoursesController < ApplicationController
 		@owner = current_owner
 		@college = College.find(params[:id])
 		@course = Course.new
+		@course.images.build
 		render action: "new", layout: "dsb-owner-college"
 	end
 
 	def create
 		@course = Course.new(course_params)
-		if @course.save		
+		if @course.save
 			flash[:notice] = "College was successfully created"					
 			redirect_to show_owner_path(id: current_owner, college: @course.college.id), :method => :get;									
 		else
@@ -99,7 +100,16 @@ class CoursesController < ApplicationController
 	end
 
 	def course_params
-			params.require(:course).permit(:name, :college_id, :base_fee, :description)
+			params.require(:course).permit(:name, :college_id, :base_fee, :description, images_attributes: [:image, :picture])
+			
 	end
 
+	
+
+
 end
+
+
+
+
+
