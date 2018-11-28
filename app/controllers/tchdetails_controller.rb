@@ -1,5 +1,5 @@
 class TchdetailsController < ApplicationController
-	before_action :set_tchdetail, except: [:new]
+	before_action :set_tchdetail, except: [:new, :create]
 	#before_action :rep_responsible?
 	#before_action :authenticate_parent! || :authenticate_admin!
 	def new
@@ -8,10 +8,13 @@ class TchdetailsController < ApplicationController
 
 	def create
 		@tchdetail = Tchdetail.new(tchdetail_params)
+		#@tchdetail.marital = params[:marital]
+		#@tchdetail.education = params[:education]
 		#@expense.taska = session[:taska_id]
-		if @tchdetail.save			
+		if @tchdetail.save
+
 			flash[:notice] = "Children was successfully created"					
-			redirect_to root_path;									
+			render :edit									
 		else
 			render @tchdetail.errors.full_messages
 			render :new
@@ -40,7 +43,19 @@ class TchdetailsController < ApplicationController
 	end
 
 	def tchdetail_params
-      params.require(:tchdetail).permit(:name, :ic_1, :ic_2, :ic_3, :phone_1, :phone_2)
+      params.require(:tchdetail).permit(:name, 
+      																	:ic_1, 
+      																	:ic_2, 
+      																	:ic_3, 
+      																	:phone_1, 
+      																	:phone_2, 
+      																	:marital, 
+      																	:address_1, 
+      																	:address_2,
+      																	:city,
+      																	:states,
+      																	:postcode,
+      																	:education )
     end
 
 end

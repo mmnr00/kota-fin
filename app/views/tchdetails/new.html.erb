@@ -1,4 +1,4 @@
-
+NEW TEACHER
 
 <div class='row'>
     <div class='col-lg-8'>
@@ -25,13 +25,13 @@
           </div>
           <div class="row">
             <div class="col-sm-3">
-              <%= f.text_field :ic_1, class: "form-control", placeholder: "", autofocus: true %>
+              <%= f.number_field :ic_1, class: "form-control", placeholder: "", autofocus: true %>
             </div> <strong>-</strong>
             <div class="col-sm-2">
-             <%= f.text_field :ic_2, class: "form-control", placeholder: "", autofocus: true %>
+             <%= f.number_field  :ic_2, class: "form-control", placeholder: "", autofocus: true %>
             </div> <strong>-</strong>
             <div class="col-sm-3">
-              <%= f.text_field :ic_3, class: "form-control", placeholder: "", autofocus: true %>
+              <%= f.number_field  :ic_3, class: "form-control", placeholder: "", autofocus: true %>
             </div>         
           </div>
         </div>
@@ -43,12 +43,12 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-2">
-             <%= f.text_field :phone_1, class: "form-control", placeholder: "AREA", autofocus: true %> 
+            <div class="col-sm-2 col-3">
+             <%= f.number_field  :phone_1, class: "form-control", autofocus: true %><font size="2"> Area </font> 
             </div>
             -
             <div class="col-sm-3">
-              <%= f.text_field :phone_2, class: "form-control", placeholder: "PHONE NUM", autofocus: true %>
+              <%= f.number_field  :phone_2, class: "form-control", autofocus: true %><font size="2"> Phone Number </font> 
             </div>
           </div>
         </div>
@@ -73,16 +73,26 @@
         <div class="form-group"> <!-- ADDRESS-->
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong><%= f.label :"Phone Number" %></strong>
+              <strong><%= f.label :"Address" %></strong>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-2">
-             <%= f.text_field :phone_1, class: "form-control", placeholder: "AREA", autofocus: true %> 
+            <div class="col-sm-8 col-3">
+             <%= f.text_field :address_1, class: "form-control", autofocus: true %> <font size="2"> Address Line 1 </font>
             </div>
-            -
-            <div class="col-sm-3">
-              <%= f.text_field :phone_2, class: "form-control", placeholder: "PHONE NUM", autofocus: true %>
+            <div class="col-sm-8 col-3">
+             <%= f.text_field :address_2, class: "form-control", autofocus: true %> <font size="2"> Address Line 2 </font>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-3 col-4">
+             <%= f.text_field :city, class: "form-control", autofocus: true %> <font size="2"> City </font>
+            </div>
+            <div class="col-sm-3 col-3">
+             <%= f.text_field :states, class: "form-control", autofocus: true %> <font size="2"> States </font>
+            </div>
+            <div class="col-sm-2 col-3">
+             <%= f.number_field :postcode, class: "form-control", autofocus: true %> <font size="2"> Postcode </font>
             </div>
           </div>
         </div>
