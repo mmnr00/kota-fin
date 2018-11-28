@@ -14,7 +14,7 @@ class TchdetailsController < ApplicationController
 		if @tchdetail.save
 
 			flash[:notice] = "Children was successfully created"					
-			render :edit									
+												
 		else
 			render @tchdetail.errors.full_messages
 			render :new
