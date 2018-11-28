@@ -104,7 +104,7 @@ class CoursesController < ApplicationController
 																			:college_id, 
 																			:base_fee, 
 																			:description, 
-																			fotos_attributes: [:foto, :picture])
+																			fotos_attributes: [:foto, :picture, :foto_name])
 			
 	end
 

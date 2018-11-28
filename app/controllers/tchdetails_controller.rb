@@ -4,6 +4,7 @@ class TchdetailsController < ApplicationController
 	#before_action :authenticate_parent! || :authenticate_admin!
 	def new
 		@tchdetail = Tchdetail.new
+		@tchdetail.fotos.build
 	end
 
 	def create
@@ -55,7 +56,8 @@ class TchdetailsController < ApplicationController
       																	:city,
       																	:states,
       																	:postcode,
-      																	:education )
+      																	:education,
+      																	fotos_attributes: [:foto, :picture, :foto_name] )
     end
 
 end

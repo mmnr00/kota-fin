@@ -1,6 +1,6 @@
 <div class='row'>
-    <div class='col-lg-8 col-12'>
-      <%= form_for(@tchdetail, :html => {class: "form-horizontal", role: "form"}) do |f| %>
+  <div class='col-lg-8 col-12'>
+    <%= form_for(@tchdetail, :html => {multipart: true, class: "form-horizontal", role: "form"}) do |f| %>
         
         <div class="form-group"> <!-- name -->
           <div class="row">
@@ -116,6 +116,55 @@
             </div>
           </div>
         </div>
+
+        <%= f.fields_for :fotos do |h| %> <!-- IC FRONT -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong><%= h.label :"IC FRONT" %></strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-8">
+              <%= h.hidden_field :foto_name, value: "IC FRONT" %>
+              <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <%= f.fields_for :fotos do |h| %> <!-- IC BACK -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong><%= h.label :"IC BACK" %></strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-8">
+              <%= h.hidden_field :foto_name, value: "IC BACK" %>
+              <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <%= f.fields_for :fotos do |h| %> <!-- PROFILE PIC -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong><%= h.label :"Profile Picture" %></strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-8">
+              <%= h.hidden_field :foto_name, value: "PROFILE PIC" %>
+              <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
               
         <div class="form-group">
           <div class="row">
