@@ -10,7 +10,7 @@
           </div>
           <div class="row">
             <div class="col-sm-8">
-              <%= f.text_field :name, class: "form-control", placeholder: "YOUR FULL NAME AS PER IC", autofocus: true %>
+              <%= f.text_field :name, class: "form-control", placeholder: "YOUR FULL NAME AS PER IC", autofocus: true, required: true %>
             </div>
           </div>
         </div>
@@ -23,13 +23,13 @@
           </div>
           <div class="row">
             <div class="col-sm-3">
-              <%= f.number_field :ic_1, class: "form-control", placeholder: "", autofocus: true %>
+              <%= f.text_field :ic_1, maxlength: 6 ,class: "form-control", autofocus: true, required: true %>
             </div> <strong>-</strong>
             <div class="col-sm-2">
-             <%= f.number_field  :ic_2, class: "form-control", placeholder: "", autofocus: true %>
+             <%= f.text_field :ic_2, maxlength: 2, class: "form-control", placeholder: "", autofocus: true, required: true %>
             </div> <strong>-</strong>
             <div class="col-sm-3">
-              <%= f.number_field  :ic_3, class: "form-control", placeholder: "", autofocus: true %>
+              <%= f.text_field :ic_3, maxlength: 4, class: "form-control", placeholder: "", autofocus: true, required: true %>
             </div>         
           </div>
         </div>
@@ -42,11 +42,11 @@
           </div>
           <div class="row">
             <div class="col-sm-2 col-3">
-             <%= f.number_field  :phone_1, class: "form-control", autofocus: true %><font size="2"> Area </font> 
+             <%= f.text_field  :phone_1, maxlength: 3, class: "form-control", autofocus: true, required: true %><font size="2"> Area </font> 
             </div>
             -
             <div class="col-sm-3">
-              <%= f.number_field  :phone_2, class: "form-control", autofocus: true %><font size="2"> Phone Number </font> 
+              <%= f.text_field  :phone_2, maxlength: 8, class: "form-control", autofocus: true, required: true %><font size="2"> Phone Number </font> 
             </div>
           </div>
         </div>
@@ -62,7 +62,8 @@
               <%= f.select :marital, options_for_select(["Single", 
                                                         "Married", 
                                                         "Others"],
-                                                        selected: @tchdetail.marital) %>          
+                                                        selected: @tchdetail.marital),
+              {include_blank: "Please Select"}, {required: true} %>          
             </div>
           </div>
         </div>
@@ -75,7 +76,7 @@
           </div>
           <div class="row">
             <div class="col-sm-8 col-3">
-             <%= f.text_field :address_1, class: "form-control", autofocus: true %> <font size="2"> Address Line 1 </font>
+             <%= f.text_field :address_1, class: "form-control", autofocus: true, required: true %> <font size="2"> Address Line 1 </font>
             </div>
             <div class="col-sm-8 col-3">
              <%= f.text_field :address_2, class: "form-control", autofocus: true %> <font size="2"> Address Line 2 </font>
@@ -83,13 +84,13 @@
           </div>
           <div class="row">
             <div class="col-sm-3 col-4">
-             <%= f.text_field :city, class: "form-control", autofocus: true %> <font size="2"> City </font>
+             <%= f.text_field :city, class: "form-control", autofocus: true, required: true %> <font size="2"> City </font>
             </div>
             <div class="col-sm-3 col-3">
-             <%= f.text_field :states, class: "form-control", autofocus: true %> <font size="2"> States </font>
+             <%= f.text_field :states, class: "form-control", autofocus: true, required: true %> <font size="2"> States </font>
             </div>
             <div class="col-sm-2 col-3">
-             <%= f.number_field :postcode, class: "form-control", autofocus: true %> <font size="2"> Postcode </font>
+             <%= f.number_field :postcode, class: "form-control", autofocus: true, required: true %> <font size="2"> Postcode </font>
             </div>
           </div>
         </div>
@@ -110,8 +111,8 @@
                                                         "Sijil Kemahiran",
                                                         "Others"
                                                         ], 
-                                                        selected: @tchdetail.education) 
-                                                        %>
+                                                        selected: @tchdetail.education), 
+              {include_blank: "Please Select"}, {required: true} %>
             </div>
           </div>
         </div>
