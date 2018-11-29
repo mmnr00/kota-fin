@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :classrooms, only:[:show]
   resources :kids, only:[:create,:destroy,:update,:edit]
   resources :payments, only:[:create,:destroy]
-  resources :fotos, only:[:destroy]
+  resources :fotos, only:[:edit, :update ,:destroy]
   resources :tchdetails, only:[:new,:create,:destroy,:update,:edit]
   #resources :teachers, only:[:show]
   #resources :taska_teachers, only:[:create,:destroy]

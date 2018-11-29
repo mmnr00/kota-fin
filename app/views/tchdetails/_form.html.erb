@@ -14,7 +14,7 @@
             </div>
           </div>
         </div>
-
+        <% k = 1 %>
         <div class="form-group"> <!-- IC -->
           <div class="row">
             <div class="control-label col-sm-8">
@@ -117,7 +117,8 @@
           </div>
         </div>
 
-        <!-- PROFILE PIC -->
+      <!-- START PHOTO UPLOAD -->
+        <!-- IC FRONT -->
       <% m = 0 %> <!-- Stop loop at 1 -->
       <div class="form-group"> 
         <div class="row">
@@ -125,33 +126,41 @@
             <strong>Ic Front</strong>
           </div>
         </div>
-        <% image = @tchdetail.fotos.where(foto_name: "PROFILE PIC").first %>
+        <div class="row">
+        <div class="col-sm-8 col-5">
+        <% image = @tchdetail.fotos.where(foto_name: "IC FRONT").first %>
         <% if image.present? %>
-          <%= image_tag(image.picture.url, size: "100x100") if image.picture? %>&nbsp 
-              <strong><%= link_to "Remove Picture", foto_path(image.id), style: "color:#ff0000", method: :delete, data: {confirm: "Are You Sure?"} %></strong>  
+          <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
+            <div class="row">
+            <div class="col-sm-8 col-5">
+              <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success" %></strong>
+            </div>
+            </div>  
         <% else %>
           <%= f.fields_for :fotos do |h| %>
             <% break if m==1 %>
               <div class="row">
                 <div class="col-sm-8 col-8">
-                  <%= h.hidden_field :foto_name, value: "PROFILE PIC" %>
+                  <%= h.hidden_field :foto_name, value: "IC FRONT" %>
                   <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
                 </div>
               </div>
               <% m = 1 %>
             <% end %>
         <% end %>
+        </div>
+        </div>
       </div>
 
-       <!-- PROFILE PIC -->
+       <!-- Ic Back -->
       <% m = 0 %> <!-- Stop loop at 1 -->
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>Ic Front</strong>
+            <strong>Ic Back</strong>
           </div>
         </div>
-        <% image = @tchdetail.fotos.where(foto_name: "PROFILE PIC").first %>
+        <% image = @tchdetail.fotos.where(foto_name: "IC BACK").first %>
         <% if image.present? %>
           <%= image_tag(image.picture.url, size: "100x100") if image.picture? %>&nbsp 
               <strong><%= link_to "Remove Picture", foto_path(image.id), style: "color:#ff0000", method: :delete, data: {confirm: "Are You Sure?"} %></strong>  
@@ -160,7 +169,7 @@
             <% break if m==1 %>
               <div class="row">
                 <div class="col-sm-8 col-8">
-                  <%= h.hidden_field :foto_name, value: "PROFILE PIC" %>
+                  <%= h.hidden_field :foto_name, value: "IC BACK" %>
                   <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
                 </div>
               </div>
@@ -174,7 +183,7 @@
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>Ic Front</strong>
+            <strong>Profile Pic</strong>
           </div>
         </div>
         <% image = @tchdetail.fotos.where(foto_name: "PROFILE PIC").first %>

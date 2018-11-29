@@ -24,6 +24,12 @@ class TchdetailsController < ApplicationController
 
 	def edit
 		@tchdetail = Tchdetail.find(params[:id])
+		@fotos = @tchdetail.fotos
+
+		if @fotos.count != 1 
+			@tchdetail.fotos.build	
+		end
+		
 	end
 
 	def update
@@ -31,7 +37,7 @@ class TchdetailsController < ApplicationController
 		#@classroom = Classroom.find(params[:classroom])
 		if @tchdetail.update(tchdetail_params)
 			flash[:notice] = "Children was successfully updated"
-			redirect_to root_path
+			redirect_to edit_tchdetail_path(@tchdetail)
 			
 		else
 			render 'edit'
