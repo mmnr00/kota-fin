@@ -150,11 +150,12 @@ class PaymentsController < ApplicationController
                       :amount=>  amount,
                       :callback_url=> "#{$root_url}payments/update",
                       :redirect_url=> "#{$root_url}payments/update",
-                      :description=>"Cuba Bill for Teacher"}.to_json, 
+                      :description=>"#{@teacher.tchdetail.name}'s bill for #{@course.name}"}.to_json, 
                       #:callback_url=>  "YOUR RETURN URL"}.to_json,
             :basic_auth => { :username => $api_key },
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
       data = JSON.parse(data_billplz.to_s)
+      #render json: data_billplz and return
 
       if (data["id"].present?)
         @payment.amount = data["amount"].to_f/100
