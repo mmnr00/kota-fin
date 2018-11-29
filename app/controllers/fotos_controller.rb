@@ -8,7 +8,7 @@ class FotosController < ApplicationController
 	def update
 		@tchdetail = @foto.tchdetail
 		if @foto.update(foto_params)
-        redirect_to edit_tchdetail_path(@tchdetail)
+        redirect_to edit_tchdetail_path(@tchdetail, teacher_id: @teacher.id)
       else
         render :edit
       end
