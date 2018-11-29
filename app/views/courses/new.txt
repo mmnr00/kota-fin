@@ -40,7 +40,16 @@
         </div>
       </div>
 
-      
+      <%= f.fields_for :fotos do |h| %>
+        <div class="form-group"> 
+          <div class="control-label col-sm-2">
+            <%= h.label :picture %>
+          </div>
+          <div class="col-sm-2">
+            <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
+          </div>
+        </div>
+      <% end %>
 
 
       <div>

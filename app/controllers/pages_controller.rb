@@ -26,7 +26,7 @@ class PagesController < ApplicationController
 	def tables
 	end
 
-	def button
+	def bs_profile
 	end
 
 	def button

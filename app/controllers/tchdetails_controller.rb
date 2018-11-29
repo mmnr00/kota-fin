@@ -2,6 +2,12 @@ class TchdetailsController < ApplicationController
 	before_action :set_tchdetail, except: [:new, :create]
 	#before_action :rep_responsible?
 	#before_action :authenticate_parent! || :authenticate_admin!
+	def show
+		@owner = Owner.find(params[:owner_id])
+		@fotos = @tchdetail.fotos
+		render action: "show", layout: "dsb-owner-college"
+	end
+
 	def new
 		@teacher = Teacher.find(params[:teacher_id])
 		@tchdetail = Tchdetail.new

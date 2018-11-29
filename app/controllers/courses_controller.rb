@@ -46,7 +46,7 @@ class CoursesController < ApplicationController
 	def owner_course
 		@owner = current_owner
 		@course = Course.find(params[:course])
-		@course_teachers = @course.teachers
+		@course_teachers = @course.teachers.sort_by(&:created_at)
 		@course_payments = @course.payments
 		render action: "owner_course", layout: "dsb-owner-college"
 	end

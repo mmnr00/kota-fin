@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :kids, only:[:create,:destroy,:update,:edit]
   resources :payments, only:[:create,:destroy]
   resources :fotos, only:[:edit, :update ,:destroy]
-  resources :tchdetails, only:[:new,:create,:destroy,:update,:edit]
+  resources :tchdetails, only:[:show, :new, :create, :destroy, :update, :edit]
   #resources :teachers, only:[:show]
   #resources :taska_teachers, only:[:create,:destroy]
   devise_for :parents
@@ -34,6 +34,7 @@ Rails.application.routes.draw do
   get 'invoice', to: 'pages#invoice'
   get 'dashboard_v1', to: 'pages#dashboard_v1'
   get 'tables', to: 'pages#tables'
+  get 'bs_profile', to: 'pages#bs_profile'
 
   #PDF
   get 'print_payment_course', to: 'pdfs#print_payment_course'

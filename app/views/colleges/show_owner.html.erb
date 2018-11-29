@@ -24,7 +24,6 @@
               <th> No of students </th>
               <th> Pending Payments </th>
               <th> Action </th>
-              <th> Logo </th>
             </tr>
           </thead>
           <tfoot>
@@ -35,7 +34,6 @@
               <th> No of students </th>
               <th> Pending Payments </th>
               <th> Action </th>
-              <th> Logo </th>
             </tr>
           </foot>
           <tbody>
@@ -52,14 +50,7 @@
                   &nbsp
                   <%= link_to "Edit", edit_course_path(id: course, owner_id: @owner.id, college: params[:college]), class: "btn btn-sm btn-success active" %>
                 </td>
-                <% if course.fotos.present? %>
-                  <% course.fotos.each do |image| %>
-                    <td><%= image_tag(image.picture.url, size: "50x50") if image.picture? %></td>
-                  <% end %>
-                <% else %>
-                  <td> NA </td>
-                <% end %>
-                </tr>
+              </tr>
 
               </tr>
             <% end %>
