@@ -12,7 +12,7 @@ class Teacher < ApplicationRecord
 	has_many :teacher_colleges
 	has_many :colleges, through: :teacher_colleges
 	has_one	 :tchdetail
-  	devise :database_authenticatable, :registerable, :confirmable,
+  	devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
  	 validates_presence_of :username, :email

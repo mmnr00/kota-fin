@@ -1,5 +1,6 @@
 class FotosController < ApplicationController
 	before_action :set_foto
+	before_action :set_all
 
 	def edit
 	end
@@ -23,6 +24,13 @@ class FotosController < ApplicationController
 
   def set_foto
 			@foto = Foto.find(params[:id])
+  end
+
+  def set_all
+		@teacher = current_teacher
+		@parent = current_parent
+		@admin = current_admin	
+		@owner = current_owner
   end
 
   def foto_params

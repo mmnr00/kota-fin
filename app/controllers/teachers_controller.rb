@@ -5,7 +5,11 @@ class TeachersController < ApplicationController
 
 	def index
 		#render action: "index", layout: "dsb-teacher-main"
-		redirect_to teacher_college_path(@teacher)
+		if @teacher.tchdetail.present?
+			redirect_to teacher_college_path(@teacher)
+		else
+			redirect_to new_tchdetail_path(teacher_id: @teacher.id)
+		end
 
 	end
 

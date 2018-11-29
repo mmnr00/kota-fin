@@ -44,7 +44,11 @@
             <i class="fa fa-lg fa-user-circle fa-fw"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-            <a class="dropdown-item" href="/teachers/edit">Edit Profile
+            <a class="dropdown-item" 
+            href="/tchdetails/<%= "#{@teacher.tchdetail.id}" %>/edit?teacher_id=<%= @teacher.id %>">
+              View Profile
+            </a>
+            <a class="dropdown-item" href="/teachers/edit">Edit Login
             </a>
             <a class="dropdown-item" href="#"></a>
             <div class="dropdown-divider"></div>

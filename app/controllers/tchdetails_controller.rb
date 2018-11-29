@@ -3,18 +3,23 @@ class TchdetailsController < ApplicationController
 	#before_action :rep_responsible?
 	#before_action :authenticate_parent! || :authenticate_admin!
 	def new
+		@teacher = Teacher.find(params[:teacher_id])
 		@tchdetail = Tchdetail.new
 		@tchdetail.fotos.build
+		#render action: "new", layout: "dsb-teacher-edu"
 	end
 
 	def create
+		@teacher = Teacher.find(params[:tchdetail][:teacher_id])
 		@tchdetail = Tchdetail.new(tchdetail_params)
 		#@tchdetail.marital = params[:marital]
 		#@tchdetail.education = params[:education]
 		#@expense.taska = session[:taska_id]
 		if @tchdetail.save
 
-			flash[:notice] = "Children was successfully created"					
+			flash[:notice] = "Children was successfully created"
+			redirect_to teacher_college_path(@teacher)
+
 												
 		else
 			render @tchdetail.errors.full_messages
@@ -24,20 +29,19 @@ class TchdetailsController < ApplicationController
 
 	def edit
 		@tchdetail = Tchdetail.find(params[:id])
-		@fotos = @tchdetail.fotos
+		@teacher = @tchdetail.teacher
 
-		if @fotos.count != 1 
-			@tchdetail.fotos.build	
-		end
+	
 		
 	end
 
 	def update
 		@tchdetail = Tchdetail.find(params[:id])
+		@teacher = @tchdetail.teacher
 		#@classroom = Classroom.find(params[:classroom])
 		if @tchdetail.update(tchdetail_params)
 			flash[:notice] = "Children was successfully updated"
-			redirect_to edit_tchdetail_path(@tchdetail)
+			redirect_to teacher_college_path(@teacher)
 			
 		else
 			render 'edit'
@@ -63,6 +67,7 @@ class TchdetailsController < ApplicationController
       																	:states,
       																	:postcode,
       																	:education,
+      																	:teacher_id,
       																	fotos_attributes: [:foto, :picture, :foto_name] )
     end
 
