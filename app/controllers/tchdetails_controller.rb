@@ -74,7 +74,27 @@ class TchdetailsController < ApplicationController
       																	:postcode,
       																	:education,
       																	:teacher_id,
+      																	:ts_name,
+      																	:ts_address_1,
+      																	:ts_address_2,
+      																	:ts_city,
+      																	:ts_states,
+      																	:ts_owner_name,
+      																	:ts_phone_1,
+      																	:ts_phone_2,
       																	fotos_attributes: [:foto, :picture, :foto_name] )
     end
 
 end
+
+
+
+
+
+
+
+
+
+
+
+

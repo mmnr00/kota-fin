@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_28_093707) do
+ActiveRecord::Schema.define(version: 2018_11_29_234958) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -197,6 +197,15 @@ ActiveRecord::Schema.define(version: 2018_11_28_093707) do
     t.string "postcode"
     t.string "education"
     t.integer "teacher_id"
+    t.string "ts_name"
+    t.string "ts_address_1"
+    t.string "ts_address_2"
+    t.string "ts_city"
+    t.string "ts_states"
+    t.string "ts_postcode"
+    t.string "ts_owner_name"
+    t.string "ts_phone_1"
+    t.string "ts_phone_2"
   end
 
   create_table "teacher_colleges", force: :cascade do |t|

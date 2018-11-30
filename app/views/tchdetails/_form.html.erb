@@ -119,6 +119,77 @@
           </div>
         </div>
 
+      <!-- TASKA DETAILS -->
+      <div class="form-group"> <!-- taska name -->
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong><%= f.label :"Taska Name" %></strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :ts_name, class: "form-control", autofocus: true %>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group"> <!-- taska owner name -->
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong><%= f.label :"Taska Owner Name" %></strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :ts_owner_name, class: "form-control", autofocus: true %>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group"> <!-- Taska Owner PHONE-->
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong><%= f.label :"Taska Owner Phone Number" %></strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2 col-3">
+             <%= f.text_field  :ts_phone_1, maxlength: 3, class: "form-control", autofocus: true %><font size="2"> Area </font> 
+            </div>
+            -
+            <div class="col-sm-3 col-5">
+              <%= f.text_field  :ts_phone_2, maxlength: 8, class: "form-control", autofocus: true %><font size="2"> Phone Number </font> 
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group"> <!-- TASKA ADDRESS-->
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong><%= f.label :"Taska Address" %></strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+             <%= f.text_field :ts_address_1, class: "form-control", autofocus: true %> <font size="2"> Address Line 1 </font>
+            </div>
+            <div class="col-sm-8 col-12">
+             <%= f.text_field :ts_address_2, class: "form-control", autofocus: true %> <font size="2"> Address Line 2 </font>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-3 col-6">
+             <%= f.text_field :ts_city, class: "form-control", autofocus: true %> <font size="2"> City </font>
+            </div>
+            <div class="col-sm-3 col-5">
+             <%= f.text_field :ts_states, class: "form-control", autofocus: true %> <font size="2"> States </font>
+            </div>
+            <div class="col-sm-2 col-4">
+             <%= f.number_field :ts_postcode, class: "form-control", autofocus: true %> <font size="2"> Postcode </font>
+            </div>
+          </div>
+        </div>
+
       <!-- START PHOTO UPLOAD -->
         <!-- IC FRONT -->
       <% m = 0 %> <!-- Stop loop at 1 -->

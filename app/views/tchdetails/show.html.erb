@@ -72,12 +72,44 @@
                   <% else %>
                     No photo uploaded
                   <% end %>
-                  
                 </td>
                 <td>
-                  
                 </td>
               </tr>
+              <!-- START TASKA DETAILS -->
+              <tr>
+                <td><strong>TASKA NAME:</strong></td>
+                <td>
+                  <%= "#{@tchdetail.ts_name}" %>
+                </td>
+              </tr>
+
+              <tr>
+                <td><strong>TASKA OWNER NAME:</strong></td>
+                <td>
+                  <%= "#{@tchdetail.ts_owner_name}" %>
+                </td>
+              </tr>
+
+              <tr>
+                <td><strong>TASKA OWNER PHONE NO:</strong></td>
+                <td>
+                  <%= "#{@tchdetail.ts_phone_1}-""#{@tchdetail.ts_phone_2}" %>
+                </td>
+              </tr>
+
+              <tr>
+                <td><strong>TASKA ADDRESS:</strong></td>
+                <td>
+                  <%= "#{@tchdetail.ts_address_1}" %><br>
+                  <%= "#{@tchdetail.ts_address_2}" %><br>
+                  <%= "#{@tchdetail.ts_city}" %>
+                  <%= "#{@tchdetail.ts_states}" %>
+                  <%= "#{@tchdetail.ts_postcode}" %>
+                </td>
+              <tr>
+
+
                  
             </tbody>
           </table>
