@@ -77,6 +77,7 @@ Rails.application.routes.draw do
   get '/parent/:id/individual_bill', to: 'parents#individual_bill', as: 'parents_individual_bill'
   get '/parent/:id/pay_bill', to: 'parents#parents_pay_bill', as: 'parents_pay_bill'
   get '/parent/:id/feedback', to: 'parents#parents_feedback', as: 'parents_feedback'
+  get '/parent/:id/all_bills', to: 'parents#all_bills', as: 'all_bills'
 
   #TASKAS
   get '/taska/:id/teachers', to: 'taskas#taskateachers', as: 'taskateachers'

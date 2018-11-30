@@ -50,12 +50,12 @@
               <% end %>
               <% kid_pay = kid.payments.where(paid: false) %>
               <% if kid_pay.present? %>
-                <td><%= link_to "#{kid_pay.count} UNPAID BILLS", root_path, class: "btn btn-sm btn-danger active" %>
+                <td><%= link_to "#{kid_pay.count} UNPAID BILLS", all_bills_path(@parent, kid_id: kid.id), class: "btn btn-sm btn-danger active" %>
                 </td>
               <% elsif !kid.payments.present? %>
                 <td>No bills created</td>
               <% else %>
-                <td><%= link_to "VIEW RECEIPTS", root_path, class: "btn btn-sm btn-success active" %></td>
+                <td><%= link_to "VIEW RECEIPTS", all_bills_path(@parent, kid_id: kid.id), class: "btn btn-sm btn-success active" %></td>
               <% end %>
               <td>
                 <%= link_to "EDIT DETAILS", edit_kid_path(kid), class: "btn btn-sm btn-success active" %>
