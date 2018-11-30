@@ -8,6 +8,7 @@ class ParentsController < ApplicationController
 		@parent = current_parent
 		#@mykids = @parent.kids.order('updated_at DESC')
 		@unpaid_bills = @parent.payments.where(paid: false).order("bill_month DESC")
+		render action: "index", layout: "dsb-parent-child"
 	end
 
 	def view_receipt
