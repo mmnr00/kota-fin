@@ -29,6 +29,9 @@ class PagesController < ApplicationController
 	def bs_profile
 	end
 
+	def profile_card
+	end
+
 	def button
 	end
 
