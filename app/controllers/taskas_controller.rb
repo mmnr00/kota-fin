@@ -7,6 +7,12 @@ class TaskasController < ApplicationController
     @taskas = Taska.all
   end
 
+  def index_parent
+    @parent = Parent.find(params[:id])
+    @taskas = Taska.all
+  end
+
+
   # GET /taskas/1
 
   # GET /taskas/1.json

@@ -4,13 +4,17 @@ class KidsController < ApplicationController
 	#before_action :authenticate_parent! || :authenticate_admin!
 
 	def new
+		@parent = Parent.find(params[:id])
 		@kid = Kid.new
+		@taska = Taska.find(params[:taska_id])
+		render action: "new", layout: "dsb-parent-child"
 	end
 
 	def create
 		@kid = Kid.new(kid_params)
 		#@expense.taska = session[:taska_id]
-		if @kid.save			
+		if @kid.save
+			#Kidtsk.create(kid_id: @kid.id, taska_id: params[:kidtsk][:taska_id])			
 			flash[:notice] = "Children was successfully created"					
 			redirect_to parent_index_path;									
 		else
@@ -21,11 +25,13 @@ class KidsController < ApplicationController
 
 	def edit
 		@kid = Kid.find(params[:id])
+		@parent = Parent.find(@kid.parent.id)
 		@classroom = Classroom.find(params[:classroom]) if @kid.classroom.present?
 	end
 
 	def update
 		@kid = Kid.find(params[:id])
+		@parent = Parent.find(@kid.parent.id)
 		#@classroom = Classroom.find(params[:classroom])
 		if @kid.update(kid_params)
 			flash[:notice] = "Children was successfully updated"
@@ -89,7 +95,35 @@ class KidsController < ApplicationController
 	end
 	
 	def kid_params
-      params.require(:kid).permit(:name, :classroom_id, :parent_id)
+      params.require(:kid).permit(:name, 
+      														:parent_id,
+      														:ic_1,
+																	:ic_2,
+																	:ic_3,
+																	:dob,
+																	:birth_place,
+																	:arr_infam,
+																	:allergy,
+																	:fav_food,
+																	:hobby,
+																	:panel_clinic,
+																	:mother_name,
+																	:mother_phone,
+																	:mother_job,
+																	:mother_job_address,
+																	:father_name,
+																	:father_phone,
+																	:father_job,
+																	:father_job_address,
+																	:income,
+																	:alt_phone,
+																	:date_enter,
+																	:taska_id)
     end
 
 end
+
+
+
+
+

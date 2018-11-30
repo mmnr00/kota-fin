@@ -1,33 +1,6 @@
-<h1>Add children for ID: <%= params[:id] %></h1>
+<h3>NEW CHILDREN REGISTRATION FOR <%= @taska.name %> </h3>
 
-<div class='row'>
-		<div class='col-xs-12'>
-			<%= form_for(@kid, :html => {class: "form-horizontal", role: "form"}) do |f| %>
-				
-				<div class="form-group"> <!-- name -->
-					<div class="control-label col-sm-2">
-						<%= f.label :name %>
-					</div>
-					<div class="col-sm-8">
-						<%= f.text_field :name, class: "form-control", placeholder: "Children Name", autofocus: true %>
-					</div>
-				</div>
-
-					
-					
-					<div class="col-md-4">
-            			<%= f.hidden_field :parent_id, value: params[:id] %>
-         			</div>
-         			
-				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-10">
-						<%= f.submit class: 'btn btn-primary btn-lg' %>
-					</div>
-				</div>
-			<% end %>
-			
-		</div>
-	</div>
+<%= render 'kids/form' %>
 
 	
 

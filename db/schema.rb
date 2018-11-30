@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_30_013359) do
+ActiveRecord::Schema.define(version: 2018_11_30_092216) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -95,15 +95,44 @@ ActiveRecord::Schema.define(version: 2018_11_30_013359) do
     t.datetime "updated_at", null: false
     t.integer "tchdetail_id"
     t.string "foto_name"
+    t.integer "kid_id"
   end
 
   create_table "kids", id: :integer, default: nil, force: :cascade do |t|
     t.text "name"
     t.integer "parent_id"
-    t.integer "classroom_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.float "base_fee"
+    t.string "ic_1"
+    t.string "ic_2"
+    t.string "ic_3"
+    t.date "dob"
+    t.string "birth_place"
+    t.string "arr_infam"
+    t.string "allergy"
+    t.string "fav_food"
+    t.string "hobby"
+    t.string "panel_clinic"
+    t.string "mother_name"
+    t.string "mother_phone"
+    t.string "mother_job"
+    t.string "mother_job_address"
+    t.string "father_name"
+    t.string "father_phone"
+    t.string "father_job"
+    t.string "father_job_address"
+    t.string "income"
+    t.string "alt_phone"
+    t.date "date_enter"
+    t.integer "taska_id"
+    t.integer "classroom_id"
+  end
+
+  create_table "kidtsks", force: :cascade do |t|
+    t.integer "kid_id"
+    t.integer "taska_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "owner_colleges", force: :cascade do |t|

@@ -1,4 +1,4 @@
-<%= link_to "Register New Children", new_kid_path(@parent.id), class: "btn btn-xs btn-primary active"%></br></br>
+<%= link_to "Register New Children", index_parent_path(id: @parent.id), class: "btn btn-xs btn-primary active"%></br></br>
 
 <% if @mykids.present? %>
   <div class="card mb-3">
@@ -16,6 +16,7 @@
             <th> TASKA </th>
             <th> CLASSROOM </th>
             <th> BILLS </th>
+            <th> ACTION </th>
           </tr>
         </thead>
         <tfoot>
@@ -25,6 +26,7 @@
             <th> TASKA </th>
             <th> CLASSROOM </th>
             <th> BILLS </th>
+            <th> ACTION </th>
           </tr>
         </foot>
         <tbody>
@@ -33,20 +35,32 @@
             <tr>
               <td><%= counter %></td>
               <td><%= kid.name %></td>
-              <% if kid.classroom.present? %>
-                <td><%= kid.classroom.taska.name %></td>
-                <td><%= kid.classroom.classroom_name %></td>
+              <% if kid.taska.present? %>
+                <td>
+                  <%= link_to "#{kid.taska.name.upcase}", "TASKA_SHOW_PAGE", style: "color:black", target: "_blank" %>
+                </td>
+                <% if kid.classroom.present? %>
+                  <td><%= kid.classroom.classroom_name %></td>
+                <% else %>
+                  <td> Pending </td>
+                <% end %>
               <% else %>
                 <td>NA</td>
                 <td>NA</td>
               <% end %>
               <% kid_pay = kid.payments.where(paid: false) %>
               <% if kid_pay.present? %>
-                <td><%= link_to "#{kid_pay.count} UNPAID", root_path, class: "btn btn-sm btn-danger" %>
+                <td><%= link_to "#{kid_pay.count} UNPAID BILLS", root_path, class: "btn btn-sm btn-danger active" %>
                 </td>
+              <% elsif !kid.payments.present? %>
+                <td>No bills created</td>
               <% else %>
-                <td><%= link_to "VIEW RECEIPTS", root_path, class: "btn btn-sm btn-success" %>
+                <td><%= link_to "VIEW RECEIPTS", root_path, class: "btn btn-sm btn-success active" %></td>
               <% end %>
+              <td>
+                <%= link_to "EDIT DETAILS", edit_kid_path(kid), class: "btn btn-sm btn-success active" %>
+              </td>
+            </tr>
           <% counter = counter + 1 %>
           <% end %>
         </tbody>

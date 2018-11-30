@@ -1,7 +1,13 @@
 class Kid < ApplicationRecord
 	belongs_to :parent
-	belongs_to :classroom, optional: true
+	#belongs_to :classroom, optional: true
 	has_many :payments
+	has_many :taska_admins
+	has_many :admins, through: :taska_admins
+	belongs_to  :taska, optional: true
+	belongs_to  :classroom, optional: true
+	has_many :fotos
+	#accepts_nested_attributes_for :kidtsk
 
 	#validates_uniqueness_of :name, :case_sensitive => false
 

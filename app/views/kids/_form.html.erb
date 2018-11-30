@@ -1,0 +1,317 @@
+<div class='row'>
+  <div class='col-lg-8 col-12'>
+    <%= form_for(@kid, :html => {multipart: true, class: "form-horizontal", role: "form"}) do |f| %>
+        
+        <!-- name -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>FULL NAME</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :name, class: "form-control", placeholder: "FULL NAME AS PER MYKID", autofocus: true, required: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- IC -->
+        <% k = 1 %>
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>MYKID NO</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-3 col-4">
+              <%= f.text_field :ic_1, maxlength: 6 ,class: "form-control", autofocus: true, required: true %>
+            </div> <strong>-</strong>
+            <div class="col-sm-2 col-3">
+             <%= f.text_field :ic_2, maxlength: 2, class: "form-control", placeholder: "", autofocus: true, required: true %>
+            </div> <strong>-</strong>
+            <div class="col-sm-3 col-4">
+              <%= f.text_field :ic_3, maxlength: 4, class: "form-control", placeholder: "", autofocus: true, required: true %>
+            </div>         
+          </div>
+        </div>
+
+         <!-- DOB -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>DATE OF BIRTH</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.date_field :dob, class: "form-control", autofocus: true, required: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- BIRTH PLACE -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>BIRTH PLACE</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :birth_place, class: "form-control", autofocus: true, required: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- DATE ENTER -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>START DATE AT TASKA</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.date_field :date_enter, class: "form-control", autofocus: true, required: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- ARRANGEMENT IN FAMILY-->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>SEQUENCE IN FAMILY</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-8">
+              <%= f.select :arr_infam, options_for_select(["1", 
+                                                          "2", 
+                                                          "3",
+                                                          "4",
+                                                          "5",
+                                                          "Others"],
+                                                          selected: @kid.arr_infam),
+              {include_blank: "Please Select"}, {required: true} %>          
+            </div>
+          </div>
+        </div>
+
+        <!-- ALLERGY -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>ALLERGIES(IF ANY)</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :allergy, class: "form-control", autofocus: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAV FOOD -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>FAVOURITE FOOD</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :fav_food, class: "form-control", autofocus: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- HOBBY -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>HOBBY</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :hobby, class: "form-control", autofocus: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANEL CLINIC -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>PANEL CLINIC</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :panel_clinic, class: "form-control", autofocus: true, required: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- MOTHER NAME -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>MOTHER NAME</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :mother_name, class: "form-control", autofocus: true, required: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- MOTHER PHONE -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>MOTHER PHONE NO</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :mother_phone, class: "form-control", autofocus: true, required: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- MOTHER JOB -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>MOTHER CURRENT JOB</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :mother_job, class: "form-control", autofocus: true, required: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- MOTHER JOB ADDRESS -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>MOTHER JOB ADDRESS</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :mother_job, class: "form-control", autofocus: true, required: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- FATHER NAME -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>FATHER NAME</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :father_name, class: "form-control", autofocus: true, required: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- FATHER PHONE -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>FATHER PHONE NO</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :father_phone, class: "form-control", autofocus: true, required: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- FATHER JOB -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>FATHER CURRENT JOB</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :father_job, class: "form-control", autofocus: true, required: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- FATHER JOB ADDRESS -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>FATHER JOB ADDRESS</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :father_job, class: "form-control", autofocus: true, required: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- HOUSEHOLD INCOME-->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>MONTHLY HOUSEHOLD INCOME</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-8">
+              <%= f.select :income, options_for_select(["RM8,319.00 and above", 
+                                                        "RM3,860.00 to RM8,319.00", 
+                                                        "RM3,860.00 and below",
+                                                        "Others"],
+                                                        selected: @kid.income),
+              {include_blank: "Please Select"}, {required: true} %>          
+            </div>
+          </div>
+        </div>
+
+        <!-- ALT PHONE -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>OTHER PHONE NUMBER TO CALL DURING EMERGENCY</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :alt_phone, class: "form-control", autofocus: true, required: true %>
+            </div>
+          </div>
+        </div>
+
+        <%= f.hidden_field :parent_id, value: @parent.id %>
+        <%= f.hidden_field :taska_id, value: params[:taska_id] %>
+              
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-offset-2 col-sm-10 col-4">
+              <%= f.submit :"UPDATE PROFILE",  class: 'btn btn-primary btn-lg' %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      
+    </div>
+  </div>
