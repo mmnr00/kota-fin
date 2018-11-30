@@ -3,6 +3,7 @@ class Parent < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   has_many :kids
   has_many :payments
+  has_one  :prntdetail
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 

@@ -8,7 +8,11 @@ class ParentsController < ApplicationController
 		@parent = current_parent
 		#@mykids = @parent.kids.order('updated_at DESC')
 		@unpaid_bills = @parent.payments.where(paid: false).order("bill_month DESC")
-		render action: "index", layout: "dsb-parent-child"
+		if @parent.prntdetail.present?
+			render action: "index", layout: "dsb-parent-child"
+		else
+			redirect_to new_prntdetail_path(parent_id: @parent.id)
+		end
 	end
 
 	def view_receipt

@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :payments, only:[:create,:destroy]
   resources :fotos, only:[:edit, :update ,:destroy]
   resources :tchdetails, only:[:show, :new, :create, :destroy, :update, :edit]
+  resources :prntdetails, only:[:show, :new, :create, :destroy, :update, :edit]
   #resources :teachers, only:[:show]
   #resources :taska_teachers, only:[:create,:destroy]
   devise_for :parents
