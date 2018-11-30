@@ -7,6 +7,7 @@ class KidsController < ApplicationController
 		@parent = Parent.find(params[:id])
 		@kid = Kid.new
 		@taska = Taska.find(params[:taska_id])
+		@kid.fotos.build
 		render action: "new", layout: "dsb-parent-child"
 	end
 
@@ -27,6 +28,7 @@ class KidsController < ApplicationController
 		@kid = Kid.find(params[:id])
 		@parent = Parent.find(@kid.parent.id)
 		@classroom = Classroom.find(params[:classroom]) if @kid.classroom.present?
+		render action: "edit", layout: "dsb-parent-child"
 	end
 
 	def update
@@ -118,7 +120,8 @@ class KidsController < ApplicationController
 																	:income,
 																	:alt_phone,
 																	:date_enter,
-																	:taska_id)
+																	:taska_id,
+																	fotos_attributes: [:foto, :picture, :foto_name])
     end
 
 end

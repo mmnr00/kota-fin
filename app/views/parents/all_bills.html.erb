@@ -41,11 +41,11 @@
               <td><%= bill.amount %></td>
               <% if bill.paid %>
                 <td>
-                  <%= link_to "VIEW RECEIPT", "#", class: "btn btn-sm btn-success active" %>
+                  <%= link_to "VIEW RECEIPT", view_invoice_path(id: bill), class: "btn btn-sm btn-success active" %>
                 </td>
               <% else %>
                 <td>
-                  <%= link_to "PAY BILL", "#", class: "btn btn-sm btn-danger active" %>
+                  <%= link_to "PAY BILL", view_invoice_path(id: bill), class: "btn btn-sm btn-danger active" %>
                 </td>
               <% end %>
             </tr>

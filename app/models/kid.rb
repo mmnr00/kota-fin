@@ -7,7 +7,7 @@ class Kid < ApplicationRecord
 	belongs_to  :taska, optional: true
 	belongs_to  :classroom, optional: true
 	has_many :fotos
-	#accepts_nested_attributes_for :kidtsk
+	accepts_nested_attributes_for :fotos
 
 	#validates_uniqueness_of :name, :case_sensitive => false
 

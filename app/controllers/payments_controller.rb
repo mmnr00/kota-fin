@@ -77,6 +77,14 @@ class PaymentsController < ApplicationController
     redirect_to owner_index_path;
   end
 
+  def view_invoice
+    @parent = current_parent
+    @payment = Payment.find(params[:id])
+    @taska = @payment.taska
+    @kid = @payment.kid
+    render action: "view_invoice", layout: "dsb-parent-child"
+  end
+
 
 
   def search_bill

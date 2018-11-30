@@ -37,6 +37,40 @@
           </div>
         </div>
 
+        <!-- CHILD MYKID -->
+        <% m = 0 %> <!-- Stop loop at 1 -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <i class="fas fa-cloud-upload-alt"></i><strong> CHILD MYKID</strong>
+            </div>
+          </div>
+          <div class="row">
+          <div class="col-sm-8 col-5">
+          <% image = @kid.fotos.where(foto_name: "CHILD MYKID").first %>
+          <% if image.present? %>
+            <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
+              <div class="row">
+              <div class="col-sm-8 col-5">
+                <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
+              </div>
+              </div>  
+          <% else %>
+            <%= f.fields_for :fotos do |h| %>
+              <% break if m==1 %>
+                <div class="row">
+                  <div class="col-sm-8 col-8">
+                    <%= h.hidden_field :foto_name, value: "CHILD MYKID" %>
+                    <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
+                  </div>
+                </div>
+                <% m = 1 %>
+              <% end %>
+            <% end %>
+          </div>
+          </div>
+        </div>
+
          <!-- DOB -->
         <div class="form-group"> 
           <div class="row">
@@ -65,6 +99,40 @@
           </div>
         </div>
 
+        <!-- CHILDREN PICTURE -->
+        <% m = 0 %> <!-- Stop loop at 1 -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <i class="fas fa-cloud-upload-alt"></i><strong> CHILDREN PICTURE</strong>
+            </div>
+          </div>
+          <div class="row">
+          <div class="col-sm-8 col-5">
+          <% image = @kid.fotos.where(foto_name: "CHILDREN PICTURE").first %>
+          <% if image.present? %>
+            <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
+              <div class="row">
+              <div class="col-sm-8 col-5">
+                <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
+              </div>
+              </div>  
+          <% else %>
+            <%= f.fields_for :fotos do |h| %>
+              <% break if m==1 %>
+                <div class="row">
+                  <div class="col-sm-8 col-8">
+                    <%= h.hidden_field :foto_name, value: "CHILDREN PICTURE" %>
+                    <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
+                  </div>
+                </div>
+                <% m = 1 %>
+              <% end %>
+            <% end %>
+          </div>
+          </div>
+        </div>
+
         <!-- DATE ENTER -->
         <div class="form-group"> 
           <div class="row">
@@ -83,7 +151,7 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>SEQUENCE IN FAMILY</strong>
+              <i class="fas fa-caret-down"></i><strong> SEQUENCE IN FAMILY</strong>
             </div>
           </div>
           <div class="row">
@@ -156,6 +224,40 @@
           </div>
         </div>
 
+        <!-- IMMUNIZATION RECORD -->
+        <% m = 0 %> <!-- Stop loop at 1 -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <i class="fas fa-cloud-upload-alt"></i><strong> IMMUNIZATION RECORD</strong>
+            </div>
+          </div>
+          <div class="row">
+          <div class="col-sm-8 col-5">
+          <% image = @kid.fotos.where(foto_name: "IMMUNIZATION RECORD").first %>
+          <% if image.present? %>
+            <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
+              <div class="row">
+              <div class="col-sm-8 col-5">
+                <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
+              </div>
+              </div>  
+          <% else %>
+            <%= f.fields_for :fotos do |h| %>
+              <% break if m==1 %>
+                <div class="row">
+                  <div class="col-sm-8 col-8">
+                    <%= h.hidden_field :foto_name, value: "IMMUNIZATION RECORD" %>
+                    <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
+                  </div>
+                </div>
+                <% m = 1 %>
+              <% end %>
+            <% end %>
+          </div>
+          </div>
+        </div>
+
         <!-- MOTHER NAME -->
         <div class="form-group"> 
           <div class="row">
@@ -209,6 +311,40 @@
             <div class="col-sm-8 col-12">
               <%= f.text_field :mother_job, class: "form-control", autofocus: true, required: true %>
             </div>
+          </div>
+        </div>
+
+        <!-- MOTHER MYKAD -->
+        <% m = 0 %> <!-- Stop loop at 1 -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <i class="fas fa-cloud-upload-alt"></i><strong> MOTHER MYKAD</strong>
+            </div>
+          </div>
+          <div class="row">
+          <div class="col-sm-8 col-5">
+          <% image = @kid.fotos.where(foto_name: "MOTHER MYKAD").first %>
+          <% if image.present? %>
+            <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
+              <div class="row">
+              <div class="col-sm-8 col-5">
+                <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
+              </div>
+              </div>  
+          <% else %>
+            <%= f.fields_for :fotos do |h| %>
+              <% break if m==1 %>
+                <div class="row">
+                  <div class="col-sm-8 col-8">
+                    <%= h.hidden_field :foto_name, value: "MOTHER MYKAD" %>
+                    <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
+                  </div>
+                </div>
+                <% m = 1 %>
+              <% end %>
+            <% end %>
+          </div>
           </div>
         </div>
 
@@ -268,11 +404,45 @@
           </div>
         </div>
 
+        <!-- FATHER MYKAD -->
+        <% m = 0 %> <!-- Stop loop at 1 -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <i class="fas fa-cloud-upload-alt"></i><strong> FATHER MYKAD</strong>
+            </div>
+          </div>
+          <div class="row">
+          <div class="col-sm-8 col-5">
+          <% image = @kid.fotos.where(foto_name: "FATHER MYKAD").first %>
+          <% if image.present? %>
+            <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
+              <div class="row">
+              <div class="col-sm-8 col-5">
+                <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
+              </div>
+              </div>  
+          <% else %>
+            <%= f.fields_for :fotos do |h| %>
+              <% break if m==1 %>
+                <div class="row">
+                  <div class="col-sm-8 col-8">
+                    <%= h.hidden_field :foto_name, value: "FATHER MYKAD" %>
+                    <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
+                  </div>
+                </div>
+                <% m = 1 %>
+              <% end %>
+            <% end %>
+          </div>
+          </div>
+        </div>
+
         <!-- HOUSEHOLD INCOME-->
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>MONTHLY HOUSEHOLD INCOME</strong>
+              <i class="fas fa-caret-down"></i><strong> MONTHLY HOUSEHOLD INCOME</strong>
             </div>
           </div>
           <div class="row">
@@ -301,8 +471,23 @@
           </div>
         </div>
 
+        
+
         <%= f.hidden_field :parent_id, value: @parent.id %>
         <%= f.hidden_field :taska_id, value: params[:taska_id] %>
+
+        <!-- START PHOTO UPLOADS -->
+        
+
+        
+
+        
+
+        
+
+        
+
+        
               
         <div class="form-group">
           <div class="row">
