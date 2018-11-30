@@ -72,6 +72,7 @@ Rails.application.routes.draw do
 
   #PARENTS
   get 'parent_index', to: 'parents#index', as: 'parent_index'
+  get '/parent/:id/my_kid', to: 'parents#my_kid', as: 'my_kid'
   get '/parent/:id/view_receipt', to: 'parents#view_receipt', as: 'view_receipt'
   get '/parent/:id/individual_bill', to: 'parents#individual_bill', as: 'parents_individual_bill'
   get '/parent/:id/pay_bill', to: 'parents#parents_pay_bill', as: 'parents_pay_bill'

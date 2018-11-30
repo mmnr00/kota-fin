@@ -9,14 +9,20 @@ class ParentsController < ApplicationController
 		#@mykids = @parent.kids.order('updated_at DESC')
 		@unpaid_bills = @parent.payments.where(paid: false).order("bill_month DESC")
 		if @parent.prntdetail.present?
-			render action: "index", layout: "dsb-parent-child"
+			redirect_to my_kid_path(@parent)
+			#render action: "index", layout: "dsb-parent-child"
 		else
 			redirect_to new_prntdetail_path(parent_id: @parent.id)
 		end
 	end
 
-	def view_receipt
+	def my_kid
 		@mykids = @parent.kids
+		render action: "my_kid", layout: "dsb-parent-child"
+	end
+
+	def view_receipt
+		@mykids = @parent.kids.order('created_at DESC')
 		bills = @parent.payments.where(paid: true)
 		@bills = bills.order('updated_at DESC')
 	end
