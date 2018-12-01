@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   get 'tables', to: 'pages#tables'
   get 'bs_profile', to: 'pages#bs_profile'
   get 'profile_card', to: 'pages#profile_card'
+  get 'pricing', to: 'pages#pricing'
 
   #PDF
   get 'print_payment_course', to: 'pdfs#print_payment_course'

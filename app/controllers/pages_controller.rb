@@ -32,6 +32,9 @@ class PagesController < ApplicationController
 	def profile_card
 	end
 
+	def pricing
+	end
+
 	def button
 	end
 
