@@ -8,6 +8,22 @@ class TchdetailsController < ApplicationController
 		render action: "show", layout: "dsb-owner-college"
 	end
 
+	def show_pdf
+		@owner = Owner.find(params[:owner_id])
+		@fotos = @tchdetail.fotos
+		respond_to do |format|
+	 		format.html
+	 		format.pdf do
+		   render pdf: "(#{@tchdetail.name})",
+		   template: "tchdetails/show_pdf.html.erb",
+		   #disposition: "attachment",
+		   #page_size: "A6",
+		   orientation: "landscape",
+		   layout: 'pdf.html.erb'
+			end
+		end
+	end
+
 	def new
 		@teacher = Teacher.find(params[:teacher_id])
 		@tchdetail = Tchdetail.new

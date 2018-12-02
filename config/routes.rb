@@ -28,16 +28,16 @@ Rails.application.routes.draw do
   get 'star_rating', to: 'welcomes#star_rating'
 
   #PAGES
-  get 'about', to: 'pages#about'
-  get 'buttons', to: 'pages#buttons'
-  get 'charts', to: 'pages#charts'
-  get 'icons', to: 'pages#icons'
-  get 'invoice', to: 'pages#invoice'
-  get 'dashboard_v1', to: 'pages#dashboard_v1'
-  get 'tables', to: 'pages#tables'
-  get 'bs_profile', to: 'pages#bs_profile'
-  get 'profile_card', to: 'pages#profile_card'
-  get 'pricing', to: 'pages#pricing'
+  get '/443322/about', to: 'pages#about'
+  get '/443322/buttons', to: 'pages#buttons'
+  get '/443322/charts', to: 'pages#charts'
+  get '/443322/icons', to: 'pages#icons'
+  get '/443322/invoice', to: 'pages#invoice'
+  get '/443322/dashboard_v1', to: 'pages#dashboard_v1'
+  get '/443322/tables', to: 'pages#tables'
+  get '/443322/bs_profile', to: 'pages#bs_profile'
+  get '/443322/profile_card', to: 'pages#profile_card'
+  get '/443322/pricing', to: 'pages#pricing'
 
   #PDF
   get 'print_payment_course', to: 'pdfs#print_payment_course'
@@ -46,6 +46,10 @@ Rails.application.routes.draw do
   get 'admin_index', to: 'admins#index'
   get 'webarch', to: 'admins#webarch'
   get 'webarchv2', to: 'admins#webarchv2'
+
+  #TCHDETAIL
+  get '/print/profile', to: 'tchdetails#show_pdf', as: 'print_profile'
+
 
   #OWNERS (FOR COLLEGE)
   get 'owner_index', to: 'owners#index'

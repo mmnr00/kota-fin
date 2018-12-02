@@ -50,9 +50,9 @@ html {
 
 
   @import url(http://fonts.googleapis.com/css?family=Open+Sans:300); 
-body{
+/*body{
     background:#010101;
-}
+}*/
 
 .price_table_container{
   text-align:center;
