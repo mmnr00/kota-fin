@@ -8,7 +8,9 @@
         <div class="col-md-3 col-lg-3" align="center"> 
           <% image = @fotos.where(foto_name: "PROFILE PIC").first %>
           <% if image.picture.present? %>
-            <%= image_tag(image.picture.url, size: "150x150") %>
+            <a href="<%="#{image.picture.url}"%>" target="_blank">
+              <%= image_tag(image.picture.url, size: "150x150") %>
+            </a>
           <% else %>
             No photo uploaded
           <% end %>
@@ -28,6 +30,12 @@
                 <td><strong>PHONE NO:</strong></td>
                 <td>
                   <%= "#{@tchdetail.phone_1}-""#{@tchdetail.phone_2}" %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>EMAIL:</strong></td>
+                <td>
+                  <%= "#{@tchdetail.teacher.email}" %>
                 </td>
               </tr>
               <tr>
@@ -57,7 +65,7 @@
 
                   <% image = @fotos.where(foto_name: "IC FRONT").first %>
                   <% if image.picture.present? %>
-                    <a href="<%="#image.picture.url}"%>" target="_blank">
+                    <a href="<%="#{image.picture.url}"%>" target="_blank">
                       <%= image_tag(image.picture.url, size: "50x50") %>
                     </a>
                   <% else %>
@@ -66,7 +74,7 @@
 
                   <% image = @fotos.where(foto_name: "IC BACK").first %>
                   <% if image.picture.present? %>
-                    <a href="<%="#image.picture.url}"%>" target="_blank">
+                    <a href="<%="#{image.picture.url}"%>" target="_blank">
                       <%= image_tag(image.picture.url, size: "50x50") %>
                     </a>
                   <% else %>
