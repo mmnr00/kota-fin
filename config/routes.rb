@@ -90,6 +90,7 @@ Rails.application.routes.draw do
   get '/taska/:id/classroom', to: 'taskas#classrooms_index', as: 'classroom_index'
   get '/taska/:id/children', to: 'taskas#children_index', as: 'children_index'
   get '/index_parent', to: 'taskas#index_parent', as: 'index_parent'
+  get '/taska_pricing', to: 'taskas#taska_pricing', as: 'taska_pricing'
   #EXPENSES
   get '/taska/:id/expenses_search', to: 'expenses#search', as: 'search_expense'
   get '/taska/:id/expenses', to: 'expenses#my_expenses', as: 'my_expenses'

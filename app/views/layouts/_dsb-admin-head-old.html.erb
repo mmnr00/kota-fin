@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>KidCare - Uplifting Childcare Quality</title>
+    <title>SB Admin - Dashboard</title>
 
     <%= favicon_link_tag 'kidcare_logo/kidcare_logo_only.png' %>
     <%= csrf_meta_tags %>
@@ -35,7 +35,7 @@
       <ul class="navbar-nav ml-auto ml-md-0">
         <li class="nav-item dropdown no-arrow mx-1">
           <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Welcome Back <strong><%= @admin.username.upcase %></strong>!
+            Welcome Back <strong>Mustakhim</strong>!
           </a>
           </div>
         </li>
@@ -44,15 +44,10 @@
             <i class="fa fa-lg fa-user-circle fa-fw"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-            <a class="dropdown-item" href="/admin_index">Back to Center Listings
-            </a>
-            <a class="dropdown-item" href="/admins/edit">Login Setting
-            </a>
-            <a class="dropdown-item" href="#"></a>
+            <a class="dropdown-item" href="#">Settings</a>
+            <a class="dropdown-item" href="#">Activity Log</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-              <p align="center"><%= link_to "LOGOUT", destroy_admin_session_path, class: "btn btn-sm btn-danger active", method: :delete, :data => {:confirm => 'Are you sure to logout?'} %></p>
-            </a>
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
           </div>
         </li>
       </ul>

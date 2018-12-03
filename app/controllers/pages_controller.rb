@@ -1,5 +1,7 @@
 class PagesController < ApplicationController
 
+	 before_action :set_all
+
 	#layout "dsb-admin-eg"
 
 	def index
@@ -37,5 +39,14 @@ class PagesController < ApplicationController
 
 	def button
 	end
+
+	private
+
+	def set_all
+    @teacher = current_teacher
+    @parent = current_parent
+    @admin = current_admin  
+    @owner = current_owner
+  end
 
 end

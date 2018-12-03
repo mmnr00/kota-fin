@@ -1,0 +1,64 @@
+
+<div class="card" style="width:100%">
+<div class="container-fluid">
+<h3 align="center">CHOOSE A PACKAGE</h3>       
+       
+       <!-- PRICING TABLE STYLE 1-->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-4 col-xs-12 float-shadow">        
+                    <div class="price_table_container">
+                        <div class="price_table_heading">Basic</div>
+                        <div class="price_table_body">
+                            <div class="price_table_row cost warning-bg"><strong>RM 120</strong><span>/MONTH</span></div>
+                            <div class="price_table_row">Limited to 30 childrens</div>
+                            <div class="price_table_row">One (1) business day online support</div>
+                            <div class="price_table_row">No updates available</div>
+                            <div class="price_table_row">No multiple admins</div>
+                            <div class="price_table_row"><strong>RM 360 for 3 months</strong></div>                                                
+                        </div>
+                        <%= link_to "CHOOSE", new_taska_path(plan: "taska_basic"), class:"btn btn-warning btn-lg btn-block" %>
+                    </div>
+                </div>
+        
+                
+        
+                <div class="col-md-4 col-sm-4 col-xs-12 float-shadow">
+                    <div class="recommended"><strong><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> BEST VALUE</strong></div>         
+                    <div class="price_table_container">
+                        <div class="price_table_heading">Standard</div>
+                        <div class="price_table_body">
+                            <div class="price_table_row cost success-bg"><strong>RM 100</strong><span>/MONTH</span></div>
+                            <div class="price_table_row">Unlimited childrens</div>
+                            <div class="price_table_row">Five (5) hours online support</div>
+                            <div class="price_table_row">All updates available</div>
+                            <div class="price_table_row">Multiple admins enable</div>
+                            <div class="price_table_row"><strong>RM 600 for 6 months</strong></div>                                                
+                        </div>
+                        <%= link_to "CHOOSE", new_taska_path(plan: "taska_standard"), class:"btn btn-success btn-lg btn-block" %>
+                    </div>
+                </div>
+        
+                <div class="col-md-4 col-sm-4 col-xs-12 float-shadow">        
+                    <div class="price_table_container">
+                        <div class="price_table_heading">Premium</div>
+                        <div class="price_table_body">
+                            <div class="price_table_row cost info-bg"><strong>RM 80</strong><span>/MONTH</span></div>
+                            <div class="price_table_row">Unlimited childrens</div>
+                            <div class="price_table_row">Three (3) hours online support</div>
+                            <div class="price_table_row">All updates available</div>
+                            <div class="price_table_row">Multiple admins enable</div>
+                            <div class="price_table_row"><strong>RM 960 for 12 months</strong></div>                                                
+                        </div>
+                        <%= link_to "CHOOSE", new_taska_path(plan: "taska_premium"), class:"btn btn-info btn-lg btn-block" %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- PRICING TABLE STYLE 1-->
+        
+        <!-- SPACER-->
+        <div class="spacer"></div>
+        <!-- SPACER-->
+
+</div>
