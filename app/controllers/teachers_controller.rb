@@ -58,10 +58,10 @@ class TeachersController < ApplicationController
 	def remove_college
 		teacher_college = TeacherCollege.where(teacher_id: params[:id], college_id: params[:college]).first
 		if teacher_college.destroy
-			flash.now[:success] = "Adding College Successful"
+			flash[:danger] = "Remove College Successful"
 			redirect_to teacher_college_path
 		else
-			flash.now[:danger] = "Adding College Unsuccessful.Please try again"
+			flash[:danger] = "Remove Unsuccessful.Please try again"
 			redirect_to teacher_college_path
 		end
 	end
