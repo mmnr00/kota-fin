@@ -162,8 +162,8 @@ class PaymentsController < ApplicationController
                       #:callback_url=>  "YOUR RETURN URL"}.to_json,
             :basic_auth => { :username => $api_key },
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
-      data = JSON.parse(data_billplz.to_s)
-      #render json: data_billplz and return
+      #data = JSON.parse(data_billplz.to_s)
+      render json: data_billplz and return
 
       if (data["id"].present?)
         @payment.amount = data["amount"].to_f/100
