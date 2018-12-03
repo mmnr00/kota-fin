@@ -1,8 +1,8 @@
 class PaymentsController < ApplicationController
   require 'json'
-  #$billplz_url = "https://billplz-staging.herokuapp.com/api/v3/"
-  #$billplz = "https://billplz-staging.herokuapp.com/"
-  #$api_key = "6d78d9dd-81ac-4932-981b-75e9004a4f11"
+  #ENV['BILLPLZ_API'] = "https://billplz-staging.herokuapp.com/api/v3/"
+  #ENV['BILLPLZ_URL'] = "https://billplz-staging.herokuapp.com/"
+  #ENV['BILLPLZ_APIKEY'] = "6d78d9dd-81ac-4932-981b-75e9004a4f11"
  
 
   def index
@@ -33,7 +33,7 @@ class PaymentsController < ApplicationController
 
   def create_collection
     @taska = Taska.find(params[:id])
-    url_collection = "#{$billplz_url}collections/"
+    url_collection = "#{ENV['BILLPLZ_API']}collections/"
     title = @taska.name
     emails = @taska.email
 
@@ -44,7 +44,7 @@ class PaymentsController < ApplicationController
                               :fixed_cut => 0, 
                               :split_header => true}
                             }.to_json,
-                  :basic_auth => { :username => $api_key },
+                  :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
                   :headers => { 'Content-Type' => 'application/json', 
                                 'Accept' => 'application/json' })
     data = JSON.parse(data_billplz.to_s)
@@ -56,7 +56,7 @@ class PaymentsController < ApplicationController
   def create_collection_college
     @owner = Owner.find(params[:id])
     @college = College.find(params[:college_id])
-    url_collection = "#{$billplz_url}collections/"
+    url_collection = "#{ENV['BILLPLZ_API']}collections/"
     title = "#{@college.name}""(college_id: #{@college.id})"
     email = @owner.email
 
@@ -67,7 +67,7 @@ class PaymentsController < ApplicationController
                               :fixed_cut => 0, 
                               :split_header => true}
                             }.to_json,
-                  :basic_auth => { :username => $api_key },
+                  :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
                   :headers => { 'Content-Type' => 'application/json', 
                                 'Accept' => 'application/json' })
     data = JSON.parse(data_billplz.to_s)
@@ -107,17 +107,17 @@ class PaymentsController < ApplicationController
     @payment = Payment.new
     @taska = Taska.find(params[:payment][:taska_id])
     @kid = Kid.find(params[:payment][:kid_id])
-    url_bill = "#{$billplz_url}bills"
+    url_bill = "#{ENV['BILLPLZ_API']}bills"
     data_billplz = HTTParty.post(url_bill.to_str,
             :body  => { :collection_id => "#{@taska.collection_id}", 
                         :email=> "#{@kid.parent.email}",
                         :name=> "#{@kid.name}", 
                         :amount=>  amount,
-                        :callback_url=> "#{$root_url}payments/update",
-                        :redirect_url=> "#{$root_url}payments/update",
+                        :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                        :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
                         :description=>"#{params[:payment][:description]}"}.to_json, 
                         #:callback_url=>  "YOUR RETURN URL"}.to_json,
-            :basic_auth => { :username => $api_key },
+            :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
     #render json: data_billplz
     data = JSON.parse(data_billplz.to_s)
@@ -148,7 +148,7 @@ class PaymentsController < ApplicationController
     @course = Course.find(params[:course])
     @college = @course.college
     amount = @course.base_fee.to_f*100
-    url_bill = "#{$billplz_url}bills"
+    url_bill = "#{ENV['BILLPLZ_API']}bills"
     if (params[:plan] == "plan1")
       @payment = Payment.new
       data_billplz = HTTParty.post(url_bill.to_str,
@@ -156,11 +156,11 @@ class PaymentsController < ApplicationController
                       :email=> "#{@teacher.email}",
                       :name=> "#{@teacher.username}", 
                       :amount=>  amount,
-                      :callback_url=> "#{$root_url}payments/update",
-                      :redirect_url=> "#{$root_url}payments/update",
+                      :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                      :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
                       :description=>"#{@teacher.tchdetail.name}'s bill for #{@course.name}"}.to_json, 
                       #:callback_url=>  "YOUR RETURN URL"}.to_json,
-            :basic_auth => { :username => $api_key },
+            :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
       data = JSON.parse(data_billplz.to_s)
       #render json: data_billplz and return
@@ -189,11 +189,11 @@ class PaymentsController < ApplicationController
                       :email=> "#{@teacher.email}",
                       :name=> "#{@teacher.username}", 
                       :amount=>  amount/3,
-                      :callback_url=> "#{$root_url}payments/update",
-                      :redirect_url=> "#{$root_url}payments/update",
+                      :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                      :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
                       :description=>"Cuba Bill for Teacher #{i}"}.to_json, 
                       #:callback_url=>  "YOUR RETURN URL"}.to_json,
-            :basic_auth => { :username => $api_key },
+            :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
         data = JSON.parse(data_billplz.to_s)
         if (data["id"].present?)
@@ -223,10 +223,10 @@ class PaymentsController < ApplicationController
   end
 
   def destroy
-    url_bill = "#{$billplz_url}bills/#{params[:bill_id]}"
+    url_bill = "#{ENV['BILLPLZ_API']}bills/#{params[:bill_id]}"
     @payment = Payment.find(params[:bill])
     data_billplz = HTTParty.delete(url_bill.to_str,
-                                  :basic_auth => { :username => $api_key },
+                                  :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
                                   :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
     @payment.destroy
     flash[:notice] = "Bills was successfully deleted"
@@ -259,7 +259,7 @@ end
 #                         :email=> "#{@kid.parent.email}",
 #                         :name=> "#{@kid.name}", 
 #                         :amount=>  260,
-#                         :callback_url=> "#{$root_url}taska/#{params[:id]}/new_bill",
+#                         :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}taska/#{params[:id]}/new_bill",
 #                         :description=>"First Bills from Rails"}.to_json, 
 #                         #:callback_url=>  "YOUR RETURN URL"}.to_json,
 #             :basic_auth => { :username => api_key },
@@ -278,7 +278,7 @@ end
 #                         :email=> "email@gmail.com",
 #                         :name=> "John Smith", 
 #                         :amount=>  260,
-#                         :callback_url=> "#{$root_url}taska/#{params[:id]}/create_bill",
+#                         :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}taska/#{params[:id]}/create_bill",
 #                         :description=>"First Bills from Rails"}.to_json, 
 #                         #:callback_url=>  "YOUR RETURN URL"}.to_json,
 #             :basic_auth => { :username => api_key },
