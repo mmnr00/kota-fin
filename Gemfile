@@ -24,7 +24,7 @@ gem 'therubyracer'
 gem "less-rails"
 #from wicked_pdf
 gem 'wicked_pdf'
-gem 'wkhtmltopdf-binary'
+gem 'wkhtmltopdf-binary-edge'
 #for image upload
 gem 'carrierwave'
 gem 'mini_magick'
