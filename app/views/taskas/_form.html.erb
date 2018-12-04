@@ -87,11 +87,27 @@
           </div>
           <div class="row">
             <div class="col-sm-8 col-8">
-              <%= f.select :bank_name, options_for_select(["Childcare Provider", 
-                                                        "Owner", 
-                                                        "Supervisor",
-                                                        "Others"],
-                                                        ),
+              <%= f.select :bank_name, 
+                            options_for_select(["AFFIN BANK BERHAD",
+                              "AGROBANK / BANK PERTANIAN MALAYSIA BERHAD",
+                              "ALLIANCE BANK MALAYSIA BERHAD",
+                              "AL RAJHI BANKING INVESTMENT CORPORATION (MALAYSIA) BERHAD",
+                              "AMBANK (M) BERHAD",
+                              "BANK ISLAM MALAYSIA BERHAD",
+                              "BANK KERJASAMA RAKYAT MALAYSIA BERHAD",
+                              "BANK MUAMALAT (MALAYSIA) BERHAD",
+                              "BANK SIMPANAN NASIONAL BERHAD",
+                              "CIMB BANK BERHAD",
+                              "CITIBANK BERHAD",
+                              "HONG LEONG BANK BERHAD",
+                              "HSBC BANK MALAYSIA BERHAD",
+                              "MAYBANK / MALAYAN BANKING BERHAD",
+                              "OCBC BANK (MALAYSIA) BERHAD",
+                              "PUBLIC BANK BERHAD",
+                              "RHB BANK BERHAD",
+                              "STANDARD CHARTERED BANK (MALAYSIA) BERHAD",
+                              "UNITED OVERSEAS BANK (MALAYSIA) BERHAD"],
+                                                                  ),
               {include_blank: "Please Select"}, {required: true} %>          
             </div>
           </div>

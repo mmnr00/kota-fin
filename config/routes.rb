@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   resources :expenses, only:[:create,:destroy,:update,:edit]
   resources :courses, only:[:create,:destroy,:update,:edit]
   resources :colleges, only:[:create,:destroy,:update,:edit]
-  resources :classrooms, only:[:show]
+  resources :classrooms, only:[:new, :create,:destroy,:update,:edit,:show]
   resources :kids, only:[:create,:destroy,:update,:edit]
   resources :payments, only:[:create,:destroy]
   resources :fotos, only:[:edit, :update ,:destroy]
