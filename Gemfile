@@ -24,7 +24,7 @@ gem 'therubyracer'
 gem "less-rails"
 #from wicked_pdf
 gem 'wicked_pdf'
-gem 'wkhtmltopdf-binary-edge'
+
 #for image upload
 gem 'carrierwave'
 gem 'mini_magick'
@@ -81,6 +81,7 @@ group :development do
   gem 'capistrano-rails',   require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano3-puma',   require: false
+  gem 'wkhtmltopdf-binary-edge'
 end
 
 group :test do
@@ -95,6 +96,7 @@ end
 group :production do
   #gem 'pg', '~>0.11' 
   #gem 'sqlite3'
+  gem 'wkhtmltopdf-heroku'
 end
 
 
