@@ -125,15 +125,23 @@
               <tr>
                 <td><strong>TASKA ADDRESS:</strong></td>
                 <td>
-                  <% if @tchdetail.ts_address_1.present? && @tchdetail.ts_address_2.present? && @tchdetail.ts_city.present? && @tchdetail.ts_states.present?  %>
+                  <% if @tchdetail.ts_address_1.present? %>
                   <%= "#{@tchdetail.ts_address_1.upcase}" %><br>
-                  <%= "#{@tchdetail.ts_address_2.upcase}" %><br>
-                  <%= "#{@tchdetail.ts_city.upcase}" %>
-                  <%= "#{@tchdetail.ts_states.upcase}" %>
-                  <%= "#{@tchdetail.ts_postcode.upcase}" %>
                   <% end %>
+                  <% if @tchdetail.ts_address_2.present? %>
+                  <%= "#{@tchdetail.ts_address_2.upcase}" %><br>
+                  <% end %>
+                  <% if @tchdetail.ts_city.present? %>
+                  <%= "#{@tchdetail.ts_city.upcase}" %>
+                  <% end %>
+                  <% if @tchdetail.ts_states.present? %>
+                  <%= "#{@tchdetail.ts_states.upcase}" %>
+                  <% end %>
+                  <%= "#{@tchdetail.ts_postcode}" %>
+                  
                 </td>
               <tr>
+                 
 
 
                  
