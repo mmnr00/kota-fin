@@ -9,7 +9,11 @@
           <% image = @fotos.where(foto_name: "PROFILE PIC").first %>
           <% if image.picture.present? %>
             <a href="<%="#{image.picture.url}"%>" target="_blank">
-              <%= image_tag(image.picture.url, size: "150x150") %>
+              <% if @pdf %>
+                <%= wicked_pdf_image_tag(image.picture.url, size: "200x200") %>
+              <% else %>
+                <%= image_tag(image.picture.url, size: "200x200") %>
+              <% end %>
             </a>
           <% else %>
             No photo uploaded
@@ -41,22 +45,22 @@
               <tr>
                 <td><strong>CATEGORY:</strong></td>
                 <td>
-                  <%= "#{@tchdetail.marital}" %>
+                  <%= "#{@tchdetail.marital.upcase}" %>
                 </td>
               </tr>
               <tr>
                 <td><strong>ADDRESS:</strong></td>
                 <td>
-                  <%= "#{@tchdetail.address_1}" %><br>
-                  <%= "#{@tchdetail.address_2}" %><br>
-                  <%= "#{@tchdetail.city}" %>
-                  <%= "#{@tchdetail.states}" %>
+                  <%= "#{@tchdetail.address_1.upcase}" %><br>
+                  <%= "#{@tchdetail.address_2.upcase}" %><br>
+                  <%= "#{@tchdetail.city.upcase}" %>
+                  <%= "#{@tchdetail.states.upcase}" %>
                   <%= "#{@tchdetail.postcode}" %>
                 </td>
               <tr>
                 <td><strong>EDUCATION LEVEL:</strong></td>
                 <td>
-                  <%= "#{@tchdetail.education}" %>
+                  <%= "#{@tchdetail.education.upcase}" %>
                 </td>
               </tr>
               <tr>
@@ -66,19 +70,27 @@
                   <% image = @fotos.where(foto_name: "IC FRONT").first %>
                   <% if image.picture.present? %>
                     <a href="<%="#{image.picture.url}"%>" target="_blank">
-                      <%= image_tag(image.picture.url, size: "50x50") %>
+                      <% if @pdf %>
+                        <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
+                      <% else %>
+                        <%= image_tag(image.picture.url, size: "50x50") %>
+                      <% end %>
                     </a>
                   <% else %>
-                    No photo uploaded
+                    No photo uploaded &nbsp
                   <% end %>
 
                   <% image = @fotos.where(foto_name: "IC BACK").first %>
                   <% if image.picture.present? %>
                     <a href="<%="#{image.picture.url}"%>" target="_blank">
-                      <%= image_tag(image.picture.url, size: "50x50") %>
+                      <% if @pdf %>
+                        <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
+                      <% else %>
+                        <%= image_tag(image.picture.url, size: "50x50") %>
+                      <% end %>
                     </a>
                   <% else %>
-                    No photo uploaded
+                    No photo uploaded &nbsp
                   <% end %>
                 </td>
                 <td>
@@ -88,14 +100,18 @@
               <tr>
                 <td><strong>TASKA NAME:</strong></td>
                 <td>
-                  <%= "#{@tchdetail.ts_name}" %>
+                  <% if @tchdetail.ts_name.present? %>
+                  <%= "#{@tchdetail.ts_name.upcase}" %>
+                  <% end %>
                 </td>
               </tr>
 
               <tr>
                 <td><strong>TASKA OWNER NAME:</strong></td>
                 <td>
-                  <%= "#{@tchdetail.ts_owner_name}" %>
+                  <% if @tchdetail.ts_owner_name.present? %>
+                  <%= "#{@tchdetail.ts_owner_name.upcase}" %>
+                  <% end %>
                 </td>
               </tr>
 
@@ -109,11 +125,13 @@
               <tr>
                 <td><strong>TASKA ADDRESS:</strong></td>
                 <td>
-                  <%= "#{@tchdetail.ts_address_1}" %><br>
-                  <%= "#{@tchdetail.ts_address_2}" %><br>
-                  <%= "#{@tchdetail.ts_city}" %>
-                  <%= "#{@tchdetail.ts_states}" %>
-                  <%= "#{@tchdetail.ts_postcode}" %>
+                  <% if @tchdetail.ts_address_1.present? && @tchdetail.ts_address_2.present? && @tchdetail.ts_city.present? && @tchdetail.ts_states.present?  %>
+                  <%= "#{@tchdetail.ts_address_1.upcase}" %><br>
+                  <%= "#{@tchdetail.ts_address_2.upcase}" %><br>
+                  <%= "#{@tchdetail.ts_city.upcase}" %>
+                  <%= "#{@tchdetail.ts_states.upcase}" %>
+                  <%= "#{@tchdetail.ts_postcode.upcase}" %>
+                  <% end %>
                 </td>
               <tr>
 

@@ -3,12 +3,14 @@ class TchdetailsController < ApplicationController
 	#before_action :rep_responsible?
 	#before_action :authenticate_parent! || :authenticate_admin!
 	def show
+		@pdf = false
 		@owner = Owner.find(params[:owner_id])
 		@fotos = @tchdetail.fotos
 		render action: "show", layout: "dsb-owner-college"
 	end
 
 	def show_pdf
+		@pdf = true
 		@owner = Owner.find(params[:owner_id])
 		@fotos = @tchdetail.fotos
 		respond_to do |format|
@@ -18,7 +20,7 @@ class TchdetailsController < ApplicationController
 		   template: "tchdetails/show_pdf.html.erb",
 		   #disposition: "attachment",
 		   #page_size: "A6",
-		   orientation: "landscape",
+		   orientation: "portrait",
 		   layout: 'pdf.html.erb'
 			end
 		end
