@@ -3,6 +3,7 @@ class PaymentsController < ApplicationController
   #ENV['BILLPLZ_API'] = "https://billplz-staging.herokuapp.com/api/v3/"
   #ENV['BILLPLZ_URL'] = "https://billplz-staging.herokuapp.com/"
   #ENV['BILLPLZ_APIKEY'] = "6d78d9dd-81ac-4932-981b-75e9004a4f11"
+  before_action :set_all
  
 
   def index
@@ -25,6 +26,8 @@ class PaymentsController < ApplicationController
       redirect_to parent_index_path
     elsif (@bill.teacher.present?)
       redirect_to course_payment_pdf_path(payment: @bill.id, format: :pdf)
+    elsif (@bill.taska.present?)
+      redirect_to admin_index_path
     end
    end
    
@@ -85,6 +88,11 @@ class PaymentsController < ApplicationController
     render action: "view_invoice", layout: "dsb-parent-child"
   end
 
+  def view_invoice_taska
+    @taska = Taska.find(params[:taska])
+    @payment = Payment.find(params[:payment])
+  end
+
 
 
   def search_bill
@@ -140,6 +148,49 @@ class PaymentsController < ApplicationController
                                   year: "#{params[:payment][:year]}", 
                                   taska_id: "#{params[:payment][:taska_id]}", 
                                   "button"=>""), :method => :get
+  end
+
+  def create_bill_taska
+    @taska = Taska.find(params[:id])
+
+    if @taska.plan == "taska_basic"
+      amount = 360.to_f*100
+    elsif @taska.plan == "taska_standard"
+      amount = 600.to_f*100
+    elsif @taska.plan == "taska_premium"
+      amount = 960.to_f*100
+    end
+    url_bill = "#{ENV['BILLPLZ_API']}bills"
+    @payment = Payment.new
+     data_billplz = HTTParty.post(url_bill.to_str,
+                      :body  => { :collection_id => "#{ENV['COLLECTION_ID']}", 
+                      :email=> "#{@taska.email}",
+                      :name=> "#{@taska.name}", 
+                      :amount=>  amount,
+                      :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                      :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                      :description=>"#{@taska.name.upcase}'s bill for #{@taska.plan.upcase} plan"}.to_json, 
+                      #:callback_url=>  "YOUR RETURN URL"}.to_json,
+            :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+            :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+      data = JSON.parse(data_billplz.to_s)
+      #render json: data_billplz and return
+      if (data["id"].present?)
+        @payment.amount = data["amount"].to_f/100
+        @payment.description = data["description"]
+        @payment.bill_month = Date.today.month
+        @payment.bill_year = Date.today.year
+        @payment.taska_id = @taska.id
+        @payment.state = data["state"]
+        @payment.paid = data["paid"]
+        @payment.bill_id = data["id"]
+        @payment.save
+        redirect_to view_invoice_taska_path(taska: @taska.id, payment: @payment.id)
+      else
+        flash[:danger] = "Sign Up failed. Please try again"
+        redirect_to root_path and return
+      end
+      
   end
 
   def teacher_create_bill
@@ -241,6 +292,12 @@ class PaymentsController < ApplicationController
 
 
   private
+  def set_all
+    @teacher = current_teacher
+    @parent = current_parent
+    @admin = current_admin  
+    @owner = current_owner
+  end
   
 
 

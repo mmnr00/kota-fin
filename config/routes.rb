@@ -110,11 +110,15 @@ Rails.application.routes.draw do
   #TEACHERS_CLASSROOMS
   post '/classrooms/:id/add_teachers', to: 'teachers_classrooms#create', as: 'add_teacher_classroom'
   delete '/classrooms/:id/delete_teachers', to: 'teachers_classrooms#destroy', as: 'delete_teacher_classroom'
+
   #payments
   get '/taska/:id/payment_index', to: 'payments#index', as: 'payment_index'
   get '/taska/:id/create_collection', to: 'payments#create_collection', as: 'create_collection'
   get '/owner/:id/create_collection_college', to: 'payments#create_collection_college', as: 'create_collection_college'
   get '/view_invoice', to: 'payments#view_invoice', as: 'view_invoice'
+  get '/create_bill_taska', to: 'payments#create_bill_taska', as: 'create_bill_taska'
+  get '/view_invoice_taska', to: 'payments#view_invoice_taska', as: 'view_invoice_taska'
+
 
   #get '/taska/:id/create_bill', to: 'payments#create_bill', as: 'create_bill'
   get '/taska/:id/search_bill', to: 'payments#search_bill', as: 'search_bill'

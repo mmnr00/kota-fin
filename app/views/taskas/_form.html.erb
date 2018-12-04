@@ -161,12 +161,12 @@
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>IC FRONT</strong>
+            <strong>CENTER LOGO</strong>
           </div>
         </div>
         <div class="row">
         <div class="col-sm-8 col-5">
-        <% image = @taska.fotos.where(foto_name: "IC FRONT").first %>
+        <% image = @taska.fotos.where(foto_name: "CENTER LOGO").first %>
         <% if image.present? %>
           <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
             <div class="row">
@@ -179,7 +179,7 @@
             <% break if m==1 %>
               <div class="row">
                 <div class="col-sm-8 col-8">
-                  <%= h.hidden_field :foto_name, value: "IC FRONT" %>
+                  <%= h.hidden_field :foto_name, value: "CENTER LOGO" %>
                   <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
                 </div>
               </div>
@@ -190,17 +190,17 @@
         </div>
       </div>
 
-       <!-- IC BACK -->
+       <!-- CENTER PRIMARY PHOTO -->
       <% m = 0 %> <!-- Stop loop at 1 -->
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>IC BACK</strong>
+            <strong>CENTER PRIMARY PHOTO</strong>
           </div>
         </div>
         <div class="row">
         <div class="col-sm-8 col-5">
-        <% image = @taska.fotos.where(foto_name: "IC BACK").first %>
+        <% image = @taska.fotos.where(foto_name: "CENTER PRIMARY PHOTO").first %>
         <% if image.present? %>
           <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
             <div class="row">
@@ -213,7 +213,7 @@
             <% break if m==1 %>
               <div class="row">
                 <div class="col-sm-8 col-8">
-                  <%= h.hidden_field :foto_name, value: "IC BACK" %>
+                  <%= h.hidden_field :foto_name, value: "CENTER PRIMARY PHOTO" %>
                   <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
                 </div>
               </div>
@@ -224,17 +224,17 @@
         </div>
       </div>
 
-      <!-- PROFILE PIC -->
+      <!-- CENTER ALTERNATIVE PHOTO -->
       <% m = 0 %> <!-- Stop loop at 1 -->
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>PROFILE PIC</strong>
+            <strong>CENTER ALTERNATIVE PHOTO</strong>
           </div>
         </div>
         <div class="row">
         <div class="col-sm-8 col-5">
-        <% image = @taska.fotos.where(foto_name: "PROFILE PIC").first %>
+        <% image = @taska.fotos.where(foto_name: "CENTER ALTERNATIVE PHOTO").first %>
         <% if image.present? %>
           <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
             <div class="row">
@@ -247,7 +247,7 @@
             <% break if m==1 %>
               <div class="row">
                 <div class="col-sm-8 col-8">
-                  <%= h.hidden_field :foto_name, value: "PROFILE PIC" %>
+                  <%= h.hidden_field :foto_name, value: "CENTER ALTERNATIVE PHOTO" %>
                   <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
                 </div>
               </div>

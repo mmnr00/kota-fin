@@ -21,7 +21,17 @@
             <tr>
               <td><%= kuli.name.upcase %></td>
               <td><%= kuli.states %></td>
-              <td><%= link_to "SELECT", taska_path(kuli), class: "btn btn-sm btn-info active" %></td>
+              <% payment = kuli.payments %>
+              <% if payment.present? %>
+                <% if payment.where(paid: false).present? %> 
+                  <% unpaid = payment.where(paid: false).last %>
+                  <td><%= link_to "PLEASE PAY BILLS", view_invoice_taska_path(taska: kuli, payment: unpaid), class: "btn btn-sm btn-danger active" %></td>
+                <% else %>
+                  <td><%= link_to "GO TO DASHBOARD", taska_path(kuli), class: "btn btn-sm btn-success active" %></td>
+                <% end %>
+              <% else %>
+                <td><%= link_to "REGISTRATION PENDING", create_bill_taska_path(id: kuli.id), class: "btn btn-sm btn-primary active" %></td>
+              <% end %>
             </tr>
         	<% end %>	
         </tbody>

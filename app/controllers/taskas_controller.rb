@@ -65,7 +65,7 @@ class TaskasController < ApplicationController
         taska_admin1 = TaskaAdmin.create(taska_id: @taska.id, admin_id: current_admin.id)
         taska_admin2 = TaskaAdmin.create(taska_id: @taska.id, admin_id: Admin.first.id)
         flash[:notice] = "Taska was successfully created"
-        redirect_to admin_index_path
+        redirect_to create_bill_taska_path(id: @taska.id)
       else
         render :new 
         
