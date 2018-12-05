@@ -1,7 +1,32 @@
 class KidsController < ApplicationController
-	#before_action :set_kid, only: [:add_classroom]
+	before_action :set_kid, only: [:show, :kid_pdf]
 	#before_action :rep_responsible?
 	#before_action :authenticate_parent! || :authenticate_admin!
+
+	def show
+		@pdf = false
+		@admin = current_admin
+		@fotos = @kid.fotos
+		@taska = @kid.taska
+		render action: "show", layout: "dsb-admin-classroom" 
+	end
+
+	def kid_pdf
+		@pdf = true
+		@admin = current_admin
+		@fotos = @kid.fotos
+		respond_to do |format|
+	 		format.html
+	 		format.pdf do
+		   render pdf: "(#{@kid.name})",
+		   template: "kids/kid_pdf.html.erb",
+		   #disposition: "attachment",
+		   #page_size: "A6",
+		   orientation: "portrait",
+		   layout: 'pdf.html.erb'
+			end
+		end
+	end
 
 	def new
 		@parent = Parent.find(params[:id])
@@ -94,6 +119,10 @@ class KidsController < ApplicationController
 
 
 	private
+
+	def set_kid
+		@kid = Kid.find(params[:id])
+	end
 
 	def rep_responsible?
 		@parent.present? || @admin.present?

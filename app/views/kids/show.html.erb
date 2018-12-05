@@ -1,0 +1,10 @@
+<%= render 'kids/kid_profile' %>
+
+          <%= link_to "BACK", :back, class: "btn btn-sm btn-success active" %>
+          <%= link_to "PRINTS", kid_profile_path(id: @kid.id, format: :pdf), class: "btn btn-sm btn-info active", target: "_blank" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

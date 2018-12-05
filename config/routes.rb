@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resources :courses, only:[:create,:destroy,:update,:edit]
   resources :colleges, only:[:create,:destroy,:update,:edit]
   resources :classrooms, only:[:new, :create,:destroy,:update,:edit,:show]
-  resources :kids, only:[:create,:destroy,:update,:edit]
+  resources :kids, only:[:show,:create,:destroy,:update,:edit]
   resources :payments, only:[:create,:destroy]
   resources :fotos, only:[:edit, :update ,:destroy]
   resources :tchdetails, only:[:show, :new, :create, :destroy, :update, :edit]
@@ -102,6 +102,7 @@ Rails.application.routes.draw do
   get '/classroom/:id/find_kid', to: 'kids#find', as: 'find_kid'
   get 'add_classroom', to: 'kids#add_classroom'
   get 'remove_classroom', to: 'kids#remove_classroom'
+  get '/print/kid_pdf', to: 'kids#kid_pdf', as: 'kid_profile'
   #TASKA_TEACHERS
   post '/taska/:id/add_teacher', to: 'taska_teachers#create', as: 'add_teacher'
   delete '/taska/:id/delete_teacher', to: 'taska_teachers#destroy', as: 'delete_teacher'

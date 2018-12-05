@@ -40,7 +40,7 @@
               <td style="font-size:12px"><%= kid.mother_name.upcase %></td>
               <td style="font-size:12px"><%= kid.mother_phone %></td>
               <td style="font-size:12px">
-                <%= link_to "VIEW", "#", class: "btn btn-sm btn-info active" %>&nbsp
+                <%= link_to "VIEW", kid_path(kid), class: "btn btn-sm btn-info active" %>&nbsp
               </br></br>
                 <%= link_to "DELETE", "#", class: "btn btn-sm btn-danger active", method: :delete, :data => {:confirm => 'Are you sure?'} %>
               </td>

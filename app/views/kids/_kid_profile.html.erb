@@ -1,0 +1,205 @@
+<div class="container">
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title" align="center"><%= @kid.name.upcase %></h3>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-md-3 col-lg-3" align="center"> 
+          <% image = @fotos.where(foto_name: "CHILDREN PICTURE").first %>
+          <% if image.picture.present? %>
+            <a href="<%="#{image.picture.url}"%>" target="_blank">
+              <% if @pdf %>
+                <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
+              <% else %>
+                <%= image_tag(image.picture.url, size: "50x50") %>
+              <% end %>
+            </a>
+          <% else %>
+            No photo uploaded
+          <% end %>
+         </div>
+
+         <div class=" col-md-9 col-lg-9"> 
+
+        <div class="table-responsive">
+          
+          <table class="table table-striped" id="" width="100%" cellspacing="0">
+            <tbody>
+              <tr>
+                <td><strong>MYKID NO:</strong></td>
+                <td>
+                  <%= "#{@kid.ic_1}-""#{@kid.ic_2}-""#{@kid.ic_3}" %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>MYKID COPY</strong></td>
+                <td>
+                  <% image = @fotos.where(foto_name: "CHILD MYKID").first %>
+                  <% if image.picture.present? %>
+                    <a href="<%="#{image.picture.url}"%>" target="_blank">
+                      <% if @pdf %>
+                        <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
+                      <% else %>
+                        <%= image_tag(image.picture.url, size: "50x50") %>
+                      <% end %>
+                    </a>
+                  <% else %>
+                    No photo uploaded &nbsp
+                  <% end %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>IMMUNIZATION RECORD</strong></td>
+                <td>
+                  <% image = @fotos.where(foto_name: "IMMUNIZATION RECORD").first %>
+                  <% if image.picture.present? %>
+                    <a href="<%="#{image.picture.url}"%>" target="_blank">
+                      <% if @pdf %>
+                        <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
+                      <% else %>
+                        <%= image_tag(image.picture.url, size: "50x50") %>
+                      <% end %>
+                    </a>
+                  <% else %>
+                    No photo uploaded &nbsp
+                  <% end %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>DATE OF BIRTH</strong></td>
+                <td>
+                  <%= @kid.dob %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>PLACE OF BIRTH</strong></td>
+                <td>
+                  <%= @kid.birth_place.upcase %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>ARRANGEMENT IN FAMILY</strong></td>
+                <td>
+                  <%= @kid.arr_infam %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>ALLERGY</strong></td>
+                <td>
+                  <%= @kid.allergy %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>FAVOURITE FOOD</strong></td>
+                <td>
+                  <%= @kid.fav_food %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>HOBBY</strong></td>
+                <td>
+                  <%= @kid.hobby %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>PANEL CLINIC</strong></td>
+                <td>
+                  <%= @kid.panel_clinic %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>MOTHER'S NAME</strong></td>
+                <td>
+                  <%= @kid.mother_name %>&nbsp
+                  <% image = @fotos.where(foto_name: "MOTHER MYKAD").first %>
+                  <% if image.picture.present? %>
+                    <a href="<%="#{image.picture.url}"%>" target="_blank">
+                      <% if @pdf %>
+                        <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
+                      <% else %>
+                        <%= image_tag(image.picture.url, size: "50x50") %>
+                      <% end %>
+                    </a>
+                  <% else %>
+                    No photo uploaded &nbsp
+                  <% end %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>MOTHER'S JOB</strong></td>
+                <td>
+                  <%= @kid.mother_job %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>MOTHER'S JOB ADDRESS</strong></td>
+                <td>
+                  <%= @kid.mother_job_address %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>MOTHER'S PHONE NO</strong></td>
+                <td>
+                  <%= @kid.mother_phone %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>FATHER'S NAME</strong></td>
+                <td>
+                  <%= @kid.father_name %>&nbsp
+                  <% image = @fotos.where(foto_name: "FATHER MYKAD").first %>
+                  <% if image.picture.present? %>
+                    <a href="<%="#{image.picture.url}"%>" target="_blank">
+                      <% if @pdf %>
+                        <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
+                      <% else %>
+                        <%= image_tag(image.picture.url, size: "50x50") %>
+                      <% end %>
+                    </a>
+                  <% else %>
+                    No photo uploaded &nbsp
+                  <% end %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>FATHER'S JOB</strong></td>
+                <td>
+                  <%= @kid.father_job %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>FATHER'S JOB ADDRESS</strong></td>
+                <td>
+                  <%= @kid.father_job_address %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>FATHER'S PHONE NO</strong></td>
+                <td>
+                  <%= @kid.father_phone %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>MONTHLY HOUSEHOLD INCOME (RM)</strong></td>
+                <td>
+                  <%= @kid.income %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>ALTERNATE CONTACT NO</strong></td>
+                <td>
+                  <%= @kid.alt_phone %>
+                </td>
+              </tr>
+
+
+
+
+              
+                 
+
+
+                 
+            </tbody>
+          </table>

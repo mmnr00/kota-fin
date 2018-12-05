@@ -11,7 +11,8 @@ class FotosController < ApplicationController
 			if @teacher 
         redirect_to edit_tchdetail_path(@tchdetail, teacher_id: @teacher.id)
       elsif @parent
-      	redirect_to parent_index_path
+      	@kid = @foto.kid
+      	redirect_to edit_kid_path(@kid)
       end
     else
       render :edit

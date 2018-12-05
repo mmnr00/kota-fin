@@ -12,27 +12,24 @@ PLEASE CHOOSE TO PROCEED
           <tr>
             <th> N0 </th>
             <th> NAME </th>
-            <th> REGION </th>
-            <th> EMAIL </th>
-            <th> ACTION </th>
+            <th> ADDRESS </th>
+            <th> SUPERVISOR </th>
+            <th> CONTACT NO </th>
           </tr>
         </thead>
-        <tfoot>
-          <tr>
-            <th> N0 </th>
-            <th> NAME </th>
-            <th> REGION </th>
-            <th> EMAIL </th>
-            <th> ACTION </th>
-          </tr>
-        </foot>
         <tbody>
           <% counter = 1 %>
           <% @taskas.each do |taska|%>
             <tr>
               <td><%= counter %></td>
               <td><%= taska.name %></td>
-              <td><%= taska.region %></td>
+              <td>
+                <%= taska.address_1 %></br>
+                <%= taska.address_2 %></br>
+                <%= taska.city %>&nbsp
+                <%= taska.states %>&nbsp
+                <%= taska.postcode %>
+              </td>
               <td><%= taska.email %></td>
               <td><%= link_to "CHOOSE", new_kid_path(@parent.id, taska_id: taska.id), class: "btn btn-sm btn-info" %>
               </td>
