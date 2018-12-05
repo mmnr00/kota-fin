@@ -93,15 +93,17 @@ class TaskasController < ApplicationController
   # PATCH/PUT /taskas/1
   # PATCH/PUT /taskas/1.json
   def update
-    respond_to do |format|
       if @taska.update(taska_params)
-        format.html { redirect_to @taska, notice: 'Taska was successfully updated.' }
-        format.json { render :show, status: :ok, location: @taska }
+        flash[:success] = "Taska was successfully updated"
+        redirect_to classroom_index_path(@taska)
+        #format.html { redirect_to @taska, notice: 'Taska was successfully updated.' }
+        #format.json { render :show, status: :ok, location: @taska }
       else
+        flash[:success] = "Update unsuccessfull. Please try again"
         format.html { render :edit }
-        format.json { render json: @taska.errors, status: :unprocessable_entity }
+        #format.json { render json: @taska.errors, status: :unprocessable_entity }
       end
-    end
+    
   end
 
   # DELETE /taskas/1
