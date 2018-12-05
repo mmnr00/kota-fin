@@ -91,6 +91,7 @@ Rails.application.routes.draw do
   get '/taska/:id/children', to: 'taskas#children_index', as: 'children_index'
   get '/index_parent', to: 'taskas#index_parent', as: 'index_parent'
   get '/taska_pricing', to: 'taskas#taska_pricing', as: 'taska_pricing'
+  get '/remove_taska', to: 'taskas#remove_taska', as: 'remove_taska'
   #EXPENSES
   get '/taska/:id/expenses_search', to: 'expenses#search', as: 'search_expense'
   get '/taska/:id/expenses', to: 'expenses#my_expenses', as: 'my_expenses'
@@ -103,6 +104,7 @@ Rails.application.routes.draw do
   get 'add_classroom', to: 'kids#add_classroom'
   get 'remove_classroom', to: 'kids#remove_classroom'
   get '/print/kid_pdf', to: 'kids#kid_pdf', as: 'kid_profile'
+  post '/add_taska', to: 'kids#add_taska'
   #TASKA_TEACHERS
   post '/taska/:id/add_teacher', to: 'taska_teachers#create', as: 'add_teacher'
   delete '/taska/:id/delete_teacher', to: 'taska_teachers#destroy', as: 'delete_teacher'

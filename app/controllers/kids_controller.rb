@@ -28,6 +28,8 @@ class KidsController < ApplicationController
 		end
 	end
 
+
+
 	def new
 		@parent = Parent.find(params[:id])
 		@kid = Kid.new
@@ -98,6 +100,20 @@ class KidsController < ApplicationController
 		respond_to do |format|
 			format.js { render partial: 'kids/result' } 
 		end
+	end
+
+	def add_taska
+		
+		@kid = Kid.find(params[:kid_id])
+		@parent = Parent.find(params[:parent_id])
+		@taska = Taska.find(params[:taska_id])
+		@kid.taska_id = @taska.id
+		if @kid.save
+			flash[:success] = "#{@kid.name} has been added to #{@taska.name}"
+    else
+    	flash[:danger] = "Unsuccessful. Please try again"
+    end
+		redirect_to my_kid_path(@parent)
 	end
 
 	def add_classroom

@@ -24,8 +24,8 @@
               <td><%= kid.name %></td>
               <td><%= kid.ic_1 %>-<%= kid.ic_2 %>-<%= kid.ic_3 %></td>
               <td> 
-                <%= link_to "VIEW", "#", class: "btn btn-sm btn-primary active" %>&nbsp
-                <%= link_to "REMOVE", "#", class: "btn btn-sm btn-danger active", method: :delete, :data => {:confirm => 'Are you sure?'} %>&nbsp
+                <%= link_to "VIEW", kid_path(kid), class: "btn btn-sm btn-primary active" %>&nbsp
+                <%= link_to "REMOVE", remove_classroom_path(kid: kid, classroom: @classroom), class: "btn btn-sm btn-danger active", :data => {:confirm => 'Are you sure?'} %>&nbsp
               </td>
               <td> 
                 <%= link_to "NEW BILL", "#", class: "btn btn-sm btn-info active" %>&nbsp

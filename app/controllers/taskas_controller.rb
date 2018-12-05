@@ -16,6 +16,19 @@ class TaskasController < ApplicationController
   def taska_pricing
   end
 
+  def remove_taska
+    @kid = Kid.find(params[:kid])
+    @taska = @kid.taska
+    @kid.taska_id = nil
+    if @kid.save
+      flash[:success] = "Children has been successfully removed"
+    else
+      flash[:danger] = "Unsuccessful. Please try again"
+    end
+    
+    redirect_to classroom_index_path(@taska)
+  end
+
 
   # GET /taskas/1
 

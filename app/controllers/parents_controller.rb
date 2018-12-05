@@ -17,7 +17,7 @@ class ParentsController < ApplicationController
 	end
 
 	def my_kid
-		@mykids = @parent.kids.order("updated_at DESC")
+		@mykids = @parent.kids.order("name ASC")
 		render action: "my_kid", layout: "dsb-parent-child"
 	end
 
