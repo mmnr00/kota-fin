@@ -13,6 +13,9 @@ class FotosController < ApplicationController
       elsif @parent
       	@kid = @foto.kid
       	redirect_to edit_kid_path(@kid)
+      elsif @admin
+      	@taska = @foto.taska
+      	redirect_to edit_taska_path(@taska)
       end
     else
       render :edit
