@@ -474,7 +474,12 @@
         
 
         <%= f.hidden_field :parent_id, value: @parent.id %>
-        <%= f.hidden_field :taska_id, value: params[:taska_id] %>
+        <% if @kid.taska_id.present? %>
+          <%= f.hidden_field :taska_id, value: @kid.taska_id %>
+        <% else %>
+          <%= f.hidden_field :taska_id, value: params[:taska_id] %>
+        <% end %>
+        <%= f.hidden_field :classroom_id, value: @kid.classroom_id %>
 
         <!-- START PHOTO UPLOADS -->
         

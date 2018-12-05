@@ -1,5 +1,6 @@
 <% if @unregistered_kids.present? %>
 
+
 <div class="card mb-3">
     <div class="card-header">
       <i class="fas fa-search"></i>
@@ -18,33 +19,50 @@
             <th style="font-size:15px">MOTHER'S NAME</th>
             <th style="font-size:15px">MOTHER'S PHONE</th>
             <th>ACTIONS</th>
+            <th>REGISTER</th>
           </tr>
         </thead>
         <tbody>
           <% counter = 1 %>
-          <% @taska_classrooms.order('classroom_name ASC').each do |classroom| %>
+          <% @unregistered_kids.order('name ASC').each do |kid| %>
+          <%= form_for(@kid, :url => {:controller=>'kids', :action=>'add_classroom'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
             <tr>
               <td><%= counter %></td>
-              <td><%= classroom.classroom_name %></td>
-              <td><%= classroom.description %></td>
-              <td><%= classroom.base_fee %></td>
-              <td><strong><%= classroom.kids.count %></strong> children</td>
-              <td>
-                <%= link_to "VIEW", classroom_path(classroom), class: "btn btn-sm btn-primary active" %>&nbsp
-                <%= link_to "EDIT", edit_classroom_path(classroom), class: "btn btn-sm btn-info active" %>&nbsp
-                <% if classroom.kids.count < 1 %>
-                  <%= link_to "DELETE", classroom_path(classroom), class: "btn btn-sm btn-danger active", method: :delete, :data => {:confirm => 'Are you sure?'} %>
-                <% end %>
-                  
-                </td>
+              <td style="font-size:12px"><%= kid.name.upcase %></td>
+              <td style="font-size:12px"><% Date.today.year - kid.dob.year %>
+                <% diff = (Date.today.year*12+Date.today.month) - (kid.dob.year*12+kid.dob.month) %>
+                <% year = diff/12 %>
+                <% month = diff - year*12 %>
+                <%= year %> yr <%= month %> mth
+              </td>
+              <td style="font-size:12px"><%= kid.father_name.upcase %></td>
+              <td style="font-size:12px"><%= kid.father_phone %></td>
+              <td style="font-size:12px"><%= kid.mother_name.upcase %></td>
+              <td style="font-size:12px"><%= kid.mother_phone %></td>
+              <td style="font-size:12px">
+                <%= link_to "VIEW", "#", class: "btn btn-sm btn-info active" %>&nbsp
+              </br></br>
+                <%= link_to "DELETE", "#", class: "btn btn-sm btn-danger active", method: :delete, :data => {:confirm => 'Are you sure?'} %>
+              </td>
+              <td style="font-size:12px">
+                <%= f.select :classroom_id, 
+                    options_from_collection_for_select(@taska_classrooms.order('classroom_name ASC'), :id, :classroom_name), {include_blank: "Please Select"} %> 
+              </br></br>
+              <%= f.hidden_field :kid_id, value: kid.id %>
+              <%= f.submit :"ADD",  class: 'btn btn-sm btn-success btn-lg' %>
+           
+
+              </td>
             </tr>
             <% counter = counter + 1 %>
+            <% end %>
           <% end %>
         </tbody>
       </table>
     </div>
   </div>
 </div>
+
 
 <% else %>
 
@@ -88,7 +106,7 @@ No pending registration.</br></br>
                 <%= link_to "VIEW", classroom_path(classroom), class: "btn btn-sm btn-primary active" %>&nbsp
                 <%= link_to "EDIT", edit_classroom_path(classroom), class: "btn btn-sm btn-info active" %>&nbsp
                 <% if classroom.kids.count < 1 %>
-                  <%= link_to "DELETE", classroom_path(classroom), class: "btn btn-sm btn-danger active", method: :delete, :data => {:confirm => 'Are you sure?'} %>
+                  <%= link_to "DELETE", classroom_path(classroom), class: "btn btn-sm btn-danger active", method: :delete, :data => {:confirm => 'Are you sure?'} %>&nbsp
                 <% end %>
                   
                 </td>

@@ -38,6 +38,7 @@ class TaskasController < ApplicationController
   end
 
   def classrooms_index
+    @kid = Kid.new
     @unregistered_kids = @taska.kids.where(classroom_id: nil).order('name ASC')
     @taska_classrooms = @taska.classrooms
     render action: "classrooms_index", layout: "dsb-admin-classroom" 

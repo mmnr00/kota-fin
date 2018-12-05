@@ -76,10 +76,13 @@ class KidsController < ApplicationController
 	end
 
 	def add_classroom
-		@kid = Kid.find(params[:kid])
-		@kid.update(classroom_id: params[:classroom])
-		flash[:notice] = "#{@kid.name} was successfully added"
-		redirect_to classroom_path(params[:classroom])
+		@kid = Kid.find(params[:kid][:kid_id])
+		@classroom = Classroom.find(params[:kid][:classroom_id])
+		@taska = @classroom.taska
+		@kid.classroom_id = @classroom.id
+		@kid.save
+		flash[:notice] = "#{@kid.name} was successfully added to #{@classroom.classroom_name}"
+		redirect_to classroom_index_path(@taska)
 	end
 
 	def remove_classroom
