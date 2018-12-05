@@ -69,6 +69,7 @@ class TaskasController < ApplicationController
 
   # GET /taskas/1/edit
   def edit
+    @fotos = @taska.fotos
   end
 
   # POST /taskas
