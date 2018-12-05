@@ -104,9 +104,11 @@ class PaymentsController < ApplicationController
   end
 
   def new
-    @taska = Taska.find(params[:id])
+    @classroom = Classroom.find(params[:classroom])
+    @taska = @classroom.taska
     @kid = Kid.find(params[:child])
     @payment = Payment.new
+    render action: "new", layout: "dsb-admin-classroom" 
   end
 
   def create
@@ -129,25 +131,34 @@ class PaymentsController < ApplicationController
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
     #render json: data_billplz
     data = JSON.parse(data_billplz.to_s)
-    @payment.amount = params[:payment][:amount].to_f
-    @payment.description = params[:payment][:description]
-    @payment.bill_month = params[:payment][:month]
-    @payment.bill_year = params[:payment][:year]
-    @payment.kid_id = params[:payment][:kid_id]
-    @payment.parent_id = @kid.parent.id
-    @payment.taska_id = @kid.classroom.taska.id
-    @payment.state = data["state"]
-    @payment.paid = data["paid"]
-    @payment.bill_id = data["id"]
-    @payment.save
+    if data["id"].present?
+      @payment.amount = params[:payment][:amount].to_f
+      @payment.description = params[:payment][:description]
+      @payment.bill_month = params[:payment][:month]
+      @payment.bill_year = params[:payment][:year]
+      @payment.kid_id = params[:payment][:kid_id]
+      @payment.parent_id = @kid.parent.id
+      @payment.taska_id = @kid.classroom.taska.id
+      @payment.state = data["state"]
+      @payment.paid = data["paid"]
+      @payment.bill_id = data["id"]
+      @payment.save
+      flash[:success] = "Bills created successfully for #{@kid.name}"
+    else
+      flash[:danger] = "Bills creation failed. Please try again"
+    end
+    redirect_to classroom_path(@kid.classroom)
+
+
+
     #if child ada satu bill, pergi search bill, if more, pergi view bill
-    redirect_to view_bill_path(params[:id] = "#{params[:payment][:taska_id]}",
-                                  "utf8"=>"✓", 
-                                  kid: "#{params[:payment][:kid_id]}",
-                                  month: "#{params[:payment][:month]}", 
-                                  year: "#{params[:payment][:year]}", 
-                                  taska_id: "#{params[:payment][:taska_id]}", 
-                                  "button"=>""), :method => :get
+    # redirect_to view_bill_path(params[:id] = "#{params[:payment][:taska_id]}",
+    #                               "utf8"=>"✓", 
+    #                               kid: "#{params[:payment][:kid_id]}",
+    #                               month: "#{params[:payment][:month]}", 
+    #                               year: "#{params[:payment][:year]}", 
+    #                               taska_id: "#{params[:payment][:taska_id]}", 
+    #                               "button"=>""), :method => :get
   end
 
   def create_bill_taska

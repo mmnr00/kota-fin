@@ -1,5 +1,6 @@
 class KidsController < ApplicationController
 	before_action :set_kid, only: [:show, :kid_pdf]
+	before_action :set_all
 	#before_action :rep_responsible?
 	#before_action :authenticate_parent! || :authenticate_admin!
 
@@ -23,6 +24,35 @@ class KidsController < ApplicationController
 		   #disposition: "attachment",
 		   #page_size: "A6",
 		   orientation: "portrait",
+		   layout: 'pdf.html.erb'
+			end
+		end
+	end
+
+	def bill_view
+		@pdf = false
+		@payment = Payment.find(params[:payment]) 
+		@kid = Kid.find(params[:kid])
+		@taska = Taska.find(params[:taska])
+		@classroom = Classroom.find(params[:classroom])
+		@fotos = @taska.fotos
+	end
+
+	def bill_pdf
+		@pdf = true
+		@payment = Payment.find(params[:payment]) 
+		@kid = Kid.find(params[:kid])
+		@taska = Taska.find(params[:taska])
+		@classroom = Classroom.find(params[:classroom])
+		@fotos = @taska.fotos
+		respond_to do |format|
+	 		format.html
+	 		format.pdf do
+		   render pdf: "Receipt for #{@kid.name} from #{@taska.name}",
+		   template: "kids/bill_pdf.html.erb",
+		   #disposition: "attachment",
+		   #page_size: "A6",
+		   #orientation: "landscape",
 		   layout: 'pdf.html.erb'
 			end
 		end
@@ -138,6 +168,11 @@ class KidsController < ApplicationController
 
 	def set_kid
 		@kid = Kid.find(params[:id])
+	end
+
+	def set_all
+		@parent = current_parent
+		@admin = current_admin
 	end
 
 	def rep_responsible?

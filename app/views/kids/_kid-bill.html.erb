@@ -1,0 +1,155 @@
+
+      <!-- BEGIN PAGE CONTAINER-->
+<div class="page-content">
+  <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+  <% if @payment.paid %>
+    <h1 align="center"><%= link_to "PAID", "#", class: "btn btn-lg btn-success active" %></h1>
+  <% else %>
+    <h1 align="center"><%= link_to "PENDING PAYMENT", "#", class: "btn btn-lg btn-danger active" %></h1>
+  <% end %>
+  <div class="clearfix"></div>
+  <div class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="grid simple">
+          <div class="grid-body no-border invoice-body">
+            <br>
+            <div class="pull-left"> 
+              <% image = @fotos.where(foto_name: "CENTER LOGO").first %>
+              <% if image.picture.present? %>
+                <a href="<%="#{image.picture.url}"%>" target="_blank">
+                  <% if @pdf %>
+                    <%= wicked_pdf_image_tag(image.picture.url, size: "100x100") %>
+                  <% else %>
+                    <%= image_tag(image.picture.url, size: "100x100") %>
+                  <% end %>
+                </a>
+              <% end %>
+              <address>
+                <strong><%= @taska.name.upcase %></strong><br>
+                <%= @taska.address_1.upcase %><br>
+                <%= @taska.address_2.upcase %><br>
+                <%= @taska.city.upcase %>&nbsp
+                <%= @taska.states.upcase %>&nbsp
+                <%= @taska.postcode %><br>
+                <%= @taska.phone_1 %>-<%= @taska.phone_2 %><br>
+                <%= @taska.email %>
+              </address>
+            </div><br>
+            <div class="pull-right">
+              <% if @payment.paid %>
+                <h2>RECEIPT FOR 
+              <% else %>
+                <h2>INVOICE FOR 
+              <% end %>
+                <strong><%= @kid.name.upcase %></strong></h2>
+              <h5><%= @kid.ic_1 %>-<%= @kid.ic_2 %>-<%= @kid.ic_3 %></h5>
+            </div>
+            <div class="clearfix"></div>
+            <br>
+            <br>
+            <br>
+            <div class="row">
+              <div class="col-md-9">
+                <h4 class="semi-bold">
+                  EN <%= @kid.father_name.upcase %> / PN <%= @kid.mother_name.upcase %></h4>
+                <address>
+                  <%= @kid.father_phone %><br>
+                  <%= @kid.mother_phone %><br>
+                </address>
+              </div>
+              <div class="col-md-3">
+                <br>
+                <div>
+                  <div class="pull-left"> BILL ID : <%= @payment.bill_id %></div>
+                  <div class="clearfix"></div>
+                </div>
+                <div>
+                  <div class="pull-left"> BILL DATE : <%= @payment.created_at.strftime("%b %d, %Y") %></div>
+                  <div class="clearfix"></div>
+                </div>
+                <div>
+                  <% if @payment.paid %>
+                  <div class="pull-left"> PAYMENT DATE : <%= @payment.updated_at.strftime("%b %d, %Y") %></div>
+                  <% end %>
+                  <div class="clearfix"></div>
+                </div>
+                <br>
+              </div>
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="text-left">DESCRIPTION</th>
+                  <th></th>
+                  <th style="width:140px" class="text-right">AMOUNT (RM)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><%= @payment.description %></td>
+                  <td></td>
+                  <td class="text-right"><%= @payment.amount %></td>
+                </tr>
+                <tr>
+                  <td colspan="0" rowspan="4">
+                    <h4 class="semi-bold">terms and conditions</h4>
+                    <p>Please make the payment based on the schedule provided by the owner</p>
+                    </td>
+                </tr>
+                <tr>
+                  <td class="text-right no-border"><strong>TAX</strong></td>
+                  <td class="text-right">0.00</td>
+                </tr>
+                <tr>
+                  <td class="text-right no-border">
+                    <div class="well well-small green"><strong>TOTAL</strong></div>
+                  </td>
+                  <td class="text-right"><strong><%= @payment.amount %></strong></td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            <br>
+            
+            <br>
+            <br>
+            Powered by&nbsp
+            <% image = Foto.all.where(foto_name: "KIDCARE FULL").first %>
+              <% if image.picture.present? %>
+                <a href="<%="#{image.picture.url}"%>" target="_blank">
+                  <% if @pdf %>
+                    <%= wicked_pdf_image_tag(image.picture.url, size: "87x30") %>
+                  <% else %>
+                    <%= image_tag(image.picture.url, size: "87x30") %>
+                  <% end %>
+                </a>
+              <% end %>
+            www.kidcare.my
+          </div>
+
+        </div>
+
+      </div>
+          <!--   <div class="col-md-1">
+              <div class="invoice-button-action-set">
+                <p>
+                  <button class="btn btn-primary" type="button"><i class="fa fa-print"></i></button>
+                </p>
+                <p>
+                  <button class="btn " type="button"><i class="fa fa-cloud-download"></i></button>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div> -->
+
+
+
+
+
+
+    

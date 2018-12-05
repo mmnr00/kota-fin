@@ -9,7 +9,7 @@
 						<%= f.label :amount %>
 					</div>
 					<div class="col-sm-2">
-						<%= f.number_field :amount, rows: 10, class: "form-control", :step => 0.01,placeholder: "e.g 32.10", value: @kid.base_fee %>
+						<%= f.number_field :amount, rows: 10, class: "form-control", :step => 0.01,placeholder: "e.g 32.10", value: @classroom.base_fee %>
 					</div>
 				</div>
 
@@ -19,7 +19,7 @@
 						<%= f.label :description %>
 					</div>
 					<div class="col-sm-8">
-						<%= f.text_area :description, class: "form-control", placeholder: "Max 200 characters", autofocus: true, value: "Bill for month #{params[:month]}-#{params[:year]} from #{@taska.name}" %>
+						<%= f.text_area :description, class: "form-control", placeholder: "Max 200 characters", autofocus: true, value: "Bill for month #{$month_name[Date.today.month]} of #{Date.today.year} from #{@taska.name}" %>
 					</div>
 				</div>
 
@@ -29,13 +29,13 @@
 						<%= f.label :month %>
 					</div>
 					<div class="col-sm-2">
-						<%= f.text_field :month, class: "form-control", placeholder: "Children Name", autofocus: true, value: params[:month], readonly: true %>
+						<%= f.text_field :month, class: "form-control", placeholder: "Children Name", autofocus: true, value: Date.today.month %>
 					</div>
 					<div class="control-label col-sm-2">
 						<%= f.label :year %>
 					</div>
 					<div class="col-sm-2">
-						<%= f.text_field :year, class: "form-control", placeholder: "Children Name", autofocus: true, value: params[:year], readonly: true %>
+						<%= f.text_field :year, class: "form-control", placeholder: "Children Name", autofocus: true, value: Date.today.year %>
 					</div>
 				</div>
 

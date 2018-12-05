@@ -28,8 +28,17 @@
                 <%= link_to "REMOVE", remove_classroom_path(kid: kid, classroom: @classroom), class: "btn btn-sm btn-danger active", :data => {:confirm => 'Are you sure?'} %>&nbsp
               </td>
               <td> 
-                <%= link_to "NEW BILL", "#", class: "btn btn-sm btn-info active" %>&nbsp
-                <%= link_to "VIEW BILLS", "#", class: "btn btn-sm btn-success active" %>&nbsp
+                <%= link_to "NEW BILL", new_bill_path(child: kid.id, classroom: @classroom.id), class: "btn btn-sm btn-info active" %>&nbsp
+                <% bill = kid.payments.where(taska_id: @classroom.taska.id) %>
+                <% if bill.present? %>
+                  <% if (a=bill.where(paid: false)).present? %>
+                    <%= link_to "#{a.count} UNPAID BILLS", child_bill_index_path(@classroom.taska, kid: kid.id), class: "btn btn-sm btn-danger active" %>&nbsp
+                  <% else %>
+                    <%= link_to "VIEW RECEIPTS", child_bill_index_path(@classroom.taska, kid: kid.id), class: "btn btn-sm btn-danger active" %>&nbsp
+                  <% end %>
+                <% else %>
+                  
+                <% end %>
               </td>
             </tr>
             <% counter = counter + 1 %>

@@ -29,6 +29,13 @@ class TaskasController < ApplicationController
     redirect_to classroom_index_path(@taska)
   end
 
+  def child_bill_index
+    @taska = Taska.find(params[:id])
+    @kid = Kid.find(params[:kid])
+    @kid_bills = @kid.payments.where(taska_id: @taska.id).order('bill_year DESC').order('paid ASC').order('bill_month DESC')
+    render action: "child_bill_index", layout: "dsb-admin-classroom"
+  end
+
 
   # GET /taskas/1
 
