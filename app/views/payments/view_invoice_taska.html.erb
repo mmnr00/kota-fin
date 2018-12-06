@@ -55,12 +55,12 @@
             <div class="clearfix"></div>
           </div>
           <div>
-            <div class="pull-left"> BILL DATE : <%= @payment.created_at.strftime("%b %d, %Y") %></div>
+            <div class="pull-left"> BILL DATE : <%= @payment.created_at.strftime("%d %b, %Y") %></div>
             <div class="clearfix"></div>
           </div>
           <div>
             <% if @payment.paid %>
-            <div class="pull-left"> PAYMENT DATE : <%= @payment.updated_at.strftime("%b %d, %Y") %></div>
+            <div class="pull-left"> PAYMENT DATE : <%= @payment.updated_at.strftime("%d %b, %Y") %></div>
             <% end %>
             <div class="clearfix"></div>
           </div>

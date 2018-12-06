@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   get '/443322/bs_profile', to: 'pages#bs_profile'
   get '/443322/profile_card', to: 'pages#profile_card'
   get '/443322/pricing', to: 'pages#pricing'
+  get '/443322/bank_status', to: 'pages#bank_status'
 
   #PDF
   get 'print_payment_course', to: 'pdfs#print_payment_course'
@@ -124,6 +125,8 @@ Rails.application.routes.draw do
   get '/view_invoice', to: 'payments#view_invoice', as: 'view_invoice'
   get '/create_bill_taska', to: 'payments#create_bill_taska', as: 'create_bill_taska'
   get '/view_invoice_taska', to: 'payments#view_invoice_taska', as: 'view_invoice_taska'
+  get '/create_billplz_bank', to: 'payments#create_billplz_bank'
+  get '/update_billplz_bank', to: 'payments#update_billplz_bank'
 
 
   #get '/taska/:id/create_bill', to: 'payments#create_bill', as: 'create_bill'

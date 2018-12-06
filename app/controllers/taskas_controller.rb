@@ -83,17 +83,28 @@ class TaskasController < ApplicationController
   # POST /taskas.json
   def create
     @taska = Taska.new(taska_params)
-
-    
-      if @taska.save
-        taska_admin1 = TaskaAdmin.create(taska_id: @taska.id, admin_id: current_admin.id)
+    if @taska.plan == "taska_basic"
+      today = Date.today
+      expire = today + 3.months
+    elsif @taska.plan == "taska_standard"
+      today = Date.today
+      expire = today + 6.months
+    elsif @taska.plan == "taska_premium"
+      today = Date.today
+      expire = today + 12.months
+    end
+    @taska.expire = expire
+    if @taska.save
+      taska_admin1 = TaskaAdmin.create(taska_id: @taska.id, admin_id: current_admin.id)
+      if current_admin != Admin.first
         taska_admin2 = TaskaAdmin.create(taska_id: @taska.id, admin_id: Admin.first.id)
-        flash[:notice] = "Taska was successfully created"
-        redirect_to create_bill_taska_path(id: @taska.id)
-      else
-        render :new 
-        
       end
+      flash[:notice] = "Taska was successfully created"
+      redirect_to create_billplz_bank_path(id: @taska.id)
+    else
+      render :new 
+      
+    end
     
   end
 

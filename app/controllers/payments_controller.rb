@@ -166,10 +166,16 @@ class PaymentsController < ApplicationController
 
     if @taska.plan == "taska_basic"
       amount = 360.to_f*100
+      today = Date.today
+      expire = today + 3.months
     elsif @taska.plan == "taska_standard"
       amount = 600.to_f*100
+      today = Date.today
+      expire = today + 6.months
     elsif @taska.plan == "taska_premium"
       amount = 960.to_f*100
+      today = Date.today
+      expire = today + 12.months
     end
     url_bill = "#{ENV['BILLPLZ_API']}bills"
     @payment = Payment.new
@@ -180,7 +186,7 @@ class PaymentsController < ApplicationController
                       :amount=>  amount,
                       :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
                       :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
-                      :description=>"#{@taska.name.upcase}'s bill for #{@taska.plan.upcase} plan"}.to_json, 
+                      :description=>"#{@taska.name}'s bill for #{@taska.plan.upcase} plan (valid from #{today.strftime("%d %b, %Y")} to #{expire.strftime("%d %b, %Y")})" }.to_json, 
                       #:callback_url=>  "YOUR RETURN URL"}.to_json,
             :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
@@ -196,10 +202,10 @@ class PaymentsController < ApplicationController
         @payment.paid = data["paid"]
         @payment.bill_id = data["id"]
         @payment.save
-        redirect_to view_invoice_taska_path(taska: @taska.id, payment: @payment.id)
+        redirect_to admin_index_path
       else
         flash[:danger] = "Sign Up failed. Please try again"
-        redirect_to root_path and return
+        redirect_to admin_index_path
       end
       
   end
@@ -298,6 +304,45 @@ class PaymentsController < ApplicationController
                                   month: "#{params[:month]}", 
                                   year: "#{params[:year]}", 
                                   "button"=>""), :method => :get
+  end
+
+  def create_billplz_bank
+    @taska = Taska.find(params[:id])
+    url_bill = "#{ENV['BILLPLZ_API']}bank_verification_services/"
+    data_billplz = HTTParty.post(url_bill.to_str,
+            :body  => { :name => "#{@taska.acc_name}",
+                        :id_no => "#{@taska.acc_no}",
+                        :acc_no => "#{@taska.ssm_no}",
+                        :code => "#{$bank_code["#{@taska.bank_name}"]}",
+                        :organization => true }.to_json, 
+                        #:callback_url=>  "YOUR RETURN URL"}.to_json,
+            :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+            :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+    #render json: data_billplz and return
+    data = JSON.parse(data_billplz.to_s)
+    if data["status"].present?
+      @taska.bank_status = data["status"]
+      @taska.billplz_reg = "NO"
+      @taska.save
+      redirect_to create_bill_taska_path(id: @taska)
+    else
+      flash[:danger] = "Bank Account Not Valid. Please update"
+      redirect_to edit_taska_path(@taska)
+    end
+  end
+
+  def update_billplz_bank
+    url_bill = "#{ENV['BILLPLZ_API']}bank_verification_services/"
+    data_billplz = HTTParty.post(url_bill.to_str,
+            :body  => { :name => "Mohd Mustakhim Noor Rehan",
+                        :id_no => "870829355647",
+                        :acc_no => "157410082426",
+                        :code => "#{$bank_code["MAYBANK / MALAYAN BANKING BERHAD"]}",
+                        :organization => false }.to_json, 
+                        #:callback_url=>  "YOUR RETURN URL"}.to_json,
+            :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+            :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+    render json: data_billplz
   end
 
 

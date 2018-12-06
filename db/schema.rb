@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_04_100028) do
+ActiveRecord::Schema.define(version: 2018_12_06_031700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -236,6 +236,9 @@ ActiveRecord::Schema.define(version: 2018_12_04_100028) do
     t.string "collection_id"
     t.string "name"
     t.string "plan"
+    t.string "bank_status"
+    t.string "billplz_reg"
+    t.datetime "expire"
     t.index ["email"], name: "index_taskas_on_email", unique: true
   end
 

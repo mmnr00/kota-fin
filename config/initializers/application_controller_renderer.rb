@@ -7,6 +7,40 @@
 #   )
 # end
 
+$month_name = { 1=>"Jan",
+								2=>"Feb",
+								3=>"Mar",
+								4=>"Apr",
+								5=>"May",
+								6=>"Jun",
+								7=>"Jul",
+								8=>"Aug",
+								9=>"Sep",
+								10=>"Oct",
+								11=>"Nov",
+								12=>"Dec",
+							}
+$bank_code =	{ "AFFIN BANK BERHAD"=>"PHBMMYKL",
+								"AGROBANK / BANK PERTANIAN MALAYSIA BERHAD"=>"BPMBMYKL",
+								"ALLIANCE BANK MALAYSIA BERHAD"=>"MFBBMYKL",
+								"AL RAJHI BANKING INVESTMENT CORPORATION (MALAYSIA) BERHAD"=>"RJHIMYKL",
+								"AMBANK (M) BERHAD"=>"ARBKMYKL",
+								"BANK ISLAM MALAYSIA BERHAD"=>"BIMBMYKL",
+								"BANK KERJASAMA RAKYAT MALAYSIA BERHAD"=>"BKRMMYKL",
+								"BANK MUAMALAT (MALAYSIA) BERHAD"=>"BMMBMYKL",
+								"BANK SIMPANAN NASIONAL BERHAD"=>"BSNAMYK1",
+								"CIMB BANK BERHAD"=>"CIBBMYKL",
+								"CITIBANK BERHAD"=>"CITIMYKL",
+								"HONG LEONG BANK BERHAD"=>"HLBBMYKL",
+								"HSBC BANK MALAYSIA BERHAD"=>"HBMBMYKL",
+								"MAYBANK / MALAYAN BANKING BERHAD"=>"MBBEMYKL",
+								"OCBC BANK (MALAYSIA) BERHAD"=>"OCBCMYKL",
+								"PUBLIC BANK BERHAD"=>"PBBEMYKL",
+								"RHB BANK BERHAD"=>"RHBBMYKL",
+								"STANDARD CHARTERED BANK (MALAYSIA) BERHAD"=>"SCBLMYKX",
+								"UNITED OVERSEAS BANK (MALAYSIA) BERHAD"=>"UOVBMYKL", 
+							}
+
 # # ## BILLPLZ LOCAL
 # # $billplz_url = "https://billplz-staging.herokuapp.com/api/v3/"
 # # $billplz = "https://billplz-staging.herokuapp.com/"
@@ -32,16 +66,7 @@
 # $root_url = "http://kidcare-prod.herokuapp.com/"
 
 
-$month_name = { 1=>"Jan",
-								2=>"Feb",
-								3=>"Mar",
-								4=>"Apr",
-								5=>"May",
-								6=>"Jun",
-								7=>"Jul",
-								8=>"Aug",
-								9=>"Sep",
-								10=>"Oct",
-								11=>"Nov",
-								12=>"Dec",
-							}
+
+
+
+

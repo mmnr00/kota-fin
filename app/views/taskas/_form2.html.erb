@@ -1,0 +1,130 @@
+<div class='row'>
+  <div class='col-lg-8 col-12'>
+    <%= form_for(@taska, :html => {multipart: true, class: "form-horizontal", role: "form"}) do |f| %>
+
+      <!-- taska name -->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>CENTER NAME</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :name, class: "form-control", autofocus: true, required: true %>
+            </div>
+          </div>
+        </div>
+
+        
+
+        <h4> Bank Details </h4>
+
+        <!-- BANK NAME-->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>BANK NAME</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-8">
+              <%= f.select :bank_name, 
+                            options_for_select(["AFFIN BANK BERHAD",
+                              "AGROBANK / BANK PERTANIAN MALAYSIA BERHAD",
+                              "ALLIANCE BANK MALAYSIA BERHAD",
+                              "AL RAJHI BANKING INVESTMENT CORPORATION (MALAYSIA) BERHAD",
+                              "AMBANK (M) BERHAD",
+                              "BANK ISLAM MALAYSIA BERHAD",
+                              "BANK KERJASAMA RAKYAT MALAYSIA BERHAD",
+                              "BANK MUAMALAT (MALAYSIA) BERHAD",
+                              "BANK SIMPANAN NASIONAL BERHAD",
+                              "CIMB BANK BERHAD",
+                              "CITIBANK BERHAD",
+                              "HONG LEONG BANK BERHAD",
+                              "HSBC BANK MALAYSIA BERHAD",
+                              "MAYBANK / MALAYAN BANKING BERHAD",
+                              "OCBC BANK (MALAYSIA) BERHAD",
+                              "PUBLIC BANK BERHAD",
+                              "RHB BANK BERHAD",
+                              "STANDARD CHARTERED BANK (MALAYSIA) BERHAD",
+                              "UNITED OVERSEAS BANK (MALAYSIA) BERHAD"],
+                                              selected: @taska.bank_name,), 
+                              {include_blank: "Please Select"}, {required: true} %> 
+                      
+            </div>
+          </div>
+        </div>
+
+        <!-- ACC NAME -->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>BANK ACCOUNT NAME</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :acc_name, class: "form-control", autofocus: true, required: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACC NO -->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>BANK ACCOUNT NO</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :acc_no, class: "form-control", autofocus: true, required: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- EMAIL -->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>EMAIL</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.email_field :email, class: "form-control", autofocus: true, required: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- SSM NO -->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>SSM/ROC/ROS/ROB NO</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :ssm_no, class: "form-control", autofocus: true, required: true %>
+            </div>
+          </div>
+        </div>
+
+        <%= f.hidden_field :plan, value: params[:plan] %>
+
+        
+
+              
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-offset-2 col-sm-10 col-4">
+              <%= f.submit :"CREATE TASKA",  class: 'btn btn-primary btn-lg' %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      
+    </div>
+  </div>
