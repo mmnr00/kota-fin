@@ -130,6 +130,7 @@ Rails.application.routes.draw do
   get '/view_invoice_taska', to: 'payments#view_invoice_taska', as: 'view_invoice_taska'
   get '/create_billplz_bank', to: 'payments#create_billplz_bank'
   get '/update_billplz_bank', to: 'payments#update_billplz_bank'
+  get '/create_bill_booking', to: 'payments#create_bill_booking', as: 'create_bill_booking'
 
 
   #get '/taska/:id/create_bill', to: 'payments#create_bill', as: 'create_bill'

@@ -72,11 +72,15 @@ class KidsController < ApplicationController
 		@kid = Kid.new(kid_params)
 		#@expense.taska = session[:taska_id]
 		if @kid.save
-			#Kidtsk.create(kid_id: @kid.id, taska_id: params[:kidtsk][:taska_id])			
-			flash[:notice] = "Children was successfully created"					
-			redirect_to parent_index_path;									
+			#Kidtsk.create(kid_id: @kid.id, taska_id: params[:kidtsk][:taska_id])
+			if @kid.fotos.where(foto_name: "BOOKING RECEIPT").first.present?			
+				flash[:notice] = "Children was successfully created"					
+				redirect_to parent_index_path;			
+			else	 
+				redirect_to create_bill_booking_path(kid_id: @kid.id, taska_id: @kid.taska.id)
+			end							
 		else
-			render @kid.errors.full_messages
+			flash[:danger] = "#{@kid.errors.full_messages}"
 			render :new
 		end
 	end

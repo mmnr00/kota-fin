@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_06_070432) do
+ActiveRecord::Schema.define(version: 2018_12_06_112812) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -240,6 +240,7 @@ ActiveRecord::Schema.define(version: 2018_12_06_070432) do
     t.string "bank_status"
     t.string "billplz_reg"
     t.datetime "expire"
+    t.float "booking"
     t.index ["email"], name: "index_taskas_on_email", unique: true
   end
 

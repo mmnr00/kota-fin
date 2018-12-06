@@ -1,0 +1,80 @@
+<div class='row'>
+  <div class='col-lg-8 col-12'>
+    <%= form_for(@kid, :html => {multipart: true, class: "form-horizontal", role: "form"}) do |f| %>
+        
+        <!-- name -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>FULL NAME</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :name, class: "form-control", placeholder: "FULL NAME AS PER MYKID", autofocus: true, required: true %>
+            </div>
+          </div>
+        </div>
+
+        <%= f.hidden_field :parent_id, value: @parent.id %>
+        <% if @kid.taska_id.present? %>
+          <%= f.hidden_field :taska_id, value: @kid.taska_id %>
+        <% else %>
+          <%= f.hidden_field :taska_id, value: params[:taska_id] %>
+        <% end %>
+        <%= f.hidden_field :classroom_id, value: @kid.classroom_id %>
+
+
+        <!-- BOOKING FEE -->
+        <% if @taska.booking > 0 %>
+          <% if @taska.collection_id.present? %>
+            <%= @create_bill == 1 %>
+          <% else %>
+            <% m = 0 %> <!-- Stop loop at 1 -->
+            <div class="form-group"> 
+              <div class="row">
+                <div class="control-label col-sm-8">
+                  <i class="fas fa-cloud-upload-alt"></i><strong>BOOKING RECEIPT</strong>
+                </div>
+              </div>
+              <div class="row">
+              <div class="col-sm-8 col-5">
+              <% image = @kid.fotos.where(foto_name: "BOOKING RECEIPT").first %>
+              <% if image.present? %>
+                <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
+                  <div class="row">
+                  <div class="col-sm-8 col-5">
+                    <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
+                  </div>
+                  </div>  
+              <% else %>
+                <%= f.fields_for :fotos do |h| %>
+                  <% break if m==1 %>
+                    <div class="row">
+                      <div class="col-sm-8 col-8">
+                        <%= h.hidden_field :foto_name, value: "BOOKING RECEIPT" %>
+                        <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
+                        RM <%= @taska.booking %> BOOKING FEE
+                      </div>
+                    </div>
+                    <% m = 1 %>
+                  <% end %>
+                <% end %>
+              </div>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+        
+        <br>     
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-offset-2 col-sm-10 col-4">
+              <%= f.submit :"UPDATE PROFILE",  class: 'btn btn-primary btn-lg' %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      
+    </div>
+  </div>

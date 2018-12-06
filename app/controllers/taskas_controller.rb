@@ -165,6 +165,7 @@ class TaskasController < ApplicationController
                                     :acc_name,
                                     :ssm_no,
                                     :plan,
+                                    :booking,
                                     fotos_attributes: [:foto, :picture, :foto_name]  )
     end
 end

@@ -167,6 +167,44 @@ class PaymentsController < ApplicationController
     #                               "button"=>""), :method => :get
   end
 
+  def create_bill_booking
+    @taska = Taska.find(params[:taska_id])
+    @kid = Kid.find(params[:kid_id])
+
+    url_bill = "#{ENV['BILLPLZ_API']}bills"
+    @payment = Payment.new
+     data_billplz = HTTParty.post(url_bill.to_str,
+                      :body  => { :collection_id => "#{@taska.collection_id}", 
+                      :email=> "#{@taska.email}",
+                      :name=> "#{@taska.name}", 
+                      :amount=>  @taska.booking,
+                      :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                      :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                      :description=>"#{@taska.name}'s booking for #{@kid.name}" }.to_json, 
+                      #:callback_url=>  "YOUR RETURN URL"}.to_json,
+            :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+            :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+      data = JSON.parse(data_billplz.to_s)
+      render json: data_billplz and return
+      if (data["id"].present?)
+        @payment.name = "TASKA PLAN"
+        @payment.amount = data["amount"].to_f/100
+        @payment.description = data["description"]
+        @payment.bill_month = Date.today.month
+        @payment.bill_year = Date.today.year
+        @payment.taska_id = @taska.id
+        @payment.state = data["state"]
+        @payment.paid = data["paid"]
+        @payment.bill_id = data["id"]
+        @payment.save
+        redirect_to admin_index_path
+      else
+        flash[:danger] = "Sign Up failed. Please try again"
+        redirect_to admin_index_path
+      end
+      
+  end
+
   def create_bill_taska
     @taska = Taska.find(params[:id])
 
