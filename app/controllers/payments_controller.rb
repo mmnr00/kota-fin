@@ -51,9 +51,15 @@ class PaymentsController < ApplicationController
                   :headers => { 'Content-Type' => 'application/json', 
                                 'Accept' => 'application/json' })
     data = JSON.parse(data_billplz.to_s)
-    @taska.collection_id = data["id"]
-    @taska.save
-    redirect_to payment_index_path(@taska)
+    #render json: data_billplz and return
+    if data["id"].present?
+      @taska.collection_id = data["id"]
+      @taska.save
+      flash[:success] = "Collection Created"
+    else
+      flash[:danger] = "Please try again"
+    end
+    redirect_to bank_status_path
   end
 
   def create_collection_college
@@ -193,6 +199,7 @@ class PaymentsController < ApplicationController
       data = JSON.parse(data_billplz.to_s)
       #render json: data_billplz and return
       if (data["id"].present?)
+        @payment.name = "TASKA PLAN"
         @payment.amount = data["amount"].to_f/100
         @payment.description = data["description"]
         @payment.bill_month = Date.today.month
@@ -332,13 +339,9 @@ class PaymentsController < ApplicationController
   end
 
   def update_billplz_bank
-    url_bill = "#{ENV['BILLPLZ_API']}bank_verification_services/"
-    data_billplz = HTTParty.post(url_bill.to_str,
-            :body  => { :name => "Mohd Mustakhim Noor Rehan",
-                        :id_no => "870829355647",
-                        :acc_no => "157410082426",
-                        :code => "#{$bank_code["MAYBANK / MALAYAN BANKING BERHAD"]}",
-                        :organization => false }.to_json, 
+    url_bill = "#{ENV['BILLPLZ_API']}bank_verification_services/7026223147"
+    data_billplz = HTTParty.get(url_bill.to_str,
+            :body  => { }.to_json, 
                         #:callback_url=>  "YOUR RETURN URL"}.to_json,
             :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })

@@ -38,7 +38,10 @@ Rails.application.routes.draw do
   get '/443322/bs_profile', to: 'pages#bs_profile'
   get '/443322/profile_card', to: 'pages#profile_card'
   get '/443322/pricing', to: 'pages#pricing'
-  get '/443322/bank_status', to: 'pages#bank_status'
+
+
+  get '/443322/bank_status', to: 'pages#bank_status', as: 'bank_status'
+  get '/billplz_reg', to: 'pages#billplz_reg'
 
   #PDF
   get 'print_payment_course', to: 'pdfs#print_payment_course'
