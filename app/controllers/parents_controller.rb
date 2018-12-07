@@ -8,10 +8,12 @@ class ParentsController < ApplicationController
 		@parent = current_parent
 		#@mykids = @parent.kids.order('updated_at DESC')
 		@unpaid_bills = @parent.payments.where(paid: false).order("bill_month DESC")
+		Prntdetail.create(parent_id: @parent.id)
 		if @parent.prntdetail.present?
 			redirect_to my_kid_path(@parent)
 			##render action: "index", layout: "dsb-parent-child"
 		else
+			#redirect_to my_kid_path(@parent)
 			redirect_to new_prntdetail_path(parent_id: @parent.id)
 		end
 	end

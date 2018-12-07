@@ -41,7 +41,7 @@
               <td><%= bill.amount %></td>
               <% if bill.paid %>
                 <td>
-                  <%= link_to "VIEW RECEIPT", view_invoice_path(id: bill), class: "btn btn-sm btn-success active" %>
+                  <%= link_to "DOWNLOAD RECEIPT", bill_pdf_path(payment: bill.id, kid: @kid.id, taska: @kid.taska.id, format: :pdf), class: "btn btn-sm btn-success active", target: "_blank" %>
                 </td>
               <% else %>
                 <td>

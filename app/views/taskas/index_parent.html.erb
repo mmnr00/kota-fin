@@ -35,7 +35,7 @@ PLEASE CHOOSE TO PROCEED
                 <% if params[:kid_id].present? %>
                   <%= link_to "CHOOSE", add_taska_path(kid_id: params[:kid_id], taska_id: taska.id, parent_id: params[:id]),method: :post, class: "btn btn-sm btn-info active" %>
                 <% else %>
-                  <%= link_to "CHOOSE", new_kid_path(@parent.id, taska_id: taska.id), class: "btn btn-sm btn-info active" %>
+                  <%= link_to "CHOOSE", new_kid_path(taska_id: taska.id), class: "btn btn-sm btn-info active" %>
                 <% end %>
               </td>
             </tr>

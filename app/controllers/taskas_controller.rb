@@ -10,7 +10,7 @@ class TaskasController < ApplicationController
   end
 
   def index_parent
-    @parent = Parent.find(params[:id])
+    @parent = current_parent
     @taskas = Taska.all
   end
 

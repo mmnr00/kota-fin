@@ -105,7 +105,7 @@
         <% if @payment.paid %>
           <%= link_to "PRINT RECEIPT", course_payment_pdf_path(payment: @payment.id, format: :pdf), target: "_blank", class: "btn btn-sm btn-success active" %>
         <% else %>
-          <%= link_to "PAYBILLS", "#{$billplz}bills/#{@payment.bill_id}", target: "_blank", class: "btn btn-sm btn-danger active" %>
+          <%= link_to "PAYBILLS", "#{ENV['BILLPLZ_URL']}bills/#{@payment.bill_id}", target: "_blank", class: "btn btn-sm btn-danger active" %>
         <% end %>
       </h5>
       <br>

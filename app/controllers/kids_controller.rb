@@ -1,6 +1,7 @@
 class KidsController < ApplicationController
 	before_action :set_kid, only: [:show, :kid_pdf]
 	before_action :set_all
+	before_action :authenticate_parent!, only: [:new]
 	#before_action :rep_responsible?
 	#before_action :authenticate_parent! || :authenticate_admin!
 
@@ -34,7 +35,11 @@ class KidsController < ApplicationController
 		@payment = Payment.find(params[:payment]) 
 		@kid = Kid.find(params[:kid])
 		@taska = Taska.find(params[:taska])
-		@classroom = Classroom.find(params[:classroom])
+		if params[:classroom].present?
+			@classroom = Classroom.find(params[:classroom])
+		else
+			@classroom = nil
+		end
 		@fotos = @taska.fotos
 	end
 
@@ -43,7 +48,11 @@ class KidsController < ApplicationController
 		@payment = Payment.find(params[:payment]) 
 		@kid = Kid.find(params[:kid])
 		@taska = Taska.find(params[:taska])
-		@classroom = Classroom.find(params[:classroom])
+		if params[:classroom].present?
+			@classroom = Classroom.find(params[:classroom])
+		else
+			@classroom = nil
+		end
 		@fotos = @taska.fotos
 		respond_to do |format|
 	 		format.html
@@ -60,12 +69,14 @@ class KidsController < ApplicationController
 
 
 
+
+
 	def new
-		@parent = Parent.find(params[:id])
-		@kid = Kid.new
-		@taska = Taska.find(params[:taska_id])
-		@kid.fotos.build
-		render action: "new", layout: "dsb-parent-child"
+			@parent = current_parent
+			@kid = Kid.new
+			@taska = Taska.find(params[:taska_id])
+			@kid.fotos.build
+			#render action: "new", layout: "dsb-parent-child"	
 	end
 
 	def create
@@ -76,7 +87,8 @@ class KidsController < ApplicationController
 			if @kid.fotos.where(foto_name: "BOOKING RECEIPT").first.present?			
 				flash[:notice] = "Children was successfully created"					
 				redirect_to parent_index_path;			
-			else	 
+			else
+				#redirect_to parent_index_path;		 
 				redirect_to create_bill_booking_path(kid_id: @kid.id, taska_id: @kid.taska.id)
 			end							
 		else

@@ -177,7 +177,7 @@ class PaymentsController < ApplicationController
                       :body  => { :collection_id => "#{@taska.collection_id}", 
                       :email=> "#{@taska.email}",
                       :name=> "#{@taska.name}", 
-                      :amount=>  @taska.booking,
+                      :amount=>  @taska.booking*100,
                       :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
                       :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
                       :description=>"#{@taska.name}'s booking for #{@kid.name}" }.to_json, 
@@ -185,7 +185,7 @@ class PaymentsController < ApplicationController
             :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
       data = JSON.parse(data_billplz.to_s)
-      render json: data_billplz and return
+      #render json: data_billplz and return
       if (data["id"].present?)
         @payment.name = "TASKA PLAN"
         @payment.amount = data["amount"].to_f/100
@@ -193,14 +193,16 @@ class PaymentsController < ApplicationController
         @payment.bill_month = Date.today.month
         @payment.bill_year = Date.today.year
         @payment.taska_id = @taska.id
+        @payment.kid_id = @kid.id
         @payment.state = data["state"]
         @payment.paid = data["paid"]
         @payment.bill_id = data["id"]
         @payment.save
-        redirect_to admin_index_path
+        flash[:success] = "Sign Up for #{@kid.name.upcase} completed. Please pay the booking fee of RM #{@payment.amount} to complete."
+        redirect_to parent_index_path
       else
         flash[:danger] = "Sign Up failed. Please try again"
-        redirect_to admin_index_path
+        redirect_to parent_index_path
       end
       
   end
