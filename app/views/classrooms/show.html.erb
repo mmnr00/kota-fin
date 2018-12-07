@@ -27,7 +27,9 @@
                 <%= link_to "VIEW", kid_path(kid), class: "btn btn-sm btn-primary active" %>&nbsp
                 <% bill = kid.payments.where(taska_id: @classroom.taska.id).where(paid: false) %>
                 <% if !bill.present? %>
-                  <%= link_to "REMOVE", remove_classroom_path(kid: kid, classroom: @classroom), class: "btn btn-sm btn-danger active", :data => {:confirm => 'Are you sure?'} %>
+                  <%= link_to remove_classroom_path(kid: kid, classroom: @classroom), style: "color:red", :data => {:confirm => 'Are you sure?'} do %>
+                    <i class="fa fa-trash"></i> REMOVE
+                  <% end %>
                 <% end %>
               </td>
               <td> 

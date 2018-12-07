@@ -43,7 +43,9 @@
               <td style="font-size:12px">
                 <%= link_to "VIEW", kid_path(kid), class: "btn btn-sm btn-info active" %>&nbsp
               </br></br>
-                <%= link_to "DELETE", remove_taska_path(kid: kid), class: "btn btn-sm btn-danger active", :data => {:confirm => 'Are you sure?'} %>
+                <%= link_to remove_taska_path(kid: kid), style: "color:red", :data => {:confirm => 'Are you sure?'} do %>
+                    <i class="fa fa-trash"></i> REMOVE
+                  <% end %>
               </td>
               <td style="font-size:12px">
                 <%= f.select :classroom_id, 
@@ -107,7 +109,9 @@ No pending registration.</br></br>
                 <%= link_to "VIEW", classroom_path(classroom), class: "btn btn-sm btn-primary active" %>&nbsp
                 <%= link_to "EDIT", edit_classroom_path(classroom), class: "btn btn-sm btn-info active" %>&nbsp
                 <% if classroom.kids.count < 1 %>
-                  <%= link_to "DELETE", classroom_path(classroom), class: "btn btn-sm btn-danger active", method: :delete, :data => {:confirm => 'Are you sure?'} %>&nbsp
+                  <%= link_to classroom_path(classroom), method: :delete, style: "color:red", :data => {:confirm => 'Are you sure?'} do %>
+                    <i class="fa fa-trash"></i> REMOVE
+                  <% end %>
                 <% end %>
                   
                 </td>
