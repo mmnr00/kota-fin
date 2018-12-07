@@ -75,6 +75,7 @@ class KidsController < ApplicationController
 			@parent = current_parent
 			@kid = Kid.new
 			@taska = Taska.find(params[:taska_id])
+			@fotos = @taska.fotos
 			@kid.fotos.build
 			#render action: "new", layout: "dsb-parent-child"	
 	end

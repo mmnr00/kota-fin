@@ -72,14 +72,14 @@ No pending registration.</br></br>
 <% end %>
 
 
-<%= link_to "CREATE CLASSROOM", new_classroom_path(taska_id: @taska.id), class: "btn btn-xs btn-success active"%></br></br>
+
 
 <% if @taska_classrooms.present? %>
 
 <div class="card mb-3">
     <div class="card-header">
       <i class="fas fa-search"></i>
-      VIEWING ALL CHILDREN
+      VIEWING ALL MY CLASSROOMS
     </div>
   <div class="card-body">
     <div class="table-responsive">
@@ -87,7 +87,7 @@ No pending registration.</br></br>
         <thead class="thead-dark">
           <tr>
             <th>NO</th>
-            <th>NAME</th>
+            <th>CLASSROOM</th>
             <th>DESCRIPTION</th>
             <th>BASE FEE(RM)</th>
             <th>STUDENTS NO</th>
@@ -119,6 +119,8 @@ No pending registration.</br></br>
     </div>
   </div>
 </div>
+
+<%= link_to "CREATE NEW CLASSROOM", new_classroom_path(taska_id: @taska.id), class: "btn btn-xs btn-success active"%></br></br>
 
 <% else %>
 

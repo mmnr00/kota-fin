@@ -11,27 +11,25 @@ class PaymentsController < ApplicationController
   end
 
   def update
-   @bill = Payment.where(bill_id: "#{params[:billplz][:id]}").first
-   if @bill.present?
+    @bill = Payment.where(bill_id: "#{params[:billplz][:id]}").first
+    if @bill.present?
     #@kid = @bill.kid
-    @bill.paid = params[:billplz][:paid]
-    @bill.save
-    if @bill.paid
-      flash[:success] = "Bill was successfully paid"
-    else
-      flash[:danger] = "Bill was not paid due to bank rejection. Please try again"
+      @bill.paid = params[:billplz][:paid]
+      @bill.save
+      if @bill.paid
+        flash[:success] = "Bill was successfully paid. Please download the receipt"
+      else
+        flash[:danger] = "Bill was not paid due to bank rejection. Please try again"
+      end
+      if (@bill.kid.present?)
+        @kid = @bill.kid
+        redirect_to all_bills_path(id: @kid.parent.id, kid_id: @kid.id)
+      elsif (@bill.teacher.present?)
+        redirect_to course_payment_pdf_path(payment: @bill.id, format: :pdf)
+      elsif (@bill.taska.present?)
+        redirect_to admin_index_path
+      end
     end
-    if (@bill.kid.present?)
-      @kid = @bill.kid
-      redirect_to parent_index_path
-    elsif (@bill.teacher.present?)
-      redirect_to course_payment_pdf_path(payment: @bill.id, format: :pdf)
-    elsif (@bill.taska.present?)
-      redirect_to admin_index_path
-    end
-   end
-   
-
   end
 
   def create_collection

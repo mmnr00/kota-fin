@@ -60,7 +60,7 @@ class ClassroomsController < ApplicationController
 		@admin = current_admin
 		@classroom = Classroom.find(params[:id])
 		@taska = @classroom.taska
-		@classroom_kids = @classroom.kids.order('updated_at DESC')	
+		@classroom_kids = @classroom.kids.order('name ASC')	
 		render action: "show", layout: "dsb-admin-classroom" 	
 	end
 
