@@ -336,19 +336,16 @@ class PaymentsController < ApplicationController
   end
 
   def destroy
-    url_bill = "#{ENV['BILLPLZ_API']}bills/#{params[:bill_id]}"
-    @payment = Payment.find(params[:bill])
+    @payment = Payment.find(params[:id])
+    url_bill = "#{ENV['BILLPLZ_API']}bills/#{@payment.bill_id}"
+    
     data_billplz = HTTParty.delete(url_bill.to_str,
                                   :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
                                   :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
     @payment.destroy
+    #render json: data_billplz and return
     flash[:notice] = "Bills was successfully deleted"
-    redirect_to view_bill_path(params[:taska],
-                                  "utf8"=>"✓", 
-                                  kid: "#{params[:kid]}",
-                                  month: "#{params[:month]}", 
-                                  year: "#{params[:year]}", 
-                                  "button"=>""), :method => :get
+    redirect_to child_bill_index_path(id: params[:taska_id], kid: params[:kid_id])
   end
 
   def create_billplz_bank

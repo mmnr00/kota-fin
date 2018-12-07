@@ -28,9 +28,14 @@
               <td><%= bill.description %></td>
               <td>
                 <% if !bill.paid %>
-                  <%= link_to "UNPAID", bill_view_path(payment: bill.id, kid: @kid.id, taska: bill.taska.id, classroom: @kid.classroom.id), class: "btn btn-sm btn-danger active", target:"_blank" %>
+                  <%= link_to "UNPAID", bill_view_path(payment: bill.id, kid: @kid.id, taska: bill.taska.id, classroom: @kid.classroom.id), class: "btn btn-sm btn-danger active"%>
+                  <%= link_to payment_path(id: bill.id, taska_id: @kid.taska.id, kid_id: @kid.id), method: :delete, style: "color:red" do %>
+                    <i class="fa fa-trash"></i> DELETE
+                  <% end %>
                 <% else %>
-                  <%= link_to "VIEW RECEIPT", bill_pdf_path(payment: bill.id, kid: @kid.id, taska: bill.taska.id, classroom: @kid.classroom.id, format: :pdf ), class: "btn btn-sm btn-success active", target:"_blank" %>
+                  <%= link_to bill_pdf_path(payment: bill.id, kid: @kid.id, taska: bill.taska.id, classroom: @kid.classroom.id, format: :pdf ), class: "btn btn-sm btn-success active", target:"_blank" do %>
+                      <i class="fa fa-download"></i> RECEIPT
+                  <% end %>
                 <% end %>
                 
               </td>
