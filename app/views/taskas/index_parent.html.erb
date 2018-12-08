@@ -13,8 +13,7 @@ PLEASE CHOOSE TO PROCEED
             <th> N0 </th>
             <th> NAME </th>
             <th> ADDRESS </th>
-            <th> SUPERVISOR </th>
-            <th> CONTACT NO </th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -24,18 +23,20 @@ PLEASE CHOOSE TO PROCEED
               <td><%= counter %></td>
               <td><%= taska.name %></td>
               <td>
-                <%= taska.address_1 %></br>
-                <%= taska.address_2 %></br>
-                <%= taska.city %>&nbsp
-                <%= taska.states %>&nbsp
+                <%= taska.address_1 %>,</br>
+                <%= taska.address_2 %>,</br>
+                <%= taska.city %>,&nbsp
+                <%= taska.states %>,&nbsp
                 <%= taska.postcode %>
               </td>
-              <td><%= taska.email %></td>
               <td>
                 <% if params[:kid_id].present? %>
                   <%= link_to "CHOOSE", add_taska_path(kid_id: params[:kid_id], taska_id: taska.id, parent_id: params[:id]),method: :post, class: "btn btn-sm btn-info active" %>
                 <% else %>
                   <%= link_to "CHOOSE", new_kid_path(taska_id: taska.id), class: "btn btn-sm btn-info active" %>
+                <% end %> &nbsp
+                <%= link_to taska_page_path(id: taska.id), class: "btn btn-sm btn-success active" do %>
+                    <i class="fa fa-eye fa-lg"></i> VIEW PAGE
                 <% end %>
               </td>
             </tr>

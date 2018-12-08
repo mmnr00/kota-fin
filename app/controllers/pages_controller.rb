@@ -35,6 +35,9 @@ class PagesController < ApplicationController
 	def profile_card
 	end
 
+	def profile_card_edit
+	end
+
 	def pricing
 	end
 

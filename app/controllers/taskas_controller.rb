@@ -17,6 +17,11 @@ class TaskasController < ApplicationController
   def taska_pricing
   end
 
+  def taska_page
+    @taska = Taska.find(params[:id])
+    
+  end
+
   def remove_taska
     @kid = Kid.find(params[:kid])
     @taska = @kid.taska

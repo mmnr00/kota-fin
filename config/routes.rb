@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   get '/443322/tables', to: 'pages#tables'
   get '/443322/bs_profile', to: 'pages#bs_profile'
   get '/443322/profile_card', to: 'pages#profile_card'
+  get '/443322/profile_card_edit', to: 'pages#profile_card_edit'
   get '/443322/pricing', to: 'pages#pricing'
 
 
@@ -97,6 +98,7 @@ Rails.application.routes.draw do
   get '/taska_pricing', to: 'taskas#taska_pricing', as: 'taska_pricing'
   get '/remove_taska', to: 'taskas#remove_taska', as: 'remove_taska'
   get '/taska/:id/child_bill_index', to: 'taskas#child_bill_index', as: 'child_bill_index'
+  get 'taska/page/:id', to: 'taskas#taska_page', as: 'taska_page'
   #EXPENSES
   get '/taska/:id/expenses_search', to: 'expenses#search', as: 'search_expense'
   get '/taska/:id/expenses', to: 'expenses#my_expenses', as: 'my_expenses'
