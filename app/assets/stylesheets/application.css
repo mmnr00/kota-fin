@@ -18,7 +18,7 @@
  
  START ADMIN CARD (in vendor/stylesheets)
  * require admin_card
- *= require font-awesome-new
+ * require font-awesome-new
 
 START PROFILE_CARD (in vendor/stylesheets)
  *= require w3
