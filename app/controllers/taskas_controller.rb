@@ -50,9 +50,17 @@ class TaskasController < ApplicationController
   def show
     # ada kt bawah func set_taska
     @admin_taska = current_admin.taskas
+    @unregistered_no = @taska.kids.where(classroom_id: nil).count
+    @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false)
     session[:taska_id] = @taska.id
     session[:taska_name] = @taska.name  
     render action: "show", layout: "dsb-admin-overview" 
+  end
+
+  def unpaid_index
+    @taska = Taska.find(params[:id])
+    @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).order('bill_year ASC').order('bill_month ASC')
+    render action: "unpaid_index", layout: "dsb-admin-overview" 
   end
 
   def taskateachers

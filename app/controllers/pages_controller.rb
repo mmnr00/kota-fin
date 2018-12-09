@@ -41,6 +41,11 @@ class PagesController < ApplicationController
 	def pricing
 	end
 
+	def admin_card
+		@taska = Taska.first
+		render action: "admin_card", layout: "dsb-admin-classroom"
+	end
+
 	def button
 	end
 

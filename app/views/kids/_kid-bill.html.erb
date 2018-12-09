@@ -6,7 +6,7 @@
     <h1 align="center"><%= link_to "PAID", "#", class: "btn btn-lg btn-success active" %></h1>
   <% else %>
       <h1 align="center"><%= link_to "PENDING PAYMENT", "#", class: "btn btn-sm btn-danger active" %></h1>
-      <% if current_admin && !@pdf %>
+      <% if current_parent && !@pdf %>
         <h1 align="right">
           <%= link_to "#{ENV['BILLPLZ_URL']}/bills/#{@payment.bill_id}", target: "_blank", class: "btn btn-lg btn-info active" do %>
             <i class="fa fa-hand-holding-usd"></i> PAY

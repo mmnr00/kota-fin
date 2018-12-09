@@ -1,19 +1,51 @@
 <p id="notice"><%= notice %></p>
 
 
-<h3>Welcome to <%= @taska.name %>'s page (ID: <%= session[:taska_id] %>)</h3></br>
+<div class="container">
+  <div class="row">
+
+    <div class="col-md-3">
+      <div class="card-counter primary">
+        <i class="fa fa-code-fork"></i>
+        <span class="count-numbers"><%= @unregistered_no %></span>
+        <span class="count-name">
+          <a href="<%= classroom_index_url %>", style="color:#fff">New Registrations</a>
+        </span>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card-counter danger">
+        <i class="fa fa-check"></i>
+        <span class="count-numbers"><%= @kid_unpaid.count %></span>
+        <span class="count-name">
+          <a href="<%= unpaid_index_url %>", style="color:#fff">Unpaid Bills</a>
+        </span>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card-counter success">
+        <i class="fa fa-database"></i>
+        <span class="count-numbers">3,340.0</span>
+        <span class="count-name">Income(RM)</span>
+      </div>
+      <p align="center">coming soon</p>
+    </div>
+
+
+    <div class="col-md-3">
+      <div class="card-counter info">
+        <i class="fa fa-users"></i>
+        <span class="count-numbers">35</span>
+        <span class="count-name">Leaves</span>
+      </div>
+      <p align="center">coming soon</p>
+    </div>
+    
+
+  </div>
+</div>
 
 
 
-<h5><%= link_to 'View My Expenses',my_expenses_path,class: "btn btn-xs btn-primary active" %></h5>
-<h5><%= link_to 'View My Teachers',taskateachers_path(@taska), class: "btn btn-xs btn-primary active" %></h5>
-<h5><%= link_to 'View My Class',classroom_index_path(@taska), class: "btn btn-xs btn-primary active" %></h5>
-<h5><%= link_to 'View My Children',children_index_path(@taska), class: "btn btn-xs btn-primary active" %></h5>
-<h5><%= link_to 'View My Bills',payment_index_path(@taska), class: "btn btn-xs btn-primary active" %></h5></br></br>
-			
-
-
-<%= link_to 'Edit', edit_taska_path(@taska) %> |
-<%= link_to 'Back', taskas_path %></br>
-<%= if @admin_taska.count > 1 ; link_to "Taska Listing", admin_index_path, class: "btn btn-xs btn-primary active" end %></br>
-<%= link_to "logout", destroy_admin_session_path, method: :delete %>

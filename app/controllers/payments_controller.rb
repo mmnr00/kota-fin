@@ -146,6 +146,7 @@ class PaymentsController < ApplicationController
       @payment.state = data["state"]
       @payment.paid = data["paid"]
       @payment.bill_id = data["id"]
+      @payment.name = "KID BILL"
       @payment.save
       flash[:success] = "Bills created successfully for #{@kid.name}"
     else
@@ -337,6 +338,7 @@ class PaymentsController < ApplicationController
 
   def destroy
     @payment = Payment.find(params[:id])
+    @taska = @payment.taska
     url_bill = "#{ENV['BILLPLZ_API']}bills/#{@payment.bill_id}"
     
     data_billplz = HTTParty.delete(url_bill.to_str,
@@ -345,7 +347,11 @@ class PaymentsController < ApplicationController
     @payment.destroy
     #render json: data_billplz and return
     flash[:notice] = "Bills was successfully deleted"
-    redirect_to child_bill_index_path(id: params[:taska_id], kid: params[:kid_id])
+    if params[:index].present?
+      redirect_to unpaid_index_path(@taska)
+    else
+      redirect_to child_bill_index_path(id: params[:taska_id], kid: params[:kid_id])
+    end
   end
 
   def create_billplz_bank

@@ -14,9 +14,11 @@
  Start for WEBARCH
  * require plugins/bootstrapv3/css/bootstrap.min.css
  *= require plugins/bootstrapv3/css/bootstrap-theme.min.css
- *= require webarch/css/webarch.css
+ *= require webarch/css/webarch.css 
  
- End for WEBARCH
+ START ADMIN CARD (in vendor/stylesheets)
+ *= require admin_card
+ *= require font-awesome-new
 
  Start for AGENCY
  *= require bootstrap/css/bootstrap
