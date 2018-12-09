@@ -17,17 +17,39 @@
           </tr>
         </thead>
         <tbody>
-        	<% @admin_taska.order('name ASC').each do |kuli|%>
+        	<% @admin_taska.order('updated_at DESC').each do |kuli|%>
             <tr>
               <td><%= kuli.name.upcase %></td>
-              <td><%= kuli.states %></td>
-              <% payment = kuli.payments %>
+              <td><%= kuli.address_1 %><br>
+                <%= kuli.address_2 %><br>
+                <%= kuli.city %><br>
+                <%= kuli.postcode %>&nbsp<%= kuli.states %><br>  
+              </td>
+              <% payment = kuli.payments.where(name: "TASKA PLAN") %>
               <% if payment.present? %>
                 <% if payment.where(paid: false).present? %> 
                   <% unpaid = payment.where(paid: false).last %>
-                  <td><%= link_to "PLEASE PAY BILLS", view_invoice_taska_path(taska: kuli, payment: unpaid), class: "btn btn-sm btn-danger active" %></td>
+                  <td><%= link_to "INACTIVE", "#", class: "btn btn-sm btn-danger active" %>
+                    
+                    <%= link_to view_invoice_taska_path(taska: kuli, payment: unpaid), style: "color:red" do %>
+                      <i class="fa fa-shopping-cart"></i> Complete payment to activate
+                    <% end %>
+                  </td>
                 <% else %>
-                  <td><%= link_to "ACTIVE", taska_path(kuli), class: "btn btn-sm btn-success active" %></td>
+                  <td>
+                    <% if (days = (kuli.expire.to_date - Date.today.to_date).to_i) > 20 %>
+                      <%= link_to "ACTIVE", taska_path(kuli), class: "btn btn-sm btn-success active" %>
+                      <%= link_to "#", style: "color:green" do %>
+                        <i class="fa fa-toggle-on"></i> <strong><%= days %> DAYS</strong> REMAINING
+                      <% end %>
+                    <% else %>
+                      <%= link_to "EXPIRING", taska_path(kuli), class: "btn btn-sm btn-warning active" %>
+                      <%= link_to "#", style: "color:orange" do %>
+                        <i class="fa fa-exclamation-triangle"></i> <strong><%= days %> DAYS</strong> REMAINING
+                      <% end %>
+                    <% end %>
+                  </td>
+
                 <% end %>
               <% else %>
                 <td><%= link_to "REGISTRATION PENDING", create_bill_taska_path(id: kuli.id), class: "btn btn-sm btn-primary active" %></td>

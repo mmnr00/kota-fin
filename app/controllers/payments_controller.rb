@@ -185,7 +185,7 @@ class PaymentsController < ApplicationController
       data = JSON.parse(data_billplz.to_s)
       #render json: data_billplz and return
       if (data["id"].present?)
-        @payment.name = "TASKA PLAN"
+        @payment.name = "TASKA BOOKING"
         @payment.amount = data["amount"].to_f/100
         @payment.description = data["description"]
         @payment.bill_month = Date.today.month
@@ -350,26 +350,48 @@ class PaymentsController < ApplicationController
 
   def create_billplz_bank
     @taska = Taska.find(params[:id])
-    url_bill = "#{ENV['BILLPLZ_API']}bank_verification_services/"
-    data_billplz = HTTParty.post(url_bill.to_str,
-            :body  => { :name => "#{@taska.acc_name}",
-                        :id_no => "#{@taska.acc_no}",
-                        :acc_no => "#{@taska.ssm_no}",
-                        :code => "#{$bank_code["#{@taska.bank_name}"]}",
-                        :organization => true }.to_json, 
+    url_bill = "#{ENV['BILLPLZ_API']}check/bank_account_number/#{@taska.acc_no}"
+    data_billplz = HTTParty.get(url_bill.to_str,
+            :body  => { }.to_json, 
                         #:callback_url=>  "YOUR RETURN URL"}.to_json,
             :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
     #render json: data_billplz and return
     data = JSON.parse(data_billplz.to_s)
-    if data["status"].present?
-      @taska.bank_status = data["status"]
-      @taska.billplz_reg = "NO"
-      @taska.save
-      redirect_to create_bill_taska_path(id: @taska)
+    if data["name"] == "verified"
+      @taska_same = Taska.where.not(id: @taska.id).where(acc_no: "#{@taska.acc_no}").first
+      if @taska_same.present?
+        @taska.collection_id = @taska_same.collection_id
+        @taska.bank_status = "verified"
+        @taska.billplz_reg = "SAME AS #{@taska_same.name}(id:#{@taska_same.id})"
+        @taska.save
+        redirect_to create_bill_taska_path(id: @taska)
+      else
+        flash[:danger] = "Bank Account not available. Please use other accounts"
+        redirect_to update_bank_path(@taska)
+      end
     else
-      flash[:danger] = "Bank Account Not Valid. Please update"
-      redirect_to edit_taska_path(@taska)
+      url_bill = "#{ENV['BILLPLZ_API']}bank_verification_services/"
+      data_billplz = HTTParty.post(url_bill.to_str,
+              :body  => { :name => "#{@taska.acc_name}",
+                          :id_no => "#{@taska.ssm_no}",
+                          :acc_no => "#{@taska.acc_no}",
+                          :code => "#{$bank_code["#{@taska.bank_name}"]}",
+                          :organization => true }.to_json, 
+                          #:callback_url=>  "YOUR RETURN URL"}.to_json,
+              :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+              :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+      #render json: data_billplz and return
+      data = JSON.parse(data_billplz.to_s)
+      if data["status"].present?
+        @taska.bank_status = data["status"]
+        @taska.billplz_reg = "NO"
+        @taska.save
+        redirect_to create_bill_taska_path(id: @taska)
+      else
+        flash[:danger] = "Bank Account Not Valid. Please update"
+        redirect_to update_bank_path(@taska)
+      end
     end
   end
 
@@ -381,6 +403,26 @@ class PaymentsController < ApplicationController
             :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
     render json: data_billplz
+  end
+
+  def create_billplz_try
+    url_bill = "https://www.billplz.com/api/v3/check/bank_account_number/562254511778"
+    data_billplz = HTTParty.get(url_bill.to_str,
+            :body  => { }.to_json, 
+                        #:callback_url=>  "YOUR RETURN URL"}.to_json,
+            :basic_auth => { :username => "68abd407-b8c7-4bee-9e16-620a578b2a48" },
+            :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+    # url_bill = "https://www.billplz.com/api/v3/bank_verification_services"
+    # data_billplz = HTTParty.post(url_bill.to_str,
+    #         :body  => { :name => "WMA MAJU VENTURES",
+    #                     :id_no => "002333391P",
+    #                     :acc_no => "564258576740",
+    #                     :code => "MBBEMYKL",
+    #                     :organization => true }.to_json, 
+    #                     #:callback_url=>  "YOUR RETURN URL"}.to_json,
+    #         :basic_auth => { :username => "68abd407-b8c7-4bee-9e16-620a578b2a48" },
+    #         :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+    render json: data_billplz and return
   end
 
 

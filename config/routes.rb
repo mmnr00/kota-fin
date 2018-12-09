@@ -99,13 +99,14 @@ Rails.application.routes.draw do
   get '/remove_taska', to: 'taskas#remove_taska', as: 'remove_taska'
   get '/taska/:id/child_bill_index', to: 'taskas#child_bill_index', as: 'child_bill_index'
   get 'taska/page/:id', to: 'taskas#taska_page', as: 'taska_page'
+  get '/taska/:id/update_bank', to: 'taskas#update_bank', as: 'update_bank'
   #EXPENSES
   get '/taska/:id/expenses_search', to: 'expenses#search', as: 'search_expense'
   get '/taska/:id/expenses', to: 'expenses#my_expenses', as: 'my_expenses'
   get '/taska/:id/expenses/new', to: 'expenses#new', as: 'new_expense'
   get '/taska/:id/expenses/month_expense', to: 'expenses#month_expense', as: 'month_expense'
   #KIDS
-  get '/register_kid', to: 'kids#new', as: 'new_kid'
+  get '/register_child', to: 'kids#new', as: 'new_kid'
   get '/classroom/:id/search_kid', to: 'kids#search', as: 'search_kid'
   get '/classroom/:id/find_kid', to: 'kids#find', as: 'find_kid'
   get 'add_classroom', to: 'kids#add_classroom'
@@ -134,7 +135,7 @@ Rails.application.routes.draw do
   get '/create_billplz_bank', to: 'payments#create_billplz_bank'
   get '/update_billplz_bank', to: 'payments#update_billplz_bank'
   get '/create_bill_booking', to: 'payments#create_bill_booking', as: 'create_bill_booking'
-
+  get '/create_billplz_try', to: 'payments#create_billplz_try'
 
   #get '/taska/:id/create_bill', to: 'payments#create_bill', as: 'create_bill'
   get '/taska/:id/search_bill', to: 'payments#search_bill', as: 'search_bill'

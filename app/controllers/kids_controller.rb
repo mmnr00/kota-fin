@@ -101,6 +101,7 @@ class KidsController < ApplicationController
 	def edit
 		@kid = Kid.find(params[:id])
 		@parent = Parent.find(@kid.parent.id)
+		@taska = @kid.taska
 		@classroom = Classroom.find(params[:classroom]) if @kid.classroom.present?
 		render action: "edit", layout: "dsb-parent-child"
 	end

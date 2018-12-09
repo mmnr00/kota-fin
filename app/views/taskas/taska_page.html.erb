@@ -15,28 +15,37 @@
            <!-------mother container middle class------------------->
           <div class="col-lg-12">
           <div class="card" style="width:100%">
-            <img class="card-img-top" src="https://lh3.googleusercontent.com/a8_ujXr3VWHstGkxgJL1TkqfrytP4r_52QhcvqRQVaQPRQ9DHdQ6seI99qc4jLjC0WDM=h900" alt="Card image"  style="width:100%">
+            <% image = @fotos.where(foto_name: "CENTER PRIMARY PHOTO").first %>
+              <% if image.picture.present? %>
+                <%= image_tag(image.picture.url, width: "100%") %>
+              <% end %>
             <div class="card-body">
-              <h1 class="card-title">[LOGO] <%= @taska.name.upcase %></h1>
+              <h1 class="card-title">
+                <% image = @fotos.where(foto_name: "CENTER LOGO").first %>
+                  <% if image.picture.present? %>
+                    <%= image_tag(image.picture.url, size: "50x50") %>
+                  <% end %>
+                <%= @taska.name.upcase %></h1>
                 <ul class="list-inline" id="courses">
                 <li class="list-inline-item">
                   <%= link_to "#", class: "btn btn-sm btn-primary active" do %>
-                    <i class="fa fa-user fa-lg"></i> SUPERVISOR NAME
+                    <i class="fa fa-user fa-lg"></i> <%= @taska.supervisor.upcase %>
                   <% end %>
                 </li> 
               </ul>
               <div class="address">               
               <ul class="w3-ul w3-lg">
-                <li> <i class="fa fa-home" aria-hidden="true"></i>  ADDRESS_1 </li>
-                <li><i class="fa fa-road" aria-hidden="true"></i> ADDRESS_2 </li>
-                <li><i class="fa fa-building" aria-hidden="true"></i> CITY </li>
-                <li><i class="fa fa-globe" aria-hidden="true"></i> STATES,POSTCODE </li>
-                <li><i class="fa fa-envelope" aria-hidden="true"></i> EMAIL </li>
+                <li> <i class="fa fa-home" aria-hidden="true"></i>  <%= @taska.address_1.upcase %></li>
+                <li><i class="fa fa-road" aria-hidden="true"></i> <%= @taska.address_2.upcase %></li>
+                <li><i class="fa fa-building" aria-hidden="true"></i> <%= @taska.city.upcase %></li>
+                <li><i class="fa fa-globe" aria-hidden="true"></i> <%= @taska.states.upcase %>,<%= @taska.postcode %> </li>
+                <li><i class="fa fa-bookmark" aria-hidden="true"></i> BOOKING FEE: RM <%= @taska.booking %></li>
+                <li><i class="fa fa-envelope" aria-hidden="true"></i> <%= @taska.email %> </li>
               </ul>
               </address>
               <hr>
              <p><button class="w3-button w3-block w3-green"   data-toggle="tooltip" data-placement="top" title="Please contact us for further enquires"> <i class="fa fa-phone-square fa-lg"></i> <i class="fa fa-whatsapp fa-lg"></i> 
-             017-4151556 </button></p>
+             <%= @taska.phone_1 %>-<%= @taska.phone_2 %> </button></p>
             </div>
             <hr>
             <p class="lower-case">  RATINGS</p>
@@ -57,7 +66,7 @@
               height="450"
               frameborder="0" style="border:0"
               src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD6jH8VcIgoedkf5turhwFRQ4VNWi-B3qE
-                &q=No 3, Jalan Pria 6, Taman Maluri" allowfullscreen>
+                &q=<%= "#{@taska.address_1},#{@taska.address_2},#{@taska.city},#{@taska.postcode},#{@taska.states}" %>" allowfullscreen>
             </iframe>
             
             <hr>

@@ -1,9 +1,3 @@
 <%= render 'kids/kid-bill' %>
-<h5 class="text-right text-black">
-                    <% if @payment.paid %>
-                      <%= link_to "PRINT RECEIPT", "#", target: "_blank", class: "btn btn-sm btn-success active" %>
-                    <% else %>
-                      <%= link_to "PAYBILLS", "#", target: "_blank", class: "btn btn-sm btn-danger active" %>
-                    <% end %>
-                  </h5>
+
 <%= link_to "BACK", :back, class: "btn btn-sm btn-primary active"%>

@@ -15,10 +15,7 @@
             <th>NO</th>
             <th>NAME</th>
             <th>AGE</th>
-            <th style="font-size:15px">FATHER'S NAME</th>
-            <th style="font-size:15px">FATHER'S PHONE</th>
-            <th style="font-size:15px">MOTHER'S NAME</th>
-            <th style="font-size:15px">MOTHER'S PHONE</th>
+            <th>BOOKING FEE</th>
             <th>ACTIONS</th>
             <th>REGISTER</th>
           </tr>
@@ -36,10 +33,33 @@
                 <% month = diff - year*12 %>
                 <%= year %> yr <%= month %> mth
               </td>
-              <td style="font-size:12px"><%= kid.father_name.upcase %></td>
-              <td style="font-size:12px"><%= kid.father_phone %></td>
-              <td style="font-size:12px"><%= kid.mother_name.upcase %></td>
-              <td style="font-size:12px"><%= kid.mother_phone %></td>
+              <td>
+                <% if (bill=kid.payments.where(taska_id: @taska.id).where(name: "TASKA BOOKING").last).present? %>
+
+                  <% if !bill.paid %>
+                    <%= link_to "UNPAID", bill_view_path(payment: bill.id, kid: kid.id, taska: bill.taska.id), class: "btn btn-sm btn-danger active", target: "_blank"%>
+                  <% else %>
+                    <%= link_to bill_pdf_path(payment: bill.id, kid: kid.id, taska: bill.taska.id, format: :pdf ), class: "btn btn-sm btn-success active", target:"_blank" do %>
+                      <i class="fa fa-download"></i> RECEIPT
+                    <% end %>
+                  <% end %>
+
+                <% else %>
+
+                  <% image = kid.fotos.where(foto_name: "BOOKING RECEIPT").first %>
+                  <% if image.picture.present? %>
+                    <%= link_to "#{image.picture.url}", class: "btn btn-sm btn-success active", target:"_blank" do %>
+                      <i class="fa fa-download"></i> RECEIPT
+                    <% end %>
+                  <% else %>
+                    <%= link_to "#", class: "btn btn-sm btn-danger active", target:"_blank" do %>
+                      <i class="fa fa-exclamation-triangle"></i> NO RECEIPT UPLOADED
+                    <% end %>
+                  <% end %>
+
+                <% end %>
+
+              </td>
               <td style="font-size:12px">
                 <%= link_to "VIEW", kid_path(kid), class: "btn btn-sm btn-info active" %>&nbsp
               </br></br>

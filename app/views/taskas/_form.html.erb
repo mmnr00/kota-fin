@@ -11,7 +11,7 @@
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.text_field :name, class: "form-control", autofocus: true, required: true %>
+              <%= f.text_field :name, class: "form-control", autofocus: true, required: true, style: "text-transform:uppercase" %>
             </div>
           </div>
         </div>
@@ -25,18 +25,18 @@
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-             <%= f.text_field :address_1, class: "form-control", autofocus: true, required: true %> <font size="2"> Address Line 1 </font>
+             <%= f.text_field :address_1, class: "form-control", autofocus: true, required: true, style: "text-transform:uppercase" %> <font size="2"> Address Line 1 </font>
             </div>
             <div class="col-sm-8 col-12">
-             <%= f.text_field :address_2, class: "form-control", autofocus: true %> <font size="2"> Address Line 2 </font>
+             <%= f.text_field :address_2, class: "form-control", autofocus: true, style: "text-transform:uppercase" %> <font size="2"> Address Line 2 </font>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-3 col-6">
-             <%= f.text_field :city, class: "form-control", autofocus: true, required: true %> <font size="2"> City </font>
+             <%= f.text_field :city, class: "form-control", autofocus: true, required: true, style: "text-transform:uppercase" %> <font size="2"> City </font>
             </div>
             <div class="col-sm-3 col-5">
-             <%= f.text_field :states, class: "form-control", autofocus: true, required: true %> <font size="2"> States </font>
+             <%= f.text_field :states, class: "form-control", autofocus: true, required: true, style: "text-transform:uppercase" %> <font size="2"> States </font>
             </div>
             <div class="col-sm-2 col-4">
              <%= f.number_field :postcode, class: "form-control", autofocus: true, required: true %> <font size="2"> Postcode </font>
@@ -69,7 +69,7 @@
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.text_field :supervisor, class: "form-control", autofocus: true, required: true %>
+              <%= f.text_field :supervisor, class: "form-control", autofocus: true, required: true, style: "text-transform:uppercase" %>
             </div>
           </div>
         </div>
@@ -139,7 +139,8 @@
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.text_field :acc_name, class: "form-control", autofocus: true, required: true %>
+              <%= f.text_field :acc_name, class: "form-control", placeholder: "e.g Taska ABC Sdn Bhd", autofocus: true, required: true, style: "text-transform:uppercase" %>
+              Should be the same name as registered with the bank
             </div>
           </div>
         </div>
@@ -181,7 +182,7 @@
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.text_field :ssm_no, class: "form-control", autofocus: true, required: true %>
+              <%= f.text_field :ssm_no, class: "form-control", autofocus: true, required: true, style: "text-transform:uppercase" %>
             </div>
           </div>
         </div>

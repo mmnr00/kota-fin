@@ -1,16 +1,8 @@
 <h4>NEW CHILDREN REGISTRATION FOR </h4> 
-<h3><%= @taska.name.upcase %>
-  <% image = @fotos.where(foto_name: "CENTER LOGO").first %>
+<h3><% image = @fotos.where(foto_name: "CENTER LOGO").first %>
     <% if image.picture.present? %>
-      <a href="<%="#{image.picture.url}"%>" target="_blank">
-        <% if @pdf %>
-          <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
-        <% else %>
-          <%= image_tag(image.picture.url, size: "50x50") %>
-        <% end %>
-      </a>
-    <% end %>  
-
+      <%= image_tag(image.picture.url, size: "50x50") %>
+    <% end %> <%= link_to "#{@taska.name.upcase}", taska_page_path(id: params[:taska_id]), class: "btn btn-m btn-primary active", target: "_blank" %>
 </h3>
 <br>
 <%= render 'kids/form' %>

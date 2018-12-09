@@ -26,23 +26,25 @@
               <td> 
                 <%= link_to "VIEW", kid_path(kid), class: "btn btn-sm btn-primary active" %>&nbsp
                 <% bill = kid.payments.where(taska_id: @classroom.taska.id).where(paid: false) %>
-                <% if !bill.present? %>
+                <% #if !bill.present? %>
                   <%= link_to remove_classroom_path(kid: kid, classroom: @classroom), style: "color:red", :data => {:confirm => 'Are you sure?'} do %>
                     <i class="fa fa-trash"></i> REMOVE
-                  <% end %>
+                  <% #end %>
                 <% end %>
               </td>
               <td> 
-                <%= link_to "NEW BILL", new_bill_path(child: kid.id, classroom: @classroom.id), class: "btn btn-sm btn-info active" %>&nbsp
-                <% bill = kid.payments.where(taska_id: @classroom.taska.id) %>
-                <% if bill.present? %>
-                  <% if (a=bill.where(paid: false)).present? %>
-                    <%= link_to "#{a.count} UNPAID BILLS", child_bill_index_path(@classroom.taska, kid: kid.id), class: "btn btn-sm btn-danger active" %>&nbsp
-                  <% else %>
-                    <%= link_to "VIEW RECEIPTS", child_bill_index_path(@classroom.taska, kid: kid.id), class: "btn btn-sm btn-success active" %>&nbsp
+                <% if @classroom.taska.collection_id.present? %>
+                  <%= link_to "NEW BILL", new_bill_path(child: kid.id, classroom: @classroom.id), class: "btn btn-sm btn-info active" %>&nbsp
+                  <% bill = kid.payments.where(taska_id: @classroom.taska.id) %>
+                  <% if bill.present? %>
+                    <% if (a=bill.where(paid: false)).present? %>
+                      <%= link_to "#{a.count} UNPAID BILLS", child_bill_index_path(@classroom.taska, kid: kid.id), class: "btn btn-sm btn-danger active" %>&nbsp
+                    <% else %>
+                      <%= link_to "VIEW RECEIPTS", child_bill_index_path(@classroom.taska, kid: kid.id), class: "btn btn-sm btn-success active" %>&nbsp
+                    <% end %>  
                   <% end %>
                 <% else %>
-                  
+                  Unable to create bills at the moment. Pending bank verification
                 <% end %>
               </td>
             </tr>

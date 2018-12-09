@@ -32,7 +32,7 @@
                   <br><br>
                   <%= link_to "DONE", billplz_reg_path(id: taska.id), class:"btn btn-sm btn-primary active" %>
                 <% else %>
-                  <%= link_to "YES", "#", class:"btn btn-sm btn-success active" %>
+                  <%= link_to "#{taska.billplz_reg}", "#", class:"btn btn-sm btn-success active" %>
                 <% end %>
               </td>
               <td>
@@ -52,7 +52,7 @@
                 <% end %>
               </td>
               <td>
-                <% if taska.payments.where(name: "TASKA PLAN").where(paid: false).present? %>
+                <% if !taska.payments.where(name: "TASKA PLAN").where(paid: false).present? %>
                   <i class="fa fa-check-circle"></i>
                 <% else %>
                   <i class="fa fa-times-circle"></i>

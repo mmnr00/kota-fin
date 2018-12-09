@@ -2,6 +2,7 @@ class TaskasController < ApplicationController
   
   before_action :set_taska, only: [:show,:children_index, :taskateachers, :taskateachers_classroom,:classrooms_index, :edit, :update, :destroy]
   before_action :set_all
+  before_action :check_admin, only: [:show]
 
   # GET /taskas
   # GET /taskas.json
@@ -19,7 +20,7 @@ class TaskasController < ApplicationController
 
   def taska_page
     @taska = Taska.find(params[:id])
-    
+    @fotos = @taska.fotos
   end
 
   def remove_taska
@@ -114,12 +115,32 @@ class TaskasController < ApplicationController
     
   end
 
+  def update_bank
+    @taska = Taska.find(params[:id])
+    @taska.bank_name = params[:bank_name]
+    @taska.acc_name = params[:acc_name]
+    @taska.acc_no = params[:acc_no]
+    @taska.ssm_no = params[:ssm_no]
+    if @taska.save
+        flash[:success] = "Taska was successfully updated"
+        #redirect_to create_billplz_bank_path(id: @taska.id)
+    else
+        flash[:danger] = "Update unsuccessfull. Please try again"
+    end
+    #redirect_to edit_taska_path(@taska)
+
+  end
+
   # PATCH/PUT /taskas/1
   # PATCH/PUT /taskas/1.json
   def update
       if @taska.update(taska_params)
         flash[:success] = "Taska was successfully updated"
-        redirect_to classroom_index_path(@taska)
+        if @taska.bank_status == nil 
+          redirect_to create_billplz_bank_path(id: @taska.id)
+        else
+          redirect_to classroom_index_path(@taska)
+        end
         #format.html { redirect_to @taska, notice: 'Taska was successfully updated.' }
         #format.json { render :show, status: :ok, location: @taska }
       else
@@ -172,5 +193,24 @@ class TaskasController < ApplicationController
                                     :plan,
                                     :booking,
                                     fotos_attributes: [:foto, :picture, :foto_name]  )
+    end
+    def taska_params_bank
+      params.require(:taska).permit(:bank_name,
+                                    :acc_no,
+                                    :acc_name,
+                                    :ssm_no)
+    end
+
+    def check_admin
+      same = false
+      @taska.admins.each do |admin|
+        if admin == current_admin
+          same = true
+        end
+      end
+      if !same
+        flash[:danger] = "You dont have access"
+        redirect_to admin_index_path
+      end
     end
 end
