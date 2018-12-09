@@ -179,7 +179,7 @@ class PaymentsController < ApplicationController
                       :amount=>  @taska.booking*100,
                       :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
                       :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
-                      :description=>"#{@taska.name}'s booking for #{@kid.name}" }.to_json, 
+                      :description=>"#{@taska.name.upcase}'S BOOKING FOR #{@kid.name.upcase}" }.to_json, 
                       #:callback_url=>  "YOUR RETURN URL"}.to_json,
             :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })

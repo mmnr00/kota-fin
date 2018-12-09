@@ -52,7 +52,7 @@ class PagesController < ApplicationController
 	def bank_status
 		#@taska_super = Taska.all.order('bank_status ASC').order('billplz_reg ASC')
 		#@taska_super = Admin.last.taskas.order('bank_status ASC').order('billplz_reg ASC')
-		@taska_check = Admin.last.taskas #kena tukar balik in prod to taska all
+		@taska_check = Taska.all #kena tukar balik in prod to taska all
 		@taska_verify = @taska_check.where.not(bank_status: "verified")
 		@taska_verify.each do |taska|
 			url_bill = "#{ENV['BILLPLZ_API']}check/bank_account_number/#{taska.acc_no}"
@@ -68,7 +68,7 @@ class PagesController < ApplicationController
 	      taska.save
     	end
 	  end
-		@taska_super = Admin.last.taskas.where(collection_id: nil).includes(:payments).order("payments.paid ASC").order('bank_status DESC').order('billplz_reg ASC')
+		@taska_super = Taska.all.where(collection_id: nil).includes(:payments).order("payments.paid ASC").order('bank_status DESC').order('billplz_reg ASC')
 	end
 
 	def billplz_reg

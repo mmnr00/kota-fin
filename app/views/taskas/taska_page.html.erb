@@ -1,7 +1,7 @@
 <head>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
   <!-------    font awesome online plug --------------->
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  
 </head>
 <!-------------end head scripts and link src ------------->
   
@@ -22,7 +22,7 @@
             <div class="card-body">
               <h1 class="card-title">
                 <% image = @fotos.where(foto_name: "CENTER LOGO").first %>
-                  <% if image.picture.present? %>
+                  <% if image.present? && image.picture.present? %>
                     <%= image_tag(image.picture.url, size: "50x50") %>
                   <% end %>
                 <%= @taska.name.upcase %></h1>
@@ -46,6 +46,11 @@
               <hr>
              <p><button class="w3-button w3-block w3-green"   data-toggle="tooltip" data-placement="top" title="Please contact us for further enquires"> <i class="fa fa-phone-square fa-lg"></i> <i class="fa fa-whatsapp fa-lg"></i> 
              <%= @taska.phone_1 %>-<%= @taska.phone_2 %> </button></p>
+             <hr>
+             <a href="/register_child?taska_id=<%= @taska.id%>">
+               <p><button class="w3-button w3-block w3-blue"   data-toggle="tooltip" data-placement="top" title="Click here to register"> <i class="fa fa-user-plus fa-lg"></i>&nbsp&nbsp  
+               REGISTER</button></p>
+             </a>
             </div>
             <hr>
             <p class="lower-case">  RATINGS</p>

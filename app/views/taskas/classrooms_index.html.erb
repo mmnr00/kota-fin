@@ -144,10 +144,12 @@ No pending registration.</br></br>
   </div>
 </div>
 
-<%= link_to "CREATE NEW CLASSROOM", new_classroom_path(taska_id: @taska.id), class: "btn btn-xs btn-success active"%></br></br>
+
 
 <% else %>
 
 No classrooms created. Please create one. 
 
 <% end %>
+</br>
+<%= link_to "CREATE NEW CLASSROOM", new_classroom_path(taska_id: @taska.id), class: "btn btn-xs btn-success active"%>

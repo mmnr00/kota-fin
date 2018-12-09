@@ -20,6 +20,10 @@
  *= require admin_card
  *= require font-awesome-new
 
+START PROFILE_CARD (in vendor/stylesheets)
+ *= require w3
+ *= require font-awesome-min
+
  Start for AGENCY
  *= require bootstrap/css/bootstrap
  *= require fontawesome-free/css/all

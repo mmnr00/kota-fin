@@ -45,7 +45,7 @@
                 </td>
               <% else %>
                 <td>
-                  <%= link_to "PAY BILL", view_invoice_path(id: bill), class: "btn btn-sm btn-danger active" %>
+                  <%= link_to "PAY BILL", bill_view_path(payment: bill.id, kid: @kid.id, taska: @kid.taska.id), class: "btn btn-sm btn-danger active" %>
                 </td>
               <% end %>
             </tr>

@@ -37,11 +37,11 @@
               </td>
               <td>
                 <% if taska.bank_status == "verified" %>
-                  <%= link_to "#{taska.bank_status.upcase}", "#", class:"btn btn-sm btn-success active" %>
+                  <%= link_to "#{taska.bank_status}", "#", class:"btn btn-sm btn-success active" %>
                 <% elsif taska.bank_status == "unverified" %>
-                  <%= link_to "#{taska.bank_status.upcase}", "#", class:"btn btn-sm btn-warning active" %>
+                  <%= link_to "#{taska.bank_status}", "#", class:"btn btn-sm btn-warning active" %>
                 <% else %>
-                  <%= link_to "#{taska.bank_status.upcase}", "#", class:"btn btn-sm btn-danger active" %>
+                  <%= link_to "#{taska.bank_status}", "#", class:"btn btn-sm btn-danger active" %>
                 <% end %>
               </td>
               <td>
@@ -63,7 +63,7 @@
               <td><%= taska.acc_no %></td>
               <td><%= taska.acc_name %></td>
               <td><%= taska.ssm_no %></td>
-              <td><%= taska.plan.upcase %></td>
+              <td><%= taska.plan %></td>
               <td><%= taska.email %></td>
             </tr>
           <% end %>

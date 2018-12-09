@@ -27,7 +27,7 @@
               <td><strong><%= kid.name.upcase %></strong></td>
               <% if kid.taska.present? %>
                 <td>
-                  <%= link_to "#{kid.taska.name.upcase}", "TASKA_SHOW_PAGE", style: "color:blue", target: "_blank" %>
+                  <%= link_to "#{kid.taska.name.upcase}", taska_page_path(kid.taska), style: "color:blue", target: "_blank" %>
                 </td>
                 <% if kid.classroom.present? %>
                   <td><%= kid.classroom.classroom_name %></td>
