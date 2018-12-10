@@ -46,6 +46,10 @@ class PagesController < ApplicationController
 		render action: "admin_card", layout: "dsb-admin-classroom"
 	end
 
+	def team_cards
+	end
+
+
 	def button
 	end
 

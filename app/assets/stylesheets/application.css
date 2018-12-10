@@ -224,6 +224,17 @@ header.masthead .intro-text .intro-heading {
   font-weight: 100;
 }
 
+/*teams cards*/
+
+.frontside {
+    position: relative;
+    -webkit-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    z-index: 2;
+    margin-bottom: 30px;
+}
+
+
 
 
 

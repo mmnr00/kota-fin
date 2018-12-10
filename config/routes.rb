@@ -44,6 +44,8 @@ Rails.application.routes.draw do
 
   get '/443322/bank_status', to: 'pages#bank_status', as: 'bank_status'
   get '/billplz_reg', to: 'pages#billplz_reg'
+  get '/443322/team_cards', to: 'pages#team_cards', as: 'team_cards'
+
 
   #PDF
   get 'print_payment_course', to: 'pdfs#print_payment_course'
