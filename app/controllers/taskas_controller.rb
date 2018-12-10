@@ -3,6 +3,7 @@ class TaskasController < ApplicationController
   before_action :set_taska, only: [:show,:children_index, :taskateachers, :taskateachers_classroom,:classrooms_index, :edit, :update, :destroy]
   before_action :set_all
   before_action :check_admin, only: [:show]
+  before_action :authenticate_admin!, only: [:new]
 
   # GET /taskas
   # GET /taskas.json

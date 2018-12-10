@@ -190,6 +190,41 @@ font-family: 'Open Sans', sans-serif;
     display: block;
     font-size: 18px;
   }
+  /*vendor/stylesheet/agency_cs
+
+  Padding Top at front page from*/ 
+
+  section#pricing {
+    padding-top: 40px;
+  }
+
+/*Masthead copy and pasted here*/ 
+
+  header.masthead .intro-text {
+  padding-top: 150px;
+  padding-bottom: 50px;
+}
+
+header.masthead .intro-text .intro-heading {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 50px;
+  margin-bottom: 50px;
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+.service-heading {
+  margin: 15px 0;
+  text-transform: uppercase;
+  font-weight: 300;
+}
+
+.service-text {
+  text-align: center;
+  font-weight: 100;
+}
+
+
 
 
 
