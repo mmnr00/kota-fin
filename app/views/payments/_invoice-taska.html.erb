@@ -1,0 +1,155 @@
+
+      <!-- BEGIN PAGE CONTAINER-->
+<div class="page-content">
+  <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+  <% if @payment.paid %>
+    <h1 align="center"><%= link_to "PAID", "#", class: "btn btn-lg btn-success active" %></h1>
+  <% else %>
+      <h1 align="center"><%= link_to "PENDING PAYMENT", "#", class: "btn btn-sm btn-danger active" %></h1>
+        <h1 align="right">
+          <%= link_to "#{ENV['BILLPLZ_URL']}/bills/#{@payment.bill_id}", target: "_blank", class: "btn btn-lg btn-info active" do %>
+            <i class="fa fa-hand-holding-usd"></i> PAY
+        </h1>
+      <% end %>
+    </div>
+  <% end %>
+  <div class="clearfix"></div>
+  <div class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="grid simple">
+          <div class="grid-body no-border invoice-body">
+            <br>
+            <div class="pull-left"> 
+              <% image = Foto.all.where(foto_name: "KIDCARE FULL").first %>
+              <% if image.picture.present? %>
+                <% if @pdf %>
+                  <%= wicked_pdf_image_tag(image.picture.url, size: "180x60") %>
+                <% else %>
+                  <%= image_tag(image.picture.url, size: "180x60") %>
+                <% end %>
+              <% end %><br>
+              <address>
+                <strong>KID CARE TECH INNOVATIONS SDN BHD</strong><br>
+                A-3A-2, BAYU PANDAN JAYA, JALAN PANDAN 3/11, <br>
+                55100, PANDAN JAYA, SELANGOR<br>
+                <abbr title="Phone">PHONE:</abbr> 011-6280 1556
+              </address>
+            </div><br>
+            <div class="pull-right">
+              <% if @payment.paid %>
+                <h2>RECEIPT FOR 
+              <% else %>
+                <h2>INVOICE FOR 
+              <% end %>
+                <strong><%= @taska.name.upcase %></strong></h2>
+              <h5><%= @taska.plan %> plan</h5>
+            </div>
+            <div class="clearfix"></div>
+            <br>
+            <br>
+            <br>
+            <div class="row">
+              <div class="col-md-9">
+                <h4 class="semi-bold">
+                  <%= @taska.name.upcase %></h4>
+                <address>
+                  <%= @taska.address_1 %><br>
+                  <%= @taska.address_2 %><br>
+                  <%= @taska.city %><br>
+                  <%= @taska.postcode %>, <%= @taska.states %><br>
+                </address>
+              </div>
+              <div class="col-md-3">
+                <br>
+                <div>
+                  <div class="pull-left"> BILL ID : <%= @payment.bill_id %></div>
+                  <div class="clearfix"></div>
+                </div>
+                <div>
+                  <div class="pull-left"> BILL DATE : <%= @payment.created_at.strftime("%b %d, %Y") %></div>
+                  <div class="clearfix"></div>
+                </div>
+                <div>
+                  <% if @payment.paid %>
+                  <div class="pull-left"> PAYMENT DATE : <%= @payment.updated_at.strftime("%b %d, %Y") %></div>
+                  <% end %>
+                  <div class="clearfix"></div>
+                </div>
+                <br>
+              </div>
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th class="text-left">DESCRIPTION</th>
+                  <th></th>
+                  <th style="width:140px" class="text-right">AMOUNT (RM)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><%= @payment.description %></td>
+                  <td></td>
+                  <td class="text-right"><%= @payment.amount %></td>
+                </tr>
+                <tr>
+                  <td colspan="0" rowspan="4">
+                    <h4 class="semi-bold">terms and conditions</h4>
+                    <p>Please make the payment based on the schedule provided by the owner</p>
+                    </td>
+                </tr>
+                <tr>
+                  <td class="text-right no-border"><strong>TAX</strong></td>
+                  <td class="text-right">0.00</td>
+                </tr>
+                <tr>
+                  <td class="text-right no-border">
+                    <div class="well well-small green"><strong>TOTAL</strong></div>
+                  </td>
+                  <td class="text-right"><strong><%= @payment.amount %></strong></td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+            <br>
+            
+            <br>
+            <br>
+            Powered by&nbsp
+            <% image = Foto.all.where(foto_name: "KIDCARE FULL").first %>
+            <% if image.picture.present? %>
+              <% if @pdf %>
+                <%= wicked_pdf_image_tag(image.picture.url, size: "87x30") %>
+              <% else %>
+                <%= image_tag(image.picture.url, size: "87x30") %>
+              <% end %>
+            <% end %>
+            <strong>www.kidcare.my</strong>
+          </div>
+
+        </div>
+
+      </div>
+          <!--   <div class="col-md-1">
+              <div class="invoice-button-action-set">
+                <p>
+                  <button class="btn btn-primary" type="button"><i class="fa fa-print"></i></button>
+                </p>
+                <p>
+                  <button class="btn " type="button"><i class="fa fa-cloud-download"></i></button>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div> -->
+
+
+
+
+
+
+    

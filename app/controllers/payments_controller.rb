@@ -27,7 +27,7 @@ class PaymentsController < ApplicationController
       elsif (@bill.teacher.present?)
         redirect_to course_payment_pdf_path(payment: @bill.id, format: :pdf)
       elsif (@bill.taska.present?)
-        redirect_to admin_index_path
+        redirect_to taska_path(@bill.taska.id)
       end
     end
   end
@@ -93,8 +93,26 @@ class PaymentsController < ApplicationController
   end
 
   def view_invoice_taska
+    @pdf = false
     @taska = Taska.find(params[:taska])
     @payment = Payment.find(params[:payment])
+  end
+
+  def pdf_invoice_taska
+    @pdf = true
+    @taska = Taska.find(params[:taska])
+    @payment = Payment.find(params[:payment])
+    respond_to do |format|
+      format.html
+      format.pdf do
+       render pdf: "Receipt for #{@taska.name}",
+       template: "payments/pdf_invoice_taska.html.erb",
+       #disposition: "attachment",
+       #page_size: "A6",
+       #orientation: "landscape",
+       layout: 'pdf.html.erb'
+      end
+    end
   end
 
 

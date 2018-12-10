@@ -102,6 +102,7 @@ Rails.application.routes.draw do
   get 'taska/page/:id', to: 'taskas#taska_page', as: 'taska_page'
   get '/taska/:id/update_bank', to: 'taskas#update_bank', as: 'update_bank'
   get '/taska/:id/unpaid_index', to: 'taskas#unpaid_index', as: 'unpaid_index'
+  get '/taska/receipts/:id/', to: 'taskas#taska_receipts', as: 'taska_receipts'
   #EXPENSES
   get '/taska/:id/expenses_search', to: 'expenses#search', as: 'search_expense'
   get '/taska/:id/expenses', to: 'expenses#my_expenses', as: 'my_expenses'
@@ -134,6 +135,7 @@ Rails.application.routes.draw do
   get '/view_invoice', to: 'payments#view_invoice', as: 'view_invoice'
   get '/create_bill_taska', to: 'payments#create_bill_taska', as: 'create_bill_taska'
   get '/view_invoice_taska', to: 'payments#view_invoice_taska', as: 'view_invoice_taska'
+  get '/pdf_invoice_taska', to: 'payments#pdf_invoice_taska', as: 'pdf_invoice_taska'
   get '/create_billplz_bank', to: 'payments#create_billplz_bank'
   get '/update_billplz_bank', to: 'payments#update_billplz_bank'
   get '/create_bill_booking', to: 'payments#create_bill_booking', as: 'create_bill_booking'

@@ -24,6 +24,12 @@ class TaskasController < ApplicationController
     @fotos = @taska.fotos
   end
 
+  def taska_receipts
+    @taska = Taska.find(params[:id])
+    @taska_receipts = @taska.payments.where(name: "TASKA PLAN").where(paid: true)
+    render action: "taska_receipts", layout: "dsb-admin-overview" 
+  end
+
   def remove_taska
     @kid = Kid.find(params[:kid])
     @taska = @kid.taska
