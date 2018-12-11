@@ -28,7 +28,7 @@
                     </p>
                     <h4 class="card-title"><%= kid.name.upcase %></h4>
                     <p class="card-text">
-                      <%= "#{kid.ic_1}-#{kid.ic_2}-#{kid.ic_3}"%>
+                      <%= "#{kid.ic_1}-#{kid.ic_2}-#{kid.ic_3}" %>
                     </p>
                     <% if kid.taska.present? %>
                         <%= link_to "#{kid.taska.name.upcase}", taska_page_path(kid.taska), style: "color:blue", target: "_blank" %>
