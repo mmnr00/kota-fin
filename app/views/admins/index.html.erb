@@ -45,7 +45,7 @@
                     <% else %>
                       <%= link_to "GO TO DASHBOARD", taska_path(kuli), class: "btn btn-sm btn-warning active" %>
                       <%= link_to view_invoice_taska_path(taska: kuli, payment: unpaid), style: "color:orange" do %>
-                        <i class="fa fa-exclamation-circle"></i> INACTIVE IN <%= reg_now %> DAYS
+                        <i class="fa fa-exclamation-circle"></i> INACTIVE IN <%= -reg_now+grace_period %> DAYS
                       <% end %>
                       <br><br>
                       <%= link_to "PAY",view_invoice_taska_path(taska: kuli, payment: unpaid), class: "btn btn-sm btn-success active" %>
