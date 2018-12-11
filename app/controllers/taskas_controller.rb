@@ -138,7 +138,7 @@ class TaskasController < ApplicationController
     @taska.ssm_no = params[:ssm_no]
     if @taska.save
         flash[:success] = "Taska was successfully updated"
-        #redirect_to create_billplz_bank_path(id: @taska.id)
+        redirect_to create_billplz_bank_path(id: @taska.id)
     else
         flash[:danger] = "Update unsuccessfull. Please try again"
     end
