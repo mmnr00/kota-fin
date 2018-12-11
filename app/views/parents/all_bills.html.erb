@@ -1,58 +1,57 @@
+<% if @kid_bills.present? %>
 
   <div class="card mb-3">
-  <div class="card-header">
-    <i class="fas fa-search"></i>
-    VIEWING BILLS FOR <strong><%= @kid.name %></strong>
-  </div>
-  <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-striped table-bordered" id="" width="100%" cellspacing="0">
-        <thead>
-          <tr>
-            <th> N0 </th>
-            <th> MONTH </th>
-            <th> YEAR </th>
-            <th> TASKA </th>
-            <th> DESCRIPTION </th>
-            <th> AMOUNT </th>
-            <th> ACTION </th>
-          </tr>
-        </thead>
-        <tfoot>
-          <tr>
-            <th> N0 </th>
-            <th> MONTH </th>
-            <th> YEAR </th>
-            <th> TASKA </th>
-            <th> DESCRIPTION </th>
-            <th> AMOUNT </th>
-            <th> ACTION </th>
-          </tr>
-        </foot>
-        <tbody>
-          <% counter = 1 %>
-          <% @kid_bills.each do |bill| %>
-            <tr>
-              <td><%= counter %></td>
-              <td><%= bill.bill_month %></td>
-              <td><%= bill.bill_year %></td>
-              <td><%= bill.taska.name %></td>
-              <td><%= bill.description %></td>
-              <td><%= bill.amount %></td>
-              <% if bill.paid %>
-                <td>
-                  <%= link_to "DOWNLOAD RECEIPT", bill_pdf_path(payment: bill.id, kid: @kid.id, taska: @kid.taska.id, format: :pdf), class: "btn btn-sm btn-success active", target: "_blank" %>
-                </td>
-              <% else %>
-                <td>
-                  <%= link_to "PAY BILL", bill_view_path(payment: bill.id, kid: @kid.id, taska: @kid.taska.id), class: "btn btn-sm btn-danger active" %>
-                </td>
-              <% end %>
-            </tr>
-          <% counter = counter + 1 %>
-          <% end %>
-        </tbody>
-      </table>
+    <div class="card-header">
+      <i class="fas fa-search"></i>
+      DISPLAYING ALL BILLS FOR <strong><%= @kid.name.upcase %></strong>
     </div>
-  </di
+    <div class="bg-light"><br>
+      <!-- Team -->
+      <div class="container">
+        <div class="row">
+          <% @kid_bills.each do |bill|%>
+            <% image = bill.taska.fotos.where(foto_name: "CENTER LOGO").first %>
+            <!-- Team member -->
+            <div class="col-xs-12 col-sm-6 col-md-4">
+              <div class="frontside">
+                <div class="card">
+                  <% if bill.paid %>
+                    <%= link_to bill_pdf_path(payment: bill.id, kid: @kid.id, taska: @kid.taska.id, format: :pdf), class: "btn btn-sm btn-success active", target:"_blank" do %>
+                      <i class="fa fa-download"></i> RECEIPT
+                    <% end %>
+                  <% else %>
+                    <%= link_to bill_view_path(payment: bill.id, kid: @kid.id, taska: @kid.taska.id), class: "btn btn-sm btn-danger active" do %>
+                      <i class="fa fa-hand-holding-usd"></i> PAY NOW
+                    <% end %>
+                  <% end %>
+                  <div class="card-body text-center">
+                    <p>
+                      <% if image.present? && image.picture.present? %>
+                        <%= image_tag(image.picture.url, size: "50x50") %>
+                      <% end %>
+                    </p>
+                    <h4 class="card-title"><%= bill.taska.name.upcase %></h4>
+                    <p class="card-text">
+                     <%= "#{$month_name[bill.bill_month].upcase}" %>-
+                     <%= bill.bill_year %>
+                    </p>
 
+                  </div>
+                  <%= link_to "RM #{bill.amount}", "#", class: "btn btn-lg btn-primary active" %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+<% else %>
+  <br>No bills to display for <strong><%= @kid.name.upcase %></strong>
+<% end %>
