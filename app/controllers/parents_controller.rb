@@ -1,6 +1,8 @@
 class ParentsController < ApplicationController
+	require 'json'
 	before_action :authenticate_parent!
 	before_action :set_parent
+	#before_action	:update_bills
 	#$quarter = 3 || 6 || 9 || 12
 
 
@@ -85,7 +87,25 @@ class ParentsController < ApplicationController
 		@parent = Parent.find(current_parent.id)
 	end
 
-	def unpaid_bills
+	def update_bills
+		parent = Parent.find(current_parent.id)
+    kids = parent.kids
+    unpaid = kids.payments.where(paid: false)
+    unpaid.each do |bill|
+    	url_bill = "#{ENV['BILLPLZ_API']}bills/#{bill.bill_id}"
+	    data_billplz = HTTParty.post(url_collection.to_str,
+	                  :body  => { }.to_json,
+	                  :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+	                  :headers => { 'Content-Type' => 'application/json', 
+	                                'Accept' => 'application/json' })
+	    data = JSON.parse(data_billplz.to_s)
+	    if data["paid"]
+	    	bill.paid = data["paid"]
+	    	bill.save
+	    end
+  	end
+    #render json: data_billplz
+    redirect_to owner_index_path;
 
 	end
 end

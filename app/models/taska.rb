@@ -10,6 +10,7 @@ class Taska < ApplicationRecord
 	has_many :kids
 	has_many :fotos
 	accepts_nested_attributes_for :fotos
+	include HTTParty
 	
 
 

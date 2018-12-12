@@ -18,6 +18,8 @@
                   <% kid_pay = kid.payments.where(paid: false) %>
                   <% if kid_pay.present? %>
                     <%= link_to "#{kid_pay.count} UNPAID BILLS", all_bills_path(@parent, kid_id: kid.id), class: "btn btn-sm btn-warning active" %>
+                  <% else %>
+                    <%= link_to "whitespace", "#", class: "btn btn-sm btn-white active", style: "color:white" %>
                   <% end %>
                   <div class="card-body text-center">
                     <p>

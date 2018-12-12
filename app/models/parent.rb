@@ -8,5 +8,6 @@ class Parent < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates_presence_of :username, :email
+  include HTTParty
 
 end
