@@ -104,7 +104,7 @@ class KidsController < ApplicationController
 		@parent = Parent.find(@kid.parent.id)
 		@taska = @kid.taska
 		#@classroom = Classroom.find(params[:classroom]) if @kid.classroom.present?
-		render action: "edit", layout: "dsb-parent-child"
+		#render action: "edit", layout: "dsb-parent-child"
 	end
 
 	def update
@@ -172,7 +172,7 @@ class KidsController < ApplicationController
 		@kid.classroom_id = @classroom.id
 		@kid.save
 		flash[:notice] = "#{@kid.name} was successfully added to #{@classroom.classroom_name}"
-		redirect_to classroom_index_path(@taska)
+		redirect_to unreg_kids_path(@taska)
 	end
 
 	def remove_classroom

@@ -8,7 +8,7 @@
       <h1 align="center"><%= link_to "PENDING PAYMENT", "#", class: "btn btn-sm btn-danger active" %></h1>
       <% if current_parent && !@pdf %>
         <h1 align="right">
-          <%= link_to "#{ENV['BILLPLZ_URL']}/bills/#{@payment.bill_id}", target: "_blank", class: "btn btn-lg btn-info active" do %>
+          <%= link_to "#{ENV['BILLPLZ_URL']}/bills/#{@payment.bill_id}", class: "btn btn-lg btn-info active" do %>
             <i></i> PAY
           <% end %>
         </h1>

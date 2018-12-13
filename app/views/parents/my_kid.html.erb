@@ -1,14 +1,14 @@
 <%= link_to "Register New Children", index_parent_path(id: @parent.id), class: "btn btn-xs btn-primary active"%></br></br>
 
 <% if @mykids.present? %>
-  <div class="card mb-3">
+  <div class="scard smb-3">
     <div class="card-header">
-      <i class="fas fa-search"></i>
+      <i class="fas fa-eye"></i>
       ALL REGISTERED CHILDREN
     </div>
     <div class="bg-light"><br>
       <!-- Team -->
-      <div class="container">
+      <div class="scontainer">
         <div class="row">
           <% @mykids.each do |kid|%>
             <!-- Team member -->

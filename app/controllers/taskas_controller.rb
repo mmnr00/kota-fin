@@ -24,6 +24,14 @@ class TaskasController < ApplicationController
     @fotos = @taska.fotos
   end
 
+  def unreg_kids
+    @taska = Taska.find(params[:id])
+    @kid = Kid.new
+    @unregistered_kids = @taska.kids.where(classroom_id: nil).order('name ASC')
+    @taska_classrooms = @taska.classrooms
+    render action: "unreg_kids", layout: "dsb-admin-overview"
+  end
+
   def taska_receipts
     @taska = Taska.find(params[:id])
     @taska_receipts = @taska.payments.where(name: "TASKA PLAN").where(paid: true)
@@ -80,8 +88,6 @@ class TaskasController < ApplicationController
   end
 
   def classrooms_index
-    @kid = Kid.new
-    @unregistered_kids = @taska.kids.where(classroom_id: nil).order('name ASC')
     @taska_classrooms = @taska.classrooms
     render action: "classrooms_index", layout: "dsb-admin-classroom" 
   end

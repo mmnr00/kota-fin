@@ -49,6 +49,11 @@ class PagesController < ApplicationController
 	def team_cards
 	end
 
+	def classroom_card
+		@taska = Taska.first
+		render action: "classroom_card", layout: "dsb-admin-classroom"
+	end
+
 
 	def button
 	end

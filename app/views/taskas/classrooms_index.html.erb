@@ -1,149 +1,56 @@
-<% if @unregistered_kids.present? %>
-
-
-<div class="card mb-3">
-    <div class="card-header">
-      <i class="fas fa-search"></i>
-      VIEWING PENDING REGISTRATIONS
-    </div>
-  <div class="card-body">
-    <div class="table-responsive">
-      <%= form_for(@kid, :url => {:controller=>'kids', :action=>'add_classroom'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
-      <table class="table table-striped table-bordered" id="" width="100%" cellspacing="0">
-        <thead class="thead-dark">
-          <tr>
-            <th>NO</th>
-            <th>NAME</th>
-            <th>AGE</th>
-            <th>BOOKING FEE</th>
-            <th>ACTIONS</th>
-            <th>REGISTER</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% counter = 1 %>
-          <% @unregistered_kids.order('name ASC').each do |kid| %>
-          
-            <tr>
-              <td><%= counter %></td>
-              <td style="font-size:12px"><%= kid.name.upcase %></td>
-              <td style="font-size:12px"><% Date.today.year - kid.dob.year %>
-                <% diff = (Date.today.year*12+Date.today.month) - (kid.dob.year*12+kid.dob.month) %>
-                <% year = diff/12 %>
-                <% month = diff - year*12 %>
-                <%= year %> yr <%= month %> mth
-              </td>
-              <td>
-                <% if (bill=kid.payments.where(taska_id: @taska.id).where(name: "TASKA BOOKING").last).present? %>
-
-                  <% if !bill.paid %>
-                    <%= link_to "UNPAID", bill_view_path(payment: bill.id, kid: kid.id, taska: bill.taska.id), class: "btn btn-sm btn-danger active", target: "_blank"%>
-                  <% else %>
-                    <%= link_to bill_pdf_path(payment: bill.id, kid: kid.id, taska: bill.taska.id, format: :pdf ), class: "btn btn-sm btn-success active", target:"_blank" do %>
-                      <i class="fa fa-download"></i> RECEIPT
-                    <% end %>
-                  <% end %>
-
-                <% else %>
-
-                  <% image = kid.fotos.where(foto_name: "BOOKING RECEIPT").first %>
-                  <% if image.picture.present? %>
-                    <%= link_to "#{image.picture.url}", class: "btn btn-sm btn-success active", target:"_blank" do %>
-                      <i class="fa fa-download"></i> RECEIPT
-                    <% end %>
-                  <% else %>
-                    <%= link_to "#", class: "btn btn-sm btn-danger active" do %>
-                      <i class="fa fa-exclamation-triangle"></i> NO RECEIPT UPLOADED
-                    <% end %>
-                  <% end %>
-
-                <% end %>
-
-              </td>
-              <td style="font-size:12px">
-                <%= link_to "VIEW", kid_path(kid), class: "btn btn-sm btn-info active" %>&nbsp
-              </br></br>
-                <%= link_to remove_taska_path(kid: kid), style: "color:red", :data => {:confirm => 'Are you sure?'} do %>
-                    <i class="fa fa-trash"></i> REMOVE
-                  <% end %>
-              </td>
-              <td style="font-size:12px">
-                <%= f.select :classroom_id, 
-                    options_from_collection_for_select(@taska_classrooms.order('classroom_name ASC'), :id, :classroom_name), {include_blank: "Please Select"} %> 
-              </br></br>
-              <%= f.hidden_field :kid_id, value: kid.id %>
-              <%= f.submit :"ADD",  class: 'btn btn-sm btn-success btn-lg' %>
-           
-
-              </td>
-            </tr>
-            <% counter = counter + 1 %>
-            <% end %>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-
-<% else %>
-
-No pending registration.</br></br> 
-
-<% end %>
-
-
-
-
+<br>
+<div class="row">
+  <a class="btn icon-btn btn-success pull-right active" href="/classrooms/new?taska_id=<%= @taska.id %>">
+    <span class="fa fa-plus"></span> New Classroom
+  </a>
+</h1>
+</div><br>
 <% if @taska_classrooms.present? %>
-
-<div class="card mb-3">
-    <div class="card-header">
-      <i class="fas fa-search"></i>
-      VIEWING ALL MY CLASSROOMS
-    </div>
-  <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-striped table-bordered" id="" width="100%" cellspacing="0">
-        <thead class="thead-dark">
-          <tr>
-            <th>NO</th>
-            <th>CLASSROOM</th>
-            <th>DESCRIPTION</th>
-            <th>BASE FEE(RM)</th>
-            <th>STUDENTS NO</th>
-            <th>ACTIONS</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% counter = 1 %>
-          <% @taska_classrooms.order('classroom_name ASC').each do |classroom| %>
-            <tr>
-              <td><%= counter %></td>
-              <td><%= classroom.classroom_name %></td>
-              <td><%= classroom.description %></td>
-              <td><%= classroom.base_fee %></td>
-              <td><strong><%= classroom.kids.count %></strong> children</td>
-              <td>
-                <%= link_to "VIEW", classroom_path(classroom), class: "btn btn-sm btn-primary active" %>&nbsp
-                <%= link_to "EDIT", edit_classroom_path(classroom), class: "btn btn-sm btn-info active" %>&nbsp
-                <% if classroom.kids.count < 1 %>
-                  <%= link_to classroom_path(classroom), method: :delete, style: "color:red", :data => {:confirm => 'Are you sure?'} do %>
-                    <i class="fa fa-trash"></i> REMOVE
+  <div class="container">
+    <div class="row"><br><br>
+    <% @taska_classrooms.order('classroom_name ASC').each do |classroom| %>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="frontside">
+          <div class="card">
+            <div class='col-lg-12'>
+              <a href="/classrooms/<%= classroom.id %>/edit">
+                <span class="text-success">
+                   <i class="fa fa-edit"></i> EDIT
+                </span>
+              </a>
+              <a data-confirm="Are you sure" data-method="delete" href="/classrooms/<%= classroom.id %>">
+                <span class="pull-right text-danger">
+                  DELETE <i class="fa fa-trash"></i>
+                </span>
+              </a>
+            </div>
+            <div class='col-lg-12 well'><br>
+              <div class="row">
+                <div class="pull-right">
+                  <% image = classroom.taska.fotos.where(foto_name: "CENTER LOGO").first %>
+                  <% if image.present? && image.picture.present? %>
+                    <%= image_tag(image.picture.url, size: "50x50") %>
                   <% end %>
-                <% end %>
-                  
-                </td>
-            </tr>
-            <% counter = counter + 1 %>
-          <% end %>
-        </tbody>
-      </table>
+                </div>&nbsp&nbsp&nbsp&nbsp
+                <h4 align="center"><%= classroom.classroom_name.upcase %></h4>
+                <br>
+
+              </div><br>
+            </div>
+            <div class='col-lg-12'>
+              <p><%= classroom.description %></p>
+              <p><strong><%= classroom.kids.count %></strong> children</p>
+              <p class="text-muted">FEE: RM <%= classroom.base_fee %></p>
+            </div>
+            <%= link_to "VIEW", classroom_path(classroom), class: "btn btn-sm btn-primary active" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    
+    
     </div>
   </div>
-</div>
-
 
 
 <% else %>
@@ -151,5 +58,4 @@ No pending registration.</br></br>
 No classrooms created. Please create one. 
 
 <% end %>
-</br>
-<%= link_to "CREATE NEW CLASSROOM", new_classroom_path(taska_id: @taska.id), class: "btn btn-xs btn-success active"%>
+

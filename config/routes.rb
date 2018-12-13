@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   get '/443322/profile_card_edit', to: 'pages#profile_card_edit'
   get '/443322/pricing', to: 'pages#pricing'
   get '/443322/admin_card', to: 'pages#admin_card'
+  get '/443322/classroom_card', to: 'pages#classroom_card'
 
 
   get '/443322/bank_status', to: 'pages#bank_status', as: 'bank_status'
@@ -105,6 +106,7 @@ Rails.application.routes.draw do
   get '/taska/:id/update_bank', to: 'taskas#update_bank', as: 'update_bank'
   get '/taska/:id/unpaid_index', to: 'taskas#unpaid_index', as: 'unpaid_index'
   get '/taska/receipts/:id/', to: 'taskas#taska_receipts', as: 'taska_receipts'
+  get '/taska/unreg_kids/:id/', to: 'taskas#unreg_kids', as: 'unreg_kids'
   #EXPENSES
   get '/taska/:id/expenses_search', to: 'expenses#search', as: 'search_expense'
   get '/taska/:id/expenses', to: 'expenses#my_expenses', as: 'my_expenses'

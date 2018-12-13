@@ -1,0 +1,86 @@
+<div class="scard smb-3">
+    <div class="card-header">
+      <i class="fas fa-eye"></i>
+      NEW CHILDREN REGISTRATION
+    </div>
+    <div class="bg-light"><br>
+      <!-- Team -->
+      <div class="scontainer">
+        <div class="row">
+          <% @unregistered_kids.each do |kid|%>
+            <!-- Team member -->
+            <div class="col-xs-12 col-sm-6 col-md-4">
+              <div class="frontside">
+                <div class="card">
+                  <% if (bill=kid.payments.where(taska_id: @taska.id).where(name: "TASKA BOOKING").last).present? %>
+
+                    <% if !bill.paid %>
+                      <%= link_to "UNPAID BOOKING", bill_view_path(payment: bill.id, kid: kid.id, taska: bill.taska.id), class: "btn btn-sm btn-danger active", target: "_blank"%>
+                    <% else %>
+                      <%= link_to bill_pdf_path(payment: bill.id, kid: kid.id, taska: bill.taska.id, format: :pdf ), class: "btn btn-sm btn-success active", target:"_blank" do %>
+                        <i class="fa fa-download"></i> BOOKING RECEIPT
+                      <% end %>
+                    <% end %>
+
+                  <% else %>
+
+                    <% image = kid.fotos.where(foto_name: "BOOKING RECEIPT").first %>
+                    <% if image.picture.present? %>
+                      <%= link_to "#{image.picture.url}", class: "btn btn-sm btn-success active", target:"_blank" do %>
+                        <i class="fa fa-download"></i> BOOKING RECEIPT
+                      <% end %>
+                    <% else %>
+                      <%= link_to "#", class: "btn btn-sm btn-danger active" do %>
+                        <i class="fa fa-exclamation-triangle"></i> NO RECEIPT UPLOADED
+                      <% end %>
+                    <% end %>
+
+                  <% end %>
+                  <div class="card-body text-center">
+                    <p>
+                      <% image = kid.fotos.where(foto_name: "CHILDREN PICTURE").first %>
+                      <% if image.present? && image.picture.present? %>
+                        <%= image_tag(image.picture.url, size: "100x100") %>
+                      <% end %>
+                    </p>
+                    <h4 class="card-title"><%= kid.name.upcase %></h4>
+                    <p class="card-text">
+                      <%= "#{kid.ic_1}-#{kid.ic_2}-#{kid.ic_3}" %><br>
+                      <% Date.today.year - kid.dob.year %>
+                      <% diff = (Date.today.year*12+Date.today.month) - (kid.dob.year*12+kid.dob.month) %>
+                      <% year = diff/12 %>
+                      <% month = diff - year*12 %>
+                      <%= year %> years <%= month %> months<br>
+                      <strong>START DATE: <%= kid.date_enter.to_date.strftime("%d/%m/%Y") %></strong>
+
+                    </p>
+                    
+                    <%= link_to kid_path(kid), class: "btn btn-sm btn-primary active" do%>
+                      <i class="fa fa-eye"></i> VIEW PROFILE 
+                    <% end %>&nbsp&nbsp&nbsp
+                    <%= link_to remove_taska_path(kid: kid), class: "btn btn-sm btn-danger active", :data => {:confirm => 'Are you sure?'} do %>
+                    <i class="fa fa-trash"></i> REMOVE
+                  <% end %>
+                    <br>
+                  </div>
+                  <div class="container">
+                    <div class="row"><div style="width: 50%; margin: 0 auto;">
+                      <%= form_for(@kid, :url => {:controller=>'kids', :action=>'add_classroom'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+                        <%= f.select :classroom_id, 
+                          options_from_collection_for_select(@taska_classrooms.order('classroom_name ASC'), :id, :classroom_name), {include_blank: "Select Classroom"} %><br><br>                        
+                        <%= f.hidden_field :kid_id, value: kid.id %>
+                        <div style="width: 50%; margin: 0 auto;">
+                          <%= f.submit :"ADD",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
+                        </div>
+                      <% end %>
+                    </div></div>
+                  </div><br>
+                </div>
+              </div>     
+            </div>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
