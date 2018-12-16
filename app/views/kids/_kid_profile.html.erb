@@ -10,9 +10,9 @@
           <% if image.picture.present? %>
             <a href="<%="#{image.picture.url}"%>" target="_blank">
               <% if @pdf %>
-                <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
+                <%= wicked_pdf_image_tag(image.picture.url, size: "200x200") %>
               <% else %>
-                <%= image_tag(image.picture.url, size: "50x50") %>
+                <%= image_tag(image.picture.url, size: "200x200") %>
               <% end %>
             </a>
           <% else %>
@@ -195,16 +195,5 @@
             </tbody>
 
           </table>
-          Powered by&nbsp
-            <% image = Foto.all.where(foto_name: "KIDCARE FULL").first %>
-              <% if image.picture.present? %>
-                <a href="<%="#{image.picture.url}"%>" target="_blank">
-                  <% if @pdf %>
-                    <%= wicked_pdf_image_tag(image.picture.url, size: "87x30") %>
-                  <% else %>
-                    <%= image_tag(image.picture.url, size: "87x30") %>
-                  <% end %>
-                </a>
-              <% end %>
-            www.kidcare.my
+          
           

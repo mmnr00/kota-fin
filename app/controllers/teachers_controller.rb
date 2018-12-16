@@ -5,6 +5,10 @@ class TeachersController < ApplicationController
 
 	def index
 		#render action: "index", layout: "dsb-teacher-main"
+		if params[:college_id].present? && params[:course_id].present?
+			teacher_college = TeacherCollege.create(teacher_id: @teacher.id, college_id: params[:college_id])
+			teacher_course = TeacherCourse.create(teacher_id: @teacher.id, course_id: params[:course_id])
+		end
 		if @teacher.tchdetail.present?
 			redirect_to teacher_college_path(@teacher)
 		else

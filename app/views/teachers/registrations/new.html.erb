@@ -26,6 +26,9 @@
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
+  <%= f.hidden_field  :college_id, value: params[:college_id] %>
+  <%= f.hidden_field  :course_id, value: params[:course_id] %>
+
   <div class="actions">
     <%= f.submit "Sign up" %>
   </div>

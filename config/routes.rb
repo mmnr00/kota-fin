@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   #resources :teachers, only:[:show]
   #resources :taska_teachers, only:[:create,:destroy]
   devise_for :parents
-  devise_for :teachers
+  devise_for :teachers #, :controllers=> {:registrations=>"registrations"}
   devise_for :admins
   devise_for :owners#, :controllers => { :passwords => 'passwords' }
 	root 'welcomes#index2'
@@ -107,6 +107,7 @@ Rails.application.routes.draw do
   get '/taska/:id/unpaid_index', to: 'taskas#unpaid_index', as: 'unpaid_index'
   get '/taska/receipts/:id/', to: 'taskas#taska_receipts', as: 'taska_receipts'
   get '/taska/unreg_kids/:id/', to: 'taskas#unreg_kids', as: 'unreg_kids'
+  get '/taska/:id/all_bills', to: 'taskas#all_bills', as: 'all_bills_taska'
   #EXPENSES
   get '/taska/:id/expenses_search', to: 'expenses#search', as: 'search_expense'
   get '/taska/:id/expenses', to: 'expenses#my_expenses', as: 'my_expenses'

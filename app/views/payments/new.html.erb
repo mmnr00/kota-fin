@@ -1,4 +1,4 @@
-<h2>New Bill for <%= @kid.name %> (<%= @taska.name %>)</h2> 
+<h4>NEW BILL FOR <%= @kid.name.upcase %></h4><br><br>
 
 <div class='row'>
 		<div class='col-sm-12'>
@@ -6,7 +6,7 @@
 
 				<div class="form-group"> 
 					<div class="control-label col-sm-2">
-						<%= f.label :amount %>
+						<strong>AMOUNT (RM)</strong>
 					</div>
 					<div class="col-sm-2">
 						<%= f.number_field :amount, rows: 10, class: "form-control", :step => 0.01,placeholder: "e.g 32.10", value: @classroom.base_fee %>
@@ -16,7 +16,7 @@
 
 				<div class="form-group"> 
 					<div class="control-label col-sm-2">
-						<%= f.label :description %>
+						<strong>BILL DESCRIPTION</strong>
 					</div>
 					<div class="col-sm-8">
 						<%= f.text_area :description, class: "form-control", placeholder: "Max 200 characters", autofocus: true, value: "Bill for month #{$month_name[Date.today.month]} of #{Date.today.year} from #{@taska.name}" %>
@@ -25,19 +25,19 @@
 
 				
 				<div class="form-group"> <!-- name -->
+          <div class="container">
+          <div class="row">
 					<div class="control-label col-sm-2">
-						<%= f.label :month %>
-					</div>
-					<div class="col-sm-2">
-						<%= f.text_field :month, class: "form-control", placeholder: "Children Name", autofocus: true, value: Date.today.month %>
+						<strong>MONTH</strong>
+            <%= f.text_field :month, class: "form-control", placeholder: "Children Name", autofocus: true, value: params[:month].to_i %>
 					</div>
 					<div class="control-label col-sm-2">
-						<%= f.label :year %>
-					</div>
-					<div class="col-sm-2">
-						<%= f.text_field :year, class: "form-control", placeholder: "Children Name", autofocus: true, value: Date.today.year %>
+						<strong>YEAR</strong>
+            <%= f.text_field :year, class: "form-control", placeholder: "Children Name", autofocus: true, value: params[:year].to_i %>
 					</div>
 				</div>
+      </div>
+    </div>
 
 					
 					
@@ -48,7 +48,7 @@
          			
 				<div class="form-group">
 					<div class="col-sm-offset-0 col-sm-10">
-						<%= f.submit class: 'btn btn-primary btn-m' %>
+						<%= f.submit :"CREATE BILL", class: 'btn btn-primary btn-m' %>
 					</div>
 				</div>
 			<% end %>

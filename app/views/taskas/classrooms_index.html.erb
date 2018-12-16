@@ -42,7 +42,9 @@
               <p><strong><%= classroom.kids.count %></strong> children</p>
               <p class="text-muted">FEE: RM <%= classroom.base_fee %></p>
             </div>
-            <%= link_to "VIEW", classroom_path(classroom), class: "btn btn-sm btn-primary active" %>
+            <%= link_to classroom_path(classroom), class: "btn btn-sm btn-primary active" do %>
+              <i class="fa fa-book-open"></i>&nbsp&nbsp GO TO CLASSROOM
+            <% end %>
           </div>
         </div>
       </div>

@@ -357,6 +357,8 @@ class PaymentsController < ApplicationController
   def destroy
     @payment = Payment.find(params[:id])
     @taska = @payment.taska
+    @kid = @payment.kid
+    @classroom = @kid.classroom
     url_bill = "#{ENV['BILLPLZ_API']}bills/#{@payment.bill_id}"
     
     data_billplz = HTTParty.delete(url_bill.to_str,
@@ -364,11 +366,11 @@ class PaymentsController < ApplicationController
                                   :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
     @payment.destroy
     #render json: data_billplz and return
-    flash[:notice] = "Bills was successfully deleted"
+    flash[:notice] = "Bills was successfully deleted for #{@kid.name.upcase}"
     if params[:index].present?
       redirect_to unpaid_index_path(@taska)
     else
-      redirect_to child_bill_index_path(id: params[:taska_id], kid: params[:kid_id])
+      redirect_to classroom_path(@classroom)
     end
   end
 

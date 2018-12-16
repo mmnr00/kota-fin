@@ -38,6 +38,13 @@ class TaskasController < ApplicationController
     render action: "taska_receipts", layout: "dsb-admin-overview" 
   end
 
+  def all_bills
+    @taska = Taska.find(params[:id])
+    @kid = Kid.find(params[:kid_id])
+    @kid_bills = @kid.payments.order("paid ASC").order("updated_at ASC")
+    render action: "all_bills", layout: "dsb-admin-classroom"
+  end
+
   def remove_taska
     @kid = Kid.find(params[:kid])
     @taska = @kid.taska
