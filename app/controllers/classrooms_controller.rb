@@ -61,7 +61,19 @@ class ClassroomsController < ApplicationController
 		@classroom = Classroom.find(params[:id])
 		@taska = @classroom.taska
 		@classroom_kids = @classroom.kids.order('name ASC')	
+		respond_to do |format|
+    	format.html
+    	format.xlsx
+  	end	
 		render action: "show", layout: "dsb-admin-classroom" 	
+	end
+
+	def classroom_xls
+		@admin = current_admin
+		@classroom = Classroom.find(params[:id])
+		@taska = @classroom.taska
+		@classroom_kids = @classroom.kids.order('name ASC')
+		
 	end
 
 	def taskateachers_classroom

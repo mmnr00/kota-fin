@@ -370,7 +370,7 @@ class PaymentsController < ApplicationController
     if params[:index].present?
       redirect_to unpaid_index_path(@taska)
     else
-      redirect_to classroom_path(@classroom)
+      redirect_to all_bills_taska_path(id: @taska.id, kid_id: @kid.id)
     end
   end
 

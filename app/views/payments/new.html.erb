@@ -29,11 +29,11 @@
           <div class="row">
 					<div class="control-label col-sm-2">
 						<strong>MONTH</strong>
-            <%= f.text_field :month, class: "form-control", placeholder: "Children Name", autofocus: true, value: params[:month].to_i %>
+            <%= f.text_field :month, class: "form-control", placeholder: "Children Name", autofocus: true, value: params[:month].to_i, readonly: true %>
 					</div>
 					<div class="control-label col-sm-2">
 						<strong>YEAR</strong>
-            <%= f.text_field :year, class: "form-control", placeholder: "Children Name", autofocus: true, value: params[:year].to_i %>
+            <%= f.text_field :year, class: "form-control", placeholder: "Children Name", autofocus: true, value: params[:year].to_i, readonly: true %>
 					</div>
 				</div>
       </div>
