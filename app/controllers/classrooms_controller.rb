@@ -60,11 +60,7 @@ class ClassroomsController < ApplicationController
 		@admin = current_admin
 		@classroom = Classroom.find(params[:id])
 		@taska = @classroom.taska
-		@classroom_kids = @classroom.kids.order('name ASC')	
-		respond_to do |format|
-    	format.html
-    	format.xlsx
-  	end	
+		@classroom_kids = @classroom.kids.order('name ASC')		
 		render action: "show", layout: "dsb-admin-classroom" 	
 	end
 
@@ -73,6 +69,12 @@ class ClassroomsController < ApplicationController
 		@classroom = Classroom.find(params[:id])
 		@taska = @classroom.taska
 		@classroom_kids = @classroom.kids.order('name ASC')
+		respond_to do |format|
+    	#format.html
+    	format.xlsx{
+  								response.headers['Content-Disposition'] = 'attachment; filename="Children List.xlsx"'
+			}
+  	end
 		
 	end
 

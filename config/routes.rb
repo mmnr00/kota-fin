@@ -108,6 +108,7 @@ Rails.application.routes.draw do
   get '/taska/receipts/:id/', to: 'taskas#taska_receipts', as: 'taska_receipts'
   get '/taska/unreg_kids/:id/', to: 'taskas#unreg_kids', as: 'unreg_kids'
   get '/taska/:id/all_bills', to: 'taskas#all_bills', as: 'all_bills_taska'
+  get '/taska/:id/xls', to: 'taskas#childlist_xls', as: 'childlist_xls' 
   #EXPENSES
   get '/taska/:id/expenses_search', to: 'expenses#search', as: 'search_expense'
   get '/taska/:id/expenses', to: 'expenses#my_expenses', as: 'my_expenses'

@@ -32,6 +32,18 @@ class TaskasController < ApplicationController
     render action: "unreg_kids", layout: "dsb-admin-overview"
   end
 
+  def childlist_xls
+    @taska = Taska.find(params[:id])
+    @taska_kids = @taska.kids.order('name ASC')
+    respond_to do |format|
+      #format.html
+      format.xlsx{
+                  response.headers['Content-Disposition'] = 'attachment; filename="Children List.xlsx"'
+      }
+    end
+
+  end
+
   def taska_receipts
     @taska = Taska.find(params[:id])
     @taska_receipts = @taska.payments.where(name: "TASKA PLAN").where(paid: true)

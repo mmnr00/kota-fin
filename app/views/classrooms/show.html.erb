@@ -3,9 +3,7 @@
     <div class="card-header">
       <i class="fas fa-eye"></i>
       ALL REGISTERED CHILDREN FOR <button class="btn btn-sm btn-warning"><strong><%= @classroom.classroom_name.upcase %></strong></button>
-      <div class="pull-right">
-        <%= link_to "DOWNLOAD EXCEL", classroom_xls_path(@classroom), class: "btn btn-sm btn-info active" %>
-      </div>
+
     </div>
     <div class="bg-light"><br>
       <!-- Team -->
@@ -84,6 +82,11 @@
           <% end %>
 
         </div>
+        <div class="pull-left">
+        <%= link_to classroom_xls_path(@classroom, format: :xlsx), class: "btn btn-sm btn-info active" do %>
+          <i class="fa fa-file-excel"></i> DOWNLOAD EXCEL
+        <% end %>
+      </div>
       </div>
     </div>
   </div>

@@ -1,8 +1,9 @@
 <br>
 <div class="row">
-  <a class="btn icon-btn btn-success pull-right active" href="/classrooms/new?taska_id=<%= @taska.id %>">
-    <span class="fa fa-plus"></span> New Classroom
+  <a class="btn btn-sm btn-success pull-left active" href="/classrooms/new?taska_id=<%= @taska.id %>">
+    <span class="fa fa-plus"></span> NEW CLASSROOM
   </a>
+  
 </h1>
 </div><br>
 <% if @taska_classrooms.present? %>
@@ -49,12 +50,13 @@
         </div>
       </div>
     <% end %>
-    
-    
     </div>
   </div>
-
-
+  <div class="pull-left">
+    <%= link_to childlist_xls_path(@taska, format: :xlsx), class: "btn btn-sm btn-info active" do %>
+      <i class="fa fa-file-excel"></i> DOWNLOAD EXCEL
+    <% end %>
+  </div>
 <% else %>
 
 No classrooms created. Please create one. 

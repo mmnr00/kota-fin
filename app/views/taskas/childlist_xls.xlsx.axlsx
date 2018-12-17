@@ -1,0 +1,75 @@
+wb = xlsx_package.workbook
+
+wb.styles do |style|
+  header_1 = style.add_style(sz: 20)
+  highlight_cell = style.add_style(bg_color: "EFC376",
+                                  border: Axlsx::STYLE_THIN_BORDER,
+                                  sz: 13,
+                                   alignment: { horizontal: :center })
+  border_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER)       
+  wb.add_worksheet(name: "CHILDRENS") do |sheet|
+    sheet.add_row ["","CHILDREN LIST FOR #{@taska.name.upcase}"]
+    sheet.add_row [""]
+    sheet.add_row ["NO",
+                  "NAME",
+                  "MYKID",
+                  "BIRTHPLACE",
+                  "ARRANGEMENT IN FAMILY",
+                  "ALLERGY",
+                  "FAVOURITE FOOD",
+                  "HOBBY",
+                  "PANEL CLINIC",
+                  "MOTHER'S NAME",
+                  "MOTHER'S PHONE",
+                  "MOTHER'S JOB",
+                  "MOTHER'S JOB ADDRESS",
+                  "FATHER'S NAME",
+                  "FATHER'S PHONE",
+                  "FATHER'S JOB",
+                  "FATHER'S JOB ADDRESS",
+                  "HOUSEHOLD INCOME",
+                  "ALTERNATE PHONE"]
+    sheet.rows[0].style = header_1
+    sheet.rows[2].style = highlight_cell
+    counter = 1
+    row =2
+    @taska_kids.each do |kid|
+      sheet.add_row [counter, 
+                    kid.name, 
+                    "#{kid.ic_1}-#{kid.ic_2}-#{kid.ic_3}",
+                    kid.birth_place,
+                    kid.arr_infam,
+                    kid.allergy,
+                    kid.fav_food,
+                    kid.hobby,
+                    kid.panel_clinic,
+                    kid.mother_name,
+                    kid.mother_phone,
+                    kid.mother_job,
+                    kid.mother_job_address,
+                    kid.father_name,
+                    kid.father_phone,
+                    kid.father_job,
+                    kid.father_job_address,
+                    kid.income,
+                    kid.alt_phone], style: [nil, border_cell]
+      sheet.rows[row+counter].style = border_cell
+      counter = counter +1
+    end
+  end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
