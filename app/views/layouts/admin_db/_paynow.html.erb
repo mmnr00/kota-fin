@@ -3,7 +3,7 @@
 <% if unpaid.present? %>
   <% grace_period = 15 %>
   <% date_reg = unpaid.created_at.to_date %>
-  <% reg_now = (Date.today.to_date - date_reg).to_i  %>
+  <% reg_now = (Time.now.in_time_zone('Singapore').to_date - date_reg).to_i  %>
 
   <a href="<%= "#{view_invoice_taska_url}"%>?taska=<%= @taska.id %>&payment=<%= unpaid.id %>">
     <p><button class="w3-button w3-block btn-warning"> <i class="fa fa-exclamation-circle fa-lg"></i>&nbsp&nbspINACTIVE IN <strong><%= -reg_now+grace_period %> DAYS</strong>. PLEASE CLICK TO MAKE PAYMENT</button></p>

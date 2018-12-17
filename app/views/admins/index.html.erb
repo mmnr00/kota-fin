@@ -33,7 +33,7 @@
                   <% unpaid = payment.where(paid: false).last %>
                   <% date_reg = unpaid.created_at.to_date %>
                   <% grace_period = 15 %>
-                  <% reg_now = (Date.today.to_date - date_reg).to_i  %>
+                  <% reg_now = (Time.now.in_time_zone('Singapore').to_date - date_reg).to_i  %>
 
                   <td>
                     <% if reg_now > grace_period %>
@@ -56,7 +56,7 @@
                 <% else %>
 
                   <td>
-                    <% if (days = (kuli.expire.to_date - Date.today.to_date).to_i) > 20 %>
+                    <% if (days = (kuli.expire.to_date - Time.now.in_time_zone('Singapore').to_date).to_i) > 20 %>
                       <%= link_to "GO TO DASHBOARD", taska_path(kuli), class: "btn btn-sm btn-success active" %>
                       <%= link_to "#", style: "color:green" do %>
                         <i class="fa fa-toggle-on"></i> <strong><%= days %> DAYS</strong> REMAINING

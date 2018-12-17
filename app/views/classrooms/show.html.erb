@@ -46,22 +46,22 @@
                     <i class="fa fa-file-invoice-dollar"></i> EXISTING BILLS
                   <% end %>
       <!-------------- START CREATE BILLS------------->
-                  <% if kid.payments.where.not(name: "TASKA BOOKING").where(bill_month: Date.today.month).where(bill_year: Date.today.year).present? %>
+                  <% if kid.payments.where.not(name: "TASKA BOOKING").where(bill_month: Time.now.in_time_zone('Singapore').month).where(bill_year: Time.now.in_time_zone('Singapore').year).present? %>
                     <a class="btn icon-btn btn-brown pull-right active" >
                       <font color="indigo">
                         <span class="fa fa-check-circle"></span> 
-                          BILL EXIST FOR <%= "#{$month_name[Date.today.month].upcase}-#{Date.today.year}" %>
+                          BILL EXIST FOR <%= "#{$month_name[Time.now.in_time_zone('Singapore').month].upcase}-#{Time.now.in_time_zone('Singapore').year}" %>
                       </font>
                     </a>
                   <% else %>
-                    <a class="btn icon-btn btn-brown pull-right active" href="/taska/<%= @classroom.taska.id %>/new_bill?child=<%= kid.id %>&classroom=<%= @classroom.id %>&month=<%= Date.today.month %>&year=<%= Date.today.year %>">
+                    <a class="btn icon-btn btn-brown pull-right active" href="/taska/<%= @classroom.taska.id %>/new_bill?child=<%= kid.id %>&classroom=<%= @classroom.id %>&month=<%= Time.now.in_time_zone('Singapore').month %>&year=<%= Time.now.in_time_zone('Singapore').year %>">
                       <font color="blue">
                         <span class="fa fa-plus"></span> 
-                          NEW BILL FOR <%= "#{$month_name[Date.today.month].upcase}-#{Date.today.year}" %>
+                          NEW BILL FOR <%= "#{$month_name[Time.now.in_time_zone('Singapore').month].upcase}-#{Time.now.in_time_zone('Singapore').year}" %>
                       </font>
                     </a>
                   <% end %>
-                  <% next_bill = Date.today + 1.month %>
+                  <% next_bill = Time.now.in_time_zone('Singapore') + 1.month %>
                   <% if kid.payments.where.not(name: "TASKA BOOKING").where(bill_month: next_bill.month).where(bill_year: next_bill.year).present? %>
                     <a class="btn icon-btn btn-brown pull-right active" >
                       <font color="indigo">

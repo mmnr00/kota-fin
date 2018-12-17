@@ -207,8 +207,8 @@ class PaymentsController < ApplicationController
         @payment.name = "TASKA BOOKING"
         @payment.amount = data["amount"].to_f/100
         @payment.description = data["description"]
-        @payment.bill_month = Date.today.month
-        @payment.bill_year = Date.today.year
+        @payment.bill_month = Time.now.in_time_zone('Singapore').month
+        @payment.bill_year = Time.now.in_time_zone('Singapore').year
         @payment.taska_id = @taska.id
         @payment.kid_id = @kid.id
         @payment.state = data["state"]
@@ -229,15 +229,15 @@ class PaymentsController < ApplicationController
 
     if @taska.plan == "taska_basic"
       amount = 360.to_f*100
-      today = Date.today
+      today = Time.now.in_time_zone('Singapore')
       expire = today + 3.months
     elsif @taska.plan == "taska_standard"
-      amount = 600.to_f*100
-      today = Date.today
+      amount = 500.to_f*100
+      today = Time.now.in_time_zone('Singapore')
       expire = today + 6.months
     elsif @taska.plan == "taska_premium"
-      amount = 960.to_f*100
-      today = Date.today
+      amount = 860.to_f*100
+      today = Time.now.in_time_zone('Singapore')
       expire = today + 12.months
     end
     url_bill = "#{ENV['BILLPLZ_API']}bills"
@@ -259,8 +259,8 @@ class PaymentsController < ApplicationController
         @payment.name = "TASKA PLAN"
         @payment.amount = data["amount"].to_f/100
         @payment.description = data["description"]
-        @payment.bill_month = Date.today.month
-        @payment.bill_year = Date.today.year
+        @payment.bill_month = Time.now.in_time_zone('Singapore').month
+        @payment.bill_year = Time.now.in_time_zone('Singapore').year
         @payment.taska_id = @taska.id
         @payment.state = data["state"]
         @payment.paid = data["paid"]
@@ -300,8 +300,8 @@ class PaymentsController < ApplicationController
       if (data["id"].present?)
         @payment.amount = data["amount"].to_f/100
         @payment.description = data["description"]
-        @payment.bill_month = Date.today.month
-        @payment.bill_year = Date.today.year
+        @payment.bill_month = Time.now.in_time_zone('Singapore').month
+        @payment.bill_year = Time.now.in_time_zone('Singapore').year
         @payment.course_id = @course.id
         @payment.teacher_id = @teacher.id
         @payment.state = data["state"]
@@ -331,8 +331,8 @@ class PaymentsController < ApplicationController
         if (data["id"].present?)
             @payment.amount = data["amount"].to_f/100
             @payment.description = data["description"]
-            @payment.bill_month = Date.today.month
-            @payment.bill_year = Date.today.year
+            @payment.bill_month = Time.now.in_time_zone('Singapore').month
+            @payment.bill_year = Time.now.in_time_zone('Singapore').year
             @payment.course_id = @course.id
             @payment.teacher_id = @teacher.id
             @payment.state = data["state"]
