@@ -25,7 +25,7 @@
                   <% else %>
 
                     <% image = kid.fotos.where(foto_name: "BOOKING RECEIPT").first %>
-                    <% if image.picture.present? %>
+                    <% if image.present? && image.picture.present? %>
                       <%= link_to "#{image.picture.url}", class: "btn btn-sm btn-success active", target:"_blank" do %>
                         <i class="fa fa-download"></i> BOOKING RECEIPT
                       <% end %>
