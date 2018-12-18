@@ -1,13 +1,13 @@
 <script>
-	// Call the dataTables jQuery plugin
-$(document).ready(function() {
+  // Call the dataTables jQuery plugin
+$(document).on('ready turbolinks:load', function() {
   $('#dataTable').DataTable({
     "paging"  : false,
     "ordering": true,
     "info"    : false,
-    "search": {
-    // "search": "SEARCH HERE"
-  }
+    //"search": {
+    //"search": "SEARCH HERE"
+  //}
   });
 });
 </script>
