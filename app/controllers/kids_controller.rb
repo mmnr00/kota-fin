@@ -88,7 +88,7 @@ class KidsController < ApplicationController
 			#Kidtsk.create(kid_id: @kid.id, taska_id: params[:kidtsk][:taska_id])
 			if @kid.fotos.where(foto_name: "BOOKING RECEIPT").first.present?			
 				flash[:notice] = "Children was successfully created"					
-				redirect_to parent_index_path;			
+				redirect_to my_kid_path(@kid.parent)		
 			else
 				#redirect_to parent_index_path;		 
 				redirect_to create_bill_booking_path(kid_id: @kid.id, taska_id: @kid.taska.id)
@@ -158,11 +158,18 @@ class KidsController < ApplicationController
 		@taska = Taska.find(params[:taska_id])
 		@kid.taska_id = @taska.id
 		if @kid.save
-			flash[:success] = "#{@kid.name} has been added to #{@taska.name}"
+			if @kid.fotos.where(foto_name: "BOOKING RECEIPT").where(taska_id: @taska.id).last.present?			
+				flash[:notice] = "#{@kid.name} was successfully registered to #{@taska.name}"					
+				redirect_to my_kid_path(@parent)			
+			elsif !@kid.payments.where(name: "TASKA BOOKING").where(taska_id: @taska.id).last.present?
+				#redirect_to parent_index_path;		 
+				redirect_to create_bill_booking_path(kid_id: @kid.id, taska_id: @kid.taska.id)
+			end			
+			#flash[:success] = "#{@kid.name} has been added to #{@taska.name}"
     else
     	flash[:danger] = "Unsuccessful. Please try again"
     end
-		redirect_to my_kid_path(@parent)
+		#redirect_to my_kid_path(@parent)
 	end
 
 	def add_classroom
@@ -201,6 +208,7 @@ class KidsController < ApplicationController
 	def kid_params
       params.require(:kid).permit(:name, 
       														:parent_id,
+      														:gender,
       														:ic_1,
 																	:ic_2,
 																	:ic_3,
@@ -225,6 +233,8 @@ class KidsController < ApplicationController
 																	:taska_id,
 																	fotos_attributes: [:foto, :picture, :foto_name])
     end
+
+
 
 end
 

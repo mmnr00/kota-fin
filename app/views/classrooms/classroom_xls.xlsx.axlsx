@@ -14,6 +14,7 @@ wb.styles do |style|
     sheet.add_row [""]
     sheet.add_row ["NO",
                   "NAME",
+                  "GENDER",
                   "MYKID",
                   "BIRTHPLACE",
                   "ARRANGEMENT IN FAMILY",
@@ -38,7 +39,8 @@ wb.styles do |style|
     row =3
     @classroom_kids.each do |kid|
       sheet.add_row [counter, 
-                    kid.name, 
+                    kid.name,
+                    kid.gender, 
                     "#{kid.ic_1}-#{kid.ic_2}-#{kid.ic_3}",
                     kid.birth_place,
                     kid.arr_infam,

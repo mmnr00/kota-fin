@@ -102,7 +102,7 @@ Rails.application.routes.draw do
   get '/taska_pricing', to: 'taskas#taska_pricing', as: 'taska_pricing'
   get '/remove_taska', to: 'taskas#remove_taska', as: 'remove_taska'
   get '/taska/:id/child_bill_index', to: 'taskas#child_bill_index', as: 'child_bill_index'
-  get 'taska/page/:id', to: 'taskas#taska_page', as: 'taska_page'
+  get 'register/:id/center/', to: 'taskas#taska_page', as: 'taska_page'
   get '/taska/:id/update_bank', to: 'taskas#update_bank', as: 'update_bank'
   get '/taska/:id/unpaid_index', to: 'taskas#unpaid_index', as: 'unpaid_index'
   get '/taska/receipts/:id/', to: 'taskas#taska_receipts', as: 'taska_receipts'

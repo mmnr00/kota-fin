@@ -16,6 +16,23 @@
           </div>
         </div>
 
+        <!-- GENDER -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <i class="fas fa-caret-down"></i><strong> GENDER</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-8">
+              <%= f.select :gender, options_for_select(["MALE",
+                                                        "FEMALE"],
+                                                        selected: @kid.gender),
+              {include_blank: "Please Select"}, {required: true} %>          
+            </div>
+          </div>
+        </div>
+
         <!-- IC -->
         <% k = 1 %>
         <div class="form-group"> 
@@ -177,7 +194,7 @@
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.text_field :allergy, class: "form-control", autofocus: true, style: "text-transform:uppercase" %>
+              <%= f.text_field :allergy, class: "form-control", autofocus: true, style: "text-transform:uppercase", required: true %>
             </div>
           </div>
         </div>
@@ -191,7 +208,7 @@
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.text_field :fav_food, class: "form-control", autofocus: true, style: "text-transform:uppercase" %>
+              <%= f.text_field :fav_food, class: "form-control", autofocus: true, style: "text-transform:uppercase", required: true %>
             </div>
           </div>
         </div>
@@ -205,7 +222,7 @@
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.text_field :hobby, class: "form-control", autofocus: true, style: "text-transform:uppercase" %>
+              <%= f.text_field :hobby, class: "form-control", autofocus: true, style: "text-transform:uppercase", required: true %>
             </div>
           </div>
         </div>

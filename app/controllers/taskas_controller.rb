@@ -60,6 +60,9 @@ class TaskasController < ApplicationController
   def remove_taska
     @kid = Kid.find(params[:kid])
     @taska = @kid.taska
+    if (bill =@kid.payments.where(name: "TASKA BOOKING").where(taska_id: @taska.id).where(paid: false)).present?
+      bill.last.destroy
+    end
     @kid.taska_id = nil
     if @kid.save
       flash[:success] = "Children has been successfully removed"
@@ -67,7 +70,7 @@ class TaskasController < ApplicationController
       flash[:danger] = "Unsuccessful. Please try again"
     end
     
-    redirect_to classroom_index_path(@taska)
+    redirect_to unreg_kids_path(@taska)
   end
 
   def child_bill_index
