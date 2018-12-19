@@ -9,33 +9,36 @@
       <div class="container">
         <div class="row">
           <% @kid_unpaid.each do |bill| %>
-            
+            <% if bill.kid.present? %>
+            <% image = bill.kid.fotos.where(foto_name: "CHILDREN PICTURE").first %>
+            <% end %>
             <!-- Team member -->
             <div class="col-xs-12 col-sm-6 col-md-4">
               <div class="frontside">
                 <div class="card">
-                  <% @kid = bill.kids.first %>
                   <% if bill.paid %>
                     <%= link_to bill_pdf_path(payment: bill.id, kid: @kid.id, taska: @kid.taska.id, format: :pdf), class: "btn btn-sm btn-success active", target:"_blank" do %>
                       <i class="fa fa-download"></i> RECEIPT
                     <% end %>
                   <% else %>
-                    <%= link_to bill_view_path(payment: bill.id, kid: @kid.id, taska: @kid.taska.id), class: "btn btn-sm btn-danger active" do %>
+                    <%= link_to bill_view_path(payment: bill.id, kid: bill.kid.id, taska: bill.taska.id), class: "btn btn-sm btn-danger active" do %>
                       <i class="fa fa-exclamation"></i> UNPAID
                     <% end %>
                   <% end %>
                   <div class="card-body text-center">
-                    
+                    <p>
+                      <% if image.present? && image.picture.present? %>
+                        <%= image_tag(image.picture.url, size: "100x100") %>
+                      <% end %>
+                    </p>
+                    <a href="/kids/<%= bill.kid.id %>" target="_blank">
+                      <font color="blue">
+                      <h5 class="card-title"><%= bill.kid.name.upcase %></h5></font>
+                    </a>
+                    <% if bill.kid.classroom.present? %>
+                    <h5 class="card-title"><%= bill.kid.classroom.classroom_name %></h5>
+                    <% end %>
                     <p class="card-text">
-                     <% bill.kids.each do |kid| %>
-                      <a href="/kids/<%= kid.id %>" target="_blank">
-                        <font color="blue">
-                         <h5 class="card-title">
-                          <strong><%= kid.name.upcase %></strong><br>
-                         </h5>
-                        </font>
-                      </a>
-                     <% end %>
                      <%= "#{$month_name[bill.bill_month].upcase}" %>-
                      <%= bill.bill_year %>
                     </p>
@@ -43,7 +46,7 @@
                   </div>
                   <%= link_to "RM #{bill.amount}", "#", class: "btn btn-lg btn-info active" %>
                   <% if !bill.paid %>
-                    <%= link_to payment_path(id: bill.id, taska_id: bill.taska.id, kid_id: @kid.id, index: true), method: :delete, :data => {:confirm => 'Are you sure?'}, class: "btn btn-sm active", style: "color:red" do %>
+                    <%= link_to payment_path(id: bill.id, taska_id: bill.taska.id, kid_id: bill.kid.id, index: true), method: :delete, :data => {:confirm => 'Are you sure?'}, class: "btn btn-sm active", style: "color:red" do %>
                       <i class="fa fa-trash"></i> DELETE
                     <% end %>
                   <% end %>
