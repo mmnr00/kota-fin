@@ -1,57 +1,76 @@
-<h4>NEW BILL FOR <%= @kid.name.upcase %></h4><br><br>
+<h5>NEW BILL FOR <button class="btn btn-sm btn-success active"><%= @kid.name.upcase %></h5>
+<% if @kid.beradik.present? %>
+  <h6>SHARED WITH 
+    <% @kid.beradik.each do |beradik| %>
+      <%= link_to remove_siblings_path(id: @taska.id,
+                                      child: @kid.id,
+                                      classroom: @kid.classroom.id,
+                                      month: params[:month],
+                                      year: params[:year],
+                                      beradik: beradik.id
+                                        ), data: {confirm: "Are You Sure?"} do %>
+        <button class="btn btn-sm btn-warning"><%= beradik.name.upcase %>&nbsp
+          <i class="fa fa-times-circle"></i>
+        </button>&nbsp
+      <% end %>
+    <% end %>
+  </h6><br>
+<% end %>
+
+<%= render 'taskas/lookup' %><br>
 
 <div class='row'>
-		<div class='col-sm-12'>
-			<%= form_for(@payment, :html => {class: "form-horizontal", role: "form"}) do |f| %>
+	<div class='col-sm-12'>
+		<%= form_for(@payment, :html => {class: "form-horizontal", role: "form"}) do |f| %>
 
-				<div class="form-group"> 
-					<div class="control-label col-sm-2">
-						<strong>AMOUNT (RM)</strong>
-					</div>
-					<div class="col-sm-2">
-						<%= f.number_field :amount, rows: 10, class: "form-control", :step => 0.01,placeholder: "e.g 32.10", value: @classroom.base_fee %>
-					</div>
+  		<div class="form-group"> 
+  			<div class="control-label col-sm-2">
+  				<strong>AMOUNT (RM)</strong>
+  			</div>
+  			<div class="col-sm-2">
+  				<%= f.number_field :amount, rows: 10, class: "form-control", :step => 0.01,placeholder: "e.g 32.10", value: @classroom.base_fee %>
+  			</div>
+  		</div>
+
+			<div class="form-group"> 
+				<div class="control-label col-sm-2">
+					<strong>BILL DESCRIPTION</strong>
 				</div>
-
-
-				<div class="form-group"> 
-					<div class="control-label col-sm-2">
-						<strong>BILL DESCRIPTION</strong>
-					</div>
-					<div class="col-sm-8">
-						<%= f.text_area :description, class: "form-control", placeholder: "Max 200 characters", autofocus: true, value: "Bill for month #{$month_name[Date.today.month]} of #{Date.today.year} from #{@taska.name}" %>
-					</div>
+				<div class="col-sm-8">
+					<%= f.text_area :description, class: "form-control", placeholder: "Max 200 characters", autofocus: true, value: "Bill for month #{$month_name[Date.today.month]} of #{Date.today.year} from #{@taska.name}" %>
 				</div>
-
+			</div>
 				
-				<div class="form-group"> <!-- name -->
-          <div class="container">
+			<div class="form-group"> <!-- name -->
+        <div class="container">
           <div class="row">
-					<div class="control-label col-sm-2">
-						<strong>MONTH</strong>
-            <%= f.text_field :month, class: "form-control", placeholder: "Children Name", autofocus: true, value: params[:month].to_i, readonly: true %>
-					</div>
-					<div class="control-label col-sm-2">
-						<strong>YEAR</strong>
-            <%= f.text_field :year, class: "form-control", placeholder: "Children Name", autofocus: true, value: params[:year].to_i, readonly: true %>
-					</div>
-				</div>
+				    <div class="control-label col-sm-2">
+					   <strong>MONTH</strong>
+              <%= f.text_field :month, class: "form-control", placeholder: "Children Name", autofocus: true, value: params[:month].to_i, readonly: true %>
+				    </div>
+				    <div class="control-label col-sm-2">
+					   <strong>YEAR</strong>
+              <%= f.text_field :year, class: "form-control", placeholder: "Children Name", autofocus: true, value: params[:year].to_i, readonly: true %>
+				    </div>
+			    </div>
+        </div>
       </div>
-    </div>
+					
+			<div>
+  			<%= f.hidden_field :kid_id, value: @kid.id %>
+  			<%= f.hidden_field :taska_id, value: @taska.id %>
+     	</div>
+            
 
-					
-					
-					<div>
-            			<%= f.hidden_field :kid_id, value: @kid.id %>
-            			<%= f.hidden_field :taska_id, value: @taska.id %>
-         			</div>
+
          			
-				<div class="form-group">
-					<div class="col-sm-offset-0 col-sm-10">
-						<%= f.submit :"CREATE BILL", class: 'btn btn-primary btn-m' %>
-					</div>
+			<div class="form-group">
+				<div class="col-sm-offset-0 col-sm-10">
+					<%= f.submit :"CREATE BILL", class: 'btn btn-primary btn-m' %>
 				</div>
-			<% end %>
+			</div>
+
+		<% end %>
 			
-		</div>
 	</div>
+</div>

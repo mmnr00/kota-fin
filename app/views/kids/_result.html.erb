@@ -1,37 +1,36 @@
+<%= render partial: "shared/flash_messages", flash: flash %>
+    <% if @kid_search.present? %> <!-- From /views/teachers/_result -->
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>NAME</th>
+              <th>MYKID</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @kid_search.each do |kid| %>
+              <tr>
+                <td><%= kid.name %></td>
+                <td><%= "#{kid.ic_1}-#{kid.ic_2}-#{kid.ic_3}" %></td>
+                  <td>
+                    <%= link_to "ADD TO BILL", new_bill_path(
+                                              id: params[:id],
+                                              child: params[:child],
+                                              classroom: params[:classroom],
+                                              month: params[:month],
+                                              year: params[:year],
+                                              share_bill: kid.id), 
+                                              class: "btn btn-xs btn-success active" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %> 
 
-		<% if @kid_search %> <!-- From /views/teachers/_result -->
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>Children</th>
-							<th>Parent</th>
-							<th>Action</th>
-						</tr>
-					</thead>
-					<tbody>
-						<% @kid_search.each do |kid| %>
-							<tr>
-								<td><%= kid.name %></td>
-								<td><%= kid.parent.username %></td>
-								<% if kid.classroom.present? %>
-									<td><button class="btn btn-xs btn-danger active">Already enrolled</td>
-								<% else %>
-									<% params[:kid_id] = kid.id %>
-									<td><%= link_to "Enrol to #{@classroom.classroom_name}", add_classroom_path(kid: kid, classroom: @classroom), class: "btn btn-xs btn-success active" %></td>
-								<% end %>
-							</tr>
-						<% end %>
-					</tbody>
-				</table>
-			</div>
-			
-		<% else %>	
-			<div id="results" class="col-md-12">
-				<p> No Children Exist with the details. Please check your details </p>
-			</div>
-		<% end %>	
-
-	
+  
 
 
 

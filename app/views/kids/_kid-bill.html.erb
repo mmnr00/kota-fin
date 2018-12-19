@@ -52,6 +52,19 @@
               <% end %>
                 <strong><%= @kid.name.upcase %></strong></h2>
               <h5><%= @kid.ic_1 %>-<%= @kid.ic_2 %>-<%= @kid.ic_3 %></h5>
+              <% if @payment.kids.count > 1 %>
+                <hr>
+                <h6>SHARED WITH</h6>
+                <h7>
+                  <% @payment.kids.each do |beradik| %>
+                    <% if beradik.id != @kid.id %>
+                      <strong><%= beradik.name.upcase %></strong>
+                      &nbsp<%= "(#{beradik.ic_1}-#{beradik.ic_2}-#{beradik.ic_3})" %><br>
+                    <% end %>
+                  <% end %>
+                </h7>
+                <hr>
+              <% end %>
             </div>
             <div class="clearfix"></div>
             <br>

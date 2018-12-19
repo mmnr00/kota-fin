@@ -30,6 +30,27 @@ class KidsController < ApplicationController
 		end
 	end
 
+	def remove_siblings
+		s1 = Sibling.where(kid_id: params[:child], beradik_id: params[:beradik]).first
+		s2 = Sibling.where(kid_id: params[:beradik], beradik_id: params[:child]).first
+		s1.destroy
+		s2.destroy
+		kid = Kid.find(params[:child])
+		kid.beradik.each do |beradik|
+			if beradik.siblings.where(beradik_id: params[:beradik]).present?
+				s1 = Sibling.where(kid_id: beradik.id, beradik_id: params[:beradik]).first
+				s2 = Sibling.where(kid_id: params[:beradik], beradik_id: beradik.id).first
+				s1.destroy
+				s2.destroy
+			end
+		end
+		redirect_to new_bill_path(id: params[:id],
+                              child: params[:child],
+                              classroom: params[:classroom],
+                              month: params[:month],
+                              year: params[:year])
+	end
+
 	def bill_view
 		@pdf = false
 		@payment = Payment.find(params[:payment]) 
@@ -131,20 +152,20 @@ class KidsController < ApplicationController
 
 
 	def find
-		@classroom = Classroom.find(params[:id])
-		if params[:email].blank? || params[:name].blank? 
+		#@classroom = Classroom.find(params[:id])
+		if params[:name].blank? 
 			flash.now[:danger] = "You have entered an empty request"
 		else
-			parent = Parent.find_by("email like?", "%#{params[:email]}%")
-			@parent_id = parent.id
-			@kid_search = Kid.where("name like? AND parent_id like?", "%#{params[:name]}%", "%#{@parent_id}%" )
+			#parent = Parent.find_by("email like?", "%#{params[:email]}%")
+			#@parent_id = parent.id
+			@kid_search = Kid.where("name like?", "%#{params[:name].upcase}%" )
 			#@kid_search.each do |kid|
 				#if (kid.parent.email == params[:email])
 					#@kid_exist = kid
 				#end
 			#end
 			
-			flash.now[:danger] = "You have entered an invalid details" unless @kid_search
+			flash.now[:danger] = "Children do not exist" unless @kid_search.present?
 		end
 		respond_to do |format|
 			format.js { render partial: 'kids/result' } 

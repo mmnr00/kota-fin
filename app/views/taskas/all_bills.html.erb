@@ -1,14 +1,17 @@
-<% if @kid_bills.present? %>
 
-  <div class="card mb-3">
+
+
+<% if @kid_bills.present? %>
+<div class="card mb-3">
     <div class="card-header">
       <i class="fas fa-eye"></i>
       ALL BILLS FOR <strong><%= @kid.name.upcase %></strong>&nbsp&nbsp
 
-      <%= link_to classroom_path(@kid.classroom), class: "btn btn-sm btn-warning" do %>
+      <%= link_to classroom_path(@kid.classroom), class: "btn btn-sm btn-info active" do %>
         <i class="fa fa-arrow-circle-left"></i>&nbsp&nbsp <%= @kid.classroom.classroom_name.upcase %>
       <% end %>
     </div>
+  
     <div class="bg-light"><br>
       <!-- Team -->
       <div class="container">
@@ -43,7 +46,7 @@
                   </div>
                   <%= link_to "RM #{bill.amount}", "#", class: "btn btn-lg btn-primary active" %>
                   <% if !bill.paid %>
-                    <%= link_to payment_path(id: bill.id, taska_id: bill.taska.id, kid_id: bill.kid.id), method: :delete, :data => {:confirm => 'Are you sure?'}, class: "btn btn-sm active", style: "color:red" do %>
+                    <%= link_to payment_path(id: bill.id, taska_id: @taska.id, kid_id: @kid.id), method: :delete, :data => {:confirm => 'Are you sure?'}, class: "btn btn-sm active", style: "color:red" do %>
                       <i class="fa fa-trash"></i> DELETE
                     <% end %>
                   <% end %>
@@ -56,11 +59,15 @@
     </div>
   </div>
 
-
-
-
-
-
 <% else %>
+  <div class="card-header">
+      <i class="fas fa-eye"></i>
+      ALL BILLS FOR <strong><%= @kid.name.upcase %></strong>&nbsp&nbsp
+
+      <%= link_to classroom_path(@kid.classroom), class: "btn btn-sm btn-warning" do %>
+        <i class="fa fa-arrow-circle-left"></i>&nbsp&nbsp <%= @kid.classroom.classroom_name.upcase %>
+      <% end %>
+    </div>
   <br>No bills to display for <strong><%= @kid.name.upcase %></strong>
+
 <% end %>

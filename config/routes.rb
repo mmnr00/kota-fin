@@ -109,6 +109,7 @@ Rails.application.routes.draw do
   get '/taska/unreg_kids/:id/', to: 'taskas#unreg_kids', as: 'unreg_kids'
   get '/taska/:id/all_bills', to: 'taskas#all_bills', as: 'all_bills_taska'
   get '/taska/:id/xls', to: 'taskas#childlist_xls', as: 'childlist_xls' 
+  get '/find_child', to: 'taskas#find_child', as: 'find_child'
   #EXPENSES
   get '/taska/:id/expenses_search', to: 'expenses#search', as: 'search_expense'
   get '/taska/:id/expenses', to: 'expenses#my_expenses', as: 'my_expenses'
@@ -117,7 +118,7 @@ Rails.application.routes.draw do
   #KIDS
   get '/register_child', to: 'kids#new', as: 'new_kid'
   get '/classroom/:id/search_kid', to: 'kids#search', as: 'search_kid'
-  get '/classroom/:id/find_kid', to: 'kids#find', as: 'find_kid'
+  get '/find_kid', to: 'kids#find', as: 'find_kid'
   get 'add_classroom', to: 'kids#add_classroom'
   get 'remove_classroom', to: 'kids#remove_classroom'
   get '/print/kid_pdf', to: 'kids#kid_pdf', as: 'kid_profile'
@@ -125,6 +126,7 @@ Rails.application.routes.draw do
   get '/bill_view', to: 'kids#bill_view'
   get '/bill_pdf', to: 'kids#bill_pdf'
   get '/bill_pdf_booking', to: 'kids#bill_pdf_booking'
+  get '/remove_siblings', to: 'kids#remove_siblings'
   #TASKA_TEACHERS
   post '/taska/:id/add_teacher', to: 'taska_teachers#create', as: 'add_teacher'
   delete '/taska/:id/delete_teacher', to: 'taska_teachers#destroy', as: 'delete_teacher'

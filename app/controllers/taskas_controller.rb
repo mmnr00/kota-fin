@@ -41,7 +41,21 @@ class TaskasController < ApplicationController
                   response.headers['Content-Disposition'] = 'attachment; filename="Children List.xlsx"'
       }
     end
+  end
 
+  def find_child
+    #@classroom = Classroom.find(params[:id])
+    @taska = Taska.find(params[:id])
+    @kid = Kid.find(params[:child])
+    if params[:name].blank? 
+      flash.now[:danger] = "You have entered an empty request"
+    else
+      @kid_search = @taska.kids.where("name like?", "%#{params[:name].upcase}%" )
+      flash.now[:danger] = "Cannot find child" unless @kid_search.present?
+    end
+    respond_to do |format|
+      format.js { render partial: 'taskas/result' } 
+    end
   end
 
   def taska_receipts

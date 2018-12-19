@@ -21,9 +21,9 @@ class PaymentsController < ApplicationController
       else
         flash[:danger] = "Bill was not paid due to bank rejection. Please try again"
       end
-      if (@bill.kid.present?)
-        @kid = @bill.kid
-        redirect_to all_bills_path(id: @kid.parent.id, kid_id: @kid.id)
+      if (@bill.kids.present?)
+        @parent = @bill.parent
+        redirect_to my_kid_path(id: @parent.id)
       elsif (@bill.teacher.present?)
         redirect_to course_payment_pdf_path(payment: @bill.id, format: :pdf)
       elsif (@bill.taska.present?)
@@ -129,6 +129,27 @@ class PaymentsController < ApplicationController
     @classroom = Classroom.find(params[:classroom])
     @taska = @classroom.taska
     @kid = Kid.find(params[:child])
+
+    if (kid_share=params[:share_bill]).present?
+      if !@kid.siblings.where(beradik_id: kid_share).present? #masuk yang share dulu
+        Sibling.create(kid_id: @kid.id, beradik_id: kid_share)
+        Sibling.create(kid_id: kid_share, beradik_id: @kid.id)
+      end
+      beradik = Kid.find(kid_share)
+      @kid.siblings.each do |a| 
+        if !beradik.siblings.where(beradik_id: a.beradik_id).present? && a.beradik_id != beradik.id
+          Sibling.create(kid_id: beradik.id, beradik_id: a.beradik_id)
+          Sibling.create(kid_id: a.beradik_id, beradik_id: beradik.id)
+        end
+      end
+      beradik.siblings.each do |b|
+        if !@kid.siblings.where(beradik_id: b.beradik_id).present? && b.beradik_id != @kid.id
+          Sibling.create(kid_id: @kid.id, beradik_id: b.beradik_id)
+          Sibling.create(kid_id: b.beradik_id, beradik_id: @kid.id)
+        end
+      end
+    end
+
     @payment = Payment.new
     render action: "new", layout: "dsb-admin-classroom" 
   end
@@ -158,7 +179,7 @@ class PaymentsController < ApplicationController
       @payment.description = params[:payment][:description]
       @payment.bill_month = params[:payment][:month]
       @payment.bill_year = params[:payment][:year]
-      @payment.kid_id = params[:payment][:kid_id]
+      
       @payment.parent_id = @kid.parent.id
       @payment.taska_id = @kid.classroom.taska.id
       @payment.state = data["state"]
@@ -166,7 +187,13 @@ class PaymentsController < ApplicationController
       @payment.bill_id = data["id"]
       @payment.name = "KID BILL"
       @payment.save
-      flash[:success] = "Bills created successfully for #{@kid.name}"
+      KidBill.create(kid_id: @kid.id, payment_id: @payment.id)
+      if @kid.beradik.count > 0
+        @kid.beradik.each do |beradik|
+          KidBill.create(kid_id: beradik.id, payment_id: @payment.id)
+        end
+      end
+      flash[:success] = "Bills created successfully"
     else
       flash[:danger] = "Bills creation failed. Please try again"
     end

@@ -1,0 +1,38 @@
+
+		<% if @kid_search %> <!-- From /views/teachers/_result -->
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Children</th>
+							<th>Parent</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<% @kid_search.each do |kid| %>
+							<tr>
+								<td><%= kid.name %></td>
+								<td><%= kid.parent.username %></td>
+								<% if kid.classroom.present? %>
+									<td><button class="btn btn-xs btn-danger active">Already enrolled</td>
+								<% else %>
+									<% params[:kid_id] = kid.id %>
+									<td><%= link_to "Enrol to #{@classroom.classroom_name}", add_classroom_path(kid: kid, classroom: @classroom), class: "btn btn-xs btn-success active" %></td>
+								<% end %>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
+			</div>
+			
+		<% else %>	
+			<div id="results" class="col-md-12">
+				<p> No Children Exist with the details. Please check your details </p>
+			</div>
+		<% end %>	
+
+	
+
+
+
+

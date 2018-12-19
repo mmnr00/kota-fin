@@ -1,7 +1,6 @@
 class Kid < ApplicationRecord
 	belongs_to :parent
 	#belongs_to :classroom, optional: true
-	has_many :payments
 	has_many :taska_admins
 	has_many :admins, through: :taska_admins
 	belongs_to  :taska, optional: true
@@ -9,6 +8,10 @@ class Kid < ApplicationRecord
 	has_many :fotos
 	accepts_nested_attributes_for :fotos
 	before_save :save_kids
+	has_many :siblings
+	has_many :beradik, through: :siblings
+	has_many :kid_bills
+	has_many :payments, through: :kid_bills
 
 	#validates_uniqueness_of :name, :case_sensitive => false
 
