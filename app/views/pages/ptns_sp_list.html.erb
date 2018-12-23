@@ -5,7 +5,7 @@
 <div class="card mb-3">
   <div class="card-header">
     <i class="fas fa-eye"></i>
-    DISPLAYING ALL INPUT
+    MAKLUMAT SETAKAT INI
   </div>
   <div class="card-body">
     <div class="table-responsive">
@@ -13,12 +13,12 @@
         <thead>
           <tr>
             <th> NO </th>
-            <th> NAME </th>
-            <th> STRENGTH </th>
-            <th> WEAKNESS </th>
-            <th> OPPORTUNITY </th>
-            <th> THREAT </th>
-            <th> ACTION </th>
+            <th> NAMA </th>
+            <th> KEKUATAN </th>
+            <th> KELEMAHAN </th>
+            <th> PELUANG </th>
+            <th> ANCAMAN </th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -31,7 +31,7 @@
               <td><%= item.wkns %></td>
               <td><%= item.opp %></td>
               <td><%= item.thr %></td>
-              <td><%= link_to "EDIT", edit_ptnssp_path(item), class: 'btn btn-sm btn-success active' %></td>
+              <td><%= link_to "UBAH", edit_ptnssp_path(item), class: 'btn btn-sm btn-success active' %></td>
             </tr>
           <% counter = counter +1 %>
           <% end %>
