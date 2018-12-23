@@ -1,0 +1,88 @@
+<h2> EDIT INPUT FROM <%= @ptnssp.name.upcase %> </h2>
+
+<%= form_for(@ptnssp, :html => {multipart: true, class: "form-horizontal", role: "form"}) do |f| %>
+
+      <!-- name -->
+      <div class="form-group"> 
+        <div class="row">
+          <div class="control-label col-sm-8">
+            <strong>FULL NAME</strong>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-8 col-12">
+            <%= f.text_field :name,  class: "form-control", autofocus: true, required: true %>
+          </div>
+        </div>
+          Please State Your Name
+      </div>
+
+      <!-- strength -->
+      <div class="form-group"> 
+        <div class="row">
+          <div class="control-label col-sm-8">
+            <strong>STRENGTH</strong>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-8 col-12">
+            <%= f.text_area :strgh, size: "30x10", class: "form-control", autofocus: true, required: true %>
+          </div>
+        </div>
+          Please state minimum 5 points
+      </div>
+
+      <!-- WEAKNESS -->
+      <div class="form-group"> 
+        <div class="row">
+          <div class="control-label col-sm-8">
+            <strong>WEAKNESS</strong>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-8 col-12">
+            <%= f.text_area :wkns, size: "30x10",class: "form-control", autofocus: true, required: true %>
+          </div>
+        </div>
+          Please state minimum 5 points
+      </div>
+
+      <!-- OPPORTUNITY -->
+      <div class="form-group"> 
+        <div class="row">
+          <div class="control-label col-sm-8">
+            <strong>OPPORTUNITY</strong>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-8 col-12">
+            <%= f.text_area :opp, size: "30x10",class: "form-control", autofocus: true, required: true %>
+          </div>
+        </div>
+          Please state minimum 5 points
+      </div>
+
+      <!-- THREAT -->
+      <div class="form-group"> 
+        <div class="row">
+          <div class="control-label col-sm-8">
+            <strong>THREAT</strong>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-8 col-12">
+            <%= f.text_area :thr, size: "30x10", class: "form-control", autofocus: true, required: true %>
+          </div>
+        </div>
+          Please state minimum 5 points
+      </div>
+
+      <div class="form-group">
+        <div class="row">
+          <div class="col-sm-offset-2 col-sm-10 col-4">
+            <%= f.submit :"HANTAR",  class: 'btn btn-primary btn-lg' %>
+          </div>
+        </div>
+      </div>
+
+    <% end %>

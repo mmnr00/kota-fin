@@ -1,0 +1,2 @@
+class Ptnssp < ApplicationRecord
+end

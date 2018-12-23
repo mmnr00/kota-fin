@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :fotos, only:[:edit, :update ,:destroy]
   resources :tchdetails, only:[:show, :new, :create, :destroy, :update, :edit]
   resources :prntdetails, only:[:show, :new, :create, :destroy, :update, :edit]
+  resources :ptnssps, only:[:update, :edit]
   #resources :teachers, only:[:show]
   #resources :taska_teachers, only:[:create,:destroy]
   devise_for :parents
@@ -46,6 +47,11 @@ Rails.application.routes.draw do
   get '/443322/bank_status', to: 'pages#bank_status', as: 'bank_status'
   get '/billplz_reg', to: 'pages#billplz_reg'
   get '/443322/team_cards', to: 'pages#team_cards', as: 'team_cards'
+  get '/ptns_sp', to: 'pages#ptns_sp'
+  post '/ptns_sp_reg', to: 'pages#ptns_sp_reg'
+  get '/ptns_sp_list', to: 'pages#ptns_sp_list'
+  get '/ptns_sp/:id/update', to: 'pages#ptns_sp_update'
+  get '/ptns_sp/:id/patch', to: 'pages#ptns_sp_patch'
 
 
   #PDF

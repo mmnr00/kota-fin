@@ -54,9 +54,30 @@ class PagesController < ApplicationController
 		render action: "classroom_card", layout: "dsb-admin-classroom"
 	end
 
-
-	def button
+	# start PTNSSP 
+	def ptns_sp
 	end
+
+	def ptns_sp_reg
+		@ptnssp = Ptnssp.new
+		@ptnssp.name = params[:ptnssp][:name]
+		@ptnssp.strgh = params[:ptnssp][:strgh]
+		@ptnssp.wkns = params[:ptnssp][:wkns]
+		@ptnssp.opp = params[:ptnssp][:opp]
+		@ptnssp.thr = params[:ptnssp][:thr]
+		if @ptnssp.save
+			flash[:success]= "Cadangan anda telah direkodkan. Sila pilih dari senarai dibawah untuk membuat perubahan"
+			redirect_to ptns_sp_list_path
+		end
+	end
+
+	def ptns_sp_list
+		@ptnssp_list = Ptnssp.all.order('updated_at DESC')
+	end
+
+	
+
+	# end PTNS SP
 
 	def bank_status
 		#@taska_super = Taska.all.order('bank_status ASC').order('billplz_reg ASC')

@@ -10,9 +10,9 @@
           <% if image.picture.present? %>
             <a href="<%="#{image.picture.url}"%>" target="_blank">
               <% if @pdf %>
-                <%= wicked_pdf_image_tag(image.picture.url, size: "100x100") %>
+                <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
               <% else %>
-                <%= image_tag(image.picture.url, size: "200x200") %>
+                <%= image_tag(image.picture.url, size: "100x100") %>
               <% end %>
             </a>
           <% else %>
