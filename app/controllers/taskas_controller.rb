@@ -50,7 +50,7 @@ class TaskasController < ApplicationController
     if params[:name].blank? 
       flash.now[:danger] = "You have entered an empty request"
     else
-      @kid_search = @taska.kids.where("name like?", "%#{params[:name].upcase}%" )
+      @kid_search = @taska.kids.where("name like?", "%#{params[:name].upcase}%" ).where.not(classroom_id: nil)
       flash.now[:danger] = "Cannot find child" unless @kid_search.present?
     end
     respond_to do |format|
@@ -140,6 +140,7 @@ class TaskasController < ApplicationController
 
   def classrooms_index
     @taska_classrooms = @taska.classrooms
+    @taska_extras = @taska.extras.order('name ASC')
     render action: "classrooms_index", layout: "dsb-admin-classroom" 
   end
 

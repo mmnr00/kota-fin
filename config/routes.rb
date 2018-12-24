@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :tchdetails, only:[:show, :new, :create, :destroy, :update, :edit]
   resources :prntdetails, only:[:show, :new, :create, :destroy, :update, :edit]
   resources :ptnssps, only:[:update, :edit]
+  resources :extras, only:[:new, :create, :destroy, :update, :edit]
   #resources :teachers, only:[:show]
   #resources :taska_teachers, only:[:create,:destroy]
   devise_for :parents
@@ -53,6 +54,9 @@ Rails.application.routes.draw do
   get '/ptns_sp/:id/update', to: 'pages#ptns_sp_update'
   get '/ptns_sp/:id/patch', to: 'pages#ptns_sp_patch'
   get '/sms', to: 'pages#sms'
+
+  #EXTRAS
+  get 'add_kid_extras', to: 'extras#add_kid_extras'
 
 
   #PDF

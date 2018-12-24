@@ -9,6 +9,7 @@ class Taska < ApplicationRecord
 	has_many :feedbacks
 	has_many :kids
 	has_many :fotos
+	has_many :extras
 	accepts_nested_attributes_for :fotos
 	include HTTParty
 	

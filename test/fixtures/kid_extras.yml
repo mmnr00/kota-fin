@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  kid_id: 1
+  extra_id: 1
+
+two:
+  kid_id: 1
+  extra_id: 1

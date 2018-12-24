@@ -1,15 +1,15 @@
 <div id="kid-lookup"> <!-- From Finance Tracker views/users/myportfolio.html  -->
   <%= form_tag find_child_path, remote: true, method: :get, id: "find_kid" do %>
-    <div class="form-group text-center col-md-8 bg-white">
+    <div class="form-group text-center col-md-8 bg-light">
       <strong>ADD SIBLINGS<br><br></strong>
       <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-12">
         <%= text_field_tag :name, params[:name], 
                 placeholder: "SEARCH NAME", 
                 autofocus: true,  
                 class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
-      </div></br>                 
-      <div class="col-md-2">
+      </div>                
+      <div class="col-md-12">
         <%= button_tag(type: :submit, class: "btn btn-sm btn-success active", id: "submit_expense") do %>
             <i class="fa fa-search"></i> SEARCH
         <% end %>

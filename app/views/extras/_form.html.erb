@@ -1,0 +1,46 @@
+<div class='row'>
+  <div class='col-lg-8 col-12'>
+    <%= form_for(@extra, :html => {multipart: true, class: "form-horizontal", role: "form"}) do |f| %>
+
+        <!-- extra name -->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>NAME</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :name, class: "form-control", autofocus: true, style: "text-transform:uppercase", required: true %>
+            </div>
+          </div>
+        </div>
+
+        <!-- BASE FEE-->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>PRICE(RM)</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.number_field :price, class: "form-control", autofocus: true, required: true %>
+              Fee to be charged per month
+            </div>
+          </div>
+        </div>
+
+        <%= f.hidden_field :taska_id, value: @taska.id %>
+              
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-offset-2 col-sm-10 col-4">
+              <%= f.submit class: 'btn btn-primary btn-lg' %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      
+    </div>
+  </div>

@@ -1,65 +1,96 @@
-<br>
-<div class="row">
-  <a class="btn btn-sm btn-success pull-left active" href="/classrooms/new?taska_id=<%= @taska.id %>">
-    <span class="fa fa-plus"></span> NEW CLASSROOM
-  </a>
-  
-</h1>
-</div><br>
-<% if @taska_classrooms.present? %>
-  <div class="container">
-    <div class="row"><br><br>
-    <% @taska_classrooms.order('classroom_name ASC').each do |classroom| %>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <div class="frontside">
-          <div class="card">
-            <div class='col-lg-12'>
-              <a href="/classrooms/<%= classroom.id %>/edit">
-                <span class="text-success">
-                   <i class="fa fa-edit"></i> EDIT
-                </span>
-              </a>
-              <a data-confirm="Are you sure" data-method="delete" href="/classrooms/<%= classroom.id %>">
-                <span class="pull-right text-danger">
-                  DELETE <i class="fa fa-trash"></i>
-                </span>
-              </a>
-            </div>
-            <div class='col-lg-12 well'><br>
-              <div class="row">
-                <div class="pull-right">
-                  <% image = classroom.taska.fotos.where(foto_name: "CENTER LOGO").first %>
-                  <% if image.present? && image.picture.present? %>
-                    <%= image_tag(image.picture.url, size: "50x50") %>
-                  <% end %>
-                </div>&nbsp&nbsp&nbsp&nbsp
-                <h4 align="center"><%= classroom.classroom_name.upcase %></h4>
-                <br>
+<div class="container">
+  <div class="row">
+    <div class="bg-light col-sm-9">
+      <br>
+      <div class="row">
+        <a class="btn btn-sm btn-success pull-left active" href="/classrooms/new?taska_id=<%= @taska.id %>">
+          <span class="fa fa-plus"></span> NEW CLASSROOM
+        </a>
+      </div><br>
+      <% if @taska_classrooms.present? %>
+        <div class="container">
+          <div class="row"><br><br>
+            <% @taska_classrooms.order('classroom_name ASC').each do |classroom| %>
+              <div class="col-xs-12 col-sm-6 col-md-3">
+                <div class="frontside">
+                  <div class="card">
+                    <div class='col-lg-12'>
+                      <a href="/classrooms/<%= classroom.id %>/edit">
+                        <span class="text-success">
+                           <i class="fa fa-edit"></i> EDIT
+                        </span>
+                      </a>
+                      <a data-confirm="Are you sure" data-method="delete" href="/classrooms/<%= classroom.id %>">
+                        <span class="pull-right text-danger">
+                          DELETE <i class="fa fa-trash"></i>
+                        </span>
+                      </a>
+                    </div>
+                    <div class='col-lg-12 well'><br>
+                      <div class="row">
+                        <div class="pull-right">
+                          <% image = classroom.taska.fotos.where(foto_name: "CENTER LOGO").first %>
+                          <% if image.present? && image.picture.present? %>
+                            <%= image_tag(image.picture.url, size: "30x30") %>
+                          <% end %>
+                        </div>&nbsp&nbsp&nbsp&nbsp
+                        <h6 align="center"><%= classroom.classroom_name.upcase %></h6>
+                        <br>
 
-              </div><br>
-            </div>
-            <div class='col-lg-12'>
-              <p><%= classroom.description %></p>
-              <p><strong><%= classroom.kids.count %></strong> children</p>
-              <p class="text-muted">FEE: RM <%= classroom.base_fee %></p>
-            </div>
-            <%= link_to classroom_path(classroom), class: "btn btn-sm btn-primary active" do %>
-              <i class="fa fa-book-open"></i>&nbsp&nbsp GO TO CLASSROOM
+                      </div><br>
+                    </div>
+                    <div class='col-lg-12'>
+                      <p><%= classroom.description %></p>
+                      <p><strong><%= classroom.kids.count %></strong> children</p>
+                      <p class="text-muted">FEE: RM <%= classroom.base_fee %></p>
+                    </div>
+                    <%= link_to classroom_path(classroom), class: "btn btn-sm btn-primary active" do %>
+                      <i class="fa fa-book-open"></i>&nbsp&nbsp VIEW
+                    <% end %>
+                  </div>
+                </div>
+              </div>
             <% end %>
           </div>
         </div>
+        <div class="pull-left">
+          <%= link_to childlist_xls_path(@taska, format: :xlsx), class: "btn btn-sm btn-info active" do %>
+            <i class="fa fa-file-excel"></i> DOWNLOAD EXCEL
+          <% end %>
+        </div>
+      <% else %>
+
+      No classrooms created. Please create one. 
+
+      <% end %>
+    </div>
+
+
+    <div class="bg-white col-sm-3">
+      
+      <div>
+        <p align="center">
+          <%= link_to new_extra_path(taska_id: @taska.id), class:"btn btn-sm btn-warning" do %>
+          <i class="fa fa-plus"></i> NEW EXTRA
+        <% end %></p>
       </div>
-    <% end %>
+      <% @taska_extras.each do |extra|%>
+        <div class="notice notice-info">
+          <strong><%= extra.name.upcase %></strong><br>RM <%= extra.price %><br><br>
+          <a href="/extras/<%= "#{extra.id}" %>/edit">
+            <span class="text-success">
+               <i class="fa fa-edit"></i> EDIT
+            </span>
+          </a>
+          <a data-confirm="Are you sure" data-method="delete" href="/extras/<%= "#{extra.id}" %>">
+            <span class="pull-right text-danger">
+              DELETE <i class="fa fa-trash"></i>
+            </span>
+          </a>
+        </div>
+      <% end %>
     </div>
   </div>
-  <div class="pull-left">
-    <%= link_to childlist_xls_path(@taska, format: :xlsx), class: "btn btn-sm btn-info active" do %>
-      <i class="fa fa-file-excel"></i> DOWNLOAD EXCEL
-    <% end %>
-  </div>
-<% else %>
+</div
 
-No classrooms created. Please create one. 
-
-<% end %>
 

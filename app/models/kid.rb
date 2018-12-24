@@ -12,6 +12,8 @@ class Kid < ApplicationRecord
 	has_many :beradik, through: :siblings
 	has_many :kid_bills
 	has_many :payments, through: :kid_bills
+	has_many :kid_extras
+	has_many :extras, through: :kid_extras
 
 	#validates_uniqueness_of :name, :case_sensitive => false
 

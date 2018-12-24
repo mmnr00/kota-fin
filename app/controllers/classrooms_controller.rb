@@ -40,7 +40,7 @@ class ClassroomsController < ApplicationController
         flash[:notice] = "Classroom was successfully edited"
         redirect_to classroom_index_path(@taska)
       else
-        render :new      
+        render :edit      
       end
 	end
 

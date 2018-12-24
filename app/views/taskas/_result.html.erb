@@ -1,21 +1,21 @@
 <%= render partial: "shared/flash_messages", flash: flash %>
   <% if @kid_search.present? %> <!-- From /views/teachers/_result -->
     <% @kid_search.each do |kid| %>
-      <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="col-xs-12 col-sm-12 col-md-12">
         <div class="frontside">
           <div class="card">
             <div class="card-body text-center">
               <p>
                 <% image = kid.fotos.where(foto_name: "CHILDREN PICTURE").first %>
                 <% if image.present? && image.picture.present? %>
-                  <%= image_tag(image.picture.url, size: "100x100") %>
+                  <%= image_tag(image.picture.url, size: "50x50") %>
                 <% end %>
               </p>
-              <h4 class="card-title"><%= kid.name.upcase %></h4>
+              <h6 class="card-title"><%= kid.name.upcase %></h6>
               <p class="card-text">
                 <%= "#{kid.ic_1}-#{kid.ic_2}-#{kid.ic_3}" %>
               </p>
-              <% if @kid.siblings.where(beradik_id: kid.id).present? %>
+              <% if @kid.siblings.where(beradik_id: kid.id).present? || @kid.siblings.where(kid_id: kid.id).present? %>
                 <%= link_to "#",class:"btn btn-sm btn-success active" do %>
                   <i class="fa fa-check-circle"></i> ADDED
                 <% end %>
