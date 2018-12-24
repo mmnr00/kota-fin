@@ -52,6 +52,7 @@ Rails.application.routes.draw do
   get '/ptns_sp_list', to: 'pages#ptns_sp_list'
   get '/ptns_sp/:id/update', to: 'pages#ptns_sp_update'
   get '/ptns_sp/:id/patch', to: 'pages#ptns_sp_patch'
+  get '/sms', to: 'pages#sms'
 
 
   #PDF

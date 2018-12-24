@@ -75,6 +75,9 @@ class PagesController < ApplicationController
 		@ptnssp_list = Ptnssp.all.order('updated_at DESC')
 	end
 
+	def sms
+	end
+
 	
 
 	# end PTNS SP
