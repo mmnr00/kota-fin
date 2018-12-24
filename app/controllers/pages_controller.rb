@@ -76,6 +76,16 @@ class PagesController < ApplicationController
 	end
 
 	def sms
+
+		@client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
+
+		@client.messages.create(
+			to: "+60174151556",
+			from: ENV["TWILIO_PHONE_NO"],
+			body: "Mus try from Rails. Please click here #{root_url}"
+
+		)
+
 	end
 
 	

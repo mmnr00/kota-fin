@@ -108,6 +108,21 @@ class TaskasController < ApplicationController
     render action: "show", layout: "dsb-admin-overview" 
   end
 
+  def sms_reminder
+    @payment = Payment.find(params[:bill])
+    @kid = Kid.find(params[:kid])
+    @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
+      @client.messages.create(
+        to: "+6#{@kid.ph_1}#{@kid.ph_2}",
+        from: ENV["TWILIO_PHONE_NO"],
+        body: "Please click here #{bill_view_url(payment: @payment.id, kid: @kid.id, taska: @kid.taska.id)}. Reminder from #{@kid.taska.name.upcase}. "
+      )
+    @payment.reminder = true
+    @payment.save
+    flash[:success] = "SMS reminder send"
+    redirect_to unpaid_index_path(@kid.taska)
+  end
+
   def unpaid_index
     @taska = Taska.find(params[:id])
     @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).order('bill_year ASC').order('bill_month ASC')

@@ -27,7 +27,7 @@
                       <i class="fa fa-download"></i> RECEIPT
                     <% end %>
                   <% else %>
-                    <%= link_to bill_view_path(payment: bill.id, kid: @kid.id, taska: @kid.taska.id), class: "btn btn-sm btn-danger active" do %>
+                    <%= link_to bill_pdf_path(payment: bill.id, kid: @kid.id, taska: @kid.taska.id, format: :pdf), class: "btn btn-sm btn-danger active", target:"_blank" do %>
                       <i class="fa fa-exclamation"></i> UNPAID
                     <% end %>
                   <% end %>

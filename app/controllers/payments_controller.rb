@@ -187,13 +187,20 @@ class PaymentsController < ApplicationController
       @payment.bill_id = data["id"]
       @payment.name = "KID BILL"
       @payment.save
+      # start send sms to parents
+      @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
+      @client.messages.create(
+        to: "+6#{@kid.ph_1}#{@kid.ph_2}",
+        from: ENV["TWILIO_PHONE_NO"],
+        body: "Mus try from Rails. Please click here #{bill_view_url(payment: @payment.id, kid: @kid.id, taska: @kid.taska.id)}"
+      )
       KidBill.create(kid_id: @kid.id, payment_id: @payment.id)
       if @kid.beradik.count > 0
         @kid.beradik.each do |beradik|
           KidBill.create(kid_id: beradik.id, payment_id: @payment.id)
         end
       end
-      flash[:success] = "Bills created successfully"
+      flash[:success] = "Bills created successfully and SMS send to #{@kid.ph_1}#{@kid.ph_2}"
     else
       flash[:danger] = "Bills creation failed. Please try again"
     end
