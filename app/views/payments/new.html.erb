@@ -4,7 +4,7 @@
       <h4>NEW BILL CREATION FOR </h4>
       <div class="row">
         <% total_bill = 0 %>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
           <div class="frontside">
             <div class="card">
               <div class='col-lg-12'>
@@ -26,38 +26,43 @@
                   FEE(RM): <%= @kid.classroom.base_fee %>
                   <% total_bill = total_bill + @kid.classroom.base_fee %>
                 </p>
+
                 <hr>
+                  <strong>EXTRAS</strong>
+                  <hr>
                   <% @kid.extras.each do |extra|%>
+                  <% total_bill = total_bill + extra.price %>
                   <div class="notice notice-info">
-                    <strong><%= extra.name.upcase %></strong><br>RM <%= extra.price %><br><br>
-                    <a href="/extras/<%= "#{extra.id}" %>/edit">
-                      <span class="text-success">
-                         <i class="fa fa-edit"></i> EDIT
-                      </span>
+                    <a href="<%= remove_kid_extras_url(child: @kid.id,
+                                                      kid_id: @kid.id,
+                                                      extra_id: extra.id,
+                                                      classroom: params[:classroom],
+                                                      month: params[:month],
+                                                      year: params[:year],
+                                                      id: params[:id])%>">
+
+                      <div class="pull-right text-danger">
+                        <i class="fa fa-times"></i>
+                      </div>
                     </a>
-                    <a data-confirm="Are you sure" data-method="delete" href="/extras/<%= "#{extra.id}" %>">
-                      <span class="pull-right text-danger">
-                        DELETE <i class="fa fa-trash"></i>
-                      </span>
-                    </a>
+                    <strong><%= extra.name.upcase %></strong><br>RM <%= extra.price %><br>
                   </div>
                 <% end %>
                 <hr>
-                <div class="row">
-                  <%= form_for(@kid, :url => {:controller=>'extras', :action=>'add_kid_extras'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
-                        <%= f.select :extra_ids, 
-                          options_from_collection_for_select(@kid.taska.extras.order('name ASC'), :id, :name),{include_blank: "SELECT EXTRA"} %><br><br>                        
-                        <%= f.hidden_field :kid_id, value: @kid.id %>
-                        <%= f.hidden_field :child, value: params[:child] %>
-                        <%= f.hidden_field :classroom, value: params[:classroom] %>
-                        <%= f.hidden_field :month, value: params[:month] %>
-                        <%= f.hidden_field :year, value: params[:year] %>
-                        <%= f.hidden_field :id, value: params[:id] %>
-                        <div style="width: 50%; margin: 0 auto;">
-                          <%= f.submit :"ADD",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
-                        </div>
-                      <% end %>
-                </div>
+                <p><%= form_for(@kid, :url => {:controller=>'extras', :action=>'add_kid_extras'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+                  <p align="center"><%= f.select :extra_ids, 
+                    options_from_collection_for_select(@kid.taska.extras.order('name ASC'), :id, :name),{include_blank: "SELECT EXTRA"} %>                        
+                  <%= f.hidden_field :kid_id, value: @kid.id %>
+                  <%= f.hidden_field :child, value: params[:child] %>
+                  <%= f.hidden_field :classroom, value: params[:classroom] %>
+                  <%= f.hidden_field :month, value: params[:month] %>
+                  <%= f.hidden_field :year, value: params[:year] %>
+                  <%= f.hidden_field :id, value: params[:id] %>
+                  <div style="width: 50%; margin: 0 auto;">
+                    <%= f.submit :"ADD",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
+                  </div>
+                <% end %></p>
+
               </div>
             </div>
           </div>
@@ -65,7 +70,7 @@
 
         <% if @kid.beradik.present? %>
           <% @kid.beradik.each do |beradik| %>
-            <div class="col-sm-3">
+            <div class="col-sm-4">
               <div class="frontside">
                 <div class="card">
                   <div class='col-lg-12'>
@@ -96,19 +101,43 @@
                       FEE(RM): <%= beradik.classroom.base_fee %>
                       <% total_bill = total_bill + beradik.classroom.base_fee %>
                     </p>
+
                     <hr>
-                      No class enrols
-                    <hr>
-                    <div class="row">
-                      <%= form_for(@kid, :url => {:controller=>'kids', :action=>'add_classroom'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
-                        <%= f.select :classroom_id, 
-                          options_from_collection_for_select(beradik.taska.extras.order('name ASC'), :id, :name),{include_blank: "SELECT EXTRA"} %><br><br>                        
-                        <%= f.hidden_field :kid_id, value: @kid.id %>
-                        <div style="width: 50%; margin: 0 auto;">
-                          <%= f.submit :"ADD",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
-                        </div>
-                      <% end %>
-                    </div>
+                  <strong>EXTRAS</strong>
+                  <hr>
+                  <% beradik.extras.each do |extra|%>
+                  <% total_bill = total_bill + extra.price %>
+                  <div class="notice notice-info">
+                    <a href="<%= remove_kid_extras_url(child: @kid.id,
+                                                      kid_id: beradik.id,
+                                                      extra_id: extra.id,
+                                                      classroom: params[:classroom],
+                                                      month: params[:month],
+                                                      year: params[:year],
+                                                      id: params[:id])%>">
+
+                      <div class="pull-right text-danger">
+                        <i class="fa fa-times"></i>
+                      </div>
+                    </a>
+                    <strong><%= extra.name.upcase %></strong><br>RM <%= extra.price %><br>
+                  </div>
+                <% end %>
+                <hr>
+                <p><%= form_for(@kid, :url => {:controller=>'extras', :action=>'add_kid_extras'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+                  <p align="center"><%= f.select :extra_ids, 
+                    options_from_collection_for_select(@kid.taska.extras.order('name ASC'), :id, :name),{include_blank: "SELECT EXTRA"} %>                        
+                  <%= f.hidden_field :kid_id, value: beradik.id %>
+                  <%= f.hidden_field :child, value: params[:child] %>
+                  <%= f.hidden_field :classroom, value: params[:classroom] %>
+                  <%= f.hidden_field :month, value: params[:month] %>
+                  <%= f.hidden_field :year, value: params[:year] %>
+                  <%= f.hidden_field :id, value: params[:id] %>
+                  <div style="width: 50%; margin: 0 auto;">
+                    <%= f.submit :"ADD",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
+                  </div>
+                <% end %></p>
+
                   </div>
                 </div>
               </div>
@@ -117,25 +146,20 @@
         <% end %>
 
       </div>
-
+      <% total_bill = total_bill - params[:discount].to_f %>
+      <div class="bg-success col-sm-12"><h1 align="center" style="color:white">
+        RM <%= total_bill %></h1></div>
       <div class='col-sm-12'>
         <%= form_for(@payment, :html => {class: "form-horizontal", role: "form"}) do |f| %>
+          <%= f.hidden_field :amount, rows: 10, class: "form-control", :step => 0.01,placeholder: "e.g 32.10", value: total_bill %>
+            
 
           <div class="form-group"> 
-            <div class="control-label col-sm-4">
-              <strong>AMOUNT (RM)</strong>
+            <div class="control-label col-sm-8">
+              <strong>ADDITIONAL DESCRIPTION (OPTIONAL)</strong>
             </div>
-            <div class="col-sm-2">
-              <%= f.number_field :amount, rows: 10, class: "form-control", :step => 0.01,placeholder: "e.g 32.10", value: total_bill %>
-            </div>
-          </div>
-
-          <div class="form-group"> 
-            <div class="control-label col-sm-4">
-              <strong>BILL DESCRIPTION</strong>
-            </div>
-            <div class="col-sm-8">
-              <%= f.text_area :description, class: "form-control", placeholder: "Max 200 characters", autofocus: true, value: "Bill for month #{$month_name[Date.today.month]} of #{Date.today.year} from #{@taska.name}" %>
+            <div class="col-sm-12">
+              <%= f.text_area :description, class: "form-control", placeholder: "Max 200 characters", autofocus: true %>
             </div>
           </div>
         
@@ -157,6 +181,7 @@
           <div>
             <%= f.hidden_field :kid_id, value: @kid.id %>
             <%= f.hidden_field :taska_id, value: @taska.id %>
+            <%= f.hidden_field :discount, value: params[:discount] %>
           </div>
 
           <div class="form-group">
@@ -169,7 +194,34 @@
     </div>
 
     <div align="center" class="col-sm-4">
-      <br><br><%= render 'taskas/lookup' %>
+      <%= render 'taskas/lookup' %>
+      <div id="kid-lookup"> <!-- From Finance Tracker views/users/myportfolio.html  -->
+        <%= form_tag new_bill_path, method: :get, id: "find_kid" do %>
+          <div class="form-group text-center col-md-12 bg-light">
+            <br><strong>BILL DISCOUNT<br><br></strong>
+            <div class="row">
+            <div class="col-md-12">
+              <%= number_field_tag :discount, params[:discount], 
+                      placeholder: "PLEASE APPLY DISCOUNT IF ANY", 
+                      autofocus: true,  
+                      step: 0.01,
+                      class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+            </div>                
+            <div class="col-md-12">
+              <%= button_tag(type: :submit, class: "btn btn-sm btn-success active", id: "submit_expense") do %>
+                  <i class="fa fa-check"></i> APPLY
+              <% end %>
+            </div>
+          </div>
+          </div>
+          <%= hidden_field_tag :id, params[:id], value: @taska.id %>
+          <%= hidden_field_tag :child, params[:child], value: @kid.id %>
+          <%= hidden_field_tag :classroom, params[:classroom], value: @kid.classroom.id %>
+          <%= hidden_field_tag :month, params[:month], value: params[:month] %>
+          <%= hidden_field_tag :year, params[:year], value: params[:year] %>
+        <%end%>
+        
+      </div>
     </div>
 
   </div>

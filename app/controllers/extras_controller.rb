@@ -65,6 +65,16 @@ class ExtrasController < ApplicationController
 															id: params[:kid][:id] )
 	end
 
+	def remove_kid_extras
+		@kid_extra = KidExtra.where(kid_id: params[:kid_id], extra_id: params[:extra_id]).first
+		@kid_extra.destroy
+		redirect_to new_bill_path(child: params[:child], 
+															classroom: params[:classroom],
+															month: params[:month],
+															year: params[:year],
+															id: params[:id] )
+	end
+
 	private
 	def extra_params
       params.require(:extra).permit(:name,

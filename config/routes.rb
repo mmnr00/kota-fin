@@ -57,6 +57,7 @@ Rails.application.routes.draw do
 
   #EXTRAS
   get 'add_kid_extras', to: 'extras#add_kid_extras'
+  get 'remove_kid_extras', to: 'extras#remove_kid_extras'
 
 
   #PDF

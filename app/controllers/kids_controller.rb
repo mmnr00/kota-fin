@@ -2,7 +2,7 @@ class KidsController < ApplicationController
 	before_action :set_kid, only: [:show, :kid_pdf]
 	#before_action :set_kid_bill, only: [:bill_view]
 	before_action :set_all
-	before_action :authenticate_parent!, only: [:new, :bill_view]
+	before_action :authenticate_parent!, only: [:new]
 	#before_action	:authenticate!, only: [:bill_view]
 	#before_action :rep_responsible, only: [:bill_view]
 	#before_action :authenticate_parent! || :authenticate_admin!
@@ -57,12 +57,12 @@ class KidsController < ApplicationController
 		@pdf = false
 		@payment = Payment.find(params[:payment]) 
 		@kid = Kid.find(params[:kid])
-		if !current_admin.present?
-			if current_parent != @kid.parent
-				flash[:danger] = "You are not authorized to view this bill"
-				redirect_to parent_index_path
-			end
-		end
+		# if !current_admin.present?
+		# 	if current_parent != @kid.parent
+		# 		flash[:danger] = "You are not authorized to view this bill"
+		# 		redirect_to parent_index_path
+		# 	end
+		# end
 		@taska = Taska.find(params[:taska])
 		if params[:classroom].present?
 			@classroom = Classroom.find(params[:classroom])
@@ -70,6 +70,9 @@ class KidsController < ApplicationController
 			@classroom = nil
 		end
 		@fotos = @taska.fotos
+		if @payment.paid 
+			redirect_to bill_pdf_path(payment: @payment.id, kid: @kid.id, taska: @taska.id, format: :pdf)
+		end
 	end
 
 	def bill_pdf

@@ -22,8 +22,8 @@ class PaymentsController < ApplicationController
         flash[:danger] = "Bill was not paid due to bank rejection. Please try again"
       end
       if (@bill.kids.present?)
-        @parent = @bill.parent
-        redirect_to my_kid_path(id: @parent.id)
+        #@parent = @bill.parent
+        redirect_to bill_pdf_path(payment: @bill.id , kid: @bill.kids.first.id, taska: @bill.taska.id, format: :pdf )
       elsif (@bill.teacher.present?)
         redirect_to course_payment_pdf_path(payment: @bill.id, format: :pdf)
       elsif (@bill.taska.present?)
@@ -155,8 +155,11 @@ class PaymentsController < ApplicationController
   end
 
   def create
-    params.require(:payment).permit(:amount, :description, :month, :year, :kid_id, :taska_id)
+    params.require(:payment).permit(:amount, :description, :month, :year, :kid_id, :taska_id, :discount)
     amount = params[:payment][:amount].to_f*100
+    if (desc = params[:payment][:description]) == ""
+      desc = "NA"
+    end
     @payment = Payment.new
     @taska = Taska.find(params[:payment][:taska_id])
     @kid = Kid.find(params[:payment][:kid_id])
@@ -168,7 +171,7 @@ class PaymentsController < ApplicationController
                         :amount=>  amount,
                         :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
                         :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
-                        :description=>"#{params[:payment][:description]}"}.to_json, 
+                        :description=>"#{desc}"}.to_json, 
                         #:callback_url=>  "YOUR RETURN URL"}.to_json,
             :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
@@ -176,10 +179,10 @@ class PaymentsController < ApplicationController
     data = JSON.parse(data_billplz.to_s)
     if data["id"].present?
       @payment.amount = params[:payment][:amount].to_f
-      @payment.description = params[:payment][:description]
+      @payment.description = desc
       @payment.bill_month = params[:payment][:month]
       @payment.bill_year = params[:payment][:year]
-      
+      @payment.discount = params[:payment][:discount]
       @payment.parent_id = @kid.parent.id
       @payment.taska_id = @kid.classroom.taska.id
       @payment.state = data["state"]
@@ -187,12 +190,13 @@ class PaymentsController < ApplicationController
       @payment.bill_id = data["id"]
       @payment.name = "KID BILL"
       @payment.save
+      @taska = @payment.taska
       # start send sms to parents
       @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
       @client.messages.create(
         to: "+6#{@kid.ph_1}#{@kid.ph_2}",
         from: ENV["TWILIO_PHONE_NO"],
-        body: "Mus try from Rails. Please click here #{bill_view_url(payment: @payment.id, kid: @kid.id, taska: @kid.taska.id)}"
+        body: "New bill from #{@taska.name} . Please click at this link <#{bill_view_url(payment: @payment.id, kid: @kid.id, taska: @kid.taska.id)}> to make payment"
       )
       KidBill.create(kid_id: @kid.id, payment_id: @payment.id)
       if @kid.beradik.count > 0

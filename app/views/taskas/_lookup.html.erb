@@ -1,7 +1,7 @@
 <div id="kid-lookup"> <!-- From Finance Tracker views/users/myportfolio.html  -->
   <%= form_tag find_child_path, remote: true, method: :get, id: "find_kid" do %>
-    <div class="form-group text-center col-md-8 bg-light">
-      <strong>ADD SIBLINGS<br><br></strong>
+    <div class="form-group text-center col-md-12 bg-light">
+      <br><strong>ADD SIBLINGS<br><br></strong>
       <div class="row">
       <div class="col-md-12">
         <%= text_field_tag :name, params[:name], 

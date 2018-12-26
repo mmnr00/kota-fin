@@ -6,7 +6,7 @@
     <h1 align="center"><%= link_to "PAID", "#", class: "btn btn-lg btn-success active" %></h1>
   <% else %>
       <h1 align="center"><%= link_to "PENDING PAYMENT", "#", class: "btn btn-sm btn-danger active" %></h1>
-      <% if current_parent && !@pdf %>
+      <% if !current_admin && !@pdf %>
         <h1 align="right">
           <%= link_to "#{ENV['BILLPLZ_URL']}/bills/#{@payment.bill_id}", class: "btn btn-lg btn-info active" do %>
             <i></i> PAY
@@ -101,26 +101,39 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th class="text-left">DESCRIPTION</th>
+                  <th class="text-left">BILL DETAILS</th>
                   <th></th>
                   <th style="width:140px" class="text-right">AMOUNT (RM)</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><%= @payment.description %></td>
-                  <td></td>
-                  <td class="text-right"><%= @payment.amount %></td>
-                </tr>
+                <% @payment.kids.each do |kid| %>
+                  <tr>
+                    <td>
+                      <strong><%= kid.name %></strong><br>
+                      FEE FOR CLASROOM <%= kid.classroom.classroom_name.upcase %>
+                      <% kid.extras.each do |extra|%>
+                        <br><%= extra.name.upcase %>
+                      <% end %>
+                    </td>
+                    <td></td>
+                    <td class="text-right">
+                      <br><%= kid.classroom.base_fee %>
+                      <% kid.extras.each do |extra|%>
+                        <br><%= extra.price %>
+                      <% end %>
+                    </td>
+                  </tr>
+                <% end %>
                 <tr>
                   <td colspan="0" rowspan="4">
-                    <h4 class="semi-bold">terms and conditions</h4>
-                    <p>Please make the payment based on the schedule provided by the owner</p>
+                    <h4 class="semi-bold">ADDITIONAL DESCRIPTION</h4>
+                    <%= @payment.description %>
                     </td>
                 </tr>
                 <tr>
-                  <td class="text-right no-border"><strong>TAX</strong></td>
-                  <td class="text-right">0.00</td>
+                  <td class="text-right no-border"><strong>DISCOUNT</strong></td>
+                  <td class="text-right">(<%= @payment.discount.to_f %>)</td>
                 </tr>
                 <tr>
                   <td class="text-right no-border">
