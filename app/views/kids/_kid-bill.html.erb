@@ -68,8 +68,6 @@
             </div>
             <div class="clearfix"></div>
             <br>
-            <br>
-            <br>
             <div class="row">
               <div class="col-md-9">
                 <h4 class="semi-bold">
@@ -101,25 +99,27 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th class="text-left">BILL DETAILS</th>
+                  <th class="text-left">BILL DETAILS FOR <%= "#{$month_name[@payment.bill_month].upcase}" %> <%= @payment.bill_year %> </th>
                   <th></th>
                   <th style="width:140px" class="text-right">AMOUNT (RM)</th>
                 </tr>
               </thead>
               <tbody>
-                <% @payment.kids.each do |kid| %>
+                <% @payment.kid_bills.each do |kb| %>
                   <tr>
                     <td>
-                      <strong><%= kid.name %></strong><br>
-                      FEE FOR CLASROOM <%= kid.classroom.classroom_name.upcase %>
-                      <% kid.extras.each do |extra|%>
+                      <strong><%= kb.kid.name %></strong><br>
+                      FEE FOR CLASSROOM <%= kb.kid.classroom.classroom_name.upcase %>
+                      <% kb.extra.each do |id|%>
+                        <% extra = Extra.find(id) %>
                         <br><%= extra.name.upcase %>
                       <% end %>
                     </td>
                     <td></td>
                     <td class="text-right">
-                      <br><%= kid.classroom.base_fee %>
-                      <% kid.extras.each do |extra|%>
+                      <br><%= kb.kid.classroom.base_fee %>
+                      <% kb.extra.each do |id|%>
+                        <% extra = Extra.find(id) %>
                         <br><%= extra.price %>
                       <% end %>
                     </td>

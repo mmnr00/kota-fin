@@ -198,10 +198,19 @@ class PaymentsController < ApplicationController
         from: ENV["TWILIO_PHONE_NO"],
         body: "New bill from #{@taska.name} . Please click at this link <#{bill_view_url(payment: @payment.id, kid: @kid.id, taska: @kid.taska.id)}> to make payment"
       )
-      KidBill.create(kid_id: @kid.id, payment_id: @payment.id)
+      kb = KidBill.new(kid_id: @kid.id, payment_id: @payment.id, classroom_id: @kid.classroom.id)
+      @kid.extras.each do |extra|
+        kb.extra << extra.id
+      end
+      kb.save
+
       if @kid.beradik.count > 0
         @kid.beradik.each do |beradik|
-          KidBill.create(kid_id: beradik.id, payment_id: @payment.id)
+          kb = KidBill.new(kid_id: beradik.id, payment_id: @payment.id, classroom_id: beradik.classroom.id)
+          beradik.extras.each do |extra|
+            kb.extra << extra.id
+          end
+          kb.save
         end
       end
       flash[:success] = "Bills created successfully and SMS send to #{@kid.ph_1}#{@kid.ph_2}"
