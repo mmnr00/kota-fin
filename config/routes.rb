@@ -124,6 +124,7 @@ Rails.application.routes.draw do
   get '/find_child', to: 'taskas#find_child', as: 'find_child'
   get '/sms_reminder', to: 'taskas#sms_reminder'
   get '/taska/:id/unpaid_xls', to: 'taskas#unpaid_xls', as: 'unpaid_xls' 
+  get '/taska/:id/add_subdomain', to: 'taskas#add_subdomain' 
   #EXPENSES
   get '/taska/:id/expenses_search', to: 'expenses#search', as: 'search_expense'
   get '/taska/:id/expenses', to: 'expenses#my_expenses', as: 'my_expenses'

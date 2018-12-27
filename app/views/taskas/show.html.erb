@@ -47,7 +47,37 @@
   </div>
 </div>
 
-Children Registration Link = <%= link_to "#{taska_page_url}", taska_page_path, style: "color:blue" %>
+<% if @taska.subdomain.present? %>
+  <% if @taska.collection_id.present? %>
+    <strong>Taska Website Link</strong> = <%= link_to "http://#{@taska.subdomain}.kidcare.my", taska_page_path, style: "color:blue" %><br><br>
+  <% else %>
+    Website name is in progress. Please whatsapp our technical team at 011-62801556 for further enquiries
+  <% end %>
+<% else %>
+  <%= form_for(@taska, :url => {:controller=>'taskas', :action=>'add_subdomain'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+    <div class="col-md-8">
+      <strong>PLEASE ADD WEBSITE NAME</strong><br><br>
+      <div class="row">
+        <div class="col-md-4">
+          <%= f.text_field :subdomain, class: "form-control", autofocus: true, required: true, placeholder: "Enter Here" %>
+        </div>
+        <div class="col-md-2 form-control">
+          <strong>.kidcare.my</strong>
+        </div>
+        <div class="col-md-2">
+          <%= f.submit :"SET",  class: 'form-control btn btn-sm btn-warning btn-lg'%>
+        </div>
+      </div>
+    </div>
+  <% end %><br><br>
+<% end %>
+
+
+
+
+
+
+
 
 
 

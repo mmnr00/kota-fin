@@ -43,6 +43,20 @@ class TaskasController < ApplicationController
     end
   end
 
+  def add_subdomain
+    @taska = Taska.find(params[:id])
+    subdomain = params[:taska][:subdomain]
+    exist = Taska.where(subdomain: subdomain)
+    if exist.present?
+      flash[:danger] = "Website name not available. Please choose another name"
+    else
+      @taska.subdomain = subdomain
+      @taska.save
+      flash[:success] = "Website name successfully added"
+    end
+    redirect_to taska_path(@taska)
+  end
+
   def find_child
     #@classroom = Classroom.find(params[:id])
     @taska = Taska.find(params[:id])
