@@ -126,7 +126,23 @@ class TaskasController < ApplicationController
   def unpaid_index
     @taska = Taska.find(params[:id])
     @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).order('bill_year ASC').order('bill_month ASC')
+    @kid_all_bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
     render action: "unpaid_index", layout: "dsb-admin-overview" 
+  end
+
+  def unpaid_xls
+    @taska = Taska.find(params[:id])
+    if params[:unpaid] == "true"
+      @bills = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).order('bill_year ASC').order('bill_month ASC')
+    else
+      @bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
+    end
+    respond_to do |format|
+      #format.html
+      format.xlsx{
+                  response.headers['Content-Disposition'] = 'attachment; filename="Unpaid List.xlsx"'
+      }
+    end
   end
 
   def taskateachers

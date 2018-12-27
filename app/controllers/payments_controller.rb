@@ -244,7 +244,7 @@ class PaymentsController < ApplicationController
                       :amount=>  @taska.booking*100,
                       :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
                       :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
-                      :description=>"#{@taska.name.upcase}'S BOOKING FOR #{@kid.name.upcase}" }.to_json, 
+                      :description=>"PLEASE PAY BOOKING FEE TO COMPLETE REGISTRATION" }.to_json, 
                       #:callback_url=>  "YOUR RETURN URL"}.to_json,
             :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
@@ -262,8 +262,16 @@ class PaymentsController < ApplicationController
         @payment.paid = data["paid"]
         @payment.bill_id = data["id"]
         @payment.save
+        kb = KidBill.create(kid_id: @kid.id, payment_id: @payment.id)
+        # start send sms to parents
+        @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
+        @client.messages.create(
+          to: "+6#{@kid.ph_1}#{@kid.ph_2}",
+          from: ENV["TWILIO_PHONE_NO"],
+          body: "Bill for booking fee from #{@taska.name} . Please click at this link <#{bill_view_url(payment: @payment.id, kid: @kid.id, taska: @kid.taska.id)}> to complete registration"
+        )
         flash[:success] = "Sign Up for #{@kid.name.upcase} completed. Please pay the booking fee of RM #{@payment.amount} to complete."
-        redirect_to parent_index_path
+        redirect_to bill_view_path(payment: @payment.id, kid: @kid.id, taska: @kid.taska.id)
       else
         flash[:danger] = "Sign Up failed. Please try again"
         redirect_to parent_index_path

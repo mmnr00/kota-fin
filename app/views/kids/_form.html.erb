@@ -521,7 +521,7 @@
 
 
         <!-- BOOKING FEE -->
-        <% if @taska.booking > 0 %>
+        <% if @taska.present? && @taska.booking > 0 %>
           <% if @taska.collection_id.present? %>
           <% else %>
             <% m = 0 %> <!-- Stop loop at 1 -->

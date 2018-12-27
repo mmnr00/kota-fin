@@ -193,7 +193,7 @@ class KidsController < ApplicationController
 			if @kid.fotos.where(foto_name: "BOOKING RECEIPT").where(taska_id: @taska.id).last.present?			
 				flash[:notice] = "#{@kid.name} was successfully registered to #{@taska.name}"					
 				redirect_to my_kid_path(@parent)			
-			elsif !@kid.payments.where(name: "TASKA BOOKING").where(taska_id: @taska.id).last.present?
+			elsif !@kid.payments.where(name: "TASKA BOOKING").where(paid: false).where(taska_id: @taska.id).last.present?
 				#redirect_to parent_index_path;		 
 				redirect_to create_bill_booking_path(kid_id: @kid.id, taska_id: @kid.taska.id)
 			end			

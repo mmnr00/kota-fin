@@ -44,7 +44,8 @@ class ExtrasController < ApplicationController
 		extra_id = @extra.id
 		@admin = current_admin
 		@taska = Taska.find(@extra.taska_id)
-		if @extra.destroy
+		@extra.taska_id = nil
+		if @extra.save
 			KidExtra.where(extra_id: extra_id).delete_all
 			flash[:success] = "#{extra_name.upcase} was successfully deleted"
 		else
