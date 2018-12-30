@@ -1,0 +1,66 @@
+<div class='row'>
+	<div class='col-xs-12'>
+		<%= form_for(@expense, :url => {:controller=>'expenses', :action=>'create'}, :html => {class: "form-horizontal", role: "form"}) do |f| %>
+			
+			<div class="form-group"> <!-- name -->
+				<div class="control-label col-sm-2">
+					<strong>NAME</strong>
+				</div>
+				<div class="col-sm-12">
+					<%= f.text_field :name, class: "form-control", autofocus: true, required: true %>
+				</div>
+			</div>
+
+			<div class="form-group"> <!-- cost -->
+				<div class="control-label col-sm-2">
+					<strong>AMOUNT</strong>
+				</div>
+				<div class="col-sm-12">
+					<%= f.number_field :cost, rows: 10, class: "form-control", :step => 0.01, required: true %>
+				</div>
+			</div>
+
+      <div class="form-group"> <!-- type -->
+        <div class="control-label col-sm-2">
+          <strong>TYPE</strong>
+        </div>
+        <div class="col-sm-12">
+          <%= f.select :kind, options_for_select(["INCOME","EXPENSE"]), class: "form-control", :step => 0.01, required: true %>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="row">
+    			<div class="form-group"> <!-- period -->
+    				<div class="control-label col-sm-2">
+    					<strong>MONTH</strong>
+    				</div>
+    				<div class="col-sm-8">
+              <%= f.text_field :month, class: "form-control", value: params[:expense][:month], autofocus: true, readonly: true %>
+    				</div>
+          </div>
+
+          <div class="form-group">
+    				<div class="control-label col-sm-2">
+    					<strong>YEAR</strong>
+    				</div>
+    				<div class="col-sm-8">
+    					<%= f.text_field :year, class: "form-control", value: params[:expense][:year], autofocus: true, readonly: true %>
+    				</div>
+          </div>
+        </div>
+    </div>
+
+				
+
+			<%= f.hidden_field :taska_id, value: @taska.id %>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<%= f.submit "CREATE", class: 'btn btn-primary btn-m' %>
+				</div>
+			</div>
+		<% end %>
+		
+	</div>
+</div>

@@ -1,8 +1,6 @@
 
 <div class="card mb-3">
     <div class="card-header">
-      <i class="fas fa-search"></i>
-      DISPLAYING ALL UNPAID BILLS
     </div>
     <div class="bg-light"><br>
       <!-- Team -->
@@ -44,7 +42,7 @@
                   <%= link_to "RM #{bill.amount}", "#", class: "btn btn-lg btn-info active" %>
                   <% if !bill.paid %>
                     <% if !bill.reminder %>
-                      <%= link_to sms_reminder_path(kid: @kid.id, bill: bill.id), class: "btn btn-sm active", style: "color:blue" do %>
+                      <%= link_to sms_reminder_path(kid: @kid.id, bill: bill.id, account: true), class: "btn btn-sm active", style: "color:blue" do %>
                         <i class="fa fa-mobile"></i> SEND SMS REMINDER TO <%= "#{@kid.ph_1}-#{@kid.ph_2}"%>
                       <% end %>
                     <% else %>
@@ -65,15 +63,16 @@
         </div>
       </div>
       <div class="pull-left">
-        <%= link_to unpaid_xls_path(@taska,unpaid: true, format: :xlsx), class: "btn btn-sm btn-warning active" do %>
-          <i class="fa fa-file-excel"></i> ALL UNPAID BILLS
-        <% end %>
-        <%= link_to unpaid_xls_path(@taska,unpaid: false, format: :xlsx), class: "btn btn-sm btn-success active" do %>
-          <i class="fa fa-file-excel"></i> ALL BILLS
-        <% end %>
-        
-      </div>
-
+          <%= link_to unpaid_xls_path(@taska,unpaid: true, format: :xlsx), class: "btn btn-sm btn-warning active" do %>
+            <i class="fa fa-file-excel"></i> ALL UNPAID BILLS
+          <% end %>
+          <%= link_to unpaid_xls_path(@taska,unpaid: false, format: :xlsx), class: "btn btn-sm btn-success active" do %>
+            <i class="fa fa-file-excel"></i> ALL BILLS
+          <% end %>
+          <%= link_to :back, class: "btn btn-m btn-primary active" do %>
+            <i class="fa fa-arrow-circle-left"></i> BACK
+          <% end %>
+        </div>
     </div>
   </div>
         

@@ -125,9 +125,10 @@ Rails.application.routes.draw do
   get '/sms_reminder', to: 'taskas#sms_reminder'
   get '/taska/:id/unpaid_xls', to: 'taskas#unpaid_xls', as: 'unpaid_xls' 
   get '/taska/:id/add_subdomain', to: 'taskas#add_subdomain' 
+  get '/taska/:id/bill_account', to: 'taskas#bill_account', as: 'bill_account'
   #EXPENSES
   get '/taska/:id/expenses_search', to: 'expenses#search', as: 'search_expense'
-  get '/taska/:id/expenses', to: 'expenses#my_expenses', as: 'my_expenses'
+  get '/taska/:id/my_expenses', to: 'expenses#my_expenses', as: 'my_expenses'
   get '/taska/:id/expenses/new', to: 'expenses#new', as: 'new_expense'
   get '/taska/:id/expenses/month_expense', to: 'expenses#month_expense', as: 'month_expense'
   #KIDS

@@ -117,6 +117,7 @@ class TaskasController < ApplicationController
     @admin_taska = current_admin.taskas
     @unregistered_no = @taska.kids.where(classroom_id: nil).count
     @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false)
+    @taska_expense = @taska.expenses.where(month: $my_time.month).where(year: $my_time.year).order('CREATED_AT DESC')
     session[:taska_id] = @taska.id
     session[:taska_name] = @taska.name  
     render action: "show", layout: "dsb-admin-overview" 
@@ -134,7 +135,21 @@ class TaskasController < ApplicationController
     @payment.reminder = true
     @payment.save
     flash[:success] = "SMS reminder send"
-    redirect_to unpaid_index_path(@kid.taska)
+    if params[:account].present?
+      redirect_to bill_account_path(@kid.taska, 
+                                    month: @payment.bill_month,
+                                    year: @payment.bill_year,
+                                    paid: false)
+    else
+      redirect_to unpaid_index_path(@kid.taska)
+    end
+  end
+
+  def bill_account
+    @taska = Taska.find(params[:id])
+    @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).where(bill_month: params[:month]).where(bill_year: params[:year])
+    @kid_all_bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
+    render action: "bill_account", layout: "dsb-admin-account" 
   end
 
   def unpaid_index
@@ -154,7 +169,7 @@ class TaskasController < ApplicationController
     respond_to do |format|
       #format.html
       format.xlsx{
-                  response.headers['Content-Disposition'] = 'attachment; filename="Unpaid List.xlsx"'
+                  response.headers['Content-Disposition'] = 'attachment; filename="download.xlsx"'
       }
     end
   end

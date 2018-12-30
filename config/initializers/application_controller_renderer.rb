@@ -6,6 +6,7 @@
 #     https: false
 #   )
 # end
+$my_time = Time.now.in_time_zone('Singapore')
 
 $month_name = { 1=>"Jan",
 								2=>"Feb",

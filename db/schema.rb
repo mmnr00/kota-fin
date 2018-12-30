@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_27_035022) do
+ActiveRecord::Schema.define(version: 2018_12_29_020229) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 2018_12_27_035022) do
     t.integer "taska_id"
     t.integer "month"
     t.integer "year"
+    t.string "kind"
   end
 
   create_table "extras", force: :cascade do |t|

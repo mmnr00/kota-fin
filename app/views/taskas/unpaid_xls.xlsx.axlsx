@@ -7,7 +7,7 @@ wb.styles do |style|
                                   sz: 13,
                                    alignment: { horizontal: :center })
   border_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER)       
-  wb.add_worksheet(name: "UNPAID LIST") do |sheet|
+  wb.add_worksheet(name: "#{@taska.name.upcase}") do |sheet|
     sheet.add_row ["","BILL LIST FOR #{@taska.name.upcase}"]
     sheet.add_row [""]
     sheet.add_row ["MONTH",
