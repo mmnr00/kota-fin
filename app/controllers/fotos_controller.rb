@@ -14,8 +14,13 @@ class FotosController < ApplicationController
       	@kid = @foto.kid
       	redirect_to edit_kid_path(@kid)
       elsif @admin
-      	@taska = @foto.taska
-      	redirect_to edit_taska_path(@taska)
+        if @foto.taska.present?
+        	@taska = @foto.taska
+        	redirect_to edit_taska_path(@taska)
+        elsif @foto.expense.present?
+          @expense = @foto.expense
+          redirect_to edit_expense_path(@expense)
+        end
       end
     else
       render :edit

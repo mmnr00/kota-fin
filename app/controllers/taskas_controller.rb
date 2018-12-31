@@ -161,10 +161,18 @@ class TaskasController < ApplicationController
 
   def unpaid_xls
     @taska = Taska.find(params[:id])
-    if params[:unpaid] == "true"
-      @bills = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).order('bill_year ASC').order('bill_month ASC')
+    if params[:month].present? && params[:year].present?
+      if params[:unpaid] == "true"
+        @bills = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:unpaid]).order('bill_year ASC').order('bill_month ASC')
+      else
+        @bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
+      end
     else
-      @bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
+      if params[:unpaid] == "true"
+        @bills = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).order('bill_year ASC').order('bill_month ASC')
+      else
+        @bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
+      end
     end
     respond_to do |format|
       #format.html

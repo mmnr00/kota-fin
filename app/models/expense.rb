@@ -1,5 +1,7 @@
 class Expense < ApplicationRecord
 	belongs_to :taska
+	has_many :fotos
+	accepts_nested_attributes_for :fotos
 
 	def self.search(param_1, param_2, param_3)
 		to_send_back = expenses_matches(param_1, param_2, param_3)

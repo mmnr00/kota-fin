@@ -11,7 +11,7 @@
     <%= f.label :picture, :class => 'control-label col-lg-2' %>
     <div class="col-lg-10">
       <%= image_tag(@foto.picture.url, size: "500x500") if @foto.picture? %>
-      <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png,application/pdf' %>
+      <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png,application/pdf', required: true %>
     </div>
   </div>
 

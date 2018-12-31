@@ -18,10 +18,10 @@
           <%= f.submit :"SELECT",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
       <% end %><br>
       
-      <%= link_to unpaid_xls_path(@taska,unpaid: true, format: :xlsx), class: "btn btn-sm btn-danger active" do %>
+      <%= link_to unpaid_xls_path(@taska, unpaid: true, month: month, year: year, format: :xlsx), class: "btn btn-sm btn-danger active" do %>
         <i class="fa fa-file-excel"></i> ALL UNPAID BILLS
       <% end %><br><br>
-      <%= link_to unpaid_xls_path(@taska,unpaid: true, format: :xlsx), class: "btn btn-sm btn-primary active" do %>
+      <%= link_to unpaid_xls_path(@taska, unpaid: false, month: month, year: year, format: :xlsx), class: "btn btn-sm btn-primary active" do %>
         <i class="fa fa-file-excel"></i> ALL BILLS
       <% end %><br><br>
       <div class="bg-white">
@@ -85,6 +85,7 @@
                   <th> INCOME </th>
                   <th>EXPENSE</th>
                   <th>ACTION</th>
+                  <th>DOCUMENTS</th>
                 </tr>
               </thead>
               <tbody>
@@ -101,9 +102,21 @@
                     <td>
                       <%= link_to edit_expense_path(exp), class: "btn btn-sm active", style: "color:green" do %>
                         <i class="fa fa-edit"></i> EDIT
-                      <% end %>
+                      <% end %><br>
                       <%= link_to expense_path(exp), method: :delete, :data => {:confirm => 'Are you sure?'}, class: "btn btn-sm active", style: "color:red" do %>
                         <i class="fa fa-trash"></i> DELETE
+                      <% end %>
+                    </td>
+                    <td>
+                      <% image = exp.fotos.where(foto_name: "EXPENSE DOC").first %>
+                      <% if image.present? %>
+                        <a href="<%="#{image.picture.url}"%>" target="_blank">
+                          <% if image.picture.content_type == 'application/pdf' %>
+                            <%= image_tag(Foto.where(foto_name: "PDF ICON").first.picture.url, size: "50x50") if image.picture? %>
+                          <% else %>
+                            <%= image_tag(image.picture.url, size: "50x50") if image.picture? %>
+                          <% end %>
+                        </a>
                       <% end %>
                     </td>
                   </tr>

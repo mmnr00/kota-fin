@@ -19,6 +19,7 @@ def my_expenses
 	@admin = current_admin
 	@data = Hash.new
 	@expense = Expense.new
+	@expense.fotos.build
 	@taska_chart = @taska.expenses.where(month: params[:expense][:month]).where(year: params[:expense][:year])
 	@taska_expense = @taska.expenses.where(month: params[:expense][:month]).where(year: params[:expense][:year]).order('CREATED_AT DESC')
 	render action: "my_expenses", layout: "dsb-admin-account" 
@@ -244,7 +245,13 @@ end
 			@expense = Expense.find(params[:id])
 	end
 	def expense_params
-			params.require(:expense).permit(:name, :cost, :month, :year, :taska_id, :kind)
+			params.require(:expense).permit(:name, 
+																			:cost, 
+																			:month, 
+																			:year, 
+																			:taska_id, 
+																			:kind,
+																			fotos_attributes: [:foto, :picture, :foto_name])
 	end
 	def redirect_ori
 		redirect_to my_expenses_path("utf8"=>"✓", month:@expense.month, year:@expense.year, id:@expense.taska_id, "button"=>""), :method => :get

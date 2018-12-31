@@ -6,7 +6,7 @@
 				<div class="control-label col-sm-2">
 					<strong>NAME</strong>
 				</div>
-				<div class="col-sm-12">
+				<div class="col-sm-6">
 					<%= f.text_field :name, class: "form-control", autofocus: true, required: true %>
 				</div>
 			</div>
@@ -15,7 +15,7 @@
 				<div class="control-label col-sm-2">
 					<strong>AMOUNT</strong>
 				</div>
-				<div class="col-sm-12">
+				<div class="col-sm-6">
 					<%= f.number_field :cost, rows: 10, class: "form-control", :step => 0.01, required: true %>
 				</div>
 			</div>
@@ -28,6 +28,20 @@
           <%= f.select :kind, options_for_select(["INCOME","EXPENSE"]), class: "form-control", :step => 0.01, required: true %>
         </div>
       </div>
+
+      <div class="form-group"> <!-- documents -->
+        <div class="control-label col-sm-2">
+          <strong>DOCUMENTS</strong>
+        </div>
+        <div class="col-sm-12">
+          <%= f.fields_for :fotos do |h| %>
+            <%= h.hidden_field :foto_name, value: "EXPENSE DOC" %>
+            <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png, application/pdf' %>
+          <% end %>
+        </div>
+      </div>
+
+      
 
       <div class="container">
         <div class="row">
