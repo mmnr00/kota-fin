@@ -18,10 +18,10 @@
           <%= f.submit :"SELECT",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
       <% end %><br>
       
-      <%= link_to unpaid_xls_path(@taska, unpaid: true, month: month, year: year, format: :xlsx), class: "btn btn-sm btn-danger active" do %>
+      <%= link_to unpaid_xls_path(@taska, paid: false, month: month, year: year, format: :xlsx), class: "btn btn-sm btn-danger active" do %>
         <i class="fa fa-file-excel"></i> ALL UNPAID BILLS
       <% end %><br><br>
-      <%= link_to unpaid_xls_path(@taska, unpaid: false, month: month, year: year, format: :xlsx), class: "btn btn-sm btn-primary active" do %>
+      <%= link_to unpaid_xls_path(@taska, paid: true, month: month, year: year, format: :xlsx), class: "btn btn-sm btn-primary active" do %>
         <i class="fa fa-file-excel"></i> ALL BILLS
       <% end %><br><br>
       <div class="bg-white">
@@ -68,7 +68,7 @@
       <div style="background-color:red"><h4 align="center"><font color="white">
         EXPENSE: RM <%= number_with_delimiter(@taska_expense.where(kind: "EXPENSE").sum(:cost), :delimiter => ',') %>
       </div></font></h4>
-      <%= link_to unpaid_xls_path(@taska,unpaid: true, format: :xlsx), class: "btn btn-sm btn-success active" do %>
+      <%= link_to pl_xls_path(@taska, paid: true, month: month, year: year, format: :xlsx), class: "btn btn-sm btn-success active" do %>
         <i class="fa fa-file-excel"></i> P&L STATEMENT
       <% end %><br><br>
       <div class="card mb-3">

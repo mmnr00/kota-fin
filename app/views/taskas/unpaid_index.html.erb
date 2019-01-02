@@ -65,10 +65,10 @@
         </div>
       </div>
       <div class="pull-left">
-        <%= link_to unpaid_xls_path(@taska,unpaid: true, format: :xlsx), class: "btn btn-sm btn-warning active" do %>
+        <%= link_to unpaid_xls_path(@taska, paid: false, format: :xlsx), class: "btn btn-sm btn-warning active" do %>
           <i class="fa fa-file-excel"></i> ALL UNPAID BILLS
         <% end %>
-        <%= link_to unpaid_xls_path(@taska,unpaid: false, format: :xlsx), class: "btn btn-sm btn-success active" do %>
+        <%= link_to unpaid_xls_path(@taska, paid: true, format: :xlsx), class: "btn btn-sm btn-success active" do %>
           <i class="fa fa-file-excel"></i> ALL BILLS
         <% end %>
         

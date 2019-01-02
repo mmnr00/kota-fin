@@ -162,14 +162,37 @@ class TaskasController < ApplicationController
   def unpaid_xls
     @taska = Taska.find(params[:id])
     if params[:month].present? && params[:year].present?
-      if params[:unpaid] == "true"
-        @bills = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:unpaid]).order('bill_year ASC').order('bill_month ASC')
+      if params[:paid] == "false"
+        @bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_month: params[:month]).where(bill_year: params[:year]).where(paid: params[:paid])
+      else
+        @bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_month: params[:month]).where(bill_year: params[:year]) 
+      end
+    else
+      if params[:paid] == "false"
+        @bills = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).order('bill_year ASC').order('bill_month ASC')
       else
         @bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
       end
+    end
+    respond_to do |format|
+      #format.html
+      format.xlsx{
+                  response.headers['Content-Disposition'] = 'attachment; filename="download.xlsx"'
+      }
+    end
+  end
+
+  def pl_xls
+    @taska = Taska.find(params[:id])
+    if params[:month].present? && params[:year].present?
+      if params[:paid] == "false"
+        @bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_month: params[:month]).where(bill_year: params[:year]).where(paid: params[:paid])
+      else
+        @bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_month: params[:month]).where(bill_year: params[:year]) 
+      end
     else
-      if params[:unpaid] == "true"
-        @bills = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).order('bill_year ASC').order('bill_month ASC')
+      if params[:paid] == "false"
+        @bills = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).order('bill_year ASC').order('bill_month ASC')
       else
         @bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
       end

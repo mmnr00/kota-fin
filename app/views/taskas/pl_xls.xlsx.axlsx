@@ -1,0 +1,62 @@
+wb = xlsx_package.workbook
+
+wb.styles do |style|
+  header_1 = style.add_style(sz: 20)
+  highlight_cell = style.add_style(bg_color: "EFC376",
+                                  border: Axlsx::STYLE_THIN_BORDER,
+                                  sz: 13,
+                                   alignment: { horizontal: :center })
+  border_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER)       
+  wb.add_worksheet(name: "#{@taska.name.upcase}") do |sheet|
+    sheet.add_row ["","ACCOUNTING REPORT FOR #{@taska.name.upcase}"]
+    sheet.add_row [""]
+    sheet.add_row ["MONTH",
+                  "YEAR",
+                  "INCOME",
+                  "EXPENSE"]
+    sheet.rows[0].style = header_1
+    sheet.rows[2].style = highlight_cell
+    counter = 1
+    row =2
+    income = 0
+    expense = 0
+    @taska.expenses.where(kind: "INCOME").each do |exp|
+      sheet.add_row [exp.month,
+                    exp.year,
+                    exp.cost,
+                    ""],
+                    style: [nil, border_cell] 
+                    
+      sheet.rows[row+counter].style = border_cell
+      counter = counter +1
+      income = income + exp.cost
+    end
+    @taska.expenses.where(kind: "EXPENSE").each do |exp|
+      sheet.add_row [exp.month,
+                    exp.year,
+                    "",
+                    exp.cost],
+                    style: [nil, border_cell] 
+                    
+      sheet.rows[row+counter].style = border_cell
+      counter = counter +1
+      expense = expense + exp.cost
+    end
+    sheet.add_row ["","TOTAL",income,expense]
+  end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
