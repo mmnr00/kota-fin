@@ -3,6 +3,9 @@
     <div class="card-header">
       <i class="fas fa-search"></i>
       DISPLAYING ALL UNPAID BILLS
+      <%= link_to sms_reminder_all_path(id: @taska), class: "btn btn-sm btn-primary active" do %>
+        <i class="fa fa-bell"></i> SEND REMINDER TO ALL
+      <% end %>
     </div>
     <div class="bg-light"><br>
       <!-- Team -->
@@ -44,7 +47,7 @@
                   <%= link_to "RM #{bill.amount}", "#", class: "btn btn-lg btn-info active" %>
                   <% if !bill.paid %>
                     <% if !bill.reminder %>
-                      <%= link_to sms_reminder_path(kid: @kid.id, bill: bill.id), class: "btn btn-sm active", style: "color:blue" do %>
+                      <%= link_to sms_reminder_path(id: @taska.id, kid: @kid.id, bill: bill.id), class: "btn btn-sm active", style: "color:blue" do %>
                         <i class="fa fa-mobile"></i> SEND SMS REMINDER TO <%= "#{@kid.ph_1}-#{@kid.ph_2}"%>
                       <% end %>
                     <% else %>

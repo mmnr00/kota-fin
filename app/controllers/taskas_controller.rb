@@ -124,24 +124,25 @@ class TaskasController < ApplicationController
   end
 
   def sms_reminder
+    @taska = Taska.find(params[:id])
     @payment = Payment.find(params[:bill])
     @kid = Kid.find(params[:kid])
     @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
       @client.messages.create(
         to: "+6#{@kid.ph_1}#{@kid.ph_2}",
         from: ENV["TWILIO_PHONE_NO"],
-        body: "Please click here #{bill_view_url(payment: @payment.id, kid: @kid.id, taska: @kid.taska.id)}. Reminder from #{@kid.taska.name.upcase}. "
+        body: "Please click here #{bill_view_url(payment: @payment.id, kid: @kid.id, taska: @taska.id)}. Reminder from #{@taska.name.upcase}. "
       )
     @payment.reminder = true
-    @payment.save
+    #@payment.save
     flash[:success] = "SMS reminder send to +6#{@kid.ph_1}#{@kid.ph_2}"
     if params[:account].present?
-      redirect_to bill_account_path(@kid.taska, 
+      redirect_to bill_account_path(@taska, 
                                     month: params[:month],
                                     year: params[:year],
                                     paid: false)
     else
-      redirect_to unpaid_index_path(@kid.taska)
+      redirect_to unpaid_index_path(@taska)
     end
   end
 
@@ -161,6 +162,39 @@ class TaskasController < ApplicationController
     @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).order('bill_year ASC').order('bill_month ASC')
     @kid_all_bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
     render action: "unpaid_index", layout: "dsb-admin-overview" 
+  end
+
+  def sms_reminder_all
+    @taska = Taska.find(params[:id])
+    if params[:account].present?
+      if params[:month] == "0"
+        @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).where(reminder: false).where(bill_year: params[:year])
+      else
+        @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).where(reminder: false).where(bill_year: params[:year]).where(bill_month: params[:month])
+      end
+    else
+      @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).where(reminder: false)
+    end
+    @kid_unpaid.each do |bill|
+      @kid = bill.kids.first
+      @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
+      @client.messages.create(
+        to: "+6#{@kid.ph_1}#{@kid.ph_2}",
+        from: ENV["TWILIO_PHONE_NO"],
+        body: "Please click here #{bill_view_url(payment: bill.id, kid: @kid.id, taska: @taska.id)}. Reminder from #{@taska.name.upcase}. "
+      )
+      bill.reminder = true
+      #bill.save
+    end
+    flash[:success] = "SMS reminders sent to #{@kid_unpaid.count}"
+    if params[:account].present?
+      redirect_to bill_account_path(@kid.taska, 
+                                    month: params[:month],
+                                    year: params[:year],
+                                    paid: false)
+    else
+      redirect_to unpaid_index_path(@taska)
+    end
   end
 
   def unpaid_xls

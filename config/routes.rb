@@ -123,6 +123,7 @@ Rails.application.routes.draw do
   get '/taska/:id/xls', to: 'taskas#childlist_xls', as: 'childlist_xls' 
   get '/find_child', to: 'taskas#find_child', as: 'find_child'
   get '/sms_reminder', to: 'taskas#sms_reminder'
+  get '/sms_reminder_all', to: 'taskas#sms_reminder_all'
   get '/taska/:id/unpaid_xls', to: 'taskas#unpaid_xls', as: 'unpaid_xls' 
   get '/taska/:id/pl_xls', to: 'taskas#pl_xls', as: 'pl_xls'
   get '/taska/:id/add_subdomain', to: 'taskas#add_subdomain' 
