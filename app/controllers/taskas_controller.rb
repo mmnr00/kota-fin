@@ -134,7 +134,7 @@ class TaskasController < ApplicationController
         body: "Please click here #{bill_view_url(payment: @payment.id, kid: @kid.id, taska: @taska.id)}. Reminder from #{@taska.name.upcase}. "
       )
     @payment.reminder = true
-    #@payment.save
+    @payment.save
     flash[:success] = "SMS reminder send to +6#{@kid.ph_1}#{@kid.ph_2}"
     if params[:account].present?
       redirect_to bill_account_path(@taska, 
@@ -184,9 +184,9 @@ class TaskasController < ApplicationController
         body: "Please click here #{bill_view_url(payment: bill.id, kid: @kid.id, taska: @taska.id)}. Reminder from #{@taska.name.upcase}. "
       )
       bill.reminder = true
-      #bill.save
+      bill.save
     end
-    flash[:success] = "SMS reminders sent to #{@kid_unpaid.count}"
+    flash[:success] = "SMS reminders sent"
     if params[:account].present?
       redirect_to bill_account_path(@kid.taska, 
                                     month: params[:month],
