@@ -8,12 +8,14 @@
 <% end %><br>
 
 <br><strong>@taska_chart</strong><br>
-<% @taska_chart.each do |e| %>
+<%= @taska_chart.class %><br>
+<% @taska.expenses.each do |e| %>
   <%= "#{e.name}-#{e.kind}-#{e.month}-#{e.year}"%><br>
 <% end %><br>
 
 <br><strong>@taska_expense</strong><br>
-<% @taska_expense.each do |e| %>
+<%= @taska_expense.class %><br>
+<% @taska.expenses.each do |e| %>
   <%= "#{e.name}-#{e.kind}-#{e.month}-#{e.year}"%><br>
 <% end %><br>
 
