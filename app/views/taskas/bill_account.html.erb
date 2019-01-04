@@ -14,11 +14,11 @@
                 <div class="card">
                   <% @kid = bill.kids.first %>
                   <% if bill.paid %>
-                    <%= link_to bill_pdf_path(payment: bill.id, kid: @kid.id, taska: @kid.taska.id, format: :pdf), class: "btn btn-sm btn-success active", target:"_blank" do %>
+                    <%= link_to bill_pdf_path(payment: bill.id, kid: @kid.id, taska: @taska.id, format: :pdf), class: "btn btn-sm btn-success active", target:"_blank" do %>
                       <i class="fa fa-download"></i> RECEIPT
                     <% end %>
                   <% else %>
-                    <%= link_to bill_pdf_path(payment: bill.id, kid: @kid.id, taska: @kid.taska.id, format: :pdf), class: "btn btn-sm btn-danger active", target:"_blank" do %>
+                    <%= link_to bill_pdf_path(payment: bill.id, kid: @kid.id, taska: @taska.id, format: :pdf), class: "btn btn-sm btn-danger active", target:"_blank" do %>
                       <i class="fa fa-exclamation"></i> UNPAID
                     <% end %>
                   <% end %>
@@ -42,7 +42,7 @@
                   <%= link_to "RM #{bill.amount}", "#", class: "btn btn-lg btn-info active" %>
                   <% if !bill.paid %>
                     <% if !bill.reminder %>
-                      <%= link_to sms_reminder_path(kid: @kid.id, bill: bill.id, account: true), class: "btn btn-sm active", style: "color:blue" do %>
+                      <%= link_to sms_reminder_path(kid: @kid.id, bill: bill.id, account: true, month: params[:month], year: params[:year]), class: "btn btn-sm active", style: "color:blue" do %>
                         <i class="fa fa-mobile"></i> SEND SMS REMINDER TO <%= "#{@kid.ph_1}-#{@kid.ph_2}"%>
                       <% end %>
                     <% else %>
@@ -63,12 +63,6 @@
         </div>
       </div>
       <div class="pull-left">
-          <%= link_to unpaid_xls_path(@taska,unpaid: true, format: :xlsx), class: "btn btn-sm btn-warning active" do %>
-            <i class="fa fa-file-excel"></i> ALL UNPAID BILLS
-          <% end %>
-          <%= link_to unpaid_xls_path(@taska,unpaid: false, format: :xlsx), class: "btn btn-sm btn-success active" do %>
-            <i class="fa fa-file-excel"></i> ALL BILLS
-          <% end %>
           <%= link_to :back, class: "btn btn-m btn-primary active" do %>
             <i class="fa fa-arrow-circle-left"></i> BACK
           <% end %>

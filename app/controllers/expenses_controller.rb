@@ -20,8 +20,15 @@ def my_expenses
 	@data = Hash.new
 	@expense = Expense.new
 	@expense.fotos.build
-	@taska_chart = @taska.expenses.where(month: params[:expense][:month]).where(year: params[:expense][:year])
-	@taska_expense = @taska.expenses.where(month: params[:expense][:month]).where(year: params[:expense][:year]).order('CREATED_AT DESC')
+	if params[:expense][:month].present?
+		@taska_chart = @taska.expenses.where(month: params[:expense][:month]).where(year: params[:expense][:year])
+		@taska_expense = @taska.expenses.where(month: params[:expense][:month]).where(year: params[:expense][:year]).order('UPDATED_AT DESC')
+		@taska_payments = @taska.payments.where.not(name: "TASKA PLAN").where(bill_month: params[:expense][:month]).where(bill_year: params[:expense][:year])
+	else
+		@taska_chart = @taska.expenses.where(year: params[:expense][:year])
+		@taska_expense = @taska.expenses.where(year: params[:expense][:year]).order('month ASC')
+		@taska_payments = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: params[:expense][:year])
+	end
 	render action: "my_expenses", layout: "dsb-admin-account" 
 end
 
@@ -32,7 +39,7 @@ def create
 		flash[:notice] = "Entry was successfully created for #{$month_name[@expense.month.to_i].upcase}-#{@expense.year}"					
 											
 	else
-		flash[:danger] = "Entry created failed. Please try again."	
+		flash[:danger] = "Entry creation failed. Please try again."	
 	end
 	redirect_to my_expenses_path(id: @expense.taska_id, expense:{month: @expense.month, year: @expense.year});
 end

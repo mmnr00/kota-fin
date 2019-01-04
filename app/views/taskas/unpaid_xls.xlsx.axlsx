@@ -1,5 +1,5 @@
 wb = xlsx_package.workbook
-
+col_widths= [10,10,15,15,30,30,30,10]
 wb.styles do |style|
   header_1 = style.add_style(sz: 20)
   highlight_cell = style.add_style(bg_color: "EFC376",
@@ -8,10 +8,11 @@ wb.styles do |style|
                                    alignment: { horizontal: :center })
   border_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER)       
   wb.add_worksheet(name: "#{@taska.name.upcase}") do |sheet|
-    sheet.add_row ["","BILL LIST FOR #{@taska.name.upcase}"]
+    sheet.add_row ["BILL LIST FOR #{@taska.name.upcase}"]
     sheet.add_row [""]
     sheet.add_row ["MONTH",
                   "YEAR",
+                  "ID",
                   "TOTAL(RM)",
                   "NAME",
                   "CLASSROOM",
@@ -28,6 +29,7 @@ wb.styles do |style|
             extra = Extra.find(exid)
             sheet.add_row [kd.payment.bill_month,
                           kd.payment.bill_year,
+                          kd.payment.bill_id,
                           kd.payment.amount,
                           kd.kid.name,
                           kd.kid.classroom.classroom_name,
@@ -39,6 +41,7 @@ wb.styles do |style|
         elsif !kd.kid.classroom.present?
           sheet.add_row [kd.payment.bill_month,
                           kd.payment.bill_year,
+                          kd.payment.bill_id,
                           kd.payment.amount,
                           kd.kid.name,
                           kd.payment.name,
@@ -49,6 +52,7 @@ wb.styles do |style|
         else
           sheet.add_row [kd.payment.bill_month,
                           kd.payment.bill_year,
+                          kd.payment.bill_id,
                           kd.payment.amount,
                           kd.kid.name,
                           kd.kid.classroom.classroom_name,
@@ -58,6 +62,7 @@ wb.styles do |style|
             counter = counter +1
         end
       end
+      sheet.column_widths *col_widths
     end
   end
 end

@@ -109,10 +109,10 @@
                   <tr>
                     <td>
                       <strong><%= kb.kid.name %></strong><br>
-                      <% if kb.kid.classroom.present? %>
-                        FEE FOR CLASSROOM <%= kb.kid.classroom.classroom_name.upcase %>
+                      <% if kb.classroom.present? %>
+                        FEE FOR CLASSROOM <%= kb.classroom.classroom_name.upcase %>
                       <% else %>
-                        BOOKING FEE FOR <%= kb.kid.taska.name.upcase %>
+                        BOOKING FEE FOR <%= @taska.name.upcase %>
                       <% end %>
                       <% kb.extra.each do |id|%>
                         <% extra = Extra.find(id) %>
@@ -121,8 +121,8 @@
                     </td>
                     <td></td>
                     <td class="text-right">
-                      <% if kb.kid.classroom.present? %>
-                        <br><%= kb.kid.classroom.base_fee %>
+                      <% if kb.classroom.present? %>
+                        <br><%= kb.classroom.base_fee %>
                       <% else %>
                         <%= @payment.amount %>
                       <% end %>

@@ -1,13 +1,14 @@
 <% month = params[:expense][:month].to_i %>
 <% year = params[:expense][:year].to_i %>
 
+
 <div class="container">
   <div class="row">
 
     <div class="bg-light col-sm-3">
       <h4>REPORTING FOR</h4><h3> 
       <% if month != 0 %>
-        <%= "#{$month_name[month].upcase}" %>-<%= year %>
+        <%= "#{$month_name[month]}" %>-<%= year %>
       <% else %>
         ENTIRE <%= year %>
       <% end %>
@@ -25,19 +26,19 @@
         <i class="fa fa-file-excel"></i> ALL BILLS
       <% end %><br><br>
       <div class="bg-white">
-        <%= pie_chart @taska.payments.where(bill_month: month).where(bill_year: year).group(:paid).sum(:amount), colors: ["#ff6666","#66b266"], donut: true, legend: false, thousands: "," %>
+        <%= pie_chart @taska_payments.group(:paid).sum(:amount), colors: ["#ff6666","#66b266"], donut: true, legend: false, thousands: "," %>
       </div>
       <div class="row">
         <div class="col-sm-6" style="background-color:#66b266">
           <%= link_to bill_account_path(@taska, month: month, year: year, paid: true) do %>
             <h6 align="center"><font color="white">PAID (RM)</font></h6>
-             <h5 align="center"><font color="white"><%= number_with_delimiter(@taska.payments.where(bill_month: month).where(bill_year: year).where(paid: true).sum(:amount), :delimiter => ',') %></font></h5>
+             <h5 align="center"><font color="white"><%= number_with_delimiter(@taska_payments.where(paid: true).sum(:amount), :delimiter => ',') %></font></h5>
           <% end %>
         </div>
         <div class="col-sm-6" style="background-color:#ff6666">
           <%= link_to bill_account_path(@taska, month: month, year: year, paid: false) do %>
             <h6 align="center"><font color="white">UNPAID (RM)</font></h6>
-             <h5 align="center"><font color="white"><%= number_with_delimiter(@taska.payments.where(bill_month: month).where(bill_year: year).where(paid: false).sum(:amount), :delimiter => ',') %></font></h5>
+             <h5 align="center"><font color="white"><%= number_with_delimiter(@taska_payments.where(paid: false).sum(:amount), :delimiter => ',') %></font></h5>
           <% end %>
         </div>
       </div>
@@ -68,64 +69,15 @@
       <div style="background-color:red"><h4 align="center"><font color="white">
         EXPENSE: RM <%= number_with_delimiter(@taska_expense.where(kind: "EXPENSE").sum(:cost), :delimiter => ',') %>
       </div></font></h4>
-      <%= link_to pl_xls_path(@taska, paid: true, month: month, year: year, format: :xlsx), class: "btn btn-sm btn-success active" do %>
-        <i class="fa fa-file-excel"></i> P&L STATEMENT
+      <%= link_to pl_xls_path(@taska, month: month, year: year, format: :xlsx), class: "btn btn-sm btn-success active" do %>
+        <i class="fa fa-file-excel"></i> DOWNLOAD REPORT 
       <% end %><br><br>
-      <div class="card mb-3">
-        <div class="card-header">
-          <i class="fas fa-hand-pointer"></i>
-          ALL ENTRIES FOR <%= "#{$month_name[month].upcase}" %>-<%= year %>
-        </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
-              <thead>
-                <tr>
-                  <th> NAME </th>
-                  <th> INCOME </th>
-                  <th>EXPENSE</th>
-                  <th>ACTION</th>
-                  <th>DOCUMENTS</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @taska_expense.each do |exp| %>
-                  <tr>
-                    <td><%= exp.name %></td>
-                    <% if exp.kind == "INCOME" %>
-                      <td><%= exp.cost %></td>
-                      <td></td>
-                    <% elsif exp.kind == "EXPENSE" %>
-                      <td></td>
-                      <td><%= exp.cost %></td>
-                    <% end %>
-                    <td>
-                      <%= link_to edit_expense_path(exp), class: "btn btn-sm active", style: "color:green" do %>
-                        <i class="fa fa-edit"></i> EDIT
-                      <% end %><br>
-                      <%= link_to expense_path(exp), method: :delete, :data => {:confirm => 'Are you sure?'}, class: "btn btn-sm active", style: "color:red" do %>
-                        <i class="fa fa-trash"></i> DELETE
-                      <% end %>
-                    </td>
-                    <td>
-                      <% image = exp.fotos.where(foto_name: "EXPENSE DOC").first %>
-                      <% if image.present? %>
-                        <a href="<%="#{image.picture.url}"%>" target="_blank">
-                          <% if image.picture.content_type == 'application/pdf' %>
-                            <%= image_tag(Foto.where(foto_name: "PDF ICON").first.picture.url, size: "50x50") if image.picture? %>
-                          <% else %>
-                            <%= image_tag(image.picture.url, size: "50x50") if image.picture? %>
-                          <% end %>
-                        </a>
-                      <% end %>
-                    </td>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+
+      <% if month == 0 %>
+        <%= render 'expenses/summ-yr' %>
+      <% else %>
+        <%= render 'expenses/summ-mth' %>
+      <% end %>
 
       
 

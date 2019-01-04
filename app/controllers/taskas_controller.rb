@@ -134,11 +134,11 @@ class TaskasController < ApplicationController
       )
     @payment.reminder = true
     @payment.save
-    flash[:success] = "SMS reminder send"
+    flash[:success] = "SMS reminder send to +6#{@kid.ph_1}#{@kid.ph_2}"
     if params[:account].present?
       redirect_to bill_account_path(@kid.taska, 
-                                    month: @payment.bill_month,
-                                    year: @payment.bill_year,
+                                    month: params[:month],
+                                    year: params[:year],
                                     paid: false)
     else
       redirect_to unpaid_index_path(@kid.taska)
@@ -147,8 +147,12 @@ class TaskasController < ApplicationController
 
   def bill_account
     @taska = Taska.find(params[:id])
-    @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).where(bill_month: params[:month]).where(bill_year: params[:year])
-    @kid_all_bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
+    if params[:month] == "0"
+      @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).where(bill_year: params[:year]).order('bill_month ASC')
+    else
+      @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).where(bill_month: params[:month]).where(bill_year: params[:year])
+      #@kid_all_bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
+    end
     render action: "bill_account", layout: "dsb-admin-account" 
   end
 
@@ -161,11 +165,20 @@ class TaskasController < ApplicationController
 
   def unpaid_xls
     @taska = Taska.find(params[:id])
+
     if params[:month].present? && params[:year].present?
       if params[:paid] == "false"
-        @bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_month: params[:month]).where(bill_year: params[:year]).where(paid: params[:paid])
+        if params[:month] == "0"
+          @bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: params[:year]).where(paid: params[:paid]).order('bill_month ASC')
+        else
+          @bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_month: params[:month]).where(bill_year: params[:year]).where(paid: params[:paid])
+        end
       else
-        @bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_month: params[:month]).where(bill_year: params[:year]) 
+        if params[:month] == "0"
+          @bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: params[:year]).order('bill_month ASC')
+        else
+          @bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_month: params[:month]).where(bill_year: params[:year])
+        end
       end
     else
       if params[:paid] == "false"
@@ -174,33 +187,29 @@ class TaskasController < ApplicationController
         @bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
       end
     end
+
     respond_to do |format|
       #format.html
       format.xlsx{
-                  response.headers['Content-Disposition'] = 'attachment; filename="download.xlsx"'
+        response.headers['Content-Disposition'] = 'attachment; filename="download.xlsx"'
       }
     end
   end
 
   def pl_xls
     @taska = Taska.find(params[:id])
-    if params[:month].present? && params[:year].present?
-      if params[:paid] == "false"
-        @bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_month: params[:month]).where(bill_year: params[:year]).where(paid: params[:paid])
-      else
-        @bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_month: params[:month]).where(bill_year: params[:year]) 
-      end
+    if params[:month] == "0"
+      @taska_expenses = @taska.expenses.where(year: params[:year]).order('month ASC')
+      @taska_bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: params[:year])
     else
-      if params[:paid] == "false"
-        @bills = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).order('bill_year ASC').order('bill_month ASC')
-      else
-        @bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
-      end
+      @taska_expenses = @taska.expenses.where(month: params[:month]).where(year: params[:year])
+      @taska_bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_month: params[:month]).where(bill_year: params[:year])
     end
+      
     respond_to do |format|
       #format.html
       format.xlsx{
-                  response.headers['Content-Disposition'] = 'attachment; filename="download.xlsx"'
+        response.headers['Content-Disposition'] = 'attachment; filename="download.xlsx"'
       }
     end
   end

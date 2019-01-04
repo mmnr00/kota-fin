@@ -1,0 +1,64 @@
+<% month = params[:expense][:month].to_i %>
+<% year = params[:expense][:year].to_i %>
+
+<div class="card mb-3">
+  <div class="card-header">
+    <i class="fas fa-hand-pointer"></i>
+    ALL ENTRIES FOR <%= "#{$month_name[month]}" %> <%= year %>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr style="background-color:#d8b2d8">
+            <th> NAME </th>
+            <th> INCOME </th>
+            <th>EXPENSE</th>
+            <th>ACTION</th>
+            <th>DOCUMENT</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @taska_expense.each do |exp| %>
+            <tr>
+              <td><%= exp.name %></td>
+              <% if exp.kind == "INCOME" %>
+                <td><%= exp.cost %></td>
+                <td></td>
+              <% elsif exp.kind == "EXPENSE" %>
+                <td></td>
+                <td><%= exp.cost %></td>
+              <% end %>
+              <td>
+                <% if month == 0 %>
+                  <%= link_to my_expenses_path(id: @taska.id, expense:{month: exp.month, year: exp.year}), class: "btn btn-sm active", style: "color:green" do %>
+                    <i class="fa"></i> <%= "#{$month_name[exp.month]}-#{exp.year}"%>
+                  <% end %><br>
+                <% else %>
+                  <%= link_to edit_expense_path(exp, month: month, year: year ), class: "btn btn-sm active", style: "color:green" do %>
+                    <i class="fa fa-edit"></i> EDIT
+                  <% end %><br>
+                  <%= link_to expense_path(exp), method: :delete, :data => {:confirm => 'Are you sure?'}, class: "btn btn-sm active", style: "color:red" do %>
+                    <i class="fa fa-trash"></i> DELETE
+                  <% end %>
+                <% end %>
+              </td>
+              <td>
+                <% image = exp.fotos.where(foto_name: "EXPENSE DOC").first %>
+                <% if image.present? %>
+                  <a href="<%="#{image.picture.url}"%>" target="_blank">
+                    <% if image.picture.content_type == 'application/pdf' %>
+                      <%= image_tag(Foto.where(foto_name: "PDF ICON").first.picture.url, size: "50x50") if image.picture? %>
+                    <% else %>
+                      <%= image_tag(image.picture.url, size: "50x50") if image.picture? %>
+                    <% end %>
+                  </a>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

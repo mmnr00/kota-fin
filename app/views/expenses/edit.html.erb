@@ -93,6 +93,8 @@
         
 
       <%= f.hidden_field :taska_id, value: @taska.id %>
+      <%= f.hidden_field :month_back, value: params[:month] %>
+      <%= f.hidden_field :year_back, value: params[:year] %>
 
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
@@ -101,7 +103,7 @@
       </div>
 			<% end %>
 
-  <%= link_to my_expenses_path(id: @expense.taska_id, expense:{month: @expense.month, year: @expense.year}), class: 'btn btn-success btn-m' do %>
+  <%= link_to my_expenses_path(id: @expense.taska_id, expense:{month: params[:month], year: params[:year]}), class: 'btn btn-success btn-m' do %>
     <span class="fa fa-arrow-circle-left"></span> BACK
   <% end %>
 			
