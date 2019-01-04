@@ -14,14 +14,9 @@ def new
 	@expense = Expense.new
 end
 
-def my_expenses
-	@taska = Taska.find(params[:id])
-	@admin = current_admin
-	
-	#render action: "my_expenses", layout: "dsb-admin-classroom" 
-end
 
-def my_expenses_backup
+
+def my_expenses
 	@taska = Taska.find(params[:id])
 	@admin = current_admin
 	@data = Hash.new
@@ -36,7 +31,7 @@ def my_expenses_backup
 		@taska_expense = @taska.expenses.where(year: params[:expense][:year]).order('month ASC')
 		@taska_payments = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: params[:expense][:year])
 	end
-	render action: "my_expenses", layout: "dsb-admin-classroom" 
+	render action: "my_expenses", layout: "dsb-admin-account" 
 end
 
 def create
