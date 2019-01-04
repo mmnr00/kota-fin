@@ -52,7 +52,7 @@
                     <% end %>
 
 
-                    <%= link_to payment_path(id: bill.id, taska_id: bill.taska.id, kid_id: @kid.id, index: true), method: :delete, :data => {:confirm => 'Are you sure?'}, class: "btn btn-sm active", style: "color:red" do %>
+                    <%= link_to payment_path(id: bill.id, taska_id: bill.taska.id, kid_id: @kid.id, account: true, month: params[:month], paid: params[:paid], year: params[:year], taska: @taska.id), method: :delete, :data => {:confirm => 'Are you sure?'}, class: "btn btn-sm active", style: "color:red" do %>
                       <i class="fa fa-trash"></i> DELETE
                     <% end %>
                   <% end %>

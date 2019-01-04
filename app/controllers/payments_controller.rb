@@ -426,6 +426,11 @@ class PaymentsController < ApplicationController
     flash[:notice] = "Bills was successfully deleted"
     if params[:index].present?
       redirect_to unpaid_index_path(@taska)
+    elsif params[:account].present?
+      redirect_to bill_account_path(month: params[:month], 
+                                    year: params[:year],
+                                    paid: params[:paid],
+                                    id: params[:taska])
     else
       redirect_to all_bills_taska_path(id: @taska.id, kid_id: @kid.id)
     end
