@@ -2,7 +2,8 @@
 <%= year = params[:expense][:year].to_i %><br>
 
 <br><strong>@taska_payments</strong><br>
-<% @taska_payments.each do |w| %>
+<%= @taska_payments.class %><br>
+<% @taska.payments.each do |w| %>
   <%= "#{w.name}-#{w.bill_id}-#{w.bill_month}-#{w.bill_year}"%><br>
 <% end %><br>
 
