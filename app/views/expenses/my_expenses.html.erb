@@ -1,102 +1,29 @@
-<% month = params[:expense][:month].to_i %>
-<% year = params[:expense][:year].to_i %>
+<%= month = params[:expense][:month].to_i %><br>
+<%= year = params[:expense][:year].to_i %><br>
+
+<br><strong>@taska_payments</strong><br>
+<% @taska_payments.each do |w| %>
+  <%= "#{w.name}-#{w.bill_id}-#{w.bill_month}-#{w.bill_year}"%><br>
+<% end %><br>
+
+<br><strong>@taska_chart</strong><br>
+<% @taska_chart.each do |e| %>
+  <%= "#{e.name}-#{e.kind}-#{e.month}-#{e.year}"%><br>
+<% end %><br>
+
+<br><strong>@taska_expense</strong><br>
+<% @taska_expense.each do |e| %>
+  <%= "#{e.name}-#{e.kind}-#{e.month}-#{e.year}"%><br>
+<% end %><br>
 
 
-<div class="container">
-  <div class="row">
-
-    <div class="bg-light col-sm-3">
-      <h4>REPORTING FOR</h4><h3> 
-      <% if month != 0 %>
-        <%= "#{$month_name[month]}" %>-<%= year %>
-      <% else %>
-        ENTIRE <%= year %>
-      <% end %>
-      </h3></br>
-      <%= form_for(:expense, :url => {:controller=>'expenses', :action=>'my_expenses'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
-        <%= f.select :month, 1..12, rows: 10, class: "form-control", :selected => month, :include_blank => "ALL" %>&nbspmth
-        <%= f.select :year, ($my_time.year-3)..($my_time.year+1), rows: 10, class: "form-control", :selected => year %>&nbspyr
-          <%= f.submit :"SELECT",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
-      <% end %><br>
-      
-      <%= link_to unpaid_xls_path(@taska, paid: false, month: month, year: year, format: :xlsx), class: "btn btn-sm btn-danger active" do %>
-        <i class="fa fa-file-excel"></i> ALL UNPAID BILLS
-      <% end %><br><br>
-      <%= link_to unpaid_xls_path(@taska, paid: true, month: month, year: year, format: :xlsx), class: "btn btn-sm btn-primary active" do %>
-        <i class="fa fa-file-excel"></i> ALL BILLS
-      <% end %><br><br>
-      <div class="bg-white">
-        
-      </div>
-      <div class="row">
-        <div class="col-sm-6" style="background-color:#66b266">
-          <%= link_to bill_account_path(@taska, month: month, year: year, paid: true) do %>
-            <h6 align="center"><font color="white">PAID (RM)</font></h6>
-             <h5 align="center"><font color="white"><%= number_with_delimiter(@taska_payments.where(paid: true).sum(:amount), :delimiter => ',') %></font></h5>
-          <% end %>
-        </div>
-        <div class="col-sm-6" style="background-color:#ff6666">
-          <%= link_to bill_account_path(@taska, month: month, year: year, paid: false) do %>
-            <h6 align="center"><font color="white">UNPAID (RM)</font></h6>
-             <h5 align="center"><font color="white"><%= number_with_delimiter(@taska_payments.where(paid: false).sum(:amount), :delimiter => ',') %></font></h5>
-          <% end %>
-        </div>
-      </div>
 
 
-    </div>
-    <div class="bg-white col-sm-0">
-      &nbsp&nbsp
-    </div>
-
-    <div class="bg-light col-sm-6">
-      <h3>ACCOUNTING SUMMARY</h3><br>
-      <div style="background-color:BLUE"><h2 align="center"><font color="white">
-        <% nett=@taska_expense.where(kind: "INCOME").sum(:cost) - @taska_expense.where(kind: "EXPENSE").sum(:cost) + @taska.payments.where(bill_month: month).where(bill_year: year).where(paid: true).sum(:amount) %>
-        NETT: RM <%= number_with_delimiter(nett, :delimiter => ',') %>
-      </div></font></h2>
-      <div class="bg-white">
-        <% exp = @taska_chart.order('kind DESC').group(:kind).sum(:cost) %>
-        <% if exp["INCOME"] == nil %>
-          <% exp["INCOME"] = 0 %>
-        <% end %>
-        <% exp["INCOME"] = exp["INCOME"] + @taska.payments.where(bill_month: month).where(bill_year: year).where(paid: true).sum(:amount) %>
-        <%= bar_chart exp, colors: ["brown"]%>
-      </div><br>
-      <div style="background-color:GREEN"><h4 align="center"><font color="white">
-        INCOME: RM <%= number_with_delimiter((@taska_expense.where(kind: "INCOME").sum(:cost)+@taska.payments.where(bill_month: month).where(bill_year: year).where(paid: true).sum(:amount)), :delimiter => ',') %>
-      </div></font></h4>
-      <div style="background-color:red"><h4 align="center"><font color="white">
-        EXPENSE: RM <%= number_with_delimiter(@taska_expense.where(kind: "EXPENSE").sum(:cost), :delimiter => ',') %>
-      </div></font></h4>
-      <%= link_to pl_xls_path(@taska, month: month, year: year, format: :xlsx), class: "btn btn-sm btn-success active" do %>
-        <i class="fa fa-file-excel"></i> DOWNLOAD REPORT 
-      <% end %><br><br>
-
-      <% if month == 0 %>
-        <%= render 'expenses/summ-yr' %>
-      <% else %>
-        <%= render 'expenses/summ-mth' %>
-      <% end %>
-
-      
-
-    </div>
-    <div class="bg-white col-sm-0">
-      &nbsp&nbsp
-    </div>
-    <div class="bg-light col-sm-2">
-      <% if month != 0 %>
-        <h4>NEW ENTRY</h4>
-        <%= render 'expenses/new' %>
-      <% else %>
-        <br><br><h6>NOT AVAILABLE. PLEASE CHOOSE A MONTH.</h6>
-      <% end %>
-    </div>
+<% @taska_expense %>
+<% @taska_payments %><br>
 
 
-  </div>
-</div>
+
 
 
 
