@@ -1,0 +1,120 @@
+wb = xlsx_package.workbook
+col_widths= [20,20,20,20,20]
+wb.styles do |style|
+  header_1 = style.add_style(b: true, sz: 30)
+  highlight_cell = style.add_style(bg_color: "e5cce5",
+                                  b: true,
+                                  border: Axlsx::STYLE_THIN_BORDER,
+                                  sz: 15,
+                                  alignment: { horizontal: :center })
+  total_cell = style.add_style(bg_color: "b2b2ff",
+                              border: Axlsx::STYLE_THIN_BORDER,
+                              b: true,
+                              sz: 20,
+                              alignment: { horizontal: :center })
+  period_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER,
+                                b: true,
+                                sz: 13,
+                                alignment: { horizontal: :center })                                                           
+  unpaid_cell = style.add_style(bg_color: "ffd27f",
+                                b: true,
+                                sz: 13,
+                                border: Axlsx::STYLE_THIN_BORDER)
+
+  positive_cell = style.add_style(bg_color: "66b266",
+                                b: true,
+                                sz: 13,
+                                border: Axlsx::STYLE_THIN_BORDER)
+
+  negative_cell = style.add_style(bg_color: "ff6666",
+                                b: true,
+                                sz: 13,
+                                border: Axlsx::STYLE_THIN_BORDER)
+  
+  border_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER,
+                                sz: 13)   
+
+  wb.add_worksheet(name: "#{@taska.name.upcase}") do |sheet|
+
+    sheet.add_row ["ACCOUNTING REPORT FOR #{@taska.name.upcase}"]
+    sheet.add_row [""]
+    sheet.add_row ["PERIOD",
+                  "INCOME",
+                  "EXPENSE",
+                  "UNPAID",
+                  "PROFIT"]
+    sheet.rows[0].style = header_1
+    sheet.rows[2].style = highlight_cell
+    counter = 1
+    row =2
+    income_total = 0
+    expense_total = 0
+    unpaid_total = 0
+    profit_total = 0
+    
+    (1..12).each do |m|
+      exp = @taska_expense.where(month: m)
+
+      income = 0
+      income = exp.where(kind: "INCOME").sum(:cost) + @taska_payments.where(bill_month: m).where(paid: true).sum(:amount)
+      income_total = income_total + income
+
+      expense = 0
+      expense = exp.where(kind: "EXPENSE").sum(:cost)
+      expense_total = expense_total + expense
+
+      unpaid = 0
+      unpaid = @taska_payments.where(bill_month: m).where(paid: false).sum(:amount)
+      unpaid_total = unpaid_total + unpaid
+
+      profit = 0 
+      profit = income - expense
+      profit_total = profit_total + profit
+
+      sheet.add_row ["#{$month_name[m]}-#{params[:year]}",
+                    income,
+                    expense,
+                    unpaid,
+                    profit]
+      sheet.rows[row+counter].style = border_cell
+      sheet.rows[row+counter].cells[0].style = period_cell
+
+      if unpaid > 0
+        sheet.rows[row+counter].cells[3].style = unpaid_cell
+      end     
+
+      if profit >= 0
+        sheet.rows[row+counter].cells[4].style = positive_cell
+      else
+        sheet.rows[row+counter].cells[4].style = negative_cell
+      end
+
+      counter = counter +1
+    end
+
+    sheet.add_row ["TOTAL",income_total,expense_total,unpaid_total,profit_total]
+    sheet.rows[counter+row].style = total_cell
+    counter = counter + 1
+    #sheet.merge_cells sheet.rows.last.cells[(0..2)]
+    sheet.column_widths *col_widths
+
+    
+    
+    
+  end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

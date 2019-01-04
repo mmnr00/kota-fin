@@ -214,6 +214,19 @@ class TaskasController < ApplicationController
     end
   end
 
+  def plrpt_xls
+    @taska = Taska.find(params[:id])
+    @taska_expense = @taska.expenses.where(year: params[:year]).order('month ASC')
+    @taska_payments = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: params[:year]) 
+      
+    respond_to do |format|
+      #format.html
+      format.xlsx{
+        response.headers['Content-Disposition'] = 'attachment; filename="download.xlsx"'
+      }
+    end
+  end
+
   def taskateachers
     @taskateachers = @taska.teachers
 

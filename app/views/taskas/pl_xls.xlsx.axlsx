@@ -25,7 +25,7 @@ wb.styles do |style|
                                 sz: 13)       
   wb.add_worksheet(name: "#{@taska.name.upcase}") do |sheet|
 
-    sheet.add_row ["ACCOUNTING REPORT FOR #{@taska.name.upcase}"]
+    sheet.add_row ["ACCOUNTING SUMMARY FOR #{@taska.name.upcase}"]
     sheet.add_row [""]
     sheet.add_row ["ITEM",
                   "MONTH",
