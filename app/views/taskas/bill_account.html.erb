@@ -63,10 +63,13 @@
         </div>
       </div>
       <div class="pull-left">
-          <%= link_to :back, class: "btn btn-m btn-primary active" do %>
-            <i class="fa fa-arrow-circle-left"></i> BACK
-          <% end %>
-        </div>
+        <% if params[:month] == "0" %>
+          <% params[:month] = nil %>
+        <% end %>
+        <%= link_to my_expenses_path(id: @taska.id, utf8: "✓", expense:{month: params[:month], year: params[:year]}, commit: "SELECT"), class: "btn btn-m btn-primary active" do %>
+          <i class="fa fa-arrow-circle-left"></i> BACK
+        <% end %>
+      </div>
     </div>
   </div>
         
