@@ -1,6 +1,6 @@
 class ExpensesController < ApplicationController
 	before_action :set_expense, only: [:destroy,:update,:edit]
-	protect_from_forgery except: [:search]
+	#protect_from_forgery except: [:search]
 
 	
 
