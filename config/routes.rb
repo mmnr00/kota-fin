@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   #devise_for :college_admins
   resources :taskas
   resources :expenses, only:[:create,:destroy,:update,:edit]
+  resources :ptns_mmbs, only:[:new,:create,:destroy,:update,:edit]
   resources :courses, only:[:create,:destroy,:update,:edit]
   resources :colleges, only:[:create,:destroy,:update,:edit]
   resources :classrooms, only:[:new, :create,:destroy,:update,:edit,:show]
