@@ -5,12 +5,12 @@
       <div class="form-group"> <!-- name -->
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>FULL NAME</strong>
+            <strong>NAMA PENUH</strong>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-8 col-12">
-            <%= f.text_field :name, class: "form-control", placeholder: "YOUR FULL NAME AS PER IC", autofocus: true, required: true %>
+            <%= f.text_field :name, class: "form-control", placeholder: "SEPERTI KAD PENGENALAN", autofocus: true, required: true %>
           </div>
         </div>
       </div>
@@ -19,7 +19,7 @@
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>DATE OF BIRTH</strong>
+            <strong>TARIKH LAHIR</strong>
           </div>
         </div>
         <div class="row">
@@ -33,7 +33,7 @@
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>IC NO</strong>
+            <strong>NO KAD PENGENALAN</strong>
           </div>
         </div>
         <div class="row">
@@ -53,7 +53,7 @@
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>CONTACT NUMBER</strong>
+            <strong>NO TELEFON ANDA</strong>
           </div>
         </div>
         <div class="row">
@@ -70,21 +70,21 @@
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>EDUCATION LEVEL</strong>
+            <strong>TAHAP PENDIDIKAN</strong>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-8 col-8">
             <%= f.select :edu, options_for_select(["PHD", 
-                                                      "Master", 
-                                                      "Degree",
-                                                      "Diploma/STPM",
-                                                      "SPM/SPMV/MCE/O-Level",
-                                                      "Sijil Kemahiran",
-                                                      "Others"
-                                                      ], 
-                                                      selected: @ptnsmmb.edu), 
-            {include_blank: "Please Select"}, {required: true} %>
+                                                  "Master", 
+                                                  "Degree",
+                                                  "Diploma/STPM",
+                                                  "SPM/SPMV/MCE/O-Level",
+                                                  "Sijil Kemahiran",
+                                                  "Others"
+                                                  ], 
+                                                  selected: @ptnsmmb.edu), 
+            {include_blank: "SILA PILIH"}, {required: true} %>
           </div>
         </div>
       </div>
@@ -93,21 +93,17 @@
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>MEMBERSHIP TYPE (x complete)</strong>
+            <strong>JENIS KEAHLIAN</strong>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-8 col-8">
-            <%= f.select :mmb, options_for_select(["PHD", 
-                                                      "Master", 
-                                                      "Degree",
-                                                      "Diploma/STPM",
-                                                      "SPM/SPMV/MCE/O-Level",
-                                                      "Sijil Kemahiran",
-                                                      "Others"
-                                                      ], 
-                                                      selected: @ptnsmmb.mmb), 
-            {include_blank: "Please Select"}, {required: true} %>
+            <%= f.select :mmb, options_for_select(["AHLI BIASA (RM 20 setahun)", 
+                                                  "AHLI INSTITUSI (RM 50 setahun)", 
+                                                  "AHLI SEUMUR HIDUP (RM 100)"
+                                                  ], 
+                                                  selected: @ptnsmmb.mmb), 
+            {include_blank: "SILA PILIH"}, {required: true} %>
           </div>
         </div>
       </div>
@@ -116,38 +112,40 @@
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>HOME ADDRESS</strong>
+            <strong>ALAMAT KEDIAMAN ANDA</strong>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-8 col-12">
-           <%= f.text_field :add1, class: "form-control", autofocus: true, required: true %> <font size="2"> Address Line 1 </font>
+           <%= f.text_field :add1, class: "form-control", autofocus: true, required: true %> <font size="2"> Alamat 1 </font>
           </div>
           <div class="col-sm-8 col-12">
-           <%= f.text_field :add2, class: "form-control", autofocus: true %> <font size="2"> Address Line 2 </font>
+           <%= f.text_field :add2, class: "form-control", autofocus: true %> <font size="2"> Alamat 2</font>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-3 col-6">
-           <%= f.text_field :city, class: "form-control", autofocus: true, required: true %> <font size="2"> City </font>
+           <%= f.text_field :city, class: "form-control", autofocus: true, required: true %> <font size="2"> Bandar </font>
           </div>
           <div class="col-sm-3 col-5">
-           <%= f.text_field :state, class: "form-control", autofocus: true, required: true %> <font size="2"> States </font>
+           <%= f.text_field :state, class: "form-control", autofocus: true, required: true %> <font size="2"> Negeri </font>
           </div>
           <div class="col-sm-2 col-4">
-           <%= f.number_field :postcode, class: "form-control", autofocus: true, required: true %> <font size="2"> Postcode </font>
+           <%= f.number_field :postcode, class: "form-control", autofocus: true, required: true %> <font size="2"> Poskod </font>
           </div>
         </div>
       </div>
 
-      <br><br>ONLY FILL IN IF YOU WANT TO REGISTER AS AN ORGANIZATION<br><br>
+      <br><div class="col-sm-8" style="background-color:green">
+        <font color="white"><h4>UNTUK KEAHLIAN INSTITUSI SAHAJA</h4></font>
+      </div><br>
 
       <!-- TASKA DETAILS -->
       <!-- taska name -->
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>TASKA NAME</strong>
+            <strong>NAMA INSTITUSI/PJKK</strong>
           </div>
         </div>
         <div class="row">
@@ -161,7 +159,7 @@
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>CONTACT PERSON IN TASKA</strong>
+            <strong>ORANG YANG BOLEH DIHUBUNGI</strong>
           </div>
         </div>
         <div class="row">
@@ -169,23 +167,22 @@
             <%= f.text_field :ts_owner, class: "form-control", autofocus: true %>
           </div>
         </div>
-      Leave BLANK if you are the owner
       </div>
 
       <!-- Taska PHONE-->
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>TASKA PHONE NUMBER</strong>
+            <strong>NO TELEFON INSTITUSI/PJKK</strong>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-2 col-3">
-           <%= f.text_field  :ts_ph1, maxlength: 3, class: "form-control", autofocus: true %><font size="2"> Area </font> 
+           <%= f.text_field  :ts_ph1, maxlength: 3, class: "form-control", autofocus: true %><font size="2"></font> 
           </div>
           -
           <div class="col-sm-3 col-5">
-            <%= f.text_field  :ts_ph2, maxlength: 8, class: "form-control", autofocus: true %><font size="2"> Phone Number </font> 
+            <%= f.text_field  :ts_ph2, maxlength: 8, class: "form-control", autofocus: true %><font size="2"></font> 
           </div>
         </div>
       </div>
@@ -194,26 +191,26 @@
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>TASKA ADDRESS</strong>
+            <strong>ALAMAT INSTITUSI/PJKK</strong>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-8 col-12">
-           <%= f.text_field :ts_add1, class: "form-control", autofocus: true %> <font size="2"> Address Line 1 </font>
+           <%= f.text_field :ts_add1, class: "form-control", autofocus: true %> <font size="2"> Alamat 1 </font>
           </div>
           <div class="col-sm-8 col-12">
-           <%= f.text_field :ts_add2, class: "form-control", autofocus: true %> <font size="2"> Address Line 2 </font>
+           <%= f.text_field :ts_add2, class: "form-control", autofocus: true %> <font size="2"> Alamat 2 </font>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-3 col-6">
-           <%= f.text_field :ts_city, class: "form-control", autofocus: true %> <font size="2"> City </font>
+           <%= f.text_field :ts_city, class: "form-control", autofocus: true %> <font size="2"> Bandar </font>
           </div>
           <div class="col-sm-3 col-5">
-           <%= f.text_field :ts_state, class: "form-control", autofocus: true %> <font size="2"> States </font>
+           <%= f.text_field :ts_state, class: "form-control", autofocus: true %> <font size="2"> Negeri </font>
           </div>
           <div class="col-sm-2 col-4">
-           <%= f.number_field :ts_postcode, class: "form-control", autofocus: true %> <font size="2"> Postcode </font>
+           <%= f.number_field :ts_postcode, class: "form-control", autofocus: true %> <font size="2"> Poskod </font>
           </div>
         </div>
       </div>
@@ -222,21 +219,17 @@
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>TASKA STATUS (x complete)</strong>
+            <strong>STATUS INSTITUSI/PJKK</strong>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-8 col-8">
-            <%= f.select :ts_status, options_for_select(["PHD", 
-                                                      "Master", 
-                                                      "Degree",
-                                                      "Diploma/STPM",
-                                                      "SPM/SPMV/MCE/O-Level",
-                                                      "Sijil Kemahiran",
-                                                      "Others"
+            <%= f.select :ts_status, options_for_select(["BERDAFTAR", 
+                                                      "DALAM PROSES", 
+                                                      "TIDAK BERDAFTAR"
                                                       ], 
                                                       selected: @ptnsmmb.ts_status), 
-            {include_blank: "Please Select"}, {required: true} %>
+            {include_blank: "SILA PILIH"} %>
           </div>
         </div>
       </div>
@@ -245,21 +238,17 @@
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>YOUR JOB IN TASKA (x complete)</strong>
+            <strong>JAWATAN ANDA DI INSTITUSI/PJKK</strong>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-8 col-8">
-            <%= f.select :ts_job, options_for_select(["PHD", 
-                                                      "Master", 
-                                                      "Degree",
-                                                      "Diploma/STPM",
-                                                      "SPM/SPMV/MCE/O-Level",
-                                                      "Sijil Kemahiran",
-                                                      "Others"
+            <%= f.select :ts_job, options_for_select(["Pengusaha/Pengerusi", 
+                                                      "Pengurus/Penyelia", 
+                                                      "Pengasuh"
                                                       ], 
                                                       selected: @ptnsmmb.ts_job), 
-            {include_blank: "Please Select"}, {required: true} %>
+            {include_blank: "SILA PILIH"} %>
           </div>
         </div>
       </div>
@@ -271,7 +260,7 @@
       <div class="form-group">
         <div class="row">
           <div class="col-sm-offset-2 col-sm-10 col-4">
-            <%= f.submit :"SUBMIT",  class: 'btn btn-primary btn-lg' %>
+            <%= f.submit :"HANTAR",  class: 'btn btn-primary btn-lg' %>
           </div>
         </div>
       </div>
