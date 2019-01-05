@@ -1,0 +1,2 @@
+class PtnsMmb < ApplicationRecord
+end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_30_224743) do
+ActiveRecord::Schema.define(version: 2019_01_05_040323) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -237,6 +237,37 @@ ActiveRecord::Schema.define(version: 2018_12_30_224743) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "parent_id"
+  end
+
+  create_table "ptns_mmbs", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.date "dob"
+    t.string "ic1"
+    t.string "ic2"
+    t.string "ic3"
+    t.string "icf"
+    t.string "ph1"
+    t.string "ph2"
+    t.string "mmb"
+    t.string "edu"
+    t.string "add1"
+    t.string "add2"
+    t.string "city"
+    t.string "state"
+    t.string "postcode"
+    t.string "ts_name"
+    t.string "ts_add1"
+    t.string "ts_add2"
+    t.string "ts_city"
+    t.string "ts_state"
+    t.string "ts_postcode"
+    t.string "ts_status"
+    t.string "ts_owner"
+    t.string "ts_job"
+    t.string "ts_ph1"
+    t.string "ts_ph2"
   end
 
   create_table "ptnssps", force: :cascade do |t|
