@@ -13,6 +13,8 @@ class PtnsMmbsController < ApplicationController
 		else
 			@ptnsmmb.icf = icf
 			@ptnsmmb.save
+			flash[:notice] = "PENDAFTARAN BERJAYA. ANDA BOLEH LAKUKAN PERUBAHAN JIKA PERLU"
+			redirect_to edit_ptns_mmb_path(@ptnsmmb)
 		end	
 	end
 
@@ -22,12 +24,32 @@ class PtnsMmbsController < ApplicationController
     else
     	icf = "#{params[:ic1]}#{params[:ic2]}#{params[:ic3]}"
       @ptns_find = PtnsMmb.where(icf: icf)
-      flash.now[:danger] = "Tiada rekod" unless @ptns_find.present?
+      flash.now[:danger] = "Tiada rekod. Sila daftar di ruangan dibawah" unless @ptns_find.present?
     end
     respond_to do |format|
       format.js { render partial: 'ptns_mmbs/result' } 
     end
   end
+
+  def list_ptns
+  	@all_mmb = PtnsMmb.all.order('name ASC')
+  end
+
+  def mmb_pdf
+		@pdf = true
+		@mmb = PtnsMmb.find(params[:id])
+		respond_to do |format|
+	 		format.html
+	 		format.pdf do
+		   render pdf: "(#{@mmb.name})",
+		   template: "ptns_mmbs/mmb_pdf.html.erb",
+		   #disposition: "attachment",
+		   #page_size: "A6",
+		   orientation: "portrait",
+		   layout: 'pdf.html.erb'
+			end
+		end
+	end
 
 	def edit
 		@ptnsmmb = PtnsMmb.find(params[:id])

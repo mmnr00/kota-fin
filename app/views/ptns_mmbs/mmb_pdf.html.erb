@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h3 class="panel-title" align="center"><%= @mmb.name %></h3>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        
+
+      <div class=" col-md-9 col-lg-9"> 
+
+        <div class="table-responsive">
+          
+          <table class="table table-striped" id="" width="100%" cellspacing="0">
+            <tbody>
+              <tr>
+                <td><strong>NO TELEFON:</strong></td>
+                <td>
+                  <%= "#{@mmb.ph1}-#{@mmb.ph2}" %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>NO KAD PENGENALAN</strong></td>
+                <td>
+                  <%= "#{@mmb.ic1}-""#{@mmb.ic2}-""#{@mmb.ic3}" %>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div><br><br>
+
+
+
+Powered by&nbsp
+<% image = Foto.all.where(foto_name: "KIDCARE FULL").first %>
+  <% if image.picture.present? %>
+    <a href="<%="#{image.picture.url}"%>" target="_blank">
+      <% if @pdf %>
+        <%= wicked_pdf_image_tag(image.picture.url, size: "87x30") %>
+      <% else %>
+        <%= image_tag(image.picture.url, size: "87x30") %>
+      <% end %>
+    </a>
+  <% end %>
+<strong>www.kidcare.my</strong>
