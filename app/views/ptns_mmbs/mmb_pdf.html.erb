@@ -1,3 +1,4 @@
+<br><br>
 <div class="container">
   <div class="panel panel-info">
     <div class="panel-heading">
@@ -13,6 +14,7 @@
           
           <table class="table table-striped" id="" width="100%" cellspacing="0">
             <tbody>
+
               <tr>
                 <td><strong>NO TELEFON:</strong></td>
                 <td>
@@ -20,11 +22,76 @@
                 </td>
               </tr>
               <tr>
-                <td><strong>NO KAD PENGENALAN</strong></td>
+                <td><strong>NO KAD PENGENALAN:</strong></td>
                 <td>
                   <%= "#{@mmb.ic1}-""#{@mmb.ic2}-""#{@mmb.ic3}" %>
                 </td>
               </tr>
+              <tr>
+                <td><strong>TARIKH LAHIR:</strong></td>
+                <td>
+                  <%= @mmb.dob.strftime("%d/%m/%Y") %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>JENIS KEAHLIAN:</strong></td>
+                <td>
+                  <%= @mmb.mmb %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>TAHAP PENDIDIKAN:</strong></td>
+                <td>
+                  <%= @mmb.edu %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>ALAMAT KEDIAMAN:</strong></td>
+                <td>
+                  <%= "#{@mmb.add1} #{@mmb.add2}" %><br>
+                  <%= "#{@mmb.city}" %><br>
+                  <%= "#{@mmb.postcode} #{@mmb.state}" %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>NAMA TASKA/PJKK:</strong></td>
+                <td>
+                  <%= "#{@mmb.ts_name}" %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>ALAMAT TASKA/PJKK:</strong></td>
+                <td>
+                  <%= "#{@mmb.ts_add1} #{@mmb.ts_add2}" %><br>
+                  <%= "#{@mmb.ts_city}" %><br>
+                  <%= "#{@mmb.ts_postcode} #{@mmb.ts_state}" %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>STATUS TASKA/PJKK:</strong></td>
+                <td>
+                  <%= "#{@mmb.ts_status}" %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>JAWATAN DI TASKA/PJKK:</strong></td>
+                <td>
+                  <%= "#{@mmb.ts_job}" %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>ORANG YANG BOLEH DIHUBUNGI:</strong></td>
+                <td>
+                  <%= "#{@mmb.ts_owner}" %>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>NO TELEFON TASKA/PJKK:</strong></td>
+                <td>
+                  <%= "#{@mmb.ts_ph1}-#{@mmb.ts_ph2}" %>
+                </td>
+              </tr>
+
             </tbody>
           </table>
         </div>

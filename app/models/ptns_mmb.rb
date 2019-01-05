@@ -9,6 +9,7 @@ class PtnsMmb < ApplicationRecord
 		self.add2 = self.add2.upcase
 		self.city = self.city.upcase
 		self.state = self.state.upcase
+		self.edu = self.edu.upcase
 		self.ts_name = self.ts_name.upcase
 		self.ts_add1 = self.ts_add1.upcase
 		self.ts_add2 = self.ts_add2.upcase
