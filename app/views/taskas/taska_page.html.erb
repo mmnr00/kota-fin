@@ -47,10 +47,12 @@
              <p><button class="w3-button w3-block w3-green"   data-toggle="tooltip" data-placement="top" title="Please contact us for further enquires"> <i class="fa fa-phone-square fa-lg"></i> <i class="fa fa-whatsapp fa-lg"></i> 
              <%= @taska.phone_1 %>-<%= @taska.phone_2 %> </button></p>
              <hr>
-             <a href="/register_child?taska_id=<%= @taska.id%>">
-               <p><button class="w3-button w3-block w3-blue"   data-toggle="tooltip" data-placement="top" title="Click here to register"> <i class="fa fa-user-plus fa-lg"></i>&nbsp&nbsp  
-               REGISTER</button></p>
-             </a>
+             <% if @taska.kids.count < $package_child["#{@taska.plan}"].to_i %>
+               <a href="/register_child?taska_id=<%= @taska.id%>">
+                 <p><button class="w3-button w3-block w3-blue"   data-toggle="tooltip" data-placement="top" title="Click here to register"> <i class="fa fa-user-plus fa-lg"></i>&nbsp&nbsp  
+                 REGISTER</button></p>
+               </a>
+             <% end %>
             </div>
             <hr>
             <p class="lower-case">  RATINGS</p>

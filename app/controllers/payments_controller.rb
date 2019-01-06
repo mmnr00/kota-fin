@@ -281,20 +281,8 @@ class PaymentsController < ApplicationController
 
   def create_bill_taska
     @taska = Taska.find(params[:id])
-
-    if @taska.plan == "taska_basic"
-      amount = 360.to_f*100
-      today = Time.now.in_time_zone('Singapore')
-      expire = today + 3.months
-    elsif @taska.plan == "taska_standard"
-      amount = 500.to_f*100
-      today = Time.now.in_time_zone('Singapore')
-      expire = today + 6.months
-    elsif @taska.plan == "taska_premium"
-      amount = 860.to_f*100
-      today = Time.now.in_time_zone('Singapore')
-      expire = today + 12.months
-    end
+    amount = $package_price["#{@taska.plan}"].to_f*100
+    expire = $my_time + 12.months
     url_bill = "#{ENV['BILLPLZ_API']}bills"
     @payment = Payment.new
      data_billplz = HTTParty.post(url_bill.to_str,
@@ -304,7 +292,7 @@ class PaymentsController < ApplicationController
                       :amount=>  amount,
                       :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
                       :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
-                      :description=>"#{@taska.name}'s bill for #{@taska.plan.upcase} plan (valid from #{today.strftime("%d %b, %Y")} to #{expire.strftime("%d %b, %Y")})" }.to_json, 
+                      :description=>"#{@taska.name}'s bill for #{@taska.plan.upcase} plan (valid from #{$my_time.strftime("%d %b, %Y")} to #{expire.strftime("%d %b, %Y")})" }.to_json, 
                       #:callback_url=>  "YOUR RETURN URL"}.to_json,
             :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
@@ -314,8 +302,8 @@ class PaymentsController < ApplicationController
         @payment.name = "TASKA PLAN"
         @payment.amount = data["amount"].to_f/100
         @payment.description = data["description"]
-        @payment.bill_month = Time.now.in_time_zone('Singapore').month
-        @payment.bill_year = Time.now.in_time_zone('Singapore').year
+        @payment.bill_month = $my_time.month
+        @payment.bill_year = $my_time.year
         @payment.taska_id = @taska.id
         @payment.state = data["state"]
         @payment.paid = data["paid"]

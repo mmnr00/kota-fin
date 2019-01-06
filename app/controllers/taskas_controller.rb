@@ -295,24 +295,14 @@ class TaskasController < ApplicationController
   # POST /taskas.json
   def create
     @taska = Taska.new(taska_params)
-    if @taska.plan == "taska_basic"
-      today = Date.today
-      expire = today + 3.months
-    elsif @taska.plan == "taska_standard"
-      today = Date.today
-      expire = today + 6.months
-    elsif @taska.plan == "taska_premium"
-      today = Date.today
-      expire = today + 12.months
-    end
-    @taska.expire = expire
+    @taska.expire = $my_time + 13.months
     if @taska.save
       taska_admin1 = TaskaAdmin.create(taska_id: @taska.id, admin_id: current_admin.id)
       if current_admin != Admin.first
         taska_admin2 = TaskaAdmin.create(taska_id: @taska.id, admin_id: Admin.first.id)
       end
       flash[:notice] = "Taska was successfully created"
-      redirect_to create_billplz_bank_path(id: @taska.id)
+      redirect_to create_bill_taska_path(id: @taska)
     else
       render :new 
       
@@ -341,11 +331,11 @@ class TaskasController < ApplicationController
   def update
       if @taska.update(taska_params)
         flash[:success] = "Taska was successfully updated"
-        if @taska.bank_status == nil 
-          redirect_to create_billplz_bank_path(id: @taska.id)
-        else
-          redirect_to classroom_index_path(@taska)
-        end
+        #if @taska.bank_status == nil 
+          #redirect_to create_billplz_bank_path(id: @taska.id)
+        #else
+          redirect_to taska_path(@taska)
+        #end
         #format.html { redirect_to @taska, notice: 'Taska was successfully updated.' }
         #format.json { render :show, status: :ok, location: @taska }
       else

@@ -10,6 +10,8 @@
         <span class="count-numbers"><%= @unregistered_no %></span>
         <span class="count-name">
           <a href="/taska/unreg_kids/<%= @taska.id %>/", style="color:#fff">New Registrations</a>
+          <br><font style="color:#fff">TOTAL: <%= @taska.kids.count %></font>
+          <br><font style="color:#fff">LIMIT: &nbsp<%= $package_child["#{@taska.plan}"] %></font>
         </span>
       </div>
     </div>

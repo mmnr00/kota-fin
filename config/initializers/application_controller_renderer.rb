@@ -8,6 +8,20 @@
 # end
 $my_time = Time.now.in_time_zone('Singapore')
 
+$trial = 30
+
+$package_price = 	{ "BASIC"=>960,
+										"STANDARD"=>1800,
+										"PREMIUM"=>2400,
+										"PLATINUM"=>2880
+									}
+
+$package_child = 	{ "BASIC"=>30,
+										"STANDARD"=>60,
+										"PREMIUM"=>80,
+										"PLATINUM"=>100
+									}
+
 $month_name = { 1=>"JAN",
 								2=>"FEB",
 								3=>"MAR",

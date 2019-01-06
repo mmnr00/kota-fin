@@ -32,7 +32,7 @@
 
                   <% unpaid = payment.where(paid: false).last %>
                   <% date_reg = unpaid.created_at.to_date %>
-                  <% grace_period = 15 %>
+                  <% grace_period = $trial %>
                   <% reg_now = (Time.now.in_time_zone('Singapore').to_date - date_reg).to_i  %>
 
                   <td>
@@ -48,7 +48,7 @@
                         <i class="fa fa-exclamation-circle"></i> INACTIVE IN <%= -reg_now+grace_period %> DAYS
                       <% end %>
                       <br><br>
-                      <%= link_to "PAY",view_invoice_taska_path(taska: kuli, payment: unpaid), class: "btn btn-sm btn-success active" %>
+                      <%= link_to "ACTIVATE",view_invoice_taska_path(taska: kuli, payment: unpaid), class: "btn btn-sm btn-success active" %>
                     <% end %>
                   </td>
 
