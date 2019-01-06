@@ -15,23 +15,26 @@
         </div>
       </div>
 
-      <!-- IC -->
+      
+
+      <!-- DOB -->
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>IC NO</strong>
+            <strong>TARIKH LAHIR</strong>
           </div>
         </div>
         <div class="row">
-          <div class="col-sm-3 col-4">
-            <%= f.text_field :ic1, maxlength: 6 ,class: "form-control", autofocus: true, required: true %>
-          </div> <strong>-</strong>
-          <div class="col-sm-2 col-3">
-           <%= f.text_field :ic2, maxlength: 2, class: "form-control", placeholder: "", autofocus: true, required: true %>
-          </div> <strong>-</strong>
-          <div class="col-sm-3 col-4">
-            <%= f.text_field :ic3, maxlength: 4, class: "form-control", placeholder: "", autofocus: true, required: true %>
-          </div>         
+          <div class="col-sm-8 col-12">
+            <%= f.date_select :dob, 
+                              order:[:day, :month, :year],
+                              prompt: { day: 'HARI', month: 'BULAN', year: 'TAHUN' },
+                              start_year: 1930,
+                              selected: @ptnsmmb.dob,
+                              class: "form-control", 
+                              autofocus: true, 
+                              required: true %>
+          </div>
         </div>
       </div>
 

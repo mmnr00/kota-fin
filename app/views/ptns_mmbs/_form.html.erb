@@ -24,7 +24,14 @@
         </div>
         <div class="row">
           <div class="col-sm-8 col-12">
-            <%= f.date_field :dob, class: "form-control", autofocus: true, required: true %>
+            <%= f.date_select :dob, 
+                              order:[:day, :month, :year],
+                              prompt: { day: 'HARI', month: 'BULAN', year: 'TAHUN' },
+                              start_year: 1930,
+                              selected: @ptnsmmb.dob,
+                              class: "form-control", 
+                              autofocus: true, 
+                              required: true %>
           </div>
         </div>
       </div>
@@ -98,11 +105,14 @@
         </div>
         <div class="row">
           <div class="col-sm-8 col-8">
-            <%= f.select :mmb, options_for_select(["AHLI BIASA (RM 20 setahun)", 
-                                                  "AHLI INSTITUSI (RM 50 setahun)", 
-                                                  "AHLI SEUMUR HIDUP (RM 100)"
-                                                  ], 
-                                                  selected: @ptnsmmb.mmb), 
+            <%= f.select :mmb, 
+            options_for_select(
+            ["AHLI BIASA BAHARU(RM 30 setahun termasuk RM 10 yuran pendaftaran)", 
+            "AHLI INSTITUSI BAHARU(RM 60 setahun termasuk RM 10 yuran pendaftaran)", 
+            "MEMPERBAHARUI KEAHLIAN BIASA(RM 20 setahun)",
+            "MEMPERBAHARUI KEAHLIAN INSTITUSI(RM 50 setahun)"
+            ], 
+            selected: @ptnsmmb.mmb), 
             {include_blank: "SILA PILIH"}, {required: true} %>
           </div>
         </div>
