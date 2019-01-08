@@ -92,7 +92,7 @@
                 <tr>
                   <td><%= @payment.description %></td>
                   <td></td>
-                  <td class="text-right"><%= @payment.amount %></td>
+                  <td class="text-right"><%= $package_price[@taska.plan] %></td>
                 </tr>
                 <tr>
                   <td colspan="0" rowspan="4">
@@ -100,6 +100,12 @@
                     <p>Please make the payment based on the schedule provided by the owner</p>
                     </td>
                 </tr>
+                <% if @taska.discount < 1 %>
+                <tr>
+                  <td class="text-right no-border"><strong>DISCOUNT</strong></td>
+                  <td class="text-right">(<%= $package_price[@taska.plan]*@taska.discount %>)</td>
+                </tr>
+                <% end %>
                 <tr>
                   <td class="text-right no-border"><strong>TAX</strong></td>
                   <td class="text-right">0.00</td>

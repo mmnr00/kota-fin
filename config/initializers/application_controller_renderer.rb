@@ -10,10 +10,10 @@ $my_time = Time.now.in_time_zone('Singapore')
 
 $trial = 30
 
-$package_price = 	{ "BASIC"=>960,
-										"STANDARD"=>1800,
-										"PREMIUM"=>2400,
-										"PLATINUM"=>2880
+$package_price = 	{ "BASIC"=>80,
+										"STANDARD"=>150,
+										"PREMIUM"=>200,
+										"PLATINUM"=>240
 									}
 
 $package_child = 	{ "BASIC"=>30,

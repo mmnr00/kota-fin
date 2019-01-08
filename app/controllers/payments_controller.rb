@@ -281,7 +281,7 @@ class PaymentsController < ApplicationController
 
   def create_bill_taska
     @taska = Taska.find(params[:id])
-    amount = $package_price["#{@taska.plan}"].to_f*100
+    amount = ($package_price["#{@taska.plan}"].to_f*100)*(@taska.discount)
     expire = $my_time + 12.months
     url_bill = "#{ENV['BILLPLZ_API']}bills"
     @payment = Payment.new
@@ -292,7 +292,7 @@ class PaymentsController < ApplicationController
                       :amount=>  amount,
                       :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
                       :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
-                      :description=>"#{@taska.name}'s bill for #{@taska.plan.upcase} plan (valid from #{$my_time.strftime("%d %b, %Y")} to #{expire.strftime("%d %b, %Y")})" }.to_json, 
+                      :description=>"#{@taska.name}'s BILL FOR #{$month_name[$my_time.month + 1]} #{$my_time.year}" }.to_json, 
                       #:callback_url=>  "YOUR RETURN URL"}.to_json,
             :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })

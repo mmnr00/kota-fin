@@ -387,6 +387,7 @@ class TaskasController < ApplicationController
                                     :ssm_no,
                                     :plan,
                                     :booking,
+                                    :discount,
                                     fotos_attributes: [:foto, :picture, :foto_name]  )
     end
     def taska_params_bank
