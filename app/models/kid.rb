@@ -39,18 +39,18 @@ class Kid < ApplicationRecord
   protected
 
   def save_kids
-  	self.name = self.name.upcase
-  	self.birth_place = self.birth_place.upcase
-  	self.allergy = self.allergy.upcase
-  	self.fav_food = self.fav_food.upcase
-  	self.hobby = self.hobby.upcase
-  	self.panel_clinic = self.panel_clinic.upcase
-  	self.mother_name = self.mother_name.upcase
-  	self.mother_job = self.mother_job.upcase
-  	self.mother_job_address = self.mother_job_address.upcase
-  	self.father_name = self.father_name.upcase
-  	self.father_job = self.father_job.upcase
-  	self.father_job_address = self.father_job_address.upcase
+  	self.name = self.name.upcase unless !self.name.present?
+  	self.birth_place = self.birth_place.upcase unless !self.birth_place.present?
+  	self.allergy = self.allergy.upcase unless !self.allergy.present?
+  	self.fav_food = self.fav_food.upcase unless !self.fav_food.present?
+  	self.hobby = self.hobby.upcase unless !self.hobby.present?
+  	self.panel_clinic = self.panel_clinic.upcase unless !self.panel_clinic.present?
+  	self.mother_name = self.mother_name.upcase unless !self.mother_name.present?
+  	self.mother_job = self.mother_job.upcase unless !self.mother_job.present?
+  	self.mother_job_address = self.mother_job_address.upcase unless !self.mother_job_address.present?
+  	self.father_name = self.father_name.upcase unless !self.father_name.present?
+  	self.father_job = self.father_job.upcase unless !self.father_job.present?
+  	self.father_job_address = self.father_job_address.upcase unless !self.father_job_address.present?
   end
 
 end

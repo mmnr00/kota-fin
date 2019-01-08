@@ -144,6 +144,7 @@ Rails.application.routes.draw do
   get '/taska/:id/expenses/new', to: 'expenses#new', as: 'new_expense'
   get '/taska/:id/expenses/month_expense', to: 'expenses#month_expense', as: 'month_expense'
   #KIDS
+  get '/register_child_admin', to: 'kids#new_admin', as: 'new_kid_admin'
   get '/register_child', to: 'kids#new', as: 'new_kid'
   get '/classroom/:id/search_kid', to: 'kids#search', as: 'search_kid'
   get '/find_kid', to: 'kids#find', as: 'find_kid'

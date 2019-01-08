@@ -100,7 +100,15 @@ class KidsController < ApplicationController
 	end
 
 
-
+	def new_admin
+			@parent = current_parent
+			@admin = current_admin
+			@kid = Kid.new
+			@taska = Taska.find(params[:taska_id])
+			@fotos = @taska.fotos
+			@kid.fotos.build
+			#render action: "new", layout: "dsb-parent-child"	
+	end
 
 
 	def new
@@ -118,13 +126,13 @@ class KidsController < ApplicationController
 		#@expense.taska = session[:taska_id]
 		if @kid.save
 			#Kidtsk.create(kid_id: @kid.id, taska_id: params[:kidtsk][:taska_id])
-			if @kid.fotos.where(foto_name: "BOOKING RECEIPT").first.present?			
-				flash[:notice] = "Children was successfully created"					
+			# if @kid.fotos.where(foto_name: "BOOKING RECEIPT").first.present?			
+			# 	flash[:notice] = "Children was successfully created"					
 				redirect_to my_kid_path(@kid.parent)		
-			else
+			# else
 				#redirect_to parent_index_path;		 
-				redirect_to create_bill_booking_path(kid_id: @kid.id, taska_id: @kid.taska.id)
-			end							
+				#redirect_to create_bill_booking_path(kid_id: @kid.id, taska_id: @kid.taska.id)
+			# end							
 		else
 			flash[:danger] = "#{@kid.errors.full_messages}"
 			render :new

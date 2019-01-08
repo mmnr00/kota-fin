@@ -32,11 +32,14 @@
                       <%= "#{kid.ic_1}-#{kid.ic_2}-#{kid.ic_3}" %>
                     </p>
                     
-                    <a href="/kids/<%= kid.id %>">
+                    <a href="/kids/<%= kid.id %>" target="_blank">
                       <font color="gray-dark"><span>
                          <i class="fa fa-eye"></i> VIEW PROFILE
                       </span></font>
                     </a><br>
+                    <%= link_to edit_kid_path(kid), style: "color:green" do %>
+                      <i class="fa fa-edit"></i> EDIT
+                    <% end %>
                     <%= link_to remove_classroom_path(kid: kid, classroom: @classroom), style: "color:red", :data => {:confirm => 'Are you sure?'} do %>
                       <i class="fa fa-times-circle"></i> REMOVE
                     <% end %>

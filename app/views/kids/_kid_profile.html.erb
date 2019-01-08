@@ -1,13 +1,15 @@
 <div class="container">
   <div class="panel panel-info">
     <div class="panel-heading">
-      <h3 class="panel-title" align="center"><%= @kid.name.upcase %></h3>
+      <h3 class="panel-title" align="center">
+        <%= @kid.name %>
+      </h3>
     </div>
     <div class="panel-body">
       <div class="row">
         <div class="col-md-3 col-lg-3" align="center"> 
           <% image = @fotos.where(foto_name: "CHILDREN PICTURE").first %>
-          <% if image.picture.present? %>
+          <% if image.present? && image.present? && image.picture.present? %>
             <a href="<%="#{image.picture.url}"%>" target="_blank">
               <% if @pdf %>
                 <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
@@ -42,7 +44,7 @@
                 <td><strong>MYKID COPY</strong></td>
                 <td>
                   <% image = @fotos.where(foto_name: "CHILD MYKID").first %>
-                  <% if image.picture.present? %>
+                  <% if image.present? && image.picture.present? %>
                     <a href="<%="#{image.picture.url}"%>" target="_blank">
                       <% if @pdf %>
                         <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
@@ -59,7 +61,7 @@
                 <td><strong>IMMUNIZATION RECORD</strong></td>
                 <td>
                   <% image = @fotos.where(foto_name: "IMMUNIZATION RECORD").first %>
-                  <% if image.picture.present? %>
+                  <% if image.present? && image.picture.present? %>
                     <a href="<%="#{image.picture.url}"%>" target="_blank">
                       <% if @pdf %>
                         <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
@@ -81,7 +83,7 @@
               <tr>
                 <td><strong>PLACE OF BIRTH</strong></td>
                 <td>
-                  <%= @kid.birth_place.upcase %>
+                  <%= @kid.birth_place %>
                 </td>
               </tr>
               <tr>
@@ -119,7 +121,7 @@
                 <td>
                   <%= @kid.mother_name %>&nbsp
                   <% image = @fotos.where(foto_name: "MOTHER MYKAD").first %>
-                  <% if image.picture.present? %>
+                  <% if image.present? && image.picture.present? %>
                     <a href="<%="#{image.picture.url}"%>" target="_blank">
                       <% if @pdf %>
                         <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
@@ -155,7 +157,7 @@
                 <td>
                   <%= @kid.father_name %>&nbsp
                   <% image = @fotos.where(foto_name: "FATHER MYKAD").first %>
-                  <% if image.picture.present? %>
+                  <% if image.present? && image.picture.present? %>
                     <a href="<%="#{image.picture.url}"%>" target="_blank">
                       <% if @pdf %>
                         <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>

@@ -48,7 +48,12 @@
              <%= @taska.phone_1 %>-<%= @taska.phone_2 %> </button></p>
              <hr>
              <% if @taska.kids.count < $package_child["#{@taska.plan}"].to_i %>
-               <a href="/register_child?taska_id=<%= @taska.id%>">
+              <% if current_admin %>
+                <% reg_link = "register_child_admin" %>
+              <% else %>
+                <% reg_link = "register_child" %>
+              <% end %>
+               <a href="/<%= "#{reg_link}"%>?taska_id=<%= @taska.id%>">
                  <p><button class="w3-button w3-block w3-blue"   data-toggle="tooltip" data-placement="top" title="Click here to register"> <i class="fa fa-user-plus fa-lg"></i>&nbsp&nbsp  
                  REGISTER</button></p>
                </a>

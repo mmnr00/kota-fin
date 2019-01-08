@@ -55,7 +55,7 @@
 
                     </p>
                     
-                    <%= link_to kid_path(kid), class: "btn btn-sm btn-primary active" do%>
+                    <%= link_to kid_path(kid), class: "btn btn-sm btn-primary active", target: "_blank" do%>
                       <i class="fa fa-eye"></i> VIEW PROFILE 
                     <% end %>&nbsp&nbsp&nbsp
                     <%= link_to remove_taska_path(kid: kid), class: "btn btn-sm btn-danger active", :data => {:confirm => 'Are you sure?'} do %>
