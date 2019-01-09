@@ -85,13 +85,11 @@
           <div class="row">
             <div class="col-sm-8 col-12">
               <%= f.date_select :dob, 
-                                order:[:day, :month, :year],
+                                {order:[:day, :month, :year],
                                 prompt: { day: 'DAY', month: 'MONTH', year: 'YEAR' },
                                 selected: @kid.dob,
-                                start_year: 1980,
-                                class: "form-control", 
-                                autofocus: true, 
-                                required: true %>
+                                start_year: 1980},
+                                {required: true} %>
             </div>
           </div>
         </div>
@@ -106,13 +104,11 @@
           <div class="row">
             <div class="col-sm-8 col-12">
               <%= f.date_select :date_enter, 
-                                order:[:day, :month, :year],
+                                {order:[:day, :month, :year],
                                 prompt: { day: 'DAY', month: 'MONTH', year: 'YEAR' },
-                                selected: @kid.dob,
-                                start_year: 1980,
-                                class: "form-control", 
-                                autofocus: true, 
-                                required: true %>
+                                selected: @kid.date_enter,
+                                start_year: 1980},
+                                {required: true}  %>
             </div>
           </div>
         </div>

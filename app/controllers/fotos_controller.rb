@@ -20,6 +20,9 @@ class FotosController < ApplicationController
         elsif @foto.expense.present?
           @expense = @foto.expense
           redirect_to edit_expense_path(@expense)
+        elsif @foto.kid.present?
+          @kid = @foto.kid
+          redirect_to edit_kid_path(@kid)
         end
       end
     else

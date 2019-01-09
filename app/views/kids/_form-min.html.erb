@@ -1,8 +1,8 @@
 <div class='row'>
   <div class='col-lg-8 col-12'>
     <%= form_for(@kid, :html => {multipart: true, class: "form-horizontal", role: "form"}) do |f| %>
-        
-        <!-- name -->
+
+      <!-- name -->
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
@@ -75,7 +75,7 @@
             The main phone number to contact  
         </div>
 
-         <!-- DOB -->
+        <!-- DOB -->
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
@@ -85,16 +85,16 @@
           <div class="row">
             <div class="col-sm-8 col-12">
               <%= f.date_select :dob, 
-                                order:[:day, :month, :year],
+                                {order:[:day, :month, :year],
                                 prompt: { day: 'DAY', month: 'MONTH', year: 'YEAR' },
                                 selected: @kid.dob,
-                                start_year: 1980,
-                                class: "form-control", 
-                                autofocus: true, 
-                                required: true %>
+                                start_year: 1980},
+                                {required: true} %>
             </div>
           </div>
         </div>
+        
+        
 
         <!-- DATE ENTER -->
         <div class="form-group"> 
@@ -106,18 +106,14 @@
           <div class="row">
             <div class="col-sm-8 col-12">
               <%= f.date_select :date_enter, 
-                                order:[:day, :month, :year],
+                                {order:[:day, :month, :year],
                                 prompt: { day: 'DAY', month: 'MONTH', year: 'YEAR' },
-                                selected: @kid.dob,
-                                start_year: 1980,
-                                class: "form-control", 
-                                autofocus: true, 
-                                required: true %>
+                                selected: @kid.date_enter,
+                                start_year: 1980},
+                                {required: true}  %>
             </div>
           </div>
         </div>
-
-        
 
         <!-- MOTHER NAME -->
         <div class="form-group"> 
@@ -149,9 +145,27 @@
           </div>
         </div>
 
-       
+        <!-- 5 pictures -->
+        <%= f.fields_for :fotos do |h| %>
+          <%= h.hidden_field :foto_name, value: "CHILD MYKID" %>
+        <% end %>
 
-        
+        <%= f.fields_for :fotos do |h| %>
+          <%= h.hidden_field :foto_name, value: "CHILDREN PICTURE" %>
+        <% end %>
+
+        <%= f.fields_for :fotos do |h| %>
+          <%= h.hidden_field :foto_name, value: "IMMUNIZATION RECORD" %>
+        <% end %>
+
+        <%= f.fields_for :fotos do |h| %>
+          <%= h.hidden_field :foto_name, value: "MOTHER MYKAD" %>
+        <% end %>
+
+        <%= f.fields_for :fotos do |h| %>
+          <%= h.hidden_field :foto_name, value: "FATHER MYKAD" %>
+        <% end %>
+    
 
         <%= f.hidden_field :parent_id, value: @parent.id %>
         <% if @kid.taska_id.present? %>
