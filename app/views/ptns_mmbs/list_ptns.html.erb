@@ -9,6 +9,7 @@
         <th> NAMA </th>
         <th> NO K/P </th>
         <th> NO TELEFON </th>
+        <th> GAMBAR PASSPORT </th>
         <th> TINDAKAN </th>
       </tr>
     </thead>
@@ -18,6 +19,18 @@
           <td><%= mmb.name %></td>
           <td><%= "#{mmb.ic1}-#{mmb.ic2}-#{mmb.ic3}"%></td>
           <td><%= "#{mmb.ph1}-#{mmb.ph2}"%></td>
+          <td>
+            <% image = mmb.fotos.where(foto_name: "PTNS MMB").first %>
+              <% if image.present? %>
+                <a href="<%="#{image.picture.url}"%>" target="_blank">
+                  <% if image.picture.content_type == 'application/pdf' %>
+                    <%= image_tag(Foto.where(foto_name: "PDF ICON").first.picture.url, size: "50x50") if image.picture? %>
+                  <% else %>
+                    <%= image_tag(image.picture.url, size: "100x100") if image.picture? %>
+                  <% end %>
+                </a>
+              <% end %>
+          </td>
           <td>
             <%= link_to mmb_pdf_path(id: mmb.id, format: :pdf), class: "btn btn-sm active", style: "color:green", target: "_blank" do %>
                 <i class="fa fa-download"></i> CETAK PROFIL

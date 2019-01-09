@@ -2,6 +2,7 @@ class PtnsMmbsController < ApplicationController
 	
 	def new
 		@ptnsmmb = PtnsMmb.new
+		@ptnsmmb.fotos.build
 	end
 
 	def create
@@ -13,9 +14,12 @@ class PtnsMmbsController < ApplicationController
 		else
 			@ptnsmmb.icf = icf
 			@ptnsmmb.save
-			flash[:notice] = "PENDAFTARAN BERJAYA. ANDA BOLEH LAKUKAN PERUBAHAN JIKA PERLU"
-			redirect_to edit_ptns_mmb_path(@ptnsmmb)
+			flash[:notice] = "PENDAFTARAN BERJAYA. TERIMA KASIH. SILA IKUTI ARAHAN SETERUSNYA"
+			redirect_to after_reg_ptns_path
 		end	
+	end
+
+	def after_reg
 	end
 
 	def find_ptns
@@ -96,7 +100,9 @@ class PtnsMmbsController < ApplicationController
 																		:ts_owner,
 																		:ts_job,
 																		:ts_ph1,
-																		:ts_ph2)
+																		:ts_ph2,
+																		:email,
+																		fotos_attributes: [:foto, :picture, :foto_name])
    end
 
 

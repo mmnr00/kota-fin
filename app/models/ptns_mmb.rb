@@ -1,5 +1,7 @@
 class PtnsMmb < ApplicationRecord
-	before_save :upcase_all
+	has_many :fotos
+	accepts_nested_attributes_for :fotos
+	#before_save :upcase_all
 
 	private
 

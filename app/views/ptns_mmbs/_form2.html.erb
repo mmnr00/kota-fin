@@ -15,6 +15,26 @@
         </div>
       </div>
 
+      <!-- IC -->
+      <div class="form-group"> 
+        <div class="row">
+          <div class="control-label col-sm-8">
+            <strong>NO KAD PENGENALAN</strong>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-3 col-4">
+            <%= f.text_field :ic1, maxlength: 6 ,class: "form-control", autofocus: true, required: true %>
+          </div> <strong>-</strong>
+          <div class="col-sm-2 col-3">
+           <%= f.text_field :ic2, maxlength: 2, class: "form-control", placeholder: "", autofocus: true, required: true %>
+          </div> <strong>-</strong>
+          <div class="col-sm-3 col-4">
+            <%= f.text_field :ic3, maxlength: 4, class: "form-control", placeholder: "", autofocus: true, required: true %>
+          </div>         
+        </div>
+      </div>
+
       
 
       <!-- DOB -->
@@ -27,16 +47,49 @@
         <div class="row">
           <div class="col-sm-8 col-12">
             <%= f.date_select :dob, 
-                              order:[:day, :month, :year],
+                              {order:[:day, :month, :year],
                               prompt: { day: 'HARI', month: 'BULAN', year: 'TAHUN' },
                               start_year: 1930,
-                              selected: @ptnsmmb.dob,
-                              class: "form-control", 
-                              autofocus: true, 
-                              required: true %>
+                              selected: @ptnsmmb.dob}, 
+                              {required: true} %>
           </div>
         </div>
       </div>
+
+      <!-- DOB -->
+      <div class="form-group"> 
+        <div class="row">
+          <div class="control-label col-sm-8">
+            <i class="fas fa-cloud-upload-alt"></i><strong> GAMBAR PASSPORT</strong>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-8 col-12">
+            <%= f.fields_for :fotos do |h| %>
+              <div class="row">
+                <div class="col-sm-8 col-8">
+                  <%= h.hidden_field :foto_name, value: "PTNS MMB" %>
+                  <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <!-- EMAIL -->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>EMAIL</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.email_field :email, class: "form-control", autofocus: true %>
+            </div>
+          </div>
+        </div>
 
 
 
