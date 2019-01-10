@@ -25,7 +25,9 @@
                                           classroom: params[:classroom],
                                           month: params[:month],
                                           year: params[:year],
-                                          share_bill: kid.id),class:"btn btn-sm btn-info active" do %>
+                                          share_bill: kid.id,
+                                          discount: params[:discount],
+                                          addtn: params[:addtn]),class:"btn btn-sm btn-info active" do %>
                   <i class="fa fa-user-plus"></i> ADD
                 <% end %>
               <% end %>

@@ -39,7 +39,9 @@
                                                       classroom: params[:classroom],
                                                       month: params[:month],
                                                       year: params[:year],
-                                                      id: params[:id])%>">
+                                                      id: params[:id],
+                                                      discount: params[:discount],
+                                                      addtn: params[:addtn])%>">
 
                       <div class="pull-right text-danger">
                         <i class="fa fa-times"></i>
@@ -58,6 +60,8 @@
                   <%= f.hidden_field :month, value: params[:month] %>
                   <%= f.hidden_field :year, value: params[:year] %>
                   <%= f.hidden_field :id, value: params[:id] %>
+                  <%= f.hidden_field :addtn, value: params[:addtn] %>
+                  <%= f.hidden_field :discount, value: params[:discount] %>
                   <div style="width: 50%; margin: 0 auto;">
                     <%= f.submit :"ADD",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
                   </div>
@@ -79,7 +83,9 @@
                                             classroom: @kid.classroom.id,
                                             month: params[:month],
                                             year: params[:year],
-                                            beradik: beradik.id
+                                            beradik: beradik.id,
+                                            discount: params[:discount],
+                                            addtn: params[:addtn]
                                               ), data: {confirm: "Are You Sure?"} do %>
                       <span class="pull-right text-danger">
                         <i class="fa fa-times-circle"></i>
@@ -114,7 +120,9 @@
                                                       classroom: params[:classroom],
                                                       month: params[:month],
                                                       year: params[:year],
-                                                      id: params[:id])%>">
+                                                      id: params[:id],
+                                                      discount: params[:discount],
+                                                      addtn: params[:addtn])%>">
 
                       <div class="pull-right text-danger">
                         <i class="fa fa-times"></i>
@@ -133,6 +141,8 @@
                   <%= f.hidden_field :month, value: params[:month] %>
                   <%= f.hidden_field :year, value: params[:year] %>
                   <%= f.hidden_field :id, value: params[:id] %>
+                  <%= f.hidden_field :addtn, value: params[:addtn] %>
+                  <%= f.hidden_field :discount, value: params[:discount] %>
                   <div style="width: 50%; margin: 0 auto;">
                     <%= f.submit :"ADD",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
                   </div>
@@ -146,9 +156,18 @@
         <% end %>
 
       </div>
-      <% total_bill = total_bill - params[:discount].to_f %>
-      <div class="bg-success col-sm-12"><h1 align="center" style="color:white">
-        RM <%= total_bill %></h1></div>
+      <% total_bill = total_bill - params[:discount].to_f + params[:addtn].to_f %>
+      <div class ="row">
+        <div class="bg-primary col-sm-12"><h2 align="center" style="color:white">
+          TOTAL: RM <%= total_bill %></h2></div>
+      </div><br>
+      <div class ="row">
+        <div class="bg-success col-sm-5"><h4 align="center" style="color:white">
+          ADDITIONAL: RM <%= params[:addtn].to_f %></h4></div>
+        <div class="col-sm-2"></div>
+        <div class="bg-danger col-sm-5"><h4 align="center" style="color:white">
+          DISCOUNT: RM <%= params[:discount].to_f %></h4></div>
+      </div><br><br>
       <div class='col-sm-12'>
         <%= form_for(@payment, :html => {class: "form-horizontal", role: "form"}) do |f| %>
           <%= f.hidden_field :amount, rows: 10, class: "form-control", :step => 0.01,placeholder: "e.g 32.10", value: total_bill %>
@@ -198,22 +217,62 @@
       <div id="kid-lookup"> <!-- From Finance Tracker views/users/myportfolio.html  -->
         <%= form_tag new_bill_path, method: :get, id: "find_kid" do %>
           <div class="form-group text-center col-md-12 bg-light">
-            <br><strong>BILL DISCOUNT<br><br></strong>
+            <br><strong>BILL DISCOUNT (RM)<br></strong>
+            <p>Amount to be DEDUCTED from the total</p>
             <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-4">
               <%= number_field_tag :discount, params[:discount], 
-                      placeholder: "PLEASE APPLY DISCOUNT IF ANY", 
+                      placeholder: "", 
                       autofocus: true,  
                       step: 0.01,
                       class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
             </div>                
-            <div class="col-md-12">
-              <%= button_tag(type: :submit, class: "btn btn-sm btn-success active", id: "submit_expense") do %>
+            <div class="col-md-4">
+              <%= button_tag(type: :submit, class: "btn btn-sm btn-danger active", id: "submit_expense") do %>
                   <i class="fa fa-check"></i> APPLY
               <% end %>
             </div>
+            <div class="col-md-2">
+            </div><br><br>
           </div>
           </div>
+          <% if params[:addtn].present? %>
+            <%= hidden_field_tag :addtn, params[:addtn], value: params[:addtn] %>
+          <% end %>
+          <%= hidden_field_tag :id, params[:id], value: @taska.id %>
+          <%= hidden_field_tag :child, params[:child], value: @kid.id %>
+          <%= hidden_field_tag :classroom, params[:classroom], value: @kid.classroom.id %>
+          <%= hidden_field_tag :month, params[:month], value: params[:month] %>
+          <%= hidden_field_tag :year, params[:year], value: params[:year] %>
+        <%end%>
+        <%= form_tag new_bill_path, method: :get, id: "find_kid" do %>
+          <div class="form-group text-center col-md-12 bg-light">
+            <br><strong>OTHER CHARGES (RM)<br></strong>
+            <p>Amount to be ADDED from the total</p>
+            <div class="row">
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-4">
+              <%= number_field_tag :addtn, params[:addtn], 
+                      placeholder: "", 
+                      autofocus: true,  
+                      step: 0.01,
+                      class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+            </div>                
+            <div class="col-md-4">
+              <%= button_tag(type: :submit, class: "btn btn-sm btn-primary active", id: "submit_expense") do %>
+                  <i class="fa fa-check"></i> APPLY
+              <% end %>
+            </div>
+            <div class="col-md-2">
+            </div><br><br>
+          </div>
+          </div>
+          <% if params[:discount].present? %>
+            <%= hidden_field_tag :discount, params[:discount], value: params[:discount] %>
+          <% end %>
           <%= hidden_field_tag :id, params[:id], value: @taska.id %>
           <%= hidden_field_tag :child, params[:child], value: @kid.id %>
           <%= hidden_field_tag :classroom, params[:classroom], value: @kid.classroom.id %>

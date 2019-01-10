@@ -63,7 +63,9 @@ class ExtrasController < ApplicationController
 															classroom: params[:kid][:classroom],
 															month: params[:kid][:month],
 															year: params[:kid][:year],
-															id: params[:kid][:id] )
+															id: params[:kid][:id],
+															discount: params[:kid][:discount],
+															addtn: params[:kid][:addtn] )
 	end
 
 	def remove_kid_extras
@@ -73,7 +75,9 @@ class ExtrasController < ApplicationController
 															classroom: params[:classroom],
 															month: params[:month],
 															year: params[:year],
-															id: params[:id] )
+															id: params[:id],
+															discount: params[:discount],
+															addtn: params[:addtn] )
 	end
 
 	private

@@ -192,12 +192,14 @@ class PaymentsController < ApplicationController
       @payment.save
       @taska = @payment.taska
       # start send sms to parents
-      @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
-      @client.messages.create(
-        to: "+6#{@kid.ph_1}#{@kid.ph_2}",
-        from: ENV["TWILIO_PHONE_NO"],
-        body: "New bill from #{@taska.name} . Please click at this link <#{bill_view_url(payment: @payment.id, kid: @kid.id, taska: @kid.taska.id)}> to make payment"
-      )
+      if Rails.env.production?
+        @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
+        @client.messages.create(
+          to: "+6#{@kid.ph_1}#{@kid.ph_2}",
+          from: ENV["TWILIO_PHONE_NO"],
+          body: "New bill from #{@taska.name} . Please click at this link <#{bill_view_url(payment: @payment.id, kid: @kid.id, taska: @kid.taska.id)}> to make payment"
+        )
+      end
       kb = KidBill.new(kid_id: @kid.id, payment_id: @payment.id, classroom_id: @kid.classroom.id)
       @kid.extras.each do |extra|
         kb.extra << extra.id
@@ -472,11 +474,11 @@ class PaymentsController < ApplicationController
   end
 
   def update_billplz_bank
-    url_bill = "https://www.billplz.com/api/v3/check/bank_account_number/12038010115729"
+    url_bill = "#{ENV['BILLPLZ_API_REAL']}check/bank_account_number/157410082426"
       data_billplz = HTTParty.get(url_bill.to_str,
               :body  => { }.to_json, 
                           #:callback_url=>  "YOUR RETURN URL"}.to_json,
-              :basic_auth => { :username => "667aac2a-cdb2-4b44-8ca6-2d26f63d63f3" },
+              :basic_auth => { :username => "#{ENV['BILLPLZ_APIKEY_REAL']}" },
               :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
       render json: data_billplz and return
   end
