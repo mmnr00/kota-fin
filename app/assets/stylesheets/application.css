@@ -375,6 +375,11 @@ header.masthead .intro-text .intro-heading {
 }
 
 
+tr.noBorder td {
+  border: 0;
+}
+
+
 
 
 

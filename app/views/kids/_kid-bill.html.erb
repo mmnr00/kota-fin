@@ -1,179 +1,175 @@
 
-      <!-- BEGIN PAGE CONTAINER-->
 <div class="page-content">
-  <!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->
   <% if @payment.paid %>
     <h1 align="center"><%= link_to "PAID", "#", class: "btn btn-lg btn-success active" %></h1>
   <% else %>
-      <h1 align="center"><%= link_to "PENDING PAYMENT", "#", class: "btn btn-sm btn-danger active" %></h1>
-      <% if !current_admin && !@pdf %>
-        <h1 align="right">
-          <%= link_to "#{ENV['BILLPLZ_URL']}/bills/#{@payment.bill_id}", class: "btn btn-lg btn-info active" do %>
-            <i></i> PAY
-          <% end %>
-        </h1>
-      <% end %>
-    </div>
+    <h1 align="center"><%= link_to "PENDING PAYMENT", "#", class: "btn btn-sm btn-danger active" %></h1>
+    <% if !current_admin && !@pdf %>
+      <h1 align="right">
+        <%= link_to "#{ENV['BILLPLZ_URL']}/bills/#{@payment.bill_id}", class: "btn btn-lg btn-info active" do %>
+          <i></i> PAY
+        <% end %>
+      </h1>
+    <% end %>
   <% end %>
-  <div class="clearfix"></div>
-  <div class="content">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="grid simple">
-          <div class="grid-body no-border invoice-body">
-            <br>
-            <div class="pull-left"> 
-              <% image = @fotos.where(foto_name: "CENTER LOGO").first %>
-              <% if image.picture.present? %>
-                <a href="<%="#{image.picture.url}"%>" target="_blank">
-                  <% if @pdf %>
-                    <%= wicked_pdf_image_tag(image.picture.url, size: "100x100") %>
-                  <% else %>
-                    <%= image_tag(image.picture.url, size: "100x100") %>
-                  <% end %>
-                </a>
-              <% end %>
-              <address>
-                <strong><%= @taska.name.upcase %></strong><br>
-                <%= @taska.address_1.upcase %><br>
-                <%= @taska.address_2.upcase %><br>
-                <%= @taska.city.upcase %>&nbsp
-                <%= @taska.states.upcase %>&nbsp
-                <%= @taska.postcode %><br>
-                <%= @taska.phone_1 %>-<%= @taska.phone_2 %><br>
-                <%= @taska.email %>
-              </address>
-            </div><br>
-            <div class="pull-right">
-              <% if @payment.paid %>
-                <h2>RECEIPT FOR 
-              <% else %>
-                <h2>INVOICE FOR 
-              <% end %>
-                <strong><%= @kid.name.upcase %></strong></h2>
-              <h5><%= @kid.ic_1 %>-<%= @kid.ic_2 %>-<%= @kid.ic_3 %></h5>
-              <% if @payment.kids.count > 1 %>
-                <hr>
-                <h6>SHARED WITH</h6>
-                <h7>
-                  <% @payment.kids.each do |beradik| %>
-                    <% if beradik.id != @kid.id %>
-                      <strong><%= beradik.name.upcase %></strong>
-                      &nbsp<%= "(#{beradik.ic_1}-#{beradik.ic_2}-#{beradik.ic_3})" %><br>
-                    <% end %>
-                  <% end %>
-                </h7>
-                <hr>
-              <% end %>
-            </div>
-            <div class="clearfix"></div>
-            <br>
-            <div class="row">
-              <div class="col-md-9">
-                <h4 class="semi-bold">
-                  EN <%= @kid.father_name.upcase %> / PN <%= @kid.mother_name.upcase %></h4>
-                <address>
-                  <%= @kid.father_phone %><br>
-                  <%= @kid.mother_phone %><br>
-                </address>
-              </div>
-              <div class="col-md-3">
-                <br>
-                <div>
-                  <div class="pull-left"> BILL ID : <%= @payment.bill_id %></div>
-                  <div class="clearfix"></div>
-                </div>
-                <div>
-                  <div class="pull-left"> BILL DATE : <%= @payment.created_at.strftime("%b %d, %Y") %></div>
-                  <div class="clearfix"></div>
-                </div>
-                <div>
-                  <% if @payment.paid %>
-                  <div class="pull-left"> PAYMENT DATE : <%= @payment.updated_at.strftime("%b %d, %Y") %></div>
-                  <% end %>
-                  <div class="clearfix"></div>
-                </div>
-                <br>
-              </div>
-            </div>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th class="text-left">BILL DETAILS FOR <%= "#{$month_name[@payment.bill_month].upcase}" %> <%= @payment.bill_year %> </th>
-                  <th></th>
-                  <th style="width:140px" class="text-right">AMOUNT (RM)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @payment.kid_bills.each do |kb| %>
-                  <tr>
-                    <td>
-                      <strong><%= kb.kid.name %></strong><br>
-                      <% if kb.classroom.present? %>
-                        FEE FOR CLASSROOM <%= kb.classroom.classroom_name.upcase %>
-                      <% else %>
-                        BOOKING FEE FOR <%= @taska.name.upcase %>
-                      <% end %>
-                      <% kb.extra.each do |id|%>
-                        <% extra = Extra.find(id) %>
-                        <br><%= extra.name.upcase %>
-                      <% end %>
-                    </td>
-                    <td></td>
-                    <td class="text-right">
-                      <% if kb.classroom.present? %>
-                        <br><%= kb.classroom.base_fee %>
-                      <% else %>
-                        <%= @payment.amount %>
-                      <% end %>
-                      
-                      <% kb.extra.each do |id|%>
-                        <% extra = Extra.find(id) %>
-                        <br><%= extra.price %>
-                      <% end %>
-                    </td>
-                  </tr>
+</div>
+
+<div class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="grid simple">
+        <div class="grid-body no-border invoice-body"><br> 
+
+          <div class="col-md-12"> 
+            <% image = @fotos.where(foto_name: "CENTER LOGO").first %>
+            <% if image.picture.present? %>
+              <a href="<%="#{image.picture.url}"%>" target="_blank">
+                <% if @pdf %>
+                  <%= wicked_pdf_image_tag(image.picture.url, size: "100x100") %>
+                <% else %>
+                  <%= image_tag(image.picture.url, size: "100x100") %>
                 <% end %>
-                <tr>
-                  <td colspan="0" rowspan="4">
-                    <h4 class="semi-bold">ADDITIONAL DESCRIPTION</h4>
-                    <%= @payment.description %>
-                    </td>
-                </tr>
-                <tr>
-                  <td class="text-right no-border"><strong>DISCOUNT</strong></td>
-                  <td class="text-right">(<%= @payment.discount.to_f %>)</td>
-                </tr>
-                <tr>
-                  <td class="text-right no-border">
-                    <div class="well well-small green"><strong>TOTAL</strong></div>
-                  </td>
-                  <td class="text-right"><strong><%= @payment.amount %></strong></td>
-                </tr>
-              </tbody>
-            </table>
-            <br>
-            <br>
-            
-            <br>
-            <br>
-            Powered by&nbsp
-            <% image = Foto.all.where(foto_name: "KIDCARE FULL").first %>
-              <% if image.picture.present? %>
-                <a href="<%="#{image.picture.url}"%>" target="_blank">
-                  <% if @pdf %>
-                    <%= wicked_pdf_image_tag(image.picture.url, size: "87x30") %>
-                  <% else %>
-                    <%= image_tag(image.picture.url, size: "87x30") %>
+              </a>
+            <% end %>
+            <address>
+              <strong><%= @taska.name.upcase %></strong><br>
+              <%= @taska.address_1.upcase %><br>
+              <%= @taska.address_2.upcase %><br>
+              <%= @taska.city.upcase %>&nbsp
+              <%= @taska.states.upcase %>&nbsp
+              <%= @taska.postcode %><br>
+              <%= @taska.phone_1 %>-<%= @taska.phone_2 %><br>
+              <%= @taska.email %>
+            </address>
+          </div><br>
+          <div class="col-md-12">
+            <% if @payment.paid %>
+              <h4>RECEIPT FOR 
+            <% else %>
+              <h4>INVOICE FOR 
+            <% end %>
+              <strong><%= @kid.name.upcase %></strong></h4>
+            <h6><%= @kid.ic_1 %>-<%= @kid.ic_2 %>-<%= @kid.ic_3 %></h6>
+            <% if @payment.kids.count > 1 %>
+              <hr>
+              <h6>SHARED WITH</h6>
+              <h7>
+                <% @payment.kids.each do |beradik| %>
+                  <% if beradik.id != @kid.id %>
+                    <strong><%= beradik.name.upcase %></strong>
+                    &nbsp<%= "(#{beradik.ic_1}-#{beradik.ic_2}-#{beradik.ic_3})" %><br>
                   <% end %>
-                </a>
-              <% end %>
-            www.kidcare.my
+                <% end %>
+              </h7>
+              <hr>
+            <% end %>
           </div>
+          <div class="clearfix"></div><br>
+            <div class="col-md-12">
+              <h4 class="semi-bold">
+                EN <%= @kid.father_name.upcase %> / PN <%= @kid.mother_name.upcase %></h4>
+              <address>
+                <%= @kid.father_phone %><br>
+                <%= @kid.mother_phone %><br>
+              </address>
+            </div>
+            <div class="col-md-12"><br>
+              <div>
+                <div class="pull-left"> BILL ID : <%= @payment.bill_id %></div>
+                <div class="clearfix"></div>
+              </div>
+              <div>
+                <div class="pull-left"> BILL DATE : <%= @payment.created_at.strftime("%b %d, %Y") %></div>
+                <div class="clearfix"></div>
+              </div>
+              <div>
+                <% if @payment.paid %>
+                <div class="pull-left"> PAYMENT DATE : <%= @payment.updated_at.strftime("%b %d, %Y") %></div>
+                <% end %>
+                <div class="clearfix"></div>
+              </div><br>
+            </div>
+          <%if !@pdf %>
+            <% table_style = "table-responsive"%>
+          <% end %>
+          <table class="table <%= table_style %>">
+            <thead>
+              <tr>
+                <th class="text-left">BILL DETAILS FOR <%= "#{$month_name[@payment.bill_month].upcase}" %> <%= @payment.bill_year %> </th>
+                <th></th>
+                <th style="width:140px" class="text-right">AMOUNT (RM)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @payment.kid_bills.each do |kb| %>
+                <tr>
+                  <td colspan="3">
+                    <strong><%= kb.kid.name %></strong>
+                  </td>
+                  <tr class="noBorder">
+                    <% if kb.classroom.present? %>
+                      <td>FEE FOR CLASSROOM <%= kb.classroom.classroom_name.upcase %></td>
+                      <td></td>
+                      <td class="text-right"><%= kb.classroom.base_fee %></td>
+                      </tr>
+                    <% else %>
+                      <td>BOOKING FEE FOR <%= @taska.name.upcase %></td>
+                      <td></td>
+                      <td class="text-right"><%= @payment.amount %></td>
+                    <% end %>
+                  </tr>
+                  <% kb.extra.each do |id|%>
+                    <tr class="noBorder">
+                      
+                        <% extra = Extra.find(id) %>
+                        <td><%= extra.name %></td>
+                        <td></td>
+                        <td class="text-right"><%= extra.price %></td>
+                      
+                    </tr>
+                  <% end %>
+
+                  
+                  </tr>
+                </tr>
+              <% end %>
+              <tr>
+                <td colspan="0" rowspan="4">
+                  <h4 class="semi-bold">ADDITIONAL DESCRIPTION</h4>
+                  <%= @payment.description %>
+                  </td>
+              </tr>
+              <tr>
+                <td class="text-right no-border"><strong>DISCOUNT</strong></td>
+                <td class="text-right">(<%= @payment.discount.to_f %>)</td>
+              </tr>
+              <tr>
+                <td class="text-right no-border">
+                  <div class="well well-small green"><strong>TOTAL</strong></div>
+                </td>
+                <td class="text-right"><strong><%= @payment.amount %></strong></td>
+              </tr>
+            </tbody>
+          </table><br><br><br><br>
+
+          Powered by&nbsp
+          <% image = Foto.all.where(foto_name: "KIDCARE FULL").first %>
+          <% if image.picture.present? %>
+            <a href="<%="#{image.picture.url}"%>" target="_blank">
+              <% if @pdf %>
+                <%= wicked_pdf_image_tag(image.picture.url, size: "87x30") %>
+              <% else %>
+                <%= image_tag(image.picture.url, size: "87x30") %>
+              <% end %>
+            </a>
+          <% end %>
+          www.kidcare.my
 
         </div>
-
       </div>
+    </div>
+  </div>
+</div>
           <!--   <div class="col-md-1">
               <div class="invoice-button-action-set">
                 <p>
@@ -195,4 +191,3 @@
 
 
 
-    

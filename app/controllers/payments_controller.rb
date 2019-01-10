@@ -472,13 +472,13 @@ class PaymentsController < ApplicationController
   end
 
   def update_billplz_bank
-    url_bill = "#{ENV['BILLPLZ_API']}bank_verification_services/7026223147"
-    data_billplz = HTTParty.get(url_bill.to_str,
-            :body  => { }.to_json, 
-                        #:callback_url=>  "YOUR RETURN URL"}.to_json,
-            :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
-            :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
-    render json: data_billplz
+    url_bill = "https://www.billplz.com/api/v3/check/bank_account_number/12038010115729"
+      data_billplz = HTTParty.get(url_bill.to_str,
+              :body  => { }.to_json, 
+                          #:callback_url=>  "YOUR RETURN URL"}.to_json,
+              :basic_auth => { :username => "667aac2a-cdb2-4b44-8ca6-2d26f63d63f3" },
+              :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+      render json: data_billplz and return
   end
 
   def create_billplz_try
