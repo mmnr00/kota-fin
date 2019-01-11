@@ -65,7 +65,8 @@ class ExtrasController < ApplicationController
 															year: params[:kid][:year],
 															id: params[:kid][:id],
 															discount: params[:kid][:discount],
-															addtn: params[:kid][:addtn] )
+															addtn: params[:kid][:addtn],
+															desc: params[:kid][:desc] )
 	end
 
 	def remove_kid_extras
@@ -77,7 +78,8 @@ class ExtrasController < ApplicationController
 															year: params[:year],
 															id: params[:id],
 															discount: params[:discount],
-															addtn: params[:addtn] )
+															addtn: params[:addtn],
+															desc: params[:desc] )
 	end
 
 	private

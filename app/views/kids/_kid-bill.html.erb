@@ -128,26 +128,32 @@
                       
                     </tr>
                   <% end %>
-
-                  
                   </tr>
                 </tr>
               <% end %>
               <tr>
-                <td colspan="0" rowspan="4">
-                  <h4 class="semi-bold">ADDITIONAL DESCRIPTION</h4>
+                <td class="text-left no-border" colspan="2">
+                  <strong>ADDITIONAL DESCRIPTION</strong><br>
                   <%= @payment.description %>
-                  </td>
+                </td>
+                <td class="text-right"></td>
               </tr>
               <tr>
-                <td class="text-right no-border"><strong>DISCOUNT</strong></td>
+                <td class="text-right no-border" colspan="2">
+                  <strong>ADDITIONAL CHARGE</strong><br>
+                  <%= @payment.addtns.first.desc %>
+                </td>
+                <td class="text-right"><%= @payment.addtns.first.amount.to_f %></td>
+              </tr>
+              <tr>
+                <td class="text-right no-border" colspan="2"><strong>DISCOUNT</strong></td>
                 <td class="text-right">(<%= @payment.discount.to_f %>)</td>
               </tr>
               <tr>
-                <td class="text-right no-border">
-                  <div class="well well-small green"><strong>TOTAL</strong></div>
+                <td class="text-right no-border" colspan="2">
+                  <div class="well well-small green"><strong><h4>TOTAL</h4></strong></div>
                 </td>
-                <td class="text-right"><strong><%= @payment.amount %></strong></td>
+                <td class="text-right"><strong><h4><%= @payment.amount %></h4></strong></td>
               </tr>
             </tbody>
           </table><br><br><br><br>

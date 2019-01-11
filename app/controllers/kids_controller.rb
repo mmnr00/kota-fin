@@ -52,7 +52,8 @@ class KidsController < ApplicationController
                               month: params[:month],
                               year: params[:year],
                               discount: params[:discount],
-                              addtn: params[:addtn])
+                              addtn: params[:addtn],
+                              desc: params[:desc])
 	end
 
 	def bill_view
