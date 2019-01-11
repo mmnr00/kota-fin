@@ -151,16 +151,25 @@ class PaymentsController < ApplicationController
     end
 
     @payment = Payment.new
+    @payment.addtns.build
     render action: "new", layout: "dsb-admin-classroom" 
   end
 
   def create
-    params.require(:payment).permit(:amount, :description, :month, :year, :kid_id, :taska_id, :discount)
+    params.require(:payment).permit(:amount, 
+                            :description, 
+                            :month, 
+                            :year, 
+                            :kid_id, 
+                            :taska_id, 
+                            :discount,
+                            addtns_attributes: [:desc, :amount])
     amount = params[:payment][:amount].to_f*100
     if (desc = params[:payment][:description]) == ""
       desc = "NA"
     end
     @payment = Payment.new
+    @addtn = Addtn.new
     @taska = Taska.find(params[:payment][:taska_id])
     @kid = Kid.find(params[:payment][:kid_id])
     url_bill = "#{ENV['BILLPLZ_API']}bills"
@@ -191,6 +200,10 @@ class PaymentsController < ApplicationController
       @payment.name = "KID BILL"
       @payment.save
       @taska = @payment.taska
+      @addtn.desc = params[:payment][:addtns_attributes]["0"][:desc]
+      @addtn.amount = params[:payment][:addtns_attributes]["0"][:amount]
+      @addtn.payment_id = @payment.id
+      @addtn.save
       # start send sms to parents
       if Rails.env.production?
         @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])

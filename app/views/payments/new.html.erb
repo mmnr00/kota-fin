@@ -201,6 +201,10 @@
             <%= f.hidden_field :kid_id, value: @kid.id %>
             <%= f.hidden_field :taska_id, value: @taska.id %>
             <%= f.hidden_field :discount, value: params[:discount] %>
+            <%= f.fields_for :addtns do |h| %>
+              <%= h.hidden_field :desc, value: params[:desc] %>
+              <%= h.hidden_field :amount, value: params[:addtn] %>
+            <% end %>
           </div>
 
           <div class="form-group">
@@ -255,6 +259,11 @@
             <div class="col-md-2">
             </div>
             <div class="col-md-4">
+              <%= text_field_tag :desc, params[:desc], 
+                      placeholder: "", 
+                      autofocus: true,
+                      class: "form-control search-box input-lg", 
+                      style: "text-transform:uppercase" %>
               <%= number_field_tag :addtn, params[:addtn], 
                       placeholder: "", 
                       autofocus: true,  

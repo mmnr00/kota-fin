@@ -5,6 +5,8 @@ class Payment < ApplicationRecord
 	belongs_to :course, optional: true
 	has_many :kid_bills
 	has_many :kids, through: :kid_bills
+	has_many :addtns
+	accepts_nested_attributes_for :addtns
 	include HTTParty
 
 	
