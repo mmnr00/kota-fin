@@ -1,5 +1,6 @@
 class TaskasController < ApplicationController
   
+  require 'json'
   before_action :set_taska, only: [:show,:children_index, :taskateachers, :taskateachers_classroom,:classrooms_index, :edit, :update, :destroy]
   before_action :set_all
   before_action :check_admin, only: [:show]
@@ -116,6 +117,24 @@ class TaskasController < ApplicationController
     # ada kt bawah func set_taska
     @admin_taska = current_admin.taskas
     @unregistered_no = @taska.kids.where(classroom_id: nil).count
+    #check payment status
+    all_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false)
+    all_unpaid.each do |payment|
+      if !payment.paid 
+        url_bill = "#{ENV['BILLPLZ_API']}bills/#{payment.bill_id}"
+        data_billplz = HTTParty.get(url_bill.to_str,
+                :body  => { }.to_json, 
+                            #:callback_url=>  "YOUR RETURN URL"}.to_json,
+                :basic_auth => { :username => "#{ENV['BILLPLZ_APIKEY']}" },
+                :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+        #render json: data_billplz and return
+        data = JSON.parse(data_billplz.to_s)
+        if data["id"].present? && (data["paid"] == true)
+          payment.paid = data["paid"]
+          payment.save
+        end
+      end
+    end
     @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false)
     @taska_expense = @taska.expenses.where(month: $my_time.month).where(year: $my_time.year).order('CREATED_AT DESC')
     session[:taska_id] = @taska.id
@@ -350,10 +369,10 @@ class TaskasController < ApplicationController
   # DELETE /taskas/1.json
   def destroy
     @taska.destroy
-    respond_to do |format|
-      format.html { redirect_to taskas_url, notice: 'Taska was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    # respond_to do |format|
+    #   format.html { redirect_to taskas_url, notice: 'Taska was successfully destroyed.' }
+    #   format.json { head :no_content }
+    # end
   end
 
   private

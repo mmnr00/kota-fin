@@ -34,7 +34,7 @@ wb.styles do |style|
   border_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER,
                                 sz: 13)   
 
-  wb.add_worksheet(name: "#{@taska.name.upcase}") do |sheet|
+  wb.add_worksheet(name: "ACCOUNTING REPORT") do |sheet|
 
     sheet.add_row ["ACCOUNTING REPORT FOR #{@taska.name.upcase}"]
     sheet.add_row [""]

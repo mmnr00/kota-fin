@@ -1,8 +1,11 @@
 class KidsController < ApplicationController
+
+	require 'json'
 	before_action :set_kid, only: [:show, :kid_pdf]
 	#before_action :set_kid_bill, only: [:bill_view]
 	before_action :set_all
 	before_action :authenticate_parent!, only: [:new]
+	before_action :check_bill, only: [:bill_view, :bill_pdf]
 	#before_action	:authenticate!, only: [:bill_view]
 	#before_action :rep_responsible, only: [:bill_view]
 	#before_action :authenticate_parent! || :authenticate_admin!
@@ -58,6 +61,7 @@ class KidsController < ApplicationController
 
 	def bill_view
 		@pdf = false
+		
 		@payment = Payment.find(params[:payment]) 
 		@kid = Kid.find(params[:kid])
 		# if !current_admin.present?
@@ -234,6 +238,25 @@ class KidsController < ApplicationController
 
 
 	private
+
+	def check_bill
+		payment = Payment.find(params[:payment]) 
+		#check payment status
+		if !payment.paid 
+			url_bill = "#{ENV['BILLPLZ_API']}bills/#{payment.bill_id}"
+      data_billplz = HTTParty.get(url_bill.to_str,
+              :body  => { }.to_json, 
+                          #:callback_url=>  "YOUR RETURN URL"}.to_json,
+              :basic_auth => { :username => "#{ENV['BILLPLZ_APIKEY']}" },
+              :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+      #render json: data_billplz and return
+      data = JSON.parse(data_billplz.to_s)
+      if data["id"].present? && (data["paid"] == true)
+      	payment.paid = data["paid"]
+      	payment.save
+      end
+		end
+	end
 
 	def set_kid
 		@kid = Kid.find(params[:id])

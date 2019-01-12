@@ -294,6 +294,47 @@ class PaymentsController < ApplicationController
       
   end
 
+  def bill_taska_monthly
+    if params[:pwd] == "kidcare@123"
+      Taska.all.each do |taska|
+        @taska = Taska.find(taska.id)
+        amount = ($package_price["#{@taska.plan}"].to_f*100)*(@taska.discount)
+        expire = $my_time + 12.months
+        url_bill = "#{ENV['BILLPLZ_API']}bills"
+        @payment = Payment.new
+        data_billplz = HTTParty.post(url_bill.to_str,
+                          :body  => { :collection_id => "#{ENV['COLLECTION_ID']}", 
+                          :email=> "#{@taska.email}",
+                          :name=> "#{@taska.name}", 
+                          :amount=>  amount,
+                          :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                          :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                          :description=>"#{@taska.name}'s BILL FOR #{$month_name[$my_time.month + 1]} #{$my_time.year}" }.to_json, 
+                          #:callback_url=>  "YOUR RETURN URL"}.to_json,
+                :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+                :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+          data = JSON.parse(data_billplz.to_s)
+          #render json: data_billplz and return
+          if (data["id"].present?)
+            @payment.name = "TASKA PLAN"
+            @payment.amount = data["amount"].to_f/100
+            @payment.description = data["description"]
+            @payment.bill_month = $my_time.month
+            @payment.bill_year = $my_time.year
+            @payment.taska_id = @taska.id
+            @payment.state = data["state"]
+            @payment.paid = data["paid"]
+            @payment.bill_id = data["id"]
+            @payment.save
+            flash[:notice] = "SUCCESS"
+          else
+            flash[:danger] = "Sign Up failed. Please try again"
+          end
+        end
+      end
+      
+  end
+
   def create_bill_taska
     @taska = Taska.find(params[:id])
     amount = ($package_price["#{@taska.plan}"].to_f*100)*(@taska.discount)
@@ -487,7 +528,7 @@ class PaymentsController < ApplicationController
   end
 
   def update_billplz_bank
-    url_bill = "#{ENV['BILLPLZ_API_REAL']}check/bank_account_number/157410082426"
+    url_bill = "#{ENV['BILLPLZ_API_REAL']}check/bank_account_number/562106690784"
       data_billplz = HTTParty.get(url_bill.to_str,
               :body  => { }.to_json, 
                           #:callback_url=>  "YOUR RETURN URL"}.to_json,
