@@ -1,4 +1,5 @@
 class PtnsMmbsController < ApplicationController
+	before_action :set_all
 	
 	def new
 		@ptnsmmb = PtnsMmb.new
@@ -104,6 +105,13 @@ class PtnsMmbsController < ApplicationController
 																		:email,
 																		fotos_attributes: [:foto, :picture, :foto_name])
    end
+
+   def set_all
+		@teacher = current_teacher
+		@parent = current_parent
+		@admin = current_admin	
+		@owner = current_owner
+  end
 
 
 end
