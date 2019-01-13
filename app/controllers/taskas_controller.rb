@@ -314,7 +314,7 @@ class TaskasController < ApplicationController
   # POST /taskas.json
   def create
     @taska = Taska.new(taska_params)
-    @taska.expire = $my_time + 13.months
+    @taska.expire = $my_time + $trial.days
     if @taska.save
       taska_admin1 = TaskaAdmin.create(taska_id: @taska.id, admin_id: current_admin.id)
       if current_admin != Admin.first

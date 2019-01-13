@@ -298,29 +298,32 @@ class PaymentsController < ApplicationController
     if params[:pwd] == "kidcare@123"
       Taska.all.each do |taska|
         @taska = Taska.find(taska.id)
-        amount = ($package_price["#{@taska.plan}"].to_f*100)*(@taska.discount)
-        expire = $my_time + 12.months
-        url_bill = "#{ENV['BILLPLZ_API']}bills"
-        @payment = Payment.new
-        data_billplz = HTTParty.post(url_bill.to_str,
-                          :body  => { :collection_id => "#{ENV['COLLECTION_ID']}", 
-                          :email=> "#{@taska.email}",
-                          :name=> "#{@taska.name}", 
-                          :amount=>  amount,
-                          :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
-                          :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
-                          :description=>"#{@taska.name}'s BILL FOR #{$month_name[$my_time.month + 1]} #{$my_time.year}" }.to_json, 
-                          #:callback_url=>  "YOUR RETURN URL"}.to_json,
-                :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
-                :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+        bill_plan = @taska.payments.where(name: "TASKA PLAN")
+        period = $my_time + 1.months
+        if !bill_plan.where(bill_month: period.month).where(bill_year: period.year).present? && !bill_plan.where(paid: false).present?
+          amount = ($package_price["#{@taska.plan}"].to_f*100)*(@taska.discount)
+          expire = $my_time + 12.months
+          url_bill = "#{ENV['BILLPLZ_API']}bills"
+          @payment = Payment.new
+          data_billplz = HTTParty.post(url_bill.to_str,
+                            :body  => { :collection_id => "#{ENV['COLLECTION_ID']}", 
+                            :email=> "#{@taska.email}",
+                            :name=> "#{@taska.name}", 
+                            :amount=>  amount,
+                            :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                            :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                            :description=>"#{@taska.name}'s BILL FOR #{$month_name[$my_time.month + 1]} #{$my_time.year}" }.to_json, 
+                            #:callback_url=>  "YOUR RETURN URL"}.to_json,
+                  :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+                  :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
           data = JSON.parse(data_billplz.to_s)
           #render json: data_billplz and return
           if (data["id"].present?)
             @payment.name = "TASKA PLAN"
             @payment.amount = data["amount"].to_f/100
             @payment.description = data["description"]
-            @payment.bill_month = $my_time.month
-            @payment.bill_year = $my_time.year
+            @payment.bill_month = period.month
+            @payment.bill_year = period.year
             @payment.taska_id = @taska.id
             @payment.state = data["state"]
             @payment.paid = data["paid"]
@@ -331,8 +334,8 @@ class PaymentsController < ApplicationController
             flash[:danger] = "Sign Up failed. Please try again"
           end
         end
-      end
-      
+      end  
+    end  
   end
 
   def create_bill_taska
@@ -358,6 +361,7 @@ class PaymentsController < ApplicationController
         @payment.name = "TASKA PLAN"
         @payment.amount = data["amount"].to_f/100
         @payment.description = data["description"]
+        first_date = $my_time + 1.months
         @payment.bill_month = $my_time.month
         @payment.bill_year = $my_time.year
         @payment.taska_id = @taska.id
