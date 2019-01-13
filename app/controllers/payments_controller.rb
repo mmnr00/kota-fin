@@ -27,6 +27,9 @@ class PaymentsController < ApplicationController
       elsif (@bill.teacher.present?)
         redirect_to course_payment_pdf_path(payment: @bill.id, format: :pdf)
       elsif (@bill.taska.present?)
+        @taska = @bill.taska
+        @taska.expire = $my_time + 1.months
+        @taska.save
         redirect_to taska_path(@bill.taska.id)
       end
     end

@@ -1,12 +1,18 @@
 <% unpaid = @taska.payments.where(name: "TASKA PLAN").where(paid: false).last %>
+<% trial = !(@taska.payments.where(name: "TASKA PLAN").count > 1) %>
 
 <% if unpaid.present? %>
-  <% grace_period = $trial %>
-  <% date_reg = unpaid.created_at.to_date %>
-  <% reg_now = (Time.now.in_time_zone('Singapore').to_date - date_reg).to_i  %>
 
-  <a href="<%= "#{view_invoice_taska_url}"%>?taska=<%= @taska.id %>&payment=<%= unpaid.id %>">
-    <p><button class="w3-button w3-block btn-warning"> <i class="fa fa-exclamation-circle fa-lg"></i>&nbsp&nbspINACTIVE IN <strong><%= -reg_now+grace_period %> DAYS</strong>. PLEASE CLICK HERE TO ACTIVATE</button></p>
-  </a>
+  <% if trial %>
+  
+    <a href="<%= "#{view_invoice_taska_url}"%>?taska=<%= @taska.id %>&payment=<%= unpaid.id %>">
+      <p><button class="w3-button w3-block btn-success"> <i class="fa fa-check-circle fa-lg"></i>&nbsp CLICK HERE TO ACTIVATE ACCOUNT</button></p>
+    </a>
+  <% else %>
+    <% status = (@taska.expire.to_date - $my_time.to_date).to_i %>
+    <a href="<%= "#{view_invoice_taska_url}"%>?taska=<%= @taska.id %>&payment=<%= unpaid.id %>">
+      <p><button class="w3-button w3-block btn-warning"> <i class="fa fa-exclamation-circle fa-lg"></i>&nbsp&nbspINACTIVE IN <strong><%= status %> DAYS</strong>. PLEASE CLICK HERE TO ACTIVATE</button></p>
+    </a>
+  <% end %>
 
 <% end %>
