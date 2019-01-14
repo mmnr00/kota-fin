@@ -308,6 +308,7 @@ class TaskasController < ApplicationController
   # GET /taskas/1/edit
   def edit
     @fotos = @taska.fotos
+    render action: "edit", layout: "dsb-admin-overview" 
   end
 
   # POST /taskas
@@ -349,7 +350,7 @@ class TaskasController < ApplicationController
   # PATCH/PUT /taskas/1.json
   def update
       if @taska.update(taska_params)
-        flash[:success] = "Taska was successfully updated"
+        flash[:success] = "#{@taska.name} was successfully updated"
         #if @taska.bank_status == nil 
           #redirect_to create_billplz_bank_path(id: @taska.id)
         #else
@@ -362,6 +363,7 @@ class TaskasController < ApplicationController
         format.html { render :edit }
         #format.json { render json: @taska.errors, status: :unprocessable_entity }
       end
+
     
   end
 

@@ -63,7 +63,14 @@
         </div>
 
           <!-- discount -->
-          <%= f.hidden_field :discount, class: "form-control", :value => 0.5, required: true %>
+          <% if @taska.discount.present? %>
+            <% discount = @taska.discount %>
+          <% elsif params[:discount].present? %>
+            <% discount = params[:discount] %>
+          <% else %>
+            <% discount = 1 %>
+          <% end %>
+          <%= f.hidden_field :discount, class: "form-control", :value => discount, required: true %>
         
 
         <!-- supervisor name -->    
