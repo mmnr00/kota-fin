@@ -9,6 +9,7 @@
 $my_time = Time.now.in_time_zone('Singapore')
 
 $trial = 30
+$expire = 11
 
 $package_price = 	{ "BASIC"=>80,
 										"STANDARD"=>150,

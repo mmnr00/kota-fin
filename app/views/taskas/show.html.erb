@@ -1,81 +1,84 @@
 <p id="notice"><%= notice %></p>
 
+<% if ($my_time.to_date - @taska.expire.to_date) < 0 %>
+  <div class="container">
+    <div class="row">
 
-<div class="container">
-  <div class="row">
-
-    <div class="col-md-3">
-      <div class="card-counter primary">
-        <i class="fa fa-code-fork"></i>
-        <span class="count-numbers"><%= @unregistered_no %></span>
-        <span class="count-name">
-          <a href="/taska/unreg_kids/<%= @taska.id %>/", style="color:#fff">New Registrations</a>
-          <br><font style="color:#fff">TOTAL: <%= @taska.kids.count %></font>
-          <br><font style="color:#fff">LIMIT: &nbsp<%= $package_child["#{@taska.plan}"] %></font>
-        </span>
+      <div class="col-md-3">
+        <div class="card-counter primary">
+          <i class="fa fa-code-fork"></i>
+          <span class="count-numbers"><%= @unregistered_no %></span>
+          <span class="count-name">
+            <a href="/taska/unreg_kids/<%= @taska.id %>/", style="color:#fff">New Registrations</a>
+            <br><font style="color:#fff">TOTAL: <%= @taska.kids.count %></font>
+            <br><font style="color:#fff">LIMIT: &nbsp<%= $package_child["#{@taska.plan}"] %></font>
+          </span>
+        </div>
       </div>
-    </div>
 
-    <div class="col-md-3">
-      <div class="card-counter danger">
-        <i class="fa fa-exclamation-circle"></i>
-        <span class="count-numbers"><%= @kid_unpaid.count %></span>
-        <span class="count-name">
-          <a href="<%= unpaid_index_url %>", style="color:#fff">Unpaid Bills</a>
-        </span>
+      <div class="col-md-3">
+        <div class="card-counter danger">
+          <i class="fa fa-exclamation-circle"></i>
+          <span class="count-numbers"><%= @kid_unpaid.count %></span>
+          <span class="count-name">
+            <a href="<%= unpaid_index_url %>", style="color:#fff">Unpaid Bills</a>
+          </span>
+        </div>
       </div>
-    </div>
 
-    <div class="col-md-3">
-      <div class="card-counter success">
-        <i class="fa fa-database"></i>
-        <span class="count-numbers">
-          <%= number_with_delimiter(@taska_expense.where(kind: "INCOME").sum(:cost) - @taska_expense.where(kind: "EXPENSE").sum(:cost) + @taska.payments.where(bill_month: $my_time.month).where(bill_year: $my_time.year).where(paid: true).sum(:amount), :delimiter => ',') %>
-        </span>
-        <span class="count-name">
-          <a href="/taska/<%= @taska.id %>/my_expenses?utf8=✓&expense%5Bmonth%5D=<%= $my_time.month%>&expense%5Byear%5D=<%=$my_time.year%>&commit=SELECT", style="color:#fff">Profit (RM)<br><%= $month_name[$my_time.month] %>-<%= $my_time.year %>
-          </a>
-        </span>
+      <div class="col-md-3">
+        <div class="card-counter success">
+          <i class="fa fa-database"></i>
+          <span class="count-numbers">
+            <%= number_with_delimiter(@taska_expense.where(kind: "INCOME").sum(:cost) - @taska_expense.where(kind: "EXPENSE").sum(:cost) + @taska.payments.where(bill_month: $my_time.month).where(bill_year: $my_time.year).where(paid: true).sum(:amount), :delimiter => ',') %>
+          </span>
+          <span class="count-name">
+            <a href="/taska/<%= @taska.id %>/my_expenses?utf8=✓&expense%5Bmonth%5D=<%= $my_time.month%>&expense%5Byear%5D=<%=$my_time.year%>&commit=SELECT", style="color:#fff">Profit (RM)<br><%= $month_name[$my_time.month] %>-<%= $my_time.year %>
+            </a>
+          </span>
+        </div>
       </div>
-    </div>
 
 
-    <div class="col-md-3">
-      <div class="card-counter info">
-        <i class="fa fa-users"></i>
-        <span class="count-numbers">35</span>
-        <span class="count-name">Leaves</span>
+      <div class="col-md-3">
+        <div class="card-counter info">
+          <i class="fa fa-users"></i>
+          <span class="count-numbers">35</span>
+          <span class="count-name">Leaves</span>
+        </div>
+        <p align="center">coming soon</p>
       </div>
-      <p align="center">coming soon</p>
-    </div>
-    
+      
 
+    </div>
   </div>
-</div>
 
-<% if @taska.subdomain.present? %>
-  <% if @taska.collection_id.present? %>
-    <strong>Taska Website Link</strong> = <%= link_to "http://#{@taska.subdomain}.kidcare.my", taska_page_path, style: "color:blue" %><br><br>
+  <% if @taska.subdomain.present? %>
+    <% if @taska.collection_id.present? %>
+      <strong>Taska Website Link</strong> = <%= link_to "http://#{@taska.subdomain}.kidcare.my", taska_page_path, style: "color:blue" %><br><br>
+    <% else %>
+      Website name is in progress. Please whatsapp our technical team at 011-62801556 for further enquiries
+    <% end %>
   <% else %>
-    Website name is in progress. Please whatsapp our technical team at 011-62801556 for further enquiries
+    <%= form_for(@taska, :url => {:controller=>'taskas', :action=>'add_subdomain'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+      <div class="col-md-8">
+        <strong>PLEASE ADD WEBSITE NAME</strong><br><br>
+        <div class="row">
+          <div class="col-md-4">
+            <%= f.text_field :subdomain, class: "form-control", autofocus: true, required: true, placeholder: "Enter Here" %>
+          </div>
+          <div class="col-md-2 form-control">
+            <strong>.kidcare.my</strong>
+          </div>
+          <div class="col-md-2">
+            <%= f.submit :"SET",  class: 'form-control btn btn-sm btn-warning btn-lg'%>
+          </div>
+        </div>
+      </div>
+    <% end %><br><br>
   <% end %>
 <% else %>
-  <%= form_for(@taska, :url => {:controller=>'taskas', :action=>'add_subdomain'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
-    <div class="col-md-8">
-      <strong>PLEASE ADD WEBSITE NAME</strong><br><br>
-      <div class="row">
-        <div class="col-md-4">
-          <%= f.text_field :subdomain, class: "form-control", autofocus: true, required: true, placeholder: "Enter Here" %>
-        </div>
-        <div class="col-md-2 form-control">
-          <strong>.kidcare.my</strong>
-        </div>
-        <div class="col-md-2">
-          <%= f.submit :"SET",  class: 'form-control btn btn-sm btn-warning btn-lg'%>
-        </div>
-      </div>
-    </div>
-  <% end %><br><br>
+  YOUR ACCOUNT HAS EXPIRED. PLEASE ACTIVATE
 <% end %>
 
 
