@@ -1,7 +1,9 @@
 class TchdetailsController < ApplicationController
-	before_action :set_tchdetail, except: [:new, :create]
+	before_action :set_tchdetail, except: [:new, :create, :find_tchdetail]
 	#before_action :rep_responsible?
 	#before_action :authenticate_parent! || :authenticate_admin!
+	before_action :set_all
+
 	def show
 		@pdf = false
 		@owner = Owner.find(params[:owner_id])
@@ -27,13 +29,55 @@ class TchdetailsController < ApplicationController
 	end
 
 	def new
-		@teacher = Teacher.find(params[:teacher_id])
+		#@teacher = Teacher.find(params[:teacher_id])
+		@college = College.find(params[:id])
 		@tchdetail = Tchdetail.new
 		@tchdetail.fotos.build
 		#render action: "new", layout: "dsb-teacher-edu"
 	end
 
 	def create
+		#@teacher = Teacher.find(params[:tchdetail][:teacher_id])
+
+		@tchdetail = Tchdetail.new(tchdetail_params)
+		#params.require(:tchdetail).permit(:college_id)
+		#@tchdetail.marital = params[:marital]
+		#@tchdetail.education = params[:education]
+		#@expense.taska = session[:taska_id]
+		if @tchdetail.save
+			TchdetailCollege.create(college_id: params[:tchdetail][:college_id], tchdetail_id: @tchdetail.id)
+			flash[:notice] = "REGISTRATION SUCCESSFULL"
+			redirect_to root_path
+
+												
+		else
+			render @tchdetail.errors.full_messages
+			render :new
+		end
+	end
+
+	def find_tchdetail
+		@college = College.find(params[:college_id])
+    if params[:ic3].blank? 
+      flash.now[:danger] = "You have entered an empty request"
+    else
+      @tchdetail = @college.tchdetails.where(ic_3: params[:ic3])
+      #flash.now[:danger] = "Cannot find child" unless @kid_search.present?
+      flash.now[:danger] = "NO MATCHED DATA" unless @tchdetail.present?
+    end
+    respond_to do |format|
+      format.js { render partial: 'tchdetails/result' } 
+    end
+  end
+
+	def new_old
+		@teacher = Teacher.find(params[:teacher_id])
+		@tchdetail = Tchdetail.new
+		@tchdetail.fotos.build
+		#render action: "new", layout: "dsb-teacher-edu"
+	end
+
+	def create_old
 		@teacher = Teacher.find(params[:tchdetail][:teacher_id])
 		@tchdetail = Tchdetail.new(tchdetail_params)
 		#@tchdetail.marital = params[:marital]
@@ -73,6 +117,14 @@ class TchdetailsController < ApplicationController
 	end
 
 	private
+
+	def set_all
+		@admin = current_admin
+		@owner = current_owner
+		@teacher = current_teacher
+		@parent = current_teacher
+	end
+
 	def set_tchdetail
 		@tchdetail = Tchdetail.find(params[:id])
 	end
@@ -100,6 +152,7 @@ class TchdetailsController < ApplicationController
       																	:ts_owner_name,
       																	:ts_phone_1,
       																	:ts_phone_2,
+      																	:college_id,
       																	fotos_attributes: [:foto, :picture, :foto_name] )
     end
 

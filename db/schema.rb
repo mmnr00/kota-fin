@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_11_000228) do
+ActiveRecord::Schema.define(version: 2019_01_15_130513) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,14 @@ ActiveRecord::Schema.define(version: 2019_01_11_000228) do
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true
     t.index ["username"], name: "index_admins_on_username", unique: true
+  end
+
+  create_table "anisatts", force: :cascade do |t|
+    t.integer "course_id"
+    t.integer "tchdetail_id"
+    t.boolean "att"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "classrooms", id: :integer, default: nil, force: :cascade do |t|
@@ -338,6 +346,13 @@ ActiveRecord::Schema.define(version: 2019_01_11_000228) do
     t.index ["subdomain"], name: "index_taskas_on_subdomain", unique: true
   end
 
+  create_table "tchdetail_colleges", force: :cascade do |t|
+    t.integer "tchdetail_id"
+    t.integer "college_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "tchdetails", force: :cascade do |t|
     t.string "name"
     t.string "ic_1"
@@ -364,6 +379,7 @@ ActiveRecord::Schema.define(version: 2019_01_11_000228) do
     t.string "ts_owner_name"
     t.string "ts_phone_1"
     t.string "ts_phone_2"
+    t.integer "college_id"
   end
 
   create_table "teacher_colleges", force: :cascade do |t|

@@ -4,56 +4,59 @@
   </div>
 </div>
 
-<% if @course_teachers.present? %>
-  <div class="card mb-3">
+<% total_att = Anisatt.where(course_id: @course.id).where(att: true).count %>
+<% total_par = @tchdetails.count %>
+ATTENDANCE SUMMARY = <%= "#{total_att}/#{total_par}"%>
+
+<div class="row">
+  <div class="col-sm-9">
+    <div class="card ">
   <div class="card-header">
-    <i class="fas fa-search"></i>
-    VIEWING ALL TEACHERS
+    PARTICIPANT LIST
   </div>
   <div class="card-body">
     <div class="table-responsive">
-      <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
+      <table class="table table-striped table-bordered" width="100%" cellspacing="0">
         <thead>
           <tr>
-            <th> NO </th>
-            <th> FULL NAME </th>
-            <th> I/C NO </th>
-            <th> EMAIL  </th>
-            <th> PHONE NUMBER  </th>
-            <th> FULL PROFILE  </th>
+            <th style="background-color:#d8b2d8"> NAME </th>
+            <th style="background-color:#d8b2d8"> IC NO </th>
+            <th style="background-color:#d8b2d8"> ATTENDANCE </th>
           </tr>
         </thead>
-        <tfoot>
-          <tr>
-            <th> NO </th>
-            <th> FULL NAME </th>
-            <th> I/C NO </th>
-            <th> EMAIL  </th>
-            <th> PHONE NUMBER  </th>
-            <th> FULL PROFILE  </th>
-          </tr>
-        </foot>
         <tbody>
-          <% counter = 1 %>
-          <% @course_teachers.each do |teacher|%>
-            <tr>
-              <td><%= counter %></td>
-              <td><%= teacher.tchdetail.name.upcase %></td>
-              <td><%= "#{teacher.tchdetail.ic_1}-""#{teacher.tchdetail.ic_2}-""#{teacher.tchdetail.ic_3}" %></td>
-              <td><%= teacher.email %></td>
-              <td><%= "#{teacher.tchdetail.phone_1}-""#{teacher.tchdetail.phone_2}" %></td>
-              <td><%= link_to "VIEW", tchdetail_path(teacher.tchdetail, owner_id: current_owner.id), class: "btn btn-sm btn-info active" %></td>
-            </tr>
-          <% counter = counter + 1 %>
+          <% @tchdetails.each do |tch| %>
+          <tr>
+            <td><%= tch.name %></td>
+            <td><%= "#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3}"%></td>
+            <td>
+              <% if Anisatt.where(course_id: @course.id).where(tchdetail_id: tch.id).where(att: true).present? %>
+                <%= link_to "ATTENDED", "#", class: "btn btn-sm btn-success active" %>
+                <%= link_to "REMOVE", 
+                remove_anis_path(course: @course.id, 
+                                tchdetail: tch.id,
+                                owner: current_owner.id), 
+                                class: "btn btn-sm btn-danger active" %>
+              <% else %>
+                <%= link_to "CONFIRM", 
+                accept_anis_path(course: @course.id, 
+                                tchdetail: tch.id,
+                                owner: current_owner.id), 
+                                class: "btn btn-sm btn-primary active" %>
+              <% end %>
+            </td>
+
+          </tr>
           <% end %>
         </tbody>
       </table>
     </div>
   </div>
 </div>
-<% else %>
-  No student had signed up for this course
-<% end %>
+  </div>
+  <div class="col-sm-3">
+    <%= render 'tchdetails/lookup' %>
+  </div>
+</div>
 
-<%= render 'js-script/datatables-demo' %>
-<%= render 'js-script/jquery-datatables' %>
+

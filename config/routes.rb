@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   resources :kids, only:[:show,:create,:destroy,:update,:edit]
   resources :payments, only:[:create,:destroy]
   resources :fotos, only:[:edit, :update ,:destroy]
-  resources :tchdetails, only:[:show, :new, :create, :destroy, :update, :edit]
+  resources :tchdetails, only:[:show,:create, :destroy, :update, :edit]
   resources :prntdetails, only:[:show, :new, :create, :destroy, :update, :edit]
   resources :ptnssps, only:[:update, :edit]
   resources :extras, only:[:new, :create, :destroy, :update, :edit]
@@ -69,6 +69,10 @@ Rails.application.routes.draw do
   get 'add_kid_extras', to: 'extras#add_kid_extras'
   get 'remove_kid_extras', to: 'extras#remove_kid_extras'
 
+  #ANISATTS
+  get 'accept_attendance', to: 'anisatts#accept', as: 'accept_anis'
+  get 'remove_attendance', to: 'anisatts#remove', as: 'remove_anis'
+
 
   #PDF
   get 'print_payment_course', to: 'pdfs#print_payment_course'
@@ -81,6 +85,8 @@ Rails.application.routes.draw do
 
   #TCHDETAIL
   get '/print/profile', to: 'tchdetails#show_pdf', as: 'print_profile'
+  get '/daftaranis', to: 'tchdetails#new', as: 'new_tchdetail'
+  get '/find_tchdetail', to: 'tchdetails#find_tchdetail', as: 'find_tchdetail'
 
 
   #OWNERS (FOR COLLEGE)

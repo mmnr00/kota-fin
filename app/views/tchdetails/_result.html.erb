@@ -1,0 +1,14 @@
+<%= render partial: "shared/flash_messages", flash: flash %>
+
+<% if @tchdetail.present? %>
+  <% @tchdetail.each do |tch| %>
+    <%= tch.name %>
+  <% end %>
+<% end %>
+  
+
+  
+
+
+
+
