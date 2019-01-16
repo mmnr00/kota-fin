@@ -37,7 +37,31 @@ class PtnsMmbsController < ApplicationController
   end
 
   def list_ptns
-  	@all_mmb = PtnsMmb.all.order('name ASC')
+  	@all_mmb = PtnsMmb.all.order('created_at ASC')
+  end
+
+  def add_expire
+  	params.require(:ptns_mmb).permit(:expire, :id)
+  	mmb = PtnsMmb.find(params[:ptns_mmb][:id])
+  	mmb.expire = params[:ptns_mmb][:expire]
+  	if mmb.save
+  		flash[:success] = "BERJAYA"
+  	else
+  		flash[:danger] = "TIDAK BERJAYA"
+  	end
+  	redirect_to list_ptns_path
+  end
+
+  def add_mmbid
+  	params.require(:ptns_mmb).permit(:mmbid, :id)
+  	mmb = PtnsMmb.find(params[:ptns_mmb][:id])
+  	mmb.mmbid = params[:ptns_mmb][:mmbid]
+  	if mmb.save
+  		flash[:success] = "BERJAYA"
+  	else
+  		flash[:danger] = "TIDAK BERJAYA"
+  	end
+  	redirect_to list_ptns_path
   end
 
   def mmb_pdf

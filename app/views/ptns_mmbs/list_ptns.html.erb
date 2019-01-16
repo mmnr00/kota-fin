@@ -9,8 +9,11 @@
         <th> NAMA </th>
         <th> NO K/P </th>
         <th> NO TELEFON </th>
+        <th> TARIKH DAFTAR </th>
         <th> GAMBAR PASSPORT </th>
-        <th> TINDAKAN </th>
+        <th> PROFIL </th>
+        <th> TARIKH LUPUT </th>
+        <th> NO AHLI </th>
       </tr>
     </thead>
     <tbody> 
@@ -19,6 +22,7 @@
           <td><%= mmb.name %></td>
           <td><%= "#{mmb.ic1}-#{mmb.ic2}-#{mmb.ic3}"%></td>
           <td><%= "#{mmb.ph1}-#{mmb.ph2}"%></td>
+          <td><%= mmb.created_at.to_date.strftime("%d-%m-%y") %></td>
           <td>
             <% image = mmb.fotos.where(foto_name: "PTNS MMB").first %>
               <% if image.present? %>
@@ -34,6 +38,21 @@
           <td>
             <%= link_to mmb_pdf_path(id: mmb.id, format: :pdf), class: "btn btn-sm active", style: "color:green", target: "_blank" do %>
                 <i class="fa fa-download"></i> CETAK PROFIL
+            <% end %>
+          </td>
+          <td>
+            <%= form_for(mmb, :url => {:controller=>'ptns_mmbs', :action=>'add_expire'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+              <%= f.date_field :expire, class: "form-control", autofocus: true, required: true %>
+
+              <%= f.hidden_field :id, value: mmb.id %>
+              <%= f.submit :"ADD",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
+            <% end %>
+          </td>
+          <td>
+            <%= form_for(mmb, :url => {:controller=>'ptns_mmbs', :action=>'add_mmbid'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+              <%= f.text_field :mmbid, class: "form-control", autofocus: true, required: true %>
+              <%= f.hidden_field :id, value: mmb.id %>
+              <%= f.submit :"ADD",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
             <% end %>
           </td>
         </tr>
