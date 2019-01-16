@@ -53,7 +53,9 @@
             </div>
           <% else %>
             <div class="col-sm-12" style="padding-top: 10px; background-color:#F2635F">
-              <h5 align="center"><font color="white">DASHBOARD INACTIVE</font></h5>
+              <%= link_to taska_path(taska) do %>
+                <h5 align="center"><font color="white">GO TO DASHBOARD</font></h5>
+              <% end %>
             </div>
           <% end %>
 

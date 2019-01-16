@@ -87,7 +87,10 @@
     <div class="bg-light col-sm-2">
       <% if month != 0 %>
         <h4>NEW ENTRY</h4>
-        <%= render 'expenses/new' %>
+        <% status = (@taska.expire.to_date - $my_time.to_date).to_i %>
+        <% if status >=0 %>
+          <%= render 'expenses/new' %>
+        <% end %>
       <% else %>
         <br><br><h6>NOT AVAILABLE. PLEASE CHOOSE A MONTH.</h6>
       <% end %>
