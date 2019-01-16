@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_15_130513) do
+ActiveRecord::Schema.define(version: 2019_01_16_084120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -286,6 +286,8 @@ ActiveRecord::Schema.define(version: 2019_01_15_130513) do
     t.string "ts_ph1"
     t.string "ts_ph2"
     t.string "email"
+    t.date "expire"
+    t.string "mmbid"
   end
 
   create_table "ptnssps", force: :cascade do |t|

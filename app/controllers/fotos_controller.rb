@@ -23,6 +23,9 @@ class FotosController < ApplicationController
         elsif @foto.kid.present?
           @kid = @foto.kid
           redirect_to edit_kid_path(@kid)
+        elsif @foto.ptns_mmb.present?
+          @ptns_mmb = @foto.ptns_mmb
+          redirect_to edit_ptns_mmb_path(@ptns_mmb)
         end
       end
     else
