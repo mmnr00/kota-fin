@@ -48,6 +48,7 @@
               <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
                 <div class="row">
                 <div class="col-sm-8 col-5">
+                  <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
                 </div>
                 </div>  
             <% else %>
