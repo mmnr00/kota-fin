@@ -36,6 +36,7 @@ ATTENDANCE SUMMARY = <%= "#{total_att}/#{total_par}"%>
                 remove_anis_path(course: @course.id, 
                                 tchdetail: tch.id,
                                 owner: current_owner.id), 
+                                data: {confirm: "ARE YOU SURE?"}, 
                                 class: "btn btn-sm btn-danger active" %>
               <% else %>
                 <%= link_to "CONFIRM", 
@@ -57,6 +58,8 @@ ATTENDANCE SUMMARY = <%= "#{total_att}/#{total_par}"%>
   <div class="col-sm-3">
     <%= render 'tchdetails/lookup' %>
   </div>
+  
 </div>
+  <br><%= link_to "BACK", show_owner_path(id: current_owner.id, college: @course.college.id), class: "btn btn-sm btn-success active" %>
 
 

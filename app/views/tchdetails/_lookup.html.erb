@@ -10,7 +10,8 @@
                 autofocus: true,  
                 class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
       </div>   
-      <%= hidden_field_tag :college_id, params[:college_id], value: @course.college.id %>             
+      <%= hidden_field_tag :college_id, params[:college_id], value: @course.college.id %>
+      <%= hidden_field_tag :course_id, params[:course_id], value: @course.id %>             
       <div class="col-md-12">
         <%= button_tag(type: :submit, class: "btn btn-sm btn-success active", id: "submit_expense") do %>
             <i class="fa fa-search"></i> SEARCH
