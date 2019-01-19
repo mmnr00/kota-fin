@@ -1,10 +1,12 @@
-
+<% status = (@taska.expire.to_date - $my_time.to_date).to_i %>
 <div class="card mb-3">
     <div class="card-header">
       <i class="fas fa-search"></i>
       DISPLAYING ALL UNPAID BILLS
-      <%= link_to sms_reminder_all_path(id: @taska), class: "btn btn-sm btn-primary active" do %>
-        <i class="fa fa-bell"></i> SEND REMINDER TO ALL
+      <% if status >=0 %>
+        <%= link_to sms_reminder_all_path(id: @taska), class: "btn btn-sm btn-primary active" do %>
+          <i class="fa fa-bell"></i> SEND REMINDER TO ALL
+        <% end %>
       <% end %>
     </div>
     <div class="bg-light"><br>
@@ -45,22 +47,26 @@
 
                   </div>
                   <%= link_to "RM #{bill.amount}", "#", class: "btn btn-lg btn-info active" %>
-                  <% if !bill.paid %>
-                    <% if !bill.reminder %>
-                      <%= link_to sms_reminder_path(id: @taska.id, kid: @kid.id, bill: bill.id), class: "btn btn-sm active", style: "color:blue" do %>
-                        <i class="fa fa-mobile"></i> SEND SMS REMINDER TO <%= "#{@kid.ph_1}-#{@kid.ph_2}"%>
+                  
+                    <% if !bill.paid %>
+                      <% if status >=0 %>
+                        <% if !bill.reminder %>
+                          <%= link_to sms_reminder_path(id: @taska.id, kid: @kid.id, bill: bill.id), class: "btn btn-sm active", style: "color:blue" do %>
+                            <i class="fa fa-mobile"></i> SEND SMS REMINDER TO <%= "#{@kid.ph_1}-#{@kid.ph_2}"%>
+                          <% end %>
+                        <% else %>
+                          <button class="btn btn-sm active">
+                            <i class="fa fa-check-circle"></i> REMINDER SENT TO <%= "#{@kid.ph_1}-#{@kid.ph_2}"%>
+                          </button>
+                        <% end %>
                       <% end %>
-                    <% else %>
-                      <button class="btn btn-sm active">
-                        <i class="fa fa-check-circle"></i> REMINDER SENT TO <%= "#{@kid.ph_1}-#{@kid.ph_2}"%>
-                      </button>
                     <% end %>
 
 
                     <%= link_to payment_path(id: bill.id, taska_id: bill.taska.id, kid_id: @kid.id, index: true), method: :delete, :data => {:confirm => 'Are you sure?'}, class: "btn btn-sm active", style: "color:red" do %>
                       <i class="fa fa-trash"></i> DELETE
                     <% end %>
-                  <% end %>
+                  
                 </div>
               </div>
             </div>
