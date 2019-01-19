@@ -12,8 +12,7 @@
         <th> TARIKH DAFTAR </th>
         <th> GAMBAR PASSPORT </th>
         <th> PROFIL </th>
-        <th> TARIKH LUPUT </th>
-        <th> NO AHLI </th>
+        <th> MAKLUMAT </th>
       </tr>
     </thead>
     <tbody> 
@@ -42,19 +41,19 @@
           </td>
           <td>
             <%= form_for(mmb, :url => {:controller=>'ptns_mmbs', :action=>'add_expire'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
-              <%= f.date_field :expire, class: "form-control", autofocus: true, required: true %>
-
+              <div class="control-label col-sm-12">
+                <strong>TARIKH LUPUT</strong>
+              </div>
+              <%= f.date_field :expire, class: "form-control", autofocus: true, required: true %><br>
+              <div class="control-label col-sm-12">
+                <strong>NO KEAHLIAN</strong>
+              </div>
+              <%= f.text_field :mmbid, class: "form-control", autofocus: true, required: true %><br>
               <%= f.hidden_field :id, value: mmb.id %>
               <%= f.submit :"ADD",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
             <% end %>
           </td>
-          <td>
-            <%= form_for(mmb, :url => {:controller=>'ptns_mmbs', :action=>'add_mmbid'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
-              <%= f.text_field :mmbid, class: "form-control", autofocus: true, required: true %>
-              <%= f.hidden_field :id, value: mmb.id %>
-              <%= f.submit :"ADD",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
-            <% end %>
-          </td>
+          
         </tr>
       <% end %>
     </tbody>

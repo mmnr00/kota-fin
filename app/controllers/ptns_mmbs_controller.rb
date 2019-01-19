@@ -41,9 +41,10 @@ class PtnsMmbsController < ApplicationController
   end
 
   def add_expire
-  	params.require(:ptns_mmb).permit(:expire, :id)
+  	params.require(:ptns_mmb).permit(:expire, :mmbid, :id)
   	mmb = PtnsMmb.find(params[:ptns_mmb][:id])
   	mmb.expire = params[:ptns_mmb][:expire]
+  	mmb.mmbid = params[:ptns_mmb][:mmbid]
   	if mmb.save
   		flash[:success] = "BERJAYA"
   	else
