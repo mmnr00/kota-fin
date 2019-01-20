@@ -12,7 +12,7 @@
     <% if @taska.expire < $my_time %>
       <% expired = true %>
     <% end %>
-    <% if !current_admin && !@pdf && !trial && !expired %>
+    <% if !current_admin && !@pdf %>
       <h1 align="right">
         <%= link_to "#{ENV['BILLPLZ_URL']}/bills/#{@payment.bill_id}", class: "btn btn-lg btn-info active" do %>
           <i></i> PAY
