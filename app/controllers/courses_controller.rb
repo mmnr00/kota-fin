@@ -45,7 +45,9 @@ class CoursesController < ApplicationController
 
 	def owner_course
 		@owner = current_owner
+		@progs = Anisprog.new
 		@course = Course.find(params[:course])
+		@prog_list = @course.anisprogs.order('created_at DESC')
 		@college = @course.college
 		@tchdetails = @college.tchdetails
 		@course_teachers = @course.teachers.sort_by(&:created_at)

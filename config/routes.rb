@@ -75,6 +75,11 @@ Rails.application.routes.draw do
   get 'accept_attendance', to: 'anisatts#accept', as: 'accept_anis'
   get 'remove_attendance', to: 'anisatts#remove', as: 'remove_anis'
 
+  #ANISPROGRS
+  get 'anisprog_new', to: 'anisprogs#anisprog_new', as: 'anisprog_new'
+  get 'anisprog_edit', to: 'anisprogs#anisprog_edit', as: 'anisprog_edit'
+  get 'anisprog_remove', to: 'anisprogs#anisprog_remove', as: 'anisprog_remove'
+
 
   #PDF
   get 'print_payment_course', to: 'pdfs#print_payment_course'

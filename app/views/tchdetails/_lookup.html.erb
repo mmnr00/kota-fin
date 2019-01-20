@@ -2,11 +2,11 @@
   <%= form_tag find_tchdetail_path, remote: true, method: :get, id: "find_kid" do %>
     <div class="form-group text-center col-md-12 bg-light">
       <div style="background-color:#66b266"><font color="white">
-        <strong>FIND NAME<br></strong></font></div><br>
+        <strong>FIND BY IC NO<br></strong></font></div><br>
       <div class="row">
       <div class="col-md-12">
         <%= text_field_tag :ic3, params[:ic3], 
-                placeholder: "SEARCH NAME", 
+                placeholder: "4 DIGIT OF LAST IC NO", 
                 autofocus: true,  
                 class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
       </div>   

@@ -5,6 +5,7 @@ class Course < ApplicationRecord
 	has_many :teachers, through: :teacher_courses
 	has_many :fotos
 	has_many :anisatts
+	has_many :anisprogs
 	has_many :tchdetails, through: :anisatts
 	accepts_nested_attributes_for :fotos
 end
