@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_19_005421) do
+ActiveRecord::Schema.define(version: 2019_01_20_233205) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,16 @@ ActiveRecord::Schema.define(version: 2019_01_19_005421) do
     t.integer "course_id"
     t.integer "tchdetail_id"
     t.boolean "att"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "anisfeeds", force: :cascade do |t|
+    t.integer "rate"
+    t.string "bad"
+    t.string "good"
+    t.integer "course_id"
+    t.integer "tchdetail_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -121,6 +131,9 @@ ActiveRecord::Schema.define(version: 2019_01_19_005421) do
     t.datetime "updated_at", null: false
     t.integer "taska_id"
     t.integer "classroom_id"
+    t.integer "course_id"
+    t.integer "anisprog_id"
+    t.integer "anisfeed_id"
   end
 
   create_table "fotos", force: :cascade do |t|

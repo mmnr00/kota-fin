@@ -3,59 +3,14 @@
 
 
 <div class="card mb-3">
-  <div class="card-header" style="background-color:#0050be">
-    <h3 align="center" style="color:white"> View Course <%= @course.name %> </h3>
+  <div class="card-header" style="background-color:#ff7f7f">
+    <h3 align="center" style="color:white"> 
+      <%= @course.name %> FOR <%= @course.college.name %> 
+      &nbsp&nbsp<%= link_to "VIEW REPORT",course_report_path(course: @course), class: "btn btn-sm btn-info active", target: "_blank" %>
+    </h3>
   </div>
 </div>
 
-<div class="row">
-  <div class="col-sm-8 bg-white">
-    <h3>EDIT PROGRAMME</h3><br>
-    <% @prog_list.each do |prog| %>
-      <%= form_for(prog, :url => {:controller=>'anisprogs', :action=>'anisprog_edit'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
-        <div class="card"><div class="card-body">
-          <div class="row">
-            <div class="control-label col-sm-5">
-              <strong>PROGRAMME NAME</strong>
-              <%= f.text_area :name, class: "form-control", autofocus: true, required: true %><br>
-            </div>
-            
-            <div class="control-label col-sm-5">
-              <strong>LECTURER NAME</strong>
-              <%= f.text_area :lec, class: "form-control", autofocus: true, required: true %><br>
-            </div>
-
-            <%= f.hidden_field :course_id, value: @course.id%>
-            <%= f.hidden_field :id, value: prog.id %>
-
-            <div class="control-label col-sm-2">
-              <br><br>
-              <%= f.submit :"EDIT",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %><br><br>
-            </div>
-          </div>  
-        </div></div><br>  
-      <% end %>
-
-
-    <% end %>
-  </div>
-  <div class="col-sm-4">
-    <h3>CREATE NEW PROGRAMME</h3><br>
-    <%= form_for(@progs, :url => {:controller=>'anisprogs', :action=>'anisprog_new'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
-              <div class="control-label col-sm-12">
-                <strong>PROGRAMME NAME</strong>
-              </div>
-              <%= f.text_field :name, class: "form-control", autofocus: true, required: true %><br>
-              <div class="control-label col-sm-12">
-                <strong>LECTURER NAME</strong>
-              </div>
-              <%= f.text_field :lec, class: "form-control", autofocus: true, required: true %><br>
-              <%= f.hidden_field :course_id, value: @course.id%>
-              <%= f.submit :"CREATE NEW",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
-            <% end %>
-  </div>
-</div>
-<br><br>
 <% total_att = Anisatt.where(course_id: @course.id).where(att: true).count %>
 <% total_par = @tchdetails.count %>
 ATTENDANCE SUMMARY = <%= "#{total_att}/#{total_par}"%>
@@ -100,7 +55,11 @@ ATTENDANCE SUMMARY = <%= "#{total_att}/#{total_par}"%>
               <% end %>
             </td>
             <td>
-              YES OR NO
+              <% if tch.anisfeeds.where(course_id: @course.id).present? %>
+                YES
+              <% else %>
+                NO
+              <% end %>
             </td>
 
           </tr>
@@ -115,8 +74,58 @@ ATTENDANCE SUMMARY = <%= "#{total_att}/#{total_par}"%>
     <%= render 'tchdetails/lookup' %>
   </div>
   
+</div><br><br>
+
+<div class="row">
+  <div class="col-sm-9 bg-white">
+    <h3>EDIT PROGRAMME</h3><br>
+    <% @prog_list.each do |prog| %>
+      <%= form_for(prog, :url => {:controller=>'anisprogs', :action=>'anisprog_edit'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+        <div class="card"><div class="card-body">
+          <div class="row">
+            <div class="control-label col-sm-5">
+              <strong>PROGRAMME NAME</strong>
+              <%= f.text_area :name, class: "form-control", autofocus: true, required: true %><br>
+            </div>
+            
+            <div class="control-label col-sm-5">
+              <strong>LECTURER NAME</strong>
+              <%= f.text_area :lec, class: "form-control", autofocus: true, required: true %><br>
+            </div>
+
+            <%= f.hidden_field :course_id, value: @course.id%>
+            <%= f.hidden_field :id, value: prog.id %>
+
+            <div class="control-label col-sm-2">
+              <br><br>
+              <%= f.submit :"EDIT",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %><br><br>
+            </div>
+          </div>  
+        </div></div><br>  
+      <% end %>
+
+
+    <% end %>
+  </div>
+  <div class="col-sm-3">
+    <h3>CREATE NEW PROGRAMME</h3><br>
+    <%= form_for(@progs, :url => {:controller=>'anisprogs', :action=>'anisprog_new'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+              <div class="control-label col-sm-12">
+                <strong>PROGRAMME NAME</strong>
+              </div>
+              <%= f.text_field :name, class: "form-control", autofocus: true, required: true %><br>
+              <div class="control-label col-sm-12">
+                <strong>LECTURER NAME</strong>
+              </div>
+              <%= f.text_field :lec, class: "form-control", autofocus: true, required: true %><br>
+              <%= f.hidden_field :course_id, value: @course.id%>
+              <%= f.submit :"CREATE NEW",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
+            <% end %>
+  </div>
 </div>
+<br><br>
+
   <br><%= link_to "BACK", show_owner_path(id: current_owner.id, college: @course.college.id), class: "btn btn-sm btn-success active" %>
-<strong>Feedback Link</strong> = <%= link_to "#{new_tchdetail_url}?id=#{@college.id}", new_tchdetail_path(id: @college.id), style: "color:blue" %><br><br>
+<strong>Feedback Link</strong> = <%= link_to "#{anisfeed_pre_url}?id=#{@course.id}", anisfeed_pre_path(id: @course.id), style: "color:blue" %><br><br>
 
 

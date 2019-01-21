@@ -55,6 +55,19 @@ class CoursesController < ApplicationController
 		render action: "owner_course", layout: "dsb-owner-college"
 	end
 
+	def course_report
+		@owner = current_owner
+		@course = Course.find(params[:course])
+		@college = @course.college
+		@tchdetails = @college.tchdetails
+		@attendance = Hash.new
+		@attendance["ATTEND"] = Anisatt.where(course_id: @course.id).where(att: true).count
+		@attendance["ABSENT"] = @tchdetails.count - @attendance["ATTEND"]
+		@anisfeed = Anisfeed.where(course_id: @course.id)
+		@anisprogs = @course.anisprogs
+		render action: "course_report", layout: "dsb-owner-college"
+	end
+
 	def new
 		@owner = current_owner
 		@college = College.find(params[:id])

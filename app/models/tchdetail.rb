@@ -5,5 +5,6 @@ class Tchdetail < ApplicationRecord
 	has_many :colleges, through: :tchdetail_colleges
 	has_many :anisatts
 	has_many :courses, through: :anisatts
+	has_many :anisfeeds
 	accepts_nested_attributes_for :fotos
 end
