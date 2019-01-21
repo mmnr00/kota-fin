@@ -1,5 +1,4 @@
-<%= @course.id %><br>
-<%= @tchdetail.id %><br>
+YOUR FEEDBACK WILL BE KEPT CONFIDENTIAL
 
 <%= form_for(@anisfeed, :url => {:controller=>'anisfeeds', :action=>'anisfeed_save'}, :html => {multipart: true, class: "form-horizontal", role: "form"}) do |f| %>
   
@@ -13,7 +12,7 @@
                                                 "3",
                                                 "4",
                                                 "5"]),
-          {include_blank: "Please Select"}, {required: true} %> 
+          {include_blank: "Select Rating"}, {required: true} %> 
     </div>
   </div>
 
@@ -48,7 +47,7 @@
                                                     "3",
                                                     "4",
                                                     "5"]),
-              {include_blank: "Please Select"}, {required: true} %>
+              {include_blank: "Select Rating"}, {required: true} %>
         </div>
       </div>
       <div class="form-group"> <!-- name -->
