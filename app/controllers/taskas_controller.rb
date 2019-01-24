@@ -282,6 +282,7 @@ class TaskasController < ApplicationController
 
   def taskateachers
     @taskateachers = @taska.teachers
+    render action: "taskateachers", layout: "dsb-admin-teacher" 
 
   end
 
