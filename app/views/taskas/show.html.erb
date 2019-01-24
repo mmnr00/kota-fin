@@ -31,7 +31,7 @@
         <div class="card-counter success">
           <i class="fa fa-database"></i>
           <span class="count-numbers">
-            <%= number_with_delimiter(@taska_expense.where(kind: "INCOME").sum(:cost) - @taska_expense.where(kind: "EXPENSE").sum(:cost) + @taska.payments.where(bill_month: $my_time.month).where(bill_year: $my_time.year).where(paid: true).sum(:amount), :delimiter => ',') %>
+            <%= number_with_delimiter(@taska_expense.where(kind: "INCOME").sum(:cost) - @taska_expense.where(kind: "EXPENSE").sum(:cost) + @taska.payments.where(bill_month: $my_time.month).where.not(name: "TASKA PLAN").where(bill_year: $my_time.year).where(paid: true).sum(:amount), :delimiter => ',') %>
           </span>
           <span class="count-name">
             <a href="/taska/<%= @taska.id %>/my_expenses?utf8=✓&expense%5Bmonth%5D=<%= $my_time.month%>&expense%5Byear%5D=<%=$my_time.year%>&commit=SELECT", style="color:#fff">Profit (RM)<br><%= $month_name[$my_time.month] %>-<%= $my_time.year %>
