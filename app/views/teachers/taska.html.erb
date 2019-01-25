@@ -1,0 +1,7 @@
+My Taska <br>
+
+<% if !@teacher.taska_teachers.present? || !@teacher.taska_teachers.last.stat %>
+  <%= link_to "ADD TASKA", tch_add_taska_path(@teacher, tsk_id: 1), class: "btn btn-sm btn-success active"%>
+<% else %>
+  VIEW TASKA
+<% end %>

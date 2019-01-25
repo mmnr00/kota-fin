@@ -58,37 +58,74 @@ Assigned Teachers List -->
           </div>
         </div>
         
-
+        <!-- ASSIGNED TEACHERS LIST -->
         <% if @taskateachers.size > 0 %>
-          <div id="friend-lookup-result" class="well results-block col-md-10">        
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th>Username</th>
-                  <th>Email</th>
-                  <th>Email</th>
-                </tr>
-              </thead>
-              <tbody>
-                
-                <% @taskateachers.each do |teacher| %>
-                
-                <tr>
-                  <td><%= teacher.username %></td>
-                  <td><%= teacher.email %></td>
-                  <td><%= link_to "Delete Teacher", delete_teacher_path(teacher: teacher, taska: params[:id]), class: "btn btn-xs btn-primary active", method: :delete, data: { confirm: 'Are you sure?' }  %></td>               
-                </tr>
-                <% end %>
-
-              </tbody>
-
-            </table>
-            
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-hand-pointer"></i>
+              NEW TEACHER'S REGISTRATION
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr style="background-color:#d8b2d8">
+                      <th>Username</th>
+                      <th>Email</th>
+                      <th>Email</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% @taskateachers.each do |teacher| %>
+                      <tr>
+                        <td><%= teacher.username %></td>
+                        <td><%= teacher.email %></td>
+                        <td><%= link_to "Delete Teacher", delete_teacher_path(teacher: teacher, taska: params[:id]), class: "btn btn-xs btn-primary active", method: :delete, data: { confirm: 'Are you sure?' }  %></td> 
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         <% else %>
           You do not have any teachers. Please find using the form above.
         <% end %>
 
+        <!-- ASSIGNED TEACHERS LIST -->
+        <% if @taskateachers.size > 0 %>
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-hand-pointer"></i>
+              ASSIGNED TEACHER'S LIST
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr style="background-color:#d8b2d8">
+                      <th>Username</th>
+                      <th>Email</th>
+                      <th>Email</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% @taskateachers.each do |teacher| %>
+                      <tr>
+                        <td><%= teacher.username %></td>
+                        <td><%= teacher.email %></td>
+                        <td><%= link_to "Delete Teacher", delete_teacher_path(teacher: teacher, taska: params[:id]), class: "btn btn-xs btn-primary active", method: :delete, data: { confirm: 'Are you sure?' }  %></td> 
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        <% else %>
+          You do not have any teachers. Please find using the form above.
+        <% end %>
+        <!-- PRINT TEACHER'S LIST -->
         <div class="pull-left">
           <%= link_to childlist_xls_path(@taska, format: :xlsx), class: "btn btn-sm btn-info active" do %>
             <i class="fa fa-file-excel"></i> DOWNLOAD EXCEL

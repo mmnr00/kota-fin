@@ -51,6 +51,23 @@
           </div>
         </div>
 
+        <div class="form-group"> <!-- MARITAL-->
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong><%= f.label :"Marital Status" %></strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-8">
+              <%= f.select :marital, options_for_select(["Married", 
+                                                        "Single",
+                                                        "Others"],
+                                                        selected: @tchdetail.marital),
+              {include_blank: "Please Select"}, {required: true} %>          
+            </div>
+          </div>
+        </div>
+
         <div class="form-group"> <!-- CATEGORY-->
           <div class="row">
             <div class="control-label col-sm-8">
@@ -59,11 +76,11 @@
           </div>
           <div class="row">
             <div class="col-sm-8 col-8">
-              <%= f.select :marital, options_for_select(["Childcare Provider", 
+              <%= f.select :category, options_for_select(["Childcare Provider", 
                                                         "Owner", 
                                                         "Supervisor",
                                                         "Others"],
-                                                        selected: @tchdetail.marital),
+                                                        selected: @tchdetail.category),
               {include_blank: "Please Select"}, {required: true} %>          
             </div>
           </div>

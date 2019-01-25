@@ -40,6 +40,22 @@ class TeachersController < ApplicationController
 		end
 	end
 
+	#TASKA STUFF
+	def taska
+
+		@college_list = College.all
+		render action: "taska", layout: "dsb-teacher-tsk"
+
+	end
+
+	def add_taska
+		tsktch = TaskaTeacher.new(taska_id: params[:tsk_id], teacher_id: @teacher.id, stat: true)
+		tsktch.save
+		redirect_to teacher_taska_path(@teacher)
+	end
+
+	#COLLEGE STUFF
+
 	def college
 
 		@college_list = College.all
