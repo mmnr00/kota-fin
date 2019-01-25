@@ -281,6 +281,7 @@ class TaskasController < ApplicationController
   end
 
   def taskateachers
+    @newteachers = @taska.taska_teachers.where(stat: true)
     @taskateachers = @taska.teachers
     render action: "taskateachers", layout: "dsb-admin-teacher" 
 

@@ -1,0 +1,36 @@
+<%= render partial: "shared/flash_messages", flash: flash %>
+  <% if @taska_find.present? %>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr style="background-color:#d8b2d8">
+            <th> NAME </th>
+            <th> ADDRESS </th>
+            <th> ACTION </th>
+          </tr>
+        </thead>
+        <tbody> 
+          <% @taska_find.each do |tsk| %>
+            <tr>
+              <td><%= tsk.name %></td>
+              <td>
+                <%= tsk.address_1 %><br>
+                <%= tsk.address_2 %><br>
+                <%= tsk.city %><br>
+                <%= "#{tsk.states} #{tsk.postcode}" %><br>
+              </td>
+              <td>
+                <%= link_to "ADD TASKA", tch_add_taska_path(@teacher, tsk_id: tsk.id), class: "btn btn-sm btn-success active"%>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %> 
+
+  
+
+
+
+

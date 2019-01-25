@@ -111,6 +111,7 @@ Rails.application.routes.draw do
   get '/teacher/:id/payment_signup', to: 'teachers#payment_signup', as: 'payment_signup'
   get '/teacher/:id/teacher_pay_bill', to: 'teachers#teacher_pay_bill', as: 'teacher_pay_bill'
   get '/add_taska', to: 'teachers#add_taska', as: 'tch_add_taska'
+  get '/find_taska', to: 'teachers#find_taska', as: 'tch_find_taska'
 
   #PARENTS
   get 'parent_index', to: 'parents#index', as: 'parent_index'
@@ -165,6 +166,7 @@ Rails.application.routes.draw do
   #TASKA_TEACHERS
   post '/taska/:id/add_teacher', to: 'taska_teachers#create', as: 'add_teacher'
   delete '/taska/:id/delete_teacher', to: 'taska_teachers#destroy', as: 'delete_teacher'
+  get '/remove_teacher', to: 'taska_teachers#remove_teacher', as: 'remove_teacher'
   #CLASSROOMS
   get '/classroom/:id/teachers', to: 'classrooms#taskateachers_classroom', as: 'list_teacher_classroom'
   #TEACHERS_CLASSROOMS

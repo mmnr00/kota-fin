@@ -58,8 +58,8 @@ Assigned Teachers List -->
           </div>
         </div>
         
-        <!-- ASSIGNED TEACHERS LIST -->
-        <% if @taskateachers.size > 0 %>
+        <!-- NEW TEACHERS LIST -->
+        <% if @newteachers.size > 0 %>
           <div class="card mb-3">
             <div class="card-header">
               <i class="fas fa-hand-pointer"></i>
@@ -70,17 +70,22 @@ Assigned Teachers List -->
                 <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr style="background-color:#d8b2d8">
-                      <th>Username</th>
-                      <th>Email</th>
-                      <th>Email</th>
+                      <th>NAME</th>
+                      <th>PHONE NO</th>
+                      <th>CLASSROOM</th>
+                      <th>ACTION</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <% @taskateachers.each do |teacher| %>
+                    <% @newteachers.each do |tstc| %>
                       <tr>
-                        <td><%= teacher.username %></td>
-                        <td><%= teacher.email %></td>
-                        <td><%= link_to "Delete Teacher", delete_teacher_path(teacher: teacher, taska: params[:id]), class: "btn btn-xs btn-primary active", method: :delete, data: { confirm: 'Are you sure?' }  %></td> 
+                        <td><%= tstc.teacher.tchdetail.name %></td>
+                        <td><%= "#{tstc.teacher.tchdetail.phone_1}-#{tstc.teacher.tchdetail.phone_2}" %></td>
+                        <td>ADD CLASSROOM</td>
+                        <td>
+                          <%= link_to "PROFILE", delete_teacher_path(teacher: tstc.teacher, taska: params[:id]), class: "btn btn-sm btn-primary active", data: { confirm: 'Are you sure?' }  %>
+                          <%= link_to "REMOVE", remove_teacher_path(teacher: tstc.teacher, taska: params[:id]), class: "btn btn-sm btn-danger active", data: { confirm: 'Are you sure?' }  %>
+                        </td> 
                       </tr>
                     <% end %>
                   </tbody>
@@ -89,7 +94,7 @@ Assigned Teachers List -->
             </div>
           </div>
         <% else %>
-          You do not have any teachers. Please find using the form above.
+          NO NEW REGISTRATIONS
         <% end %>
 
         <!-- ASSIGNED TEACHERS LIST -->

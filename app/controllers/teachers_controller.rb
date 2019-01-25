@@ -54,6 +54,22 @@ class TeachersController < ApplicationController
 		redirect_to teacher_taska_path(@teacher)
 	end
 
+	def find_taska
+		if params[:name].blank? && params[:dom].blank?
+      flash.now[:danger] = "Blank Input Received"
+    else
+    	if !params[:name].blank?
+    		@taska_find = Taska.where(name: params[:name].upcase)
+    	else
+    		@taska_find = Taska.where(subdomain: params[:dom])
+    	end
+      flash.now[:danger] = "No record found" unless @taska_find.present?
+    end
+    respond_to do |format|
+      format.js { render partial: 'teachers/resulttsk' } 
+    end
+	end
+
 	#COLLEGE STUFF
 
 	def college
