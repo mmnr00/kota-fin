@@ -1,0 +1,18 @@
+
+<div class="container">
+  <div class="row"><div style="width: 50%; margin: 0 auto;">
+    <%= form_for(:tch, :url => url, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+
+      <%= f.select :classroom_id, 
+        options_from_collection_for_select(@taska.classrooms.order('classroom_name ASC'), :id, :classroom_name, selected: @classroom), 
+        {include_blank: "Select Classroom"},
+        {required: true} %><br><br>
+                             
+      <%= f.hidden_field :tchid, value: @teacher.id %>
+      <%= f.hidden_field :tskid, value: @taska.id %>
+      <div style="width: 50%; margin: 0 auto;">
+        <%= f.submit :"#{btn}",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
+      </div>
+    <% end %>
+  </div></div>
+</div><br>

@@ -124,6 +124,11 @@ Rails.application.routes.draw do
 
   #TASKAS
   get '/taska/:id/teachers', to: 'taskas#taskateachers', as: 'taskateachers'
+  get '/taska/:id/tchinfo_new', to: 'taskas#tchinfo_new', as: 'tchinfo_new'
+  get '/taska/:id/tchinfo_save', to: 'taskas#tchinfo_save', as: 'tchinfo_save'
+  get '/taska/:id/tchrm_cls', to: 'taskas#tchrm_cls', as: 'tchrm_cls'
+  get '/taska/:id/tchinfo_edit', to: 'taskas#tchinfo_edit', as: 'tchinfo_edit'
+  get '/taska/:id/tchinfo_update', to: 'taskas#tchinfo_update', as: 'tchinfo_update'
   get '/taska/:id/classroom', to: 'taskas#classrooms_index', as: 'classroom_index'
   get '/taska/:id/children', to: 'taskas#children_index', as: 'children_index'
   get '/index_parent', to: 'taskas#index_parent', as: 'index_parent'

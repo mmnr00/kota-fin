@@ -1,0 +1,6 @@
+NEW <%= @teacher.username %>
+
+<% url = {:controller=>'taskas', :action=>'tchinfo_save'} %>
+<% btn = "CREATE" %>
+
+<%= render 'taskas/tchinfo', url: url, btn: btn %>

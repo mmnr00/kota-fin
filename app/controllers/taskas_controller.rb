@@ -1,7 +1,7 @@
 class TaskasController < ApplicationController
   
   require 'json'
-  before_action :set_taska, only: [:show,:children_index, :taskateachers, :taskateachers_classroom,:classrooms_index, :edit, :update, :destroy]
+  before_action :set_taska, only: [:show,:children_index, :taskateachers, :taskateachers_classroom,:classrooms_index, :edit, :update, :destroy, :tchinfo_new, :tchinfo_edit]
   before_action :set_all
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
@@ -280,11 +280,44 @@ class TaskasController < ApplicationController
     end
   end
 
+  #TEACHER CLASSROOMS AND LEAVE
   def taskateachers
     @newteachers = @taska.taska_teachers.where(stat: true)
-    @taskateachers = @taska.teachers
+    @classrooms = @taska.classrooms
     render action: "taskateachers", layout: "dsb-admin-teacher" 
+  end
 
+  def tchinfo_new
+    @teacher = Teacher.find(params[:tchid])
+    @classroom = nil
+    render action: "tchinfo_new", layout: "dsb-admin-teacher" 
+  end
+
+  def tchinfo_save
+    TeachersClassroom.create(teacher_id: params[:tch][:tchid], classroom_id: params[:tch][:classroom_id])
+    redirect_to taskateachers_path(id: params[:tch][:tskid])
+  end
+
+  def tchrm_cls
+    @taska = Taska.find(params[:id])
+    tchcls = TeachersClassroom.where(teacher_id: params[:tch], classroom_id: params[:cls]).first
+    tchcls.destroy
+    redirect_to taskateachers_path(@taska)
+  end
+
+  def tchinfo_edit
+    @teacher = Teacher.find(params[:tchid])
+    @classroom = @teacher.classrooms.first.id
+    render action: "tchinfo_edit", layout: "dsb-admin-teacher" 
+  end
+
+  def tchinfo_update
+    teacher = Teacher.find(params[:tch][:tchid])
+    classroom = teacher.classrooms.first
+    tchcls = TeachersClassroom.where(teacher_id: teacher.id, classroom_id: classroom.id).first
+    tchcls.classroom_id = params[:tch][:classroom_id]
+    tchcls.save
+    redirect_to taskateachers_path(id: params[:tch][:tskid])
   end
 
   def taskateachers_classroom

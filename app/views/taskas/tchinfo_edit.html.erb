@@ -1,0 +1,6 @@
+EDIT <%= @teacher.username %>
+
+<% url = {:controller=>'taskas', :action=>'tchinfo_update'} %>
+<% btn = "UPDATE" %>
+
+<%= render 'taskas/tchinfo', url: url, btn: btn %>

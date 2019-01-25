@@ -4,14 +4,24 @@ class TchdetailsController < ApplicationController
 	#before_action :authenticate_parent! || :authenticate_admin!
 	def show
 		@pdf = false
-		@owner = Owner.find(params[:owner_id])
+		if params[:owner_id].present?
+			@owner = Owner.find(params[:owner_id])
+		elsif params[:adm].present?
+			@admin = Admin.find(params[:adm])
+		end
 		@fotos = @tchdetail.fotos
-		render action: "show", layout: "dsb-owner-college"
+		if @owner 
+			render action: "show", layout: "dsb-owner-college"
+		end
 	end
 
 	def show_pdf
 		@pdf = true
-		@owner = Owner.find(params[:owner_id])
+		if params[:owner_id].present?
+			@owner = Owner.find(params[:owner_id])
+		elsif params[:adm].present?
+			@admin = Admin.find(params[:adm])
+		end
 		@fotos = @tchdetail.fotos
 		respond_to do |format|
 	 		format.html
