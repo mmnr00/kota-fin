@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resources :prntdetails, only:[:show, :new, :create, :destroy, :update, :edit]
   resources :ptnssps, only:[:update, :edit]
   resources :extras, only:[:new, :create, :destroy, :update, :edit]
+  resources :tsklvs, only:[:new, :create, :destroy, :update, :edit]
   #resources :teachers, only:[:show]
   #resources :taska_teachers, only:[:create,:destroy]
   devise_for :parents

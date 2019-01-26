@@ -158,19 +158,21 @@
       
       <div>
         <p align="center">
-          <%= link_to new_extra_path(taska_id: @taska.id), class:"btn btn-sm btn-warning" do %>
-          <i class="fa fa-plus"></i> NEW EXTRA
+          <%= link_to new_tsklv_path(taska_id: @taska.id), class:"btn btn-sm btn-warning" do %>
+          <i class="fa fa-plus"></i> NEW LEAVE
         <% end %></p>
       </div>
-      <% @taska.extras.each do |extra|%>
+      <% @taska.tsklvs.each do |tsklv|%>
         <div class="notice notice-info">
-          <strong><%= extra.name.upcase %></strong><br>RM <%= extra.price %><br><br>
-          <a href="/extras/<%= "#{extra.id}" %>/edit">
+          <strong><%= tsklv.name.upcase %></strong>
+          <br><%= tsklv.desc %>
+          <br><%= tsklv.day %> days<br><br>
+          <a href="/tsklvs/<%= "#{tsklv.id}" %>/edit">
             <span class="text-success">
                <i class="fa fa-edit"></i> EDIT
             </span>
           </a>
-          <a data-confirm="Are you sure" data-method="delete" href="/extras/<%= "#{extra.id}" %>">
+          <a data-confirm="Are you sure" data-method="delete" href="/tsklvs/<%= "#{tsklv.id}" %>">
             <span class="pull-right text-danger">
               DELETE <i class="fa fa-trash"></i>
             </span>

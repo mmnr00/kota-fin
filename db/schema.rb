@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_25_004329) do
+ActiveRecord::Schema.define(version: 2019_01_26_090416) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -407,6 +407,16 @@ ActiveRecord::Schema.define(version: 2019_01_25_004329) do
     t.string "category"
   end
 
+  create_table "tchlvs", force: :cascade do |t|
+    t.string "name"
+    t.float "day"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "taska_id"
+    t.integer "teacher_id"
+    t.integer "tsklv_id"
+  end
+
   create_table "teacher_colleges", force: :cascade do |t|
     t.integer "teacher_id"
     t.integer "college_id"
@@ -442,6 +452,15 @@ ActiveRecord::Schema.define(version: 2019_01_25_004329) do
   create_table "teachers_classrooms", id: :integer, default: nil, force: :cascade do |t|
     t.integer "teacher_id"
     t.integer "classroom_id"
+  end
+
+  create_table "tsklvs", force: :cascade do |t|
+    t.string "name"
+    t.string "desc"
+    t.integer "day"
+    t.integer "taska_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

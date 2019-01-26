@@ -295,6 +295,11 @@ class TaskasController < ApplicationController
 
   def tchinfo_save
     TeachersClassroom.create(teacher_id: params[:tch][:tchid], classroom_id: params[:tch][:classroom_id])
+    
+    params[:tch][:leaves].each do |k,v|
+      #render json: v  and return
+      Tchlv.create(leave_params(v))
+    end
     redirect_to taskateachers_path(id: params[:tch][:tskid])
   end
 
@@ -419,11 +424,16 @@ class TaskasController < ApplicationController
     end
 
     def set_all
-    @teacher = current_teacher
-    @parent = current_parent
-    @admin = current_admin  
-    @owner = current_owner
-  end
+      @teacher = current_teacher
+      @parent = current_parent
+      @admin = current_admin  
+      @owner = current_owner
+    end
+
+    #Create multiple leaves
+    def leave_params(lv)
+      lv.permit(:name, :day, :teacher_id, :taska_id, :tsklv_id)
+    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def taska_params
