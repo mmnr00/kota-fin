@@ -55,7 +55,11 @@
               <% end %>
                <a href="/<%= "#{reg_link}"%>?taska_id=<%= @taska.id%>">
                  <p><button class="w3-button w3-block w3-blue"   data-toggle="tooltip" data-placement="top" title="Click here to register"> <i class="fa fa-user-plus fa-lg"></i>&nbsp&nbsp  
-                 REGISTER</button></p>
+                 EXISTING REGISTRATION</button></p>
+               </a>
+               <a href="/<%= "#{reg_link}"%>?taska_id=<%= @taska.id%>&new=yes">
+                 <p><button class="w3-button w3-block w3-orange"   data-toggle="tooltip" data-placement="top" title="Click here to register"> <i class="fa fa-user-plus fa-lg"></i>&nbsp&nbsp  
+                 NEW REGISTRATION</button></p>
                </a>
              <% end %>
             </div>
