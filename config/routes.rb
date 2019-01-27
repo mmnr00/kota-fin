@@ -97,9 +97,9 @@ Rails.application.routes.draw do
 
   #TCHDETAIL
   get '/print/profile', to: 'tchdetails#show_pdf', as: 'print_profile'
-  get '/daftaranis', to: 'tchdetails#new', as: 'new_tchdetail'
+  get '/newtchdetail', to: 'tchdetails#new', as: 'new_tchdetail'
   get '/find_tchdetail', to: 'tchdetails#find_tchdetail', as: 'find_tchdetail'
-
+  get '/tchd_anis', to: 'tchdetails#tchd_anis', as: 'tchd_anis'
 
   #OWNERS (FOR COLLEGE)
   get 'owner_index', to: 'owners#index'

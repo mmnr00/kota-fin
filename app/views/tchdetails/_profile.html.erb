@@ -1,8 +1,8 @@
 <div class="container">
   <div class="panel panel-info">
     <div class="panel-heading">
-      <h3 class="panel-title" align="center"><%= @tchdetail.name.upcase %></h3>
-    </div>
+      <h2 class="panel-title" align="center"><%= @tchdetail.name.upcase %></h2>
+    </div><br>
     <div class="panel-body">
       <div class="row">
         <div class="col-md-3 col-lg-3" align="center"> 
@@ -36,14 +36,16 @@
                   <%= "#{@tchdetail.phone_1}-""#{@tchdetail.phone_2}" %>
                 </td>
               </tr>
-              <tr>
-                <td><strong>EMAIL:</strong></td>
-                <td>
-                  <%= "#{@tchdetail.teacher.email}" %>
-                </td>
+              <% if @tchdetail.anis != "true" %>
+                <tr>
+                  <td><strong>EMAIL:</strong></td>
+                  <td>
+                    <%= "#{@tchdetail.teacher.email}" %>
+                  </td>
               </tr>
+              <% end %>
               <tr>
-                <td><strong>CATEGORY:</strong></td>
+                <td><strong>MARITAL STATUS:</strong></td>
                 <td>
                   <%= "#{@tchdetail.marital.upcase}" %>
                 </td>
@@ -114,14 +116,12 @@
                   <% end %>
                 </td>
               </tr>
-
               <tr>
                 <td><strong>TASKA OWNER PHONE NO:</strong></td>
                 <td>
                   <%= "#{@tchdetail.ts_phone_1}-""#{@tchdetail.ts_phone_2}" %>
                 </td>
               </tr>
-
               <tr>
                 <td><strong>TASKA ADDRESS:</strong></td>
                 <td>
@@ -138,12 +138,27 @@
                   <%= "#{@tchdetail.ts_states.upcase}" %>
                   <% end %>
                   <%= "#{@tchdetail.ts_postcode}" %>
-                  
                 </td>
-              <tr>
-                 
-
-
-                 
+              </tr>
+              <% if @tchdetail.anis == "true" %>
+                <tr>
+                  <td><strong>DUN</strong></td>
+                  <td>
+                    <%= @tchdetail.dun %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>NO PERAKUAN JKM/JPN</strong></td>
+                  <td>
+                    <%= @tchdetail.jkm %>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>POST IN TASKA/PJKK</strong></td>
+                  <td>
+                    <%= @tchdetail.post %>
+                  </td>
+                </tr>
+              <% end %>
             </tbody>
           </table>

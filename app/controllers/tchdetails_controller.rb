@@ -46,14 +46,24 @@ class TchdetailsController < ApplicationController
 		#@expense.taska = session[:taska_id]
 		if @tchdetail.save
 			TchdetailCollege.create(college_id: params[:tchdetail][:college_id], tchdetail_id: @tchdetail.id)
-			flash[:notice] = "REGISTRATION SUCCESSFULL"
-			redirect_to root_path
+			flash[:success] = "REGISTRATION SUCCESSFULL"
+			if @tchdetail.anis == "true"
+				redirect_to tchd_anis_path(id: @tchdetail.id, anis: true)
+			else
+				redirect_to root_path
+			end
+			
 
 												
 		else
 			render @tchdetail.errors.full_messages
 			render :new
 		end
+	end
+
+	def tchd_anis
+		@tchdetail = Tchdetail.find(params[:id])
+		@fotos = @tchdetail.fotos
 	end
 
 	def find_tchdetail
@@ -148,12 +158,17 @@ class TchdetailsController < ApplicationController
       																	:ts_name,
       																	:ts_address_1,
       																	:ts_address_2,
+      																	:ts_postcode,
       																	:ts_city,
       																	:ts_states,
       																	:ts_owner_name,
       																	:ts_phone_1,
       																	:ts_phone_2,
+      																	:dun, 
+      																	:jkm, 
+      																	:post,
       																	:college_id,
+      																	:anis,
       																	fotos_attributes: [:foto, :picture, :foto_name] )
     end
 
