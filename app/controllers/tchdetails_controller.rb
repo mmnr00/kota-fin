@@ -97,8 +97,12 @@ class TchdetailsController < ApplicationController
   end
 
   def tchd_xls
-    @college = College.find(params[:id])
-    @tch_clg = @college.tchdetails.order('name ASC')
+  	if params[:all] == "true"
+  		@colleges = @owner.colleges
+  	else
+	    @college = College.find(params[:id])
+	    @tch_clg = @college.tchdetails.order('name ASC')
+	  end
     respond_to do |format|
       #format.html
       format.xlsx{
