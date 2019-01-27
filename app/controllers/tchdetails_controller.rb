@@ -1,5 +1,5 @@
 class TchdetailsController < ApplicationController
-	before_action :set_tchdetail, except: [:new, :create, :find_tchdetail]
+	before_action :set_tchdetail, except: [:new, :create, :find_tchdetail, :find_tchdetail_reg]
 	#before_action :rep_responsible?
 	#before_action :authenticate_parent! || :authenticate_admin!
 	before_action :set_all
@@ -66,7 +66,7 @@ class TchdetailsController < ApplicationController
 		@fotos = @tchdetail.fotos
 	end
 
-	def find_tchdetail
+	def find_tchdetail #find anis in college
 		@college = College.find(params[:college_id])
 		@course = Course.find(params[:course_id])
     if params[:ic3].blank? 
@@ -78,6 +78,32 @@ class TchdetailsController < ApplicationController
     end
     respond_to do |format|
       format.js { render partial: 'tchdetails/result' } 
+    end
+  end
+
+  def find_tchdetail_reg #find anis in reg
+    if params[:ic1].blank?
+      flash.now[:danger] = "You have entered an empty request"
+    elsif params[:ic1] == "ALL"
+    	@find_tchdetail = Tchdetail.where(anis: "true")
+    else
+      @find_tchdetail = Tchdetail.where(anis: "true",ic_1: params[:ic1],ic_2: params[:ic2],ic_3: params[:ic3])
+      #flash.now[:danger] = "Cannot find child" unless @kid_search.present?
+      flash.now[:danger] = "NO MATCHED DATA" unless @find_tchdetail.present?
+    end
+    respond_to do |format|
+      format.js { render partial: 'tchdetails/result-reg' } 
+    end
+  end
+
+  def tchd_xls
+    @college = College.find(params[:id])
+    @tch_clg = @college.tchdetails.order('name ASC')
+    respond_to do |format|
+      #format.html
+      format.xlsx{
+                  response.headers['Content-Disposition'] = 'attachment; filename="Teacher List.xlsx"'
+      }
     end
   end
 
@@ -119,8 +145,12 @@ class TchdetailsController < ApplicationController
 		@teacher = @tchdetail.teacher
 		#@classroom = Classroom.find(params[:classroom])
 		if @tchdetail.update(tchdetail_params)
-			flash[:notice] = "Children was successfully updated"
-			redirect_to teacher_college_path(@teacher)
+			flash[:notice] = "Teacher was successfully updated"
+			if @tchdetail.anis == "true"
+				redirect_to tchd_anis_path(id: @tchdetail.id, anis: true)
+			else
+				redirect_to teacher_college_path(@teacher)
+			end
 			
 		else
 			render 'edit'

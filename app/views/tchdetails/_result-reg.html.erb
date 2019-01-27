@@ -1,0 +1,32 @@
+<%= render partial: "shared/flash_messages", flash: flash %>
+
+<% if @find_tchdetail.present? %>
+  <% @find_tchdetail.each do |tch| %>
+    <div class="col-xs-12 col-sm-12 col-md-12">
+      <div class="frontside">
+        <div class="card">
+          <div class="card-body text-center">
+            <h6 class="card-title"><%= tch.name.upcase %></h6>
+            <p class="card-text">
+              <%= "#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3}" %>
+            </p>
+            <p class="card-text">
+              <% tch.colleges.each do |clg| %>
+              <%= clg.name %>
+              <% end %>
+            </p>
+            <%= link_to "EDIT", edit_tchdetail_path(id: tch.id), class: "btn btn-sm btn-warning", target: "_blank" %>&nbsp
+            <%= link_to "PROFILE", tchd_anis_path(id: tch.id), class: "btn btn-sm btn-info", target: "_blank" %>  
+          </div>
+        </div>
+      </div>
+    </div> 
+  <% end %>
+<% end %>
+  
+
+  
+
+
+
+

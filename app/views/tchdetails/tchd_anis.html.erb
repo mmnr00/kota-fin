@@ -1,5 +1,5 @@
 <div class="container">
-  <%= link_to "EDIT", root_path, class: "btn btn-lg btn-warning" %>&nbsp
-  <%= link_to "NEW REGISTRATION", root_path, class: "btn btn-lg btn-success" %>
+  <%= link_to "EDIT", edit_tchdetail_path(id: @tchdetail.id), class: "btn btn-lg btn-warning" %>&nbsp
+  <%= link_to "NEW REGISTRATION", new_tchdetail_path(id: 26, anis: true), class: "btn btn-lg btn-success" %>
 </div><br>
 <%= render 'tchdetails/profile' %>
