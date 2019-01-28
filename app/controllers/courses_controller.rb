@@ -45,10 +45,56 @@ class CoursesController < ApplicationController
 
 	def owner_course
 		@owner = current_owner
+		@progs = Anisprog.new
 		@course = Course.find(params[:course])
+		@prog_list = @course.anisprogs.order('created_at DESC')
+		@college = @course.college
+		@tchdetails = @college.tchdetails
 		@course_teachers = @course.teachers.sort_by(&:created_at)
 		@course_payments = @course.payments
 		render action: "owner_course", layout: "dsb-owner-college"
+	end
+
+	def course_report
+		@owner = current_owner
+		@course = Course.find(params[:course])
+		@college = @course.college
+		@tchdetails = @college.tchdetails
+		@attendance = Hash.new
+		@attendance["ATTEND"] = Anisatt.where(course_id: @course.id).where(att: true).count
+		@attendance["ABSENT"] = @tchdetails.count - @attendance["ATTEND"]
+		#render json: @attendance and return
+		@anisfeed = Anisfeed.where(course_id: @course.id)
+		@anisprogs = @course.anisprogs
+		render action: "course_report", layout: "dsb-owner-college"
+	end
+
+	def course_reportpdf
+		@pdf = true
+		@owner = current_owner
+		@course = Course.find(params[:course])
+		@college = @course.college
+		@tchdetails = @college.tchdetails
+		@attendance = Hash.new
+		@attendance["ATTEND"] = Anisatt.where(course_id: @course.id).where(att: true).count
+		@attendance["ABSENT"] = @tchdetails.count - @attendance["ATTEND"]
+		#render json: @attendance and return
+		@anisfeed = Anisfeed.where(course_id: @course.id)
+		@anisprogs = @course.anisprogs
+		respond_to do |format|
+	 		format.html
+	 		format.pdf do
+		   render pdf: "(#{@course.name})",
+		   template: "courses/course_reportpdf.html.erb",
+		   #javascript_delay: 10000,
+		   book: false,
+		   #disposition: "attachment",
+		   #page_size: "A6",
+		   orientation: "portrait",
+		   layout: 'pdf.html.erb'
+			end
+		end
+		#render action: "course_report", layout: "dsb-owner-college"
 	end
 
 	def new

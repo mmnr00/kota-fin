@@ -1,4 +1,45 @@
+<%= @college.name.upcase %><br><br>
 
+<% if params[:anis] == "true" %><div class="row">
+  <div class='col-lg-8 col-12 bg-white'>
+    <%= form_tag find_tchdetail_reg_path, remote: true, method: :get, id: "find_kid" do %>
+      <div class="form-group text-center col-md-12">
+        <br><strong>PLEASE ENTER IC/NO TO CHECK<br><br></strong>
+        <div class="row">
+          <div class="col-sm-4 col-4">
+            <%= text_field_tag :ic1, params[:ic1], 
+                    placeholder: "", 
+                    maxlength: 6,
+                    autofocus: true, 
+                    class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+          </div>-   
+          <div class="col-sm-3 col-3">
+            <%= text_field_tag :ic2, params[:ic2], 
+                    placeholder: "", 
+                    maxlength: 2, 
+                    autofocus: true, 
+                    class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+          </div>- 
+          <div class="col-sm-4 col-4">
+            <%= text_field_tag :ic3, params[:ic3], 
+                    placeholder: "", 
+                    maxlength: 4,
+                    autofocus: true, 
+                    class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+          </div><br><br>              
+          <div class="col-md-12">
+            <%= button_tag(type: :submit, class: "btn btn-sm btn-success active", id: "submit_expense") do %>
+                <i class="fa fa-search"></i> CARI
+            <% end %>
+          </div>
+        </div><br>
+        <div id="result_kid">
+          <%= render 'tchdetails/result-reg' %> 
+        </div>
+      </div>
+    <%end%>
+  </div>
+</div><br><% end %>
 
 <%= render 'tchdetails/form' %>
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_16_084120) do
+ActiveRecord::Schema.define(version: 2019_01_27_014249) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,24 @@ ActiveRecord::Schema.define(version: 2019_01_16_084120) do
     t.boolean "att"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "anisfeeds", force: :cascade do |t|
+    t.integer "rate"
+    t.string "bad"
+    t.string "good"
+    t.integer "course_id"
+    t.integer "tchdetail_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "anisprogs", force: :cascade do |t|
+    t.string "name"
+    t.string "lec"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "course_id"
   end
 
   create_table "classrooms", id: :integer, default: nil, force: :cascade do |t|
@@ -113,6 +131,9 @@ ActiveRecord::Schema.define(version: 2019_01_16_084120) do
     t.datetime "updated_at", null: false
     t.integer "taska_id"
     t.integer "classroom_id"
+    t.integer "course_id"
+    t.integer "anisprog_id"
+    t.integer "anisfeed_id"
   end
 
   create_table "fotos", force: :cascade do |t|
@@ -317,6 +338,7 @@ ActiveRecord::Schema.define(version: 2019_01_16_084120) do
   create_table "taska_teachers", id: :integer, default: nil, force: :cascade do |t|
     t.integer "taska_id"
     t.integer "teacher_id"
+    t.boolean "stat"
   end
 
   create_table "taskas", id: :integer, default: nil, force: :cascade do |t|
@@ -382,6 +404,21 @@ ActiveRecord::Schema.define(version: 2019_01_16_084120) do
     t.string "ts_phone_1"
     t.string "ts_phone_2"
     t.integer "college_id"
+    t.string "category"
+    t.string "dun"
+    t.string "jkm"
+    t.string "post"
+    t.string "anis"
+  end
+
+  create_table "tchlvs", force: :cascade do |t|
+    t.string "name"
+    t.float "day"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "taska_id"
+    t.integer "teacher_id"
+    t.integer "tsklv_id"
   end
 
   create_table "teacher_colleges", force: :cascade do |t|
@@ -419,6 +456,15 @@ ActiveRecord::Schema.define(version: 2019_01_16_084120) do
   create_table "teachers_classrooms", id: :integer, default: nil, force: :cascade do |t|
     t.integer "teacher_id"
     t.integer "classroom_id"
+  end
+
+  create_table "tsklvs", force: :cascade do |t|
+    t.string "name"
+    t.string "desc"
+    t.integer "day"
+    t.integer "taska_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

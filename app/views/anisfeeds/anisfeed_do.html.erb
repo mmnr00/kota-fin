@@ -1,0 +1,75 @@
+YOUR FEEDBACK WILL BE KEPT CONFIDENTIAL
+
+<%= form_for(@anisfeed, :url => {:controller=>'anisfeeds', :action=>'anisfeed_save'}, :html => {multipart: true, class: "form-horizontal", role: "form"}) do |f| %>
+  
+  <div class="form-group"> <!-- name -->
+    <div class="control-label col-sm-2">
+      <strong>RATE</strong>
+    </div>
+    <div class="col-sm-6">
+      <%= f.select :rate, options_for_select(["1",
+                                                "2",
+                                                "3",
+                                                "4",
+                                                "5"]),
+          {include_blank: "Select Rating"}, {required: true} %> 
+    </div>
+  </div>
+
+  <div class="form-group"> <!-- name -->
+    <div class="control-label col-sm-2">
+      <strong>GOOD</strong>
+    </div>
+    <div class="col-sm-6">
+      <%= f.text_field :good, class: "form-control", autofocus: true, required: true %>
+    </div>
+  </div>
+
+  <div class="form-group"> <!-- name -->
+    <div class="control-label col-sm-2">
+      <strong>BAD</strong>
+    </div>
+    <div class="col-sm-6">
+      <%= f.text_field :bad, class: "form-control", autofocus: true, required: true %>
+    </div>
+  </div>
+
+  <% @course.anisprogs.each do |prog| %>
+    <%= f.fields_for :feedbacks do |h| %>
+      <div class="form-group"> <!-- name -->
+        <div class="control-label col-sm-8">
+          <strong>TOPIC :</strong><%= prog.name %><br>
+          <strong>LECTURER :</strong><%= prog.lec %><br>
+        </div>
+        <div class="col-sm-6">
+          <%= h.select :rating, options_for_select(["1",
+                                                    "2",
+                                                    "3",
+                                                    "4",
+                                                    "5"]),
+              {include_blank: "Select Rating"}, {required: true} %>
+        </div>
+      </div>
+      <div class="form-group"> <!-- name -->
+        <div class="control-label col-sm-2">
+          <strong>COMMENTS(OPTIONAL)</strong>
+        </div>
+        <div class="col-sm-6">
+          <%= h.text_area :review, class: "form-control", autofocus: true %>
+        </div>
+      </div>
+      <%= h.hidden_field :anisprog_id, value: prog.id %>
+    <% end %>
+  <% end %>
+
+
+  <%= f.hidden_field :course_id, value: @course.id %>
+  <%= f.hidden_field :tchdetail_id, value: @tchdetail.id %>
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <%= f.submit "CREATE", class: 'btn btn-primary btn-m' %>
+    </div>
+  </div>
+
+<% end %>

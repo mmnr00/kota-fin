@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   resources :kids, only:[:show,:create,:destroy,:update,:edit]
   resources :payments, only:[:create,:destroy]
   resources :fotos, only:[:edit, :update ,:destroy]
-  resources :tchdetails, only:[:show, :new, :create, :destroy, :update, :edit]
+  resources :tchdetails, only:[:show,:create, :destroy, :update, :edit]
   resources :prntdetails, only:[:show, :new, :create, :destroy, :update, :edit]
   resources :ptnssps, only:[:update, :edit]
   resources :extras, only:[:new, :create, :destroy, :update, :edit]
@@ -71,6 +71,20 @@ Rails.application.routes.draw do
   get 'add_kid_extras', to: 'extras#add_kid_extras'
   get 'remove_kid_extras', to: 'extras#remove_kid_extras'
 
+  #ANISATTS
+  get 'accept_attendance', to: 'anisatts#accept', as: 'accept_anis'
+  get 'remove_attendance', to: 'anisatts#remove', as: 'remove_anis'
+
+  #ANISPROGRS
+  get 'anisprog_new', to: 'anisprogs#anisprog_new', as: 'anisprog_new'
+  get 'anisprog_edit', to: 'anisprogs#anisprog_edit', as: 'anisprog_edit'
+  get 'anisprog_remove', to: 'anisprogs#anisprog_remove', as: 'anisprog_remove'
+
+  #ANISFEEDS
+   get 'anisfeed_new', to: 'anisfeeds#anisfeed_new'
+   get 'anisfeed_pre', to: 'anisfeeds#anisfeed_pre'
+   get 'anisfeed_do', to: 'anisfeeds#anisfeed_do'
+   post 'anisfeed_save', to: 'anisfeeds#anisfeed_save'
 
   #PDF
   get 'print_payment_course', to: 'pdfs#print_payment_course'
@@ -83,7 +97,11 @@ Rails.application.routes.draw do
 
   #TCHDETAIL
   get '/print/profile', to: 'tchdetails#show_pdf', as: 'print_profile'
-
+  get '/newtchdetail', to: 'tchdetails#new', as: 'new_tchdetail'
+  get '/find_tchdetail', to: 'tchdetails#find_tchdetail', as: 'find_tchdetail'
+  get '/find_tchdetail_reg', to: 'tchdetails#find_tchdetail_reg', as: 'find_tchdetail_reg'
+  get '/tchd_anis', to: 'tchdetails#tchd_anis', as: 'tchd_anis'
+  get '/tchd_xls', to: 'tchdetails#tchd_xls', as: 'tchd_xls' 
 
   #OWNERS (FOR COLLEGE)
   get 'owner_index', to: 'owners#index'
@@ -99,6 +117,8 @@ Rails.application.routes.draw do
   get '/owner/:id/courses/show', to: 'courses#owner_course', as: 'owner_course'
   get '/course/payment', to: 'courses#payment', as: 'course_payment'
   get '/course/payment_pdf', to: 'courses#payment_pdf', as: 'course_payment_pdf'
+  get '/course_report', to: 'courses#course_report'
+  get '/course_reportpdf', to: 'courses#course_reportpdf'
 
   #TEACHERS
   get 'teacher_index', to: 'teachers#index'

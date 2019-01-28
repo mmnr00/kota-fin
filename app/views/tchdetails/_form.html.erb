@@ -5,7 +5,7 @@
         <div class="form-group"> <!-- name -->
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong><%= f.label :name %></strong>
+              <strong>NAME</strong>
             </div>
           </div>
           <div class="row">
@@ -18,7 +18,7 @@
         <div class="form-group"> <!-- IC -->
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong><%= f.label :"I/C NO" %></strong>
+              <strong>I/C NO</strong>
             </div>
           </div>
           <div class="row">
@@ -37,7 +37,7 @@
         <div class="form-group"> <!-- PHONE-->
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong><%= f.label :"Phone Number" %></strong>
+              <strong>PHONE NUMBER</strong>
             </div>
           </div>
           <div class="row">
@@ -51,17 +51,16 @@
           </div>
         </div>
 
-        <div class="form-group"> <!-- CATEGORY-->
+        <div class="form-group"> <!-- MARITAL -->
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong><%= f.label :"Category" %></strong>
+              <strong>MARITAL STATUS</strong>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-8 col-8">
-              <%= f.select :marital, options_for_select(["Childcare Provider", 
-                                                        "Owner", 
-                                                        "Supervisor",
+              <%= f.select :marital, options_for_select(["Married", 
+                                                        "Single",
                                                         "Others"],
                                                         selected: @tchdetail.marital),
               {include_blank: "Please Select"}, {required: true} %>          
@@ -72,15 +71,15 @@
         <div class="form-group"> <!-- ADDRESS-->
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong><%= f.label :"Address" %></strong>
+              <strong>ADDRESS</strong>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-             <%= f.text_field :address_1, class: "form-control", autofocus: true, required: true %> <font size="2"> Address Line 1 </font>
+             <%= f.text_field :address_1, class: "form-control", autofocus: true, required: true %> <font size="2"> &nbsp </font>
             </div>
             <div class="col-sm-8 col-12">
-             <%= f.text_field :address_2, class: "form-control", autofocus: true %> <font size="2"> Address Line 2 </font>
+             <%= f.text_field :address_2, class: "form-control", autofocus: true %> <font size="2"> &nbsp </font>
             </div>
           </div>
           <div class="row">
@@ -99,7 +98,7 @@
         <div class="form-group"> <!-- HIGHEST EDUCATION-->
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong><%= f.label :"Education Level" %></strong>
+              <strong>EDUCATION LEVEL</strong>
             </div>
           </div>
           <div class="row">
@@ -119,78 +118,7 @@
           </div>
         </div>
 
-      <!-- TASKA DETAILS -->
-      <div class="form-group"> <!-- taska name -->
-          <div class="row">
-            <div class="control-label col-sm-8">
-              <strong><%= f.label :"Taska Name" %></strong>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-8 col-12">
-              <%= f.text_field :ts_name, class: "form-control", autofocus: true %>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group"> <!-- taska owner name -->
-          <div class="row">
-            <div class="control-label col-sm-8">
-              <strong><%= f.label :"Taska Owner Name" %></strong>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-8 col-12">
-              <%= f.text_field :ts_owner_name, class: "form-control", autofocus: true %>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group"> <!-- Taska Owner PHONE-->
-          <div class="row">
-            <div class="control-label col-sm-8">
-              <strong><%= f.label :"Taska Owner Phone Number" %></strong>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-2 col-3">
-             <%= f.text_field  :ts_phone_1, maxlength: 3, class: "form-control", autofocus: true %><font size="2"> Area </font> 
-            </div>
-            -
-            <div class="col-sm-3 col-5">
-              <%= f.text_field  :ts_phone_2, maxlength: 8, class: "form-control", autofocus: true %><font size="2"> Phone Number </font> 
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group"> <!-- TASKA ADDRESS-->
-          <div class="row">
-            <div class="control-label col-sm-8">
-              <strong><%= f.label :"Taska Address" %></strong>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-8 col-12">
-             <%= f.text_field :ts_address_1, class: "form-control", autofocus: true %> <font size="2"> Address Line 1 </font>
-            </div>
-            <div class="col-sm-8 col-12">
-             <%= f.text_field :ts_address_2, class: "form-control", autofocus: true %> <font size="2"> Address Line 2 </font>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-3 col-6">
-             <%= f.text_field :ts_city, class: "form-control", autofocus: true %> <font size="2"> City </font>
-            </div>
-            <div class="col-sm-3 col-5">
-             <%= f.text_field :ts_states, class: "form-control", autofocus: true %> <font size="2"> States </font>
-            </div>
-            <div class="col-sm-2 col-4">
-             <%= f.number_field :ts_postcode, class: "form-control", autofocus: true %> <font size="2"> Postcode </font>
-            </div>
-          </div>
-        </div>
-
-      <!-- START PHOTO UPLOAD -->
+        <!-- START PHOTO UPLOAD -->
         <!-- IC FRONT -->
       <% m = 0 %> <!-- Stop loop at 1 -->
       <div class="form-group"> 
@@ -292,6 +220,190 @@
         </div>
         </div>
       </div>
+
+      <!-- ANIS ONLY -->
+      <% if params[:anis] == "true" %>
+        <!-- TASKA DETAILS -->
+        <div class="form-group"> <!-- taska name -->
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>TASKA/PJKK NAME</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :ts_name, class: "form-control", autofocus: true %>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group"> <!-- taska owner name -->
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>TASKA/PJKK OWNER'S NAME</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :ts_owner_name, class: "form-control", autofocus: true %>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group"> <!-- Taska Owner PHONE-->
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>TASKA/PJKK OWNER'S NAME PHONE NO</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2 col-3">
+             <%= f.text_field  :ts_phone_1, maxlength: 3, class: "form-control", autofocus: true %><font size="2"> Area </font> 
+            </div>
+            -
+            <div class="col-sm-3 col-5">
+              <%= f.text_field  :ts_phone_2, maxlength: 8, class: "form-control", autofocus: true %><font size="2"> Phone Number </font> 
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group"> <!-- TASKA ADDRESS-->
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>TASKA/PJKK ADDRESS</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+             <%= f.text_field :ts_address_1, class: "form-control", autofocus: true %> <font size="2"> Address Line 1 </font>
+            </div>
+            <div class="col-sm-8 col-12">
+             <%= f.text_field :ts_address_2, class: "form-control", autofocus: true %> <font size="2"> Address Line 2 </font>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-3 col-6">
+             <%= f.text_field :ts_city, class: "form-control", autofocus: true %> <font size="2"> City </font>
+            </div>
+            <div class="col-sm-3 col-5">
+             <%= f.text_field :ts_states, class: "form-control", autofocus: true %> <font size="2"> States </font>
+            </div>
+            <div class="col-sm-2 col-4">
+             <%= f.number_field :ts_postcode, class: "form-control", autofocus: true %> <font size="2"> Postcode </font>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group"> <!-- DUN -->
+            <div class="row">
+              <div class="control-label col-sm-8">
+                <strong>DUN</strong>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-8 col-8">
+                <%= f.select :dun, options_for_select(["  Sungai Air Tawar  " ,
+                                                      " Sabak " ,
+                                                      " Sungai Panjang  " ,
+                                                      " Sekinchan " ,
+                                                      " Hulu Bernam " ,
+                                                      " Kuala Kubu Baharu " ,
+                                                      " Batang Kali " ,
+                                                      " Sungai Burong " ,
+                                                      " Permatang " ,
+                                                      " Bukit Melawati  " ,
+                                                      " Ijok  " ,
+                                                      " Jeram " ,
+                                                      " Kuang " ,
+                                                      " Rawang  " ,
+                                                      " Taman Templer " ,
+                                                      " Sungai Tua  " ,
+                                                      " Gombak Setia  " ,
+                                                      " Hulu Kelang " ,
+                                                      "   Bukit Antarabangsa  " ,
+                                                      " Lembah Jaya " ,
+                                                      " Pandan Indah  " ,
+                                                      " Teratai " ,
+                                                      " Dusun Tua " ,
+                                                      " Semenyih  " ,
+                                                      " Kajang  " ,
+                                                      " Sungai Ramal  " ,
+                                                      " Balakong  " ,
+                                                      " Seri Kembangan  " ,
+                                                      " Seri Serdang  " ,
+                                                      " Kinrara " ,
+                                                      " Subang Jaya " ,
+                                                      " Seri Setia  " ,
+                                                      " Taman Medan " ,
+                                                      " Bukit Gasing  " ,
+                                                      " Kampung Tunku " ,
+                                                      " Bandar Utama  " ,
+                                                      " Bukit Lanjan  " ,
+                                                      " Paya Jaras  " ,
+                                                      " Kota Damansara  " ,
+                                                      " Kota Anggerik " ,
+                                                      " Batu Tiga " ,
+                                                      " Meru  " ,
+                                                      " Sementa " ,
+                                                      " Selat Klang " ,
+                                                      " Bandar Baru Klang " ,
+                                                      " Pelabuhan Klang " ,
+                                                      " Pandamaran  " ,
+                                                      " Sentosa " ,
+                                                      " Sungai Kandis " ,
+                                                      " Kota Kemuning " ,
+                                                      " Sijangkang  " ,
+                                                      " Banting " ,
+                                                      " Morib " ,
+                                                      " Tanjong Sepat " ,
+                                                      " Dengkil " ,
+                                                      " Sungai Pelek  " ,
+                                                      ], 
+                                                      selected: @tchdetail.dun), 
+                {include_blank: "Please Select"} %>
+                <%= f.hidden_field :teacher_id, value: params[:teacher_id] %>
+              </div>
+            </div>
+          </div>
+
+        
+          <div class="form-group"> <!-- JKM -->
+            <div class="row">
+              <div class="control-label col-sm-8">
+                <strong>NO PERAKUAN JKM/JPN</strong>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-8 col-12">
+                <%= f.text_field :jkm, class: "form-control", placeholder: "", autofocus: true %>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group"> <!-- POST -->
+            <div class="row">
+              <div class="control-label col-sm-8">
+                <strong>POST IN TASKA</strong>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-8 col-8">
+                <%= f.select :post, options_for_select(["OWNER",
+                                                        "SUPERVISOR/MANAGER",
+                                                        "CHILDCARE PROVIDER"
+                                                          ], 
+                                                          selected: @tchdetail.post), 
+                {include_blank: "Please Select"} %>
+                <%= f.hidden_field :teacher_id, value: params[:teacher_id] %>
+              </div>
+            </div>
+          </div>
+          <%= f.hidden_field :anis, value: params[:anis] %>
+        <% end %>
+      
+
+      <%= f.hidden_field :college_id, value: params[:id] %>
+      
 
               
         <div class="form-group">

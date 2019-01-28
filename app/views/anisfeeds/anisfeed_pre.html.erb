@@ -1,0 +1,40 @@
+<div id="kid-lookup"> <!-- From Finance Tracker views/users/myportfolio.html  -->
+  <%= form_tag anisfeed_new_path, method: :get, id: "find_kid" do %>
+    <div class="form-group text-center col-md-12 bg-light">
+      <div style="background-color:#66b266"><font color="white">
+        <strong>FIND BY IC NO<br></strong></font></div><br>
+      <div class="row">
+        <div class="col-sm-3 col-5">
+          <%= text_field_tag :ic1, params[:ic1], 
+                placeholder: "", 
+                autofocus: true, 
+                maxlength: 6, 
+                class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+        </div>
+        <div class="col-sm-2 col-3">
+          <%= text_field_tag :ic2, params[:ic2], 
+                placeholder: "", 
+                autofocus: true,  
+                maxlength: 2, 
+                class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+        </div>
+        <div class="col-sm-3 col-4">
+          <%= text_field_tag :ic3, params[:ic3], 
+                  placeholder: "", 
+                  autofocus: true,  
+                  maxlength: 4, 
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+        </div>  
+        <%= hidden_field_tag :course, params[:course], value: params[:id] %>           
+        <div class="col-md-2">
+          <%= button_tag(type: :submit, class: "btn btn-sm btn-success active", id: "submit_expense") do %>
+              <i class="fa fa-search"></i> SEARCH
+          <% end %>
+        </div>
+    </div>
+</div>
+    
+  <%end%>
+  
+</div>
+

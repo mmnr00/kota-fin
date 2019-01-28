@@ -18,33 +18,23 @@
         <table class="table table-striped table-bordered" id="" width="100%" cellspacing="0">
           <thead>
             <tr>
-              <th> Name </th>
-              <th> Description </th>
-              <th> Base Fee (RM) </th>
-              <th> No of students </th>
-              <th> Pending Payments </th>
-              <th> Action </th>
+              <th> NAME </th>
+              <th> DESCRIPTION </th>
+              <th> PROGRAMS </th>
+              <th> ACTION </th>
             </tr>
           </thead>
-          <tfoot>
-            <tr>
-              <th> Name </th>
-              <th> Description </th>
-              <th> Base Fee (RM) </th>
-              <th> No of students </th>
-              <th> Pending Payments </th>
-              <th> Action </th>
-            </tr>
-          </foot>
           <tbody>
             <% @college.courses.each do |course| %>
               <tr>
                 <td><%= course.name %></td>
                 <td><%= course.description %></td>
-                <td><%= course.base_fee %></td>
-                <td><%= course.teachers.count %></td>
-                <td><%= link_to "#{course.payments.where(paid: false).count} unpaid bills ", 
-                    "#", class: "btn btn-sm btn-danger active" %></td>
+                <td>
+                  <% course.anisprogs.each do |prog| %>
+                    <strong>TOPIC :</strong> <%= prog.name %><br>
+                    <strong>SPEAKER :</strong> <%= prog.lec %><br><br>
+                  <% end %>
+                </td>
                 <td> 
                   <%= link_to "View", owner_course_path(course: course), class: "btn btn-sm btn-primary active" %> <!-- ID is for course -->
                   &nbsp
@@ -65,4 +55,54 @@
 	</br>
 	No courses present. Please create one. 
 <% end %>
+
+<br>
+
+<div class="card ">
+  <div class="card-header">
+    PARTICIPANT LIST
+    <div class="pull-right">
+      <%= link_to tchd_xls_path(id: @college.id, format: :xlsx), class: "btn btn-sm btn-info active" do %>
+        <i class="fa fa-file-excel"></i> DOWNLOAD ALL DETAILS
+      <% end %>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th style="background-color:#d8b2d8"> NAME </th>
+            <th style="background-color:#d8b2d8"> IC NO </th>
+            <th style="background-color:#d8b2d8"> ACTION </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @tchdetails.each do |tch| %>
+          <tr>
+            <td><%= tch.name %></td>
+            <td><%= "#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3}"%></td>
+            <td>
+              <%= link_to "EDIT", edit_tchdetail_path(id: tch.id), class: "btn btn-sm btn-warning", target: "_blank" %>&nbsp
+              <%= link_to "PROFILE", tchd_anis_path(id: tch.id), class: "btn btn-sm btn-info", target: "_blank" %> 
+            </td>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+  
+<br><br>
+<strong>Registration Link</strong> = <%= link_to "#{new_tchdetail_url}?id=#{@college.id}&anis=true", new_tchdetail_path(id: @college.id, anis: true), style: "color:blue" %><br><br>
+
+
+
+
+
+
+
 	

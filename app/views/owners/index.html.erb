@@ -1,6 +1,10 @@
 </br>
-<%= link_to "Create New Agency", new_college_path(id: @owner.id), class: "btn btn-sm btn-success active" %></br></br>
-
+<%= link_to "Create New Agency", new_college_path(id: @owner.id), class: "btn btn-sm btn-success active" %>
+<div class="pull-right">
+  <%= link_to tchd_xls_path(id: 2, all: "true", format: :xlsx), class: "btn btn-sm btn-info active" do %>
+    <i class="fa fa-file-excel"></i> DOWNLOAD ALL DETAILS
+  <% end %>
+</div><br><br>
 <% if @owner.colleges.present? %>
   <div class="card mb-3">
     <div class="card-header">
