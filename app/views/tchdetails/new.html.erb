@@ -1,10 +1,14 @@
-<%= @college.name.upcase %><br><br>
+ <div class="row"><div class='col-lg-8 col-12 bg-white'>
+  <h2 align="center">APPLICATION FORM FOR CIKGU ANiS</h2>
+  <h3 align="center">(ANAK ISTIMEWA SELANGOR)</h3>
+  <p align="center"><img src="https://s3.amazonaws.com/kidcare-prod/uploads/foto/picture/others/Screen+Shot+2019-01-28+at+8.26.23+PM.png" height="203px" width="700px" ></p>
+  </div></div><br>
 
 <% if params[:anis] == "true" %><div class="row">
   <div class='col-lg-8 col-12 bg-white'>
     <%= form_tag find_tchdetail_reg_path, remote: true, method: :get, id: "find_kid" do %>
       <div class="form-group text-center col-md-12">
-        <br><strong>PLEASE ENTER IC/NO TO CHECK<br><br></strong>
+        <br><strong>PLEASE ENTER IC/NO TO CHECK REGISTRATION<br><br></strong>
         <div class="row">
           <div class="col-sm-4 col-4">
             <%= text_field_tag :ic1, params[:ic1], 
@@ -29,7 +33,7 @@
           </div><br><br>              
           <div class="col-md-12">
             <%= button_tag(type: :submit, class: "btn btn-sm btn-success active", id: "submit_expense") do %>
-                <i class="fa fa-search"></i> CARI
+                <i class="fa fa-search"></i> FIND
             <% end %>
           </div>
         </div><br>
