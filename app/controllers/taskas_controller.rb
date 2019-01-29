@@ -183,6 +183,11 @@ class TaskasController < ApplicationController
     render action: "unpaid_index", layout: "dsb-admin-overview" 
   end
 
+  def check_bill
+    @taska = Taska.find(params[:id])
+    @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).order('bill_year ASC').order('bill_month ASC')
+  end
+
   def sms_reminder_all
     @taska = Taska.find(params[:id])
     if params[:account].present?
