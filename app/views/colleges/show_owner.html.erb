@@ -75,7 +75,8 @@
             <th style="background-color:#d8b2d8"> NO </th>
             <th style="background-color:#d8b2d8"> NAME </th>
             <th style="background-color:#d8b2d8"> IC NO </th>
-            <th style="background-color:#d8b2d8"> ACTION </th>
+            <th style="background-color:#d8b2d8"> PROFILE </th>
+            <th style="background-color:#d8b2d8"> ASSIGN </th>
           </tr>
         </thead>
         <tbody>
@@ -87,7 +88,18 @@
             <td><%= "#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3}"%></td>
             <td>
               <%= link_to "EDIT", edit_tchdetail_path(id: tch.id), class: "btn btn-sm btn-warning", target: "_blank" %>&nbsp
-              <%= link_to "PROFILE", tchd_anis_path(id: tch.id), class: "btn btn-sm btn-info", target: "_blank" %> 
+              <%= link_to "VIEW", tchd_anis_path(id: tch.id), class: "btn btn-sm btn-info", target: "_blank" %> 
+            </td>
+            <td>
+              <p><%= form_for(@tch, :url => {:controller=>'colleges', :action=>'assg_clg'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+                  <p align="center"><%= f.select :college_ids, 
+                    options_from_collection_for_select(@owner.colleges, :id, :name),{include_blank: "SELECT SESSION"} %>
+                  <%= f.hidden_field :curr_clg, value: params[:college] %>
+                  <%= f.hidden_field :tchd_id, value: tch.id %>
+                  <div style="width: 50%; margin: 0 auto;">
+                    <%= f.submit :"ASSIGN",  class: 'btn btn-sm btn-success btn-lg', style: "align:center" %>
+                  </div>
+                <% end %></p>
             </td>
           </tr>
           <% counter = counter + 1 %>

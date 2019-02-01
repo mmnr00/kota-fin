@@ -26,7 +26,20 @@ class CollegesController < ApplicationController
 	def show_owner
 		@college = College.find(params[:college])
 		@tchdetails = @college.tchdetails.order('name ASC')
+		@tch = Tchdetail.new
 		render action: "show_owner", layout: "dsb-owner-college"
+	end
+
+	def assg_clg
+		tchdetail = Tchdetail.find(params[:tchdetail][:tchd_id])
+		tch_clg = tchdetail.tchdetail_colleges.first
+		tch_clg.college_id = params[:tchdetail][:college_ids]
+		if tch_clg.save
+			flash[:success] = "#{tchdetail.name} successfully assigned to #{tch_clg.college.name}"
+		else
+			flash[:danger] = "Assign not successfull. Please try again"
+		end
+		redirect_to show_owner_path(id: @owner.id, college: params[:tchdetail][:curr_clg])
 	end
 
 	def show_teacher

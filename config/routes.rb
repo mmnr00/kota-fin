@@ -30,7 +30,7 @@ Rails.application.routes.draw do
   get 'sb_table', to: 'welcomes#sb_table'
   get 'star_rating', to: 'welcomes#star_rating'
 
-  #PTNSMMB
+  #~PTNSMMB
   get '/daftarptns', to: 'ptns_mmbs#new', as: 'new_ptns_mmb'
   get '/find_ptns', to: 'ptns_mmbs#find_ptns', as: 'find_ptns'
   get '/daftarptns_list123', to: 'ptns_mmbs#list_ptns', as: 'list_ptns'
@@ -41,7 +41,7 @@ Rails.application.routes.draw do
 
 
 
-  #PAGES
+  #~PAGES
   get '/443322/about', to: 'pages#about'
   get '/443322/buttons', to: 'pages#buttons'
   get '/443322/charts', to: 'pages#charts'
@@ -67,35 +67,35 @@ Rails.application.routes.draw do
   get '/ptns_sp/:id/patch', to: 'pages#ptns_sp_patch'
   get '/sms', to: 'pages#sms'
 
-  #EXTRAS
+  #~EXTRAS
   get 'add_kid_extras', to: 'extras#add_kid_extras'
   get 'remove_kid_extras', to: 'extras#remove_kid_extras'
 
-  #ANISATTS
+  #~ANISATTS
   get 'accept_attendance', to: 'anisatts#accept', as: 'accept_anis'
   get 'remove_attendance', to: 'anisatts#remove', as: 'remove_anis'
 
-  #ANISPROGRS
+  #~ANISPROGRS
   get 'anisprog_new', to: 'anisprogs#anisprog_new', as: 'anisprog_new'
   get 'anisprog_edit', to: 'anisprogs#anisprog_edit', as: 'anisprog_edit'
   get 'anisprog_remove', to: 'anisprogs#anisprog_remove', as: 'anisprog_remove'
 
-  #ANISFEEDS
+  #~ANISFEEDS
    get 'anisfeed_new', to: 'anisfeeds#anisfeed_new'
    get 'anisfeed_pre', to: 'anisfeeds#anisfeed_pre'
    get 'anisfeed_do', to: 'anisfeeds#anisfeed_do'
    post 'anisfeed_save', to: 'anisfeeds#anisfeed_save'
 
-  #PDF
+  #~PDF
   get 'print_payment_course', to: 'pdfs#print_payment_course'
 
-  #ADMINS
+  #~ADMINS
   get 'admin_index_old', to: 'admins#index_old'
   get 'admin_index', to: 'admins#index'
   get 'webarch', to: 'admins#webarch'
   get 'webarchv2', to: 'admins#webarchv2'
 
-  #TCHDETAIL
+  #~TCHDETAIL
   get '/print/profile', to: 'tchdetails#show_pdf', as: 'print_profile'
   get '/newtchdetail', to: 'tchdetails#new', as: 'new_tchdetail'
   get '/find_tchdetail', to: 'tchdetails#find_tchdetail', as: 'find_tchdetail'
@@ -103,15 +103,17 @@ Rails.application.routes.draw do
   get '/tchd_anis', to: 'tchdetails#tchd_anis', as: 'tchd_anis'
   get '/tchd_xls', to: 'tchdetails#tchd_xls', as: 'tchd_xls' 
 
-  #OWNERS (FOR COLLEGE)
+
+  #~OWNERS (FOR COLLEGE)
   get 'owner_index', to: 'owners#index'
 
-  #COLLEGES
+  #~COLLEGES
   get '/owner/:id/colleges/new', to: 'colleges#new', as: 'new_college'
   get '/owner/:id/colleges/show', to: 'colleges#show_owner', as: 'show_owner'
   get '/teacher/:id/colleges/show', to: 'colleges#show_teacher', as: 'show_teacher'
+  get '/assg_clg', to: 'colleges#assg_clg'
 
-  #COURSE
+  #~COURSE
   get '/college/:id/courses/new', to: 'courses#new', as: 'new_course'
   get '/teacher/:id/courses/show', to: 'courses#teacher_course', as: 'teacher_course'
   get '/owner/:id/courses/show', to: 'courses#owner_course', as: 'owner_course'
@@ -120,7 +122,7 @@ Rails.application.routes.draw do
   get '/course_report', to: 'courses#course_report'
   get '/course_reportpdf', to: 'courses#course_reportpdf'
 
-  #TEACHERS
+  #~TEACHERS
   get 'teacher_index', to: 'teachers#index'
   get '/taska/:id/search_teacher', to: 'teachers#search', as: 'search_teacher'
   get '/taska/:id/find_teacher', to: 'teachers#find', as: 'find_teacher'
@@ -130,7 +132,7 @@ Rails.application.routes.draw do
   get '/teacher/:id/payment_signup', to: 'teachers#payment_signup', as: 'payment_signup'
   get '/teacher/:id/teacher_pay_bill', to: 'teachers#teacher_pay_bill', as: 'teacher_pay_bill'
 
-  #PARENTS
+  #~PARENTS
   get 'parent_index', to: 'parents#index', as: 'parent_index'
   get '/parent/:id/my_kid', to: 'parents#my_kid', as: 'my_kid'
   get '/parent/:id/view_receipt', to: 'parents#view_receipt', as: 'view_receipt'
@@ -139,7 +141,7 @@ Rails.application.routes.draw do
   get '/parent/:id/feedback', to: 'parents#parents_feedback', as: 'parents_feedback'
   get '/parent/:id/all_bills', to: 'parents#all_bills', as: 'all_bills'
 
-  #TASKAS
+  #~TASKAS
   get '/taska/:id/teachers', to: 'taskas#taskateachers', as: 'taskateachers'
   get '/taska/:id/classroom', to: 'taskas#classrooms_index', as: 'classroom_index'
   get '/taska/:id/children', to: 'taskas#children_index', as: 'children_index'
@@ -163,12 +165,14 @@ Rails.application.routes.draw do
   get '/taska/:id/bill_account', to: 'taskas#bill_account', as: 'bill_account'
   get '/taska/:id/plrpt_xls', to: 'taskas#plrpt_xls', as: 'plrpt_xls'
   get '/check_bill', to: 'taskas#check_bill'
-  #EXPENSES
+
+  #~EXPENSES
   get '/taska/:id/expenses_search', to: 'expenses#search', as: 'search_expense'
   get '/taska/:id/my_expenses', to: 'expenses#my_expenses', as: 'my_expenses'
   get '/taska/:id/expenses/new', to: 'expenses#new', as: 'new_expense'
   get '/taska/:id/expenses/month_expense', to: 'expenses#month_expense', as: 'month_expense'
-  #KIDS
+  
+  #~KIDS
   get '/register_child_admin', to: 'kids#new_admin', as: 'new_kid_admin'
   get '/register_child', to: 'kids#new', as: 'new_kid'
   get '/classroom/:id/search_kid', to: 'kids#search', as: 'search_kid'
@@ -181,17 +185,20 @@ Rails.application.routes.draw do
   get '/bill_pdf', to: 'kids#bill_pdf'
   get '/bill_pdf_booking', to: 'kids#bill_pdf_booking'
   get '/remove_siblings', to: 'kids#remove_siblings'
-  #TASKA_TEACHERS
+  
+  #~TASKA_TEACHERS
   post '/taska/:id/add_teacher', to: 'taska_teachers#create', as: 'add_teacher'
   delete '/taska/:id/delete_teacher', to: 'taska_teachers#destroy', as: 'delete_teacher'
-  #CLASSROOMS
+  
+  #~CLASSROOMS
   get '/classroom/:id/teachers', to: 'classrooms#taskateachers_classroom', as: 'list_teacher_classroom'
-  #TEACHERS_CLASSROOMS
+  
+  #~TEACHERS_CLASSROOMS
   post '/classrooms/:id/add_teachers', to: 'teachers_classrooms#create', as: 'add_teacher_classroom'
   delete '/classrooms/:id/delete_teachers', to: 'teachers_classrooms#destroy', as: 'delete_teacher_classroom'
   get '/classrooms/:id/xls', to: 'classrooms#classroom_xls', as: 'classroom_xls' 
 
-  #payments
+  #~payments
   get '/taska/:id/payment_index', to: 'payments#index', as: 'payment_index'
   get '/taska/:id/create_collection', to: 'payments#create_collection', as: 'create_collection'
   get '/owner/:id/create_collection_college', to: 'payments#create_collection_college', as: 'create_collection_college'
