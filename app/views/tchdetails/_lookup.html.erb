@@ -2,7 +2,7 @@
   <%= form_tag find_tchdetail_path, remote: true, method: :get, id: "find_kid" do %>
     <div class="form-group text-center col-md-12 bg-light">
       <div style="background-color:#66b266"><font color="white">
-        <strong>FIND BY IC NO<br></strong></font></div><br>
+        <h3>ATTENDANCE<br></h3></font></div><br>
       <div class="row">
       <div class="col-md-12">
         <%= text_field_tag :ic3, params[:ic3], 
@@ -12,7 +12,7 @@
       </div>   
       <%= hidden_field_tag :college_id, params[:college_id], value: @course.college.id %>
       <%= hidden_field_tag :course_id, params[:course_id], value: @course.id %>             
-      <div class="col-md-12">
+      <div class="col-md-12"><br>
         <%= button_tag(type: :submit, class: "btn btn-sm btn-success active", id: "submit_expense") do %>
             <i class="fa fa-search"></i> SEARCH
         <% end %>
