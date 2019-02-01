@@ -1,6 +1,6 @@
 class CollegesController < ApplicationController
 	before_action :set_owner
-	before_action :set_college, only: [:edit, :update, :destroy]
+	before_action :set_college, only: [:edit, :update, :destroy, :anis_reglist]
 
 	def index
 	end
@@ -30,6 +30,7 @@ class CollegesController < ApplicationController
 		render action: "show_owner", layout: "dsb-owner-college"
 	end
 
+	# FOR ANIS 
 	def assg_clg
 		tchdetail = Tchdetail.find(params[:tchdetail][:tchd_id])
 		tch_clg = tchdetail.tchdetail_colleges.first
@@ -41,6 +42,12 @@ class CollegesController < ApplicationController
 		end
 		redirect_to show_owner_path(id: @owner.id, college: params[:tchdetail][:curr_clg])
 	end
+
+	def anis_reglist
+		@tchdetails = @college.tchdetails.order('name ASC')
+	end
+
+	# END ANIS
 
 	def show_teacher
 		@teacher = Teacher.find(params[:id])
