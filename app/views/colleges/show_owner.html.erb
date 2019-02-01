@@ -25,7 +25,7 @@
             </tr>
           </thead>
           <tbody>
-            <% @college.courses.each do |course| %>
+            <% @college.courses.order('name ASC').each do |course| %>
               <tr>
                 <td><%= course.name %></td>
                 <td><%= course.description %></td>
