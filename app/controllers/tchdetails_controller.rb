@@ -44,21 +44,25 @@ class TchdetailsController < ApplicationController
 		#@tchdetail.marital = params[:marital]
 		#@tchdetail.education = params[:education]
 		#@expense.taska = session[:taska_id]
-		if @tchdetail.save
-			TchdetailCollege.create(college_id: params[:tchdetail][:college_id], tchdetail_id: @tchdetail.id)
-			flash[:success] = "REGISTRATION SUCCESSFULL"
-			if @tchdetail.anis == "true"
-				redirect_to tchd_anis_path(id: @tchdetail.id, anis: true)
-			else
-				redirect_to root_path
-			end
-			
-
-												
+		if (exs = Tchdetail.where(ic_1: @tchdetail.ic_1, ic_2: @tchdetail.ic_2, ic_3: @tchdetail.ic_3).first).present?
+			exs.anis = "true"
+			flash[:danger] = "You already registered"
+			redirect_to tchd_anis_path(id: exs.id, anis: true)
 		else
-			render @tchdetail.errors.full_messages
-			render :new
+			if @tchdetail.save
+				TchdetailCollege.create(college_id: params[:tchdetail][:college_id], tchdetail_id: @tchdetail.id)
+				flash[:success] = "REGISTRATION SUCCESSFULL"
+				if @tchdetail.anis == "true"
+					redirect_to tchd_anis_path(id: @tchdetail.id, anis: true)
+				else
+					redirect_to root_path
+				end								
+			else
+				render @tchdetail.errors.full_messages
+				render :new
+			end
 		end
+
 	end
 
 	def tchd_anis
