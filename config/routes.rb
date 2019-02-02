@@ -78,6 +78,7 @@ Rails.application.routes.draw do
   #~ANISPROGRS
   get 'anisprog_new', to: 'anisprogs#anisprog_new', as: 'anisprog_new'
   get 'anisprog_edit', to: 'anisprogs#anisprog_edit', as: 'anisprog_edit'
+  get 'anisprog_update', to: 'anisprogs#anisprog_update', as: 'anisprog_update'
   get 'anisprog_remove', to: 'anisprogs#anisprog_remove', as: 'anisprog_remove'
 
   #~ANISFEEDS

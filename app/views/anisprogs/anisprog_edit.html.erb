@@ -1,0 +1,23 @@
+<%= form_for(@progs, :url => {:controller=>'anisprogs', :action=>'anisprog_update'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+  <div class="card"><div class="card-body">
+    <div class="row">
+      <div class="control-label col-sm-5">
+        <strong>PROGRAMME NAME</strong>
+        <%= f.text_area :name, class: "form-control", autofocus: true, required: true %><br>
+      </div>
+      
+      <div class="control-label col-sm-5">
+        <strong>LECTURER NAME</strong>
+        <%= f.text_area :lec, class: "form-control", autofocus: true, required: true %><br>
+      </div>
+
+      <%= f.hidden_field :course_id, value: params[:course]%>
+      <%= f.hidden_field :id, value: @progs.id %>
+
+      <div class="control-label col-sm-2">
+        <br><br>
+        <%= f.submit :"EDIT",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %><br><br>
+      </div>
+    </div>  
+  </div></div><br>
+<% end %>
