@@ -6,10 +6,15 @@ YOUR IDENTITY WILL BE KEPT CONFIDENTIAL<br><br>
 
 <br>
 <div class="bg-white">
-
   <%= form_for(@anisfeed, :url => {:controller=>'anisfeeds', :action=>'anisfeed_save'}, :html => {multipart: true, class: "form-horizontal", role: "form"}) do |f| %>
     <br>
+
     <!-- OVERALL RATING -->
+    <div class="row"><div class="text-center col-sm-12 bg-light">
+      <div style="background-color:#E86850"><font color="white">
+        <h4>OVERALL SESSION</h4>
+      </font></div>
+    </div></div>
     <div class="form-group"> 
       <div class="control-label col-sm-12">
         <strong>OVERALL RATING</strong>
@@ -27,7 +32,7 @@ YOUR IDENTITY WILL BE KEPT CONFIDENTIAL<br><br>
     <!-- PROGRAMS RATING -->
     <div class="form-group"> <!-- name -->
       <div class="control-label col-sm-2">
-        <strong>GOOD</strong>
+        <strong>WHAT DO YOU LIKE</strong>
       </div>
       <div class="col-sm-6">
         <%= f.text_area :good, class: "form-control", autofocus: true, required: true %>
@@ -36,19 +41,31 @@ YOUR IDENTITY WILL BE KEPT CONFIDENTIAL<br><br>
 
     <div class="form-group"> <!-- name -->
       <div class="control-label col-sm-2">
-        <strong>BAD</strong>
+        <strong>WHAT CAN BE IMPROVED</strong>
       </div>
       <div class="col-sm-6">
         <%= f.text_area :bad, class: "form-control", autofocus: true, required: true %>
       </div>
     </div>
 
+    <br>
+    <div class="row"><div class="text-center col-sm-12 bg-light">
+      <div style="background-color:#E86850"><font color="white">
+        <h4>INDIVIDUAL PROGRAMMES</h4>
+      </font></div>
+    </div></div><br>
+
     <% @course.anisprogs.order('start ASC').each do |prog| %>
       <%= f.fields_for :feedbacks do |h| %>
         <div class="form-group"> <!-- name -->
+          <div class="control-label col-sm-12" style="background-color:#cce5cc">
+            <strong>TOPIC : </strong><%= prog.name %><br>
+            <strong>SPEAKER : </strong><%= prog.lec %><br>
+            <strong>START : </strong><%= prog.start.strftime("%I:%M %p") %><br>
+            <strong>END : </strong><%= prog.end.strftime("%I:%M %p") %><br>
+          </div><br>
           <div class="control-label col-sm-8">
-            <strong>TOPIC :</strong><%= prog.name %><br>
-            <strong>LECTURER :</strong><%= prog.lec %><br>
+            <strong>RATING</strong>
           </div>
           <div class="col-sm-6">
             <%= h.select :rating, options_for_select(["1",
@@ -61,7 +78,7 @@ YOUR IDENTITY WILL BE KEPT CONFIDENTIAL<br><br>
         </div>
         <div class="form-group"> <!-- name -->
           <div class="control-label col-sm-2">
-            <strong>COMMENTS(OPTIONAL)</strong>
+            <strong>COMMENTS (OPTIONAL)</strong>
           </div>
           <div class="col-sm-6">
             <%= h.text_area :review, class: "form-control", autofocus: true %>
