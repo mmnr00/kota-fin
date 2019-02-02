@@ -47,7 +47,7 @@ class CoursesController < ApplicationController
 		@owner = current_owner
 		@progs = Anisprog.new
 		@course = Course.find(params[:course])
-		@prog_list = @course.anisprogs.order('created_at DESC')
+		@prog_list = @course.anisprogs.order('start ASC')
 		@college = @course.college
 		@tchdetails = @college.tchdetails
 		@course_teachers = @course.teachers.sort_by(&:created_at)
@@ -95,6 +95,14 @@ class CoursesController < ApplicationController
 			end
 		end
 		#render action: "course_report", layout: "dsb-owner-college"
+	end
+
+	def partc_prog
+		@owner = current_owner
+		@course = Course.find(params[:id])
+		@prog = Anisprog.find(params[:prog])
+		@tchdetails = @course.college.tchdetails
+		render action: "partc_prog", layout: "dsb-owner-college"
 	end
 
 	def new
@@ -150,6 +158,8 @@ class CoursesController < ApplicationController
 																			:college_id, 
 																			:base_fee, 
 																			:description, 
+																			:start,
+																			:end,
 																			fotos_attributes: [:foto, :picture, :foto_name])
 			
 	end

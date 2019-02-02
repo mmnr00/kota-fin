@@ -1,0 +1,58 @@
+<div class='row'>
+  <div class='col-lg-12'>
+    <%= form_for(@course, :html => {multipart: true,class: "form-horizontal", role: "form"}) do |f| %>
+
+      <!-- name -->
+      <div class="form-group"> 
+        <div class="control-label col-sm-2">
+          <%= f.label :name %>
+        </div>
+        <div class="col-sm-8">
+          <%= f.text_field :name, class: "form-control", placeholder: "Name of Expense", autofocus: true %>
+        </div>
+      </div>
+
+      <!-- description -->
+      <div class="form-group"> 
+        <div class="control-label col-sm-2">
+          <%= f.label :description %>
+        </div>
+        <div class="col-sm-8">
+          <%= f.text_area :description, class: "form-control", placeholder: "Name of Expense", autofocus: true %>
+        </div>
+      </div>
+
+      <!-- DATE -->
+      <div class="form-group"> 
+        <div class="control-label col-sm-4">
+          <%= f.label :date %>
+        </div>
+        <div class="col-sm-4">
+          <%= f.date_field :start, rows: 10, class: "form-control" %>
+        </div>
+      </div>
+
+      <%= f.hidden_field :base_fee, value: 0 %>
+
+      
+
+      
+
+
+      <div>
+        <%= f.hidden_field :college_id, value: params[:college] %>
+        <%= f.hidden_field :college, value: params[:college] %> <!-- To render show owner page -->
+        <%= f.hidden_field :id, value: params[:owner_id] %>
+      </div>
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <%= f.submit class: 'btn btn-primary btn-lg' %>
+        </div>
+      </div>
+
+    <% end %>
+    
+  </div>
+
+</div>

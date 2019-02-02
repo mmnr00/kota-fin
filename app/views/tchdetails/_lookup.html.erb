@@ -6,12 +6,13 @@
       <div class="row">
       <div class="col-md-12">
         <%= text_field_tag :ic3, params[:ic3], 
-                placeholder: "4 DIGIT OF LAST IC NO", 
+                placeholder: "4 LAST DIGIT OF IC NO", 
                 autofocus: true,  
                 class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
       </div>   
       <%= hidden_field_tag :college_id, params[:college_id], value: @course.college.id %>
-      <%= hidden_field_tag :course_id, params[:course_id], value: @course.id %>             
+      <%= hidden_field_tag :course_id, params[:course_id], value: @course.id %>  
+      <%= hidden_field_tag :prog, params[:prog], value: params[:prog] %>           
       <div class="col-md-12"><br>
         <%= button_tag(type: :submit, class: "btn btn-sm btn-success active", id: "submit_expense") do %>
             <i class="fa fa-search"></i> SEARCH

@@ -12,10 +12,10 @@
     <h3>PROGRAMME LISTS</h3><br>
     <% @prog_list.each do |prog| %>
       <div class="card"><div class="card-body">
-        <%= link_to "EDIT PROGRAMME", anisprog_edit_path(prog: prog, course: @course.id), class: "btn btn-sm btn-info" %><br>
+        <%= link_to "EDIT PROGRAMME", anisprog_edit_path(prog: prog, course: @course.id), class: "btn btn-sm btn-info" %><br><br>
         <div class="row">
           <div class="col-sm-3">
-            <strong>PROGRAMME NAME</strong>
+            <strong>TOPIC</strong>
           </div>
           <div class="col-sm-0">
             <strong>:</strong>
@@ -26,7 +26,7 @@
         </div>
         <div class="row">
           <div class="col-sm-3">
-            <strong>SPEAKER NAME</strong>
+            <strong>SPEAKER</strong>
           </div>
           <div class="col-sm-0">
             <strong>:</strong>
@@ -43,7 +43,7 @@
             <strong>:</strong>
           </div>
           <div class="col-sm-8">
-            <%= prog.lec %><br>
+            <%= @course.start.strftime("%d-%m-%y") %><br>
           </div>    
         </div>
         <div class="row">
@@ -54,7 +54,7 @@
             <strong>:</strong>
           </div>
           <div class="col-sm-8">
-            <%= prog.lec %><br>
+            <%= prog.start.strftime("%I:%M %p") %><br>
           </div>    
         </div>
         <div class="row">
@@ -65,10 +65,21 @@
             <strong>:</strong>
           </div>
           <div class="col-sm-8">
-            <%= prog.lec %><br>
+            <%= prog.end.strftime("%I:%M %p") %><br>
           </div>    
         </div>
-        <br><%= render 'tchdetails/lookup' %> 
+        <div class="row">
+          <div class="col-sm-3">
+            <strong>PARTICIPATION</strong>
+          </div>
+          <div class="col-sm-0">
+            <strong>:</strong>
+          </div>
+          <div class="col-sm-8">
+            <% att = Anisatt.where(course_id: @course.id, anisprog_id: prog.id, att: true).count %>
+            <%= link_to "#{att} / #{@college.tchdetails.count}", partc_prog_path(@course, prog: prog.id), class: 'btn btn-sm btn-primary', target: '_blank' %>
+          </div>    
+        </div> 
       </div></div><br> 
       
     <% end %>
@@ -77,21 +88,25 @@
     <h3>CREATE NEW PROGRAMME</h3><br>
     <%= form_for(@progs, :url => {:controller=>'anisprogs', :action=>'anisprog_new'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
       <div class="control-label col-sm-12">
-        <strong>PROGRAMME NAME</strong>
+        <strong>TOPIC</strong>
+        <%= f.text_field :name, class: "form-control", autofocus: true, required: true %><br>
       </div>
-      <%= f.text_field :name, class: "form-control", autofocus: true, required: true %><br>
+      
       <div class="control-label col-sm-12">
         <strong>LECTURER NAME</strong>
+        <%= f.text_field :lec, class: "form-control", autofocus: true, required: true %><br>
       </div>
-      <%= f.text_field :lec, class: "form-control", autofocus: true, required: true %><br>
+      
       <div class="control-label col-sm-12">
         <strong>START TIME</strong>
+        <%= f.time_field :start, class: "form-control", autofocus: true, required: true %><br>
       </div>
-      <%= f.time_select :start, class: "form-control", autofocus: true, required: true %><br>
+      
       <div class="control-label col-sm-12">
         <strong>END TIME</strong>
+        <%= f.time_field :end, class: "form-control", autofocus: true, required: true %><br>
       </div>
-      <%= f.time_select :end, class: "form-control", autofocus: true, required: true %><br>
+      
 
       <%= f.hidden_field :course_id, value: @course.id%>
       <%= f.submit :"CREATE NEW",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>

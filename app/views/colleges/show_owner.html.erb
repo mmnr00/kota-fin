@@ -20,19 +20,63 @@
             <tr>
               <th> NAME </th>
               <th> DESCRIPTION </th>
+              <th> DATE </th>
               <th> PROGRAMS </th>
               <th> ACTION </th>
             </tr>
           </thead>
           <tbody>
-            <% @college.courses.order('name ASC').each do |course| %>
+            <% @college.courses.order('start ASC').each do |course| %>
               <tr>
                 <td><%= course.name %></td>
                 <td><%= course.description %></td>
+                <td><%= course.start.strftime("%d/%m/%Y") %></td>
                 <td>
-                  <% course.anisprogs.each do |prog| %>
-                    <strong>TOPIC :</strong> <%= prog.name %><br>
-                    <strong>SPEAKER :</strong> <%= prog.lec %><br><br>
+                  <% course.anisprogs.order('start ASC').each do |prog| %>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <strong>TOPIC</strong>
+                      </div>
+                      <div class="col-sm-0">
+                        <strong>:</strong>
+                      </div>
+                      <div class="col-sm-8">
+                        <%= prog.name %><br>
+                      </div>    
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <strong>SPEAKER</strong>
+                      </div>
+                      <div class="col-sm-0">
+                        <strong>:</strong>
+                      </div>
+                      <div class="col-sm-8">
+                        <%= prog.lec %><br>
+                      </div>    
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <strong>TIME START</strong>
+                      </div>
+                      <div class="col-sm-0">
+                        <strong>:</strong>
+                      </div>
+                      <div class="col-sm-8">
+                        <%= prog.start.strftime("%I:%M %p") %><br>
+                      </div>    
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-3">
+                        <strong>TIME END</strong>
+                      </div>
+                      <div class="col-sm-0">
+                        <strong>:</strong>
+                      </div>
+                      <div class="col-sm-8">
+                        <%= prog.end.strftime("%I:%M %p") %><br>
+                      </div>    
+                    </div><br>
                   <% end %>
                 </td>
                 <td> 

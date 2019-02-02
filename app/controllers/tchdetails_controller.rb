@@ -73,6 +73,7 @@ class TchdetailsController < ApplicationController
 	def find_tchdetail #find anis in college
 		@college = College.find(params[:college_id])
 		@course = Course.find(params[:course_id])
+		@prog = Anisprog.find(params[:prog])
     if params[:ic3].blank? 
       flash.now[:danger] = "You have entered an empty request"
     else

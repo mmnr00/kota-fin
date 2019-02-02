@@ -10,17 +10,19 @@
               <p class="card-text">
                 <%= "#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3}" %>
               </p>
-              <% if Anisatt.where(course_id: @course.id).where(tchdetail_id: tch.id).where(att: true).present? %>
+              <% if Anisatt.where(course_id: @course.id, tchdetail_id: tch.id, anisprog_id: @prog.id, att: true).present? %>
                 <%= link_to "ATTENDED", "#", class: "btn btn-sm btn-success active" %>
                 <%= link_to "REMOVE", 
                 remove_anis_path(course: @course.id, 
                                 tchdetail: tch.id,
+                                prog: @prog.id,
                                 owner: current_owner.id), 
                                 data: {confirm: "ARE YOU SURE?"}, 
                                 class: "btn btn-sm btn-danger active" %>
               <% else %>
                 <%= link_to accept_anis_path(course: @course.id, 
                                 tchdetail: tch.id,
+                                prog: @prog.id,
                                 owner: current_owner.id), 
                                 class: "btn btn-sm btn-primary active" do %>
                   <i class="fa fa-user-plus"></i> CONFIRM

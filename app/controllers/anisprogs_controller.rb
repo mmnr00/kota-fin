@@ -23,11 +23,13 @@ class AnisprogsController < ApplicationController
 	end
 
 	def anisprog_update
-		params.require(:anisprog).permit(:name, :lec, :course_id, :id)
+		params.require(:anisprog).permit(:name, :lec, :course_id, :id, :start, :end)
 		@progs = Anisprog.find(params[:anisprog][:id])
 		@progs.name = params[:anisprog][:name] 
 		@progs.lec = params[:anisprog][:lec]
 		@progs.course_id = params[:anisprog][:course_id]  
+		@progs.start = params[:anisprog][:start]
+		@progs.end = params[:anisprog][:end]
 		if @progs.save
 			
 			flash[:success] = "Done"
