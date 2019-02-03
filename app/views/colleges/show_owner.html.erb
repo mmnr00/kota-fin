@@ -8,7 +8,7 @@
 </div>
 
 <% if @college.courses.present? %>
-  <%= link_to "VIEW REPORT", new_course_path(@college), class: "btn btn-sm btn-info" %><br><br>
+  <%= link_to "GENERATE REPORT", college_report_path(@college), class: "btn btn-sm btn-info", target: '_blank' %><br><br>
   <%= render 'colleges/schd' %>
 	
 <% else %>

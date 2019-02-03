@@ -114,6 +114,7 @@ Rails.application.routes.draw do
   get '/teacher/:id/colleges/show', to: 'colleges#show_teacher', as: 'show_teacher'
   get '/assg_clg', to: 'colleges#assg_clg'
   get '/anis_reglist', to: 'colleges#anis_reglist'
+  get '/college/:id/report', to: 'colleges#college_report', as: 'college_report'
 
   #~COURSE
   get '/college/:id/courses/new', to: 'courses#new', as: 'new_course'

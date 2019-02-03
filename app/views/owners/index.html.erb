@@ -17,6 +17,8 @@
           <thead>
             <tr>
               <th> SESSION NAME </th>
+              <th> LOCATION </th>
+              <th> DURATION </th>
               <th> NO OF TEACHERS </th>
               <th> ACTIONS </th>
             </tr>
@@ -25,6 +27,10 @@
             <% @owner.colleges.each do |college| %>
             <tr>
               <td><%= college.name %></td>
+              <td><%= college.address %></td>
+              <td>
+                <%= "#{college.start.strftime("%d-%^b-%y")} to #{college.end.strftime("%d-%^b-%y")}" %>
+              </td>
               <td><%= college.tchdetails.count %></td>
               <td>
                 <%= link_to "View Session", show_owner_path(@owner, college: college), class: "btn btn-sm btn-primary active" %>

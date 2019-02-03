@@ -1,6 +1,6 @@
 class CollegesController < ApplicationController
 	before_action :set_owner
-	before_action :set_college, only: [:edit, :update, :destroy, :anis_reglist]
+	before_action :set_college, only: [:edit, :update, :destroy, :anis_reglist, :college_report]
 
 	def index
 	end
@@ -47,6 +47,10 @@ class CollegesController < ApplicationController
 		@tchdetails = @college.tchdetails.order('name ASC')
 	end
 
+	def college_report
+		render action: "college_report", layout: "dsb-owner-college"
+	end
+
 	# END ANIS
 
 	def show_teacher
@@ -91,7 +95,7 @@ class CollegesController < ApplicationController
 	end
 
 	def college_params
-			params.require(:college).permit(:name, :address)
+			params.require(:college).permit(:name, :address, :start, :end)
 	end
 
 end

@@ -1,0 +1,57 @@
+<div class='row'>
+  <div class='col-lg-12'>
+    <%= form_for(@college, :html => {class: "form-horizontal", role: "form"}) do |f| %>
+
+      <!-- name -->
+      <div class="form-group"> 
+        <div class="control-label col-sm-2">
+          <strong>NAME</strong>
+        </div>
+        <div class="col-sm-8">
+          <%= f.text_field :name, class: "form-control", placeholder: "Name of Expense", autofocus: true %>
+        </div>
+      </div>
+
+      <!-- ADDRESS -->
+      <div class="form-group"> 
+        <div class="control-label col-sm-2">
+          <strong>LOCATION</strong>
+        </div>
+        <div class="col-sm-8">
+          <%= f.text_area :address, class: "form-control", placeholder: "", autofocus: true %>
+        </div>
+      </div>
+
+      <!-- START -->
+      <div class="form-group"> 
+        <div class="control-label col-sm-2">
+          <strong>START DATE</strong>
+        </div>
+        <div class="col-sm-8">
+          <%= f.date_field :start, class: "form-control", placeholder: "", autofocus: true %>
+        </div>
+      </div>
+
+      <!-- END -->
+      <div class="form-group"> 
+        <div class="control-label col-sm-2">
+          <strong>END DATE</strong>
+        </div>
+        <div class="col-sm-8">
+          <%= f.date_field :end, class: "form-control", placeholder: "", autofocus: true %>
+        </div>
+      </div>
+
+      
+
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <%= f.submit "Update Agency", class: 'btn btn-primary btn-lg' %>
+        </div>
+      </div>
+
+    <% end %>
+    
+  </div>
+
+</div>

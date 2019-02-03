@@ -1,0 +1,48 @@
+<div class="card mb-3">
+  <div class="card-header" style="background-color:#7f7fff">
+    <h3 align="center" style="color:white"> 
+      REPORTING FOR <%= @college.name.upcase %>
+      &nbsp&nbsp<%= link_to "DOWNLOAD REPORT", root_path, class: "btn btn-sm btn-warning", target: "_blank" %>
+  </div>
+</div>
+
+DURATION: <%= "#{@college.start.strftime("%d-%^b-%y")} to #{@college.end.strftime("%d-%^b-%y")}" %><br>
+LOCATION: <%= @college.address %><br>
+NO OF STUDENTS: <%= @college.tchdetails.count %><br>
+
+<div class="row">
+  <!-- ATTENDANCE SUMMARY -->
+  <div class="col-md-4 bg-white"><br>
+    <div class="card">
+      <div class="card-header">
+        <strong>ATTENDANCE SUMMARY</strong>
+      </div>
+      <div class="card-body">
+        
+      </div>
+    </div>
+  </div>
+  <!-- ATTENDANCE SUMMARY -->
+  <div class="col-md-4 bg-white"><br>
+    <div class="card">
+      <div class="card-header">
+        <strong>ATTENDANCE SUMMARY</strong>
+      </div>
+      <div class="card-body">
+        
+      </div>
+    </div>
+  </div>
+  <!-- ATTENDANCE SUMMARY -->
+  <div class="col-md-4 bg-white"><br>
+    <div class="card">
+      <div class="card-header">
+        <strong>ATTENDANCE SUMMARY</strong>
+      </div>
+      <div class="card-body">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
