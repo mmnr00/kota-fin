@@ -122,6 +122,7 @@ Rails.application.routes.draw do
   get '/course/payment', to: 'courses#payment', as: 'course_payment'
   get '/course/payment_pdf', to: 'courses#payment_pdf', as: 'course_payment_pdf'
   get '/course_report', to: 'courses#course_report'
+  get '/anisprog_report', to: 'courses#anisprog_report'
   get '/course_reportpdf', to: 'courses#course_reportpdf'
   get '/course/:id/participation', to: 'courses#partc_prog', as: 'partc_prog'
 

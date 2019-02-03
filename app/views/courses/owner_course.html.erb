@@ -68,7 +68,7 @@
             <%= prog.end.strftime("%I:%M %p") %><br>
           </div>    
         </div>
-        <div class="row">
+        <% if prog.name != "BREAK" %><div class="row">
           <div class="col-sm-3">
             <strong>PARTICIPATION</strong>
           </div>
@@ -79,7 +79,7 @@
             <% att = Anisatt.where(course_id: @course.id, anisprog_id: prog.id, att: true).count %>
             <%= link_to "#{att} / #{@college.tchdetails.count}", partc_prog_path(@course, prog: prog.id), class: 'btn btn-sm btn-primary', target: '_blank' %>
           </div>    
-        </div> 
+        </div><% end %> 
       </div></div><br> 
       
     <% end %>

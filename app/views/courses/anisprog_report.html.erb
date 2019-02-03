@@ -1,0 +1,123 @@
+<div class="card mb-3">
+  <div class="card-header" style="background-color:#7f7fff">
+    <h3 align="center" style="color:white"> 
+      DETAIL REPORT FOR <%= @prog.name.upcase %>
+  </div>
+</div>
+
+<div class="row">
+  <!-- ATTENDANCE SUMMARY -->
+  <div class="col-md-4 bg-white"><br>
+    <div class="card">
+      <div class="card-header">
+        <strong>ATTENDANCE SUMMARY</strong>
+      </div>
+      <div class="card-body">
+        <%= pie_chart @att, colors: ["#66b266","#ff6666"], donut: true, legend: false, thousands: "," %><br>
+        <h4 align="center">ATTEND : <%= "#{@att["ATTEND"]}" %></h4>
+        <h4 align="center">ABSENT : <%= "#{@att["ABSENT"]}" %></h4>
+      </div>
+    </div>
+  </div>
+  <!-- RATING SUMMARY -->
+  <div class="col-md-4 bg-white"><br>
+    <div class="card">
+      <div class="card-header">
+        <strong>RATING SUMMARY</strong>
+      </div>
+      <div class="card-body">
+        <% rating = @fbc.group(:rating).count %>
+        <%= bar_chart rating, colors: ["#66b266","#ff6666"], legend: false, thousands: "," %><br>
+      </div>
+    </div>
+  </div>
+  <!-- RATING -->
+  <div class="col-md-4 bg-white"><br>
+    <div class="card">
+      <div class="card-header">
+        <strong>OVERALL RATING</strong>
+      </div>
+      <div class="card-body">
+        <h1 align="left"><font color="orange"><i class="fa fa-star" style="font-size:250px"></i></font></h1>
+        <h2 align="center">
+          <%= number_with_precision(@fbc.average(:rating), :precision => 2) %>
+        </h2>
+      </div>
+    </div>
+  </div>
+  <br>
+</div><br>
+
+<div class="col-md-12">
+  <div class="card ">
+    <div class="card-header">
+      <strong>PARTICIPATION DETAILS</strong>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th style="background-color:#d8b2d8"> NAME </th>
+              <th style="background-color:#d8b2d8"> IC NO </th>
+              <th style="background-color:#d8b2d8"> ATTENDANCE </th>
+              <th style="background-color:#d8b2d8"> 
+                FEEDBACK <%= "(#{@anisfbc.count} /#{@tchds.count})"%> 
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @tchds.order('name DESC').each do |tch| %><tr>
+              <td><%= tch.name %></td>
+              <td><%= "#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3}" %></td>
+              <td>
+                <% if @prog.anisatts.where(tchdetail_id: tch.id).present? %>
+                  <button class="btn btn-sm btn-success active">ATTEND</button>
+                <% else %>
+                  <button class="btn btn-sm btn-danger active">ABSENT</button>
+                <% end %>
+              </td>
+              <td>
+                <% if @anisfbc.where(tchdetail_id: tch.id).present? %>
+                  <button class="btn btn-sm btn-primary active">YES</button>
+                <% else %>
+                  <button class="btn btn-sm btn-warning">NO</button>
+                <% end %>
+              </td>
+            <% end %></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><br>
+
+<div class="col-md-12">
+  <div class="card ">
+    <div class="card-header">
+      <strong>ADDITIONAL COMMENTS</strong>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th style="background-color:#d8b2d8"> SESSION RATING </th>
+              <th style="background-color:#d8b2d8"> PROGRAMME RATING </th>
+              <th style="background-color:#d8b2d8"> COMMENT BY PARTICIPANT</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @fbc.each do |fbc| %><tr>
+              <% if !(rev = fbc.review).blank? %>
+                <td><%= fbc.anisfeed.rate %></td>
+                <td><%= fbc.rating %></td>
+                <td><%= rev %></td>
+              <% end %>
+            <% end %></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div><br>

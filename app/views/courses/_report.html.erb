@@ -8,65 +8,94 @@
 
 <div class="row">
   <!-- ATTENDANCE SUMMARY -->
-  <div class="col-md-4 bg-white">
-    <br><h4 align="center">ATTENDANCE SUMMARY</h4>
-    <h6 align="center">
-      <%= "#{@attendance["ATTEND"]} OUT OF #{@attendance["ATTEND"] + @attendance["ABSENT"]} ATTENDED" %>
-    </h6>
-    <%= pie_chart @attendance, colors: ["#66b266","#ff6666"], donut: true, legend: false, thousands: "," %><br>
-  </div>
-  <!-- ATTENDANCE LIST -->
-  <div class="col-md-5 bg-white"><br>
-    <div class="card ">
+  <div class="col-md-4 bg-white"><br>
+    <div class="card">
       <div class="card-header">
-        ATTENDANCE LIST
+        <strong>ATTENDANCE SUMMARY</strong>
       </div>
       <div class="card-body">
-        <div class="table-responsive">
-          <table class="table table-striped table-bordered" width="100%" cellspacing="0">
-            <thead>
-              <tr>
-                <th style="background-color:#d8b2d8"> NAME </th>
-                <th style="background-color:#d8b2d8"> ATTENDANCE </th>
-                <th style="background-color:#d8b2d8"> FEEDBACK </th>
-              </tr>
-            </thead>
-            <tbody>
-              <% @tchdetails.each do |tch| %>
-              <tr>
-                <td><%= tch.name %></td>
-                <td>
-                  <% if Anisatt.where(course_id: @course.id).where(tchdetail_id: tch.id).where(att: true).present? %>
-                    <%= link_to "ATTEND", "#", class: "btn btn-sm btn-success active" %>
-                  <% else %>
-                    <%= link_to "ABSENT","#",class: "btn btn-sm btn-danger active" %>
-                  <% end %>
-                </td>
-                <td>
-                  <% if tch.anisfeeds.where(course_id: @course.id).present? %>
-                    YES
-                  <% else %>
-                    NO
-                  <% end %>
-                </td>
-
-              </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
+        <%= pie_chart @attendance, colors: ["#66b266","#ff6666"], donut: true, legend: false, thousands: "," %><br>
+        <% per = (@attendance["ATTEND"].to_f / (@attendance["ABSENT"].to_f + @attendance["ABSENT"].to_f))*100 %>
+        <h3 align="center"><%= number_to_percentage(per, precision: 0)%></h3>
+      </div>
+    </div>
+  </div>
+  <!-- RATING SUMMARY -->
+  <div class="col-md-4 bg-white"><br>
+    <div class="card">
+      <div class="card-header">
+        <strong>RATING SUMMARY</strong>
+      </div>
+      <div class="card-body">
+        <% rating = @anisfeed.group(:rate).count %>
+        <%= bar_chart rating, colors: ["#66b266","#ff6666"], legend: false, thousands: "," %><br>
       </div>
     </div>
   </div>
   <!-- RATING -->
-  <div class="col-md-3 bg-white"><br>
-    <h4 align="center"> OVERALL RATING </h4><br>
-    <h1 align="center"><font color="orange"><i class="fa fa-star" style="font-size:200px"></i></font></h1>
-    <h2 align="center">
-      <%= number_with_precision(@anisfeed.average(:rate), :precision => 2) %>
-    </h2>
+  <div class="col-md-4 bg-white"><br>
+    <div class="card">
+      <div class="card-header">
+        <strong>OVERALL RATING</strong>
+      </div>
+      <div class="card-body">
+        <h1 align="left"><font color="orange"><i class="fa fa-star" style="font-size:300px"></i></font></h1>
+        <h2 align="center">
+          <%= number_with_precision(@anisfeed.average(:rate), :precision => 2) %>
+        </h2>
+      </div>
+    </div>
   </div>
 
+</div><br>
+
+
+
+<div class="col-md-12">
+  <div class="card ">
+    <div class="card-header">
+      PROGRAMME REVIEWS
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-striped table-bordered" width="100%" cellspacing="0">
+          <thead>
+            <tr>
+              <th style="background-color:#d8b2d8"> TOPIC </th>
+              <th style="background-color:#d8b2d8"> SPEAKER </th>
+              <th style="background-color:#d8b2d8"> START </th>
+              <th style="background-color:#d8b2d8"> END </th>
+              <th style="background-color:#d8b2d8"> RATING </th>
+              <th style="background-color:#d8b2d8"> ATTENDANCE </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @anisprogs.each do |prog| %>
+            <tr>
+              <td>
+                <%= prog.name %>&nbsp
+                <%= link_to "DETAILS", anisprog_report_path(course: @course.id, prog: prog.id), class: "btn btn-sm btn-success", target: "_blank" %>
+              </td>
+              <td><%= prog.lec %></td>
+              <td><%= prog.start.strftime("%I:%M %p") %></td>
+              <td><%= prog.end.strftime("%I:%M %p") %></td>
+              <td>
+                <font color="orange"><i class="fa fa-star" style="font-size:30px"></i></font>
+                &nbsp&nbsp<strong>
+                  <%= number_with_precision(prog.feedbacks.average(:rating), :precision => 2) %>
+                </strong>
+              </td>
+              <td>
+                <% att = Anisatt.where(course_id: @course.id, anisprog_id: prog.id, att: true).count %>
+                <p align="center"><%= "#{att} / #{@college.tchdetails.count}" %></p>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div><br>
 
 <div class="col-md-12">
@@ -97,46 +126,3 @@
     </div>
   </div>
 </div><br>
-
-<div class="col-md-12">
-  <div class="card ">
-    <div class="card-header">
-      PROGRAMME REVIEWS
-    </div>
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-striped table-bordered" width="100%" cellspacing="0">
-          <thead>
-            <tr>
-              <th style="background-color:#d8b2d8"> NAME </th>
-              <th style="background-color:#d8b2d8"> LECTURER </th>
-              <th style="background-color:#d8b2d8"> RATING </th>
-              <th style="background-color:#d8b2d8"> REVIEWS </th>
-            </tr>
-          </thead>
-          <tbody>
-            <% @anisprogs.each do |prog| %>
-            <tr>
-              <td><%= prog.name %></td>
-              <td><%= prog.lec %></td>
-              <td>
-                <font color="orange"><i class="fa fa-star" style="font-size:30px"></i></font>
-                &nbsp&nbsp<strong>
-                  <%= number_with_precision(prog.feedbacks.average(:rating), :precision => 2) %>
-                </strong>
-              </td>
-              <td>
-                <% counter = 1 %>
-                <% prog.feedbacks.each do |rev| %>
-                  <%= counter %>. &nbsp<%= rev.review %><br><br>
-                  <% counter = counter + 1 %>
-                <% end %>
-              </td>
-            </tr>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>

@@ -1,0 +1,48 @@
+<div class="row">
+  <% @college.courses.order('start ASC').each do |course| %>
+    <div class="col-sm-12">
+      <div class="card mb-3">
+        <div class="card-header">
+          <i class="fas fa-calendar"></i>&nbsp
+          <strong><%= course.name.upcase %></strong>&nbsp
+          <%= course.start.strftime("%d-%m-%Y") %>&nbsp
+          (<%= course.start.strftime("%A") %>)  
+          <%= link_to "View", owner_course_path(course: course), class: "btn btn-sm btn-success" %> <!-- ID is for course -->
+                &nbsp
+          <%= link_to "Edit", edit_course_path(id: course, owner_id: @owner.id, college: params[:college]), class: "btn btn-sm btn-warning" %>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-striped table-bordered" id="" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th> TIME </th>
+                  <th> TOPIC </th>
+                  <th> SPEAKER </th>
+                </tr>
+              </thead>
+              <tbody>
+                <% course.anisprogs.order('start ASC').each do |prog| %><tr>
+                  <td>
+                    <%= prog.start.strftime("%I:%M %p") %> -
+                    <%= prog.end.strftime("%I:%M %p") %>
+                  </td>
+                  <% if prog.name == "BREAK" %>
+                    <td colspan="2" style="background-color:#d8b2d8">
+                      <strong><h5 align="center"><%= prog.name.upcase %></h5></strong>
+                    </td>
+                  <% else %>
+                    <td ><%= prog.name %></td>
+                    <td><%= prog.lec %></td>
+                  <% end %>
+                <% end %></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    
+
+    </div> <!-- END COL -->
+  <% end %>
+</div>
