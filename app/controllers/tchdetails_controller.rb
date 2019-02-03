@@ -208,6 +208,9 @@ class TchdetailsController < ApplicationController
       																	:post,
       																	:college_id,
       																	:anis,
+      																	:income,
+      																	:dob,
+      																	:gender,
       																	fotos_attributes: [:foto, :picture, :foto_name] )
     end
 

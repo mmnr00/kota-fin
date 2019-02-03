@@ -34,6 +34,61 @@
           </div>
         </div>
 
+        <!-- GENDER -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <i class="fas fa-caret-down"></i><strong> GENDER</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-8">
+              <%= f.select :gender, options_for_select(["MALE",
+                                                        "FEMALE"],
+                                                        selected: @tchdetail.gender),
+              {include_blank: "Please Select"}, {required: true} %>          
+            </div>
+          </div>
+        </div>
+
+        <!-- DOB -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>DATE OF BIRTH</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.date_select :dob, 
+                                {order:[:day, :month, :year],
+                                prompt: { day: 'DAY', month: 'MONTH', year: 'YEAR' },
+                                start_year: 1950,
+                                selected: @tchdetail.dob}, 
+                                {required: true} %>
+            </div>
+          </div>
+        </div>
+
+        <!-- HOUSEHOLD INCOME-->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <i class="fas fa-caret-down"></i><strong> MONTHLY HOUSEHOLD INCOME</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-8">
+              <%= f.select :income, options_for_select(["RM10,001 and above", 
+                                                        "RM5,001 to RM10,000", 
+                                                        "RM5,000 and below",
+                                                        "Others"],
+                                                        selected: @tchdetail.income),
+              {include_blank: "Please Select"}, {required: true} %>          
+            </div>
+          </div>
+        </div>
+
         <div class="form-group"> <!-- PHONE-->
           <div class="row">
             <div class="control-label col-sm-8">
