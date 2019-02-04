@@ -1,5 +1,6 @@
 wb = xlsx_package.workbook
 col_widths= [5,40,20,10,30,30,20,20,20]
+col_widths2= [16,20,24,22,16]
 wb.styles do |style|
   header_1 = style.add_style(b: true, sz: 30)
   highlight_cell = style.add_style(bg_color: "EFC376",
@@ -10,7 +11,7 @@ wb.styles do |style|
   total_cell = style.add_style(bg_color: "b2b2ff",
                                   border: Axlsx::STYLE_THIN_BORDER,
                                   b: true,
-                                  sz: 20,
+                                  sz: 16,
                                   alignment: { horizontal: :center })
   nett_cell = style.add_style(bg_color: "99cc99",
                                   border: Axlsx::STYLE_THIN_BORDER,
@@ -23,9 +24,12 @@ wb.styles do |style|
 
   border_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER,
                                 sz: 13)  
+  border_cellctr = style.add_style(border: Axlsx::STYLE_THIN_BORDER,
+                                sz: 13,
+                                alignment: { horizontal: :center })
 
+  #1ST SHEET
   wb.add_worksheet(name: "PARTICIPANTS DETAIL") do |sheet|
-
     sheet.add_row ["PARTICIPANT DETAILS FOR #{@college.name.upcase}"]
     sheet.add_row [""]
     sheet.add_row ["NO",
@@ -105,7 +109,91 @@ wb.styles do |style|
       chart.d_lbls.show_val = true
       chart.d_lbls.show_percent = true
     end
+  end
 
+  #2ND SHEET
+  wb.add_worksheet(name: "PROGRAMME SUMMARY") do |sheet|
+    sheet.add_row ["PROGRAMME SUMMARY FOR #{@college.name.upcase}"]
+    sheet.add_row [""]
+    sheet.add_row ["SESSION",
+                  "DATE",
+                  "PROGRAMME NO",
+                  "ATTENDANCE",
+                  "RATING"]
+    sheet.rows[0].style = header_1
+    sheet.rows[2].style = highlight_cell
+    counter = 1
+    row =2
+    #INIT FOR OVERALL DATA
+    ovratt = Hash.new 
+    ovratt["ATTEND"] = 0 
+    ovratt["ABSENT"] = 0 
+    ovrrate = Array.new 
+    totprog = 0
+    @courses.each do |crs|
+      #ATTENDANCE DATA
+      @attendance = Hash.new 
+      @attendance["ATTEND"] = Anisatt.where(course_id: crs.id).where(att: true).count 
+      @attendance["ABSENT"] = (@tchds.count*crs.anisprogs.where.not(name: "BREAK").count) - @attendance["ATTEND"] 
+      per = (@attendance["ATTEND"].to_f / (@attendance["ABSENT"].to_f + @attendance["ABSENT"].to_f))*100 
+      ovratt["ATTEND"] = ovratt["ATTEND"] + @attendance["ATTEND"] 
+      ovratt["ABSENT"] = ovratt["ABSENT"] + @attendance["ABSENT"] 
+      #RATING DATA
+      @anisfeed = Anisfeed.where(course_id: crs.id)
+      rate = @anisfeed.average(:rate)
+      ovrrate << rate
+      #NO OF PROGS
+      prog = crs.anisprogs.where.not(name: "BREAK").count
+      totprog = totprog + prog
+      #START TABLE
+      sheet.add_row [crs.name.upcase,
+                    crs.start.strftime("%d-%^b-%y"),
+                    prog,
+                    number_to_percentage(per, precision: 0),
+                    number_with_precision(rate, :precision => 2)],
+                    style: [nil, border_cell]
+      sheet.rows[row+counter].style = border_cellctr
+      counter = counter + 1  
+    end
+    per = (ovratt["ATTEND"].to_f / (ovratt["ABSENT"].to_f + ovratt["ABSENT"].to_f))*100
+    rate = (ovrrate.inject{ |sum,el| sum + el }/ovrrate.size)
+    sheet.add_row ["SUMMARY","",
+                  totprog,number_to_percentage(per, precision: 0),
+                  number_with_precision(rate, :precision => 2)]
+    sheet.rows[counter+row].style = total_cell
+    sheet.merge_cells sheet.rows.last.cells[(0..1)]
+    sheet.column_widths *col_widths2
+  end
+
+  #ATTENDANCE SUMMARY
+  wb.add_worksheet(name: "ATTENDANCE DETAILS") do |sheet|
+    sheet.add_row ["ATTENDANCE DETAILS FOR #{@college.name.upcase}"]
+    sheet.add_row [""]
+    sheet.add_row ["NO",
+                  "NAME",
+                  "I/C NO",
+                  "ATTENDANCE"]
+    sheet.rows[0].style = header_1
+    sheet.rows[2].style = highlight_cell
+    counter = 1
+    row =2
+    @tchds.each do |tch|
+      peratt = (tch.anisatts.count.to_f / @totalprog.to_f)*100
+      sheet.add_row [counter,
+                    tch.name.upcase,
+                    "#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3}",
+                    "#{number_to_percentage(peratt, precision: 0)} (#{tch.anisatts.count}/#{@totalprog})"],
+                    style: [nil, border_cell]
+      sheet.rows[row+counter].style = border_cellctr
+      counter = counter + 1
+    end
+    sheet.column_widths *col_widths2
+  end
+
+  #COURSES SHEET
+  @courses.order('start ASC').each do |crs|
+    wb.add_worksheet(name: "#{crs.name.upcase}") do |sheet|
+    end
   end
 
 end

@@ -75,6 +75,11 @@ class CollegesController < ApplicationController
 
 	def college_reportxls
 		@tchds = @college.tchdetails
+		@courses = @college.courses.order('start ASC')
+		@totalprog = 0
+		@courses.each do |crs|
+			@totalprog = @totalprog + crs.anisprogs.where.not(name: "BREAK").count
+		end
 		@age = Hash.new
 		@age["<20"] = 0
 		@age["20-30"] = 0
