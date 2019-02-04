@@ -2,7 +2,7 @@
   <div class="card-header" style="background-color:#7f7fff">
     <h3 align="center" style="color:white"> 
       REPORTING FOR <%= @college.name.upcase %>
-      &nbsp&nbsp<%= link_to "DOWNLOAD REPORT", root_path, class: "btn btn-sm btn-warning", target: "_blank" %>
+      &nbsp&nbsp<%= link_to "DOWNLOAD REPORT", college_reportxls_path(@college, format: :xlsx), class: "btn btn-sm btn-warning", target: "_blank" %>
   </div>
 </div>
 
@@ -65,7 +65,7 @@ NO OF STUDENTS: <%= @college.tchdetails.count %><br><br>
         <strong>MARITAL STATUS</strong>
       </div>
       <div class="card-body">
-        <%= column_chart @tchds.group(:marital).count, colors: ["#66b266","#ff6666"], legend: false, labels: "value", thousands: "," %><br>
+        <%= pie_chart @tchds.group(:marital).count, legend: true, labels: "value", thousands: "," %><br>
       </div>
     </div>
   </div>
@@ -76,7 +76,7 @@ NO OF STUDENTS: <%= @college.tchdetails.count %><br><br>
         <strong>GENDER</strong>
       </div>
       <div class="card-body">
-        <%= column_chart @tchds.group(:gender).count, colors: ["#66b266","#ff6666"], legend: false, donut: true, thousands: "," %><br>
+        <%= pie_chart @tchds.group(:gender).count, legend: true, thousands: "," %><br>
       </div>
     </div>
   </div>
@@ -84,30 +84,7 @@ NO OF STUDENTS: <%= @college.tchdetails.count %><br><br>
 
 <div class="col-sm-12" style="background-color:#7f7fff"><h3 align="center">PROGRAMME FEEDBACK</h3></div>
 <div class="row">
-  <!-- ATTENDANCE SUMMARY -->
-  <div class="col-md-6 bg-white"><br>
-    <div class="card">
-      <div class="card-header">
-        <strong>ATTENDANCE SUMMARY</strong>
-      </div>
-      <div class="card-body">
-        
-        <%= pie_chart @tchds.group(:dun).count, legend: true, thousands: "," %><br>
-      </div>
-    </div>
-  </div>
-  <!-- OVERALL RATING -->
-  <div class="col-md-6 bg-white"><br>
-    <div class="card">
-      <div class="card-header">
-        <strong>OVERALL RATING</strong>
-      </div>
-      <div class="card-body">
-        
-        <%= pie_chart @tchds.group(:dun).count, legend: true, thousands: "," %><br>
-      </div>
-    </div>
-  </div>
+  
   <!-- PROGRAMMES LISTING & SUMMARY -->
   <div class="col-md-12 bg-white"><br>
     <div class="card">
@@ -127,6 +104,12 @@ NO OF STUDENTS: <%= @college.tchdetails.count %><br><br>
               </tr>
             </thead>
             <tbody>
+              <!-- OVERALL ATTENDANCE & RATING INIT -->
+                <% ovratt = Hash.new %>
+                <% ovratt["ATTEND"] = 0 %>
+                <% ovratt["ABSENT"] = 0 %>
+                <% ovrrate = Array.new %>
+              <!-- END -->
               <% @courses.each do |crs| %>
               <tr align="center">
                 <td>
@@ -141,12 +124,15 @@ NO OF STUDENTS: <%= @college.tchdetails.count %><br><br>
                   <% @attendance["ABSENT"] = (@tchds.count*crs.anisprogs.where.not(name: "BREAK").count) - @attendance["ATTEND"] %>
                   <% per = (@attendance["ATTEND"].to_f / (@attendance["ABSENT"].to_f + @attendance["ABSENT"].to_f))*100 %>
                   <%= number_to_percentage(per, precision: 0)%>
+                  <% ovratt["ATTEND"] = ovratt["ATTEND"] + @attendance["ATTEND"] %>
+                  <% ovratt["ABSENT"] = ovratt["ABSENT"] + @attendance["ABSENT"] %>
                 </td>
                 <td> <!-- OVERALL RATING -->
                   <% @anisfeed = Anisfeed.where(course_id: crs.id) %>
                   <h6 align="center"><font color="orange"><i class="fa fa-star" style="font-size:30px"></i></font>
                     <% if (rate = @anisfeed.average(:rate)).present? %>
                       <%= number_with_precision(rate, :precision => 2) %>
+                      <% ovrrate << rate %>
                     <% else %>
                       NA
                     <% end %>
@@ -158,6 +144,34 @@ NO OF STUDENTS: <%= @college.tchdetails.count %><br><br>
             </tbody>
           </table>
         </div>
+      </div>
+    </div>
+  </div>
+  <!-- ATTENDANCE SUMMARY -->
+  <div class="col-md-6 bg-white"><br>
+    <div class="card">
+      <div class="card-header">
+        <strong>ATTENDANCE SUMMARY</strong>
+      </div>
+      <div class="card-body">
+        <%= pie_chart ovratt, colors: ["#66b266","#ff6666"], donut: true, legend: true, thousands: "," %><br>
+        <% per = (ovratt["ATTEND"].to_f / (ovratt["ABSENT"].to_f + ovratt["ABSENT"].to_f))*100 %>
+        <h3 align="center"><%= number_to_percentage(per, precision: 0)%></h3>
+      </div>
+    </div>
+  </div>
+  <!-- OVERALL RATING -->
+  <div class="col-md-6 bg-white"><br>
+    <div class="card">
+      <div class="card-header">
+        <strong>OVERALL RATING</strong>
+      </div>
+      <div class="card-body">
+        <h1 align="center"><font color="orange"><i class="fa fa-star" style="font-size:300px"></i></font></h1>
+        <h2 align="center">
+          <% rate = (ovrrate.inject{ |sum,el| sum + el }/ovrrate.size) %>
+          <%= number_with_precision(rate, :precision => 2) %>
+        </h2>
       </div>
     </div>
   </div>

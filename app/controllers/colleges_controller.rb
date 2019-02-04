@@ -1,6 +1,6 @@
 class CollegesController < ApplicationController
 	before_action :set_owner
-	before_action :set_college, only: [:edit, :update, :destroy, :anis_reglist, :college_report]
+	before_action :set_college, only: [:edit, :update, :destroy, :anis_reglist, :college_report, :college_reportxls]
 
 	def index
 	end
@@ -71,6 +71,36 @@ class CollegesController < ApplicationController
 		end
 		@courses = @college.courses.order('start ASC')
 		render action: "college_report", layout: "dsb-owner-college"
+	end
+
+	def college_reportxls
+		@tchds = @college.tchdetails
+		@age = Hash.new
+		@age["<20"] = 0
+		@age["20-30"] = 0
+		@age["30-40"] = 0
+		@age["40-50"] = 0
+		@age[">50"] = 0
+		@tchds.each do |tch|
+			age = Date.today.year - tch.dob.year
+			if age < 20
+				@age["<20"] = @age["<20"] + 1
+			elsif age < 30
+				@age["20-30"] = @age["20-30"] + 1
+			elsif age < 40
+				@age["30-40"] = @age["30-40"] + 1
+			elsif age < 50
+				@age["40-50"] = @age["40-50"] + 1
+			elsif age > 50
+				@age[">50"] = @age[">50"] + 1
+			end	
+		end
+		respond_to do |format|
+      #format.html
+      format.xlsx{
+        response.headers['Content-Disposition'] = 'attachment; filename="Report.xlsx"'
+      }
+    end
 	end
 
 	# END ANIS
