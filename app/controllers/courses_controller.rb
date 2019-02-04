@@ -60,12 +60,13 @@ class CoursesController < ApplicationController
 		@course = Course.find(params[:course])
 		@college = @course.college
 		@tchdetails = @college.tchdetails
+		@anisprogs = @course.anisprogs.order('start ASC')
 		@attendance = Hash.new
 		@attendance["ATTEND"] = Anisatt.where(course_id: @course.id).where(att: true).count
-		@attendance["ABSENT"] = (@tchdetails.count*@course.anisprogs.count) - @attendance["ATTEND"]
+		@attendance["ABSENT"] = (@tchdetails.count*@anisprogs.where.not(name: "BREAK").count) - @attendance["ATTEND"]
 		#render json: @attendance and return
 		@anisfeed = Anisfeed.where(course_id: @course.id)
-		@anisprogs = @course.anisprogs.order('start ASC')
+		
 		render action: "course_report", layout: "dsb-owner-college"
 	end
 

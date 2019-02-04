@@ -70,7 +70,7 @@
             </tr>
           </thead>
           <tbody>
-            <% @anisprogs.each do |prog| %>
+            <% @anisprogs.where.not(name: "BREAK").each do |prog| %>
             <tr>
               <td>
                 <%= prog.name %>&nbsp

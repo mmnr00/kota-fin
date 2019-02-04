@@ -8,7 +8,7 @@
 
 DURATION: <%= "#{@college.start.strftime("%d-%^b-%y")} to #{@college.end.strftime("%d-%^b-%y")}" %><br>
 LOCATION: <%= @college.address %><br>
-NO OF STUDENTS: <%= @college.tchdetails.count %><br>
+NO OF STUDENTS: <%= @college.tchdetails.count %><br><br>
 
 <div class="col-sm-12" style="background-color:#7f7fff"><h3 align="center">PARTICIPANTS' DISTRIBUTION</h3></div>
 <div class="row">
@@ -20,6 +20,7 @@ NO OF STUDENTS: <%= @college.tchdetails.count %><br>
       </div>
       <div class="card-body">
         
+        <%= pie_chart @tchds.group(:dun).count, legend: true, thousands: "," %><br>
       </div>
     </div>
   </div>
@@ -30,7 +31,7 @@ NO OF STUDENTS: <%= @college.tchdetails.count %><br>
         <strong>CATEGORY</strong>
       </div>
       <div class="card-body">
-        
+        <%= pie_chart @tchds.group(:post).count, legend: true, thousands: "," %><br>
       </div>
     </div>
   </div>
@@ -41,7 +42,7 @@ NO OF STUDENTS: <%= @college.tchdetails.count %><br>
         <strong>HOUSEHOLD INCOME</strong>
       </div>
       <div class="card-body">
-        
+        <%= pie_chart @tchds.group(:income).count, legend: true, thousands: "," %><br>
       </div>
     </div>
   </div>
@@ -52,7 +53,8 @@ NO OF STUDENTS: <%= @college.tchdetails.count %><br>
         <strong>AGE</strong>
       </div>
       <div class="card-body">
-        
+        <%= pie_chart @age, legend: true, thousands: "," %><br>
+
       </div>
     </div>
   </div>
@@ -63,7 +65,7 @@ NO OF STUDENTS: <%= @college.tchdetails.count %><br>
         <strong>MARITAL STATUS</strong>
       </div>
       <div class="card-body">
-        
+        <%= column_chart @tchds.group(:marital).count, colors: ["#66b266","#ff6666"], legend: false, labels: "value", thousands: "," %><br>
       </div>
     </div>
   </div>
@@ -74,9 +76,91 @@ NO OF STUDENTS: <%= @college.tchdetails.count %><br>
         <strong>GENDER</strong>
       </div>
       <div class="card-body">
-        
+        <%= column_chart @tchds.group(:gender).count, colors: ["#66b266","#ff6666"], legend: false, donut: true, thousands: "," %><br>
       </div>
     </div>
   </div>
+</div><br><br>
+
+<div class="col-sm-12" style="background-color:#7f7fff"><h3 align="center">PROGRAMME FEEDBACK</h3></div>
+<div class="row">
+  <!-- ATTENDANCE SUMMARY -->
+  <div class="col-md-6 bg-white"><br>
+    <div class="card">
+      <div class="card-header">
+        <strong>ATTENDANCE SUMMARY</strong>
+      </div>
+      <div class="card-body">
+        
+        <%= pie_chart @tchds.group(:dun).count, legend: true, thousands: "," %><br>
+      </div>
+    </div>
+  </div>
+  <!-- OVERALL RATING -->
+  <div class="col-md-6 bg-white"><br>
+    <div class="card">
+      <div class="card-header">
+        <strong>OVERALL RATING</strong>
+      </div>
+      <div class="card-body">
+        
+        <%= pie_chart @tchds.group(:dun).count, legend: true, thousands: "," %><br>
+      </div>
+    </div>
+  </div>
+  <!-- PROGRAMMES LISTING & SUMMARY -->
+  <div class="col-md-12 bg-white"><br>
+    <div class="card">
+      <div class="card-header">
+        <strong>PROGRAMMES LISTING & SUMMARY</strong>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th style="background-color:#d8b2d8"> SESSION </th>
+                <th style="background-color:#d8b2d8"> DATE </th>
+                <th style="background-color:#d8b2d8"> PROGRAMME NO </th>
+                <th style="background-color:#d8b2d8"> ATTENDANCE </th>
+                <th style="background-color:#d8b2d8"> RATING </th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @courses.each do |crs| %>
+              <tr align="center">
+                <td>
+                  <%= crs.name %>
+                  <%= link_to "DETAILS", course_report_path(course: crs), class: "btn btn-sm btn-success", target: "_blank" %>
+                </td>
+                <td><%= crs.start.strftime("%d-%^b-%y") %></td>
+                <td><%= crs.anisprogs.where.not(name: "BREAK").count %></td>
+                <td> <!-- ATTENDANCE PERCENTAGE -->
+                  <% @attendance = Hash.new %>
+                  <% @attendance["ATTEND"] = Anisatt.where(course_id: crs.id).where(att: true).count %>
+                  <% @attendance["ABSENT"] = (@tchds.count*crs.anisprogs.where.not(name: "BREAK").count) - @attendance["ATTEND"] %>
+                  <% per = (@attendance["ATTEND"].to_f / (@attendance["ABSENT"].to_f + @attendance["ABSENT"].to_f))*100 %>
+                  <%= number_to_percentage(per, precision: 0)%>
+                </td>
+                <td> <!-- OVERALL RATING -->
+                  <% @anisfeed = Anisfeed.where(course_id: crs.id) %>
+                  <h6 align="center"><font color="orange"><i class="fa fa-star" style="font-size:30px"></i></font>
+                    <% if (rate = @anisfeed.average(:rate)).present? %>
+                      <%= number_with_precision(rate, :precision => 2) %>
+                    <% else %>
+                      NA
+                    <% end %>
+                  </h6>
+                  
+                </td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 </div>
 
