@@ -168,7 +168,9 @@ wb.styles do |style|
       counter = counter + 1  
     end
     per = (ovratt["ATTEND"].to_f / (ovratt["ABSENT"].to_f + ovratt["ABSENT"].to_f))*100
-    rate = (ovrrate.inject{ |sum,el| sum + el }/ovrrate.size)
+    if !ovrrate.present?
+      rate = (ovrrate.inject{ |sum,el| sum + el }/ovrrate.size)
+    end
     sheet.add_row ["SUMMARY","",
                   totprog,number_to_percentage(per, precision: 0),
                   number_with_precision(rate, :precision => 2)]

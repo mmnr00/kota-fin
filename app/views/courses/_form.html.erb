@@ -8,7 +8,7 @@
           <%= f.label :name %>
         </div>
         <div class="col-sm-8">
-          <%= f.text_field :name, class: "form-control", placeholder: "Name of Expense", autofocus: true %>
+          <%= f.text_field :name, class: "form-control", placeholder: "", autofocus: true %>
         </div>
       </div>
 
@@ -18,7 +18,7 @@
           <%= f.label :description %>
         </div>
         <div class="col-sm-8">
-          <%= f.text_area :description, class: "form-control", placeholder: "Name of Expense", autofocus: true %>
+          <%= f.text_area :description, class: "form-control", placeholder: "", autofocus: true %>
         </div>
       </div>
 
@@ -40,7 +40,7 @@
 
 
       <div>
-        <%= f.hidden_field :college_id, value: params[:college] %>
+        <%= f.hidden_field :college_id, value: params[:id] %>
         <%= f.hidden_field :college, value: params[:college] %> <!-- To render show owner page -->
         <%= f.hidden_field :id, value: params[:owner_id] %>
       </div>
