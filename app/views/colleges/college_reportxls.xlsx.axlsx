@@ -1,8 +1,12 @@
 wb = xlsx_package.workbook
 col_widths= [5,40,20,10,30,30,20,20,20]
 col_widths2= [16,20,24,22,16]
+col_widths3= [12,30,42]
+col_widths4= [35,16,15]
+col_widths5= [30,30,15,15,15,11,27]
 wb.styles do |style|
   header_1 = style.add_style(b: true, sz: 30)
+  header_2 = style.add_style(b: true, sz: 20)
   highlight_cell = style.add_style(bg_color: "EFC376",
                                   b: true,
                                   border: Axlsx::STYLE_THIN_BORDER,
@@ -27,6 +31,10 @@ wb.styles do |style|
   border_cellctr = style.add_style(border: Axlsx::STYLE_THIN_BORDER,
                                 sz: 13,
                                 alignment: { horizontal: :center })
+  border_cellwrp = style.add_style(border: Axlsx::STYLE_THIN_BORDER,
+                                sz: 13,
+                                alignment: { horizontal: :center,
+                                             wrap_text: :true})
 
   #1ST SHEET
   wb.add_worksheet(name: "PARTICIPANTS DETAIL") do |sheet|
@@ -192,8 +200,113 @@ wb.styles do |style|
 
   #COURSES SHEET
   @courses.order('start ASC').each do |crs|
-    wb.add_worksheet(name: "#{crs.name.upcase}") do |sheet|
+    anisprog = crs.anisprogs.where.not(name: "BREAK")
+    crsfbc = crs.anisfeeds
+    #COURSE SUMMARY
+    wb.add_worksheet(name: "#{crs.name.upcase} SUMMARY") do |sheet|
+
+      sheet.add_row ["FEEDBACK SUMMARY FOR #{crs.name.upcase}"]
+      sheet.add_row [""]
+      sheet.add_row ["AVERAGE RATING: #{number_with_precision(crsfbc.average(:rate), :precision => 2)}"]
+      sheet.add_row ["RATING",
+                    "WHAT DO PEOPLE LIKE",
+                    "WHAT NEEDS TO BE IMPROVED"]
+      sheet.rows[0].style = header_1
+      sheet.rows[2].style = header_2
+      sheet.rows[3].style = highlight_cell
+      counter = 1
+      row =3
+      crsfbc.each do |fbc|
+        sheet.add_row [fbc.rate,
+                      fbc.good,
+                      fbc.bad],
+                      style: [nil, border_cell]
+        sheet.rows[row+counter].style = border_cellwrp
+        counter = counter + 1  
+      end
+      sheet.column_widths *col_widths3
+
+      sheet.add_chart(Axlsx::Bar3DChart, :start_at => "E4", :end_at => "N20", :title => "RATING DISTRIBUTION") do |chart|
+        b = crsfbc.order('rate DESC').group(:rate).count
+        chart.add_series :data => b.values, 
+                         :labels => b.keys
+        chart.d_lbls.show_val = true
+        chart.d_lbls.show_percent = true
+      end
+
     end
+    #COURSE ATTENDANCE
+    wb.add_worksheet(name: "#{crs.name.upcase} ATTENDANCE") do |sheet|
+      sheet.add_row ["ATTENDANCE SUMMARY FOR #{crs.name.upcase}"]
+      sheet.add_row [""]
+      progs = Array.new(['NAME', 'IC NO', 'SUMMARY'])
+      progtot = crs.anisprogs.where.not(name: "BREAK") 
+      progtot.each do |prog|
+        progs << prog.name.upcase
+      end
+      sheet.add_row( progs )
+      sheet.rows[0].style = header_1
+      sheet.rows[2].style = highlight_cell
+      counter = 1
+      row =2
+      @tchds.each do |tch|
+        tchatt = tch.anisatts.where(course_id: crs.id, att: true)
+        per = (tchatt.count.to_f / progtot.count.to_f).to_f*100
+        tcharr = Array.new([ tch.name.upcase,
+                      "#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3}",
+                      " #{tchatt.count}/#{progtot.count} (#{number_to_percentage(per, precision: 0)})"])
+        progtot.each do |prog|
+          pres = tchatt.where(anisprog_id: prog.id).present?
+          if pres
+            tcharr << "PRESENT"
+          else
+            tcharr << "ABSENT"
+          end
+        end
+        sheet.add_row(tcharr)
+        sheet.rows[row+counter].style = border_cell
+        counter = counter + 1
+      end
+      sheet.column_widths *col_widths4
+
+      
+
+    end
+    #COURSE PROGRAMS
+    wb.add_worksheet(name: "#{crs.name.upcase} PROGRAMS") do |sheet|
+      sheet.add_row ["PROGRAMMES FOR #{crs.name.upcase}"]
+      sheet.add_row [""]
+      sheet.add_row ["TOPIC",
+                    "SPEAKER",
+                    "DATE",
+                    "START",
+                    "END",
+                    "RATING",
+                    "COMMENTS"]
+      sheet.rows[0].style = header_1
+      sheet.rows[2].style = highlight_cell
+      counter = 1
+      row =2
+
+      anisprog.each do |prog|
+        rate = prog.feedbacks.average(:rating)
+        progdata = Array.new([prog.name,
+                            prog.lec,
+                            crs.start.strftime("%d-%^b-%y"),
+                            prog.start.strftime("%I:%M %p"),
+                            prog.end.strftime("%I:%M %p"),
+                            number_with_precision(rate, :precision => 2),
+                            "123"]) 
+        progdata2 = Array.new(progdata)                  
+        sheet.add_row progdata2,
+                      style: [nil, border_cell]
+      sheet.rows[row+counter].style = border_cell
+      counter = counter + 1  
+      end
+      sheet.column_widths *col_widths5
+
+    end
+
   end
 
 end

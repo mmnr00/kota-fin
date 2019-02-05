@@ -1,0 +1,58 @@
+  sheet.add_row ["PARTICIPANT DETAILS FOR #{@college.name.upcase}"]
+  sheet.add_row [""]
+  sheet.add_row ["NO",
+                "NAME",
+                "IC NO",
+                "AGE",
+                "CATEGORY",
+                "DUN",
+                "INCOME",
+                "MARITAL",
+                "GENDER"]
+  sheet.rows[0].style = header_1
+  sheet.rows[2].style = highlight_cell
+  counter = 1
+  row =2
+
+  @tchds.each do |tch|
+    
+    sheet.add_row [counter,
+                  tch.name,
+                  "#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3}",
+                  age,
+                  tch.post,
+                  tch.dun,
+                  tch.income,
+                  tch.marital,
+                  tch.gender],
+                  style: [nil, border_cell]
+    sheet.rows[row+counter].style = border_cell
+    counter = counter + 1  
+  end
+  sheet.column_widths *col_widths
+
+  sheet.add_chart(Axlsx::Pie3DChart, :start_at => "K35", :end_at => "T50", :title => "PARTICIPANT INCOME") do |chart|
+      b = @tchds.group(:income).count
+      chart.add_series :data => b.values, 
+                       :labels => b.keys
+      chart.d_lbls.show_val = true
+      chart.d_lbls.show_percent = true
+  end
+
+  sheet.add_chart(Axlsx::Bar3DChart, :start_at => "K35", :end_at => "T50", :title => "PARTICIPANT INCOME") do |chart|
+    b = crsfbc.group(:rate).count
+    chart.add_series :data => b.values, 
+                     :labels => b.keys
+    chart.d_lbls.show_val = true
+    chart.d_lbls.show_percent = true
+  end
+
+
+
+
+
+
+
+
+
+
