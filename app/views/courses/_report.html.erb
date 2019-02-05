@@ -2,7 +2,6 @@
   <div class="card-header" style="background-color:#7f7fff">
     <h3 align="center" style="color:white"> 
       REPORTING FOR <%= @course.name %> IN <%= @course.college.name %>
-      &nbsp&nbsp<%= link_to "DOWNLOAD REPORT", course_reportpdf_path(course: @course, format: :pdf), class: "btn btn-sm btn-warning", target: "_blank" %>
   </div>
 </div>
 

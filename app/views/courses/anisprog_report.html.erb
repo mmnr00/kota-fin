@@ -60,7 +60,9 @@
             <tr>
               <th style="background-color:#d8b2d8"> NAME </th>
               <th style="background-color:#d8b2d8"> IC NO </th>
-              <th style="background-color:#d8b2d8"> ATTENDANCE </th>
+              <th style="background-color:#d8b2d8"> 
+                ATTENDANCE <%= "(#{@prog.anisatts.count} /#{@tchds.count})"%> 
+              </th>
               <th style="background-color:#d8b2d8"> 
                 FEEDBACK <%= "(#{@anisfbc.count} /#{@tchds.count})"%> 
               </th>

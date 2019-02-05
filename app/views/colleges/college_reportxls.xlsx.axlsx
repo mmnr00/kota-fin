@@ -35,6 +35,10 @@ wb.styles do |style|
                                 sz: 13,
                                 alignment: { horizontal: :center,
                                              wrap_text: :true})
+  border_cellwrplft = style.add_style(border: Axlsx::STYLE_THIN_BORDER,
+                                sz: 13,
+                                alignment: {vertical: :center,
+                                            wrap_text: :true})
 
   #1ST SHEET
   wb.add_worksheet(name: "PARTICIPANTS DETAIL") do |sheet|
@@ -200,7 +204,7 @@ wb.styles do |style|
 
   #COURSES SHEET
   @courses.order('start ASC').each do |crs|
-    anisprog = crs.anisprogs.where.not(name: "BREAK")
+    anisprog = crs.anisprogs.where.not(name: "BREAK").order('start ASC')
     crsfbc = crs.anisfeeds
     #COURSE SUMMARY
     wb.add_worksheet(name: "#{crs.name.upcase} SUMMARY") do |sheet|
@@ -289,19 +293,29 @@ wb.styles do |style|
       row =2
 
       anisprog.each do |prog|
-        rate = prog.feedbacks.average(:rating)
+        fbc = prog.feedbacks
+        rate = fbc.average(:rating)
         progdata = Array.new([prog.name,
                             prog.lec,
                             crs.start.strftime("%d-%^b-%y"),
                             prog.start.strftime("%I:%M %p"),
                             prog.end.strftime("%I:%M %p"),
-                            number_with_precision(rate, :precision => 2),
-                            "123"]) 
-        progdata2 = Array.new(progdata)                  
-        sheet.add_row progdata2,
+                            number_with_precision(rate, :precision => 2)])
+        comm = "" 
+        nom = 1
+        fbc.each do |fbc|
+          if !fbc.review.blank?
+            comm << "#{nom}. "
+            comm << fbc.review
+            comm << "\n\n"
+            nom = nom + 1
+          end
+        end
+        progdata << comm
+        sheet.add_row progdata,
                       style: [nil, border_cell]
-      sheet.rows[row+counter].style = border_cell
-      counter = counter + 1  
+        sheet.rows[row+counter].style = border_cellwrplft
+        counter = counter + 1  
       end
       sheet.column_widths *col_widths5
 
