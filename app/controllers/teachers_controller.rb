@@ -72,6 +72,7 @@ class TeachersController < ApplicationController
 
 	def tchleave
 		@tchlvs = @teacher.tchlvs
+		@applv = Applv.new
 		render action: "tchleave", layout: "dsb-teacher-tsk"
 	end
 

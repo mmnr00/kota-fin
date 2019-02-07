@@ -1,4 +1,4 @@
-<div id="tabs" class="project-tab bg-white">
+<br><div id="tabs" class="project-tab bg-white">
   <div class="container">
     <div class="row">
       <div class="col-sm-12">
@@ -15,29 +15,36 @@
         </nav>
         
         <div class="tab-content" id="nav-tabContent">
+
           <!-- MY APPLICATIONS -->
-          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-           NEW LEAVES <br>
-           PENDING APPROVAL LIST
+          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"><br>
+
+            <div class="card-header" style="background-color:#e86850">
+              <h6 align="center" style="color:white">APPLY LEAVE</h6>
+            </div>
+            <div class="card-header" style="background-color:#cce5cc">
+              <%= render 'teachers/tchleave/applylv'%>
+            </div>
+            
           </div>
 
           <!-- LEAVE BALANCES -->
           <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"><br>
             <div class="row">
-            <% @tchlvs.each do |lv| %>
-              <div class="notice notice-info col-sm-3">
-                <h5><%= lv.name %></h5>
-                <span class="text-success">
-                   TOTAL : <%= lv.day %> DAYS <br>
-                </span>
-                <span class="text-danger">
-                   USED : 2 DAYS <br>
-                </span>
-                <span class="text-info">
-                   BALANCE : 3 DAYS <br>
-                </span>
-              </div><br>
-            <% end %>
+              <% @tchlvs.each do |lv| %>
+                <div class="notice notice-info col-sm-3">
+                  <h5><%= lv.name %></h5>
+                  <span class="text-success">
+                     TOTAL : <%= lv.day %> DAYS <br>
+                  </span>
+                  <span class="text-danger">
+                     USED : 2 DAYS <br>
+                  </span>
+                  <span class="text-info">
+                     BALANCE : 3 DAYS <br>
+                  </span>
+                </div><br>
+              <% end %>
             </div>
           </div>
           <!-- LEAVE RECORD -->

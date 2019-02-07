@@ -115,6 +115,9 @@ Rails.application.routes.draw do
   get '/add_taska', to: 'teachers#add_taska', as: 'tch_add_taska'
   get '/find_taska', to: 'teachers#find_taska', as: 'tch_find_taska'
 
+  #~APPLVS
+  post '/apply_leave', to: 'applvs#apply', as: 'tchapplylv'
+
   #PARENTS
   get 'parent_index', to: 'parents#index', as: 'parent_index'
   get '/parent/:id/my_kid', to: 'parents#my_kid', as: 'my_kid'
