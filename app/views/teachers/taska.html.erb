@@ -1,6 +1,6 @@
 
-
 <% if !@teacher.taska_teachers.present? || !@teacher.taska_teachers.last.stat %>
+  <!-- REGISTER NEW TASKA -->
   <div class="col-sm-12 bg-white">
     <%= form_tag tch_find_taska_path, remote: true, method: :get, id: "find_kid" do %>
       <div class="form-group text-center col-md-12">
@@ -38,5 +38,47 @@
   </div><br>
   <%= link_to "ADD TASKA", tch_add_taska_path(@teacher, tsk_id: 1), class: "btn btn-sm btn-success active"%>
 <% else %>
-  VIEW TASKA
+  <!-- VIEW CURRENT TASKA -->
+  <div class="container">
+    <div class="row">
+
+      <div class="col-md-4">
+        <div class="card-counter danger">
+          <i class="fa fa-file-signature"></i>
+          <span class="count-numbers">20</span>
+          <span class="count-name">
+            <a href="<%= tchleave_url(@teacher)%>", style="color:#fff">LEAVES</a>
+          </span>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card-counter primary">
+          <i class="fa fa-hand-holding-usd"></i>
+          <span class="count-numbers">FEB-19</span>
+          <span class="count-name">
+            <a href="#", style="color:#fff">SALARY SLIP</a>
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
 <% end %>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_26_090416) do
+ActiveRecord::Schema.define(version: 2019_02_07_100455) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 2019_01_26_090416) do
     t.boolean "att"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "anisprog_id"
   end
 
   create_table "anisfeeds", force: :cascade do |t|
@@ -61,6 +62,21 @@ ActiveRecord::Schema.define(version: 2019_01_26_090416) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "course_id"
+    t.time "start"
+    t.time "end"
+  end
+
+  create_table "applvs", force: :cascade do |t|
+    t.integer "teacher_id"
+    t.integer "taska_id"
+    t.date "start"
+    t.date "end"
+    t.string "type"
+    t.string "tchdesc"
+    t.string "tskdesc"
+    t.string "stat"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "classrooms", id: :integer, default: nil, force: :cascade do |t|
@@ -92,6 +108,8 @@ ActiveRecord::Schema.define(version: 2019_01_26_090416) do
     t.string "collection_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.date "start"
+    t.date "end"
     t.index ["collection_id"], name: "index_colleges_on_collection_id", unique: true
     t.index ["name"], name: "index_colleges_on_name", unique: true
   end
@@ -103,6 +121,8 @@ ActiveRecord::Schema.define(version: 2019_01_26_090416) do
     t.integer "college_id"
     t.float "base_fee"
     t.string "description"
+    t.date "start"
+    t.date "end"
   end
 
   create_table "expenses", id: :integer, default: nil, force: :cascade do |t|
@@ -405,6 +425,13 @@ ActiveRecord::Schema.define(version: 2019_01_26_090416) do
     t.string "ts_phone_2"
     t.integer "college_id"
     t.string "category"
+    t.string "dun"
+    t.string "jkm"
+    t.string "post"
+    t.string "anis"
+    t.string "income"
+    t.date "dob"
+    t.string "gender"
   end
 
   create_table "tchlvs", force: :cascade do |t|

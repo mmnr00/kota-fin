@@ -107,6 +107,7 @@ Rails.application.routes.draw do
   get '/taska/:id/find_teacher', to: 'teachers#find', as: 'find_teacher'
   get '/teacher/:id/my_college', to: 'teachers#college', as: 'teacher_college'
   get '/teacher/:id/my_taska', to: 'teachers#taska', as: 'teacher_taska'
+  get '/teacher/:id/my_leave', to: 'teachers#tchleave', as: 'tchleave'
   post '/teacher/:id/add_college', to: 'teachers#add_college', as: 'add_college'
   post '/teacher/:id/remove_college', to: 'teachers#remove_college', as: 'remove_college'
   get '/teacher/:id/payment_signup', to: 'teachers#payment_signup', as: 'payment_signup'

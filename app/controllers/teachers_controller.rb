@@ -70,6 +70,13 @@ class TeachersController < ApplicationController
     end
 	end
 
+	def tchleave
+		@tchlvs = @teacher.tchlvs
+		render action: "tchleave", layout: "dsb-teacher-tsk"
+	end
+
+	#END TASKA STUFF
+
 	#COLLEGE STUFF
 
 	def college
