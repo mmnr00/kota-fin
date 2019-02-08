@@ -77,6 +77,13 @@ class TeachersController < ApplicationController
 		render action: "tchleave", layout: "dsb-teacher-tsk"
 	end
 
+	def tcheditlv
+		@applv = Applv.find(params[:id])
+		@teacher = @applv.teacher
+		@tchlvs = @teacher.tchlvs
+		render action: "tcheditlv", layout: "dsb-teacher-tsk"
+	end
+
 	#END TASKA STUFF
 
 	#COLLEGE STUFF

@@ -1,5 +1,4 @@
-<%= form_for(@applv, :url => {:controller=>'applvs', :action=>'apply'},:html => {multipart: true, class: "form-horizontal", role: "form"}) do |f| %>
-
+<%= form_for(@applv, :url => {:controller=>'applvs', :action=> "#{try}"},:html => {multipart: true, class: "form-horizontal", role: "form"}) do |f| %>
   <div class="form-group"> <!-- name -->
     <div class="row">
       <div class="control-label col-sm-8">
@@ -9,7 +8,10 @@
     <div class="row">
       <div class="col-sm-12 col-12">
         <%= f.select :kind, 
-            options_for_select(["HALF DAY AM", "HALF DAY PM"]) + options_from_collection_for_select(@tchlvs, :name, :name), {include_blank: "Select Type"}, {required: true} %>
+            options_for_select(["HALF DAY AM", "HALF DAY PM"], selected: @applv.kind)+
+            options_from_collection_for_select(@tchlvs, :name, :name, selected: @applv.kind), 
+            {include_blank: "Select Type"}, 
+            {required: true } %>
       </div>
     </div>
   </div>
@@ -43,7 +45,7 @@
   <div class="form-group"> <!-- name -->
     <div class="row">
       <div class="control-label col-sm-8">
-        <strong><h10>DESCRIPTION</h10></strong>
+        <strong><h10>ADDITIONAL COMMENTS</h10></strong>
       </div>
     </div>
     <div class="row">
