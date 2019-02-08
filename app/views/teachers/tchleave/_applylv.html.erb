@@ -8,7 +8,8 @@
     </div>
     <div class="row">
       <div class="col-sm-12 col-12">
-        <%= f.text_field :kind, class: "form-control", placeholder: "", autofocus: true, required: true %>
+        <%= f.select :kind, 
+            options_for_select(["HALF DAY AM", "HALF DAY AM"], ["HALF DAY PM", "HALF DAY PM"]) + options_from_collection_for_select(@tchlvs, :name, :name), {include_blank: "Select Type"}, {required: true} %>
       </div>
     </div>
   </div>
@@ -47,7 +48,7 @@
     </div>
     <div class="row">
       <div class="col-sm-12 col-12">
-        <%= f.text_field :tchdesc, class: "form-control", placeholder: "", autofocus: true %>
+        <%= f.text_area :tchdesc, class: "form-control", placeholder: "", autofocus: true %>
       </div>
     </div>
   </div>

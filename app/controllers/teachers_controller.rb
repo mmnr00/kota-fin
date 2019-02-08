@@ -73,6 +73,7 @@ class TeachersController < ApplicationController
 	def tchleave
 		@tchlvs = @teacher.tchlvs
 		@applv = Applv.new
+		@tchapplvs = @teacher.applvs.order('start DESC')
 		render action: "tchleave", layout: "dsb-teacher-tsk"
 	end
 

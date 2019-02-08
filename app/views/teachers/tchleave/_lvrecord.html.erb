@@ -1,0 +1,43 @@
+<% @tchapplvs.each do |lv| %>
+  <div class="col-sm-4">
+    <div class="frontside">
+      <div class="card">
+
+        <% stat = lv.stat %>
+        <% if stat == "PENDING" %>
+          <% clr = "#ffedcc" %>
+        <% elsif stat == "APPROVED" %>
+          <% clr = "#cce5cc" %>
+        <% elsif stat == "REJECTED" %>
+          <% clr = "#ffcccc" %>
+        <% elsif stat == "QUERIED" %>
+          <% clr = "#e5cce5" %>
+        <% end %>
+
+        <div class="col-lg-12" style="background-color:<%= clr %>; text-align:center">
+          <strong><%= stat %></strong>
+        </div>
+        <div class='col-lg-12 well'><br>
+          <h6 align="center"><%= kind = lv.kind %></h6><br>
+        </div>
+        <div class='col-lg-12'><br>
+          <strong>START : </strong><%= lv.start.strftime("%d/%m/%y")%><br>
+          <strong>END : </strong><%= lv.end.strftime("%d/%m/%y")%><br>
+          <% if kind == "HALF DAY AM" || kind == "HALF DAY PM" %>
+            <% diff = 0.5 %>
+            <% plus = 0 %>
+          <% else %>
+            <% diff = (lv.end - lv.start).to_i %>
+            <% plus = 1 %>
+          <% end %>
+          <strong>TOTAL : </strong> <%= (diff + plus).to_f %> day(s)<br><br>
+              <%= link_to "EDIT", root_path, class: "btn btn-sm btn-primary active" %>
+              <%= link_to "DELETE", root_path, class: "btn btn-sm btn-danger active" %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+
+
