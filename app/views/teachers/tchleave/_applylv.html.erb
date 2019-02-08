@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-sm-12 col-12">
         <%= f.select :kind, 
-            options_for_select(["HALF DAY AM", "HALF DAY AM"], ["HALF DAY PM", "HALF DAY PM"]) + options_from_collection_for_select(@tchlvs, :name, :name), {include_blank: "Select Type"}, {required: true} %>
+            options_for_select(["HALF DAY AM", "HALF DAY PM"]) + options_from_collection_for_select(@tchlvs, :name, :name), {include_blank: "Select Type"}, {required: true} %>
       </div>
     </div>
   </div>

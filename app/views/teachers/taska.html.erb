@@ -47,7 +47,17 @@
           <i class="fa fa-file-signature"></i>
           <span class="count-numbers">20</span>
           <span class="count-name">
-            <a href="<%= tchleave_url(@teacher)%>", style="color:#fff">LEAVES</a>
+            <a href="<%= tchleave_url(@teacher,
+                                      app_a: "active",
+                                      bel_a: "",
+                                      stat_a: "",
+                                      app_ar: "true",
+                                      bel_ar: "false",
+                                      stat_ar: "false",
+                                      app_d: "show active",
+                                      bel_d: "",
+                                      stat_d: "")%>", 
+            style="color:#fff">LEAVES</a>
           </span>
         </div>
       </div>

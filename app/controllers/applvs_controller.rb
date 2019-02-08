@@ -18,7 +18,16 @@ class ApplvsController < ApplicationController
 			else
 				flash[:success] = "PLEASE TRY AGAIN"
 			end
-			redirect_to tchleave_path(@applv.teacher.id)
+			redirect_to tchleave_path(@applv.teacher.id,
+																app_a: "",
+																bel_a: "",
+																stat_a: "active",
+																app_ar: "false",
+																bel_ar: "false",
+																stat_ar: "true",
+																app_d: "",
+																bel_d: "",
+																stat_d: "show active")
 		end
 	end
 
