@@ -137,6 +137,7 @@ class TaskasController < ApplicationController
     # end
     @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false)
     @taska_expense = @taska.expenses.where(month: $my_time.month).where(year: $my_time.year).order('CREATED_AT DESC')
+    @applvs = @taska.applvs.where.not(stat: "APPROVED").where.not(stat: "REJECTED")
     session[:taska_id] = @taska.id
     session[:taska_name] = @taska.name  
     render action: "show", layout: "dsb-admin-overview" 
@@ -301,13 +302,18 @@ class TaskasController < ApplicationController
       #render json: v  and return
       Tchlv.create(leave_params(v))
     end
-    redirect_to taskateachers_path(id: params[:tch][:tskid])
+    flash[:notice] = "TEACHER SUCCESSFULLY ADDED"
+    redirect_to taskateachers_path(id: params[:tch][:tskid],
+                                  tb2_a: "active",
+                                  tb2_ar: "true",
+                                  tb2_d: "show active")
   end
 
   def tchrm_cls
     @taska = Taska.find(params[:id])
     tchcls = TeachersClassroom.where(teacher_id: params[:tch], classroom_id: params[:cls]).first
     tchcls.destroy
+    flash[:notice] = "TEACHER REMOVED"
     redirect_to taskateachers_path(@taska,
                                   tb3_a: "active",
                                   tb3_ar: "true",
@@ -326,6 +332,7 @@ class TaskasController < ApplicationController
     tchcls = TeachersClassroom.where(teacher_id: teacher.id, classroom_id: classroom.id).first
     tchcls.classroom_id = params[:tch][:classroom_id]
     tchcls.save
+    flash[:notice] = "SUCCESSFULLY UPDATED"
     redirect_to taskateachers_path(id: params[:tch][:tskid],
                                   tb3_a: "active",
                                   tb3_ar: "true",

@@ -120,6 +120,7 @@ Rails.application.routes.draw do
   post '/apply_leave', to: 'applvs#apply', as: 'tchapplylv'
   patch 'leave/:id/update_leave', to: 'applvs#tchupdate', as: 'tchupdatelv'
   get 'action_leave', to: 'applvs#admupdate', as: 'admupdatelv'
+  get 'revert_leave', to: 'applvs#revleave', as: 'revleave'
   delete 'leave/:id/delete_leave', to: 'applvs#tchdelete', as: 'tchdeletelv'
 
   #PARENTS

@@ -13,7 +13,10 @@ class TsklvsController < ApplicationController
 		if @tsklv.save
 				@taska = Taska.find(@tsklv.taska_id)
         flash[:notice] = "#{@tsklv.name.upcase} was successfully created"
-        redirect_to taskateachers_path(@taska)
+        redirect_to taskateachers_path(@taska, 
+        															tb4_a: "active",
+		                                  tb4_ar: "true",
+		                                  tb4_d: "show active")
       else
         render :new      
       end
@@ -32,26 +35,24 @@ class TsklvsController < ApplicationController
 		if @tsklv.update(tsklv_params)
 				@taska = Taska.find(@tsklv.taska_id)
         flash[:notice] = "#{@tsklv.name.upcase} was successfully edited"
-        redirect_to taskateachers_path(@taska)
+        redirect_to taskateachers_path(@taska, 
+        															tb4_a: "active",
+		                                  tb4_ar: "true",
+		                                  tb4_d: "show active")
       else
         render :edit      
       end
 	end
 
 	def destroy
-		@extra = Extra.find(params[:id])
-		extra_name = @extra.name
-		extra_id = @extra.id
-		@admin = current_admin
-		@taska = Taska.find(@extra.taska_id)
-		@extra.taska_id = nil
-		if @extra.save
-			#KidExtra.where(extra_id: extra_id).delete_all
-			flash[:success] = "#{extra_name.upcase} was successfully deleted"
-		else
-			flash[:danger] = "#{extra_name.upcase} was unsuccessfully deleted. Please try again"
-		end
-		redirect_to classroom_index_path(@taska)
+		@tsklv = Tsklv.find(params[:id])
+		taska_id = @tsklv.taska.id
+		@tsklv.destroy
+		flash[:notice] = "DELETION SUCCESSFULL"
+		redirect_to taskateachers_path(taska_id, 
+    															tb4_a: "active",
+                                  tb4_ar: "true",
+                                  tb4_d: "show active")
 	end
 
 	

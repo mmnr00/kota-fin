@@ -121,9 +121,20 @@ class ApplvsController < ApplicationController
 		@applv.save
 		flash[:notice] = "LEAVE UPDATED SUCCESSFULLY"
 		redirect_to taskateachers_path(@applv.taska.id,
-																	tb1_a: "active",
-																	tb1_ar: "true",
-																	tb1_d: "show active")
+																		tb1_a: "active",
+																		tb1_ar: "true",
+																		tb1_d: "show active")
+	end
+
+	def revleave
+		@applv = Applv.find(params[:id])
+		@applv.stat = "PENDING"
+		@applv.save
+		flash[:notice] = "LEAVE REVERTED SUCCESSFULLY"
+		redirect_to taskateachers_path(@applv.taska.id,
+																		tb5_a: "active",
+																		tb5_ar: "true",
+																		tb5_d: "show active")
 	end
 
 	private
