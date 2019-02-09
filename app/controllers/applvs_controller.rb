@@ -54,7 +54,35 @@ class ApplvsController < ApplicationController
 	def tchupdate
 		@applv = Applv.find(params[:id])
 		@applv.update(applv_params)
-		@applv.save
+		if 1==0 #start > end
+
+		elsif 2==0  #conflict with other leaves
+
+		elsif 3==0 #insufficent leave
+
+		elsif 3==0 #half day leave not same date
+
+		else
+			if @applv.kind == "HALF DAY AM" || @applv.kind == "HALF DAY PM"
+				diff = 0.5
+				plus = 0
+				ph = 0
+			else
+				last = @applv.end
+				start = @applv.start
+				diff = (last - start).to_f
+				plus = 1
+				ph = 0
+				(start..last).each do |dt|
+					dayname = dt.strftime("%a")
+					if (!$ph_sel19[dt.month].blank? && $ph_sel19[dt.month][dt.day].present?) || (dayname == "Sun" || dayname == "Sat" ) 
+						ph = ph - 1
+					end
+				end
+			end
+			@applv.tot = (diff + plus + ph)
+			@applv.save
+		end
 		flash[:success] = "LEAVE SUCCESSFULLY UPDATED"
 		redirect_to tchleave_path(@applv.teacher.id,
 																app_a: "",
@@ -83,6 +111,19 @@ class ApplvsController < ApplicationController
 																app_d: "",
 																bel_d: "",
 																stat_d: "show active")
+	end
+
+	def admupdate
+		par = params[:applv]
+		@applv = Applv.find(par[:id])
+		@applv.stat = par[:stat]
+		@applv.tskdesc = par[:tskdesc]
+		@applv.save
+		flash[:notice] = "LEAVE UPDATED SUCCESSFULLY"
+		redirect_to taskateachers_path(@applv.taska.id,
+																	tb1_a: "active",
+																	tb1_ar: "true",
+																	tb1_d: "show active")
 	end
 
 	private

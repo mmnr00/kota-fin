@@ -9,7 +9,7 @@
       <div class="col-sm-12 col-12">
         <%= f.select :kind, 
             options_for_select(["HALF DAY AM", "HALF DAY PM"], selected: @applv.kind)+
-            options_from_collection_for_select(@tchlvs, :name, :name, selected: @applv.kind), 
+            options_from_collection_for_select(@taska.tsklvs, :id, :name, selected: @applv.kind), 
             {include_blank: "Select Type"}, 
             {required: true } %>
       </div>
@@ -55,7 +55,7 @@
     </div>
   </div>
 
-  <%= f.hidden_field :taska_id, value: @teacher.taska_teachers.where(stat: true).first.taska.id %>
+  <%= f.hidden_field :taska_id, value: @taska.id %>
   <%= f.hidden_field :teacher_id, value: @teacher.id %>
   <%= f.hidden_field :stat, value: "PENDING" %>
 

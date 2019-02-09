@@ -18,7 +18,13 @@
           <strong><%= stat %></strong>
         </div>
         <div class='col-lg-12 well'><br>
-          <h6 align="center"><%= kind = lv.kind %></h6><br>
+          <% kind = lv.kind %>
+          <% if kind == "HALF DAY AM" || kind == "HALF DAY PM" %>  
+            <% lvname = kind %>
+          <% else %>
+            <% lvname = @taska.tsklvs.where(id: kind).first.name %>
+          <% end %>
+          <h6 align="center"><%= lvname %></h6><br>
         </div>
         <div class='col-lg-12'><br>
           <strong>START : </strong><%= lv.start.strftime("%d/%m/%y")%><br>

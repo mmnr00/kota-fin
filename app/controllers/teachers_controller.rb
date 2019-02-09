@@ -72,6 +72,7 @@ class TeachersController < ApplicationController
 
 	def tchleave
 		@tchlvs = @teacher.tchlvs
+		@taska = @teacher.taska_teachers.where(stat: true).first.taska
 		@applv = Applv.new
 		@tchapplvs = @teacher.applvs.order('start DESC')
 		render action: "tchleave", layout: "dsb-teacher-tsk"
@@ -80,6 +81,7 @@ class TeachersController < ApplicationController
 	def tcheditlv
 		@applv = Applv.find(params[:id])
 		@teacher = @applv.teacher
+		@taska = @teacher.taska_teachers.where(stat: true).first.taska
 		@tchlvs = @teacher.tchlvs
 		render action: "tcheditlv", layout: "dsb-teacher-tsk"
 	end

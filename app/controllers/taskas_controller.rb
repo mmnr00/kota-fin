@@ -284,6 +284,7 @@ class TaskasController < ApplicationController
   def taskateachers
     @newteachers = @taska.taska_teachers.where(stat: true)
     @classrooms = @taska.classrooms
+    @applvs = @taska.applvs
     render action: "taskateachers", layout: "dsb-admin-teacher" 
   end
 
@@ -307,7 +308,10 @@ class TaskasController < ApplicationController
     @taska = Taska.find(params[:id])
     tchcls = TeachersClassroom.where(teacher_id: params[:tch], classroom_id: params[:cls]).first
     tchcls.destroy
-    redirect_to taskateachers_path(@taska)
+    redirect_to taskateachers_path(@taska,
+                                  tb3_a: "active",
+                                  tb3_ar: "true",
+                                  tb3_d: "show active")
   end
 
   def tchinfo_edit
@@ -322,7 +326,10 @@ class TaskasController < ApplicationController
     tchcls = TeachersClassroom.where(teacher_id: teacher.id, classroom_id: classroom.id).first
     tchcls.classroom_id = params[:tch][:classroom_id]
     tchcls.save
-    redirect_to taskateachers_path(id: params[:tch][:tskid])
+    redirect_to taskateachers_path(id: params[:tch][:tskid],
+                                  tb3_a: "active",
+                                  tb3_ar: "true",
+                                  tb3_d: "show active")
   end
 
   def taskateachers_classroom
