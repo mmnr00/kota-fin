@@ -32,7 +32,6 @@
           <strong>TOTAL : </strong> <%= lv.tot %> day(s)<br><br>
           <strong>YOUR COMMENTS : </strong> <%= lv.tchdesc %><br><br>
           <strong>ADMIN COMMENTS : </strong> <%= lv.tskdesc %><br><br>
-          <%= link_to "EDIT", tcheditlv_path(lv), class: "btn btn-sm btn-primary active" %>
           <%= link_to "DELETE", tchdeletelv_path(lv), method: :delete, class: "btn btn-sm btn-danger active", :data => {:confirm => 'Are you sure?'} %>
 
         </div>

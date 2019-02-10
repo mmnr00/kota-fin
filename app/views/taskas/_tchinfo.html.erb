@@ -21,7 +21,7 @@
               <%= f.fields_for 'leaves[]', tsklv, include_id: false do |h| %>
                 <div class="row">
                   <div class="col-sm-8 col-8">
-                    <%= h.text_field :"name", class: "form-control", placeholder: "SEPERTI KAD PENGENALAN", autofocus: true, required: true, value: tsklv.name %>
+                    <%= h.text_field :"name", class: "form-control", placeholder: "SEPERTI KAD PENGENALAN", autofocus: true, required: true, readonly: true, value: tsklv.name %>
                     <% if (lv = @teacher.tchlvs.where(tsklv_id: tsklv.id).first).present? %>
                       <% day = lv.day.to_i %>
                     <% else %>

@@ -38,42 +38,46 @@
   </div><br>
   <%= link_to "ADD TASKA", tch_add_taska_path(@teacher, tsk_id: 1), class: "btn btn-sm btn-success active"%>
 <% else %>
-  <!-- VIEW CURRENT TASKA -->
-  <div class="container">
-    <div class="row">
+  <% if @teacher.classrooms.present? %>
+    <!-- VIEW CURRENT TASKA -->
+    <div class="container">
+      <div class="row">
 
-      <div class="col-md-4">
-        <div class="card-counter danger">
-          <i class="fa fa-file-signature"></i>
-          <span class="count-numbers">20</span>
-          <span class="count-name">
-            <a href="<%= tchleave_url(@teacher,
-                                      app_a: "active",
-                                      bel_a: "",
-                                      stat_a: "",
-                                      app_ar: "true",
-                                      bel_ar: "false",
-                                      stat_ar: "false",
-                                      app_d: "show active",
-                                      bel_d: "",
-                                      stat_d: "")%>", 
-            style="color:#fff">LEAVES</a>
-          </span>
+        <div class="col-md-4">
+          <div class="card-counter danger">
+            <i class="fa fa-file-signature"></i>
+            <span class="count-numbers">20</span>
+            <span class="count-name">
+              <a href="<%= tchleave_url(@teacher,
+                                        app_a: "active",
+                                        bel_a: "",
+                                        stat_a: "",
+                                        app_ar: "true",
+                                        bel_ar: "false",
+                                        stat_ar: "false",
+                                        app_d: "show active",
+                                        bel_d: "",
+                                        stat_d: "")%>", 
+              style="color:#fff">LEAVES</a>
+            </span>
+          </div>
         </div>
-      </div>
 
-      <div class="col-md-4">
-        <div class="card-counter primary">
-          <i class="fa fa-hand-holding-usd"></i>
-          <span class="count-numbers">FEB-19</span>
-          <span class="count-name">
-            <a href="#", style="color:#fff">SALARY SLIP</a>
-          </span>
+        <div class="col-md-4">
+          <div class="card-counter primary">
+            <i class="fa fa-hand-holding-usd"></i>
+            <span class="count-numbers">FEB-19</span>
+            <span class="count-name">
+              <a href="#", style="color:#fff">SALARY SLIP</a>
+            </span>
+          </div>
         </div>
-      </div>
 
+      </div>
     </div>
-  </div>
+  <% else %>
+    AWAITING APPROVAL FROM <strong><%= @teacher.taska_teachers.where(stat: true).first.taska.name %></strong>
+  <% end %>
 
 
 <% end %>

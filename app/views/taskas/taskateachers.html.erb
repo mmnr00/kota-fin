@@ -172,7 +172,7 @@
                         </td>
                         <td>
                           <%= link_to "EDIT", tchinfo_edit_path(@taska, tchid: tch.id), class: "btn btn-sm btn-warning"  %>
-                          <%= link_to "REMOVE", tchrm_cls_path(@taska, tch: tch.id, cls: cls.id), class: "btn btn-sm btn-danger", data: { confirm: 'Are you sure?' }  %>
+                          <%= link_to "REMOVE", tchrm_cls_path(@taska, tch: tch.id, cls: cls.id), class: "btn btn-sm btn-danger", data: { confirm: 'Are you sure? All leaves record will be deleted' }  %>
                         </td> 
                       </tr>
                     <% end %>

@@ -313,6 +313,10 @@ class TaskasController < ApplicationController
     @taska = Taska.find(params[:id])
     tchcls = TeachersClassroom.where(teacher_id: params[:tch], classroom_id: params[:cls]).first
     tchcls.destroy
+    tchlvs = Tchlv.where(teacher_id: params[:tch])
+    tchlvs.delete_all
+    applvs = Applv.where(teacher_id: params[:tch])
+    applvs.delete_all
     flash[:notice] = "TEACHER REMOVED"
     redirect_to taskateachers_path(@taska,
                                   tb3_a: "active",
@@ -332,6 +336,11 @@ class TaskasController < ApplicationController
     tchcls = TeachersClassroom.where(teacher_id: teacher.id, classroom_id: classroom.id).first
     tchcls.classroom_id = params[:tch][:classroom_id]
     tchcls.save
+    params[:tch][:leaves].each do |k,v|
+      #render json: v[:teacher_id]  and return
+      tchlv = Tchlv.where(teacher_id: v[:teacher_id], taska_id: v[:taska_id], tsklv_id: v[:tsklv_id]).first
+      tchlv.update(leave_params(v)) unless !tchlv.present?
+    end
     flash[:notice] = "SUCCESSFULLY UPDATED"
     redirect_to taskateachers_path(id: params[:tch][:tskid],
                                   tb3_a: "active",

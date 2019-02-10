@@ -2,34 +2,54 @@ class ApplvsController < ApplicationController
 
 	def apply
 		@applv = Applv.new(applv_params)
-		#@teacher = Teacher.find
-		if 1==0 #start > end
-
-		elsif 2==0  #conflict with other leaves
-
-		elsif 3==0 #insufficent leave
-
-		elsif 3==0 #half day leave not same date
-
-		else
-			if @applv.kind == "HALF DAY AM" || @applv.kind == "HALF DAY PM"
+		# calculate no of leave days
+		if @applv.kind == "HALF DAY AM" || @applv.kind == "HALF DAY PM"
 				diff = 0.5
 				plus = 0
 				ph = 0
-			else
-				last = @applv.end
-				start = @applv.start
-				diff = (last - start).to_f
-				plus = 1
-				ph = 0
-				(start..last).each do |dt|
-					dayname = dt.strftime("%a")
-					if (!$ph_sel19[dt.month].blank? && $ph_sel19[dt.month][dt.day].present?) || (dayname == "Sun" || dayname == "Sat" ) 
-						ph = ph - 1
-					end
+		else
+			last = @applv.end
+			start = @applv.start
+			diff = (last - start).to_f
+			plus = 1
+			ph = 0
+			(start..last).each do |dt|
+				dayname = dt.strftime("%a")
+				if (!$ph_sel19[dt.month].blank? && $ph_sel19[dt.month][dt.day].present?) || (dayname == "Sun" || dayname == "Sat" ) 
+					ph = ph - 1
 				end
 			end
-			@applv.tot = (diff + plus + ph)
+		end
+		@applv.tot = (diff + plus + ph)
+		if @applv.start > @applv.end #start > end
+			flash[:danger] = "START DATE MUST BE GREATER THAN END DATE"
+			redirect_to tchleave_path(@applv.teacher.id,
+																app_a: "active",
+																app_ar: "true",
+																app_d: "show active")
+
+		elsif date_exist?(@applv.teacher.id, @applv.start, @applv.end) == true  #conflict with other leaves
+			flash[:danger] = "DATE CONFLICT WITH ANOTHER APPLICATION"
+			redirect_to tchleave_path(@applv.teacher.id,
+																app_a: "active",
+																app_ar: "true",
+																app_d: "show active")
+
+		elsif bal_suff?(@applv.teacher.id, @applv.kind, @applv.tot) == true
+			flash[:danger] = "INSUFFICIENT LEAVE BALANCE"
+			redirect_to tchleave_path(@applv.teacher.id,
+																app_a: "active",
+																app_ar: "true",
+																app_d: "show active")
+
+		elsif (@applv.kind == "HALF DAY AM" || @applv.kind == "HALF DAY PM") && (@applv.start != @applv.end) #half day leave not same date
+			flash[:danger] = "DATE MUST BE THE SAME FOR HALF DAY APPLICATION"
+			redirect_to tchleave_path(@applv.teacher.id,
+																app_a: "active",
+																app_ar: "true",
+																app_d: "show active")
+		else
+			
 			if @applv.save
 			#if 1==1
 				flash[:success] = "LEAVE REQUEST CREATED"
@@ -37,14 +57,8 @@ class ApplvsController < ApplicationController
 				flash[:success] = "PLEASE TRY AGAIN"
 			end
 			redirect_to tchleave_path(@applv.teacher.id,
-																app_a: "",
-																bel_a: "",
 																stat_a: "active",
-																app_ar: "false",
-																bel_ar: "false",
 																stat_ar: "true",
-																app_d: "",
-																bel_d: "",
 																stat_d: "show active")
 		end
 	end
@@ -52,39 +66,63 @@ class ApplvsController < ApplicationController
 	
 
 	def tchupdate
-		@applv = Applv.find(params[:id])
-		@applv.update(applv_params)
-		if 1==0 #start > end
-
-		elsif 2==0  #conflict with other leaves
-
-		elsif 3==0 #insufficent leave
-
-		elsif 3==0 #half day leave not same date
-
-		else
-			if @applv.kind == "HALF DAY AM" || @applv.kind == "HALF DAY PM"
+		@applv2 = Applv.find(params[:id])
+		@applv=Applv.new(applv_params)
+		# calculate no of leave days
+		if @applv.kind == "HALF DAY AM" || @applv.kind == "HALF DAY PM"
 				diff = 0.5
 				plus = 0
 				ph = 0
-			else
-				last = @applv.end
-				start = @applv.start
-				diff = (last - start).to_f
-				plus = 1
-				ph = 0
-				(start..last).each do |dt|
-					dayname = dt.strftime("%a")
-					if (!$ph_sel19[dt.month].blank? && $ph_sel19[dt.month][dt.day].present?) || (dayname == "Sun" || dayname == "Sat" ) 
-						ph = ph - 1
-					end
+		else
+			last = @applv.end
+			start = @applv.start
+			diff = (last - start).to_f
+			plus = 1
+			ph = 0
+			(start..last).each do |dt|
+				dayname = dt.strftime("%a")
+				if (!$ph_sel19[dt.month].blank? && $ph_sel19[dt.month][dt.day].present?) || (dayname == "Sun" || dayname == "Sat" ) 
+					ph = ph - 1
 				end
 			end
-			@applv.tot = (diff + plus + ph)
-			@applv.save
 		end
-		flash[:success] = "LEAVE SUCCESSFULLY UPDATED"
-		redirect_to tchleave_path(@applv.teacher.id,
+		@applv.tot = (diff + plus + ph)
+		if @applv.start > @applv.end #start > end
+			flash[:danger] = "START DATE MUST BE GREATER THAN END DATE"
+			redirect_to tchleave_path(@applv.teacher.id,
+																app_a: "active",
+																app_ar: "true",
+																app_d: "show active")
+
+		elsif date_exist?(@applv.teacher.id, @applv.start, @applv.end) == true  #conflict with other leaves
+			flash[:danger] = "DATE CONFLICT WITH ANOTHER APPLICATION"
+			redirect_to tchleave_path(@applv.teacher.id,
+																app_a: "active",
+																app_ar: "true",
+																app_d: "show active")
+
+		elsif bal_suff?(@applv.teacher.id, @applv.kind, @applv.tot) == true
+			flash[:danger] = "INSUFFICIENT LEAVE BALANCE"
+			redirect_to tchleave_path(@applv.teacher.id,
+																app_a: "active",
+																app_ar: "true",
+																app_d: "show active")
+
+		elsif (@applv.kind == "HALF DAY AM" || @applv.kind == "HALF DAY PM") && (@applv.start != @applv.end) #half day leave not same date
+			flash[:danger] = "DATE MUST BE THE SAME FOR HALF DAY APPLICATION"
+			redirect_to tchleave_path(@applv.teacher.id,
+																app_a: "active",
+																app_ar: "true",
+																app_d: "show active")
+		else
+			
+			if @applv2.update(applv_params)
+			#if 1==1
+				flash[:success] = "LEAVE REQUEST UPDATE"
+			else
+				flash[:success] = "PLEASE TRY AGAIN"
+			end
+			redirect_to tchleave_path(@applv2.teacher.id,
 																app_a: "",
 																bel_a: "",
 																stat_a: "active",
@@ -94,6 +132,7 @@ class ApplvsController < ApplicationController
 																app_d: "",
 																bel_d: "",
 																stat_d: "show active")
+		end
 	end
 
 	def tchdelete
@@ -138,6 +177,43 @@ class ApplvsController < ApplicationController
 	end
 
 	private
+
+	def date_exist?(teacher_id, start, last)
+		applvs = Teacher.find(teacher_id).applvs
+		applvs.each do |lv|
+			if (start<=lv.end) && (last>=lv.start)
+				return true
+				break
+			end
+		end		
+	end
+
+	def bal_suff?(tchid,kind,tot)
+		teacher = Teacher.find(tchid)
+		#tchlvs = teacher.tchlvs
+		applvs = teacher.applvs
+		taska = teacher.taska_teachers.where(stat: true).first.taska
+		tsklvs = taska.tsklvs
+		annlvtsk = tsklvs.where(name: "ANNUAL LEAVE").first
+		if kind == "HALF DAY AM" || kind == "HALF DAY PM" || kind == "#{annlvtsk.id}"
+			annlvtch = annlvtsk.tchlvs.where(teacher_id: tchid).first
+			tot1 = applvs.where(kind: "HALF DAY AM").sum(:tot)
+			tot2 = applvs.where(kind: "HALF DAY PM").sum(:tot)
+			tot3 = applvs.where(kind: annlvtsk.id).sum(:tot)
+			current_tot = tot1 + tot2 + tot3
+			# if current_tot == 10
+			if tot > (annlvtch.day - current_tot)
+				return true
+			end
+		else
+			lvtsk = tsklvs.where(id: kind).first
+			lvtch = lvtsk.tchlvs.where(teacher_id: tchid).first
+			current_tot = applvs.where(kind: lvtsk.id).sum(:tot)
+			if tot > (lvtch.day - current_tot)
+				return true
+			end
+		end
+	end
 
 	def applv_params
 		params.require(:applv).permit(:kind, 
