@@ -62,7 +62,15 @@
                     <td><%= lv.end.strftime("%d/%m/%y")%></td>
                     <td align="center"><%= lv.tot %></td>
                     <td><%= lv.stat %></td>
-                    <td><%= lv.tchdesc %></td>
+                    <td>
+                      <%= lv.tchdesc %><br>
+                      <% image = lv.fotos.first %>
+                      <% if image.present? && image.picture.present? %>
+                        <a href="<%="#{image.picture.url}"%>" target="_blank">
+                          <font color="blue"><u>DOCUMENT</u></font>
+                        </a><br>
+                      <% end %>
+                    </td>
                     <td>
                       <%= form_for(:applv, :url => {:controller=>'applvs', :action=> 'admupdate'},:html => {multipart: true, class: "form-horizontal", role: "form"}, method: :get) do |f| %>
                         <div class="form-group"> <!-- name -->

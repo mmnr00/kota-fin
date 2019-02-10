@@ -47,6 +47,8 @@ class TsklvsController < ApplicationController
 	def destroy
 		@tsklv = Tsklv.find(params[:id])
 		taska_id = @tsklv.taska.id
+		@tsklv.tchlvs.delete_all
+		Applv.where(kind: @tsklv.id).delete_all
 		@tsklv.destroy
 		flash[:notice] = "DELETION SUCCESSFULL"
 		redirect_to taskateachers_path(taska_id, 

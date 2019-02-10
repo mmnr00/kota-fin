@@ -5,5 +5,6 @@ class Foto < ApplicationRecord
 	belongs_to :taska, optional: true
 	belongs_to :expense, optional: true
 	belongs_to :ptns_mmb, optional: true
+	belongs_to :applv, optional: true
 	mount_uploader :picture, PictureUploader
 end

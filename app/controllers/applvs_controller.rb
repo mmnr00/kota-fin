@@ -197,9 +197,9 @@ class ApplvsController < ApplicationController
 		annlvtsk = tsklvs.where(name: "ANNUAL LEAVE").first
 		if kind == "HALF DAY AM" || kind == "HALF DAY PM" || kind == "#{annlvtsk.id}"
 			annlvtch = annlvtsk.tchlvs.where(teacher_id: tchid).first
-			tot1 = applvs.where(kind: "HALF DAY AM").sum(:tot)
-			tot2 = applvs.where(kind: "HALF DAY PM").sum(:tot)
-			tot3 = applvs.where(kind: annlvtsk.id).sum(:tot)
+			tot1 = applvs.where(kind: "HALF DAY AM").where.not(stat: "REJECTED").sum(:tot)
+			tot2 = applvs.where(kind: "HALF DAY PM").where.not(stat: "REJECTED").sum(:tot)
+			tot3 = applvs.where(kind: annlvtsk.id).where.not(stat: "REJECTED").sum(:tot)
 			current_tot = tot1 + tot2 + tot3
 			# if current_tot == 10
 			if tot > (annlvtch.day - current_tot)
@@ -208,7 +208,7 @@ class ApplvsController < ApplicationController
 		else
 			lvtsk = tsklvs.where(id: kind).first
 			lvtch = lvtsk.tchlvs.where(teacher_id: tchid).first
-			current_tot = applvs.where(kind: lvtsk.id).sum(:tot)
+			current_tot = applvs.where(kind: lvtsk.id).where.not(stat: "REJECTED").sum(:tot)
 			if tot > (lvtch.day - current_tot)
 				return true
 			end
@@ -223,7 +223,8 @@ class ApplvsController < ApplicationController
 																	:tskdesc, 
 																	:taska_id, 
 																	:teacher_id,
-																	:stat)
+																	:stat,
+																	fotos_attributes: [:foto, :picture, :foto_name])
 
 	end
 
