@@ -1,4 +1,6 @@
-EDIT <%= @teacher.username %>
+<div class="col-sm-12" style="background-color:blue; text-align:center">
+  <font color="white"><h4>EDIT DETAILS FOR <%= @teacher.tchdetail.name.upcase %></h4></font>
+</div><br>
 
 <% url = {:controller=>'taskas', :action=>'tchinfo_update'} %>
 <% btn = "UPDATE" %>

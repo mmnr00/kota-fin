@@ -1,52 +1,69 @@
-<div class="container">
-  <div class="row"><div style="width: 50%; margin: 0 auto;">
-    <%= form_for(:tch, :url => url, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
 
-      <!-- SELECT CLASSROOM -->
-      <%= f.select :classroom_id, 
-        options_from_collection_for_select(@taska.classrooms.order('classroom_name ASC'), :id, :classroom_name, selected: @classroom), 
-        {include_blank: "Select Classroom"},
-        {required: true} %><br><br>
+<%= form_for(:tch, :url => url, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
 
-      <!-- CREATE TCHLV -->
-      <% @taska.tsklvs.each do |tsklv|%>
-        <div class="form-group"> <!-- name -->
-          <div class="row">
-            <div class="control-label col-sm-8">
-              <strong>JENIS CUTI</strong>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-8 col-12">
-              <%= f.fields_for 'leaves[]', tsklv, include_id: false do |h| %>
-                <div class="row">
-                  <div class="col-sm-8 col-8">
-                    <%= h.text_field :"name", class: "form-control", placeholder: "SEPERTI KAD PENGENALAN", autofocus: true, required: true, readonly: true, value: tsklv.name %>
-                    <% if (lv = @teacher.tchlvs.where(tsklv_id: tsklv.id).first).present? %>
-                      <% day = lv.day.to_i %>
-                    <% else %>
-                      <% day = tsklv.day %>
-                    <% end %>
-                    <%= h.number_field :"day", class: "form-control", autofocus: true, required: true, value: day %>
-                    <%= h.hidden_field :"teacher_id", value: @teacher.id %>
-                    <%= h.hidden_field :"taska_id", value: @taska.id %>
-                    <%= h.hidden_field :"tsklv_id", value: tsklv.id %>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-          </div>
+  <!-- SELECT CLASSROOM -->
+  <div class="form-group"> <!-- name -->
+    <div class="row">
+      <div class="control-label col-sm-12">
+        <strong>ASSIGN CLASSROOM</strong>
       </div>
+    </div>
+    <%= f.select :classroom_id, 
+      options_from_collection_for_select(@taska.classrooms.order('classroom_name ASC'), :id, :classroom_name, selected: @classroom), 
+      {include_blank: "Select Classroom"},
+      {required: true} %>
+  </div><br>
 
-      <% end %>
 
-      <!-- HIDDEN FIELD -->                       
-      <%= f.hidden_field :tchid, value: @teacher.id %>
-      <%= f.hidden_field :tskid, value: @taska.id %>
-
-      <div style="width: 50%; margin: 0 auto;">
-        <%= f.submit :"#{btn}",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
+  <!-- CREATE TCHLV -->
+  <div class="form-group"> <!-- name -->
+    <div class="row">
+      <div class="control-label col-sm-12">
+        <strong><h5>EDIT LEAVES</h5></strong>
       </div>
-    <% end %>
-  </div></div>
-</div><br>
+    </div>
+  </div>
+  <% @taska.tsklvs.each do |tsklv|%>
+    <div class="form-group"> <!-- name -->
+      <div class="row">
+        <div class="col-sm-12 col-12">
+          <%= f.fields_for 'leaves[]', tsklv, include_id: false do |h| %>
+            <div class="row">
+              <div class="col-sm-1 col-5">
+                <strong>TYPE :</strong>
+              </div>
+              <div class="col-sm-8 col-12">
+               <%= h.text_field :"name", class: "form-control", placeholder: "SEPERTI KAD PENGENALAN", autofocus: true, required: true, readonly: true, value: tsklv.name %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-1 col-5">
+                <strong>DAYS :</strong>
+              </div>
+              <div class="col-sm-8 col-12">
+                <% if (lv = @teacher.tchlvs.where(tsklv_id: tsklv.id).first).present? %>
+                  <% day = lv.day.to_i %>
+                <% else %>
+                  <% day = tsklv.day %>
+                <% end %>
+                <%= h.number_field :"day", class: "form-control", autofocus: true, required: true, value: day %>
+                <%= h.hidden_field :"teacher_id", value: @teacher.id %>
+                <%= h.hidden_field :"taska_id", value: @taska.id %>
+                <%= h.hidden_field :"tsklv_id", value: tsklv.id %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+  </div>
+
+  <% end %>
+
+  <!-- HIDDEN FIELD -->                       
+  <%= f.hidden_field :tchid, value: @teacher.id %>
+  <%= f.hidden_field :tskid, value: @taska.id %>
+
+  <div>
+    <%= f.submit :"#{btn}",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
+  </div>
+<% end %>
