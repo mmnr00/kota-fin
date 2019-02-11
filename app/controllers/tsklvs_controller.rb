@@ -12,6 +12,16 @@ class TsklvsController < ApplicationController
 		@tsklv = Tsklv.new(tsklv_params)
 		if @tsklv.save
 				@taska = Taska.find(@tsklv.taska_id)
+				@taska.taska_teachers.where(stat: true).each do |tch|
+					@teacher = tch.teacher
+					if @teacher.teachers_classrooms.present?
+						Tchlv.create(name: @tsklv.name,
+												day: @tsklv.day,
+												taska_id: @taska.id,
+												teacher_id: @teacher.id,
+												tsklv_id: @tsklv.id)							
+					end
+				end
         flash[:notice] = "#{@tsklv.name.upcase} was successfully created"
         redirect_to taskateachers_path(@taska, 
         															tb4_a: "active",
@@ -47,7 +57,7 @@ class TsklvsController < ApplicationController
 	def destroy
 		@tsklv = Tsklv.find(params[:id])
 		taska_id = @tsklv.taska.id
-		@tsklv.tchlvs.delete_all
+		Tchlv.where(tsklv_id: params[:id]).delete_all
 		Applv.where(kind: @tsklv.id).delete_all
 		@tsklv.destroy
 		flash[:notice] = "DELETION SUCCESSFULL"
