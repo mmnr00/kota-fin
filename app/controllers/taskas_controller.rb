@@ -1,7 +1,16 @@
 class TaskasController < ApplicationController
   
   require 'json'
-  before_action :set_taska, only: [:show,:children_index, :taskateachers, :taskateachers_classroom,:classrooms_index, :edit, :update, :destroy, :tchinfo_new, :tchinfo_edit]
+  before_action :set_taska, only: [:show,:children_index, 
+                                  :taskateachers, 
+                                  :taskateachers_classroom,
+                                  :classrooms_index, 
+                                  :edit, 
+                                  :update, 
+                                  :destroy, 
+                                  :tchinfo_new, 
+                                  :tchinfo_edit,
+                                  :tchleave]
   before_action :set_all
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
@@ -282,6 +291,14 @@ class TaskasController < ApplicationController
   end
 
   #TEACHER CLASSROOMS AND LEAVE
+
+  def tchleave
+    @teacher = Teacher.find(params[:tch_id])
+    @tchlvs = @teacher.tchlvs
+    @tchapplvs = @teacher.applvs.order('start DESC')
+    render action: "tchleave", layout: "dsb-admin-teacher" 
+  end
+
   def taskateachers
     @newteachers = @taska.taska_teachers.where(stat: true)
     @classrooms = @taska.classrooms

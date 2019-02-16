@@ -160,6 +160,7 @@ Rails.application.routes.draw do
   get '/taska/:id/add_subdomain', to: 'taskas#add_subdomain' 
   get '/taska/:id/bill_account', to: 'taskas#bill_account', as: 'bill_account'
   get '/taska/:id/plrpt_xls', to: 'taskas#plrpt_xls', as: 'plrpt_xls'
+  get '/taska/:id/tchleave', to: 'taskas#tchleave', as: 'tsk_tchleave'
   #EXPENSES
   get '/taska/:id/expenses_search', to: 'expenses#search', as: 'search_expense'
   get '/taska/:id/my_expenses', to: 'expenses#my_expenses', as: 'my_expenses'

@@ -1,0 +1,106 @@
+<h3>LEAVE REPORT FOR <%= @teacher.tchdetail.name.upcase %></h3><br>
+
+<div style="background-color:#e86850">
+  <h4 align="center" style="color:white">LEAVE SUMMARY</h4>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
+    <thead>
+      <tr style="background-color:#d8b2d8">
+        <th>LEAVE TYPE</th>
+        <th>TOTAL</th>
+        <th>USED</th>
+        <th>BALANCE</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tchlvs.each do |lv| %>
+        <tr>
+          <td><%= lvname = lv.tsklv.name %></td>
+          <td><%= lv.day %> DAYS</td>
+          <td>
+            <% util = 0 %>
+            <% @tchapplvs.where.not(stat: "REJECTED").each do |tlv| %>
+              <% if tlv.kind.to_i == lv.tsklv.id %>
+                <% util = util + tlv.tot %>
+              <% elsif (tlv.kind == "HALF DAY AM" || tlv.kind == "HALF DAY PM") && lvname == "ANNUAL LEAVE" %>
+                <% util = util + tlv.tot %>
+              <% end %>
+            <% end %>
+            <%= util %> DAYS    
+          </td>
+          <td>
+            <% bel = lv.day - util %>
+            <%= bel %> DAYS <br>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<br>
+<div style="background-color:#4ca64c">
+  <h4 align="center" style="color:white">LEAVE DETAILS</h4>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
+    <thead>
+      <tr style="background-color:#9999ff">
+        <th>LEAVE TYPE</th>
+        <th>START</th>
+        <th>END</th>
+        <th>TOTAL (DAYS)</th>
+        <th>STATUS</th>
+        <th>COMMENTS</th>
+        <th>ACTIONS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tchapplvs.each do |lv| %>
+        <% stat = lv.stat %>
+        <% if stat == "PENDING" %>
+          <% clr = "#ffedcc" %>
+        <% elsif stat == "APPROVED" %>
+          <% clr = "#cce5cc" %>
+        <% elsif stat == "REJECTED" %>
+          <% clr = "#ffcccc" %>
+        <% elsif stat == "QUERIED" %>
+          <% clr = "#e5cce5" %>
+        <% end %>
+        <tr>
+          <td>
+            <% kind = lv.kind %>
+            <% if kind == "HALF DAY AM" || kind == "HALF DAY PM" %>  
+              <% lvname = kind %>
+            <% else %>
+              <% lvname = @taska.tsklvs.where(id: kind).first.name %>
+            <% end %>
+            <%= lvname %>
+          </td>
+          <td><%= lv.start.strftime("%d/%m/%y")%></td>
+          <td><%= lv.end.strftime("%d/%m/%y")%></td>
+          <td align="center"><%= lv.tot %></td>
+          <td style="background-color:<%= "#{clr}" %>"><%= stat %></td>
+          <td>
+            <%= lv.tchdesc %><br>
+            <% image = lv.fotos.first %>
+            <% if image.present? && image.picture.present? %>
+              <a href="<%="#{image.picture.url}"%>" target="_blank">
+                <font color="blue"><u>DOCUMENT</u></font>
+              </a><br>
+            <% end %>
+          </td>
+          <td>
+            <% if stat == "APPROVED" || stat == "REJECTED" %>
+              <%= link_to "REVERT", revleave_path(id: lv.id, tch: "tch"), class: 'btn btn-sm btn-danger active', data: { confirm: 'Are you sure?' }%>
+            <% else %>
+              ACTION
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

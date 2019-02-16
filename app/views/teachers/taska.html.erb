@@ -38,6 +38,16 @@
   </div><br>
   <%= link_to "ADD TASKA", tch_add_taska_path(@teacher, tsk_id: 1), class: "btn btn-sm btn-success active"%>
 <% else %>
+  <% taska = @teacher.taska_teachers.where(stat: true).first.taska %>
+  <% taska_name = taska.name %>
+  <h6 class="card-title">
+    <% image = taska.fotos.where(foto_name: "CENTER LOGO").first %>
+      <% if image.present? && image.picture.present? %>
+        <%= image_tag(image.picture.url, size: "50x50") %>
+      <% end %><br>
+    <%= taska_name %>
+  </h6>
+  
   <% if @teacher.classrooms.present? %>
     <!-- VIEW CURRENT TASKA -->
     <div class="container">
@@ -58,7 +68,9 @@
                                         app_d: "show active",
                                         bel_d: "",
                                         stat_d: "")%>", 
-              style="color:#fff">LEAVES</a>
+              style="color:#fff">
+                PENDING <br>LEAVES
+              </a>
             </span>
           </div>
         </div>
@@ -68,7 +80,9 @@
             <i class="fa fa-hand-holding-usd"></i>
             <span class="count-numbers">FEB-19</span>
             <span class="count-name">
-              <a href="#", style="color:#fff">SALARY SLIP</a>
+              <a href="#", style="color:#fff">
+                SALARY <br> SLIP
+              </a>
             </span>
           </div>
         </div>
@@ -76,7 +90,7 @@
       </div>
     </div>
   <% else %>
-    AWAITING APPROVAL FROM <strong><%= @teacher.taska_teachers.where(stat: true).first.taska.name %></strong>
+    AWAITING APPROVAL FROM <strong><%= taska_name %></strong>
   <% end %>
 
 

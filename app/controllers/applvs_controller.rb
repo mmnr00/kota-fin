@@ -170,10 +170,14 @@ class ApplvsController < ApplicationController
 		@applv.stat = "PENDING"
 		@applv.save
 		flash[:notice] = "LEAVE REVERTED SUCCESSFULLY"
-		redirect_to taskateachers_path(@applv.taska.id,
+		if params[:tch] == "tch"
+			redirect_to tsk_tchleave_path(id: @applv.taska_id, tch_id: @applv.teacher_id)
+		else
+			redirect_to taskateachers_path(@applv.taska.id,
 																		tb5_a: "active",
 																		tb5_ar: "true",
 																		tb5_d: "show active")
+		end
 	end
 
 	private
