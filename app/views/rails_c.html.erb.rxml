@@ -1,0 +1,109 @@
+ada = 0
+
+tarak = 0
+
+list = [	"Abdullah Adham bin Jazman",	"Anna Narisha Abdul Manan",	"Azlin Napisah binti Azahar",	"Dayang Norazalina Binti Awang Junidee",	"ERNEEZA BT JAINALDIN",	"FADZILAH BINTI ISMAIL",	"Fahimah Binti Rithwan",	"FARHANA BINTI MOHD ISA",	"Fatihah binti Deman",	"HALIZA BINTI ABDULLAH",	"HASMINA BINTI HAMID",	"Haznieda binti Rozemi",	"HELMIAH BINTI ASRI",	"Ianah Binti Shaarani",	"Khairul Azhar Bin Mohd Dom",	"MASTIJA BINTI MADAN",	"MOHAMAD HAFIZI BIN DIN",	"MOHD DANIAL HAFIY BIN ABDUL RAHMAN",	"MUHAMMAD AIMAN ASYRAAF BIN ISMAIL",	"Naomi AP Vanathaya",	"Noor Amalina Binti Ashari",	"NOOR ZULAIKHA BINTI CHE RAZALI",	"Nooraini Binti Sahak",	"NOORAZIRA BINTI ABDUL GHANI",	"Nor Ainil Hawa Binti Mohamad Yusop",	"NOR AINIL NATASAH BINTI AZMAN",	"NOR AMALINA IZZATI BINTI ABDULLAH",	"Nor Azizah Binti Mohd Samsuri",	"NOR AZZATUL NAJWA BINTI AZMAN ",	"Nor Fadilah Binti Alias ",	"NOR SYAHIRA BINTI IBRAHIM ",	"NOR SYAMIMI BINTI MUHAMAD JAAFAR",	"NOR WAHIDAH BT NORIZAN",	"NORFADILAH BINTI MOHAMAD TONGSIN",	"Norfaiza bt hashim",	"Norhaida Binti Mohd Mokhtar",	"Norhayati binti Mohd Khamis",	"Norhayati saad",	"Noridah binti Ramli",	"Norkhurnisah binti Norais",	"Norra Azle binti Abd Rahman",	"NUR ADILAH BINTI AZIMAN",	"NUR AIN SHAFIQA BINTI NAZRI",	"NUR ALIYAH BINTI MOHD IDRIS",	"NUR AMALIENA BINTI ROSLAN",	"Nur Anisah Binti Mohd Arif",	"NUR AQILAH BINTI HAMIM",	"NUR ATIQAH BINTI MOHD HALIM",	"NUR FARAHIDAYU BINTI MOHD.YUSOF",	"Nur Izzah Masturah binti Ahmad Zaini",	"Nur Izzati binti Rosman",	"NUR SAKINAH BINTI MOHAMAD",	"NUR SALWANA BINTI SALLEH",	"NUR SYAFIQAH BINTI MOHD SHUKOR",	"NUR SYAMIRAH BINTI WAHIT ",	"NURAIN NADIA BINTI MOHD ZAIDI",	"Nuraina Syafiza Binti Harith",	"Nurfaezah binti talib",	"NURHUDA UMI NAJIHA BINTI MOHD MUHIS",	"Nurshafira Binti Anuar",	"Nurul Amirah binti Nahar-ruddin",	"NURUL ATHIRAH BINTI MOHAMAD NOR",	"NURUL AZZURA BINTI MOHAMAD JAFRI",	"NURUL FARAHIYAH BINTI NOORDIN",	"Nurul Farazila binti Meon",	"NURUL HASLINDA BINTI ALPATLO",	"NURUL IZZATY NATASHA BINTI TASMAN ",	"NURUL NADRATUL HUSNA BINTI MOHAMMAD ANGSAR",	"NURUL NAJJAH BINTI MAHAT",	"Nurul Shuhadah Binti Ismail",	"Nurul Suzalita Binti Mohamad Sohum",	"Nurul syifa binti roslan",	"Nurul syifa binti roslan",	"Puspavathy D/O Ramachandran",	"Rabiatul Adawiyah binti Jazman",	"Rafidah binti Abu Bakar",	"Raihana Bt. Rosdan",	"ROSDALINA BT MAT NAWI ",	"Rosnita bt kasa",	"s.utaiba bt s.uthman",	"Sarah Binti Mohammad Mokhtar",	"SELLECARINA THAM",	"Shamsiah Samingan",	"Shamsul Bagio",	"SITI HANIS AMIRA BINTI MOHAMAD",	"SITI NOR BINTI ABD.RAHIM",	"SITI NOR HAJAR BINTI MOHAMED ISA",	"Siti Nor Syahira Binti Ahmad Nazdri",	"SITI NORAINI BINTI MOHD ZAMRI",	"SITI NURSYUHADA BINTI AHMAD TERMIZI ",	"Suraswati bt Mahamood",	"Suzurina binti Muda",	"Syafina Binti Sahril",	"TUAN NORAIDA BINTI TUAN IBRAHIM",	"VIMALESHWARY A/P CHANDRA SEGGRAN",	"Wan Humairaa' binti Wan Mohd Allwee",	"YUSAZREN BINTI MD YOUSOFF",	"Zairoha Abd Ghani ",	"Zaitun Ahmad",	"Zunaira binti Zulkifli",	"ZURAIDAH BINTI  ISMAIL@MOHD YUSOOF",	"ZURAIDAH BINTI AJAB"		]
+
+
+list.each do |name|
+if (tch=Tchdetail.where(name:name).first).present?
+tch_clg = tch.tchdetail_colleges.first
+tch_clg.college_id = 8
+tch_clg.save
+end
+end
+
+c = College.find(8).tchdetails 
+tarak = Array.new
+count = 0
+ada = 0
+list.each do |name|
+if !c.where(name:name).present?
+tarak<<name
+count = count + 1
+else
+ada = ada + 1
+end
+end
+
+c = College.find(8).tchdetails
+c.each do |tch|
+b= tch.ic_1
+if b[0..1].to_i < 18
+year = "20#{b[0..1]}"
+else
+year = "19#{b[0..1]}"
+end
+#puts "#{b[4..5]}/#{b[2..3]}/#{year} - (#{tch.id})"
+date = Date.strptime("#{b[4..5]}/#{b[2..3]}/#{year}", '%d/%m/%Y')
+tch.dob = date
+if tch.income.blank?
+tch.income = "RM5,000 and below"
+end
+tch.gender = "FEMALE"
+tch.save
+end
+
+
+
+b = "870829"
+if b[0..1].to_i < 18
+year = "20#{b[0..1]}"
+else
+year = "19#{b[0..1]}"
+end
+date = Date.strptime("#{b[4..5]}/#{b[2..3]}/#{year}", '%d/%m/%Y')
+
+
+c = College.find(8).tchdetails
+c.each do |tch|
+Anisatt.create(course_id: 9, tchdetail_id: tch.id, anisprog_id: 1, att: true)
+end
+
+a = Anisatt.where(course_id: 9, anisprog_id: 1, att: true)
+a.each do |att|
+Anisatt.create(course_id: 9, tchdetail_id: att.tchdetail_id, anisprog_id: 5, att: true)
+end
+
+att = Anisatt.where(course_id: 9, anisprog_id: 1)
+att.delete_all
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
