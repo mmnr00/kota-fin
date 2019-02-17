@@ -1,0 +1,33 @@
+wb = xlsx_package.workbook
+
+wb.styles do |style|
+  header_1 = style.add_style(sz: 20)
+  highlight_cell = style.add_style(bg_color: "EFC376",
+                                  border: Axlsx::STYLE_THIN_BORDER,
+                                  sz: 13,
+                                   alignment: { horizontal: :center })
+  border_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER)  
+  #LEAVES BALANCE
+  wb.add_worksheet(name: "LEAVES BALANCE") do |sheet|
+    
+  end
+  #LEAVE DETAILS
+  wb.add_worksheet(name: "LEAVES DETAILS") do |sheet|
+    
+  end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
