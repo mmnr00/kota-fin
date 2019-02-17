@@ -159,10 +159,14 @@ class ApplvsController < ApplicationController
 		@applv.tskdesc = par[:tskdesc]
 		@applv.save
 		flash[:notice] = "LEAVE UPDATED SUCCESSFULLY"
-		redirect_to taskateachers_path(@applv.taska.id,
+		if par[:tch] == "tch"
+			redirect_to tsk_tchleave_path(id: @applv.taska_id, tch_id: @applv.teacher_id)
+		else
+			redirect_to taskateachers_path(@applv.taska.id,
 																		tb1_a: "active",
 																		tb1_ar: "true",
 																		tb1_d: "show active")
+		end
 	end
 
 	def revleave

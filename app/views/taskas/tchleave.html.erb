@@ -96,7 +96,46 @@
             <% if stat == "APPROVED" || stat == "REJECTED" %>
               <%= link_to "REVERT", revleave_path(id: lv.id, tch: "tch"), class: 'btn btn-sm btn-danger active', data: { confirm: 'Are you sure?' }%>
             <% else %>
-              ACTION
+              <%= form_for(:applv, :url => {:controller=>'applvs', :action=> 'admupdate'},:html => {multipart: true, class: "form-horizontal", role: "form"}, method: :get) do |f| %>
+                <div class="form-group"> <!-- name -->
+                  <div class="row">
+                    <div class="control-label col-sm-8">
+                      <strong><h10>STATUS</h10></strong>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12 col-12">
+                      <%= f.select :stat, 
+                          options_for_select(["QUERIED", 
+                                              "APPROVED",
+                                              "REJECTED"], selected: lv.stat), 
+                          {include_blank: "Select Type"}, 
+                          {required: true } %>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group"> <!-- name -->
+                  <div class="row">
+                    <div class="control-label col-sm-8">
+                      <strong><h10>COMMENTS</h10></strong>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12 col-12">
+                      <%= f.text_area :tskdesc, class: "form-control", placeholder: "", autofocus: true %>
+                    </div>
+                  </div>
+                </div>
+                <%= f.hidden_field :id, value: lv.id %>
+                <%= f.hidden_field :tch, value: "tch" %>
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-sm-offset-2 col-sm-10 col-4">
+                      <%= f.submit :"SUBMIT",  class: 'btn btn-primary btn-sm' %>
+                    </div>
+                  </div>
+                </div>
+              <% end %>
             <% end %>
           </td>
         </tr>
