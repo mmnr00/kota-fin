@@ -1,19 +1,100 @@
 wb = xlsx_package.workbook
-
+col_widths= [30,20,20,30,30,30,30,30,30,30,30,30,30]
 wb.styles do |style|
   header_1 = style.add_style(sz: 20)
   highlight_cell = style.add_style(bg_color: "EFC376",
                                   border: Axlsx::STYLE_THIN_BORDER,
                                   sz: 13,
                                    alignment: { horizontal: :center })
-  border_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER)  
+  border_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER)
+
   #LEAVES BALANCE
   wb.add_worksheet(name: "LEAVES BALANCE") do |sheet|
-    
+    sheet.add_row ["TEACHER LEAVE BALANCE FOR #{@taska.name.upcase}"]
+    sheet.add_row [""]
+    top = Array.new(["NAME","NRIC","CLASSROOM"])
+    @tsklvs.each do |lv|
+      top << "TOTAL #{lv.name}"
+      top << "USED #{lv.name}"
+      top << "BALANCE #{lv.name}"
+    end
+    sheet.add_row( top )
+    sheet.rows[0].style = header_1
+    sheet.rows[2].style = highlight_cell
+    counter = 1
+    row =2
+    @tchdetails.each do |tch|
+      tcharr = Array.new([tch.name,
+                    "#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3}",
+                    tch.teacher.classrooms.first.classroom_name])
+      teacher = tch.teacher
+      @tsklvs.each do |lv|
+        if (tchlv = teacher.tchlvs.where(tsklv_id: lv.id).first).present?
+          tcharr << tchlv.day #total leave
+
+          #used leave
+          util = 0
+          teacher.applvs.where.not(stat: "REJECTED").each do |tlv|
+            if tlv.kind.to_i == tchlv.tsklv.id
+              util = util + tlv.tot
+            elsif (tlv.kind == "HALF DAY AM" || tlv.kind == "HALF DAY PM") && lv.name == "ANNUAL LEAVE"
+              util = util + tlv.tot
+            end 
+          end 
+          tcharr << util
+
+          #balance leave
+          bel = tchlv.day - util
+          tcharr << bel
+
+        end
+      end
+      sheet.add_row( tcharr )
+      sheet.rows[row+counter].style = border_cell
+      counter = counter + 1
+    end
+    sheet.column_widths *col_widths
   end
+
   #LEAVE DETAILS
   wb.add_worksheet(name: "LEAVES DETAILS") do |sheet|
+    sheet.add_row ["LEAVE DETAILS FOR #{@taska.name.upcase}"]
+    sheet.add_row [""]
+    sheet.add_row ["NAME",
+                  "NRIC",
+                  "CLASSROOM",
+                  "TYPE",
+                  "STATUS",
+                  "START",
+                  "END",
+                  "TOTAL",
+                  "DOCUMENT"]
+    sheet.rows[0].style = header_1
+    sheet.rows[2].style = highlight_cell
+    counter = 1
+    row =2
     
+    @applvs.each do |lv|
+      tchd = lv.teacher.tchdetail
+      kind = lv.kind
+      if kind == "HALF DAY AM" || kind == "HALF DAY PM" 
+        lvname = kind
+      else
+        lvname = @tsklvs.where(id: kind).first.name
+      end
+      sheet.add_row [tchd.name,
+                    "#{tchd.ic_1}-#{tchd.ic_2}-#{tchd.ic_3}",
+                    lv.teacher.classrooms.first.classroom_name,
+                    lvname,
+                    lv.stat,
+                    lv.start.strftime("%d/%m/%Y"),
+                    lv.end.strftime("%d/%m/%Y"),
+                    lv.tot,
+                    "link"]
+      sheet.rows[row+counter].style = border_cell
+      counter = counter + 1
+    end
+    sheet.column_widths *col_widths
   end
 end
 

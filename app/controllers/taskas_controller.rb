@@ -294,11 +294,20 @@ class TaskasController < ApplicationController
 
   def tchleave_xls
     @taska = Taska.find(params[:id])
-    @taska_kids = @taska.kids.order('name ASC')
+    @tsklvs = @taska.tsklvs.order('name ASC')
+    @classrooms = @taska.classrooms
+    tchdid = Array.new
+    @classrooms.each do |cls|
+      cls.teachers.each do |tch|
+        tchdid << tch.tchdetail.id
+      end
+    end
+    @applvs = @taska.applvs.order('start DESC')
+    @tchdetails = Tchdetail.where(id: tchdid).order('name ASC')
     respond_to do |format|
       #format.html
       format.xlsx{
-                  response.headers['Content-Disposition'] = 'attachment; filename="Leave Report.xlsx"'
+        response.headers['Content-Disposition'] = 'attachment; filename="Leave Report.xlsx"'
       }
     end
   end
