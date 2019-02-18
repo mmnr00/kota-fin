@@ -218,7 +218,7 @@
                 <tbody>
                   <% @taska.tsklvs.each do |tsklv|%>
                   <tr>
-                    <td><%= tsklv.name.upcase %></td>
+                    <td><%= ann = tsklv.name.upcase %></td>
                     <td><%= tsklv.desc %></td>
                     <td><%= tsklv.day %></td>
                     <td>
@@ -227,11 +227,13 @@
                            <i class="fa fa-edit"></i> EDIT
                         </span>
                       </a>&nbsp&nbsp&nbsp&nbsp
-                      <a data-confirm="Are you sure? All leaves related to this will be deleted" data-method="delete" href="/tsklvs/<%= "#{tsklv.id}" %>">
-                        <span class="text-danger">
-                          DELETE <i class="fa fa-trash"></i>
-                        </span>
-                      </a>
+                      <% if ann != "ANNUAL LEAVE" %>
+                        <a data-confirm="Are you sure? All leaves related to this will be deleted" data-method="delete" href="/tsklvs/<%= "#{tsklv.id}" %>">
+                          <span class="text-danger">
+                            DELETE <i class="fa fa-trash"></i>
+                          </span>
+                        </a>
+                      <% end %>
                     </td>
                   </tr>
                   <% end %>
