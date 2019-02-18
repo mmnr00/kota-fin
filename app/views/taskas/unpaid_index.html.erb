@@ -42,7 +42,10 @@
                       </a>
                      <% end %>
                      <%= "#{$month_name[bill.bill_month].upcase}" %>-
-                     <%= bill.bill_year %>
+                     <%= bill.bill_year %><br>
+                     <a href="<%= bill_view_url(payment: bill.id, kid: bill.kids.first.id, taska: @taska.id) %>" target="_blank">
+                      <font color="blue"><h7>BILL LINK</h7></font>
+                      </a>
                     </p>
 
                   </div>

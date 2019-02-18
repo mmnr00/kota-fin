@@ -199,6 +199,9 @@ class TaskasController < ApplicationController
     else
       @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).where(reminder: false)
     end
+    #@taska_all = Taska.all
+    ctr = 0
+    #render json: @taska_all and return
     @kid_unpaid.each do |bill|
       @kid = bill.kids.first
       @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
@@ -209,8 +212,9 @@ class TaskasController < ApplicationController
       )
       bill.reminder = true
       bill.save
+      ctr = ctr + 1
     end
-    flash[:success] = "SMS reminders sent"
+    flash[:success] = "SMS reminders sent to #{ctr} parents"
     if params[:account].present?
       redirect_to bill_account_path(@kid.taska, 
                                     month: params[:month],

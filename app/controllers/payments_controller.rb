@@ -200,6 +200,7 @@ class PaymentsController < ApplicationController
       @payment.state = data["state"]
       @payment.paid = data["paid"]
       @payment.bill_id = data["id"]
+      @payment.reminder = false
       @payment.name = "KID BILL"
       @payment.save
       @taska = @payment.taska
