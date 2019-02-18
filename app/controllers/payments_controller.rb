@@ -300,14 +300,15 @@ class PaymentsController < ApplicationController
 
   def bill_taska_monthly
     if params[:pwd] == "kidcare@123"
-      Taska.all.each do |taska|
+      ctr = 0
+      Taska.all.where.not(id: [5, 9, 1, 44, 45, 4, 48]).each do |taska|
         @taska = Taska.find(taska.id)
         bill_plan = @taska.payments.where(name: "TASKA PLAN")
         period = $my_time + 1.months
         if !bill_plan.where(bill_month: period.month).where(bill_year: period.year).present? && !bill_plan.where(paid: false).present?
         #if 1==1
           amount = ($package_price["#{@taska.plan}"].to_f*100)*(@taska.discount)
-          expire = $my_time + 12.months
+          #expire = $my_time + 12.months
           url_bill = "#{ENV['BILLPLZ_API']}bills"
           @payment = Payment.new
           data_billplz = HTTParty.post(url_bill.to_str,
@@ -334,17 +335,18 @@ class PaymentsController < ApplicationController
             @payment.paid = data["paid"]
             @payment.bill_id = data["id"]
             @payment.save
+            ctr = ctr + 1
             if Rails.env.production?
               @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
               @client.messages.create(
                 to: "+6#{@taska.phone_1}#{@taska.phone_2}",
                 from: ENV["TWILIO_PHONE_NO"],
-                body: "[#{@taska.name}] New bill from KidCare for #{$month_name[period.month]}-#{period.year} . Please click at this link <#{view_invoice_taska_url(taska: taska, payment: @payment)}> to make payment. We really appreciate your business."
+                body: "[#{@taska.name}] New bill from KidCare for #{$month_name[period.month]}-#{period.year} . Please click at this link <#{view_invoice_taska_url(taska: taska, payment: @payment)}> to make payment. Thank you for your continous support."
               )
             end
-            flash[:notice] = "SUCCESS"
+            flash[:notice] = "SUCCESS CREATED FOR #{ctr} TASKAS"
           else
-            flash[:danger] = "Sign Up failed. Please try again"
+            flash[:danger] = "FAILED"
           end
         end
       end  

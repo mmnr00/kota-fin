@@ -49,6 +49,7 @@
                     <i class="fa fa-file-invoice-dollar"></i> EXISTING BILLS
                   <% end %>
       <!-------------- START CREATE BILLS------------->
+                  <% if $my_time < @taska.expire %>
                   <% if kid.payments.where.not(name: "TASKA BOOKING").where(bill_month: Time.now.in_time_zone('Singapore').month).where(bill_year: Time.now.in_time_zone('Singapore').year).present? %>
                     <a class="btn icon-btn btn-brown pull-right active" >
                       <font color="indigo">
@@ -77,6 +78,11 @@
                       <span class="fa fa-plus"></span> 
                         NEW BILL FOR <%= "#{$month_name[next_bill.month].upcase}-#{next_bill.year}" %>
                     </a>
+                  <% end %>
+                  <% else %>
+                    <%= link_to "#", class: "btn btn-sm btn-info active" do %>
+                      <i class="fa fa-hand-point-up"></i> PLEASE RENEW YOUR PLAN TO CREATE BILL
+                    <% end %>
                   <% end %>
         <!-------------- END CREATE BILLS------------->
                 </div>
