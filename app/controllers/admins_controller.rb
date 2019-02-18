@@ -3,7 +3,7 @@ class AdminsController < ApplicationController
 
 	def index
 		@admin = current_admin
-		@admin_taska = current_admin.taskas
+		@admin_taska = current_admin.taskas.where.not(id: [5, 9, 1, 44, 45, 4, 48])
 		@admin_taska.each do |taska|
 			@taska_id = taska.id
 			@taska_name = taska.name
