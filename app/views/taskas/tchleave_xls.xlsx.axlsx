@@ -1,6 +1,7 @@
 wb = xlsx_package.workbook
 col_widths= [30,20,20,30,30,30,30,30,30,30,30,30,30]
 col_widths2= [30, 20, 20, 20, 11, 11, 11, 11, 30]
+col_widths3= [30,20,15,20,16,11,20,22,40]
 wb.styles do |style|
   header_1 = style.add_style(sz: 20)
   highlight_cell = style.add_style(bg_color: "EFC376",
@@ -112,6 +113,50 @@ wb.styles do |style|
       counter = counter + 1
     end
     sheet.column_widths *col_widths2
+  end
+
+  #TEACHER DETAILS
+  wb.add_worksheet(name: "TEACHERS DETAILS") do |sheet|
+    sheet.add_row ["TEACHER DETAILS FOR #{@taska.name.upcase}"]
+    sheet.add_row [""]
+    sheet.add_row ["NAME",
+                  "NRIC",
+                  "DOB",
+                  "CLASSROOM",
+                  "PHONE NO",
+                  "GENDER",
+                  "EDUCATION",
+                  "MARITAL STATUS",
+                  "ADDRESS"]
+    sheet.rows[0].style = header_1
+    sheet.rows[2].style = highlight_cell
+    counter = 1
+    row =2
+    
+    @tchdetails.each do |tchd|
+      sheet.add_row [tchd.name,
+                    "#{tchd.ic_1}-#{tchd.ic_2}-#{tchd.ic_3}",
+                    tchd.dob,
+                    tchd.teacher.classrooms.first.classroom_name,
+                    "#{tchd.phone_1}-#{tchd.phone_2}",
+                    tchd.gender,
+                    tchd.education,
+                    tchd.marital,
+                    "#{tchd.address_1},#{tchd.address_2},#{tchd.city},#{tchd.postcode},#{tchd.states}"
+                    ], 
+                    style: [border_cell,
+                            border_cell,
+                            date_cell,
+                            border_cell,
+                            border_cell,
+                            border_cell,
+                            border_cell,
+                            border_cell,
+                            border_cell]
+      counter = counter + 1
+    end
+
+    sheet.column_widths *col_widths3
   end
 end
 

@@ -307,7 +307,7 @@ class TaskasController < ApplicationController
     respond_to do |format|
       #format.html
       format.xlsx{
-        response.headers['Content-Disposition'] = 'attachment; filename="Leave Report.xlsx"'
+        response.headers['Content-Disposition'] = 'attachment; filename="Teachers Report.xlsx"'
       }
     end
   end
@@ -418,6 +418,10 @@ class TaskasController < ApplicationController
     @taska.expire = $my_time + $trial.days
     if @taska.save
       taska_admin1 = TaskaAdmin.create(taska_id: @taska.id, admin_id: current_admin.id)
+      annlv = Tsklv.create(taska_id: @taska.id, 
+                          name: "ANNUAL LEAVE",
+                          desc: "PLEASE INSERT YOUR DESCRIPTION AND THE DEFAULT DAYS",
+                          day: 15)
       if current_admin != Admin.first
         taska_admin2 = TaskaAdmin.create(taska_id: @taska.id, admin_id: Admin.first.id)
       end
