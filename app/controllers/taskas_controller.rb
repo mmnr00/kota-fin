@@ -208,7 +208,7 @@ class TaskasController < ApplicationController
       @client.messages.create(
         to: "+6#{@kid.ph_1}#{@kid.ph_2}",
         from: ENV["TWILIO_PHONE_NO"],
-        body: "Reminder from #{@taska.name.upcase}. Please click here <#{bill_view_url(payment: @payment.id, kid: @kid.id, taska: @taska.id)}> to payment."
+        body: "Reminder from #{@taska.name.upcase}. Please click here <#{bill_view_url(payment: bill.id, kid: @kid.id, taska: @taska.id)}> to payment."
       )
       bill.reminder = true
       bill.save
