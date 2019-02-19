@@ -14,8 +14,8 @@
       </div>
       <div class="card-body">
         <%= pie_chart @attendance, colors: ["#66b266","#ff6666"], donut: true, legend: false, thousands: "," %><br>
-        <% per = (@attendance["ATTEND"].to_f / (@attendance["ABSENT"].to_f + @attendance["ABSENT"].to_f))*100 %>
-        <h3 align="center"><%= number_to_percentage(per, precision: 0)%></h3>
+        <% per = (@attendance["ATTEND"].to_f / (@attendance["ATTEND"].to_f + @attendance["ABSENT"].to_f))*100 %>
+        <h3 align="center"><%= number_to_percentage(per, precision: 1)%></h3>
       </div>
     </div>
   </div>

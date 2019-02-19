@@ -57,12 +57,12 @@ date = Date.strptime("#{b[4..5]}/#{b[2..3]}/#{year}", '%d/%m/%Y')
 
 c = College.find(8).tchdetails
 c.each do |tch|
-Anisatt.create(course_id: 9, tchdetail_id: tch.id, anisprog_id: 1, att: true)
+Anisatt.create(course_id: 10, tchdetail_id: tch.id, anisprog_id: 14, att: true)
 end
 
-a = Anisatt.where(course_id: 9, anisprog_id: 5, att: true)
+a = Anisatt.where(course_id: 10, anisprog_id: 14, att: true)
 a.each do |att|
-Anisatt.create(course_id: 9, tchdetail_id: att.tchdetail_id, anisprog_id: 7, att: true)
+Anisatt.create(course_id: 11, tchdetail_id: att.tchdetail_id, anisprog_id: 20, att: true)
 end
 
 att = Anisatt.where(course_id: 9, anisprog_id: 1)

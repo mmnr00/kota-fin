@@ -122,8 +122,8 @@ NO OF STUDENTS: <%= @college.tchdetails.count %><br><br>
                   <% @attendance = Hash.new %>
                   <% @attendance["ATTEND"] = Anisatt.where(course_id: crs.id).where(att: true).count %>
                   <% @attendance["ABSENT"] = (@tchds.count*crs.anisprogs.where.not(name: "BREAK").count) - @attendance["ATTEND"] %>
-                  <% per = (@attendance["ATTEND"].to_f / (@attendance["ABSENT"].to_f + @attendance["ABSENT"].to_f))*100 %>
-                  <%= number_to_percentage(per, precision: 0)%>
+                  <% per = (@attendance["ATTEND"].to_f / (@attendance["ATTEND"].to_f + @attendance["ABSENT"].to_f))*100 %>
+                  <%= number_to_percentage(per, precision: 2)%>
                   <% ovratt["ATTEND"] = ovratt["ATTEND"] + @attendance["ATTEND"] %>
                   <% ovratt["ABSENT"] = ovratt["ABSENT"] + @attendance["ABSENT"] %>
                 </td>
@@ -155,8 +155,8 @@ NO OF STUDENTS: <%= @college.tchdetails.count %><br><br>
       </div>
       <div class="card-body">
         <%= pie_chart ovratt, colors: ["#66b266","#ff6666"], donut: true, legend: true, thousands: "," %><br>
-        <% per = (ovratt["ATTEND"].to_f / (ovratt["ABSENT"].to_f + ovratt["ABSENT"].to_f))*100 %>
-        <h3 align="center"><%= number_to_percentage(per, precision: 0)%></h3>
+        <% per = (ovratt["ATTEND"].to_f / (ovratt["ATTEND"].to_f + ovratt["ABSENT"].to_f))*100 %>
+        <h3 align="center"><%= number_to_percentage(per, precision: 2)%></h3>
       </div>
     </div>
   </div>

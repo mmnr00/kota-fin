@@ -147,7 +147,7 @@ wb.styles do |style|
       @attendance = Hash.new 
       @attendance["ATTEND"] = Anisatt.where(course_id: crs.id).where(att: true).count 
       @attendance["ABSENT"] = (@tchds.count*crs.anisprogs.where.not(name: "BREAK").count) - @attendance["ATTEND"] 
-      per = (@attendance["ATTEND"].to_f / (@attendance["ABSENT"].to_f + @attendance["ABSENT"].to_f))*100 
+      per = (@attendance["ATTEND"].to_f / (@attendance["ATTEND"].to_f + @attendance["ABSENT"].to_f))*100 
       ovratt["ATTEND"] = ovratt["ATTEND"] + @attendance["ATTEND"] 
       ovratt["ABSENT"] = ovratt["ABSENT"] + @attendance["ABSENT"] 
       #RATING DATA
@@ -161,18 +161,18 @@ wb.styles do |style|
       sheet.add_row [crs.name.upcase,
                     crs.start.strftime("%d-%^b-%y"),
                     prog,
-                    number_to_percentage(per, precision: 0),
+                    number_to_percentage(per, precision: 2),
                     number_with_precision(rate, :precision => 2)],
                     style: [nil, border_cell]
       sheet.rows[row+counter].style = border_cellctr
       counter = counter + 1  
     end
-    per = (ovratt["ATTEND"].to_f / (ovratt["ABSENT"].to_f + ovratt["ABSENT"].to_f))*100
+    per = (ovratt["ATTEND"].to_f / (ovratt["ATTEND"].to_f + ovratt["ABSENT"].to_f))*100
     if !ovrrate.present?
       rate = (ovrrate.inject{ |sum,el| sum + el }/ovrrate.size)
     end
     sheet.add_row ["SUMMARY","",
-                  totprog,number_to_percentage(per, precision: 0),
+                  totprog,number_to_percentage(per, precision: 2),
                   number_with_precision(rate, :precision => 2)]
     sheet.rows[counter+row].style = total_cell
     sheet.merge_cells sheet.rows.last.cells[(0..1)]
