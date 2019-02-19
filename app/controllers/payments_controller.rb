@@ -128,34 +128,61 @@ class PaymentsController < ApplicationController
     #redirect_to display_children_path(@taska_classrooms)
   end
 
+  def got_bill
+    @taska = Taska.find(params[:taska])
+    @kid = Kid.find(params[:child])
+    @kid_bills = @kid.payments.where.not(name: "TASKA BOOKING").order('bill_year DESC').order('bill_month DESC')
+    render action: "got_bill", layout: "dsb-admin-classroom" 
+  end
+
+  def chek_bill
+    par = params[:payments]
+    kid = Kid.find(par[:child])
+    if kid.payments.where.not(name: "TASKA BOOKING").where(bill_month: par[:month]).where(bill_year: par[:year]).present?
+      flash[:danger] = "BILL ALREADY EXIST FOR #{$month_name[par[:month].to_i]}-#{par[:year]}"
+      redirect_to got_bill_path(taska: par[:taska],
+                                child: par[:child],
+                                classroom: par[:classroom])
+    else
+      redirect_to new_bill_path(id: par[:taska],
+                                child: par[:child],
+                                classroom: par[:classroom],
+                                month: par[:month],
+                                year: par[:year])
+    end
+  end
+
   def new
     @classroom = Classroom.find(params[:classroom])
     @taska = @classroom.taska
     @kid = Kid.find(params[:child])
+    if 1==0
+      redirect_to classroom_path(@classroom)
+    else
+      if (kid_share=params[:share_bill]).present?
+        if !@kid.siblings.where(beradik_id: kid_share).present? #masuk yang share dulu
+          Sibling.create(kid_id: @kid.id, beradik_id: kid_share)
+          Sibling.create(kid_id: kid_share, beradik_id: @kid.id)
+        end
+        beradik = Kid.find(kid_share)
+        @kid.siblings.each do |a| 
+          if !beradik.siblings.where(beradik_id: a.beradik_id).present? && a.beradik_id != beradik.id
+            Sibling.create(kid_id: beradik.id, beradik_id: a.beradik_id)
+            Sibling.create(kid_id: a.beradik_id, beradik_id: beradik.id)
+          end
+        end
+        beradik.siblings.each do |b|
+          if !@kid.siblings.where(beradik_id: b.beradik_id).present? && b.beradik_id != @kid.id
+            Sibling.create(kid_id: @kid.id, beradik_id: b.beradik_id)
+            Sibling.create(kid_id: b.beradik_id, beradik_id: @kid.id)
+          end
+        end
+      end
 
-    if (kid_share=params[:share_bill]).present?
-      if !@kid.siblings.where(beradik_id: kid_share).present? #masuk yang share dulu
-        Sibling.create(kid_id: @kid.id, beradik_id: kid_share)
-        Sibling.create(kid_id: kid_share, beradik_id: @kid.id)
-      end
-      beradik = Kid.find(kid_share)
-      @kid.siblings.each do |a| 
-        if !beradik.siblings.where(beradik_id: a.beradik_id).present? && a.beradik_id != beradik.id
-          Sibling.create(kid_id: beradik.id, beradik_id: a.beradik_id)
-          Sibling.create(kid_id: a.beradik_id, beradik_id: beradik.id)
-        end
-      end
-      beradik.siblings.each do |b|
-        if !@kid.siblings.where(beradik_id: b.beradik_id).present? && b.beradik_id != @kid.id
-          Sibling.create(kid_id: @kid.id, beradik_id: b.beradik_id)
-          Sibling.create(kid_id: b.beradik_id, beradik_id: @kid.id)
-        end
-      end
+      @payment = Payment.new
+      @payment.addtns.build
+      render action: "new", layout: "dsb-admin-classroom" 
     end
-
-    @payment = Payment.new
-    @payment.addtns.build
-    render action: "new", layout: "dsb-admin-classroom" 
   end
 
   def create
@@ -187,7 +214,7 @@ class PaymentsController < ApplicationController
                         #:callback_url=>  "YOUR RETURN URL"}.to_json,
             :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
-    #render json: data_billplz
+    #render json: data_billplz and return
     data = JSON.parse(data_billplz.to_s)
     if data["id"].present?
       @payment.amount = params[:payment][:amount].to_f
@@ -233,10 +260,14 @@ class PaymentsController < ApplicationController
         end
       end
       flash[:success] = "Bills created successfully and SMS send to #{@kid.ph_1}#{@kid.ph_2}"
+      redirect_to classroom_path(@kid.classroom)
     else
       flash[:danger] = "Bills creation failed. Please try again"
+      redirect_to got_bill_path(taska: @kid.classroom.taska,
+                                child: @kid,
+                                classroom: @kid.classroom)
     end
-    redirect_to classroom_path(@kid.classroom)
+    
 
 
 
@@ -494,6 +525,10 @@ class PaymentsController < ApplicationController
                                     year: params[:year],
                                     paid: params[:paid],
                                     id: params[:taska])
+    elsif params[:gotb].present?
+      redirect_to got_bill_path(taska: @kid.classroom.taska.id,
+                                child: @kid.id,
+                                classroom: @kid.classroom)
     else
       redirect_to all_bills_taska_path(id: @taska.id, kid_id: @kid.id)
     end

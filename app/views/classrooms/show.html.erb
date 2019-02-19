@@ -50,35 +50,12 @@
                   <% end %>
       <!-------------- START CREATE BILLS------------->
                   <% if $my_time < @taska.expire %>
-                  <% if kid.payments.where.not(name: "TASKA BOOKING").where(bill_month: Time.now.in_time_zone('Singapore').month).where(bill_year: Time.now.in_time_zone('Singapore').year).present? %>
-                    <a class="btn icon-btn btn-brown pull-right active" >
-                      <font color="indigo">
-                        <span class="fa fa-check-circle"></span> 
-                          BILL EXIST FOR <%= "#{$month_name[Time.now.in_time_zone('Singapore').month].upcase}-#{Time.now.in_time_zone('Singapore').year}" %>
-                      </font>
-                    </a>
-                  <% else %>
-                    <a class="btn icon-btn btn-brown pull-right active" href="/taska/<%= @classroom.taska.id %>/new_bill?child=<%= kid.id %>&classroom=<%= @classroom.id %>&month=<%= Time.now.in_time_zone('Singapore').month %>&year=<%= Time.now.in_time_zone('Singapore').year %>">
+                    <a class="btn icon-btn btn-brown pull-right active" href="/got_bill?taska=<%= @classroom.taska.id %>&child=<%= kid.id %>&classroom=<%= @classroom.id %>" >
                       <font color="blue">
                         <span class="fa fa-plus"></span> 
-                          NEW BILL FOR <%= "#{$month_name[Time.now.in_time_zone('Singapore').month].upcase}-#{Time.now.in_time_zone('Singapore').year}" %>
+                          CREATE NEW BILL
                       </font>
                     </a>
-                  <% end %>
-                  <% next_bill = Time.now.in_time_zone('Singapore') + 1.month %>
-                  <% if kid.payments.where.not(name: "TASKA BOOKING").where(bill_month: next_bill.month).where(bill_year: next_bill.year).present? %>
-                    <a class="btn icon-btn btn-brown pull-right active" >
-                      <font color="indigo">
-                        <span class="fa fa-check-circle"></span> 
-                          BILL EXIST FOR <%= "#{$month_name[next_bill.month].upcase}-#{next_bill.year}" %>
-                      </font>
-                    </a>
-                  <% else %>
-                    <a class="btn icon-btn btn-primary pull-right active" href="/taska/<%= @classroom.taska.id %>/new_bill?child=<%= kid.id %>&classroom=<%= @classroom.id %>&month=<%= next_bill.month %>&year=<%= next_bill.year %>">
-                      <span class="fa fa-plus"></span> 
-                        NEW BILL FOR <%= "#{$month_name[next_bill.month].upcase}-#{next_bill.year}" %>
-                    </a>
-                  <% end %>
                   <% else %>
                     <%= link_to "#", class: "btn btn-sm btn-info active" do %>
                       <i class="fa fa-hand-point-up"></i> PLEASE RENEW YOUR PLAN TO CREATE BILL

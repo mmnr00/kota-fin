@@ -217,6 +217,8 @@ Rails.application.routes.draw do
   get '/create_bill_booking', to: 'payments#create_bill_booking', as: 'create_bill_booking'
   get '/create_billplz_try', to: 'payments#create_billplz_try'
   get '/bill_taska_monthly', to: 'payments#bill_taska_monthly'
+  get '/got_bill', to: 'payments#got_bill'
+  get '/chek_bill', to: 'payments#chek_bill'
   
 
   #get '/taska/:id/create_bill', to: 'payments#create_bill', as: 'create_bill'
