@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_10_112805) do
+ActiveRecord::Schema.define(version: 2019_02_20_085950) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -262,6 +262,16 @@ ActiveRecord::Schema.define(version: 2019_02_10_112805) do
     t.index ["username"], name: "index_parents_on_username", unique: true
   end
 
+  create_table "payinfos", force: :cascade do |t|
+    t.float "amt"
+    t.float "alwnc"
+    t.float "epf"
+    t.integer "teacher_id"
+    t.integer "taska_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "payments", id: :integer, default: nil, force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -280,6 +290,20 @@ ActiveRecord::Schema.define(version: 2019_02_10_112805) do
     t.string "name"
     t.boolean "reminder"
     t.float "discount"
+  end
+
+  create_table "payslips", force: :cascade do |t|
+    t.integer "mth"
+    t.integer "year"
+    t.float "amt"
+    t.float "alwnc"
+    t.float "epf"
+    t.float "addtn"
+    t.string "desc"
+    t.integer "teacher_id"
+    t.integer "taska_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "prntdetails", force: :cascade do |t|

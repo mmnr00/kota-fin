@@ -181,6 +181,7 @@
                         <td><%= cls.classroom_name %>&nbsp&nbsp 
                           <%= link_to "PROFILE", tchdetail_path(tch.tchdetail, adm: @admin.id), class: "btn btn-sm btn-primary active", target: "_blank"  %>
                           <%= link_to "LEAVE", tsk_tchleave_path(@taska, tch_id: tch.id), class: "btn btn-sm btn-success active", target: "_blank"  %>
+                          <%= link_to "PAYSLIP", tchpayslip_path(@taska, tch_id: tch.id), class: "btn btn-sm btn-info active", target: "_blank"  %>
                         </td>
                         <td>
                           <%= link_to "EDIT", tchinfo_edit_path(@taska, tchid: tch.id), class: "btn btn-sm btn-warning"  %>

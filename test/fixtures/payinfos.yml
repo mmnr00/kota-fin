@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  amt: 1.5
+  alwnc: 1.5
+  epf: 1.5
+  teacher_id: 1
+  taska_id: 1
+
+two:
+  amt: 1.5
+  alwnc: 1.5
+  epf: 1.5
+  teacher_id: 1
+  taska_id: 1

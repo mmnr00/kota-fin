@@ -19,7 +19,7 @@
   <div class="form-group"> <!-- name -->
     <div class="row">
       <div class="control-label col-sm-12">
-        <strong><h5>EDIT LEAVES</h5></strong>
+        <strong><h5>SET LEAVES</h5></strong>
       </div>
     </div>
   </div>
@@ -55,15 +55,60 @@
           <% end %>
         </div>
       </div>
-  </div>
+    </div>
 
+  <% end %><br>
+
+  <!-- CREATE PAYINFO -->
+  <% amt = 0 %>
+  <% alwnc = 0 %>
+  <% epf = 0 %>
+  <% if (pinfo = @teacher.payinfos.where(taska_id: @taska.id)).present? %>
+    <% amt = pinfo.last.amt %>
+    <% alwnc = pinfo.last.alwnc %>
+    <% epf = pinfo.last.epf %>
   <% end %>
+  <div class="form-group"> <!-- name -->
+    <div class="row">
+      <div class="control-label col-sm-12">
+        <strong><h5>SET SALARY</h5></strong>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2 col-5">
+      <strong>BASIC SALARY (RM) :</strong>
+    </div>
+    <div class="col-sm-4 col-12">
+     <%= f.number_field :amt, class: "form-control", placeholder: "", autofocus: true, required: true, value: amt %>
+    </div>
+  </div><br>
+  <div class="row">
+    <div class="col-sm-2 col-5">
+      <strong>ALLOWANCE (RM) :</strong>
+    </div>
+    <div class="col-sm-4 col-12">
+     <%= f.number_field :alwnc, class: "form-control", placeholder: "", autofocus: true, required: true, value: alwnc %>
+    </div>
+  </div><br>
+  <div class="row">
+    <div class="col-sm-2 col-5">
+      <strong>EPF/SOCSO (%) :</strong>
+    </div>
+    <div class="col-sm-4 col-12">
+     <%= f.number_field :epf, class: "form-control", placeholder: "", autofocus: true, required: true, value: epf %>
+     Please put 0 if unapplicable
+    </div>
+  </div><br>
+
+  
+  <br>
 
   <!-- HIDDEN FIELD -->                       
-  <%= f.hidden_field :tchid, value: @teacher.id %>
-  <%= f.hidden_field :tskid, value: @taska.id %>
+  <%= f.hidden_field :teacher_id, value: @teacher.id %>
+  <%= f.hidden_field :taska_id, value: @taska.id %>
 
   <div>
-    <%= f.submit :"#{btn}",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
-  </div>
+    <%= f.submit :"#{btn}",  class: 'btn btn-lg btn-warning btn-lg', style: "align:center" %>
+  </div><br>
 <% end %>

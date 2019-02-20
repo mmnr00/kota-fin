@@ -162,6 +162,8 @@ Rails.application.routes.draw do
   get '/taska/:id/plrpt_xls', to: 'taskas#plrpt_xls', as: 'plrpt_xls'
   get '/taska/:id/tchleave', to: 'taskas#tchleave', as: 'tsk_tchleave'
   get '/taska/:id/tchleave_xls', to: 'taskas#tchleave_xls', as: 'tchleave_xls' 
+  get '/taska/:id/tchpayslip', to: 'taskas#tchpayslip', as: 'tchpayslip' 
+
   #EXPENSES
   get '/taska/:id/expenses_search', to: 'expenses#search', as: 'search_expense'
   get '/taska/:id/my_expenses', to: 'expenses#my_expenses', as: 'my_expenses'

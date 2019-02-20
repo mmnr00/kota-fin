@@ -10,7 +10,8 @@ class TaskasController < ApplicationController
                                   :destroy, 
                                   :tchinfo_new, 
                                   :tchinfo_edit,
-                                  :tchleave]
+                                  :tchleave,
+                                  :tchpayslip]
   before_action :set_all
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
@@ -333,14 +334,15 @@ class TaskasController < ApplicationController
   end
 
   def tchinfo_save
-    TeachersClassroom.create(teacher_id: params[:tch][:tchid], classroom_id: params[:tch][:classroom_id])
+    TeachersClassroom.create(teacher_id: params[:tch][:teacher_id], classroom_id: params[:tch][:classroom_id])
     
     params[:tch][:leaves].each do |k,v|
       #render json: v  and return
       Tchlv.create(leave_params(v))
     end
+    Payinfo.create(payinfo_params)
     flash[:notice] = "TEACHER SUCCESSFULLY ADDED"
-    redirect_to taskateachers_path(id: params[:tch][:tskid],
+    redirect_to taskateachers_path(id: params[:tch][:taska_id],
                                   tb2_a: "active",
                                   tb2_ar: "true",
                                   tb2_d: "show active")
@@ -354,6 +356,8 @@ class TaskasController < ApplicationController
     tchlvs.delete_all
     applvs = Applv.where(teacher_id: params[:tch])
     applvs.delete_all
+    payinfos = Payinfo.where(teacher_id: params[:tch])
+    payinfos.delete_all
     flash[:notice] = "TEACHER REMOVED"
     redirect_to taskateachers_path(@taska,
                                   tb3_a: "active",
@@ -368,21 +372,28 @@ class TaskasController < ApplicationController
   end
 
   def tchinfo_update
-    teacher = Teacher.find(params[:tch][:tchid])
+    teacher = Teacher.find(params[:tch][:teacher_id])
     classroom = teacher.classrooms.first
     tchcls = TeachersClassroom.where(teacher_id: teacher.id, classroom_id: classroom.id).first
     tchcls.classroom_id = params[:tch][:classroom_id]
     tchcls.save
+    payinfo = Payinfo.where(taska_id: params[:tch][:taska_id], teacher_id: params[:tch][:teacher_id]).last
     params[:tch][:leaves].each do |k,v|
       #render json: v[:teacher_id]  and return
       tchlv = Tchlv.where(teacher_id: v[:teacher_id], taska_id: v[:taska_id], tsklv_id: v[:tsklv_id]).first
       tchlv.update(leave_params(v)) unless !tchlv.present?
     end
+    Payinfo.update(payinfo_params)
     flash[:notice] = "SUCCESSFULLY UPDATED"
-    redirect_to taskateachers_path(id: params[:tch][:tskid],
+    redirect_to taskateachers_path(id: params[:tch][:taska_id],
                                   tb3_a: "active",
                                   tb3_ar: "true",
                                   tb3_d: "show active")
+  end
+
+  # START TEACHER PAYSLIP
+  def tchpayslip
+    render action: "tchpayslip", layout: "dsb-admin-teacher" 
   end
 
   def taskateachers_classroom
@@ -497,6 +508,14 @@ class TaskasController < ApplicationController
     #Create multiple leaves
     def leave_params(lv)
       lv.permit(:name, :day, :teacher_id, :taska_id, :tsklv_id)
+    end
+
+    def payinfo_params
+      params.require(:tch).permit(:amt,
+                                  :alwnc,
+                                  :epf,
+                                  :teacher_id,
+                                  :taska_id)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
