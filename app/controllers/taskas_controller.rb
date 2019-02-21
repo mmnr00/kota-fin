@@ -408,7 +408,7 @@ class TaskasController < ApplicationController
                             teacher_id: par[:teacher],
                             taska_id: par[:taska] )
     if payslip.present?
-      flash[:danger] = "PAYSLIP ALREADY EXIST"
+      flash[:danger] = "PAYSLIP ALREADY EXIST FOR #{$month_name[par[:month].to_i]}-#{par[:year]}"
       redirect_to tchpayslip_path(id: par[:taska], tch_id: par[:teacher])
     else
       redirect_to newpayslip_path(id: par[:taska], 
@@ -422,6 +422,17 @@ class TaskasController < ApplicationController
     @teacher = Teacher.find(params[:tch_id])
     @payinfo = @teacher.payinfos.where(teacher_id: params[:tch_id], taska_id: params[:id]).first
     render action: "newpayslip", layout: "dsb-admin-teacher"
+  end
+
+  def crtpayslip
+    @payslip = Payslip.new(payslip_params)
+    if @payslip.save
+      flash[:success] = "PAYSLIP CREATION SUCCESSFULL"
+    else
+      flash[:danger] = "PAYSLIP CREATION FAILED. PLEASE TRY AGAIN"
+    end
+    redirect_to tchpayslip_path(id: @payslip.taska_id,
+                                tch_id: @payslip.teacher_id)
   end
 
   # END TEACHER PAYSLIP
@@ -544,8 +555,23 @@ class TaskasController < ApplicationController
       params.require(:tch).permit(:amt,
                                   :alwnc,
                                   :epf,
+                                  :epfa,
                                   :teacher_id,
                                   :taska_id)
+    end
+
+    def payslip_params
+      params.require(:payslip).permit(:mth,
+                                      :year,
+                                      :amt,
+                                      :alwnc,
+                                      :epf,
+                                      :addtn,
+                                      :desc,
+                                      :teacher_id,
+                                      :taska_id,
+                                      :epfa,
+                                      :amtepfa)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

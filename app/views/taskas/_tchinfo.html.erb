@@ -63,10 +63,12 @@
   <% amt = 0 %>
   <% alwnc = 0 %>
   <% epf = 0 %>
+  <% epfa = 0 %>
   <% if (pinfo = @teacher.payinfos.where(taska_id: @taska.id)).present? %>
     <% amt = pinfo.last.amt %>
     <% alwnc = pinfo.last.alwnc %>
     <% epf = pinfo.last.epf %>
+    <% epfa = pinfo.last.epfa %>
   <% end %>
   <div class="form-group"> <!-- name -->
     <div class="row">
@@ -93,11 +95,20 @@
   </div><br>
   <div class="row">
     <div class="col-sm-2 col-5">
-      <strong>EPF/SOCSO (%) :</strong>
+      <strong>TEACHER'S EPF (%) :</strong>
     </div>
     <div class="col-sm-4 col-12">
      <%= f.number_field :epf, class: "form-control", placeholder: "", autofocus: true, required: true, value: epf %>
-     Please put 0 if unapplicable
+     Please put 0 if not applicable
+    </div>
+  </div><br>
+  <div class="row">
+    <div class="col-sm-2 col-5">
+      <strong>OWNER'S EPF (%) :</strong>
+    </div>
+    <div class="col-sm-4 col-12">
+     <%= f.number_field :epfa, class: "form-control", placeholder: "", autofocus: true, required: true, value: epfa %>
+     Please put 0 if not applicable
     </div>
   </div><br>
 

@@ -7,30 +7,48 @@
   <% amt = params[:amt] %>
   <% alwnc = params[:alwnc] %>
   <% epf = params[:epf] %>
+  <% epfa = params[:epfa] %>
 <% else %>
   <% amt = @payinfo.amt %>
   <% alwnc = @payinfo.alwnc %>
   <% epf = @payinfo.epf %>
+  <% epfa = @payinfo.epfa %>
 <% end %>
 
 <div class="row">
   <!-- FORM SUMMARY -->
-  <div class="col-sm-8 bg-light">
+  <div class="col-sm-9 bg-white">
     <div style="background-color:#ccccff"><h5 align="center">PAYSLIP SUMMARY</h5></div>
-    <% calepf = (epf.to_f/100*amt.to_f) %>
-    <%= total = amt.to_f + alwnc.to_f - calepf + params[:addtn].to_f %><br>
-    BASE SALARY : <%= amt %><br>
-    ALLOWANCE : <%= alwnc %><br>
-    ADDITIONAL : <%= params[:addtn] %><br>
-    EPF/SOCSO : (<%= calepf %>)<br>
-    <%= form_for(:payslip, :url => {:controller=>'taskas', :action=>'chkpayslip'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+    
+    <% calepf = (epf.to_f/100*(amt.to_f + alwnc.to_f)) %>
+    <% calepfa = (epfa.to_f/100*(amt.to_f + alwnc.to_f)) %>
+    <% gross = amt.to_f + alwnc.to_f + params[:addtn].to_f %>
+    <% nett = gross - calepf  %>
+    <% total = gross + calepfa %>
+
+    <%= render 'taskas/payslip', amt: amt, alwnc: alwnc, epf: epf, epfa: epfa %>
+    <%= form_for(:payslip, :url => {:controller=>'taskas', :action=>'crtpayslip'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
       <br>
-      <%= f.submit :"CREATE PAYSLIP", class: 'btn btn-success btn-sm' %>
+      <!-- FORM ENTRY CREATION -->
+      <%= f.hidden_field :mth, value: params[:month] %>
+      <%= f.hidden_field :year, value: params[:year] %>
+      <%= f.hidden_field :teacher_id, value: params[:tch_id] %>
+      <%= f.hidden_field :taska_id, value: params[:id] %>
+      <%= f.hidden_field :amt, value: gross %>
+      <%= f.hidden_field :alwnc, value: alwnc %>
+      <%= f.hidden_field :epf, value: epf %>
+      <%= f.hidden_field :addtn, value: params[:addtn] %>
+      <%= f.hidden_field :desc, value: params[:desc] %>
+      <%= f.hidden_field :epfa, value: epfa %>
+      <%= f.hidden_field :amtepfa, value: total %>
+      <%= f.submit :"CREATE PAYSLIP", class: 'btn btn-success btn-lg btn-block'%>
     <% end %>
+    <br><br>
+    
   </div>
 
   <!-- FORM ENTRY -->
-  <div class="col-sm-4 bg-white">
+  <div class="col-sm-3 bg-light">
     <div style="background-color:#cce5cc"><h5 align="center">PAYSLIP ENTRY</h5></div>
     <%= form_tag newpayslip_path, method: :get, id: "find_kid" do %>
       <div class="row">
@@ -51,8 +69,16 @@
                   class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
         </div>
         <div class="col-md-12">
-          <strong>EPF/SOCSO (%)</strong>
+          <strong>TEACHER'S EPF (%)</strong>
           <%= number_field_tag :epf, epf, 
+                  placeholder: "", 
+                  autofocus: true,  
+                  step: 0.01,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+        </div>
+        <div class="col-md-12">
+          <strong>OWNER'S EPF (%)</strong>
+          <%= number_field_tag :epfa, epfa, 
                   placeholder: "", 
                   autofocus: true,  
                   step: 0.01,
