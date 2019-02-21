@@ -3,7 +3,7 @@
 <h5>PLEASE CHOOSE A MONTH</h5><br>
 
 <!-- CHECK BILL -->
-<%= form_for(:payments, :url => {:controller=>'taskas', :action=>'chkpayslip'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+<%= form_for(:payslip, :url => {:controller=>'taskas', :action=>'chkpayslip'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
   <div class="form-group"> <!-- name -->
     <div class="container">
       <div class="row">
