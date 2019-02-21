@@ -291,7 +291,7 @@ class TaskasController < ApplicationController
     end
   end
 
-  #TEACHER CLASSROOMS AND LEAVE
+  # START TEACHER CLASSROOMS AND LEAVE
 
   def tchleave_xls
     @taska = Taska.find(params[:id])
@@ -391,10 +391,29 @@ class TaskasController < ApplicationController
                                   tb3_d: "show active")
   end
 
+  # END TEACHER CLASSROOMS AND LEAVE
+
   # START TEACHER PAYSLIP
   def tchpayslip
+    @teacher = Teacher.find(params[:tch_id])
+    @tchpayslips = Payslip.where(taska_id: params[:id], teacher_id: params[:tch_id]).order('year DESC').order('mth DESC')
     render action: "tchpayslip", layout: "dsb-admin-teacher" 
   end
+
+  def chkpayslip
+    payslip = Payslip.where(mth: params[:month], 
+                            year: params[:year],
+                            teacher_id: params[:teacher],
+                            taska_id: params[:taska] )
+    if payslip.present?
+      flash[:notice] = "PAYSLIP ALREADY EXIST"
+      redirect_to tchpayslip_path(id: params[:taska], tch_id: params[:teacher])
+    else
+      redirect_to root_path
+    end
+  end
+
+  # END TEACHER PAYSLIP
 
   def taskateachers_classroom
     @taskateachers = @taska.teachers
