@@ -164,7 +164,7 @@ Rails.application.routes.draw do
   get '/taska/:id/tchleave_xls', to: 'taskas#tchleave_xls', as: 'tchleave_xls' 
   get '/taska/:id/tchpayslip', to: 'taskas#tchpayslip', as: 'tchpayslip' 
   get '/taska/:id/chkpayslip', to: 'taskas#chkpayslip', as: 'chkpayslip' 
-  get '/taska/:id/crtpayslip', to: 'taskas#crtpayslip', as: 'crtpayslip' 
+  get '/taska/:id/newpayslip', to: 'taskas#newpayslip', as: 'newpayslip' 
 
   #EXPENSES
   get '/taska/:id/expenses_search', to: 'expenses#search', as: 'search_expense'

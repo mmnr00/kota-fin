@@ -12,7 +12,7 @@ class TaskasController < ApplicationController
                                   :tchinfo_edit,
                                   :tchleave,
                                   :tchpayslip,
-                                  :crtpayslip]
+                                  :newpayslip]
   before_action :set_all
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
@@ -411,17 +411,17 @@ class TaskasController < ApplicationController
       flash[:danger] = "PAYSLIP ALREADY EXIST"
       redirect_to tchpayslip_path(id: par[:taska], tch_id: par[:teacher])
     else
-      redirect_to crtpayslip_path(id: par[:taska], 
+      redirect_to newpayslip_path(id: par[:taska], 
                                   tch_id: par[:teacher],
                                   month: par[:month],
                                   year: par[:year])
     end
   end
 
-  def crtpayslip
+  def newpayslip
     @teacher = Teacher.find(params[:tch_id])
     @payinfo = @teacher.payinfos.where(teacher_id: params[:tch_id], taska_id: params[:id]).first
-    render action: "crtpayslip", layout: "dsb-admin-teacher"
+    render action: "newpayslip", layout: "dsb-admin-teacher"
   end
 
   # END TEACHER PAYSLIP
