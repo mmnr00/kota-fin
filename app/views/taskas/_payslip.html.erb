@@ -30,70 +30,81 @@
         </div>
         <div class="col-xs-6 col-sm-6 col-md-6 text-right"><br>
           <p>
-            <em>DATE: <%= date.strftime("%d-%^b-%Y") %></em>
+            <em>DATE: <%= date.strftime("%d-%^b-%Y") %></em><br>
+            <em>PAYSLIP NO: 34522677W</em>
           </p>
           <p>
-            <em>PAYSLIP NO: 34522677W</em>
+            <strong><%= (tchd=@teacher.tchdetail).name %></strong><br>
+            <%= "#{tchd.ic_1}-#{tchd.ic_2}-#{tchd.ic_3}" %>
           </p>
         </div>
       </div>
       <div class="row">
         <div>
-          <h1 align="center">&nbsp&nbspSALARY SLIP</h1>
+          <h3 align="center">&nbsp&nbspSALARY SLIP FOR <%= "#{$month_name[params[:month].to_i]}-#{params[:year]}" %></h3>
         </div>
         </span>
         <table class="table table-hover">
           <thead>
             <tr>
-              <th>Product</th>
-              <th>#</th>
-              <th class="text-center">Price</th>
-              <th class="text-center">Total</th>
+              <th>Items</th>
+              <th style="width:20000px"> </th>
+              <th class="text-center" colspan="2">Amount (RM)</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td class="col-md-9"><em>Baked Rodopa Sheep Feta</em></h4></td>
-              <td class="col-md-1" style="text-align: center"> 2 </td>
-              <td class="col-md-1 text-center">$13</td>
-              <td class="col-md-1 text-center">$26</td>
+              <td class="col-md-3"><em>Basic Salary</em></h4></td>
+              <td> </td>
+              <td class="text-center" colspan="2"><%= amt %></td>
             </tr>
             <tr>
-              <td class="col-md-9"><em>Lebanese Cabbage Salad</em></h4></td>
-              <td class="col-md-1" style="text-align: center"> 1 </td>
-              <td class="col-md-1 text-center">$8</td>
-              <td class="col-md-1 text-center">$8</td>
+              <td class="col-md-3"><em>Allowance</em></h4></td>
+              <td> </td>
+              <td class="text-center" colspan="2"><%= alwnc %></td>
             </tr>
             <tr>
-              <td class="col-md-9"><em>Baked Tart with Thyme and Garlic</em></h4></td>
-              <td class="col-md-1" style="text-align: center"> 3 </td>
-              <td class="col-md-1 text-center">$16</td>
-              <td class="col-md-1 text-center">$48</td>
+              <td class="col-md-3"><em>Others</em></h4></td>
+              <td class="col-md-12"> </td>
+              <td class="text-center" colspan="2">26</td>
             </tr>
             <tr>
-              <td>   </td>
               <td>   </td>
               <td class="text-right">
-              <p>
-                <strong>Subtotal: </strong>
-              </p>
-              <p>
-                <strong>Tax: </strong>
-              </p></td>
-              <td class="text-center">
-              <p>
-                <strong>$6.94</strong>
-              </p>
-              <p>
-                <strong>$6.94</strong>
-              </p></td>
+                <p>
+                  <strong>Gross Income: </strong>
+                </p>
+                <p>
+                  <strong>Your EPF Contribution (12%): </strong>
+                </p>
+                <p>
+                  <strong>Employer EPF Contribution (12%): </strong>
+                </p>
+              </td>
+              <td class="text-center" colspan="2">
+                <p>
+                  <strong>6.94</strong>
+                </p>
+                <p>
+                  <strong>6.94</strong>
+                </p>
+                <p>
+                  <strong>6.94</strong>
+                </p>
+              </td>
             </tr>
             <tr>
               <td>   </td>
-              <td>   </td>
-              <td class="text-right"><h4><strong>Total: </strong></h4></td>
-              <td class="text-center text-danger"><h4><strong>$31.53</strong></h4></td>
+              <td class="text-right"><h4><strong>Nett Income: </strong></h4></td>
+              <td class="text-center text-success"><h4><strong>$31.53</strong></h4></td>
             </tr>
+            <% if 1==1 %>
+              <tr>
+                <td>   </td>
+                <td class="text-right"><h4><strong>Total Payment: </strong></h4></td>
+                <td class="text-center text-info"><h4><strong>$31.53</strong></h4></td>
+              </tr>
+            <% end %>
           </tbody>
         </table>
         
