@@ -1,3 +1,10 @@
-VIEWPSL
-
-<%= render 'taskas/payslip', amt: 1, alwnc: 2, epf: 3, epfa: 4 %>
+<div class="row">
+  <div class="col-sm-2"></div>
+  <div class="col-sm-8">
+    <%= link_to pdfpsl_path(psl: @payslip.id, format: :pdf), class: 'btn btn-sm btn-success active' do %>
+      <i class="fa fa-download"></i>&nbspDOWNLOAD PAYSLIP
+    <% end %><br><br>
+    <%= render 'taskas/payslip', amt: @payslip.amt, alwnc: @payslip.alwnc, epf: @payslip.epf, epfa: @payslip.epfa %>
+  </div>
+  <div class="col-sm-2"></div>
+</div>

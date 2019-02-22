@@ -52,8 +52,8 @@
             <td><%= "#{$month_name[psl.mth]}-#{psl.year}"%></td>
             <td><%= psl.amtepfa %></td>
             <td>
-              <%= link_to "VIEW", viewpsl_path, class: 'btn btn-sm btn-info', target: '_blank'%>
-              <%= link_to "DELETE", root_path, class: 'btn btn-sm btn-danger'%>
+              <%= link_to "VIEW", viewpsl_path(psl: psl.id), class: 'btn btn-sm btn-info', target: '_blank'%>
+              <%= link_to "DELETE", dltpsl_path(psl: psl.id), :data => {:confirm => 'Are you sure? ALL PAYSLIP DATA WILL BE LOST'}, class: 'btn btn-sm btn-danger'%>
             </td>
           </tr>
           <% counter = counter + 1 %>

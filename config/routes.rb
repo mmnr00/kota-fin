@@ -169,6 +169,8 @@ Rails.application.routes.draw do
 
   #~PAYSLIPS
   get 'viewpayslips', to: 'payslips#viewpsl', as: 'viewpsl'
+  get 'pdfpayslips', to: 'payslips#pdfpsl', as: 'pdfpsl'
+  get 'dltpayslips', to: 'payslips#dltpsl', as: 'dltpsl'
 
   #EXPENSES
   get '/taska/:id/expenses_search', to: 'expenses#search', as: 'search_expense'
