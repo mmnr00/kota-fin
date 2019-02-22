@@ -50,6 +50,11 @@
           <% @tchpayslips.each do |psl| %>
           <tr>
             <td><%= "#{$month_name[psl.mth]}-#{psl.year}"%></td>
+            <td><%= psl.amtepfa %></td>
+            <td>
+              <%= link_to "VIEW", viewpsl_path, class: 'btn btn-sm btn-info', target: '_blank'%>
+              <%= link_to "DELETE", root_path, class: 'btn btn-sm btn-danger'%>
+            </td>
           </tr>
           <% counter = counter + 1 %>
           <% end %>

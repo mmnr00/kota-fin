@@ -571,7 +571,8 @@ class TaskasController < ApplicationController
                                       :teacher_id,
                                       :taska_id,
                                       :epfa,
-                                      :amtepfa)
+                                      :amtepfa,
+                                      :psl_id)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

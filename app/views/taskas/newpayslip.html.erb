@@ -1,5 +1,3 @@
-<h4>CREATE NEW PAYSLIP FOR <%= @teacher.tchdetail.name.upcase %></h4>
-<h3><%= "#{$month_name[params[:month].to_i]}-#{params[:year]}" %></h3>
 <br>
 
 <!-- IF FORM RESUBMISSION -->
@@ -17,14 +15,16 @@
 
 <div class="row">
   <!-- FORM SUMMARY -->
-  <div class="col-sm-9 bg-white">
+  <div class="col-sm-9 bg-light">
     <div style="background-color:#ccccff"><h5 align="center">PAYSLIP SUMMARY</h5></div>
-    
+
     <% calepf = (epf.to_f/100*(amt.to_f + alwnc.to_f)) %>
     <% calepfa = (epfa.to_f/100*(amt.to_f + alwnc.to_f)) %>
     <% gross = amt.to_f + alwnc.to_f + params[:addtn].to_f %>
     <% nett = gross - calepf  %>
     <% total = gross + calepfa %>
+    <% ctr = @taska.payslips.where(mth: params[:month], year: params[:year]).count %>
+    <% psl_id = "#{@taska.subdomain}-#{params[:month]}-#{params[:year].last(2)}-#{ctr+1}" %>
 
     <%= render 'taskas/payslip', amt: amt, alwnc: alwnc, epf: epf, epfa: epfa %>
     <%= form_for(:payslip, :url => {:controller=>'taskas', :action=>'crtpayslip'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
@@ -41,6 +41,7 @@
       <%= f.hidden_field :desc, value: params[:desc] %>
       <%= f.hidden_field :epfa, value: epfa %>
       <%= f.hidden_field :amtepfa, value: total %>
+      <%= f.hidden_field :psl_id, value: psl_id %>
       <%= f.submit :"CREATE PAYSLIP", class: 'btn btn-success btn-lg btn-block'%>
     <% end %>
     <br><br>
@@ -48,7 +49,7 @@
   </div>
 
   <!-- FORM ENTRY -->
-  <div class="col-sm-3 bg-light">
+  <div class="col-sm-3 bg-white">
     <div style="background-color:#cce5cc"><h5 align="center">PAYSLIP ENTRY</h5></div>
     <%= form_tag newpayslip_path, method: :get, id: "find_kid" do %>
       <div class="row">

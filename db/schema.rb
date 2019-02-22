@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_21_074617) do
+ActiveRecord::Schema.define(version: 2019_02_22_000039) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -307,6 +307,7 @@ ActiveRecord::Schema.define(version: 2019_02_21_074617) do
     t.datetime "updated_at", null: false
     t.float "epfa"
     t.float "amtepfa"
+    t.string "psl_id"
   end
 
   create_table "prntdetails", force: :cascade do |t|
