@@ -80,9 +80,12 @@
         <div class="col-md-4">
           <div class="card-counter primary">
             <i class="fa fa-hand-holding-usd"></i>
-            <span class="count-numbers">FEB-19</span>
+            <% psl = taska.payslips.where(teacher_id: @teacher.id) %>
+            <span class="count-numbers"><%= psl.count %></span>
             <span class="count-name">
-              <a href="#", style="color:#fff">
+              <a href="<%= tchpslip_url(@teacher,
+                                        tskid: taska.id)%>", 
+              style="color:#fff">
                 SALARY <br> SLIP
               </a>
             </span>

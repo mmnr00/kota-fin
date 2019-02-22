@@ -88,6 +88,13 @@ class TeachersController < ApplicationController
 		render action: "tcheditlv", layout: "dsb-teacher-tsk"
 	end
 
+	def tchpslip
+		@tchpayslips = @teacher.payslips.where(taska_id: params[:tskid]).order('year DESC').order('mth DESC')
+		@taska_classrooms = Taska.find(params[:tskid]).classrooms
+		@taska = Taska.find(params[:tskid])
+		render action: "tchpslip", layout: "dsb-teacher-tsk"
+	end
+
 	#END TASKA STUFF
 
 	#COLLEGE STUFF
