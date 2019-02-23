@@ -30,12 +30,23 @@ class PayslipsController < ApplicationController
 		@payslip = Payslip.find(params[:psl])
 		tch_id = @payslip.teacher.id
 		tsk_id = @payslip.taska.id
+		mthpsl = @payslip.mth
+		yrpsl = @payslip.year
 		if @payslip.destroy
 			flash[:success] = "DELETION SUCCESSFUL"
 		else
 			flash[:danger] = "DELETION FAILED. PLEASE TRY AGAIN"
 		end
-		redirect_to tchpayslip_path(id: tsk_id, tch_id: tch_id)
+		if params[:allpsl] == "true"
+			redirect_to taskateachers_path(id: tsk_id,
+                                    tb7_a: params[:tb7_a],
+                                    tb7_ar: params[:tb7_ar],
+                                    tb7_d: params[:tb7_d],
+                                    mthpsl: mthpsl,
+                                    yrpsl: yrpsl)
+		else
+			redirect_to tchpayslip_path(id: tsk_id, tch_id: tch_id)
+		end
 	end
 
 end

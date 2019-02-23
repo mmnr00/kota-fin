@@ -387,7 +387,7 @@ class TaskasController < ApplicationController
       tchlv = Tchlv.where(teacher_id: v[:teacher_id], taska_id: v[:taska_id], tsklv_id: v[:tsklv_id]).first
       tchlv.update(leave_params(v)) unless !tchlv.present?
     end
-    Payinfo.update(payinfo_params)
+    payinfo.update(payinfo_params)
     flash[:notice] = "SUCCESSFULLY UPDATED"
     redirect_to taskateachers_path(id: params[:tch][:taska_id],
                                   tb3_a: "active",

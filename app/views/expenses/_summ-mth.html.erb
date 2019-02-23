@@ -19,6 +19,20 @@
           </tr>
         </thead>
         <tbody>
+          <!-- PAYSLIP CALCULATION-->
+          <tr style="background-color:#ffe4b2"> 
+            <td>TEACHER'S SALARY</td>
+            <td></td>
+            <td>
+              <%= @taska_payslips.sum(:amtepfa) %>
+            </td>
+            <td>
+              <%= link_to root_path, class: "btn btn-sm active", target: '_blank',style: "color:blue" do %>
+                <i class="fa fa-eye"></i> DETAILS
+              <% end %>
+            </td>
+            <td></td>
+          </tr>
           <% @taska_expense.each do |exp| %>
             <tr>
               <td><%= exp.name %></td>

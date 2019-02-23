@@ -360,6 +360,7 @@
                       <thead>
                         <tr>
                           <th style="background-color:#d8b2d8"> NAME </th>
+                          <th style="background-color:#d8b2d8"> NRIC </th>
                           <th style="background-color:#d8b2d8"> TOTAL AMOUNT(RM) </th>
                           <th style="background-color:#d8b2d8"> TOTAL PAYABLE (RM) </th>
                           <th style="background-color:#d8b2d8"> EPF (RM) </th>
@@ -370,19 +371,28 @@
                         <% counter = 1 %>
                         <% @tchpayslips.each do |psl| %>
                         <tr>
-                          <td><%= psl.teacher.tchdetail.name.upcase %></td>
+                          <% tchd = psl.teacher.tchdetail %>
+                          <td><%= tchd.name.upcase %></td>
+                          <td><%= "#{tchd.ic_1}-#{tchd.ic_2}-#{tchd.ic_3}" %></td>
                           <td>
                             <% "#{epf = (psl.epf.to_f/100*(psl.amt.to_f + psl.alwnc.to_f))}" %>
                             <% "#{epfa = (psl.epfa.to_f/100*(psl.amt.to_f + psl.alwnc.to_f))}" %>
                             <% gross = psl.amt.to_f + psl.alwnc.to_f + psl.addtn.to_f %>
                             <% nett = gross - epf %>
-                            <%= total = gross + epfa %>
+                            <%= number_with_delimiter((total = gross + epfa).round(2), :delimeter=>',')  %>
                           </td>
-                          <td><%= nett %></td>
-                          <td><%= "#{epf + epfa}" %></td>
+                          <td><%= number_with_delimiter(nett.round(2), delimeter: ',') %></td>
+                          <td>
+                            <% totepf = epf + epfa %>
+                            <%= number_with_precision(totepf.round(2), delimeter: ',') %></td>
                           <td>
                             <%= link_to "VIEW", viewpsl_path(psl: psl.id), class: 'btn btn-sm btn-info', target: '_blank'%>
-                            <%= link_to "DELETE", dltpsl_path(psl: psl.id), :data => {:confirm => 'Are you sure? ALL PAYSLIP DATA WILL BE LOST'}, class: 'btn btn-sm btn-danger'%>
+                            <%= link_to "DELETE", dltpsl_path(psl: psl.id,
+                                                              allpsl: true,
+                                                              tb7_a: params[:tb7_a],
+                                                              tb7_ar: params[:tb7_ar],
+                                                              tb7_d: params[:tb7_d]),
+                            :data => {:confirm => 'Are you sure? ALL PAYSLIP DATA WILL BE LOST'}, class: 'btn btn-sm btn-danger'%>
                           </td>
                         </tr>
                         <% counter = counter + 1 %>
