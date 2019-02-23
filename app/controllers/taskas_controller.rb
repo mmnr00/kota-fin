@@ -325,6 +325,9 @@ class TaskasController < ApplicationController
     @newteachers = @taska.taska_teachers.where(stat: true)
     @classrooms = @taska.classrooms
     @applvs = @taska.applvs
+    if params[:mthpsl].present? && params[:yrpsl].present?
+      @tchpayslips = Payslip.where(mth: params[:mthpsl]).where(year: params[:yrpsl]).order('created_at DESC')
+    end
     render action: "taskateachers", layout: "dsb-admin-teacher" 
   end
 
