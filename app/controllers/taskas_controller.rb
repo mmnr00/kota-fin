@@ -264,6 +264,7 @@ class TaskasController < ApplicationController
   def pl_xls
     @taska = Taska.find(params[:id])
     if params[:month] == "0"
+      @payslips = @taska.payslips.where(year: params[:year])
       @taska_expenses = @taska.expenses.where(year: params[:year]).order('month ASC')
       @taska_bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: params[:year])
     else
@@ -284,6 +285,7 @@ class TaskasController < ApplicationController
 
   def plrpt_xls
     @taska = Taska.find(params[:id])
+    @payslips = @taska.payslips.where(year: params[:year])
     @taska_expense = @taska.expenses.where(year: params[:year]).order('month ASC')
     @taska_payments = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: params[:year]) 
       
