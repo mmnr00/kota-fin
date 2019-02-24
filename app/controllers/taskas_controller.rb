@@ -267,6 +267,9 @@ class TaskasController < ApplicationController
       @taska_expenses = @taska.expenses.where(year: params[:year]).order('month ASC')
       @taska_bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: params[:year])
     else
+      dt = Date.new(params[:year].to_i,params[:month].to_i)
+      dt = dt + 1.months
+      @payslips = @taska.payslips.where(mth: dt.month, year: dt.year)
       @taska_expenses = @taska.expenses.where(month: params[:month]).where(year: params[:year])
       @taska_bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_month: params[:month]).where(bill_year: params[:year])
     end
@@ -274,7 +277,7 @@ class TaskasController < ApplicationController
     respond_to do |format|
       #format.html
       format.xlsx{
-        response.headers['Content-Disposition'] = 'attachment; filename="download.xlsx"'
+        response.headers['Content-Disposition'] = 'attachment; filename="Accounting Summary.xlsx"'
       }
     end
   end
@@ -287,7 +290,7 @@ class TaskasController < ApplicationController
     respond_to do |format|
       #format.html
       format.xlsx{
-        response.headers['Content-Disposition'] = 'attachment; filename="download.xlsx"'
+        response.headers['Content-Disposition'] = 'attachment; filename="Accounting Report.xlsx"'
       }
     end
   end
