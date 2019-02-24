@@ -1,32 +1,413 @@
-<h2>My Teachers</h2>
+<div id="tabs" class="project-tab bg-white">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <nav>
+          <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link <%= "#{params[:tb1_a]}" %>" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="<%= "#{params[:tb1_ar]}" %>">
+              PENDING LEAVES
+            </a>
+            <a class="nav-item nav-link <%= "#{params[:tb2_a]}" %>" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="<%= "#{params[:tb2_ar]}" %>">
+              NEW REGISTRATION
+            </a>
+            <a class="nav-item nav-link <%= "#{params[:tb3_a]}" %>" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="<%= "#{params[:tb3_ar]}" %>">
+              ASSIGNED TEACHERS
+            </a>
+            <a class="nav-item nav-link <%= "#{params[:tb4_a]}" %>" id="nav-contact1-tab" data-toggle="tab" href="#nav-contact1" role="tab" aria-controls="nav-contact1" aria-selected="<%= "#{params[:tb4_ar]}" %>">
+              LEAVE TYPES
+            </a>
+            <a class="nav-item nav-link <%= "#{params[:tb5_a]}" %>" id="nav-contact2-tab" data-toggle="tab" href="#nav-contact2" role="tab" aria-controls="nav-contact2" aria-selected="<%= "#{params[:tb5_ar]}" %>">
+              APPROVED & REJECTED LEAVES
+            </a>
+            <a class="nav-item nav-link <%= "#{params[:tb6_a]}" %>" id="nav-contact3-tab" data-toggle="tab" href="#nav-contact3" role="tab" aria-controls="nav-contact3" aria-selected="<%= "#{params[:tb6_ar]}" %>">
+              PUBLIC HOLIDAYS 2019
+            </a>
+            <a class="nav-item nav-link <%= "#{params[:tb7_a]}" %>" id="nav-contact4-tab" data-toggle="tab" href="#nav-contact4" role="tab" aria-controls="nav-contact4" aria-selected="<%= "#{params[:tb7_ar]}" %>">
+              SALARY SLIPS LIST
+            </a>
+          </div>
+        </nav>
+        <!-- START CONTENT -->
+        <div class="tab-content" id="nav-tabContent">
+          <!-- PENDING LEAVES -->
+          <div class="tab-pane fade <%= "#{params[:tb1_d]}" %>" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"><br>
 
-<% if @taskateachers.size > 0 %>
-			<div id="friend-lookup-result" class="well results-block col-md-10">				
-				<table class="table table-striped">
-					<thead>
-						<tr>
-							<th>Username</th>
-							<th>Email</th>
-							<th>Email</th>
-						</tr>
-					</thead>
-					<tbody>
-						
-						<% @taskateachers.each do |teacher| %>
-						
-						<tr>
-							<td><%= teacher.username %></td>
-							<td><%= teacher.email %></td>
-							<td><%= link_to "Delete Teacher", delete_teacher_path(teacher: teacher, taska: params[:id]), class: "btn btn-xs btn-primary active", method: :delete, data: { confirm: 'Are you sure?' }  %></td>								
-						</tr>
-						<% end %>
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <tr style="background-color:#d8b2d8">
+                    <th>NAME</th>
+                    <th>CLASSROOM</th>
+                    <th>LEAVE TYPE</th>
+                    <th>START</th>
+                    <th>END</th>
+                    <th>TOTAL (DAYS)</th>
+                    <th>STATUS</th>
+                    <th>COMMENTS</th>
+                    <th>ACTIONS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @applvs.where.not(stat: "REJECTED").where.not(stat: "APPROVED").order('start DESC').each do |lv| %>
+                  <tr>
+                    <td><%= lv.teacher.tchdetail.name %></td>
+                    <td><%= lv.teacher.classrooms.first.classroom_name %></td>
+                    <td>
+                      <% kind = lv.kind %>
+                      <% if kind == "HALF DAY AM" || kind == "HALF DAY PM" %>  
+                        <% lvname = kind %>
+                      <% else %>
+                        <% lvname = @taska.tsklvs.where(id: kind).first.name %>
+                      <% end %>
+                      <%= lvname %>
+                    </td>
+                    <td><%= lv.start.strftime("%d/%m/%y")%></td>
+                    <td><%= lv.end.strftime("%d/%m/%y")%></td>
+                    <td align="center"><%= lv.tot %></td>
+                    <td><%= lv.stat %></td>
+                    <td>
+                      <%= lv.tchdesc %><br>
+                      <% image = lv.fotos.first %>
+                      <% if image.present? && image.picture.present? %>
+                        <a href="<%="#{image.picture.url}"%>" target="_blank">
+                          <font color="blue"><u>DOCUMENT</u></font>
+                        </a><br>
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= form_for(:applv, :url => {:controller=>'applvs', :action=> 'admupdate'},:html => {multipart: true, class: "form-horizontal", role: "form"}, method: :get) do |f| %>
+                        <div class="form-group"> <!-- name -->
+                          <div class="row">
+                            <div class="control-label col-sm-8">
+                              <strong><h10>STATUS</h10></strong>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-12 col-12">
+                              <%= f.select :stat, 
+                                  options_for_select(["QUERIED", 
+                                                      "APPROVED",
+                                                      "REJECTED"], selected: lv.stat), 
+                                  {include_blank: "Select Type"}, 
+                                  {required: true } %>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group"> <!-- name -->
+                          <div class="row">
+                            <div class="control-label col-sm-8">
+                              <strong><h10>COMMENTS</h10></strong>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-12 col-12">
+                              <%= f.text_area :tskdesc, class: "form-control", placeholder: "", autofocus: true %>
+                            </div>
+                          </div>
+                        </div>
+                        <%= f.hidden_field :id, value: lv.id %>
+                        <div class="form-group">
+                          <div class="row">
+                            <div class="col-sm-offset-2 col-sm-10 col-4">
+                              <%= f.submit :"SUBMIT",  class: 'btn btn-primary btn-sm' %>
+                            </div>
+                          </div>
+                        </div>
+                      <% end %>
+                    </td>
+                  </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- NEW REGISTRATION -->
+          <div class="tab-pane fade <%= "#{params[:tb2_d]}" %>" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"><br>
 
-					</tbody>
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr style="background-color:#d8b2d8">
+                    <th>NAME</th>
+                    <th>NRIC</th>
+                    <th>DETAILS</th>
+                    <th>ACTION</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @newteachers.each do |tstc| %>
+                    <% teacher = tstc.teacher %>
+                    <% if !teacher.classrooms.where(taska_id: @taska.id).present? %>
+                      <tr>
+                        <td><%= teacher.tchdetail.name %></td>
+                        <td><%= "#{teacher.tchdetail.ic_1}-#{teacher.tchdetail.ic_2}-#{teacher.tchdetail.ic_3}" %></td>
+                        <td>
+                          <%= link_to "ADD", tchinfo_new_path(@taska, tchid: teacher.id), class: "btn btn-sm btn-success active"  %>
+                          
+                        </td>
+                        <td>
+                          <%= link_to "PROFILE", tchdetail_path(teacher.tchdetail, adm: @admin.id), class: "btn btn-sm btn-primary active", target: "_blank"  %>
+                          <%= link_to "REMOVE", remove_teacher_path(teacher: teacher, taska: params[:id]), class: "btn btn-sm btn-danger active", data: { confirm: 'Are you sure?' }  %>
+                        </td> 
+                      </tr>
+                    <% end %>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- ASSIGNED TEACHERS -->
+          <div class="tab-pane fade <%= "#{params[:tb3_d]}" %>" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab"><br>
 
-				</table>
-				
-			</div>
-		<% else %>
-			You do not have any teachers. Please find using the form above.
-		<% end %>
-<%= link_to "Search Teacher", search_teacher_path ,class: "btn btn-xs btn-primary active" %>
+            <div class="pull-right"><div class="pull-left">
+              <%= link_to tchleave_xls_path(@taska, format: :xlsx), class: "btn btn-sm btn-info active" do %>
+                <i class="fa fa-file-excel"></i> TEACHERS' REPORT
+              <% end %>
+            </div>&nbsp&nbsp&nbsp&nbsp
+            </div><br><br>
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                  <tr style="background-color:#d8b2d8">
+                    <th>NAME</th>
+                    <th>NRIC</th>
+                    <th>DETAILS</th>
+                    <th>ACTION</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @classrooms.each do |cls| %>
+                    <% cls.teachers.each do |tch| %>
+                      <tr>
+                        <td><%= tch.tchdetail.name %></td>
+                        <td><%= "#{tch.tchdetail.ic_1}-#{tch.tchdetail.ic_2}-#{tch.tchdetail.ic_3}" %></td>
+                        <td><%= cls.classroom_name %>&nbsp&nbsp 
+                          <%= link_to "PROFILE", tchdetail_path(tch.tchdetail, adm: @admin.id), class: "btn btn-sm btn-primary active", target: "_blank"  %>
+                          <%= link_to "LEAVE", tsk_tchleave_path(@taska, tch_id: tch.id), class: "btn btn-sm btn-success active", target: "_blank"  %>
+                          <%= link_to "PAYSLIP", tchpayslip_path(@taska, tch_id: tch.id), class: "btn btn-sm btn-info active", target: "_blank"  %>
+                        </td>
+                        <td>
+                          <%= link_to "EDIT", tchinfo_edit_path(@taska, tchid: tch.id), class: "btn btn-sm btn-warning"  %>
+                          <%= link_to "REMOVE", tchrm_cls_path(@taska, tch: tch.id, cls: cls.id), class: "btn btn-sm btn-danger", data: { confirm: 'Are you sure? All leaves record will be deleted' }  %>
+                        </td> 
+                      </tr>
+                    <% end %>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- LEAVE TYPES -->
+          <div class="tab-pane fade <%= "#{params[:tb4_d]}" %>" id="nav-contact1" role="tabpanel" aria-labelledby="nav-contact1-tab"><br>
+            <div>
+              <p align="pull-left">
+                <%= link_to new_tsklv_path(taska_id: @taska.id), class:"btn btn-sm btn-warning" do %>
+                <i class="fa fa-plus"></i> NEW LEAVE
+              <% end %></p>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <tr style="background-color:#d8b2d8">
+                    <th>TYPE</th>
+                    <th>DESCRIPTION</th>
+                    <th>NO OF DAYS</th>
+                    <th>ACTIONS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @taska.tsklvs.each do |tsklv|%>
+                  <tr>
+                    <td><%= ann = tsklv.name.upcase %></td>
+                    <td><%= tsklv.desc %></td>
+                    <td><%= tsklv.day %></td>
+                    <td>
+                      <a href="/tsklvs/<%= "#{tsklv.id}" %>/edit">
+                        <span class="text-success">
+                           <i class="fa fa-edit"></i> EDIT
+                        </span>
+                      </a>&nbsp&nbsp&nbsp&nbsp
+                      <% if ann != "ANNUAL LEAVE" %>
+                        <a data-confirm="Are you sure? All leaves related to this will be deleted" data-method="delete" href="/tsklvs/<%= "#{tsklv.id}" %>">
+                          <span class="text-danger">
+                            DELETE <i class="fa fa-trash"></i>
+                          </span>
+                        </a>
+                      <% end %>
+                    </td>
+                  </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- APPROVED & REJECTED LEAVES -->
+          <div class="tab-pane fade <%= "#{params[:tb5_d]}" %>" id="nav-contact2" role="tabpanel" aria-labelledby="nav-contact2-tab"><br>
+
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <tr style="background-color:#d8b2d8">
+                    <th>NAME</th>
+                    <th>CLASSROOM</th>
+                    <th>LEAVE TYPE</th>
+                    <th>START</th>
+                    <th>END</th>
+                    <th>TOTAL (DAYS)</th>
+                    <th>STATUS</th>
+                    <th>COMMENTS</th>
+                    <th>ACTIONS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @applvs.where.not(stat: "QUERIED").where.not(stat: "PENDING").order('start DESC').each do |lv| %>
+                  <% stat = lv.stat %>
+                  <% if stat == "APPROVED" %>
+                    <% color = "#b2d8b2" %>
+                  <% elsif stat == "REJECTED" %>
+                    <% color = "#ffb2b2" %>
+                  <% end %>
+                  <tr>
+                    <td><%= lv.teacher.tchdetail.name %></td>
+                    <td><%= lv.teacher.classrooms.first.classroom_name %></td>
+                    <td>
+                      <% kind = lv.kind %>
+                      <% if kind == "HALF DAY AM" || kind == "HALF DAY PM" %>  
+                        <% lvname = kind %>
+                      <% else %>
+                        <% lvname = @taska.tsklvs.where(id: kind).first.name %>
+                      <% end %>
+                      <%= lvname %>
+                    </td>
+                    <td><%= lv.start.strftime("%d/%m/%y")%></td>
+                    <td><%= lv.end.strftime("%d/%m/%y")%></td>
+                    <td align="center"><%= lv.tot %></td>
+                    <td style="background-color:<%= "#{color}" %>"><%= stat %></td>
+                    <td><%= lv.tchdesc %></td>
+                    <td>
+                      <%= link_to "REVERT", revleave_path(id: lv.id), class: 'btn btn-sm btn-danger active', data: { confirm: 'Are you sure?' }%>
+                    </td>
+                  </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- PUBLIC HOLIDAY -->
+          <div class="tab-pane fade <%= "#{params[:tb6_d]}" %>" id="nav-contact3" role="tabpanel" aria-labelledby="nav-contact3-tab"><br>
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <tr style="background-color:#d8b2d8">
+                    <th> DATE </th>
+                    <th> EVENT </th>
+                  </tr>
+                </thead>
+                <tbody> 
+                  <% $ph_sel19.each do |k,v| %>
+                    <% v.each do |k1,v1| %>
+                      <tr>
+                        <td><%= "#{k1}-#{$month_name[k]}"%></td>
+                        <td><%= v1 %></td>
+                      </tr>
+                    <% end %>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- SALARY SLIPS LIST -->
+          <div class="tab-pane fade <%= "#{params[:tb7_d]}" %>" id="nav-contact4" role="tabpanel" aria-labelledby="nav-contact4-tab"><br>
+            <h5>PLEASE CHOOSE A MONTH</h5>
+            <!-- SEARCH MONTH -->
+            <%= form_tag taskateachers_path, method: :get, id: "find_kid" do %>
+              <div class="form-group"> <!-- name -->
+                <div class="container">
+                  <div class="row">
+                    <div class="control-label col-sm-2">
+                     <strong>MONTH</strong>
+                      <%= select_tag :mthpsl, options_for_select(1..12),
+                          include_blank: "Please Select", required: true %>
+                    </div>
+                    <div class="control-label col-sm-2">
+                     <strong>YEAR</strong>
+                      <%= select_tag :yrpsl, options_for_select(2018..2021),
+                          include_blank: "Please Select", required: true %>
+                    </div>
+                    <%= hidden_field_tag :id, params[:id], value: params[:id] %>
+                    <%= hidden_field_tag :tb7_a, params[:tb7_a], value: "active" %>
+                    <%= hidden_field_tag :tb7_ar, params[:tb7_ar], value: true %>
+                    <%= hidden_field_tag :tb7_d, params[:tb7_d], value: "show active" %>
+                    <div class="control-label col-sm-2"><br>
+                      <%= button_tag(type: :submit, class: "btn btn-sm btn-success active", id: "submit_expense") do %>
+                          <i class="fa fa-check"></i> CHECK
+                      <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+            <!-- TABLE DISPLAY ALL PAYSLIPS-->
+            <% if params[:mthpsl].present? && params[:yrpsl].present? %>
+
+              <div class="card ">
+                <div class="card-header">
+                  PAYSLIPS LIST FOR <strong><%= "#{$month_name[params[:mthpsl].to_i]}-#{params[:yrpsl].last(2)}" %></strong>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-striped table-bordered" width="100%" cellspacing="0">
+                      <thead>
+                        <tr>
+                          <th style="background-color:#d8b2d8"> NAME </th>
+                          <th style="background-color:#d8b2d8"> NRIC </th>
+                          <th style="background-color:#d8b2d8"> TOTAL AMOUNT(RM) </th>
+                          <th style="background-color:#d8b2d8"> TOTAL PAYABLE (RM) </th>
+                          <th style="background-color:#d8b2d8"> EPF (RM) </th>
+                          <th style="background-color:#d8b2d8"> ACTIONS </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% counter = 1 %>
+                        <% @tchpayslips.each do |psl| %>
+                        <tr>
+                          <% tchd = psl.teacher.tchdetail %>
+                          <td><%= tchd.name.upcase %></td>
+                          <td><%= "#{tchd.ic_1}-#{tchd.ic_2}-#{tchd.ic_3}" %></td>
+                          <td>
+                            <% "#{epf = (psl.epf.to_f/100*(psl.amt.to_f + psl.alwnc.to_f))}" %>
+                            <% "#{epfa = (psl.epfa.to_f/100*(psl.amt.to_f + psl.alwnc.to_f))}" %>
+                            <% gross = psl.amt.to_f + psl.alwnc.to_f + psl.addtn.to_f %>
+                            <% nett = gross - epf %>
+                            <%= number_with_delimiter((total = gross + epfa).round(2), :delimeter=>',')  %>
+                          </td>
+                          <td><%= number_with_delimiter(nett.round(2), delimeter: ',') %></td>
+                          <td>
+                            <% totepf = epf + epfa %>
+                            <%= number_with_precision(totepf.round(2), delimeter: ',') %></td>
+                          <td>
+                            <%= link_to "VIEW", viewpsl_path(psl: psl.id), class: 'btn btn-sm btn-info', target: '_blank'%>
+                            <%= link_to "DELETE", dltpsl_path(psl: psl.id,
+                                                              allpsl: true,
+                                                              tb7_a: params[:tb7_a],
+                                                              tb7_ar: params[:tb7_ar],
+                                                              tb7_d: params[:tb7_d]),
+                            :data => {:confirm => 'Are you sure? ALL PAYSLIP DATA WILL BE LOST'}, class: 'btn btn-sm btn-danger'%>
+                          </td>
+                        </tr>
+                        <% counter = counter + 1 %>
+                        <% end %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>  
+
+            <% end %>
+          </div>
+            
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

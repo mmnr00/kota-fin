@@ -1,0 +1,65 @@
+<h3>CREATE NEW PAYSLIP</h3>
+
+<h5>PLEASE CHOOSE A MONTH</h5><br>
+
+<!-- CHECK BILL -->
+<%= form_for(:payslip, :url => {:controller=>'taskas', :action=>'chkpayslip'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+  <div class="form-group"> <!-- name -->
+    <div class="container">
+      <div class="row">
+        <div class="control-label col-sm-2">
+         <strong>MONTH</strong>
+          <%= f.select :month, options_for_select(1..12),
+              {include_blank: "Please Select"}, {required: true} %>
+        </div>
+        <div class="control-label col-sm-2">
+         <strong>YEAR</strong>
+          <%= f.select :year, options_for_select(2018..2021),
+              {include_blank: "Please Select"}, {required: true} %>
+        </div>
+        <%= f.hidden_field :teacher, value: @teacher.id %>
+        <%= f.hidden_field :taska, value: params[:id] %>
+        <div class="control-label col-sm-2">
+          <br>
+          <%= f.submit :"CREATE BILL", class: 'btn btn-primary btn-sm' %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+<br>
+
+
+<!-- DISPLAY ALL PAYSLIPS -->
+<div class="card ">
+  <div class="card-header">
+    PAYSLIPS LIST FOR <strong><%= @teacher.tchdetail.name.upcase %></strong>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th style="background-color:#d8b2d8"> PERIOD </th>
+            <th style="background-color:#d8b2d8"> TOTAL(RM) </th>
+            <th style="background-color:#d8b2d8"> ACTION </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% counter = 1 %>
+          <% @tchpayslips.each do |psl| %>
+          <tr>
+            <td><%= "#{$month_name[psl.mth]}-#{psl.year}"%></td>
+            <td><%= psl.amtepfa %></td>
+            <td>
+              <%= link_to "VIEW", viewpsl_path(psl: psl.id), class: 'btn btn-sm btn-info', target: '_blank'%>
+              <%= link_to "DELETE", dltpsl_path(psl: psl.id), :data => {:confirm => 'Are you sure? ALL PAYSLIP DATA WILL BE LOST'}, class: 'btn btn-sm btn-danger'%>
+            </td>
+          </tr>
+          <% counter = counter + 1 %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,77 @@
+<br><div id="tabs" class="project-tab bg-white">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <nav>
+          <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link <%= "#{params[:app_a]}" %>" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="<%= "#{params[:app_ar]}" %>">
+              NEW APPLICATION
+            </a>
+            <a class="nav-item nav-link <%= "#{params[:bel_a]}" %>" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="<%= "#{params[:bel_ar]}" %>">
+              LEAVES BALANCES
+            </a>
+            <a class="nav-item nav-link <%= "#{params[:stat_a]}" %>" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="<%= "#{params[:stat_ar]}" %>">
+              LEAVES STATUS
+            </a>
+          </div>
+        </nav>
+        
+        <div class="tab-content" id="nav-tabContent">
+
+          <!-- MY APPLICATIONS -->
+          <div class="tab-pane fade <%= "#{params[:app_d]}" %>" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab"><br>
+            <!-- APPLY LEAVE -->
+            <div class="card-header" style="background-color:#e86850">
+              <h6 align="center" style="color:white">APPLY LEAVE</h6>
+            </div>
+            <div class="card-header" style="background-color:#cce5cc">
+              <%= render 'teachers/tchleave/applylv', try: "apply" %>
+            </div><br><br>
+            <!-- LIST OF PUBLIC HOLIDAYS -->
+            <div class="card-header" style="background-color:#6666ff">
+              <h6 align="center" style="color:white">LIST OF PUBLIC HOLIDAYS</h6>
+            </div>
+            <div class="card-body" >
+              <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                  <thead>
+                    <tr style="background-color:#d8b2d8">
+                      <th> DATE </th>
+                      <th> EVENT </th>
+                    </tr>
+                  </thead>
+                  <tbody> 
+                    <% $ph_sel19.each do |k,v| %>
+                      <% v.each do |k1,v1| %>
+                        <tr>
+                          <td><%= "#{k1}-#{$month_name[k]}"%></td>
+                          <td><%= v1 %></td>
+                        </tr>
+                      <% end %>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            
+
+          </div>
+
+          <!-- LEAVE BALANCES -->
+          <div class="tab-pane fade <%= "#{params[:bel_d]}" %>" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab"><br>
+            <div class="row">
+              <%= render 'teachers/tchleave/lvbal'%>
+            </div>
+          </div>
+          <!-- LEAVE STATUS -->
+          <div class="tab-pane fade <%= "#{params[:stat_d]}" %>" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab"><br>
+            <div class="row">
+              <%= render 'teachers/tchleave/lvrecord'%>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

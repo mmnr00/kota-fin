@@ -1,0 +1,125 @@
+
+<%= form_for(:tch, :url => url, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+
+  <!-- SELECT CLASSROOM -->
+  <div class="form-group"> <!-- name -->
+    <div class="row">
+      <div class="control-label col-sm-12">
+        <strong>ASSIGN CLASSROOM</strong>
+      </div>
+    </div>
+    <%= f.select :classroom_id, 
+      options_from_collection_for_select(@taska.classrooms.order('classroom_name ASC'), :id, :classroom_name, selected: @classroom), 
+      {include_blank: "Select Classroom"},
+      {required: true} %>
+  </div><br>
+
+
+  <!-- CREATE TCHLV -->
+  <div class="form-group"> <!-- name -->
+    <div class="row">
+      <div class="control-label col-sm-12">
+        <strong><h5>SET LEAVES</h5></strong>
+      </div>
+    </div>
+  </div>
+  <% @taska.tsklvs.each do |tsklv|%>
+    <div class="form-group"> <!-- name -->
+      <div class="row">
+        <div class="col-sm-12 col-12">
+          <%= f.fields_for 'leaves[]', tsklv, include_id: false do |h| %>
+            <div class="row">
+              <div class="col-sm-1 col-5">
+                <strong>TYPE :</strong>
+              </div>
+              <div class="col-sm-8 col-12">
+               <%= h.text_field :"name", class: "form-control", placeholder: "SEPERTI KAD PENGENALAN", autofocus: true, required: true, readonly: true, value: tsklv.name %>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-1 col-5">
+                <strong>DAYS :</strong>
+              </div>
+              <div class="col-sm-8 col-12">
+                <% if (lv = @teacher.tchlvs.where(tsklv_id: tsklv.id).first).present? %>
+                  <% day = lv.day.to_i %>
+                <% else %>
+                  <% day = tsklv.day %>
+                <% end %>
+                <%= h.number_field :"day", class: "form-control", autofocus: true, required: true, value: day %>
+                <%= h.hidden_field :"teacher_id", value: @teacher.id %>
+                <%= h.hidden_field :"taska_id", value: @taska.id %>
+                <%= h.hidden_field :"tsklv_id", value: tsklv.id %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+  <% end %><br>
+
+  <!-- CREATE PAYINFO -->
+  <% amt = 0 %>
+  <% alwnc = 0 %>
+  <% epf = 0 %>
+  <% epfa = 0 %>
+  <% if (pinfo = @teacher.payinfos.where(taska_id: @taska.id)).present? %>
+    <% amt = pinfo.last.amt %>
+    <% alwnc = pinfo.last.alwnc %>
+    <% epf = pinfo.last.epf %>
+    <% epfa = pinfo.last.epfa %>
+  <% end %>
+  <div class="form-group"> <!-- name -->
+    <div class="row">
+      <div class="control-label col-sm-12">
+        <strong><h5>SET SALARY</h5></strong>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2 col-5">
+      <strong>BASIC SALARY (RM) :</strong>
+    </div>
+    <div class="col-sm-4 col-12">
+     <%= f.number_field :amt, class: "form-control", placeholder: "", autofocus: true, required: true, value: amt %>
+    </div>
+  </div><br>
+  <div class="row">
+    <div class="col-sm-2 col-5">
+      <strong>ALLOWANCE (RM) :</strong>
+    </div>
+    <div class="col-sm-4 col-12">
+     <%= f.number_field :alwnc, class: "form-control", placeholder: "", autofocus: true, required: true, value: alwnc %>
+    </div>
+  </div><br>
+  <div class="row">
+    <div class="col-sm-2 col-5">
+      <strong>TEACHER'S EPF (%) :</strong>
+    </div>
+    <div class="col-sm-4 col-12">
+     <%= f.number_field :epf, class: "form-control", placeholder: "", autofocus: true, required: true, value: epf %>
+     Please put 0 if not applicable
+    </div>
+  </div><br>
+  <div class="row">
+    <div class="col-sm-2 col-5">
+      <strong>OWNER'S EPF (%) :</strong>
+    </div>
+    <div class="col-sm-4 col-12">
+     <%= f.number_field :epfa, class: "form-control", placeholder: "", autofocus: true, required: true, value: epfa %>
+     Please put 0 if not applicable
+    </div>
+  </div><br>
+
+  
+  <br>
+
+  <!-- HIDDEN FIELD -->                       
+  <%= f.hidden_field :teacher_id, value: @teacher.id %>
+  <%= f.hidden_field :taska_id, value: @taska.id %>
+
+  <div>
+    <%= f.submit :"#{btn}",  class: 'btn btn-lg btn-warning btn-lg', style: "align:center" %>
+  </div><br>
+<% end %>

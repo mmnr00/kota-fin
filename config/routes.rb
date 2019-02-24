@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   resources :prntdetails, only:[:show, :new, :create, :destroy, :update, :edit]
   resources :ptnssps, only:[:update, :edit]
   resources :extras, only:[:new, :create, :destroy, :update, :edit]
+  resources :tsklvs, only:[:new, :create, :destroy, :update, :edit]
   #resources :teachers, only:[:show]
   #resources :taska_teachers, only:[:create,:destroy]
   devise_for :parents
@@ -133,10 +134,23 @@ Rails.application.routes.draw do
   get '/taska/:id/search_teacher', to: 'teachers#search', as: 'search_teacher'
   get '/taska/:id/find_teacher', to: 'teachers#find', as: 'find_teacher'
   get '/teacher/:id/my_college', to: 'teachers#college', as: 'teacher_college'
+  get '/teacher/:id/my_taska', to: 'teachers#taska', as: 'teacher_taska'
+  get '/teacher/:id/my_leave', to: 'teachers#tchleave', as: 'tchleave'
+  get '/leave/:id/edit_leave', to: 'teachers#tcheditlv', as: 'tcheditlv'
   post '/teacher/:id/add_college', to: 'teachers#add_college', as: 'add_college'
   post '/teacher/:id/remove_college', to: 'teachers#remove_college', as: 'remove_college'
   get '/teacher/:id/payment_signup', to: 'teachers#payment_signup', as: 'payment_signup'
   get '/teacher/:id/teacher_pay_bill', to: 'teachers#teacher_pay_bill', as: 'teacher_pay_bill'
+  get '/add_taska', to: 'teachers#add_taska', as: 'tch_add_taska'
+  get '/find_taska', to: 'teachers#find_taska', as: 'tch_find_taska'
+  get '/teacher/:id/teacher_payslip', to: 'teachers#tchpslip', as: 'tchpslip'
+
+  #~APPLVS
+  post '/apply_leave', to: 'applvs#apply', as: 'tchapplylv'
+  patch 'leave/:id/update_leave', to: 'applvs#tchupdate', as: 'tchupdatelv'
+  get 'action_leave', to: 'applvs#admupdate', as: 'admupdatelv'
+  get 'revert_leave', to: 'applvs#revleave', as: 'revleave'
+  delete 'leave/:id/delete_leave', to: 'applvs#tchdelete', as: 'tchdeletelv'
 
   #~PARENTS
   get 'parent_index', to: 'parents#index', as: 'parent_index'
@@ -149,6 +163,11 @@ Rails.application.routes.draw do
 
   #~TASKAS
   get '/taska/:id/teachers', to: 'taskas#taskateachers', as: 'taskateachers'
+  get '/taska/:id/tchinfo_new', to: 'taskas#tchinfo_new', as: 'tchinfo_new'
+  get '/taska/:id/tchinfo_save', to: 'taskas#tchinfo_save', as: 'tchinfo_save'
+  get '/taska/:id/tchrm_cls', to: 'taskas#tchrm_cls', as: 'tchrm_cls'
+  get '/taska/:id/tchinfo_edit', to: 'taskas#tchinfo_edit', as: 'tchinfo_edit'
+  get '/taska/:id/tchinfo_update', to: 'taskas#tchinfo_update', as: 'tchinfo_update'
   get '/taska/:id/classroom', to: 'taskas#classrooms_index', as: 'classroom_index'
   get '/taska/:id/children', to: 'taskas#children_index', as: 'children_index'
   get '/index_parent', to: 'taskas#index_parent', as: 'index_parent'
@@ -170,7 +189,17 @@ Rails.application.routes.draw do
   get '/taska/:id/add_subdomain', to: 'taskas#add_subdomain' 
   get '/taska/:id/bill_account', to: 'taskas#bill_account', as: 'bill_account'
   get '/taska/:id/plrpt_xls', to: 'taskas#plrpt_xls', as: 'plrpt_xls'
-  get '/check_bill', to: 'taskas#check_bill'
+  get '/taska/:id/tchleave', to: 'taskas#tchleave', as: 'tsk_tchleave'
+  get '/taska/:id/tchleave_xls', to: 'taskas#tchleave_xls', as: 'tchleave_xls' 
+  get '/taska/:id/tchpayslip', to: 'taskas#tchpayslip', as: 'tchpayslip' 
+  get '/taska/:id/chkpayslip', to: 'taskas#chkpayslip', as: 'chkpayslip' 
+  get '/taska/:id/newpayslip', to: 'taskas#newpayslip', as: 'newpayslip'
+  get '/taska/:id/crtpayslip', to: 'taskas#crtpayslip', as: 'crtpayslip' 
+
+  #~PAYSLIPS
+  get 'viewpayslips', to: 'payslips#viewpsl', as: 'viewpsl'
+  get 'pdfpayslips', to: 'payslips#pdfpsl', as: 'pdfpsl'
+  get 'dltpayslips', to: 'payslips#dltpsl', as: 'dltpsl'
 
   #~EXPENSES
   get '/taska/:id/expenses_search', to: 'expenses#search', as: 'search_expense'
@@ -195,7 +224,8 @@ Rails.application.routes.draw do
   #~TASKA_TEACHERS
   post '/taska/:id/add_teacher', to: 'taska_teachers#create', as: 'add_teacher'
   delete '/taska/:id/delete_teacher', to: 'taska_teachers#destroy', as: 'delete_teacher'
-  
+  get '/remove_teacher', to: 'taska_teachers#remove_teacher', as: 'remove_teacher'
+
   #~CLASSROOMS
   get '/classroom/:id/teachers', to: 'classrooms#taskateachers_classroom', as: 'list_teacher_classroom'
   

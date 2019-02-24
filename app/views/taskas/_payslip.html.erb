@@ -1,0 +1,135 @@
+<% if @payslip.present? %>
+  <% addtn = @payslip.addtn %>
+  <% desc = @payslip.desc %>
+  <% month = @payslip.mth %>
+  <% year = @payslip.year %>
+  <% calepf = (epf.to_f/100*(amt.to_f + alwnc.to_f)) %>
+  <% calepfa = (epfa.to_f/100*(amt.to_f + alwnc.to_f)) %>
+  <% gross = amt.to_f + alwnc.to_f + addtn.to_f %>
+  <% nett = gross - calepf  %>
+  <% total = gross + calepfa %>
+  <% date = @payslip.created_at %>
+  <% psl_id = @payslip.psl_id %>
+<% else %>
+  <% addtn = params[:addtn] %>
+  <% desc = params[:desc] %>
+  <% month = params[:month] %>
+  <% year = params[:year] %>
+  <% calepf = (epf.to_f/100*(amt.to_f + alwnc.to_f)) %>
+  <% calepfa = (epfa.to_f/100*(amt.to_f + alwnc.to_f)) %>
+  <% gross = amt.to_f + alwnc.to_f + addtn.to_f %>
+  <% nett = gross - calepf  %>
+  <% total = gross + calepfa %>
+  <% date = $my_time.to_date %>
+  <% ctr = @taska.payslips.where(mth: month, year: year).count %>
+  <% psl_id = "#{@taska.subdomain}-#{month}-#{year.last(2)}-#{ctr+1}" %>
+<% end %>
+
+<!-- START PAYSLIP --> 
+<div class="container">
+  <div class="row">
+    <div class="bg-white col-sm-12 col-offset-3">
+      <div class="row">
+        <div class="col-xs-6 col-sm-6 col-md-6"><br>
+          <div class="pull-left">
+            <% image = @taska.fotos.where(foto_name: "CENTER LOGO").first %>
+            <% if image.present? && image.picture.present? %>
+              <% if @pdf %>
+                <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
+              <% else %>
+                <%= image_tag(image.picture.url, size: "50x50") %>
+              <% end %>
+            <% end %>
+          </div><br><br>
+          <address><br>
+            <strong><%= @taska.name.upcase %></strong>
+            <br>
+            <%= "#{@taska.address_1} #{@taska.address_2}" %>
+            <br>
+            <%= "#{@taska.city}, #{@taska.postcode}, #{@taska.states}" %>
+            <br>
+            <abbr title="Phone"></abbr> <%= "#{@taska.phone_1}-#{@taska.phone_2} #{@taska.email}" %>
+          </address>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6 text-right"><br><br>
+          <p>
+            <em>Date: <%= date.strftime("%d-%^b-%Y") %></em><br>
+            <em>Payslip No: <%= psl_id %></em>
+          </p>
+          <p>
+            <strong><%= (tchd=@teacher.tchdetail).name %></strong><br>
+            <%= "#{tchd.ic_1}-#{tchd.ic_2}-#{tchd.ic_3}" %>
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div><br>
+          <h3 align="center">&nbsp&nbspSALARY SLIP FOR <%= "#{$month_name[month.to_i]}-#{year}" %></h3>
+        </div>
+        </span>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Items</th>
+              <th class="text-right" colspan="2">Amount (RM)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col-md-3"><em>Basic Salary</em></h4></td>
+              <td> </td>
+              <td class="text-center" colspan="2"><%= amt %></td>
+            </tr>
+            <tr>
+              <td class="col-md-3"><em>Allowance</em></h4></td>
+              <td> </td>
+              <td class="text-center" colspan="2"><%= alwnc %></td>
+            </tr>
+            <tr>
+              <td class="col-md-3">
+                <em>Others</em>
+              </td>
+              <td class="col-md-12"><%= desc %></td>
+              <td class="text-center" colspan="2"><%= addtn %></td>
+            </tr>
+            <tr>
+              <td class="text-right" colspan="2">
+                <p>
+                  <strong>Gross Income: </strong>
+                </p>
+                <p>
+                  <strong>Your EPF Contribution (<%= epf %>%): </strong>
+                </p>
+                <p>
+                  <strong>Employer EPF Contribution (<%= epfa %>%): </strong>
+                </p>
+              </td>
+              <td class="text-center" colspan="2">
+                <p>
+                  <strong><%= gross.round(2) %></strong>
+                </p>
+                <p>
+                  <strong><%= calepf.round(2) %></strong>
+                </p>
+                <p>
+                  <strong><%= calepfa.round(2) %></strong>
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td class="text-right" colspan="2"><h4><strong>Nett Income: </strong></h4></td>
+              <td class="text-center text-success"><h4><strong><%= nett.round(2) %></strong></h4></td>
+            </tr>
+            <% if @admin %>
+              <tr>
+                <td class="text-right" colspan="2"><h3><strong>Total Payment: </strong></h3></td>
+                <td class="text-center text-info"><h3><strong><%= total.round(2) %></strong></h3></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        
+      </div>
+    </div>
+  </div>
+</div>

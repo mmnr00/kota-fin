@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  mth: 1
+  year: 1
+  amt: 1.5
+  alwnc: 1.5
+  epf: 1.5
+  addtn: 1.5
+  desc: MyString
+  teacher_id: 1
+  taska_id: 1
+
+two:
+  mth: 1
+  year: 1
+  amt: 1.5
+  alwnc: 1.5
+  epf: 1.5
+  addtn: 1.5
+  desc: MyString
+  teacher_id: 1
+  taska_id: 1

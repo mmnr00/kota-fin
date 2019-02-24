@@ -1,0 +1,117 @@
+<br>
+
+<!-- IF FORM RESUBMISSION -->
+<% if params[:upd] == "true" %>
+  <% amt = params[:amt] %>
+  <% alwnc = params[:alwnc] %>
+  <% epf = params[:epf] %>
+  <% epfa = params[:epfa] %>
+<% else %>
+  <% amt = @payinfo.amt %>
+  <% alwnc = @payinfo.alwnc %>
+  <% epf = @payinfo.epf %>
+  <% epfa = @payinfo.epfa %>
+<% end %>
+
+<div class="row">
+  <!-- FORM SUMMARY -->
+  <div class="col-sm-9 bg-light">
+    <div style="background-color:#ccccff"><h5 align="center">PAYSLIP SUMMARY</h5></div>
+
+    <% calepf = (epf.to_f/100*(amt.to_f + alwnc.to_f)) %>
+    <% calepfa = (epfa.to_f/100*(amt.to_f + alwnc.to_f)) %>
+    <% gross = amt.to_f + alwnc.to_f + params[:addtn].to_f %>
+    <% nett = gross - calepf  %>
+    <% total = gross + calepfa %>
+    <% ctr = @taska.payslips.where(mth: params[:month], year: params[:year]).count %>
+    <% psl_id = "#{@taska.subdomain}-#{params[:month]}-#{params[:year].last(2)}-#{ctr+1}" %>
+
+    <%= render 'taskas/payslip', amt: amt, alwnc: alwnc, epf: epf, epfa: epfa %>
+    <%= form_for(:payslip, :url => {:controller=>'taskas', :action=>'crtpayslip'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+      <br>
+      <!-- FORM ENTRY CREATION -->
+      <%= f.hidden_field :mth, value: params[:month] %>
+      <%= f.hidden_field :year, value: params[:year] %>
+      <%= f.hidden_field :teacher_id, value: params[:tch_id] %>
+      <%= f.hidden_field :taska_id, value: params[:id] %>
+      <%= f.hidden_field :amt, value: amt %>
+      <%= f.hidden_field :alwnc, value: alwnc %>
+      <%= f.hidden_field :epf, value: epf %>
+      <%= f.hidden_field :addtn, value: params[:addtn] %>
+      <%= f.hidden_field :desc, value: params[:desc] %>
+      <%= f.hidden_field :epfa, value: epfa %>
+      <%= f.hidden_field :amtepfa, value: total %>
+      <%= f.hidden_field :psl_id, value: psl_id %>
+      <%= f.submit :"CREATE PAYSLIP", class: 'btn btn-success btn-lg btn-block'%>
+    <% end %>
+    <br><br>
+    
+  </div>
+
+  <!-- FORM ENTRY -->
+  <div class="col-sm-3 bg-white">
+    <div style="background-color:#cce5cc"><h5 align="center">PAYSLIP ENTRY</h5></div>
+    <%= form_tag newpayslip_path, method: :get, id: "find_kid" do %>
+      <div class="row">
+        <div class="col-md-12">
+          <strong>BASE SALARY (RM)</strong>
+          <%= number_field_tag :amt, amt, 
+                  placeholder: "", 
+                  autofocus: true,  
+                  step: 0.01,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+        </div>
+        <div class="col-md-12">
+          <strong>ALLOWANCE (RM)</strong>
+          <%= number_field_tag :alwnc, alwnc, 
+                  placeholder: "", 
+                  autofocus: true,  
+                  step: 0.01,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+        </div>
+        <div class="col-md-12">
+          <strong>TEACHER'S EPF (%)</strong>
+          <%= number_field_tag :epf, epf, 
+                  placeholder: "", 
+                  autofocus: true,  
+                  step: 0.01,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+        </div>
+        <div class="col-md-12">
+          <strong>OWNER'S EPF (%)</strong>
+          <%= number_field_tag :epfa, epfa, 
+                  placeholder: "", 
+                  autofocus: true,  
+                  step: 0.01,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+        </div>
+        <div class="col-md-12">
+          <strong>ADDITIONAL (RM)</strong>
+          <%= number_field_tag :addtn, params[:addtn], 
+                  placeholder: "", 
+                  autofocus: true,  
+                  step: 0.01,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+        </div>
+        <div class="col-md-12">
+          <strong>DESCRIPTION</strong>
+          <%= text_area_tag :desc, params[:desc], 
+                  placeholder: "", 
+                  autofocus: true,
+                  class: "form-control search-box input-lg", 
+                  style: "text-transform:uppercase" %>
+        </div>
+      </div>
+      
+      <br>
+      <%= hidden_field_tag :month, params[:month], value: params[:month] %>
+      <%= hidden_field_tag :tch_id, params[:tch_id], value: params[:tch_id] %>
+      <%= hidden_field_tag :year, params[:year], value: params[:year] %>
+      <%= hidden_field_tag :upd, params[:upd], value: true %>
+      <%= button_tag(type: :submit, class: "btn btn-sm btn-primary active", id: "submit_expense") do %>
+        <i class="fa fa-check"></i> UPDATE
+      <% end %>
+    <% end %>
+
+  </div>
+</div>

@@ -10,6 +10,11 @@ class Taska < ApplicationRecord
 	has_many :kids
 	has_many :fotos
 	has_many :extras
+	has_many :tsklvs
+	has_many :tchlvs
+	has_many :applvs
+	has_many :payslips
+	has_many :payinfos
 	before_save :save_taskas
 	accepts_nested_attributes_for :fotos
 	include HTTParty

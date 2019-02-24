@@ -1,0 +1,63 @@
+<div class='row'>
+  <div class='col-lg-8 col-12'>
+    <%= form_for(@tsklv, :html => {multipart: true, class: "form-horizontal", role: "form"}) do |f| %>
+        <% if @tsklv.name == "ANNUAL LEAVE" %>
+          <% read = true %>
+        <% else %>
+          <% read = false %>
+        <% end %>
+        <!-- leave name -->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>NAME</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :name, class: "form-control", autofocus: true, style: "text-transform:uppercase", required: true, readonly: read %>
+            </div>
+          </div>
+        </div>
+
+        <!-- leave desc -->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>DESCRIPTION</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_area :desc, class: "form-control", autofocus: true, style: "text-transform:uppercase" %>
+            </div>
+          </div>
+        </div>
+
+        <!-- leave days-->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>NO OF DAYS</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.number_field :day, class: "form-control", autofocus: true, required: true %>
+            </div>
+          </div>
+        </div>
+
+        <%= f.hidden_field :taska_id, value: @taska.id %>
+              
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-offset-2 col-sm-10 col-4">
+              <%= f.submit :"#{btn}", class: 'btn btn-primary btn-sm' %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      
+    </div>
+  </div>

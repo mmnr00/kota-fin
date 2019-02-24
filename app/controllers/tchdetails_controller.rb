@@ -6,14 +6,24 @@ class TchdetailsController < ApplicationController
 
 	def show
 		@pdf = false
-		@owner = Owner.find(params[:owner_id])
+		if params[:owner_id].present?
+			@owner = Owner.find(params[:owner_id])
+		elsif params[:adm].present?
+			@admin = Admin.find(params[:adm])
+		end
 		@fotos = @tchdetail.fotos
-		render action: "show", layout: "dsb-owner-college"
+		if @owner 
+			render action: "show", layout: "dsb-owner-college"
+		end
 	end
 
 	def show_pdf
 		@pdf = true
-		@owner = Owner.find(params[:owner_id])
+		if params[:owner_id].present?
+			@owner = Owner.find(params[:owner_id])
+		elsif params[:adm].present?
+			@admin = Admin.find(params[:adm])
+		end
 		@fotos = @tchdetail.fotos
 		respond_to do |format|
 	 		format.html
@@ -130,9 +140,12 @@ class TchdetailsController < ApplicationController
 		#@tchdetail.education = params[:education]
 		#@expense.taska = session[:taska_id]
 		if @tchdetail.save
-
-			flash[:notice] = "Children was successfully created"
-			redirect_to teacher_college_path(@teacher)
+			flash[:notice] = "Your profile was successfully created"
+			if @tchdetail.teacher.present?
+				redirect_to teacher_taska_path(@teacher)
+			else
+				redirect_to teacher_college_path(@teacher)
+			end
 
 												
 		else
@@ -187,6 +200,7 @@ class TchdetailsController < ApplicationController
       																	:phone_1, 
       																	:phone_2, 
       																	:marital, 
+      																	:category,
       																	:address_1, 
       																	:address_2,
       																	:city,

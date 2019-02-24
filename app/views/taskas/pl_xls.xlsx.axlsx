@@ -49,6 +49,19 @@ wb.styles do |style|
           sheet.rows[row+counter].style = bill_cell           
           counter = counter +1
         end
+        if (psl = @payslips.where(mth: m)).present?
+          dt = Date.new(psl.first.year, psl.first.mth)
+          dt = dt-1.months
+          psltot = psl.sum(:amtepfa)
+          sheet.add_row ["#{psl.count} PAYSLIPS ISSUED",
+                      dt.month,
+                      dt.year,
+                      "",
+                      psltot], style: [nil, border_cell]
+          sheet.rows[row+counter].style = bill_cell           
+          counter = counter +1
+          expense = expense + psltot
+        end 
       end
     
 

@@ -1,0 +1,85 @@
+<%= form_for(@applv, :url => {:controller=>'applvs', :action=> "#{try}"},:html => {multipart: true, class: "form-horizontal", role: "form"}) do |f| %>
+  <div class="form-group"> <!-- name -->
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong><h10>LEAVE TYPE</h10></strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 col-12">
+        <%= f.select :kind, 
+            options_for_select(["HALF DAY AM", "HALF DAY PM"], selected: @applv.kind)+
+            options_from_collection_for_select(@taska.tsklvs, :id, :name, selected: @applv.kind), 
+            {include_blank: "Select Type"}, 
+            {required: true } %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group"> <!-- START-->
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong><h10>START DATE</h10></strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 col-12">
+        <%= f.date_field :start, class: "form-control", placeholder: "YOUR FULL NAME AS PER IC", autofocus: true, required: true %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group"> <!-- END-->
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong><h10>END DATE</h10></strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 col-12">
+        <%= f.date_field :end, class: "form-control", placeholder: "YOUR FULL NAME AS PER IC", autofocus: true, required: true %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group"> <!-- name -->
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong><h10>ADDITIONAL COMMENTS</h10></strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 col-12">
+        <%= f.text_area :tchdesc, class: "form-control", placeholder: "", autofocus: true %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group"> <!-- name -->
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong><h10>DOCUMENT</h10></strong>
+      </div>
+    </div>
+    <%= f.fields_for :fotos do |h| %>
+      <div class="row">
+        <div class="col-sm-8 col-12">
+          <%= h.hidden_field :foto_name, value: "APPLV DOCS" %>
+          <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png,application/pdf' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <%= f.hidden_field :taska_id, value: @taska.id %>
+  <%= f.hidden_field :teacher_id, value: @teacher.id %>
+  <%= f.hidden_field :stat, value: "PENDING" %>
+
+  <div class="form-group">
+    <div class="row">
+      <div class="col-sm-offset-2 col-sm-10 col-4">
+        <%= f.submit :"SUBMIT LEAVE",  class: 'btn btn-primary btn-sm' %>
+      </div>
+    </div>
+  </div>
+<% end %>

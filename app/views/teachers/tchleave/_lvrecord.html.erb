@@ -1,0 +1,54 @@
+<% @tchapplvs.each do |lv| %>
+  <% image = lv.fotos.first %>
+  <div class="col-sm-4">
+    <div class="frontside">
+      <div class="card">
+
+        <% stat = lv.stat %>
+        <% if stat == "PENDING" %>
+          <% clr = "#ffedcc" %>
+        <% elsif stat == "APPROVED" %>
+          <% clr = "#cce5cc" %>
+        <% elsif stat == "REJECTED" %>
+          <% clr = "#ffcccc" %>
+        <% elsif stat == "QUERIED" %>
+          <% clr = "#e5cce5" %>
+        <% end %>
+
+        <div class="col-lg-12" style="background-color:<%= clr %>; text-align:center">
+          <strong><%= stat %></strong>
+        </div>
+        <div class='col-lg-12 well'><br>
+          <% kind = lv.kind %>
+          <% if kind == "HALF DAY AM" || kind == "HALF DAY PM" %>  
+            <% lvname = kind %>
+          <% else %>
+            <% lvname = @taska.tsklvs.where(id: kind).first.name %>
+          <% end %> 
+          <h6 align="center"><%= lvname %></h6>
+          
+        </div>
+        <div class='col-lg-12'><br>
+          <strong>START : </strong><%= lv.start.strftime("%d/%m/%y")%><br>
+          <strong>END : </strong><%= lv.end.strftime("%d/%m/%y")%><br>
+          <strong>TOTAL : </strong> <%= lv.tot %> day(s)<br>
+          <% if image.present? && image.picture.present? %>
+            <a href="<%="#{image.picture.url}"%>" target="_blank">
+              <font color="blue"><u>DOCUMENT</u></font>
+            </a><br>
+          <% end %><br>
+          <strong>YOUR COMMENTS : </strong> <%= lv.tchdesc %><br><br>
+          <strong>ADMIN COMMENTS : </strong> <%= lv.tskdesc %><br><br>
+          
+          <% if stat == "QUERIED" || stat == "PENDING" %>
+          <%= link_to "DELETE", tchdeletelv_path(lv), method: :delete, class: "btn btn-sm btn-danger active", :data => {:confirm => 'Are you sure?'} %>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+
+

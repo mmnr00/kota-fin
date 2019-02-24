@@ -1,7 +1,18 @@
 class TaskasController < ApplicationController
   
   require 'json'
-  before_action :set_taska, only: [:show,:children_index, :taskateachers, :taskateachers_classroom,:classrooms_index, :edit, :update, :destroy]
+  before_action :set_taska, only: [:show,:children_index, 
+                                  :taskateachers, 
+                                  :taskateachers_classroom,
+                                  :classrooms_index, 
+                                  :edit, 
+                                  :update, 
+                                  :destroy, 
+                                  :tchinfo_new, 
+                                  :tchinfo_edit,
+                                  :tchleave,
+                                  :tchpayslip,
+                                  :newpayslip]
   before_action :set_all
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
@@ -137,6 +148,7 @@ class TaskasController < ApplicationController
     # end
     @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false)
     @taska_expense = @taska.expenses.where(month: $my_time.month).where(year: $my_time.year).order('CREATED_AT DESC')
+    @applvs = @taska.applvs.where.not(stat: "APPROVED").where.not(stat: "REJECTED")
     session[:taska_id] = @taska.id
     session[:taska_name] = @taska.name  
     render action: "show", layout: "dsb-admin-overview" 
@@ -261,9 +273,13 @@ class TaskasController < ApplicationController
   def pl_xls
     @taska = Taska.find(params[:id])
     if params[:month] == "0"
+      @payslips = @taska.payslips.where(year: params[:year])
       @taska_expenses = @taska.expenses.where(year: params[:year]).order('month ASC')
       @taska_bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: params[:year])
     else
+      dt = Date.new(params[:year].to_i,params[:month].to_i)
+      dt = dt + 1.months
+      @payslips = @taska.payslips.where(mth: dt.month, year: dt.year)
       @taska_expenses = @taska.expenses.where(month: params[:month]).where(year: params[:year])
       @taska_bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_month: params[:month]).where(bill_year: params[:year])
     end
@@ -271,28 +287,172 @@ class TaskasController < ApplicationController
     respond_to do |format|
       #format.html
       format.xlsx{
-        response.headers['Content-Disposition'] = 'attachment; filename="download.xlsx"'
+        response.headers['Content-Disposition'] = 'attachment; filename="Accounting Summary.xlsx"'
       }
     end
   end
 
   def plrpt_xls
     @taska = Taska.find(params[:id])
+    @payslips = @taska.payslips.where(year: params[:year])
     @taska_expense = @taska.expenses.where(year: params[:year]).order('month ASC')
     @taska_payments = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: params[:year]) 
       
     respond_to do |format|
       #format.html
       format.xlsx{
-        response.headers['Content-Disposition'] = 'attachment; filename="download.xlsx"'
+        response.headers['Content-Disposition'] = 'attachment; filename="Accounting Report.xlsx"'
       }
     end
   end
 
-  def taskateachers
-    @taskateachers = @taska.teachers
+  # START TEACHER CLASSROOMS AND LEAVE
 
+  def tchleave_xls
+    @taska = Taska.find(params[:id])
+    @tsklvs = @taska.tsklvs.order('name ASC')
+    @classrooms = @taska.classrooms
+    tchdid = Array.new
+    @classrooms.each do |cls|
+      cls.teachers.each do |tch|
+        tchdid << tch.tchdetail.id
+      end
+    end
+    @applvs = @taska.applvs.order('start DESC')
+    @tchdetails = Tchdetail.where(id: tchdid).order('name ASC')
+    respond_to do |format|
+      #format.html
+      format.xlsx{
+        response.headers['Content-Disposition'] = 'attachment; filename="Teachers Report.xlsx"'
+      }
+    end
   end
+
+  def tchleave
+    @teacher = Teacher.find(params[:tch_id])
+    @tchlvs = @teacher.tchlvs
+    @tchapplvs = @teacher.applvs.order('start DESC')
+    render action: "tchleave", layout: "dsb-admin-teacher" 
+  end
+
+  def taskateachers
+    @newteachers = @taska.taska_teachers.where(stat: true)
+    @classrooms = @taska.classrooms
+    @applvs = @taska.applvs
+    if params[:mthpsl].present? && params[:yrpsl].present?
+      @tchpayslips = Payslip.where(mth: params[:mthpsl]).where(year: params[:yrpsl]).order('created_at DESC')
+    end
+    render action: "taskateachers", layout: "dsb-admin-teacher" 
+  end
+
+  def tchinfo_new
+    @teacher = Teacher.find(params[:tchid])
+    @classroom = nil
+    render action: "tchinfo_new", layout: "dsb-admin-teacher" 
+  end
+
+  def tchinfo_save
+    TeachersClassroom.create(teacher_id: params[:tch][:teacher_id], classroom_id: params[:tch][:classroom_id])
+    
+    params[:tch][:leaves].each do |k,v|
+      #render json: v  and return
+      Tchlv.create(leave_params(v))
+    end
+    Payinfo.create(payinfo_params)
+    flash[:notice] = "TEACHER SUCCESSFULLY ADDED"
+    redirect_to taskateachers_path(id: params[:tch][:taska_id],
+                                  tb2_a: "active",
+                                  tb2_ar: "true",
+                                  tb2_d: "show active")
+  end
+
+  def tchrm_cls
+    @taska = Taska.find(params[:id])
+    tchcls = TeachersClassroom.where(teacher_id: params[:tch], classroom_id: params[:cls]).first
+    tchcls.destroy
+    tchlvs = Tchlv.where(teacher_id: params[:tch])
+    tchlvs.delete_all
+    applvs = Applv.where(teacher_id: params[:tch])
+    applvs.delete_all
+    payinfos = Payinfo.where(teacher_id: params[:tch])
+    payinfos.delete_all
+    flash[:notice] = "TEACHER REMOVED"
+    redirect_to taskateachers_path(@taska,
+                                  tb3_a: "active",
+                                  tb3_ar: "true",
+                                  tb3_d: "show active")
+  end
+
+  def tchinfo_edit
+    @teacher = Teacher.find(params[:tchid])
+    @classroom = @teacher.classrooms.first.id
+    render action: "tchinfo_edit", layout: "dsb-admin-teacher" 
+  end
+
+  def tchinfo_update
+    teacher = Teacher.find(params[:tch][:teacher_id])
+    classroom = teacher.classrooms.first
+    tchcls = TeachersClassroom.where(teacher_id: teacher.id, classroom_id: classroom.id).first
+    tchcls.classroom_id = params[:tch][:classroom_id]
+    tchcls.save
+    payinfo = Payinfo.where(taska_id: params[:tch][:taska_id], teacher_id: params[:tch][:teacher_id]).last
+    params[:tch][:leaves].each do |k,v|
+      #render json: v[:teacher_id]  and return
+      tchlv = Tchlv.where(teacher_id: v[:teacher_id], taska_id: v[:taska_id], tsklv_id: v[:tsklv_id]).first
+      tchlv.update(leave_params(v)) unless !tchlv.present?
+    end
+    payinfo.update(payinfo_params)
+    flash[:notice] = "SUCCESSFULLY UPDATED"
+    redirect_to taskateachers_path(id: params[:tch][:taska_id],
+                                  tb3_a: "active",
+                                  tb3_ar: "true",
+                                  tb3_d: "show active")
+  end
+
+  # END TEACHER CLASSROOMS AND LEAVE
+
+  # START TEACHER PAYSLIP
+  def tchpayslip
+    @teacher = Teacher.find(params[:tch_id])
+    @tchpayslips = Payslip.where(taska_id: params[:id], teacher_id: params[:tch_id]).order('year DESC').order('mth DESC')
+    render action: "tchpayslip", layout: "dsb-admin-teacher" 
+  end
+
+  def chkpayslip
+    par = params[:payslip]
+    payslip = Payslip.where(mth: par[:month], 
+                            year: par[:year],
+                            teacher_id: par[:teacher],
+                            taska_id: par[:taska] )
+    if payslip.present?
+      flash[:danger] = "PAYSLIP ALREADY EXIST FOR #{$month_name[par[:month].to_i]}-#{par[:year]}"
+      redirect_to tchpayslip_path(id: par[:taska], tch_id: par[:teacher])
+    else
+      redirect_to newpayslip_path(id: par[:taska], 
+                                  tch_id: par[:teacher],
+                                  month: par[:month],
+                                  year: par[:year])
+    end
+  end
+
+  def newpayslip
+    @teacher = Teacher.find(params[:tch_id])
+    @payinfo = @teacher.payinfos.where(teacher_id: params[:tch_id], taska_id: params[:id]).first
+    render action: "newpayslip", layout: "dsb-admin-teacher"
+  end
+
+  def crtpayslip
+    @payslip = Payslip.new(payslip_params)
+    if @payslip.save
+      flash[:success] = "PAYSLIP CREATION SUCCESSFULL"
+    else
+      flash[:danger] = "PAYSLIP CREATION FAILED. PLEASE TRY AGAIN"
+    end
+    redirect_to tchpayslip_path(id: @payslip.taska_id,
+                                tch_id: @payslip.teacher_id)
+  end
+
+  # END TEACHER PAYSLIP
 
   def taskateachers_classroom
     @taskateachers = @taska.teachers
@@ -327,6 +487,10 @@ class TaskasController < ApplicationController
     @taska.expire = $my_time + $trial.days
     if @taska.save
       taska_admin1 = TaskaAdmin.create(taska_id: @taska.id, admin_id: current_admin.id)
+      annlv = Tsklv.create(taska_id: @taska.id, 
+                          name: "ANNUAL LEAVE",
+                          desc: "PLEASE INSERT YOUR DESCRIPTION AND THE DEFAULT DAYS",
+                          day: 15)
       if current_admin != Admin.first
         taska_admin2 = TaskaAdmin.create(taska_id: @taska.id, admin_id: Admin.first.id)
       end
@@ -393,11 +557,40 @@ class TaskasController < ApplicationController
     end
 
     def set_all
-    @teacher = current_teacher
-    @parent = current_parent
-    @admin = current_admin  
-    @owner = current_owner
-  end
+      @teacher = current_teacher
+      @parent = current_parent
+      @admin = current_admin  
+      @owner = current_owner
+    end
+
+    #Create multiple leaves
+    def leave_params(lv)
+      lv.permit(:name, :day, :teacher_id, :taska_id, :tsklv_id)
+    end
+
+    def payinfo_params
+      params.require(:tch).permit(:amt,
+                                  :alwnc,
+                                  :epf,
+                                  :epfa,
+                                  :teacher_id,
+                                  :taska_id)
+    end
+
+    def payslip_params
+      params.require(:payslip).permit(:mth,
+                                      :year,
+                                      :amt,
+                                      :alwnc,
+                                      :epf,
+                                      :addtn,
+                                      :desc,
+                                      :teacher_id,
+                                      :taska_id,
+                                      :epfa,
+                                      :amtepfa,
+                                      :psl_id)
+    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def taska_params

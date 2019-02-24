@@ -19,6 +19,27 @@
           </tr>
         </thead>
         <tbody>
+          <!-- PAYSLIP CALCULATION-->
+          <tr style="background-color:#ffe4b2"> 
+            <td>TEACHER'S SALARY</td>
+            <td></td>
+            <td>
+              <%= number_with_delimiter(@taska_payslips.sum(:amtepfa).round(2), :delimiter=>',') %>
+            </td>
+            <td>
+              <% dt = Date.new(year, month) + 1.months %>
+              <%= link_to taskateachers_path(id: params[:id],
+                                            mthpsl: dt.month,
+                                            yrpsl: dt.year,
+                                            tb7_a: "active",
+                                            tb7_ar: true,
+                                            tb7_d: "show active"), 
+              class: "btn btn-sm active", target: '_blank',style: "color:blue" do %>
+                <i class="fa fa-eye"></i> DETAILS
+              <% end %>
+            </td>
+            <td></td>
+          </tr>
           <% @taska_expense.each do |exp| %>
             <tr>
               <td><%= exp.name %></td>

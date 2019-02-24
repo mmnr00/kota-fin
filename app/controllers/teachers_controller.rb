@@ -10,7 +10,8 @@ class TeachersController < ApplicationController
 			teacher_course = TeacherCourse.create(teacher_id: @teacher.id, course_id: params[:course_id])
 		end
 		if @teacher.tchdetail.present?
-			redirect_to teacher_college_path(@teacher)
+			#redirect_to teacher_college_path(@teacher)
+			redirect_to teacher_taska_path(@teacher)
 		else
 			redirect_to new_tchdetail_path(teacher_id: @teacher.id)
 		end
@@ -39,6 +40,64 @@ class TeachersController < ApplicationController
 			format.js { render partial: 'teachers/result' } 
 		end
 	end
+
+	#TASKA STUFF
+	def taska
+
+		@college_list = College.all
+		render action: "taska", layout: "dsb-teacher-tsk"
+
+	end
+
+	def add_taska
+		tsktch = TaskaTeacher.new(taska_id: params[:tsk_id], teacher_id: @teacher.id, stat: true)
+		tsktch.save
+		redirect_to teacher_taska_path(@teacher)
+	end
+
+	def find_taska
+		if params[:name].blank? && params[:dom].blank?
+      flash.now[:danger] = "Blank Input Received"
+    else
+    	if !params[:name].blank?
+    		@taska_find = Taska.where(name: params[:name].upcase)
+    	else
+    		@taska_find = Taska.where(subdomain: params[:dom])
+    	end
+      flash.now[:danger] = "No record found" unless @taska_find.present?
+    end
+    respond_to do |format|
+      format.js { render partial: 'teachers/resulttsk' } 
+    end
+	end
+
+	def tchleave
+		@tchlvs = @teacher.tchlvs
+		@taska = @teacher.taska_teachers.where(stat: true).first.taska
+		@applv = Applv.new
+		@applv.fotos.build
+		@tchapplvs = @teacher.applvs.order('start DESC')
+		render action: "tchleave", layout: "dsb-teacher-tsk"
+	end
+
+	def tcheditlv
+		@applv = Applv.find(params[:id])
+		@teacher = @applv.teacher
+		@taska = @teacher.taska_teachers.where(stat: true).first.taska
+		@tchlvs = @teacher.tchlvs
+		render action: "tcheditlv", layout: "dsb-teacher-tsk"
+	end
+
+	def tchpslip
+		@tchpayslips = @teacher.payslips.where(taska_id: params[:tskid]).order('year DESC').order('mth DESC')
+		@taska_classrooms = Taska.find(params[:tskid]).classrooms
+		@taska = Taska.find(params[:tskid])
+		render action: "tchpslip", layout: "dsb-teacher-tsk"
+	end
+
+	#END TASKA STUFF
+
+	#COLLEGE STUFF
 
 	def college
 

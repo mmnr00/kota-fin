@@ -56,6 +56,24 @@ $bank_code =	{ "AFFIN BANK BERHAD"=>"PHBMMYKL",
 								"STANDARD CHARTERED BANK (MALAYSIA) BERHAD"=>"SCBLMYKX",
 								"UNITED OVERSEAS BANK (MALAYSIA) BERHAD"=>"UOVBMYKL", 
 							}
+$ph_sel19 = {
+							1	=>{	1	=>"	New Year's Day	",
+									21	=>"	Thaipusam	"},
+							2	=>{	5	=>"	Chinese New Year	",
+									6	=>"	Chinese New Year Holiday	"},
+							5	=>{	1	=>"	Labour Day	",
+									20	=>"	Wesak Day Holiday	",
+									22	=>"	Nuzul Al-Quran	"},
+							6	=>{	5	=>"	Hari Raya Aidilfitri	",
+									6	=>"	Hari Raya Aidilfitri Holiday	"},
+							8	=>{	12	=>"	Hari Raya Haji Holiday	"},
+							9	=>{	2	=>"	Awal Muharram Holiday	",
+									9	=>"	Agong's Birthday	",
+									16	=>"	Malaysia Day	"},
+							10	=>{	28	=>"	Deepavali Holiday	"},
+							12	=>{	11	=>"	Sultan of Selangor's Birthday	",
+									25	=>"	Christmas Day	"},
+						}
 
 # # ## BILLPLZ LOCAL
 # # $billplz_url = "https://billplz-staging.herokuapp.com/api/v3/"

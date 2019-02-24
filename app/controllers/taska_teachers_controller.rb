@@ -1,4 +1,13 @@
 class TaskaTeachersController < ApplicationController
+
+	def remove_teacher
+		tsktch = TaskaTeacher.where(taska_id: params[:taska], teacher_id: params[:teacher], stat: true).first
+		tsktch.stat = false
+		tsktch.save
+		flash[:notice]="Teacher successfully deleted"
+		redirect_to taskateachers_path(params[:taska])
+	end
+
 	def create
 		taska = Taska.find(params[:id])
 		teacher = Teacher.find(params[:teacher])

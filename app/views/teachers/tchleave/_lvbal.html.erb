@@ -1,0 +1,23 @@
+<% @tchlvs.each do |lv| %>
+  <div class="notice notice-info col-sm-3">
+    <h5><%= lvname = lv.tsklv.name %></h5>
+    <span class="text-success">
+       TOTAL : <%= lv.day %> DAYS <br>
+    </span>
+    <span class="text-danger">
+      <% util = 0 %>
+      <% @tchapplvs.where.not(stat: "REJECTED").each do |tlv| %>
+        <% if tlv.kind.to_i == lv.tsklv.id %>
+          <% util = util + tlv.tot %>
+        <% elsif (tlv.kind == "HALF DAY AM" || tlv.kind == "HALF DAY PM") && lvname == "ANNUAL LEAVE" %>
+          <% util = util + tlv.tot %>
+        <% end %>
+      <% end %>
+       USED : <%= util %> DAYS <br>
+    </span>
+    <span class="text-info">
+      <% bel = lv.day - util %>
+       BALANCE : <%= bel %> DAYS <br>
+    </span>
+  </div><br>
+<% end %>

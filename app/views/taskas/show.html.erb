@@ -44,10 +44,13 @@
       <div class="col-md-3">
         <div class="card-counter info">
           <i class="fa fa-users"></i>
-          <span class="count-numbers">35</span>
-          <span class="count-name">Leaves</span>
+          <span class="count-numbers"><%= @applvs.count %></span>
+          <span class="count-name">
+            <a href="/taska/<%= @taska.id %>/teachers?tb1_a=active&tb1_ar=true&tb1_d=show active", style="color:#fff">
+              Pending<br> Leaves
+            </a>
+          </span>
         </div>
-        <p align="center">coming soon</p>
       </div>
       
 

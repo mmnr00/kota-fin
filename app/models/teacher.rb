@@ -12,6 +12,10 @@ class Teacher < ApplicationRecord
 	has_many :teacher_colleges
 	has_many :colleges, through: :teacher_colleges
 	has_one	 :tchdetail
+	has_many :tchlvs
+	has_many :applvs
+	has_many :payslips
+	has_many :payinfos
   	devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
