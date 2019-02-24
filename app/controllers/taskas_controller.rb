@@ -276,12 +276,14 @@ class TaskasController < ApplicationController
       @payslips = @taska.payslips.where(year: params[:year])
       @taska_expenses = @taska.expenses.where(year: params[:year]).order('month ASC')
       @taska_bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: params[:year])
+      @taska_plan = @taska.payments.where(name: "TASKA PLAN").where(paid: true).where('extract(year from updated_at) = ?', params[:year])
     else
       dt = Date.new(params[:year].to_i,params[:month].to_i)
       dt = dt + 1.months
       @payslips = @taska.payslips.where(mth: dt.month, year: dt.year)
       @taska_expenses = @taska.expenses.where(month: params[:month]).where(year: params[:year])
       @taska_bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_month: params[:month]).where(bill_year: params[:year])
+      @taska_plan = @taska.payments.where(name: "TASKA PLAN").where(paid: true).where('extract(month from updated_at) = ?', params[:month]).where('extract(year from updated_at) = ?', params[:year])
     end
       
     respond_to do |format|
@@ -297,7 +299,7 @@ class TaskasController < ApplicationController
     @payslips = @taska.payslips.where(year: params[:year])
     @taska_expense = @taska.expenses.where(year: params[:year]).order('month ASC')
     @taska_payments = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: params[:year]) 
-      
+    @taska_plan = @taska.payments.where(name: "TASKA PLAN").where(paid: true).where('extract(year from updated_at) = ?', params[:year])  
     respond_to do |format|
       #format.html
       format.xlsx{

@@ -40,6 +40,22 @@
             </td>
             <td></td>
           </tr>
+          <!-- TASKA PLAN -->
+          <tr style="background-color:#ffc966"> 
+            <td>KIDCARE'S BILL</td>
+            <td></td>
+            <td>
+              <%= number_with_delimiter(@taska_plan.sum(:amount).round(2), :delimiter=>',') %>
+            </td>
+            <td>
+              <% dt = Date.new(year, month) + 1.months %>
+              <%= link_to taska_receipts_path(id: params[:id]), 
+              class: "btn btn-sm active", target: '_blank',style: "color:blue" do %>
+                <i class="fa fa-eye"></i> DETAILS
+              <% end %>
+            </td>
+            <td></td>
+          </tr>
           <% @taska_expense.each do |exp| %>
             <tr>
               <td><%= exp.name %></td>

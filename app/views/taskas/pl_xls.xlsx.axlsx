@@ -61,6 +61,17 @@ wb.styles do |style|
           sheet.rows[row+counter].style = bill_cell           
           counter = counter +1
           expense = expense + psltot
+        end
+        if (pln = @taska_plan.where('extract(month from updated_at) = ?', m)).present?
+          plntot = pln.sum(:amount)
+          sheet.add_row ["KIDCARE'S BILL",
+                      pln.first.created_at.month,
+                      pln.first.created_at.year,
+                      "",
+                      plntot], style: [nil, border_cell]
+          sheet.rows[row+counter].style = bill_cell           
+          counter = counter +1
+          expense = expense + plntot
         end 
       end
     

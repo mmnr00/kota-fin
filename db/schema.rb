@@ -10,9 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
 ActiveRecord::Schema.define(version: 2019_02_22_000039) do
-
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -80,26 +78,6 @@ ActiveRecord::Schema.define(version: 2019_02_22_000039) do
     t.datetime "updated_at", null: false
     t.string "kind"
     t.float "tot"
-  end
-
-  create_table "anisfeeds", force: :cascade do |t|
-    t.integer "rate"
-    t.string "bad"
-    t.string "good"
-    t.integer "course_id"
-    t.integer "tchdetail_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "anisprogs", force: :cascade do |t|
-    t.string "name"
-    t.string "lec"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "course_id"
-    t.time "start"
-    t.time "end"
   end
 
   create_table "classrooms", force: :cascade do |t|
@@ -281,7 +259,7 @@ ActiveRecord::Schema.define(version: 2019_02_22_000039) do
     t.float "epfa"
   end
 
-  create_table "payments", id: :integer, default: nil, force: :cascade do |t|
+  create_table "payments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "bill_month"
@@ -462,7 +440,6 @@ ActiveRecord::Schema.define(version: 2019_02_22_000039) do
     t.string "ts_phone_1"
     t.string "ts_phone_2"
     t.integer "college_id"
-    t.string "category"
     t.string "dun"
     t.string "jkm"
     t.string "post"
@@ -470,6 +447,7 @@ ActiveRecord::Schema.define(version: 2019_02_22_000039) do
     t.string "income"
     t.date "dob"
     t.string "gender"
+    t.string "category"
   end
 
   create_table "tchlvs", force: :cascade do |t|

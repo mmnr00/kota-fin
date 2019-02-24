@@ -30,12 +30,13 @@ def my_expenses
 		@taska_chart = @taska.expenses.where(month: params[:expense][:month]).where(year: params[:expense][:year]) 
 		@taska_expense = @taska.expenses.where(month: params[:expense][:month]).where(year: params[:expense][:year]).order('UPDATED_AT DESC')
 		@taska_payments = @taska.payments.where.not(name: "TASKA PLAN").where(bill_month: params[:expense][:month]).where(bill_year: params[:expense][:year])
-		
+		@taska_plan = @taska.payments.where(name: "TASKA PLAN").where(paid: true).where('extract(month from updated_at) = ?', mth).where('extract(year from updated_at) = ?', year)
 	else
 		@taska_payslips = @taska.payslips.where(year: params[:expense][:year])
 		@taska_chart = @taska.expenses.where(year: params[:expense][:year])
 		@taska_expense = @taska.expenses.where(year: params[:expense][:year]).order('month ASC')
 		@taska_payments = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: params[:expense][:year])
+		@taska_plan = @taska.payments.where(name: "TASKA PLAN").where(paid: true).where('extract(year from updated_at) = ?', params[:expense][:year])
 	end
 	render action: "my_expenses", layout: "dsb-admin-account" 
 end

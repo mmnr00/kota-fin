@@ -54,8 +54,9 @@
         <i class="fa fa-file-excel"></i> DOWNLOAD SUMMARY 
       <% end %></h3><br>
       <% psltot = @taska_payslips.sum(:amtepfa).round(2) %>
+      <% plntot = @taska_plan.sum(:amount).round(2) %>
       <div style="background-color:BLUE"><h2 align="center"><font color="white">
-        <% nett=@taska_expense.where(kind: "INCOME").sum(:cost) - @taska_expense.where(kind: "EXPENSE").sum(:cost) + @taska_payments.where(paid: true).sum(:amount) - @taska_payslips.sum(:amtepfa).round(2) %>
+        <% nett=@taska_expense.where(kind: "INCOME").sum(:cost) - @taska_expense.where(kind: "EXPENSE").sum(:cost) + @taska_payments.where(paid: true).sum(:amount) - @taska_payslips.sum(:amtepfa).round(2) - plntot %>
         NETT: RM <%= number_with_delimiter(nett, :delimiter => ',') %>
       </div></font></h2>
       <div class="bg-white">
@@ -65,9 +66,9 @@
         <% end %>
         <% exp["INCOME"] = exp["INCOME"] + @taska_payments.where(paid: true).sum(:amount) %>
         <% if exp["EXPENSE"] == nil %>
-          <% exp["EXPENSE"] = psltot %>
+          <% exp["EXPENSE"] = psltot + plntot %>
         <% else %>
-          <% exp["EXPENSE"] = exp["EXPENSE"] + psltot %>
+          <% exp["EXPENSE"] = exp["EXPENSE"] + psltot + plntot %>
         <% end %>
         <%= bar_chart exp, colors: ["brown"]%>
       </div><br>
@@ -75,7 +76,7 @@
         INCOME: RM <%= number_with_delimiter((@taska_expense.where(kind: "INCOME").sum(:cost)+@taska_payments.where(paid: true).sum(:amount)), :delimiter => ',') %>
       </div></font></h4>
       <div style="background-color:red"><h4 align="center"><font color="white">
-        EXPENSE: RM <%= number_with_delimiter((@taska_expense.where(kind: "EXPENSE").sum(:cost)+ psltot), :delimiter => ',') %>
+        EXPENSE: RM <%= number_with_delimiter((@taska_expense.where(kind: "EXPENSE").sum(:cost)+ psltot + plntot), :delimiter => ',') %>
       </div></font></h4><br>
       
       <% if month == 0 %>
