@@ -39,8 +39,12 @@ class TchdetailsController < ApplicationController
 	end
 
 	def new
-		#@teacher = Teacher.find(params[:teacher_id])
-		@college = College.find(params[:id])
+		if params[:teacher_id].present?
+			@teacher = Teacher.find(params[:teacher_id])
+		end
+		if params[:id].present?
+			@college = College.find(params[:id])
+		end
 		@tchdetail = Tchdetail.new
 		@tchdetail.fotos.build
 		#render action: "new", layout: "dsb-teacher-edu"

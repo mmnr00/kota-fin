@@ -77,7 +77,7 @@ class KidsController < ApplicationController
 			@classroom = nil
 		end
 		@fotos = @taska.fotos
-		if @payment.paid 
+		if 1==0
 			redirect_to bill_pdf_path(payment: @payment.id, kid: @kid.id, taska: @taska.id, format: :pdf)
 		end
 	end
