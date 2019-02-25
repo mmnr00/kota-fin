@@ -36,7 +36,6 @@
       </div>
     <%end%>
   </div><br>
-  <%= link_to "ADD TASKA", tch_add_taska_path(@teacher, tsk_id: 1), class: "btn btn-sm btn-success active"%>
 <% else %>
   <% taska = @teacher.taska_teachers.where(stat: true).first.taska %>
   <% taska_name = taska.name %>

@@ -59,9 +59,15 @@ class TchdetailsController < ApplicationController
 		#@tchdetail.education = params[:education]
 		#@expense.taska = session[:taska_id]
 		if (exs = Tchdetail.where(ic_1: @tchdetail.ic_1, ic_2: @tchdetail.ic_2, ic_3: @tchdetail.ic_3).first).present?
-			exs.anis = "true"
-			flash[:danger] = "You already registered"
-			redirect_to tchd_anis_path(id: exs.id, anis: true)
+			if @tchdetail.anis == "true"
+				exs.anis = "true"
+				flash[:danger] = "You already registered"
+				redirect_to tchd_anis_path(id: exs.id, anis: true)
+			else
+				exs.update(tchdetail_params)
+				flash[:notice] = "Please update your details"
+				redirect_to edit_tchdetail_path(exs.id, teacher_id: exs.teacher_id, tsktch: "true")
+			end
 		else
 			if @tchdetail.save
 				TchdetailCollege.create(college_id: params[:tchdetail][:college_id], tchdetail_id: @tchdetail.id)
@@ -69,7 +75,7 @@ class TchdetailsController < ApplicationController
 				if @tchdetail.anis == "true"
 					redirect_to tchd_anis_path(id: @tchdetail.id, anis: true)
 				else
-					redirect_to root_path
+					redirect_to teacher_taska_path(@tchdetail.teacher)
 				end								
 			else
 				render @tchdetail.errors.full_messages
@@ -172,10 +178,10 @@ class TchdetailsController < ApplicationController
 		#@classroom = Classroom.find(params[:classroom])
 		if @tchdetail.update(tchdetail_params)
 			flash[:notice] = "Teacher was successfully updated"
-			if @tchdetail.anis == "true"
+			if @tchdetail.anis == "true" && !params[:tsktch] == "true"
 				redirect_to tchd_anis_path(id: @tchdetail.id, anis: true)
 			else
-				redirect_to teacher_college_path(@teacher)
+				redirect_to teacher_taska_path(@teacher)
 			end
 			
 		else

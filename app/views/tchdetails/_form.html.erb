@@ -71,7 +71,7 @@
         </div>
 
         <!-- HOUSEHOLD INCOME-->
-        <div class="form-group"> 
+        <% if params[:anis] == "true" %><div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
               <i class="fas fa-caret-down"></i><strong> MONTHLY HOUSEHOLD INCOME</strong>
@@ -87,7 +87,7 @@
               {include_blank: "Please Select"}, {required: true} %>          
             </div>
           </div>
-        </div>
+        </div><% end %>
 
         <div class="form-group"> <!-- PHONE-->
           <div class="row">
@@ -109,7 +109,7 @@
         <div class="form-group"> <!-- MARITAL-->
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong><%= f.label :"Marital Status" %></strong>
+              <strong>MARITAL STATUS</strong>
             </div>
           </div>
           <div class="row">
@@ -123,10 +123,10 @@
           </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group"> <!-- CATEGORY-->
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>MARITAL STATUS</strong>
+              <strong>CATEGORY</strong>
             </div>
           </div>
           <div class="row">
@@ -144,7 +144,7 @@
         <div class="form-group"> <!-- ADDRESS-->
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>ADDRESS</strong>
+              <strong>HOME ADDRESS</strong>
             </div>
           </div>
           <div class="row">
@@ -476,7 +476,7 @@
       
 
       <%= f.hidden_field :college_id, value: params[:id] %>
-      
+      <%= f.hidden_field :tsktch, value: params[:tsktch] %>
 
               
         <div class="form-group">
