@@ -64,9 +64,9 @@ class TchdetailsController < ApplicationController
 				flash[:danger] = "You already registered"
 				redirect_to tchd_anis_path(id: exs.id, anis: true)
 			else
-				exs.update(tchdetail_params)
-				flash[:notice] = "Please update your details"
-				redirect_to edit_tchdetail_path(exs.id, teacher_id: exs.teacher_id, tsktch: "true")
+				exs.update(tchdetail_params_exs)
+				flash[:notice] = "Registration Successfull"
+				redirect_to teacher_taska_path(exs.teacher)
 			end
 		else
 			if @tchdetail.save
@@ -236,6 +236,26 @@ class TchdetailsController < ApplicationController
       																	:dob,
       																	:gender,
       																	fotos_attributes: [:foto, :picture, :foto_name] )
+    end
+    def tchdetail_params_exs
+      params.require(:tchdetail).permit(:name, 
+      																	:ic_1, 
+      																	:ic_2, 
+      																	:ic_3, 
+      																	:phone_1, 
+      																	:phone_2, 
+      																	:marital, 
+      																	:category,
+      																	:address_1, 
+      																	:address_2,
+      																	:city,
+      																	:states,
+      																	:postcode,
+      																	:education,
+      																	:teacher_id,
+      																	:income,
+      																	:dob,
+      																	:gender)
     end
 
 end
