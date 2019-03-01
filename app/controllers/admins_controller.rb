@@ -3,7 +3,11 @@ class AdminsController < ApplicationController
 
 	def index
 		@admin = current_admin
-		@admin_taska = current_admin.taskas.where.not(id: [5, 9, 1, 44, 45, 4, 48])
+		if Rails.env.production?
+			@admin_taska = current_admin.taskas.where.not(id: [5, 9, 1, 44, 45, 4, 48])
+		else
+			@admin_taska = current_admin.taskas
+		end
 		@admin_taska.each do |taska|
 			@taska_id = taska.id
 			@taska_name = taska.name

@@ -28,9 +28,15 @@ class PaymentsController < ApplicationController
         redirect_to course_payment_pdf_path(payment: @bill.id, format: :pdf)
       elsif (@bill.taska.present?)
         @taska = @bill.taska
-        @taska.expire = $my_time + 1.months
-        @taska.save
-        redirect_to taska_path(@bill.taska.id)
+        if @bill.paid
+          if (expire = @taska.expire) >= (my_time = Time.now)
+            @taska.expire = expire + 1.months
+          else
+            @taska.expire = my_time + 1.months
+          end
+          @taska.save
+        end
+        redirect_to taska_path(@taska.id)
       end
     end
   end
@@ -332,7 +338,12 @@ class PaymentsController < ApplicationController
   def bill_taska_monthly
     if params[:pwd] == "kidcare@123"
       ctr = 0
-      Taska.all.where.not(id: [5, 9, 1, 44, 45, 4, 48]).each do |taska|
+      if Rails.env.production?
+        taska_all = Taska.all.where.not(id: [5, 9, 1, 44, 45, 4, 48])
+      else
+        taska_all = Taska.all
+      end
+      taska_all.each do |taska|
         @taska = Taska.find(taska.id)
         bill_plan = @taska.payments.where(name: "TASKA PLAN")
         period = $my_time + 1.months
