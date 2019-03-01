@@ -54,8 +54,12 @@
             </a>
             <a class="dropdown-item" href="/admins/edit">Login Setting
             </a>
-            <a class="dropdown-item" href="#"></a>
+            <a class="dropdown-item" href="#">
+            </a>
             <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Expired On 
+              <strong><%= @taska.expire.strftime("%d-%^b-%y")%></strong>
+            </a>
             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
               <p align="center"><%= link_to "LOGOUT", destroy_admin_session_path, class: "btn btn-sm btn-danger active", method: :delete, :data => {:confirm => 'Are you sure to logout?'} %></p>
             </a>

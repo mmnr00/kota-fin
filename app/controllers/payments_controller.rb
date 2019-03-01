@@ -17,7 +17,7 @@ class PaymentsController < ApplicationController
       @bill.paid = params[:billplz][:paid]
       @bill.save
       if @bill.paid
-        flash[:success] = "Bill was successfully paid. Please download the receipt"
+        flash[:success] = "Bill was successfully paid. Please check your new expiry date"
       else
         flash[:danger] = "Bill was not paid due to bank rejection. Please try again"
       end
