@@ -12,7 +12,9 @@ class TaskasController < ApplicationController
                                   :tchinfo_edit,
                                   :tchleave,
                                   :tchpayslip,
-                                  :newpayslip]
+                                  :newpayslip,
+                                  :chgplan,
+                                  :svplan]
   before_action :set_all
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
@@ -472,8 +474,24 @@ class TaskasController < ApplicationController
 
   # GET /taskas/new
   def new
-    @taska = Taska.new
-    @taska.fotos.build
+    if params[:chg] == "1"
+      redirect_to tsk_svplan_path(id: params[:id], plan: params[:plan])
+    else
+      @taska = Taska.new
+      @taska.fotos.build
+    end
+  end
+
+  def chgplan
+    render action: "chgplan", layout: "dsb-admin-overview" 
+  end
+
+  def svplan
+    old = @taska.plan
+    @taska.plan = params[:plan]
+    @taska.save
+    flash[:success] = "Successfully changed from #{old} to #{params[:plan]} plan. This will be reflected in your next bill"
+    redirect_to taska_path(@taska)
   end
 
   # GET /taskas/1/edit

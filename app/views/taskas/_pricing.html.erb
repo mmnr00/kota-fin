@@ -2,86 +2,99 @@
 <!-- PRICING TABLE STYLE 1-->
 <div class="container">
   <div class="row">
-
-    <div class="col-md-3 col-sm-3 col-xs-12 float-shadow">        
+    <div class="col-md-1 col-sm-1 float-shadow"> 
+    </div>
+    <div class="col-md-2 col-sm-2 col-xs-12 float-shadow">        
       <div class="price_table_container">
-        <div class="price_table_heading">Basic</div>
+        <div class="price_table_heading"><strong style="font-size:25px">Pay per Use</strong></div>
+        <div class="price_table_body">
+          <div class="price_table_row cost danger-bg">
+            <strong style="font-size:30px">RM 2.8</strong>
+            <strong style="font-size:14px">/ child / month</strong>
+          </div>
+          <div class="price_table_row"><strong style="font-size:20px"></strong></div>
+          <div class="price_table_row">30 DAYS FREE</div>
+          <div class="price_table_row">Unlimited childrens</div>
+          <div class="price_table_row">No Commitment</div>
+                                                            
+        </div>
+        <%= link_to "CHOOSE", new_taska_path(plan: "PAY PER USE", chg: params[:chg], id: params[:id]), class:"btn btn-danger btn-lg btn-block" %>
+      </div>
+    </div>
+
+    <div class="col-md-2 col-sm-2 col-xs-12 float-shadow">        
+      <div class="price_table_container">
+        <div class="price_table_heading"><strong style="font-size:30px">Basic</strong></div>
         <div class="price_table_body">
           <div class="price_table_row cost info-bg">
-            <strong>RM 80</strong>
+            <strong style="font-size:30px">RM 80</strong>
             <strong style="font-size:15px">/ month</strong>
           </div>
           <div class="price_table_row"><strong style="font-size:20px"></strong></div>
-          <div class="price_table_row">FREE USAGE FOR 30 DAYS</div>
-          <div class="price_table_row">Valid for 12 months</div>
+          <div class="price_table_row">30 DAYS FREE</div>
           <div class="price_table_row">Up to 30 childrens</div>
-          <div class="price_table_row">All updates available</div>
-          <div class="price_table_row">Eligible for RM100 referrer's incentive</div>
+          <div class="price_table_row">No Commitment</div>
                                                             
         </div>
-        <%= link_to "CHOOSE", new_taska_path(plan: "BASIC"), class:"btn btn-info btn-lg btn-block" %>
+        <%= link_to "CHOOSE", new_taska_path(plan: "BASIC", chg: params[:chg], id: params[:id]), class:"btn btn-info btn-lg btn-block" %>
       </div>
     </div>
 
-    <div class="col-md-3 col-sm-3 col-xs-12 float-shadow">
-      <div class="recommended"><strong><span class="glyphicon glyphicon-heart" aria-hidden="false"></span> MOST PURCHASED</strong></div>         
+    <div class="col-md-2 col-sm-2 col-xs-12 float-shadow">         
       <div class="price_table_container">
-        <div class="price_table_heading">Standard</div>
+        <div class="price_table_heading"><strong style="font-size:30px">Standard</strong></div>
         <div class="price_table_body">
           <div class="price_table_row cost success-bg">
-            <strong>RM 150</strong>
+            <strong style="font-size:25px">RM 150</strong>
             <strong style="font-size:15px">/ month</strong>
           </div>
           <div class="price_table_row"><strong style="font-size:20px"></strong></div>
-          <div class="price_table_row">FREE USAGE FOR 30 DAYS</div>
-          <div class="price_table_row">Valid for 12 months</div>
+          <div class="price_table_row">30 DAYS FREE</div>
           <div class="price_table_row">Up to 60 childrens</div>
-          <div class="price_table_row">All updates available</div>
-          <div class="price_table_row">Eligible for RM100 referrer's incentive</div>
-                                                           
+          <div class="price_table_row">No Commitment</div>
+                                                            
         </div>
-        <%= link_to "CHOOSE", new_taska_path(plan: "STANDARD"), class:"btn btn-success btn-lg btn-block" %>
+        <%= link_to "CHOOSE", new_taska_path(plan: "STANDARD", chg: params[:chg], id: params[:id]), class:"btn btn-success btn-lg btn-block" %>
       </div>
     </div>
 
-    <div class="col-md-3 col-sm-3 col-xs-12 float-shadow">        
+    <div class="col-md-2 col-sm-2 col-xs-12 float-shadow">        
       <div class="price_table_container">
-        <div class="price_table_heading">Premium</div>
+        <div class="price_table_heading"><strong style="font-size:30px">Premium</strong></div>
         <div class="price_table_body">
           <div class="price_table_row cost warning-bg">
-            <strong>RM 200</strong>
+            <strong style="font-size:25px">RM 200</strong>
             <strong style="font-size:15px">/ month</strong>
           </div>
           <div class="price_table_row"><strong style="font-size:20px"></strong></div>
-          <div class="price_table_row">FREE USAGE FOR 30 DAYS</div>
-          <div class="price_table_row">Valid for 12 months</div>
+          <div class="price_table_row">30 DAYS FREE</div>
           <div class="price_table_row">Up to 80 childrens</div>
-          <div class="price_table_row">All updates available</div>
-          <div class="price_table_row">Eligible for RM100 referrer's incentive</div>
+          <div class="price_table_row">No Commitment</div>
                                                             
         </div>
-        <%= link_to "CHOOSE", new_taska_path(plan: "PREMIUM"), class:"btn btn-warning btn-lg btn-block" %>
+        <%= link_to "CHOOSE", new_taska_path(plan: "PREMIUM", chg: params[:chg], id: params[:id]), class:"btn btn-warning btn-lg btn-block" %>
       </div>
     </div>
 
-    <div class="col-md-3 col-sm-3 col-xs-12 float-shadow">        
-      <div class="price_table_container">
-        <div class="price_table_heading">Platinum</div>
+    <div class="col-md-2 col-sm-2 col-xs-12 float-shadow">        
+     <div class="price_table_container">
+        <div class="price_table_heading"><strong style="font-size:30px">Platinum</strong></div>
         <div class="price_table_body">
           <div class="price_table_row cost primary-bg">
-            <strong>RM 240</strong>
+            <strong style="font-size:25px">RM 240</strong>
             <strong style="font-size:15px">/ month</strong>
           </div>
           <div class="price_table_row"><strong style="font-size:20px"></strong></div>
-          <div class="price_table_row">FREE USAGE FOR 30 DAYS</div>
-          <div class="price_table_row">Valid for 12 months</div>
+          <div class="price_table_row">30 DAYS FREE</div>
           <div class="price_table_row">Up to 100 childrens</div>
-          <div class="price_table_row">All updates available</div>
-          <div class="price_table_row">Eligible for RM100 referrer's incentive</div>
+          <div class="price_table_row">No Commitment</div>
                                                             
         </div>
-        <%= link_to "CHOOSE", new_taska_path(plan: "PLATINUM"), class:"btn btn-primary btn-lg btn-block" %>
+        <%= link_to "CHOOSE", new_taska_path(plan: "PLATINUM", chg: params[:chg], id: params[:id] ), class:"btn btn-primary btn-lg btn-block" %>
       </div>
+    </div>
+
+    <div class="col-md-1 col-sm-1 float-shadow"> 
     </div>
 
   </div>
