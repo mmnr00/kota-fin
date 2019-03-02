@@ -93,10 +93,11 @@
                 </tr>
               </thead>
               <tbody>
+                <% tskbill = @payment.tskbill %>
                 <tr>
                   <td><%= @payment.description %></td>
                   <td></td>
-                  <td class="text-right"><%= $package_price[@taska.plan] %></td>
+                  <td class="text-right"><%= tskbill.real %></td>
                 </tr>
                 <tr>
                   <td colspan="0" rowspan="4">
@@ -107,7 +108,7 @@
                 <% if @taska.discount < 1 %>
                 <tr>
                   <td class="text-right no-border"><strong>DISCOUNT</strong></td>
-                  <td class="text-right">(<%= $package_price[@taska.plan]*@taska.discount %>)</td>
+                  <td class="text-right">(<%= tskbill.disc %>)</td>
                 </tr>
                 <% end %>
                 <tr>

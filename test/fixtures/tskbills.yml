@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  real: 1.5
+  disc: 1.5
+  payment_id: 1
+
+two:
+  real: 1.5
+  disc: 1.5
+  payment_id: 1
