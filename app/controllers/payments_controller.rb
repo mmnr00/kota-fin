@@ -335,7 +335,7 @@ class PaymentsController < ApplicationController
       
   end
 
-  def bill_taska_monthly
+  def bill_taska_monthly #create bill for all taska
     if params[:pwd] == "kidcare@123"
       ctr = 0
       if Rails.env.production?
@@ -346,8 +346,8 @@ class PaymentsController < ApplicationController
       taska_all.each do |taska|
         @taska = Taska.find(taska.id)
         bill_plan = @taska.payments.where(name: "TASKA PLAN")
-        period = $my_time + 1.months
-        if !bill_plan.where(bill_month: period.month).where(bill_year: period.year).present? && !bill_plan.where(paid: false).present?
+        period = Time.now + 1.months
+        if !bill_plan.where(bill_month: period.in_time_zone('Singapore').month).where(bill_year: period.in_time_zone('Singapore').year).present? && !bill_plan.where(paid: false).present?
         #if 1==1
           amount = ($package_price["#{@taska.plan}"].to_f*100)*(@taska.discount)
           #expire = $my_time + 12.months
@@ -360,7 +360,7 @@ class PaymentsController < ApplicationController
                             :amount=>  amount,
                             :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
                             :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
-                            :description=>"#{@taska.name}'s BILL FOR #{$month_name[$my_time.month + 1]} #{$my_time.year}" }.to_json, 
+                            :description=>"#{@taska.name}'s BILL FOR #{$month_name[period.month]} #{period.year}" }.to_json, 
                             #:callback_url=>  "YOUR RETURN URL"}.to_json,
                   :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
                   :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
@@ -388,8 +388,58 @@ class PaymentsController < ApplicationController
             end
             flash[:notice] = "SUCCESS CREATED FOR #{ctr} TASKAS"
           else
-            flash[:danger] = "FAILED"
+            flash[:danger] = "FAILED FOR #{@taska.name}"
           end
+        end
+      end  
+    end  
+  end
+
+  def bill_taska1_monthly #create bill for one taska
+    if params[:pwd] == "kidcare@123"
+      @taska = Taska.find(params[:id])
+      bill_plan = @taska.payments.where(name: "TASKA PLAN")
+      if !bill_plan.where(bill_month: params[:mth].to_i).where(bill_year: params[:yr].to_i).present? && !bill_plan.where(paid: false).present?
+      #if 1==1
+        amount = ($package_price["#{@taska.plan}"].to_f*100)*(@taska.discount)
+        #expire = $my_time + 12.months
+        url_bill = "#{ENV['BILLPLZ_API']}bills"
+        @payment = Payment.new
+        data_billplz = HTTParty.post(url_bill.to_str,
+                          :body  => { :collection_id => "#{ENV['COLLECTION_ID']}", 
+                          :email=> "#{@taska.email}",
+                          :name=> "#{@taska.name}", 
+                          :amount=>  amount,
+                          :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                          :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                          :description=>"#{@taska.name}'s BILL FOR #{$month_name[params[:mth].to_i]} #{params[:yr]}" }.to_json, 
+                          #:callback_url=>  "YOUR RETURN URL"}.to_json,
+                :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+                :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+        data = JSON.parse(data_billplz.to_s)
+        #render json: data_billplz and return
+        if (data["id"].present?)
+          @payment.name = "TASKA PLAN"
+          @payment.amount = data["amount"].to_f/100
+          @payment.description = data["description"]
+          @payment.bill_month = params[:mth]
+          @payment.bill_year = params[:yr]
+          @payment.taska_id = @taska.id
+          @payment.state = data["state"]
+          @payment.paid = data["paid"]
+          @payment.bill_id = data["id"]
+          @payment.save
+          if Rails.env.production?
+            @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
+            @client.messages.create(
+              to: "+6#{@taska.phone_1}#{@taska.phone_2}",
+              from: ENV["TWILIO_PHONE_NO"],
+              body: "[#{@taska.name}] New bill from KidCare for #{$month_name[params[:mth].to_i]}-#{params[:yr]} . Please click at this link <#{view_invoice_taska_url(taska: taska, payment: @payment)}> to make payment. Thank you for your continous support."
+            )
+          end
+          flash[:notice] = "SUCCESS CREATED FOR #{@taska.name}"
+        else
+          flash[:danger] = "FAILED FOR #{@taska.name}"
         end
       end  
     end  

@@ -504,7 +504,7 @@ class TaskasController < ApplicationController
   # POST /taskas.json
   def create
     @taska = Taska.new(taska_params)
-    @taska.expire = $my_time + $trial.days
+    @taska.expire = Time.now + 1.months
     if @taska.save
       taska_admin1 = TaskaAdmin.create(taska_id: @taska.id, admin_id: current_admin.id)
       annlv = Tsklv.create(taska_id: @taska.id, 
@@ -515,7 +515,8 @@ class TaskasController < ApplicationController
         taska_admin2 = TaskaAdmin.create(taska_id: @taska.id, admin_id: Admin.first.id)
       end
       flash[:notice] = "Taska was successfully created"
-      redirect_to create_bill_taska_path(id: @taska)
+      #redirect_to create_bill_taska_path(id: @taska)
+      redirect_to admin_index_path
     else
       render :new 
       
