@@ -12,7 +12,12 @@
           <span class="count-name">
             <a href="/taska/unreg_kids/<%= @taska.id %>/", style="color:#fff">New Registrations</a>
             <br><font style="color:#fff">TOTAL: <%= @taska.kids.count %></font>
-            <br><font style="color:#fff">LIMIT: &nbsp<%= $package_child["#{@taska.plan}"] %></font>
+            <% if (plan=@taska.plan) == "PAY PER USE" %>
+              <% numchild = "NA" %>
+            <% else %>
+              <% numchild = $package_child[plan] %>
+            <% end %>
+            <br><font style="color:#fff">LIMIT: &nbsp<%= numchild %></font>
           </span>
         </div>
       </div>
