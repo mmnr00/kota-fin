@@ -17,13 +17,13 @@ class PaymentsController < ApplicationController
       @bill.paid = params[:billplz][:paid]
       @bill.save
       if @bill.paid
-        flash[:success] = "Bill was successfully paid. Please check your new expiry date"
+        flash[:success] = "Bill was successfully paid"
       else
         flash[:danger] = "Bill was not paid due to bank rejection. Please try again"
       end
       if (@bill.kids.present?)
         #@parent = @bill.parent
-        redirect_to bill_pdf_path(payment: @bill.id , kid: @bill.kids.first.id, taska: @bill.taska.id, format: :pdf )
+        redirect_to bill_view_path(payment: @bill.id , kid: @bill.kids.first.id, taska: @bill.taska.id)
       elsif (@bill.teacher.present?)
         redirect_to course_payment_pdf_path(payment: @bill.id, format: :pdf)
       elsif (@bill.taska.present?)
