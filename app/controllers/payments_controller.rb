@@ -454,7 +454,7 @@ class PaymentsController < ApplicationController
             @client.messages.create(
               to: "+6#{@taska.phone_1}#{@taska.phone_2}",
               from: ENV["TWILIO_PHONE_NO"],
-              body: "[#{@taska.name}] New bill from KidCare for #{$month_name[params[:mth].to_i]}-#{params[:yr]} . Please click at this link <#{view_invoice_taska_url(taska: taska, payment: @payment)}> to make payment. Thank you for your continous support."
+              body: "[#{@taska.name}] New bill from KidCare for #{$month_name[params[:mth].to_i]}-#{params[:yr]} . Please click at this link <#{view_invoice_taska_url(taska: @taska, payment: @payment)}> to make payment. Thank you for your continous support."
             )
           end
           flash[:notice] = "SUCCESS CREATED FOR #{@taska.name}"
