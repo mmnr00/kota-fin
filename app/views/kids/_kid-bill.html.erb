@@ -1,10 +1,8 @@
 
 <div class="page-content">
-  <% if @payment.paid %>
+  <% if (paid = @payment.paid) %>
     <h1 align="center"><%= link_to "PAID", "#", class: "btn btn-lg btn-success active" %></h1>
-    <%= link_to bill_pdf_path(payment: @payment.id, kid: @kid.id, taska: @taska.id, format: :pdf), class: 'btn btn-sm btn-success active' do %>
-      <i class="fa fa-download"></i>&nbspDOWNLOAD RECEIPT
-    <% end %>
+    
   <% else %>
     <h1 align="center"><%= link_to "PENDING PAYMENT", "#", class: "btn btn-sm btn-danger active" %></h1>
     <% trial = false %>
@@ -182,7 +180,14 @@
           <% end %>
           www.kidcare.my
 
+
+
         </div>
+        <% if paid %>
+          <%= link_to bill_pdf_path(payment: @payment.id, kid: @kid.id, taska: @taska.id, format: :pdf), class: 'btn btn-sm btn-success active' do %>
+            <i class="fa fa-download"></i>&nbspDOWNLOAD RECEIPT
+          <% end %>
+        <% end %>
       </div>
     </div>
   </div>
