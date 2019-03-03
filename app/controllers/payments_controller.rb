@@ -352,7 +352,7 @@ class PaymentsController < ApplicationController
           if (plan=@taska.plan) == "PAY PER USE"
             kid_count = @taska.kids.where.not(classroom_id: nil).count
             real = (kid_count*2.8)*100
-            amount = real*(@taska.discount)
+            amount = (real*(@taska.discount)).round(1)
             desc = "(#{kid_count} CHILDRENS)"
           else
             real = $package_price[plan].to_f*100
@@ -411,22 +411,30 @@ class PaymentsController < ApplicationController
       bill_plan = @taska.payments.where(name: "TASKA PLAN")
       if !bill_plan.where(bill_month: params[:mth].to_i).where(bill_year: params[:yr].to_i).present? && !bill_plan.where(paid: false).present?
       #if 1==1
-        amount = ($package_price["#{@taska.plan}"].to_f*100)*(@taska.discount)
+        if (plan=@taska.plan) == "PAY PER USE"
+          kid_count = @taska.kids.where.not(classroom_id: nil).count
+          real = (kid_count*2.8)*100
+          amount = (real*(@taska.discount)).round(1)
+          desc = "(#{kid_count} CHILDRENS)"
+        else
+          real = $package_price[plan].to_f*100
+          amount = real*(@taska.discount)
+        end
         #expire = $my_time + 12.months
         url_bill = "#{ENV['BILLPLZ_API']}bills"
         @payment = Payment.new
         data_billplz = HTTParty.post(url_bill.to_str,
-                          :body  => { :collection_id => "#{ENV['COLLECTION_ID']}", 
-                          :email=> "#{@taska.email}",
-                          :name=> "#{@taska.name}", 
-                          :amount=>  amount,
-                          :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
-                          :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
-                          :description=>"#{@taska.name}'s BILL FOR #{$month_name[params[:mth].to_i]} #{params[:yr]}" }.to_json, 
-                          #:callback_url=>  "YOUR RETURN URL"}.to_json,
-                :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
-                :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
-        data = JSON.parse(data_billplz.to_s)
+                            :body  => { :collection_id => "#{ENV['COLLECTION_ID']}", 
+                            :email=> "#{@taska.email}",
+                            :name=> "#{@taska.name}", 
+                            :amount=>  amount,
+                            :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                            :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                            :description=>"#{@taska.name}'s BILL FOR #{$month_name[params[:mth].to_i]} #{params[:yr]} #{desc}" }.to_json, 
+                            #:callback_url=>  "YOUR RETURN URL"}.to_json,
+                  :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+                  :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+          data = JSON.parse(data_billplz.to_s)
         #render json: data_billplz and return
         if (data["id"].present?)
           @payment.name = "TASKA PLAN"
@@ -438,7 +446,9 @@ class PaymentsController < ApplicationController
           @payment.state = data["state"]
           @payment.paid = data["paid"]
           @payment.bill_id = data["id"]
-          @payment.save
+          if @payment.save
+            Tskbill.create(real: real/100, disc: (real*@taska.discount)/100, payment_id: @payment.id)
+          end
           if Rails.env.production?
             @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
             @client.messages.create(
