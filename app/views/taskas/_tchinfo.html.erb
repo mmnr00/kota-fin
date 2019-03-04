@@ -64,11 +64,15 @@
   <% alwnc = 0 %>
   <% epf = 0 %>
   <% epfa = 0 %>
+  <% socs = 0 %>
+  <% socsa = 0 %>
   <% if (pinfo = @teacher.payinfos.where(taska_id: @taska.id)).present? %>
     <% amt = pinfo.last.amt %>
     <% alwnc = pinfo.last.alwnc %>
     <% epf = pinfo.last.epf %>
     <% epfa = pinfo.last.epfa %>
+    <% socs = pinfo.last.socs %>
+    <% socsa = pinfo.last.socsa %>
   <% end %>
   <div class="form-group"> <!-- name -->
     <div class="row">
@@ -82,7 +86,7 @@
       <strong>BASIC SALARY (RM) :</strong>
     </div>
     <div class="col-sm-4 col-12">
-     <%= f.number_field :amt, class: "form-control", placeholder: "", autofocus: true, required: true, value: amt %>
+     <%= f.number_field :amt, class: "form-control", :step => 0.01, autofocus: true, required: true, value: amt %>
     </div>
   </div><br>
   <div class="row">
@@ -90,27 +94,58 @@
       <strong>ALLOWANCE (RM) :</strong>
     </div>
     <div class="col-sm-4 col-12">
-     <%= f.number_field :alwnc, class: "form-control", placeholder: "", autofocus: true, required: true, value: alwnc %>
+     <%= f.number_field :alwnc, class: "form-control", :step => 0.01, autofocus: true, required: true, value: alwnc %>
     </div>
   </div><br>
   <div class="row">
     <div class="col-sm-2 col-5">
-      <strong>TEACHER'S EPF (%) :</strong>
+      <strong>STAFF EPF (RM) :</strong>
     </div>
     <div class="col-sm-4 col-12">
-     <%= f.number_field :epf, class: "form-control", placeholder: "", autofocus: true, required: true, value: epf %>
-     Please put 0 if not applicable
+     <%= f.number_field :epf, class: "form-control", :step => 0.01, autofocus: true, required: true, value: epf %>
+     Please put 0 if not applicable<br>
+     <a href="http://www.kwsp.gov.my/portal/documents/10180/175560/JADUAL_KETIGA_04012019_ENG.pdf" target="_blank">
+      <font color="blue">REFER TO EPF TABLE</font>
+     </a>
     </div>
   </div><br>
   <div class="row">
     <div class="col-sm-2 col-5">
-      <strong>OWNER'S EPF (%) :</strong>
+      <strong>OWNER EPF (RM) :</strong>
     </div>
     <div class="col-sm-4 col-12">
-     <%= f.number_field :epfa, class: "form-control", placeholder: "", autofocus: true, required: true, value: epfa %>
-     Please put 0 if not applicable
+     <%= f.number_field :epfa, class: "form-control", :step => 0.01, autofocus: true, required: true, value: epfa %>
+     Please put 0 if not applicable<br>
+     <a href="http://www.kwsp.gov.my/portal/documents/10180/175560/JADUAL_KETIGA_04012019_ENG.pdf" target="_blank">
+      <font color="blue">REFER TO EPF TABLE</font>
+     </a>
     </div>
   </div><br>
+  <div class="row">
+    <div class="col-sm-2 col-5">
+      <strong>STAFF SOCSO (RM) :</strong>
+    </div>
+    <div class="col-sm-4 col-12">
+     <%= f.number_field :socs, class: "form-control", :step => 0.01, autofocus: true, required: true, value: socs %>
+     Please put 0 if not applicable<br>
+     <a href="https://www.perkeso.gov.my/index.php/en/social-security-protection/employer-employee-eligibility/rate-of-contributions" target="_blank">
+      <font color="blue">REFER TO SOCSO TABLE</font>
+     </a>
+    </div>
+  </div><br>
+  <div class="row">
+    <div class="col-sm-2 col-5">
+      <strong>OWNER SOCSO (RM) :</strong>
+    </div>
+    <div class="col-sm-4 col-12">
+     <%= f.number_field :socsa, class: "form-control", :step => 0.01, autofocus: true, required: true, value: socsa %>
+     Please put 0 if not applicable<br>
+     <a href="https://www.perkeso.gov.my/index.php/en/social-security-protection/employer-employee-eligibility/rate-of-contributions" target="_blank">
+      <font color="blue">REFER TO SOCSO TABLE</font>
+     </a>
+    </div>
+  </div><br>
+  
 
   
   <br>

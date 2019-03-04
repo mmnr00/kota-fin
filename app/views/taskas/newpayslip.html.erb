@@ -6,11 +6,15 @@
   <% alwnc = params[:alwnc] %>
   <% epf = params[:epf] %>
   <% epfa = params[:epfa] %>
+  <% socs = params[:socs] %>
+  <% socsa = params[:socsa] %>
 <% else %>
   <% amt = @payinfo.amt %>
   <% alwnc = @payinfo.alwnc %>
   <% epf = @payinfo.epf %>
   <% epfa = @payinfo.epfa %>
+  <% socs = @payinfo.socs %>
+  <% socsa = @payinfo.socsa %>
 <% end %>
 
 <div class="row">
@@ -26,7 +30,7 @@
     <% ctr = @taska.payslips.where(mth: params[:month], year: params[:year]).count %>
     <% psl_id = "#{@taska.subdomain}-#{params[:month]}-#{params[:year].last(2)}-#{ctr+1}" %>
 
-    <%= render 'taskas/payslip', amt: amt, alwnc: alwnc, epf: epf, epfa: epfa %>
+    <%= render 'taskas/payslip', amt: amt, alwnc: alwnc, epf: epf, epfa: epfa, socs: socs, socsa: socsa %>
     <%= form_for(:payslip, :url => {:controller=>'taskas', :action=>'crtpayslip'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
       <br>
       <!-- FORM ENTRY CREATION -->
@@ -67,24 +71,47 @@
                   placeholder: "", 
                   autofocus: true,  
                   step: 0.01,
-                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %><br>
+          <a href="http://www.kwsp.gov.my/portal/documents/10180/175560/JADUAL_KETIGA_04012019_ENG.pdf" target="_blank">
+            <font color="blue">REFER TO EPF TABLE</font>
+          </a>
         </div>
         <div class="col-md-12">
-          <strong>TEACHER'S EPF (%)</strong>
+          <strong>STAFF EPF (RM)</strong>
           <%= number_field_tag :epf, epf, 
                   placeholder: "", 
                   autofocus: true,  
                   step: 0.01,
                   class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+          
         </div>
         <div class="col-md-12">
-          <strong>OWNER'S EPF (%)</strong>
+          <strong>OWNER EPF (RM)</strong>
           <%= number_field_tag :epfa, epfa, 
+                  placeholder: "", 
+                  autofocus: true,  
+                  step: 0.01,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %><br>
+          <a href="https://www.perkeso.gov.my/index.php/en/social-security-protection/employer-employee-eligibility/rate-of-contributions" target="_blank">
+            <font color="blue">REFER TO SOCSO TABLE</font>
+          </a>
+        </div>
+        <div class="col-md-12">
+          <strong>STAFF SOCS (RM)</strong>
+          <%= number_field_tag :socs, socs, 
                   placeholder: "", 
                   autofocus: true,  
                   step: 0.01,
                   class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
         </div>
+        <div class="col-md-12">
+          <strong>OWNER SOCS (RM)</strong>
+          <%= number_field_tag :socsa, socsa, 
+                  placeholder: "", 
+                  autofocus: true,  
+                  step: 0.01,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+        </div><br><br><br><br>
         <div class="col-md-12">
           <strong>ADDITIONAL (RM)</strong>
           <%= number_field_tag :addtn, params[:addtn], 
@@ -94,8 +121,24 @@
                   class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
         </div>
         <div class="col-md-12">
-          <strong>DESCRIPTION</strong>
+          <strong>ADDITIONAL DESCRIPTION</strong>
           <%= text_area_tag :desc, params[:desc], 
+                  placeholder: "", 
+                  autofocus: true,
+                  class: "form-control search-box input-lg", 
+                  style: "text-transform:uppercase" %>
+        </div><br><br><br><br><br>
+        <div class="col-md-12">
+          <strong>DEDUCTION (RM)</strong>
+          <%= number_field_tag :dedc, params[:dedc], 
+                  placeholder: "", 
+                  autofocus: true,  
+                  step: 0.01,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+        </div>
+        <div class="col-md-12">
+          <strong>DEDUCTION DESCRIPTION</strong>
+          <%= text_area_tag :descdc, params[:descdc], 
                   placeholder: "", 
                   autofocus: true,
                   class: "form-control search-box input-lg", 

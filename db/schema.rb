@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_02_150318) do
+ActiveRecord::Schema.define(version: 2019_03_04_123328) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -257,6 +257,8 @@ ActiveRecord::Schema.define(version: 2019_03_02_150318) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.float "epfa"
+    t.float "socs"
+    t.float "socsa"
   end
 
   create_table "payments", force: :cascade do |t|
@@ -294,6 +296,10 @@ ActiveRecord::Schema.define(version: 2019_03_02_150318) do
     t.float "epfa"
     t.float "amtepfa"
     t.string "psl_id"
+    t.float "socs"
+    t.float "socsa"
+    t.float "dedc"
+    t.string "descdc"
   end
 
   create_table "prntdetails", force: :cascade do |t|

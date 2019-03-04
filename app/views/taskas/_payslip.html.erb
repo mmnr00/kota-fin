@@ -1,11 +1,13 @@
 <% if @payslip.present? %>
   <% addtn = @payslip.addtn %>
   <% desc = @payslip.desc %>
+  <% dedc = @payslip.dedc %>
+  <% descdc = @payslip.descdc %>
   <% month = @payslip.mth %>
   <% year = @payslip.year %>
   <% calepf = (epf.to_f/100*(amt.to_f + alwnc.to_f)) %>
   <% calepfa = (epfa.to_f/100*(amt.to_f + alwnc.to_f)) %>
-  <% gross = amt.to_f + alwnc.to_f + addtn.to_f %>
+  <% gross = amt.to_f + alwnc.to_f + addtn.to_f - dedc.to_f %>
   <% nett = gross - calepf  %>
   <% total = gross + calepfa %>
   <% date = @payslip.created_at %>
@@ -13,13 +15,15 @@
 <% else %>
   <% addtn = params[:addtn] %>
   <% desc = params[:desc] %>
+  <% dedc = params[:dedc] %>
+  <% descdc = params[:descdc] %>
   <% month = params[:month] %>
   <% year = params[:year] %>
   <% calepf = (epf.to_f/100*(amt.to_f + alwnc.to_f)) %>
   <% calepfa = (epfa.to_f/100*(amt.to_f + alwnc.to_f)) %>
-  <% gross = amt.to_f + alwnc.to_f + addtn.to_f %>
-  <% nett = gross - calepf  %>
-  <% total = gross + calepfa %>
+  <% gross = amt.to_f + alwnc.to_f + addtn.to_f - dedc.to_f %>
+  <% nett = gross - epf.to_f - socs.to_f  %>
+  <% total = gross + epfa.to_f + socsa.to_f %>
   <% date = $my_time.to_date %>
   <% ctr = @taska.payslips.where(mth: month, year: year).count %>
   <% psl_id = "#{@taska.subdomain}-#{month}-#{year.last(2)}-#{ctr+1}" %>
@@ -87,10 +91,17 @@
             </tr>
             <tr>
               <td class="col-md-3">
-                <em>Others</em>
+                <em>Addition</em>
               </td>
               <td class="col-md-12"><%= desc %></td>
               <td class="text-center" colspan="2"><%= addtn %></td>
+            </tr>
+            <tr>
+              <td class="col-md-3">
+                <em>Deduction</em>
+              </td>
+              <td class="col-md-12"><%= descdc %></td>
+              <td class="text-center" colspan="2"><font color="red">(<%= dedc %>)</font></td>
             </tr>
             <tr>
               <td class="text-right" colspan="2">
@@ -98,10 +109,16 @@
                   <strong>Gross Income: </strong>
                 </p>
                 <p>
-                  <strong>Your EPF Contribution (<%= epf %>%): </strong>
+                  <strong>Your EPF Contribution: </strong>
                 </p>
                 <p>
-                  <strong>Employer EPF Contribution (<%= epfa %>%): </strong>
+                  <strong>Employer EPF Contribution: </strong>
+                </p>
+                <p>
+                  <strong>Your SOCSO Contribution: </strong>
+                </p>
+                <p>
+                  <strong>Employer SOCSO Contribution: </strong>
                 </p>
               </td>
               <td class="text-center" colspan="2">
@@ -109,10 +126,16 @@
                   <strong><%= gross.round(2) %></strong>
                 </p>
                 <p>
-                  <strong><%= calepf.round(2) %></strong>
+                  <strong><font color="red">(<%= epf %>)</font></strong>
                 </p>
                 <p>
-                  <strong><%= calepfa.round(2) %></strong>
+                  <strong><%= epfa %></strong>
+                </p>
+                <p>
+                  <strong><font color="red">(<%= socs %>)</font></strong>
+                </p>
+                <p>
+                  <strong><%= socsa %></strong>
                 </p>
               </td>
             </tr>

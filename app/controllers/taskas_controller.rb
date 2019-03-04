@@ -594,6 +594,8 @@ class TaskasController < ApplicationController
                                   :alwnc,
                                   :epf,
                                   :epfa,
+                                  :socs,
+                                  :socsa,
                                   :teacher_id,
                                   :taska_id)
     end
