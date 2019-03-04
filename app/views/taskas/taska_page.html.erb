@@ -47,7 +47,7 @@
              <p><button class="w3-button w3-block w3-green"   data-toggle="tooltip" data-placement="top" title="Please contact us for further enquires"> <i class="fa fa-phone-square fa-lg"></i> <i class="fa fa-whatsapp fa-lg"></i> 
              <%= @taska.phone_1 %>-<%= @taska.phone_2 %> </button></p>
              <hr>
-             <% if @taska.kids.count < $package_child["#{@taska.plan}"].to_i %>
+             <% if 1==1 #@taska.kids.count < $package_child["#{@taska.plan}"].to_i %>
               <% if current_admin %>
                 <% reg_link = "register_child_admin" %>
               <% else %>
