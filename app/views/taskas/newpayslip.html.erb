@@ -4,10 +4,14 @@
 <% if params[:upd] == "true" %>
   <% amt = params[:amt] %>
   <% alwnc = params[:alwnc] %>
+  <% addtn = params[:addtn] %>
+  <% desc = params[:desc] %>
   <% epf = params[:epf] %>
   <% epfa = params[:epfa] %>
   <% socs = params[:socs] %>
   <% socsa = params[:socsa] %>
+  <% dedc = params[:dedc] %>
+  <% descdc = params[:descdc] %>
 <% else %>
   <% amt = @payinfo.amt %>
   <% alwnc = @payinfo.alwnc %>
@@ -22,11 +26,10 @@
   <div class="col-sm-9 bg-light">
     <div style="background-color:#ccccff"><h5 align="center">PAYSLIP SUMMARY</h5></div>
 
-    <% calepf = (epf.to_f/100*(amt.to_f + alwnc.to_f)) %>
-    <% calepfa = (epfa.to_f/100*(amt.to_f + alwnc.to_f)) %>
-    <% gross = amt.to_f + alwnc.to_f + params[:addtn].to_f %>
-    <% nett = gross - calepf  %>
-    <% total = gross + calepfa %>
+    
+    <% gross = amt.to_f + alwnc.to_f + addtn.to_f - dedc.to_f %>
+    <% nett = gross - epf.to_f - socs.to_f  %>
+    <% total = gross + epfa.to_f + socsa.to_f %>
     <% ctr = @taska.payslips.where(mth: params[:month], year: params[:year]).count %>
     <% psl_id = "#{@taska.subdomain}-#{params[:month]}-#{params[:year].last(2)}-#{ctr+1}" %>
 
@@ -41,9 +44,13 @@
       <%= f.hidden_field :amt, value: amt %>
       <%= f.hidden_field :alwnc, value: alwnc %>
       <%= f.hidden_field :epf, value: epf %>
+      <%= f.hidden_field :epfa, value: epfa %>
       <%= f.hidden_field :addtn, value: params[:addtn] %>
       <%= f.hidden_field :desc, value: params[:desc] %>
-      <%= f.hidden_field :epfa, value: epfa %>
+      <%= f.hidden_field :dedc, value: dedc %>
+      <%= f.hidden_field :descdc, value: descdc %>
+      <%= f.hidden_field :socs, value: socs %>
+      <%= f.hidden_field :socsa, value: socsa %>
       <%= f.hidden_field :amtepfa, value: total %>
       <%= f.hidden_field :psl_id, value: psl_id %>
       <%= f.submit :"CREATE PAYSLIP", class: 'btn btn-success btn-lg btn-block'%>

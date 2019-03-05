@@ -4,7 +4,7 @@
     <%= link_to pdfpsl_path(psl: @payslip.id, format: :pdf), class: 'btn btn-sm btn-success active' do %>
       <i class="fa fa-download"></i>&nbspDOWNLOAD PAYSLIP
     <% end %><br><br>
-    <%= render 'taskas/payslip', amt: @payslip.amt, alwnc: @payslip.alwnc, epf: @payslip.epf, epfa: @payslip.epfa %>
+    <%= render 'taskas/payslip', amt: @payslip.amt, alwnc: @payslip.alwnc, epf: @payslip.epf, epfa: @payslip.epfa, socs: @payslip.socs, socsa: @payslip.socsa %>
   </div>
   <div class="col-sm-2"></div>
 </div>

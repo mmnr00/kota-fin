@@ -612,7 +612,11 @@ class TaskasController < ApplicationController
                                       :taska_id,
                                       :epfa,
                                       :amtepfa,
-                                      :psl_id)
+                                      :psl_id,
+                                      :socs,
+                                      :socsa,
+                                      :dedc,
+                                      :descdc)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

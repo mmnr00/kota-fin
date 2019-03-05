@@ -5,11 +5,9 @@
   <% descdc = @payslip.descdc %>
   <% month = @payslip.mth %>
   <% year = @payslip.year %>
-  <% calepf = (epf.to_f/100*(amt.to_f + alwnc.to_f)) %>
-  <% calepfa = (epfa.to_f/100*(amt.to_f + alwnc.to_f)) %>
   <% gross = amt.to_f + alwnc.to_f + addtn.to_f - dedc.to_f %>
-  <% nett = gross - calepf  %>
-  <% total = gross + calepfa %>
+  <% nett = gross - epf.to_f - socs.to_f  %>
+  <% total = gross + epfa.to_f + socsa.to_f %>
   <% date = @payslip.created_at %>
   <% psl_id = @payslip.psl_id %>
 <% else %>
@@ -19,8 +17,6 @@
   <% descdc = params[:descdc] %>
   <% month = params[:month] %>
   <% year = params[:year] %>
-  <% calepf = (epf.to_f/100*(amt.to_f + alwnc.to_f)) %>
-  <% calepfa = (epfa.to_f/100*(amt.to_f + alwnc.to_f)) %>
   <% gross = amt.to_f + alwnc.to_f + addtn.to_f - dedc.to_f %>
   <% nett = gross - epf.to_f - socs.to_f  %>
   <% total = gross + epfa.to_f + socsa.to_f %>

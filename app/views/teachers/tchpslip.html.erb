@@ -23,10 +23,8 @@
                 </div><br>
               </div>
               <div class='col-lg-12'>
-                <% calepf = (psl.epf.to_f/100*(psl.amt.to_f + psl.alwnc.to_f)) %>
-                <% gross = psl.amt.to_f + psl.alwnc.to_f + psl.addtn.to_f %>
-                <% nett = gross - calepf %>
-                <% psl.amt %>
+                <% gross = psl.amt.to_f + psl.alwnc.to_f + psl.addtn.to_f - psl.dedc.to_f %>
+                <% nett = gross - psl.epf.to_f - psl.socs.to_f  %>
                 <br><h5 align="center">RM <%= nett.round(2) %></h5><br>
               </div>
               <%= link_to viewpsl_path(psl: psl.id), class: "btn btn-sm btn-primary active" do %>
