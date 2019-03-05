@@ -63,7 +63,7 @@
                           </button>
                         <% end %>
                       <% end %>
-                      <%= link_to tsk_manupdbill_path(id: @taska.id, bill: bill.id), class: "btn btn-sm active", style: "color:green" do %>
+                      <%= link_to tsk_manupdbill_path(taska: @taska.id, bill: bill.id, kid: @kid.id), class: "btn btn-sm active", style: "color:green" do %>
                         <i class="fa fa-pen-square"></i> UPDATE MANUALLY
                       <% end %>
                     <% end %>

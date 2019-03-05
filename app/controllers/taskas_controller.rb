@@ -199,11 +199,36 @@ class TaskasController < ApplicationController
     render action: "unpaid_index", layout: "dsb-admin-overview" 
   end
 
-  def manupdplan
-    render action: "manupdplan", layout: "dsb-admin-overview"
+  def manupdbill
+    @pdf = false
+    @payment = Payment.find(params[:bill]) 
+    @kid = Kid.find(params[:kid])
+    @taska = Taska.find(params[:taska])
+    @fotos = @taska.fotos
+    render action: "manupdbill", layout: "dsb-admin-overview"
   end
 
   def svupdbill
+    bill = params[:bill]
+    rcpt = params[:bill][:fotos]
+    @taska = Taska.find(bill[:taska_id])
+    #@foto = @taska.fotos.build
+    if bill[:paid] == "PAID"
+      @payment = Payment.find(bill[:payment_id])
+      @payment.paid = true
+      @payment.mtd = bill[:mtd]
+      @payment.updated_at = bill[:updated_at]
+      Foto.new(foto_params)
+      if @payment.save && @foto.save
+        flash[:notice] = "BILL UPDATED"
+      else
+        flash[:danger] = "UPDATE FAILED"
+      end
+    else
+      flash[:danger] = "BILL STATUS UNPAID"
+    end
+
+    redirect_to unpaid_index_path(id: bill[:taska_id])
   end
 
   def check_bill
@@ -654,6 +679,10 @@ class TaskasController < ApplicationController
                                     :acc_no,
                                     :acc_name,
                                     :ssm_no)
+    end
+
+    def foto_params
+      params.require([:bill][:fotos]).permit(:foto_name, :picture)
     end
 
     def check_admin
