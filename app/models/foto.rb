@@ -6,5 +6,6 @@ class Foto < ApplicationRecord
 	belongs_to :expense, optional: true
 	belongs_to :ptns_mmb, optional: true
 	belongs_to :applv, optional: true
+	belongs_to :payment, optional: true
 	mount_uploader :picture, PictureUploader
 end

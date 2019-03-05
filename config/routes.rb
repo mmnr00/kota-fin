@@ -197,6 +197,8 @@ Rails.application.routes.draw do
   get '/taska/:id/crtpayslip', to: 'taskas#crtpayslip', as: 'crtpayslip' 
   get '/taska/:id/chgplan', to: 'taskas#chgplan', as: 'tsk_chgplan' 
   get '/taska/:id/svplan', to: 'taskas#svplan', as: 'tsk_svplan'
+  get '/taska/:id/manupdbill', to: 'taskas#manupdbill', as: 'tsk_manupdbill'
+  get '/taska/:id/svupdbill', to: 'taskas#svupdbill', as: 'tsk_svupdbill'
 
   #~PAYSLIPS
   get 'viewpayslips', to: 'payslips#viewpsl', as: 'viewpsl'

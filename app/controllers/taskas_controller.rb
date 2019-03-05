@@ -14,7 +14,9 @@ class TaskasController < ApplicationController
                                   :tchpayslip,
                                   :newpayslip,
                                   :chgplan,
-                                  :svplan]
+                                  :svplan,
+                                  :manupdbill,
+                                  :svupdbill]
   before_action :set_all
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
@@ -195,6 +197,13 @@ class TaskasController < ApplicationController
     @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).order('bill_year ASC').order('bill_month ASC')
     @kid_all_bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
     render action: "unpaid_index", layout: "dsb-admin-overview" 
+  end
+
+  def manupdplan
+    render action: "manupdplan", layout: "dsb-admin-overview"
+  end
+
+  def svupdbill
   end
 
   def check_bill
