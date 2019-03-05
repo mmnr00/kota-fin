@@ -58,7 +58,8 @@
           </p>
           <p>
             <strong><%= (tchd=@teacher.tchdetail).name %></strong><br>
-            <%= "#{tchd.ic_1}-#{tchd.ic_2}-#{tchd.ic_3}" %>
+            <%= "#{tchd.ic_1}-#{tchd.ic_2}-#{tchd.ic_3}" %><br>
+            <%= tchd.category %>
           </p>
         </div>
       </div>

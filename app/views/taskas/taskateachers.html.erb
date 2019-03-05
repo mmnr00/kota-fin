@@ -363,28 +363,63 @@
                           <th style="background-color:#d8b2d8"> NRIC </th>
                           <th style="background-color:#d8b2d8"> TOTAL AMOUNT(RM) </th>
                           <th style="background-color:#d8b2d8"> TOTAL PAYABLE (RM) </th>
-                          <th style="background-color:#d8b2d8"> EPF (RM) </th>
+                          <th style="background-color:#d8b2d8"> STAFF EPF (RM) </th>
+                          <th style="background-color:#d8b2d8"> CENTER EPF (RM) </th>
+                          <th style="background-color:#d8b2d8"> STAFF SOSCO (RM) </th>
+                          <th style="background-color:#d8b2d8"> CENTER SOSCO (RM) </th>
                           <th style="background-color:#d8b2d8"> ACTIONS </th>
                         </tr>
                       </thead>
                       <tbody>
                         <% counter = 1 %>
+                        <!-- CALCULATION FOR TOTAL -->
+                        <% totamt = 0.00 %>
+                        <% totpay = 0.00 %>
+                        <% totepf = 0.00 %>
+                        <% totepfa = 0.00 %>
+                        <% totsocs = 0.00 %>
+                        <% totsocsa = 0.00 %>
                         <% @tchpayslips.each do |psl| %>
+                        <!-- CALCULATION FOR PAYSLIP -->
+                        <% amt = psl.amt %>
+                        <% alwnc = psl.alwnc %>
+                        <% addtn = psl.addtn %>
+                        <% dedc = psl.dedc %>
+                        <% epf = psl.epf %>
+                        <% epfa = psl.epfa %>
+                        <% socs = psl.socs %>
+                        <% socsa = psl.socsa %>
+                        <% gross = amt.to_f + alwnc.to_f + addtn.to_f - dedc.to_f %>
+                        <% nett = gross - epf.to_f - socs.to_f  %>
+                        <% total = gross + epfa.to_f + socsa.to_f %>
                         <tr>
                           <% tchd = psl.teacher.tchdetail %>
                           <td><%= tchd.name.upcase %></td>
                           <td><%= "#{tchd.ic_1}-#{tchd.ic_2}-#{tchd.ic_3}" %></td>
                           <td>
-                            <% "#{epf = (psl.epf.to_f/100*(psl.amt.to_f + psl.alwnc.to_f))}" %>
-                            <% "#{epfa = (psl.epfa.to_f/100*(psl.amt.to_f + psl.alwnc.to_f))}" %>
-                            <% gross = psl.amt.to_f + psl.alwnc.to_f + psl.addtn.to_f %>
-                            <% nett = gross - epf %>
-                            <%= number_with_delimiter((total = gross + epfa).round(2), :delimeter=>',')  %>
+                            <%= number_with_delimiter(psl.amtepfa.round(2), :delimeter=>',')  %>
+                            <% totamt += psl.amtepfa %>
                           </td>
-                          <td><%= number_with_delimiter(nett.round(2), delimeter: ',') %></td>
                           <td>
-                            <% totepf = epf + epfa %>
-                            <%= number_with_precision(totepf.round(2), delimeter: ',') %></td>
+                            <%= number_with_delimiter(nett.round(2), delimeter: ',') %>
+                            <% totpay += nett %>
+                          </td>
+                          <td>
+                            <%= number_with_delimiter(epf.round(2), delimeter: ',') %>
+                            <% totepf += epf %>
+                          </td>
+                          <td>
+                            <%= number_with_delimiter(epfa.round(2), delimeter: ',') %>
+                            <% totepfa += epfa %>
+                          </td>
+                          <td>
+                            <%= number_with_delimiter(socs.round(2), delimeter: ',') %>
+                            <% totsocs += socs %>
+                          </td>
+                          <td>
+                            <%= number_with_delimiter(socsa.round(2), delimeter: ',') %>
+                            <% totsocsa += socsa %>
+                          </td>
                           <td>
                             <%= link_to "VIEW", viewpsl_path(psl: psl.id), class: 'btn btn-sm btn-info', target: '_blank'%>
                             <%= link_to "DELETE", dltpsl_path(psl: psl.id,
@@ -397,6 +432,17 @@
                         </tr>
                         <% counter = counter + 1 %>
                         <% end %>
+                        <tr>
+                          <td colspan="2">
+                            <h2 align="center">TOTAL</h2>
+                          </td>
+                          <td><h4><%= number_with_delimiter(totamt, delimeter: ',') %></h4></td>
+                          <td><h4><%= number_with_delimiter(totpay, delimeter: ',') %></h4></td>
+                          <td><h4><%= number_with_delimiter(totepf, delimeter: ',') %></h4></td>
+                          <td><h4><%= number_with_delimiter(totepfa, delimeter: ',') %></h4></td>
+                          <td><h4><%= number_with_delimiter(totsocs, delimeter: ',') %></h4></td>
+                          <td><h4><%= number_with_delimiter(totsocsa, delimeter: ',') %></h4></td>
+                        </tr>
                       </tbody>
                     </table>
                   </div>
