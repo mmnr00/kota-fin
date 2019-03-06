@@ -198,7 +198,7 @@ Rails.application.routes.draw do
   get '/taska/:id/chgplan', to: 'taskas#chgplan', as: 'tsk_chgplan' 
   get '/taska/:id/svplan', to: 'taskas#svplan', as: 'tsk_svplan'
   get '/taska/:id/manupdbill', to: 'taskas#manupdbill', as: 'tsk_manupdbill'
-  get '/taska/:id/svupdbill', to: 'taskas#svupdbill', as: 'tsk_svupdbill'
+  post '/taska/:id/svupdbill', to: 'taskas#svupdbill', as: 'tsk_svupdbill'
 
   #~PAYSLIPS
   get 'viewpayslips', to: 'payslips#viewpsl', as: 'viewpsl'
@@ -254,6 +254,7 @@ Rails.application.routes.draw do
   get '/bill_taska1_monthly', to: 'payments#bill_taska1_monthly'
   get '/got_bill', to: 'payments#got_bill'
   get '/chek_bill', to: 'payments#chek_bill'
+  get '/tsksvbill', to: 'payments#tsksvbill'
   
 
   #get '/taska/:id/create_bill', to: 'payments#create_bill', as: 'create_bill'

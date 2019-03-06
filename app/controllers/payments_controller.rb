@@ -41,6 +41,10 @@ class PaymentsController < ApplicationController
     end
   end
 
+  def tsksvbill
+    redirect_to unpaid_index_path(id: bill[:taska_id])
+  end
+
   def create_collection
     @taska = Taska.find(params[:id])
     url_collection = "#{ENV['BILLPLZ_API']}collections/"

@@ -5,6 +5,7 @@ class FotosController < ApplicationController
 	def edit
 	end
 
+
 	def update
 		@tchdetail = @foto.tchdetail
 		if @foto.update(foto_params)

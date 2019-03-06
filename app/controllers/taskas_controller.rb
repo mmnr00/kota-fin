@@ -210,7 +210,6 @@ class TaskasController < ApplicationController
 
   def svupdbill
     bill = params[:bill]
-    rcpt = params[:bill][:fotos]
     @taska = Taska.find(bill[:taska_id])
     #@foto = @taska.fotos.build
     if bill[:paid] == "PAID"
@@ -218,8 +217,11 @@ class TaskasController < ApplicationController
       @payment.paid = true
       @payment.mtd = bill[:mtd]
       @payment.updated_at = bill[:updated_at]
-      Foto.new(foto_params)
-      if @payment.save && @foto.save
+      @foto = Foto.new
+      @foto.picture = bill[:picture]
+      @foto.foto_name = bill[:foto_name]
+      @foto.payment_id = bill[:payment_id]
+      if @foto.save && @payment.save
         flash[:notice] = "BILL UPDATED"
       else
         flash[:danger] = "UPDATE FAILED"
@@ -227,7 +229,6 @@ class TaskasController < ApplicationController
     else
       flash[:danger] = "BILL STATUS UNPAID"
     end
-
     redirect_to unpaid_index_path(id: bill[:taska_id])
   end
 
@@ -516,24 +517,6 @@ class TaskasController < ApplicationController
     end
   end
 
-  def chgplan
-    render action: "chgplan", layout: "dsb-admin-overview" 
-  end
-
-  def svplan
-    old = @taska.plan
-    @taska.plan = params[:plan]
-    @taska.save
-    flash[:success] = "Successfully changed from #{old} to #{params[:plan]} plan. This will be reflected in your next bill"
-    redirect_to taska_path(@taska)
-  end
-
-  # GET /taskas/1/edit
-  def edit
-    @fotos = @taska.fotos
-    render action: "edit", layout: "dsb-admin-overview" 
-  end
-
   # POST /taskas
   # POST /taskas.json
   def create
@@ -554,9 +537,28 @@ class TaskasController < ApplicationController
     else
       render :new 
       
-    end
-    
+    end  
   end
+
+  def chgplan
+    render action: "chgplan", layout: "dsb-admin-overview" 
+  end
+
+  def svplan
+    old = @taska.plan
+    @taska.plan = params[:plan]
+    @taska.save
+    flash[:success] = "Successfully changed from #{old} to #{params[:plan]} plan. This will be reflected in your next bill"
+    redirect_to taska_path(@taska)
+  end
+
+  # GET /taskas/1/edit
+  def edit
+    @fotos = @taska.fotos
+    render action: "edit", layout: "dsb-admin-overview" 
+  end
+
+  
 
   def update_bank
     @taska = Taska.find(params[:id])
@@ -682,7 +684,7 @@ class TaskasController < ApplicationController
     end
 
     def foto_params
-      params.require([:bill][:fotos]).permit(:foto_name, :picture)
+      params.require(:bill).permit(:foto_name, :picture)
     end
 
     def check_admin

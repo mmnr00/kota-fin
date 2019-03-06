@@ -5,7 +5,7 @@
     <%= render 'kids/kid-bill' %>
   </div>
   <div class="col-md-3" style="background-color:#cce5cc"><br><br><br>
-    <%= form_for(:bill, :url => {:controller=>'taskas', :action=>'svupdbill'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+    <%= form_for(:bill, :url => {:controller=>'taskas', :action=>'svupdbill'}, :html => {multipart: true, class: "form-horizontal", role: "form"}) do |f| %>
 
       <div class="form-group"> <!-- STATUS-->
         <div class="row">
@@ -52,14 +52,12 @@
             <strong><h10>PAYMENT SLIP</h10></strong>
           </div>
         </div>
-        <%= f.fields_for :fotos do |h| %>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= h.hidden_field :foto_name, value: "PAYMENT SLIP" %>
-              <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png,application/pdf' %>
+              <%= f.hidden_field :foto_name, value: "PAYMENT SLIP" %>
+              <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png,application/pdf' %>
             </div>
           </div>
-        <% end %>
       </div>
 
 
