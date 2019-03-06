@@ -93,7 +93,21 @@
               </div>
               <div>
                 <% if @payment.paid %>
-                <div class="pull-left"> PAYMENT DATE : <%= @payment.updated_at.strftime("%b %d, %Y") %></div>
+                <div class="pull-left"> PAYMENT DATE : <%= @payment.updated_at.strftime("%b %d, %Y") %></div><br>
+                <div class="pull-left"> PAYMENT METHOD : 
+                  <% if (mtd =@payment.mtd).present? %>
+                    <%= mtd %>
+                  <% else %>
+                    NORMAL BILLPLZ
+                  <% end %>
+                </div><br>
+                <% if (image = @payment.fotos.first).present? && image.picture.present? %>
+                  <div class="pull-left">
+                    <a href="<%= image.picture.url %>" target="_blank">
+                      <font color="blue">RECEIPT</font>
+                    </a>
+                  </div>
+                <% end %>
                 <% end %>
                 <div class="clearfix"></div>
               </div><br>
