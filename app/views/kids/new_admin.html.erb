@@ -5,7 +5,13 @@
     <% end %> <%= link_to "#{@taska.name.upcase}", taska_page_path(id: params[:taska_id]), class: "btn btn-m btn-primary active", target: "_blank" %>
 </h3>
 <br>
-<%= render 'kids/form-min-admin' %>
+
+
+<%if params[:new] == "yes" %>
+  <%= render 'kids/form-admin' %>
+<% else %>
+  <%= render 'kids/form-min-admin' %>
+<% end %>
 
 	
 
