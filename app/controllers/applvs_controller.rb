@@ -52,7 +52,31 @@ class ApplvsController < ApplicationController
 			
 			if @applv.save
 			#if 1==1
-				flash[:success] = "LEAVE REQUEST CREATED"
+				#SEND EMAIL
+				taska = @applv.taska
+				teacher = @applv.teacher
+				tchd = teacher.tchdetail
+				mail = SendGrid::Mail.new
+				mail.from = SendGrid::Email.new(email: 'do-not-reply@kidcare.my', name: 'KidCare')
+				mail.subject = 'NEW LEAVE APPLICATION'
+				#Personalisation, add cc
+				personalization = SendGrid::Personalization.new
+				personalization.add_to(SendGrid::Email.new(email: "#{taska.email}"))
+				personalization.add_cc(SendGrid::Email.new(email: "#{teacher.email}"))
+				mail.add_personalization(personalization)
+				#add content
+				msg = "<html>
+								<body>
+									<br><br>
+									<strong>#{taska.name}</strong><br>
+									<strong>#{tchd.name}</strong><br>
+								</body>
+							</html>"
+				#sending email
+				mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
+				sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
+				@response = sg.client.mail._('send').post(request_body: mail.to_json)
+				flash[:success] = "LEAVE REQUEST SUBMITTED"
 			else
 				flash[:success] = "PLEASE TRY AGAIN"
 			end
@@ -157,8 +181,36 @@ class ApplvsController < ApplicationController
 		@applv = Applv.find(par[:id])
 		@applv.stat = par[:stat]
 		@applv.tskdesc = par[:tskdesc]
-		@applv.save
-		flash[:notice] = "LEAVE UPDATED SUCCESSFULLY"
+		if @applv.save
+			#SEND EMAIL
+				taska = @applv.taska
+				teacher = @applv.teacher
+				tchd = teacher.tchdetail
+				mail = SendGrid::Mail.new
+				mail.from = SendGrid::Email.new(email: 'do-not-reply@kidcare.my', name: 'KidCare')
+				mail.subject = "LEAVE APPLICATION #{@applv.stat}"
+				#Personalisation, add cc
+				personalization = SendGrid::Personalization.new
+				personalization.add_to(SendGrid::Email.new(email: "#{teacher.email}"))
+				personalization.add_cc(SendGrid::Email.new(email: "#{taska.email}"))
+				mail.add_personalization(personalization)
+				#add content
+				msg = "<html>
+								<body>
+									<br><br>
+									<strong>#{taska.name}</strong><br>
+									<strong>#{tchd.name}</strong><br>
+								</body>
+							</html>"
+				#sending email
+				mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
+				sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
+				@response = sg.client.mail._('send').post(request_body: mail.to_json)
+				flash[:notice] = "LEAVE UPDATED SUCCESSFULLY"
+		else
+			flash[:notice] = "UPDATE FAILED. PLEASE TRY AGAIN"
+		end
+		
 		if par[:tch] == "tch"
 			redirect_to tsk_tchleave_path(id: @applv.taska_id, tch_id: @applv.teacher_id)
 		else
