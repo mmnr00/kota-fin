@@ -60,7 +60,7 @@ class ApplvsController < ApplicationController
 		else
 			
 			if @applv.save
-			#if 1==1
+			# if 1==1
 				#SEND EMAIL
 				taska = @applv.taska
 				teacher = @applv.teacher
@@ -74,6 +74,7 @@ class ApplvsController < ApplicationController
 				personalization.add_cc(SendGrid::Email.new(email: "#{teacher.email}"))
 				mail.add_personalization(personalization)
 				#add content
+				logo = "https://kidcare-prod.s3.amazonaws.com/uploads/foto/picture/149/kidcare_logo_top.png"
 				msg = "<html>
 								<body>
 									Hi <strong>#{taska.supervisor}</strong><br><br>
@@ -88,11 +89,11 @@ class ApplvsController < ApplicationController
 									  <li><strong>DURATION : </strong>#{@applv.tot} day(s)</li>
 									</ul><br>
 
-									Please click here to login and review the application. <br><br>
+									Please login to review the application. <br><br>
 
 									Many thanks for your continous support.<br><br><br>
 
-									Powered by IMG KIDCARE
+									Powered by <strong>www.kidcare.my</strong>
 								</body>
 							</html>"
 				#sending email
@@ -204,6 +205,14 @@ class ApplvsController < ApplicationController
 		@applv = Applv.find(par[:id])
 		@applv.stat = par[:stat]
 		@applv.tskdesc = par[:tskdesc]
+		kind = @applv.kind
+		if kind == "HALF DAY AM" || kind == "HALF DAY PM"
+			half = true
+			kind_name = kind
+		else
+			half = false
+			kind_name = Tsklv.find(kind).name.upcase
+		end
 		if @applv.save
 			#SEND EMAIL
 				taska = @applv.taska
@@ -218,16 +227,26 @@ class ApplvsController < ApplicationController
 				personalization.add_cc(SendGrid::Email.new(email: "#{taska.email}"))
 				mail.add_personalization(personalization)
 				#add content
-				msg = "
-							<html>
+				msg = "<html>
 								<body>
-									<br><br>
-									<strong>#{taska.name}</strong><br>
-									<strong>#{tchd.name}</strong><br>
-								</body>
-							</html>
+									Hi <strong>#{tchd.name.upcase}</strong><br><br>
 
-							"
+
+									<strong>#{taska.supervisor}</strong> had <strong>#{@applv.stat}</strong> your leave application.<br>
+									The details are as below:<br>
+									<ul>
+									  <li><strong>LEAVE TYPE : </strong>#{kind_name}</li>
+									  <li><strong>COMMENTS : </strong>#{@applv.tskdesc}</li>
+									  <li><strong>START DATE : </strong>#{@applv.start.strftime('%d-%^b-%y')}</li>
+									  <li><strong>END DATE : </strong>#{@applv.end.strftime('%d-%^b-%y')}</li>
+									  <li><strong>DURATION : </strong>#{@applv.tot} day(s)</li>
+									</ul><br>
+
+									Many thanks for your continous support.<br><br><br>
+
+									Powered by <strong>www.kidcare.my</strong>
+								</body>
+							</html>"
 				#sending email
 				mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
 				sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
