@@ -23,7 +23,7 @@
 
 <div class="row">
   <!-- FORM SUMMARY -->
-  <div class="col-sm-9 bg-light">
+  <div class="col-sm-8 bg-light">
     <div style="background-color:#ccccff"><h5 align="center">PAYSLIP SUMMARY</h5></div>
 
     
@@ -60,7 +60,29 @@
   </div>
 
   <!-- FORM ENTRY -->
-  <div class="col-sm-3 bg-white">
+  <div class="col-sm-4 bg-white">
+    <div style="background-color:#ffb2b2">
+      <h5 align="center">UNPAID LEAVES FOR <%= "#{$month_name[params[:month].to_i]}-#{params[:year]}" %></h5>
+      <div>
+        <h8>
+          <% if @tchunpaid.present? %>
+            <ul>
+              <% @tchunpaid.each do |lv| %>
+                <% date = Date.new(params[:year].to_i, params[:month].to_i) %>
+                <% date1 = date + 1.months %>
+                <% if (lv.start.month == date.month && lv.start.year == date.year) || (lv.end.month == date.month && lv.end.year == date.year)  %>
+                  <li>
+                    <%= "#{lv.start.strftime('%d-%^b-%y')} to #{lv.end.strftime('%d-%^b-%y')} (#{lv.tot} days)"%>
+                  </li>
+                <% end %>
+              <% end %>
+            </ul>
+          <% else %>
+            <h4 align="center">NO UNPAID LEAVES</h4>
+          <% end %>
+        </h8>
+      </div>
+    </div>
     <div style="background-color:#cce5cc"><h5 align="center">PAYSLIP ENTRY</h5></div>
     <%= form_tag newpayslip_path, method: :get, id: "find_kid" do %>
       <div class="row">

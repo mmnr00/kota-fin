@@ -227,7 +227,7 @@
                            <i class="fa fa-edit"></i> EDIT
                         </span>
                       </a>&nbsp&nbsp&nbsp&nbsp
-                      <% if ann != "ANNUAL LEAVE" %>
+                      <% if ann != "ANNUAL LEAVE" && ann != "UNPAID LEAVE"  %>
                         <a data-confirm="Are you sure? All leaves related to this will be deleted" data-method="delete" href="/tsklvs/<%= "#{tsklv.id}" %>">
                           <span class="text-danger">
                             DELETE <i class="fa fa-trash"></i>

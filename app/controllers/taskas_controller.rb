@@ -477,6 +477,15 @@ class TaskasController < ApplicationController
   def newpayslip
     @teacher = Teacher.find(params[:tch_id])
     @payinfo = @teacher.payinfos.where(teacher_id: params[:tch_id], taska_id: params[:id]).first
+    unpaid_leave = @taska.tsklvs.where(name: "UNPAID LEAVE").first
+    @tchunpaid = @teacher.applvs.where(kind: unpaid_leave.id, stat: "APPROVED").order('start ASC')
+    @count = 0
+    @tchunpaid.each do |lv|
+      if (lv.start.month == params[:month].to_i && lv.start.year == params[:year].to_i) && (lv.end.month == params[:month].to_i && lv.end.year == params[:year].to_i)
+        @count += lv.tot
+      end
+    end
+
     render action: "newpayslip", layout: "dsb-admin-teacher"
   end
 
@@ -560,6 +569,10 @@ class TaskasController < ApplicationController
       taska_admin1 = TaskaAdmin.create(taska_id: @taska.id, admin_id: current_admin.id)
       annlv = Tsklv.create(taska_id: @taska.id, 
                           name: "ANNUAL LEAVE",
+                          desc: "PLEASE INSERT YOUR DESCRIPTION AND THE DEFAULT DAYS",
+                          day: 15)
+      annlv = Tsklv.create(taska_id: @taska.id, 
+                          name: "UNPAID LEAVE",
                           desc: "PLEASE INSERT YOUR DESCRIPTION AND THE DEFAULT DAYS",
                           day: 15)
       if current_admin != Admin.first
