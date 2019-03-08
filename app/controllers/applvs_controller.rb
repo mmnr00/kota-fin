@@ -3,7 +3,16 @@ class ApplvsController < ApplicationController
 	def apply
 		@applv = Applv.new(applv_params)
 		# calculate no of leave days
-		if @applv.kind == "HALF DAY AM" || @applv.kind == "HALF DAY PM"
+		kind = @applv.kind
+		if kind == "HALF DAY AM" || kind == "HALF DAY PM"
+			half = true
+			kind_name = kind
+		else
+			half = false
+			kind_name = Tsklv.find(kind).name.upcase
+		end
+
+		if half
 				diff = 0.5
 				plus = 0
 				ph = 0
@@ -67,9 +76,23 @@ class ApplvsController < ApplicationController
 				#add content
 				msg = "<html>
 								<body>
-									<br><br>
-									<strong>#{taska.name}</strong><br>
-									<strong>#{tchd.name}</strong><br>
+									Hi <strong>#{taska.supervisor}</strong><br><br>
+
+									<strong>#{tchd.name.upcase}</strong> had submitted leave application for your approval.<br>
+									Further details are as below:<br>
+									<ul>
+									  <li><strong>LEAVE TYPE : </strong>#{kind_name}</li>
+									  <li><strong>COMMENTS : </strong>#{@applv.tchdesc}</li>
+									  <li><strong>START DATE : </strong>#{@applv.start.strftime('%d-%^b-%y')}</li>
+									  <li><strong>END DATE : </strong>#{@applv.end.strftime('%d-%^b-%y')}</li>
+									  <li><strong>DURATION : </strong>#{@applv.tot} day(s)</li>
+									</ul><br>
+
+									Please click here to login and review the application. <br><br>
+
+									Many thanks for your continous support.<br><br><br>
+
+									Powered by IMG KIDCARE
 								</body>
 							</html>"
 				#sending email
@@ -195,13 +218,16 @@ class ApplvsController < ApplicationController
 				personalization.add_cc(SendGrid::Email.new(email: "#{taska.email}"))
 				mail.add_personalization(personalization)
 				#add content
-				msg = "<html>
+				msg = "
+							<html>
 								<body>
 									<br><br>
 									<strong>#{taska.name}</strong><br>
 									<strong>#{tchd.name}</strong><br>
 								</body>
-							</html>"
+							</html>
+
+							"
 				#sending email
 				mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
 				sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
