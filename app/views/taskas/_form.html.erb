@@ -68,7 +68,7 @@
           <% elsif params[:discount].present? %>
             <% discount = params[:discount] %>
           <% else %>
-            <% discount = 0.5 %>
+            <% discount = 1 %>
           <% end %>
           <%= f.hidden_field :discount, class: "form-control", :value => discount, required: true %>
         
