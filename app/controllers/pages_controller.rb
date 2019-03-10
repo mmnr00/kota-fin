@@ -8,6 +8,28 @@ class PagesController < ApplicationController
 	def index
 	end
 
+	def sendgrid
+		mail = SendGrid::Mail.new
+		mail.from = SendGrid::Email.new(email: 'do-not-reply@kidcare.my', name: 'KidCare')
+		mail.subject = 'Test'
+		#Personalisation, add cc
+		personalization = SendGrid::Personalization.new
+		personalization.add_to(SendGrid::Email.new(email: 'mmnr00@gmail.com', name: 'MUS'))
+		personalization.add_cc(SendGrid::Email.new(email: 'admin@kidcare.my', name: 'Example User'))
+		mail.add_personalization(personalization)
+		#add content
+		taska = Taska.find(1)
+		msg = "<html>
+						<body>
+							<strong>#{taska.name}</strong>
+						</body>
+					</html>"
+		#sending email
+		mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
+		sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
+		@response = sg.client.mail._('send').post(request_body: mail.to_json)
+	end
+
 	def about
 	end
 

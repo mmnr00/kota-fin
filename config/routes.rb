@@ -56,6 +56,7 @@ Rails.application.routes.draw do
   get '/443322/pricing', to: 'pages#pricing'
   get '/443322/admin_card', to: 'pages#admin_card'
   get '/443322/classroom_card', to: 'pages#classroom_card'
+  get '/443322/sendgrid', to: 'pages#sendgrid'
 
 
   get '/443322/bank_status', to: 'pages#bank_status', as: 'bank_status'
