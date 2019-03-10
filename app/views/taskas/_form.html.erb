@@ -203,7 +203,7 @@
         <%= f.hidden_field :plan, value: params[:plan] %>
 
         <!-- START PHOTO UPLOAD -->
-        <!-- IC FRONT -->
+        <!-- CENTER LOGO -->
       <% m = 0 %> <!-- Stop loop at 1 -->
       <div class="form-group"> 
         <div class="row">
@@ -227,6 +227,40 @@
               <div class="row">
                 <div class="col-sm-8 col-8">
                   <%= h.hidden_field :foto_name, value: "CENTER LOGO" %>
+                  <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
+                </div>
+              </div>
+              <% m = 1 %>
+            <% end %>
+        <% end %>
+        </div>
+        </div>
+      </div>
+
+      <!-- COMPANY LOGO -->
+      <% m = 0 %> <!-- Stop loop at 1 -->
+      <div class="form-group"> 
+        <div class="row">
+          <div class="control-label col-sm-8">
+            <strong>COMPANY LOGO</strong>
+          </div>
+        </div>
+        <div class="row">
+        <div class="col-sm-8 col-5">
+        <% image = @taska.fotos.where(foto_name: "COMPANY LOGO").first %>
+        <% if image.present? %>
+          <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
+            <div class="row">
+            <div class="col-sm-8 col-5">
+              <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
+            </div>
+            </div>  
+        <% else %>
+          <%= f.fields_for :fotos do |h| %>
+            <% break if m==1 %>
+              <div class="row">
+                <div class="col-sm-8 col-8">
+                  <%= h.hidden_field :foto_name, value: "COMPANY LOGO" %>
                   <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png' %>
                 </div>
               </div>
