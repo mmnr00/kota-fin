@@ -38,7 +38,7 @@
                       <% if kid.classroom.present? %>
                         <%= kid.classroom.classroom_name %><br>
                       <% else %>
-                         AWAITING CONFIRMATION FROM TASKA <br><br>
+                         AWAITING CONFIRMATION FROM CENTER <br><br>
                       <% end %>
                     <% else %>
                       <%= link_to "ADD", index_parent_path(id: @parent.id, kid_id: kid.id), class: "btn btn-sm btn-danger active" %><br>
