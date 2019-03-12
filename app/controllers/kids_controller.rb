@@ -223,9 +223,15 @@ class KidsController < ApplicationController
 		@kid = Kid.find(params[:kid][:kid_id])
 		@classroom = Classroom.find(params[:kid][:classroom_id])
 		@taska = @classroom.taska
-		@kid.classroom_id = @classroom.id
-		@kid.save
-		flash[:notice] = "#{@kid.name} was successfully added to #{@classroom.classroom_name}"
+		plan = @taska.plan
+		kidno = $package_child[plan]
+		if @taska.kids.where.not(classroom_id: nil).count >= kidno
+			flash[:danger] = "You have reached the maximum no of children allowed for #{plan} plan quote. Please upgrade or choose Pay/Use plan to proceed"
+		else
+			@kid.classroom_id = @classroom.id
+			@kid.save
+			flash[:notice] = "#{@kid.name} was successfully added to #{@classroom.classroom_name}"
+		end
 		redirect_to unreg_kids_path(@taska)
 	end
 

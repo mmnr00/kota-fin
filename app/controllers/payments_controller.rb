@@ -349,12 +349,12 @@ class PaymentsController < ApplicationController
       end
       taska_all.each do |taska|
         @taska = Taska.find(taska.id)
+        kid_count = @taska.kids.where.not(classroom_id: nil).count
         bill_plan = @taska.payments.where(name: "TASKA PLAN")
         period = Time.now + 1.months
-        if !bill_plan.where(bill_month: period.in_time_zone('Singapore').month).where(bill_year: period.in_time_zone('Singapore').year).present? && !bill_plan.where(paid: false).present?
+        if (!bill_plan.where(bill_month: period.in_time_zone('Singapore').month).where(bill_year: period.in_time_zone('Singapore').year).present?) && (!bill_plan.where(paid: false).present?) && (kid_count > 0)
         #if 1==1
           if (plan=@taska.plan) == "PAY PER USE"
-            kid_count = @taska.kids.where.not(classroom_id: nil).count
             real = (kid_count*2.8)*100
             amount = (real*(@taska.discount)).round(1)
             desc = "(#{kid_count} CHILDRENS)"
@@ -389,7 +389,7 @@ class PaymentsController < ApplicationController
             @payment.paid = data["paid"]
             @payment.bill_id = data["id"]
             if @payment.save
-              Tskbill.create(real: real/100, disc: (real*@taska.discount)/100, payment_id: @payment.id)
+              Tskbill.create(real: real/100, disc: (real*(1-@taska.discount))/100, payment_id: @payment.id)
             end
             ctr = ctr + 1
             if Rails.env.production?
@@ -451,7 +451,7 @@ class PaymentsController < ApplicationController
           @payment.paid = data["paid"]
           @payment.bill_id = data["id"]
           if @payment.save
-            Tskbill.create(real: real/100, disc: (real*@taska.discount)/100, payment_id: @payment.id)
+            Tskbill.create(real: real/100, disc: (real*(1-@taska.discount))/100, payment_id: @payment.id)
           end
           if Rails.env.production?
             @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
