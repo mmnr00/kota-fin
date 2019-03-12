@@ -320,7 +320,7 @@ class TaskasController < ApplicationController
       @taska_plan = @taska.payments.where(name: "TASKA PLAN").where(paid: true).where('extract(year from updated_at) = ?', params[:year])
     else
       dt = Date.new(params[:year].to_i,params[:month].to_i)
-      dt = dt + 1.months
+      dt = dt
       @payslips = @taska.payslips.where(mth: dt.month, year: dt.year)
       @taska_expenses = @taska.expenses.where(month: params[:month]).where(year: params[:year])
       @taska_bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_month: params[:month]).where(bill_year: params[:year])
