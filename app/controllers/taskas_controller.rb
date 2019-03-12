@@ -594,9 +594,20 @@ class TaskasController < ApplicationController
   def svplan
     old = @taska.plan
     @taska.plan = params[:plan]
-    @taska.save
-    flash[:success] = "Successfully changed from #{old} to #{params[:plan]} plan. This will be reflected in your next bill"
-    redirect_to taska_path(@taska)
+    if params[:plan] == "PAY PER USE"
+      kidno = 100000000
+    else
+      kidno = $package_child[params[:plan]]
+    end
+    if @taska.kids.where.not(classroom_id: nil).count > kidno
+      flash[:danger] = "No of registered children with your center exceeds the #{params[:plan]} plan quota. Please choose a higher plan or Pay/Use"
+      redirect_to tsk_chgplan_path(@taska, chg: 1)
+    else
+      @taska.save
+      flash[:success] = "Successfully changed from #{old} to #{params[:plan]} plan. This will be reflected in your next bill"
+      redirect_to taska_path(@taska)
+    end
+    
   end
 
   # GET /taskas/1/edit
