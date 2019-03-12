@@ -134,8 +134,49 @@ class KidsController < ApplicationController
 		if @kid.save
 			#Kidtsk.create(kid_id: @kid.id, taska_id: params[:kidtsk][:taska_id])
 			# if @kid.fotos.where(foto_name: "BOOKING RECEIPT").first.present?			
-			# 	flash[:notice] = "Children was successfully created"					
-				redirect_to my_kid_path(@kid.parent)		
+			# 	flash[:notice] = "Children was successfully created"
+			#SEND EMAIL
+			taska = @kid.taska
+			parent = @kid.parent
+			mail = SendGrid::Mail.new
+			mail.from = SendGrid::Email.new(email: 'kidcare@kidcare.my', name: 'KidCare')
+			mail.subject = 'NEW CHILDREN REGISTRATION'
+			#Personalisation, add cc
+			personalization = SendGrid::Personalization.new
+			personalization.add_to(SendGrid::Email.new(email: "#{taska.email}"))
+			personalization.add_cc(SendGrid::Email.new(email: "#{parent.email}"))
+			mail.add_personalization(personalization)
+			#add content
+			logo = "https://kidcare-prod.s3.amazonaws.com/uploads/foto/picture/149/kidcare_logo_top.png"
+			msg = "<html>
+							<body>
+								Hi <strong>#{taska.supervisor}</strong><br><br>
+
+								New children has registered to <strong>#{taska.name}</strong>.<br>
+								Further details are as below:<br>
+								<ul>
+								  <li><strong>NAME : </strong>#{@kid.name}</li>
+								  <li><strong>MYKID NO : </strong>#{@kid.ic_1}-#{@kid.ic_2}-#{@kid.ic_3}</li>
+								  <li><strong>START DATE : </strong>#{@kid.date_enter.strftime('%d-%^b-%y')}</li>
+								  <li><strong>PHONE : </strong>#{@kid.ph_1}-#{@kid.ph_2}</li>
+								  <li><strong>FATHER'S NAME : </strong>#{@kid.father_name}</li>
+								  <li><strong>MOTHER'S NAME : </strong>#{@kid.mother_name}</li>
+								</ul><br>
+
+								Please login to review the registration. <br><br>
+
+								Many thanks for your continous support.<br><br><br>
+
+								Powered by <strong>www.kidcare.my</strong>
+							</body>
+						</html>"
+			#sending email
+			mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
+			sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
+			@response = sg.client.mail._('send').post(request_body: mail.to_json)
+
+			flash[:success] = "#{@kid.name.upcase} registered successfully"
+			redirect_to my_kid_path(@kid.parent)		
 			# else
 				#redirect_to parent_index_path;		 
 				#redirect_to create_bill_booking_path(kid_id: @kid.id, taska_id: @kid.taska.id)
