@@ -398,7 +398,7 @@
                           <td><%= "#{tchd.ic_1}-#{tchd.ic_2}-#{tchd.ic_3}" %></td>
                           <td>
                             <%= number_with_delimiter(psl.amtepfa.round(2), :delimeter=>',')  %>
-                            <% totamt += total %>
+                            <% totamt += psl.amtepfa %>
                           </td>
                           <td>
                             <%= number_with_delimiter(nett.round(2), delimeter: ',') %>

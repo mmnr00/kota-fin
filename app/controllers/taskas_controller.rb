@@ -150,8 +150,12 @@ class TaskasController < ApplicationController
     #     end
     #   end
     # end
+    time = Time.now.in_time_zone('Singapore')
+    @mth = time.month
+    @yr = time.year 
     @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false)
-    @taska_expense = @taska.expenses.where(month: $my_time.month).where(year: $my_time.year).order('CREATED_AT DESC')
+    @taska_expense = @taska.expenses.where(month: @mth).where(year: @yr).order('CREATED_AT DESC')
+    @payslips = @taska.payslips.where(mth: @mth, year: @yr)
     @applvs = @taska.applvs.where.not(stat: "APPROVED").where.not(stat: "REJECTED")
     session[:taska_id] = @taska.id
     session[:taska_name] = @taska.name  
@@ -497,35 +501,37 @@ class TaskasController < ApplicationController
       tsk = @payslip.taska
       tch = @payslip.teacher
       tchd = tch.tchdetail
-      #SEND EMAIL
-      mail = SendGrid::Mail.new
-      mail.from = SendGrid::Email.new(email: 'do-not-reply@kidcare.my', name: 'KidCare')
-      mail.subject = "NEW PAYSLIP FOR #{$month_name[mth]}-#{yr}"
-      #Personalisation, add cc
-      personalization = SendGrid::Personalization.new
-      personalization.add_to(SendGrid::Email.new(email: "#{tch.email}"))
-      personalization.add_cc(SendGrid::Email.new(email: "#{tsk.email}"))
-      mail.add_personalization(personalization)
-      #add content
-      msg = "<html>
-              <body>
-                Hi <strong>#{tchd.name.upcase}</strong><br><br>
+      if Rails.env.production?
+        #SEND EMAIL
+        mail = SendGrid::Mail.new
+        mail.from = SendGrid::Email.new(email: 'do-not-reply@kidcare.my', name: 'KidCare')
+        mail.subject = "NEW PAYSLIP FOR #{$month_name[mth]}-#{yr}"
+        #Personalisation, add cc
+        personalization = SendGrid::Personalization.new
+        personalization.add_to(SendGrid::Email.new(email: "#{tch.email}"))
+        personalization.add_cc(SendGrid::Email.new(email: "#{tsk.email}"))
+        mail.add_personalization(personalization)
+        #add content
+        msg = "<html>
+                <body>
+                  Hi <strong>#{tchd.name.upcase}</strong><br><br>
 
 
-                <strong>#{tsk.name.upcase}</strong> had created your payslip for <strong>#{$month_name[mth]}-#{yr}</strong>.<br>
-                <br>
+                  <strong>#{tsk.name.upcase}</strong> had created your payslip for <strong>#{$month_name[mth]}-#{yr}</strong>.<br>
+                  <br>
 
-                Please login to view.<br> 
+                  Please login to view.<br> 
 
-                Many thanks for your continous support.<br><br>
+                  Many thanks for your continous support.<br><br>
 
-                Powered by <strong>www.kidcare.my</strong>
-              </body>
-            </html>"
-      #sending email
-      mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
-      sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
-      @response = sg.client.mail._('send').post(request_body: mail.to_json)
+                  Powered by <strong>www.kidcare.my</strong>
+                </body>
+              </html>"
+        #sending email
+        mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
+        sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
+        @response = sg.client.mail._('send').post(request_body: mail.to_json)
+      end
       flash[:success] = "PAYSLIP CREATION SUCCESSFULL"
     else
       flash[:danger] = "PAYSLIP CREATION FAILED. PLEASE TRY AGAIN"
