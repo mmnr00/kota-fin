@@ -605,10 +605,15 @@ class TaskasController < ApplicationController
     else
       kidno = $package_child[params[:plan]]
     end
-    if @taska.kids.where.not(classroom_id: nil).count > kidno
+    if (curr_kid = @taska.kids.where.not(classroom_id: nil).count) > kidno
       flash[:danger] = "No of registered children with your center exceeds the #{params[:plan]} plan quota. Please choose a higher plan or Pay/Use"
       redirect_to tsk_chgplan_path(@taska, chg: 1)
     else
+      # if params[:plan] == "PAY PER USE" && curr_kid > 100
+      #   @taska.discount = (2.4/2.8)
+      # else
+        
+      # end
       @taska.save
       flash[:success] = "Successfully changed from #{old} to #{params[:plan]} plan. This will be reflected in your next bill"
       redirect_to taska_path(@taska)
