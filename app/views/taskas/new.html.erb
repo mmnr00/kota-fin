@@ -1,6 +1,10 @@
 <button class="btn btn-sm btn-info">CREATE NEW CENTER</button></br></br>
 
-<%= render 'taskas/form' %>
+<% if params[:reg] == "PTNS" %>
+  <%= render 'taskas/form-min' %>
+<% else %>
+  <%= render 'taskas/form' %>
+<% end %>
 
 
 

@@ -1,0 +1,144 @@
+<div class='row'>
+  <div class='col-lg-8 col-12'>
+    <%= form_for(@taska, :html => {multipart: true, class: "form-horizontal", role: "form"}) do |f| %>
+
+        <!-- taska name -->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>CENTER NAME</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :name, class: "form-control", autofocus: true, required: true, style: "text-transform:uppercase" %>
+            </div>
+          </div>
+        </div>
+
+        
+
+        <!-- TASKA ADDRESS -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>CENTER ADDRESS</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+             <%= f.text_field :address_1, class: "form-control", autofocus: true, required: true, style: "text-transform:uppercase" %> <font size="2"> Address Line 1 </font>
+            </div>
+            <div class="col-sm-8 col-12">
+             <%= f.text_field :address_2, class: "form-control", autofocus: true, style: "text-transform:uppercase" %> <font size="2"> Address Line 2 </font>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-3 col-6">
+             <%= f.text_field :city, class: "form-control", autofocus: true, required: true, style: "text-transform:uppercase" %> <font size="2"> City </font>
+            </div>
+            <div class="col-sm-3 col-5">
+             <%= f.text_field :states, class: "form-control", autofocus: true, required: true, style: "text-transform:uppercase" %> <font size="2"> States </font>
+            </div>
+            <div class="col-sm-2 col-4">
+             <%= f.number_field :postcode, class: "form-control", autofocus: true, required: true %> <font size="2"> Postcode </font>
+            </div>
+          </div>
+        </div>
+
+        
+        <%= f.hidden_field :booking, class: "form-control", autofocus: true, required: true, value: 0 %>
+            
+
+          <!-- discount -->
+          <% if @taska.discount.present? %>
+            <% discount = @taska.discount %>
+          <% elsif params[:discount].present? %>
+            <% discount = params[:discount] %>
+          <% else %>
+            <% discount = 1 %>
+          <% end %>
+          <%= f.hidden_field :discount, class: "form-control", :value => discount, required: true %>
+        
+
+        <!-- supervisor name -->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>OWNER/SUPERVISOR NAME</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :supervisor, class: "form-control", autofocus: true, required: true, style: "text-transform:uppercase" %>
+            </div>
+          </div>
+        </div>
+
+        <!-- PHONE-->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>PHONE NUMBER</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2 col-3">
+             <%= f.text_field  :phone_1, maxlength: 3, class: "form-control", autofocus: true, required: true %><font size="2"> Area </font> 
+            </div>
+            -
+            <div class="col-sm-3 col-5">
+              <%= f.text_field  :phone_2, maxlength: 8, class: "form-control", autofocus: true, required: true %><font size="2"> Phone Number </font> 
+            </div>
+          </div>
+        </div>
+
+
+        <!-- EMAIL -->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>EMAIL</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.email_field :email, class: "form-control", autofocus: true, required: true %>
+            </div>
+          </div>
+        </div>
+
+        <%= f.hidden_field :bank_name, class: "form-control", :value => "MAYBANK / MALAYAN BANKING BERHAD" %>
+        <%= f.hidden_field :acc_name, class: "form-control", placeholder: "e.g Taska ABC Sdn Bhd", autofocus: true, required: true, style: "text-transform:uppercase", value: "PLEASE INSERT" %>
+        <%= f.hidden_field :acc_no, class: "form-control", autofocus: true, required: true, value: "PLEASE INSERT" %>
+        <%= f.hidden_field :ssm_no, class: "form-control", autofocus: true, required: true, style: "text-transform:uppercase", value: "PLEASE INSERT" %>
+        <%= f.hidden_field :plan, value: params[:plan] %>
+
+      <%= f.fields_for :fotos do |h| %>
+        <%= h.hidden_field :foto_name, value: "CENTER LOGO" %>
+      <% end %>
+
+      <%= f.fields_for :fotos do |h| %>
+        <%= h.hidden_field :foto_name, value: "COMPANY LOGO" %>
+      <% end %>
+
+      <%= f.fields_for :fotos do |h| %>
+        <%= h.hidden_field :foto_name, value: "CENTER PRIMARY PHOTO" %>
+      <% end %>
+
+      <%= f.fields_for :fotos do |h| %>
+        <%= h.hidden_field :foto_name, value: "CENTER ALTERNATIVE PHOTO" %>
+      <% end %>
+
+              
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-offset-2 col-sm-10 col-4">
+              <%= f.submit :"REGISTER CENTER",  class: 'btn btn-primary btn-lg' %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      
+    </div>
+  </div>
