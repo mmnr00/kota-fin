@@ -381,14 +381,14 @@
                         <% totsocsa = 0.00 %>
                         <% @tchpayslips.each do |psl| %>
                         <!-- CALCULATION FOR PAYSLIP -->
-                        <% amt = psl.amt %>
-                        <% alwnc = psl.alwnc %>
-                        <% addtn = psl.addtn %>
-                        <% dedc = psl.dedc %>
-                        <% epf = psl.epf %>
-                        <% epfa = psl.epfa %>
-                        <% socs = psl.socs %>
-                        <% socsa = psl.socsa %>
+                        <% psl.amt.present? ? amt = psl.amt : amt = 0.00 %>
+                        <% psl.alwnc.present? ? alwnc = psl.alwnc : alwnc = 0.00 %>
+                        <% psl.addtn.present? ? addtn = psl.addtn : addtn = 0.00 %>
+                        <% psl.dedc.present? ? dedc = psl.dedc : dedc = 0.00 %>
+                        <% psl.epf.present? ? epf = psl.epf : epf = 0.00 %>
+                        <% psl.epfa.present? ? epfa = psl.epfa : epfa = 0.00 %>
+                        <% psl.socs.present? ? socs = psl.socs : socs = 0.00 %>
+                        <% psl.socsa.present? ? socsa = psl.socsa : socsa = 0.00 %>
                         <% gross = amt.to_f + alwnc.to_f + addtn.to_f - dedc.to_f %>
                         <% nett = gross - epf.to_f - socs.to_f  %>
                         <% total = gross + epfa.to_f + socsa.to_f %>
@@ -398,7 +398,7 @@
                           <td><%= "#{tchd.ic_1}-#{tchd.ic_2}-#{tchd.ic_3}" %></td>
                           <td>
                             <%= number_with_delimiter(psl.amtepfa.round(2), :delimeter=>',')  %>
-                            <% totamt += psl.amtepfa %>
+                            <% totamt += total %>
                           </td>
                           <td>
                             <%= number_with_delimiter(nett.round(2), delimeter: ',') %>
@@ -436,12 +436,12 @@
                           <td colspan="2">
                             <h2 align="center">TOTAL</h2>
                           </td>
-                          <td><h4><%= number_with_delimiter(totamt, delimeter: ',') %></h4></td>
-                          <td><h4><%= number_with_delimiter(totpay, delimeter: ',') %></h4></td>
-                          <td><h4><%= number_with_delimiter(totepf, delimeter: ',') %></h4></td>
-                          <td><h4><%= number_with_delimiter(totepfa, delimeter: ',') %></h4></td>
-                          <td><h4><%= number_with_delimiter(totsocs, delimeter: ',') %></h4></td>
-                          <td><h4><%= number_with_delimiter(totsocsa, delimeter: ',') %></h4></td>
+                          <td><h4><%= number_with_delimiter(totamt.round(2), delimeter: ',') %></h4></td>
+                          <td><h4><%= number_with_delimiter(totpay.round(2), delimeter: ',') %></h4></td>
+                          <td><h4><%= number_with_delimiter(totepf.round(2), delimeter: ',') %></h4></td>
+                          <td><h4><%= number_with_delimiter(totepfa.round(2), delimeter: ',') %></h4></td>
+                          <td><h4><%= number_with_delimiter(totsocs.round(2), delimeter: ',') %></h4></td>
+                          <td><h4><%= number_with_delimiter(totsocsa.round(2), delimeter: ',') %></h4></td>
                         </tr>
                       </tbody>
                     </table>

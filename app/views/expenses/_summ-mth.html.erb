@@ -27,7 +27,7 @@
               <%= number_with_delimiter(@taska_payslips.sum(:amtepfa).round(2), :delimiter=>',') %>
             </td>
             <td>
-              <% dt = Date.new(year, month) + 1.months %>
+              <% dt = Date.new(year, month) %>
               <%= link_to taskateachers_path(id: params[:id],
                                             mthpsl: dt.month,
                                             yrpsl: dt.year,
