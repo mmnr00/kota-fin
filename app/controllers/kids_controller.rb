@@ -265,7 +265,11 @@ class KidsController < ApplicationController
 		@classroom = Classroom.find(params[:kid][:classroom_id])
 		@taska = @classroom.taska
 		plan = @taska.plan
-		kidno = $package_child[plan]
+		if plan == "PAY PER USE"
+			kidno = 100000
+		else
+			kidno = $package_child[plan]
+		end
 		if @taska.kids.where.not(classroom_id: nil).count >= kidno
 			flash[:danger] = "You have reached the maximum no of children allowed for #{plan} plan quote. Please upgrade or choose Pay/Use plan to proceed"
 		else
