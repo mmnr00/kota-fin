@@ -2,6 +2,7 @@
     <div class="card-header">
       <i class="fas fa-eye"></i>
       NEW CHILDREN REGISTRATION
+      <%= link_to "REGISTER CHILDREN", new_kid_path(taska_id: @taska.id), class: "btn btn-sm btn-danger active" %>
     </div>
     <div class="bg-light"><br>
       <!-- Team -->
@@ -56,11 +57,14 @@
                     </p>
                     
                     <%= link_to kid_path(kid), class: "btn btn-sm btn-primary active", target: "_blank" do%>
-                      <i class="fa fa-eye"></i> VIEW PROFILE 
-                    <% end %>&nbsp&nbsp&nbsp
+                      <i class="fa fa-eye"></i> PROFILE 
+                    <% end %>
+                    <%= link_to edit_kid_path(kid), class: "btn btn-sm btn-success active" do %>
+                      <i class="fa fa-edit"></i> EDIT
+                    <% end %>
                     <%= link_to remove_taska_path(kid: kid), class: "btn btn-sm btn-danger active", :data => {:confirm => 'Are you sure?'} do %>
-                    <i class="fa fa-trash"></i> REMOVE
-                  <% end %>
+                      <i class="fa fa-trash"></i> REMOVE
+                    <% end %>
                     <br>
                   </div>
                   <div class="container">

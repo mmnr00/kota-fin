@@ -41,6 +41,12 @@
                 </td>
               </tr>
               <tr>
+                <td><strong>MAIN CONTACT NO:</strong></td>
+                <td>
+                  <%= "#{@kid.ph_1}-""#{@kid.ph_2}" %>
+                </td>
+              </tr>
+              <tr>
                 <td><strong>MYKID COPY</strong></td>
                 <td>
                   <% image = @fotos.where(foto_name: "CHILD MYKID").first %>
