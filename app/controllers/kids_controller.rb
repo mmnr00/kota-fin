@@ -295,12 +295,21 @@ class KidsController < ApplicationController
 			@kid.save
 			flash[:notice] = "#{@kid.name} was successfully added to #{@classroom.classroom_name}"
 		end
-		redirect_to unreg_kids_path(@taska)
+		if params[:kid][:change] == "true"
+			redirect_to classroom_path(@classroom)
+		else
+			redirect_to unreg_kids_path(@taska)
+		end
+		
 	end
 
 	def remove_classroom
 		@kid = Kid.find(params[:kid])
 		@kid.update(classroom_id: nil)
+		s1 = Sibling.where(kid_id: @kid.id)
+		s2 = Sibling.where(beradik_id: @kid.id)
+		s1.delete_all unless !s1.present?
+		s2.delete_all unless !s2.present?
 		flash[:notice] = "#{@kid.name} was successfully remove"
 		redirect_to classroom_path(params[:classroom])
 	end

@@ -44,10 +44,26 @@
                       <i class="fa fa-times-circle"></i> REMOVE
                     <% end %>
                     <br>
+                    
                   </div>
+
+                  <!-- START CHANGE CLASSROOMS -->
+                    <%= form_for(kid, :url => {:controller=>'kids', :action=>'add_classroom'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %><div style="text-align:center">
+                    
+                      
+                        <%= f.select :classroom_id, 
+                          options_from_collection_for_select(@taska.classrooms.order('classroom_name ASC'), :id, :classroom_name), {include_blank: "Change Classroom"} %>&nbsp&nbsp&nbsp                       
+                        <%= f.hidden_field :kid_id, value: kid.id %>
+                        <%= f.hidden_field :change, value: true %>
+                        <%= f.submit :"CHANGE",  class: 'btn btn-sm btn-info btn-lg' %>
+                      
+                    </div><% end %><br>
+                    <!-- END CHANGE CLASSROOMS -->
+
                   <%= link_to all_bills_taska_path(@classroom.taska.id, kid_id: kid.id), class: "btn btn-sm btn-success active" do %>
                     <i class="fa fa-file-invoice-dollar"></i> EXISTING BILLS
                   <% end %>
+
       <!-------------- START CREATE BILLS------------->
                   <% if $my_time < @taska.expire %>
                     <a class="btn icon-btn btn-brown pull-right active" href="/got_bill?taska=<%= @classroom.taska.id %>&child=<%= kid.id %>&classroom=<%= @classroom.id %>" >
