@@ -271,6 +271,47 @@
         </div>
       </div>
 
+      <!-- CENTER HANDBOOK -->
+      <% m = 0 %> <!-- Stop loop at 1 -->
+      <div class="form-group"> 
+        <div class="row">
+          <div class="control-label col-sm-8">
+            <strong>CENTER HANDBOOK</strong>
+          </div>
+        </div>
+        <div class="row">
+        <div class="col-sm-8 col-5">
+        <% image = @taska.fotos.where(foto_name: "CENTER HANDBOOK").first %>
+        <% if image.present? && image.picture.present? %>
+          <a href="<%= image.picture.url %>" target="_blank">
+          <% if image.picture.content_type == 'application/pdf' %>
+          
+            <%= image_tag(Foto.where(foto_name: "PDF ICON").first.picture.url, size: "50x50") if image.picture? %>
+          <% else %>
+            <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
+          <% end %>
+          </a>
+            <div class="row">
+            <div class="col-sm-8 col-5">
+              <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
+            </div>
+            </div>  
+        <% else %>
+          <%= f.fields_for :fotos do |h| %>
+            <% break if m==1 %>
+              <div class="row">
+                <div class="col-sm-8 col-8">
+                  <%= h.hidden_field :foto_name, value: "CENTER HANDBOOK" %>
+                  <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png,application/pdf' %>
+                </div>
+              </div>
+              <% m = 1 %>
+            <% end %>
+        <% end %>
+        </div>
+        </div>
+      </div>
+
        <!-- CENTER PRIMARY PHOTO -->
       <% m = 0 %> <!-- Stop loop at 1 -->
       <div class="form-group"> 

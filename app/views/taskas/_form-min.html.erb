@@ -123,6 +123,10 @@
       <% end %>
 
       <%= f.fields_for :fotos do |h| %>
+        <%= h.hidden_field :foto_name, value: "CENTER HANDBOOK" %>
+      <% end %>
+
+      <%= f.fields_for :fotos do |h| %>
         <%= h.hidden_field :foto_name, value: "CENTER PRIMARY PHOTO" %>
       <% end %>
 
