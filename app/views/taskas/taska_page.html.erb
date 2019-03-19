@@ -41,6 +41,7 @@
                 <li><i class="fa fa-globe" aria-hidden="true"></i> <%= @taska.states.upcase %>,<%= @taska.postcode %> </li>
                 <li><i class="fa fa-bookmark" aria-hidden="true"></i> BOOKING FEE: RM <%= @taska.booking %></li>
                 <li><i class="fa fa-envelope" aria-hidden="true"></i> <%= @taska.email %> </li>
+                <% pushh = 0 %>
                 <% hbook = @taska.fotos.where(foto_name: "CENTER HANDBOOK").first %>
                 <% if hbook.picture.present? %>
                   <li>
