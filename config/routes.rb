@@ -200,6 +200,9 @@ Rails.application.routes.draw do
   get '/taska/:id/svplan', to: 'taskas#svplan', as: 'tsk_svplan'
   get '/taska/:id/manupdbill', to: 'taskas#manupdbill', as: 'tsk_manupdbill'
   post '/taska/:id/svupdbill', to: 'taskas#svupdbill', as: 'tsk_svupdbill'
+  get '/find_spv', to: 'taskas#find_spv', as: 'tsk_find_spv'
+  get '/add_role/:id', to: 'taskas#add_role', as: 'tsk_add_role'
+  get '/rmv_role/:id', to: 'taskas#rmv_role', as: 'tsk_rmv_role'
 
   #~PAYSLIPS
   get 'viewpayslips', to: 'payslips#viewpsl', as: 'viewpsl'

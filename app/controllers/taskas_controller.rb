@@ -16,7 +16,10 @@ class TaskasController < ApplicationController
                                   :chgplan,
                                   :svplan,
                                   :manupdbill,
-                                  :svupdbill]
+                                  :svupdbill,
+                                  :find_spv,
+                                  :add_role,
+                                  :rmv_role]
   before_action :set_all
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
@@ -25,6 +28,41 @@ class TaskasController < ApplicationController
   # GET /taskas.json
   def index
     @taskas = Taska.all
+  end
+
+  def find_spv
+    if params[:email].blank?
+      flash.now[:danger] = "Please enter email"
+    else
+      @admin_list = Admin.where(email: params[:email])
+    end
+    flash.now[:danger] = "NO RECORD FOUND" unless @admin_list.present?
+    respond_to do |format|
+      format.js { render partial: 'taskas/resultspv' } 
+    end
+  end
+
+  def add_role
+    adm = Admin.find(params[:adm])
+    if adm.taskas.where(id: @taska.id).present?
+      flash[:danger] = "Role already assigned to #{@taska.name}"
+    else
+      TaskaAdmin.create(taska_id: @taska.id, admin_id: adm.id)
+      if params[:spv] == "1"
+        adm.spv = true
+        adm.save
+        role = "Supervisor"
+      else
+        role = "Admin"
+      end
+      flash[:success] = "#{adm.username} successfully assigned to #{@taska.name} as #{role}"
+    end
+    redirect_to taska_path(@taska)
+  end
+
+  def rmv_role
+    flash[:success] = "MASUK"
+    redirect_to taska_path(@taska)
   end
 
   def index_parent
@@ -131,6 +169,7 @@ class TaskasController < ApplicationController
   def show
     # ada kt bawah func set_taska
     @admin_taska = current_admin.taskas
+    @admintsk = @taska.admins
     @unregistered_no = @taska.kids.where(classroom_id: nil).count
     # #check payment status
     # all_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false)

@@ -95,15 +95,61 @@
   <% end %>
   <!-- ADD SUPERVISOR -->
   <% if !@spv %><div class="row">
-    <div class="col-6 bg-white">
+    <div class="col-sm-6 bg-white">
       <div style="background-color:BLUE"><h4 align="center"><font color="white">
         SEARCH FOR A NEW SUPERVISOR
       </font></h4></div>
+      <%= form_tag tsk_find_spv_path, remote: true, method: :get, id: "find_kid" do %>
+      <div class="form-group text-center col-md-12">
+        <div class="row">
+          <div class="col-sm-9 col-12">
+            <%= email_field_tag :email, params[:email], 
+                    placeholder: "PLEASE SEARCH USING EMAIL",
+                    autofocus: true, 
+                    class: "form-control search-box input-lg" %>
+            <%= hidden_field_tag :id, params[:id], value: @taska.id %>
+          </div><br><br>              
+          <div class="col-md-3">
+            <%= button_tag(type: :submit, class: "btn btn-m btn-success active", id: "submit_expense") do %>
+                <i class="fa fa-search"></i> SEARCH
+            <% end %>
+          </div>
+      </div><br>
+        <div id="result_kid">
+          <%= render 'taskas/resultspv' %> 
+        </div>
+      </div>
+    <%end%>
     </div>
-    <div class="col-6 bg-white">
+    <div class="col-sm-3 bg-white">
+      <div style="background-color:BLUE"><h4 align="center"><font color="white">
+       LIST OF ADMIN(S)
+      </font></h4></div>
+      <% @admintsk.where(spv: nil).each do |adm| %>
+        <div class="notice notice-info">
+          <strong><%= adm.username %></strong><br><%= adm.email %><br>
+          <a data-confirm="Are you sure" data-method="delete" href="#">
+            <span class="pull-right text-danger">
+             <i class="fa fa-trash"></i>
+            </span>
+          </a><br>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-sm-3 bg-white">
       <div style="background-color:BLUE"><h4 align="center"><font color="white">
        LIST OF SUPERVISOR(S)
       </font></h4></div>
+      <% @admintsk.where(spv: true).each do |adm| %>
+        <div class="notice notice-primary">
+          <strong><%= adm.username %></strong><br><%= adm.email %><br>
+          <a data-confirm="Are you sure" data-method="delete" href="#">
+            <span class="pull-right text-danger">
+             <i class="fa fa-trash"></i>
+            </span>
+          </a><br>
+        </div>
+      <% end %>
     </div>
   </div><% end %>
 <% else %>

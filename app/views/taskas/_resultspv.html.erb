@@ -1,0 +1,67 @@
+<%= render partial: "shared/flash_messages", flash: flash %>
+  <% if @admin_list.present? %>
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr style="background-color:#d8b2d8">
+            <th> USERNAME </th>
+            <th> ROLE </th>
+            <th> CENTER LIST </th>
+            <th> ACTION </th>
+          </tr>
+        </thead>
+        <tbody> 
+          <% @admin_list.each do |adm| %>
+            <% 
+            email = adm.email;
+            username = adm.username
+            admtsks = adm.taskas
+            if adm.spv 
+              role = "SUPERVISOR"
+              enb = 1
+            elsif !adm.spv && admtsks.present?
+              role = "ADMIN"
+              enb = 2
+            elsif !adm.spv && !admtsks.present?
+              role = "NOT SET"
+              enb = 3
+            end
+            %>
+            <tr>
+              <td><%= username %></td>
+              <td><%= role %></td>
+              <td>
+                <ul><% admtsks.each do |tsk| %>
+                  <li><%= tsk.name %></li>
+                <% end %></ul>
+              </td>
+              <td>
+                <% if enb == 1 %>
+                  <%= link_to tsk_add_role_path(@taska, adm: adm.id, spv: 1), class: "btn btn-sm btn-warning" do %>
+                    <i class="fa fa-plus"></i> SUPERVISOR
+                  <% end %>
+                <% elsif enb == 2 %>
+                  <%= link_to tsk_add_role_path(@taska, adm: adm.id, spv: 0), class: "btn btn-sm btn-info" do %>
+                    <i class="fa fa-plus"></i> ADMIN
+                  <% end %>
+                <% elsif enb == 3 %>
+                  <%= link_to tsk_add_role_path(@taska, adm: adm.id, spv: 0), class: "btn btn-sm btn-info" do %>
+                    <i class="fa fa-plus"></i> ADMIN
+                  <% end %>
+                  <%= link_to tsk_add_role_path(@taska, adm: adm.id, spv: 1), class: "btn btn-sm btn-warning" do %>
+                    <i class="fa fa-plus"></i> SUPERVISOR
+                  <% end %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %> 
+
+  
+
+
+
+
