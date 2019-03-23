@@ -57,7 +57,7 @@
             <td style="background-color:<%= "#{clr}" %>"><%= stat %></td>
             <td>
               <% if stat == "PAID" %>
-                <%= link_to bill_pdf_path(payment: bill.id, kid: @kid.id, taska: @taska.id, format: :pdf), class: "btn btn-sm btn-success active", target:"_blank" do %>
+                <%= link_to bill_view_path(payment: bill.id, kid: @kid.id, taska: @taska.id), class: "btn btn-sm btn-success active", target:"_blank" do %>
                   <i class="fa fa-download"></i> VIEW RECEIPT
                 <% end %>
               <% elsif stat == "DUE" %>

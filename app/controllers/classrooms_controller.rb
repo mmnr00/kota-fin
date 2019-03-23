@@ -1,4 +1,6 @@
 class ClassroomsController < ApplicationController
+
+	before_action :set_admin
 	
 	def index
 		@classrooms = Classroom.all
@@ -85,6 +87,14 @@ class ClassroomsController < ApplicationController
   end
 
   private
+
+  def set_admin
+  	@admin = current_admin
+  	if @admin.present?
+  		@spv = @admin.spv
+  	end
+  end
+
   def classroom_params
       params.require(:classroom).permit(:classroom_name,
 		                                    :taska_id,

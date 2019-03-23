@@ -1,5 +1,7 @@
 class ExtrasController < ApplicationController
 
+	before_action :set_admin
+
 	def new
 		@taska = Taska.find(params[:taska_id])
 		@admin = current_admin
@@ -83,6 +85,14 @@ class ExtrasController < ApplicationController
 	end
 
 	private
+
+	def set_admin
+  	@admin = current_admin
+  	if @admin.present?
+  		@spv = @admin.spv
+  	end
+  end
+
 	def extra_params
       params.require(:extra).permit(:name,
                                     :price,

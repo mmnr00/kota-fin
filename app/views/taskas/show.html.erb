@@ -34,22 +34,24 @@
         </div>
       </div>
 
-      <div class="col-md-3">
-        <div class="card-counter success">
-          <i class="fa fa-database"></i>
-          <span class="count-numbers">
-            <% planper = my_time + 1.months %>
-            <% plan = @taska.payments.where(bill_month: planper.in_time_zone('Singapore').month).where(name: "TASKA PLAN").where(bill_year: planper.in_time_zone('Singapore').year).where(paid: true).sum(:amount) %>
-            <%= number_with_delimiter(@taska_expense.where(kind: "INCOME").sum(:cost) - @taska_expense.where(kind: "EXPENSE").sum(:cost) + @taska.payments.where(bill_month: month).where.not(name: "TASKA PLAN").where(bill_year: year).where(paid: true).sum(:amount)-plan-@payslips.sum(:amtepfa), :delimiter => ',') %>
-          </span>
-          <span class="count-name">
-            <a href="/taska/<%= @taska.id %>/my_expenses?utf8=✓&expense%5Bmonth%5D=<%= month%>&expense%5Byear%5D=<%= year%>&commit=SELECT", style="color:#fff">Profit (RM)<br><%= $month_name[month] %>-<%= year %>
-            </a>
-          </span>
+      <% if !@spv %>
+        <div class="col-md-3">
+          <div class="card-counter success">
+            <i class="fa fa-database"></i>
+            <span class="count-numbers">
+              <% planper = my_time + 1.months %>
+              <% plan = @taska.payments.where(bill_month: planper.in_time_zone('Singapore').month).where(name: "TASKA PLAN").where(bill_year: planper.in_time_zone('Singapore').year).where(paid: true).sum(:amount) %>
+              <%= number_with_delimiter(@taska_expense.where(kind: "INCOME").sum(:cost) - @taska_expense.where(kind: "EXPENSE").sum(:cost) + @taska.payments.where(bill_month: month).where.not(name: "TASKA PLAN").where(bill_year: year).where(paid: true).sum(:amount)-plan-@payslips.sum(:amtepfa), :delimiter => ',') %>
+            </span>
+            <span class="count-name">
+              <a href="/taska/<%= @taska.id %>/my_expenses?utf8=✓&expense%5Bmonth%5D=<%= month%>&expense%5Byear%5D=<%= year%>&commit=SELECT", style="color:#fff">Profit (RM)<br><%= $month_name[month] %>-<%= year %>
+              </a>
+            </span>
+          </div>
         </div>
-      </div>
+      <% end %>
 
-
+      <% if !@spv %>
       <div class="col-md-3">
         <div class="card-counter info">
           <i class="fa fa-users"></i>
@@ -61,6 +63,7 @@
           </span>
         </div>
       </div>
+      <% end %>
       
 
     </div>
@@ -90,6 +93,19 @@
       </div>
     <% end %><br><br>
   <% end %>
+  <!-- ADD SUPERVISOR -->
+  <% if !@spv %><div class="row">
+    <div class="col-6 bg-white">
+      <div style="background-color:BLUE"><h4 align="center"><font color="white">
+        SEARCH FOR A NEW SUPERVISOR
+      </font></h4></div>
+    </div>
+    <div class="col-6 bg-white">
+      <div style="background-color:BLUE"><h4 align="center"><font color="white">
+       LIST OF SUPERVISOR(S)
+      </font></h4></div>
+    </div>
+  </div><% end %>
 <% else %>
   YOUR ACCOUNT HAS EXPIRED. PLEASE ACTIVATE
 <% end %>

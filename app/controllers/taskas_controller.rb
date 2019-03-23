@@ -686,6 +686,9 @@ class TaskasController < ApplicationController
       @teacher = current_teacher
       @parent = current_parent
       @admin = current_admin  
+      if @admin.present?
+        @spv = @admin.spv
+      end
       @owner = current_owner
     end
 

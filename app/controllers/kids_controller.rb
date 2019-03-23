@@ -347,6 +347,9 @@ class KidsController < ApplicationController
 	def set_all
 		@parent = current_parent
 		@admin = current_admin
+		if @admin.present?
+			@spv = @admin.spv
+		end
 	end
 
 	def authenticate!
