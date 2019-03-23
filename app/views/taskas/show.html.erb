@@ -97,7 +97,7 @@
   <% if !@spv %><div class="row">
     <div class="col-sm-6 bg-white">
       <div style="background-color:BLUE"><h4 align="center"><font color="white">
-        SEARCH FOR A NEW SUPERVISOR
+        NEW ASSIGNMENT
       </font></h4></div>
       <%= form_tag tsk_find_spv_path, remote: true, method: :get, id: "find_kid" do %>
       <div class="form-group text-center col-md-12">
@@ -123,31 +123,35 @@
     </div>
     <div class="col-sm-3 bg-white">
       <div style="background-color:BLUE"><h4 align="center"><font color="white">
-       LIST OF ADMIN(S)
+       ADMIN(S)
       </font></h4></div>
       <% @admintsk.where(spv: nil).each do |adm| %>
         <div class="notice notice-info">
           <strong><%= adm.username %></strong><br><%= adm.email %><br>
-          <a data-confirm="Are you sure" data-method="delete" href="#">
+          <% if adm != current_admin %>
+          <a data-confirm="Are you sure" href="/rmv_role/<%= "#{@taska.id}?adm=#{adm.id}" %>">
             <span class="pull-right text-danger">
              <i class="fa fa-trash"></i>
             </span>
           </a><br>
+          <% end %>
         </div>
       <% end %>
     </div>
     <div class="col-sm-3 bg-white">
       <div style="background-color:BLUE"><h4 align="center"><font color="white">
-       LIST OF SUPERVISOR(S)
+       SUPERVISOR(S)
       </font></h4></div>
       <% @admintsk.where(spv: true).each do |adm| %>
-        <div class="notice notice-primary">
+        <div class="notice notice-warning">
           <strong><%= adm.username %></strong><br><%= adm.email %><br>
-          <a data-confirm="Are you sure" data-method="delete" href="#">
+          <% if adm != current_admin %>
+          <a data-confirm="Are you sure" href="/rmv_role/<%= "#{@taska.id}?adm=#{adm.id}" %>">
             <span class="pull-right text-danger">
              <i class="fa fa-trash"></i>
             </span>
           </a><br>
+          <% end %>
         </div>
       <% end %>
     </div>

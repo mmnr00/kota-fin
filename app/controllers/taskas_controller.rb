@@ -61,6 +61,13 @@ class TaskasController < ApplicationController
   end
 
   def rmv_role
+    adm = Admin.find(params[:adm])
+    tskadm = TaskaAdmin.where(taska_id: @taska.id, admin_id: adm.id)
+    tskadm.delete_all
+    if adm.taskas.count < 1
+      adm.spv = nil
+      adm.save
+    end
     flash[:success] = "MASUK"
     redirect_to taska_path(@taska)
   end
