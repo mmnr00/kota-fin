@@ -10,3 +10,5 @@ Payslip.all.each do |psl|
 	psl.save
 end
 
+
+

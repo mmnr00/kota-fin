@@ -68,7 +68,7 @@ class TaskasController < ApplicationController
       adm.spv = nil
       adm.save
     end
-    flash[:success] = "MASUK"
+    flash[:success] = "#{adm.username} successfully removed"
     redirect_to taska_path(@taska)
   end
 
