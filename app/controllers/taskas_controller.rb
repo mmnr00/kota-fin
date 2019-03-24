@@ -429,7 +429,7 @@ class TaskasController < ApplicationController
     @classrooms = @taska.classrooms
     @applvs = @taska.applvs
     if params[:mthpsl].present? && params[:yrpsl].present?
-      @tchpayslips = Payslip.where(mth: params[:mthpsl]).where(year: params[:yrpsl]).order('created_at DESC')
+      @tchpayslips = Payslip.where(mth: params[:mthpsl]).where(year: params[:yrpsl]).where(taska_id: @taska.id).order('created_at DESC')
     end
     render action: "taskateachers", layout: "dsb-admin-teacher" 
   end
@@ -750,6 +750,8 @@ class TaskasController < ApplicationController
                                   :epfa,
                                   :socs,
                                   :socsa,
+                                  :sip,
+                                  :sipa,
                                   :teacher_id,
                                   :taska_id)
     end
@@ -769,6 +771,8 @@ class TaskasController < ApplicationController
                                       :psl_id,
                                       :socs,
                                       :socsa,
+                                      :sip,
+                                      :sipa,
                                       :dedc,
                                       :descdc)
     end

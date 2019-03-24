@@ -367,6 +367,8 @@
                           <th style="background-color:#d8b2d8"> CENTER EPF (RM) </th>
                           <th style="background-color:#d8b2d8"> STAFF SOSCO (RM) </th>
                           <th style="background-color:#d8b2d8"> CENTER SOSCO (RM) </th>
+                          <th style="background-color:#d8b2d8"> STAFF SIP (RM) </th>
+                          <th style="background-color:#d8b2d8"> CENTER SIP (RM) </th>
                           <th style="background-color:#d8b2d8"> ACTIONS </th>
                         </tr>
                       </thead>
@@ -379,6 +381,8 @@
                         <% totepfa = 0.00 %>
                         <% totsocs = 0.00 %>
                         <% totsocsa = 0.00 %>
+                        <% totsip = 0.00 %>
+                        <% totsipa = 0.00 %>
                         <% @tchpayslips.each do |psl| %>
                         <!-- CALCULATION FOR PAYSLIP -->
                         <% psl.amt.present? ? amt = psl.amt : amt = 0.00 %>
@@ -389,9 +393,11 @@
                         <% psl.epfa.present? ? epfa = psl.epfa : epfa = 0.00 %>
                         <% psl.socs.present? ? socs = psl.socs : socs = 0.00 %>
                         <% psl.socsa.present? ? socsa = psl.socsa : socsa = 0.00 %>
+                        <% psl.sip.present? ? sip = psl.sip : sip = 0.00 %>
+                        <% psl.sipa.present? ? sipa = psl.sipa : sipa = 0.00 %>
                         <% gross = amt.to_f + alwnc.to_f + addtn.to_f - dedc.to_f %>
-                        <% nett = gross - epf.to_f - socs.to_f  %>
-                        <% total = gross + epfa.to_f + socsa.to_f %>
+                        <% nett = gross - epf.to_f - socs.to_f - sip.to_f  %>
+                        <% total = gross + epfa.to_f + socsa.to_f + sipa.to_f %>
                         <tr>
                           <% tchd = psl.teacher.tchdetail %>
                           <td><%= tchd.name.upcase %></td>
@@ -421,6 +427,14 @@
                             <% totsocsa += socsa %>
                           </td>
                           <td>
+                            <%= number_with_delimiter(sip.round(2), delimeter: ',') %>
+                            <% totsip += sip %>
+                          </td>
+                          <td>
+                            <%= number_with_delimiter(sipa.round(2), delimeter: ',') %>
+                            <% totsipa += sipa %>
+                          </td>
+                          <td>
                             <%= link_to "VIEW", viewpsl_path(psl: psl.id), class: 'btn btn-sm btn-info', target: '_blank'%>
                             <%= link_to "DELETE", dltpsl_path(psl: psl.id,
                                                               allpsl: true,
@@ -442,6 +456,8 @@
                           <td><h4><%= number_with_delimiter(totepfa.round(2), delimeter: ',') %></h4></td>
                           <td><h4><%= number_with_delimiter(totsocs.round(2), delimeter: ',') %></h4></td>
                           <td><h4><%= number_with_delimiter(totsocsa.round(2), delimeter: ',') %></h4></td>
+                          <td><h4><%= number_with_delimiter(totsip.round(2), delimeter: ',') %></h4></td>
+                          <td><h4><%= number_with_delimiter(totsipa.round(2), delimeter: ',') %></h4></td>
                         </tr>
                       </tbody>
                     </table>
