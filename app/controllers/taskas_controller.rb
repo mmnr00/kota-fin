@@ -176,7 +176,7 @@ class TaskasController < ApplicationController
   def show
     # ada kt bawah func set_taska
     @admin_taska = current_admin.taskas
-    @admintsk = @taska.admins
+    @admintsk = @taska.admins.where.not(id: 4)
     @unregistered_no = @taska.kids.where(classroom_id: nil).count
     # #check payment status
     # all_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false)
