@@ -1,0 +1,30 @@
+<div style="background-color:BLUE"><h5 align="center"><font color="white">
+        ENTER MYKID NO
+      </font></h5></div>
+      <%= form_tag sch_kid_path, remote: true, method: :get, id: "find_kid" do %>
+      <div class="form-group text-center col-md-12">
+        <div class="row">
+
+          <div class="col-sm-3 col-7">
+            <%= text_field_tag :ic_1, params[:ic_1], maxlength: 6 ,class: "form-control", autofocus: true, placeholder: "6 digits", required: true %>
+          </div><strong>-</strong>
+          <div class="col-sm-2 col-6">
+           <%= text_field_tag :ic_2, params[:ic_2], maxlength: 2, class: "form-control", placeholder: "", autofocus: true, placeholder: "2 digits",  required: true %>
+          </div><strong>-</strong>
+          <div class="col-sm-3 col-6">
+            <%= text_field_tag :ic_3, params[:ic_3], maxlength: 4, class: "form-control", placeholder: "", autofocus: true, placeholder: "4 digits",  required: true %>
+          </div>
+            <%= hidden_field_tag :parent_id, params[:parent_id], value: @parent.id %>
+          <br><br>              
+          <div class="col-md-3">
+            <%= button_tag(type: :submit, class: "btn btn-m btn-success active", id: "submit_expense") do %>
+                <i class="fa fa-search"></i> SEARCH
+            <% end %>
+          </div>
+      </div><br>
+        <div id="result_kid">
+          <%= render 'taskas/resultspv' %> 
+        </div>
+      </div>
+    <%end%>
+    </div>

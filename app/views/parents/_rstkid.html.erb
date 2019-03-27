@@ -1,0 +1,44 @@
+<%= render partial: "shared/flash_messages", flash: flash %>
+  <% if @exs_kids.present? %>
+    <% @exs_kids.each do |kid| %>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="frontside">
+          <div class="card">
+            <div class="card-body text-center">
+              <p>
+                <% image = kid.fotos.where(foto_name: "CHILDREN PICTURE").first %>
+                <% if image.present? && image.picture.present? %>
+                  <%= image_tag(image.picture.url, size: "100x100") %>
+                <% end %>
+              </p>
+              <h4 class="card-title"><%= kid.name.upcase %></h4>
+              <p class="card-text">
+                <%= "#{kid.ic_1}-#{kid.ic_2}-#{kid.ic_3}" %>
+              </p>
+              <% if kid.taska.present? %>
+                  <%= link_to "#{kid.taska.name.upcase}", taska_page_path(kid.taska), style: "color:blue", target: "_blank" %>
+                <br>
+                <% if kid.classroom.present? %>
+                  <%= kid.classroom.classroom_name %><br>
+                <% else %>
+                   AWAITING CONFIRMATION FROM CENTER <br><br>
+                <% end %>
+              <% else %><br>
+                NA<br>
+              <% end %>
+              <%= link_to "CONFIRM", edit_kid_path(kid), class: "btn btn-sm btn-warning", target: "_blank" %>
+              <br>
+            </div>
+          </div>
+        </div>     
+      </div>
+    <% end %>
+  <% else %>
+    <%= link_to "CLICK HERE TO PROCEED", index_parent_path(id: @parent.id), class: "btn btn-sm btn-primary" %>
+  <% end %> 
+
+  
+
+
+
+

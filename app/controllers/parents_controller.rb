@@ -25,6 +25,21 @@ class ParentsController < ApplicationController
 		render action: "my_kid", layout: "dsb-parent-child"
 	end
 
+	def check_kid
+
+		render action: "check_kid", layout: "dsb-parent-child"
+	end
+
+	def sch_kid
+		@exs_kids = Kid.where(ic_1: params[:ic_1],ic_2:params[:ic_2],ic_3:params[:ic_3] )
+		respond_to do |format|
+      format.js { render partial: 'parents/rstkid' } 
+    end
+	end
+
+	def mrg_kid
+	end
+
 	def all_bills
 		@kid = Kid.find(params[:kid_id])
 		@kid_bills = @kid.payments.order("paid ASC").order("updated_at ASC")
