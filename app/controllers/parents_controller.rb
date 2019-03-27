@@ -40,7 +40,11 @@ class ParentsController < ApplicationController
 	def mrg_kid
 		@kid = Kid.find(params[:kid_id])
 		@kid.parent_id = @parent.id
-		@kid.save
+		if @kid.save
+			flash[:success]="Children registration successful"
+		else
+			flash[:danger]="Registration failed. Please try again"
+		end
 		redirect_to my_kid_path(@parent)
 	end
 

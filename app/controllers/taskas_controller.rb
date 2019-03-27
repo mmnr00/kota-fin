@@ -75,7 +75,11 @@ class TaskasController < ApplicationController
 
   def index_parent
     @parent = current_parent
-    @taskas = Taska.all.where.not(name: "Taska admin master").where.not(name: "TASKA Wma").where.not(name: "taska mirror tsp")
+    if params[:reg] == "1"
+      redirect_to new_kid_path(taska_id: params[:taska_id])
+    else
+      @taskas = Taska.all.where.not(name: "Taska admin master").where.not(name: "TASKA Wma").where.not(name: "taska mirror tsp")
+    end
   end
 
   def taska_pricing

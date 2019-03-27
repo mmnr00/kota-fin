@@ -57,11 +57,11 @@
              <hr>
              <% if 1==1 #@taska.kids.count < $package_child["#{@taska.plan}"].to_i %>
               <% if current_admin %>
-                <% reg_link = "register_child_admin" %>
+                <% reg_link = "register_child_admin?taska_id=#{@taska.id}" %>
               <% else %>
-                <% reg_link = "register_child" %>
+                <% reg_link = "check_kid?reg=1&taska_id=#{@taska.id}" %>
               <% end %>
-               <a href="/<%= "#{reg_link}"%>?taska_id=<%= @taska.id%>">
+               <a href="/<%= "#{reg_link}" %>">
                  <p><button class="w3-button w3-block w3-blue"   data-toggle="tooltip" data-placement="top" title="Click here to register"> <i class="fa fa-user-plus fa-lg"></i>&nbsp&nbsp  
                  REGISTER YOUR CHILD</button></p>
                </a>

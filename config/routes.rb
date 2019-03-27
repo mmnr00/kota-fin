@@ -156,9 +156,9 @@ Rails.application.routes.draw do
   #~PARENTS
   get 'parent_index', to: 'parents#index', as: 'parent_index'
   get '/parent/:id/my_kid', to: 'parents#my_kid', as: 'my_kid'
-  get '/parent/:id/check_kid', to: 'parents#check_kid', as: 'check_kid'
-  get '/parent/:id/sch_kid', to: 'parents#sch_kid', as: 'sch_kid'
-  get '/parent/:id/mrg_kid', to: 'parents#mrg_kid', as: 'mrg_kid'
+  get '/check_kid', to: 'parents#check_kid', as: 'check_kid'
+  get '/sch_kid', to: 'parents#sch_kid', as: 'sch_kid'
+  get '/mrg_kid', to: 'parents#mrg_kid', as: 'mrg_kid'
   get '/parent/:id/view_receipt', to: 'parents#view_receipt', as: 'view_receipt'
   get '/parent/:id/individual_bill', to: 'parents#individual_bill', as: 'parents_individual_bill'
   get '/parent/:id/pay_bill', to: 'parents#parents_pay_bill', as: 'parents_pay_bill'

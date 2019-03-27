@@ -15,6 +15,8 @@
             <%= text_field_tag :ic_3, params[:ic_3], maxlength: 4, class: "form-control", placeholder: "", autofocus: true, placeholder: "4 digits",  required: true %>
           </div>
             <%= hidden_field_tag :parent_id, params[:parent_id], value: @parent.id %>
+            <%= hidden_field_tag :reg, params[:reg], value: params[:reg] %>
+            <%= hidden_field_tag :taska_id, params[:taska_id], value: params[:taska_id] %>
           <br><br>              
           <div class="col-md-3">
             <%= button_tag(type: :submit, class: "btn btn-m btn-success active", id: "submit_expense") do %>
@@ -23,7 +25,7 @@
           </div>
       </div><br>
         <div id="result_kid">
-          <%= render 'taskas/resultspv' %> 
+          <%= render 'parents/rstkid' %> 
         </div>
       </div>
     <%end%>

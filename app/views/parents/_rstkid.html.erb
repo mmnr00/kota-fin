@@ -1,4 +1,3 @@
-<%= render partial: "shared/flash_messages", flash: flash %>
   <% if @exs_kids.present? %>
     <% @exs_kids.each do |kid| %>
       <div class="col-xs-12 col-sm-6 col-md-4">
@@ -38,7 +37,9 @@
       </div>
     <% end %>
   <% else %>
-    <%= link_to "CLICK HERE TO PROCEED", index_parent_path(id: @parent.id), class: "btn btn-sm btn-primary" %>
+    <% if params[:ic_1].present? %>
+    <%= link_to "CLICK HERE TO PROCEED", index_parent_path(id: @parent.id, reg: params[:reg], taska_id: params[:taska_id]), class: "btn btn-sm btn-primary" %>
+    <% end %>
   <% end %> 
 
   
