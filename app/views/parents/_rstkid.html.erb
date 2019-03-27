@@ -23,10 +23,14 @@
                 <% else %>
                    AWAITING CONFIRMATION FROM CENTER <br><br>
                 <% end %>
-              <% else %><br>
+              <% else %><br><br>
                 NA<br>
               <% end %>
-              <%= link_to "CONFIRM", edit_kid_path(kid), class: "btn btn-sm btn-warning", target: "_blank" %>
+              <% if kid.parent_id == 1 %>
+              <%= link_to "CONFIRM", mrg_kid_path(kid_id: kid.id, parent_id: @parent.id), class: "btn btn-sm btn-warning"%>
+              <% else %>
+                <br> Already registered by <strong><%= kid.parent.username %></strong>
+              <% end %>
               <br>
             </div>
           </div>

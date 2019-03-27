@@ -38,6 +38,10 @@ class ParentsController < ApplicationController
 	end
 
 	def mrg_kid
+		@kid = Kid.find(params[:kid_id])
+		@kid.parent_id = @parent.id
+		@kid.save
+		redirect_to my_kid_path(@parent)
 	end
 
 	def all_bills
