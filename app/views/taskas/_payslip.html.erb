@@ -1,8 +1,21 @@
-<% if @payslip.present? %>
+<% if @payslip.present? && !params[:edit].present? %>
   <% addtn = @payslip.addtn %>
   <% desc = @payslip.desc %>
   <% dedc = @payslip.dedc %>
   <% descdc = @payslip.descdc %>
+  <% month = @payslip.mth %>
+  <% year = @payslip.year %>
+  <% gross = amt.to_f + alwnc.to_f + addtn.to_f - dedc.to_f %>
+  <% nett = gross - epf.to_f - socs.to_f - sip.to_f  %>
+  <% total = gross + epfa.to_f + socsa.to_f + sipa.to_f %>
+  <% date = @payslip.created_at %>
+  <% psl_id = @payslip.psl_id %>
+<% elsif @payslip.present? && params[:edit] == "1" %>
+  <% addtn = @payslip.addtn %>
+  <% addtn = params[:addtn] %>
+  <% desc = params[:desc] %>
+  <% dedc = params[:dedc] %>
+  <% descdc = params[:descdc] %>
   <% month = @payslip.mth %>
   <% year = @payslip.year %>
   <% gross = amt.to_f + alwnc.to_f + addtn.to_f - dedc.to_f %>

@@ -13,6 +13,7 @@ class TaskasController < ApplicationController
                                   :tchleave,
                                   :tchpayslip,
                                   :newpayslip,
+                                  :editpayslip,
                                   :chgplan,
                                   :svplan,
                                   :manupdbill,
@@ -584,6 +585,18 @@ class TaskasController < ApplicationController
     end
     redirect_to tchpayslip_path(id: @payslip.taska_id,
                                 tch_id: @payslip.teacher_id)
+  end
+
+  def editpayslip
+    @payslip = Payslip.find(params[:psl])
+    @teacher = @payslip.teacher
+
+    render action: "editpayslip", layout: "dsb-admin-teacher"
+  end
+
+  def updpayslip
+    @payslip = Payslip.find(params[:payslip][:id])
+    @payslip.update(payslip_params)
   end
 
   # END TEACHER PAYSLIP

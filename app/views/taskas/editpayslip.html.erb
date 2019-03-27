@@ -1,0 +1,213 @@
+<!-- IF FORM RESUBMISSION -->
+<% if params[:upd] == "true" %>
+  <% amt = params[:amt] %>
+  <% alwnc = params[:alwnc] %>
+  <% addtn = params[:addtn] %>
+  <% desc = params[:desc] %>
+  <% epf = params[:epf] %>
+  <% epfa = params[:epfa] %>
+  <% socs = params[:socs] %>
+  <% socsa = params[:socsa] %>
+  <% sip = params[:sip] %>
+  <% sipa = params[:sipa] %>
+  <% dedc = params[:dedc] %>
+  <% descdc = params[:descdc] %>
+<% else %>
+  <% amt = @payslip.amt %>
+  <% alwnc = @payslip.alwnc %>
+  <% addtn = @payslip.addtn %>
+  <% desc = @payslip.desc %>
+  <% epf = @payslip.epf %>
+  <% epfa = @payslip.epfa %>
+  <% socs = @payslip.socs %>
+  <% socsa = @payslip.socsa %>
+  <% sip = @payslip.sip %>
+  <% sipa = @payslip.sipa %>
+  <% dedc = @payslip.dedc %>
+  <% descdc = @payslip.descdc %>
+<% end %>
+
+<div class="row">
+<div class="col-sm-8 bg-light">
+  <div style="background-color:#ccccff"><h4 align="center">UPDATE PAYSLIP</h4></div>
+  <% gross = amt.to_f + alwnc.to_f + addtn.to_f - dedc.to_f %>
+  <% nett = gross - epf.to_f - socs.to_f - sip.to_f  %>
+  <% total = gross + epfa.to_f + socsa.to_f + sipa.to_f %>
+  <% psl_id = @payslip.psl_id %>
+  <%= render 'taskas/payslip', amt: amt, alwnc: alwnc, epf: epf, epfa: epfa, socs: socs, socsa: socsa, sip: sip, sipa: sipa %>
+  <%= form_for(:payslip, :url => {:controller=>'taskas', :action=>'updpayslip'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+      <br>
+      <!-- FORM ENTRY CREATION -->
+      <%= f.hidden_field :mth, value: params[:month] %>
+      <%= f.hidden_field :year, value: params[:year] %>
+      <%= f.hidden_field :teacher_id, value: params[:tch_id] %>
+      <%= f.hidden_field :taska_id, value: params[:id] %>
+      <%= f.hidden_field :amt, value: amt %>
+      <%= f.hidden_field :alwnc, value: alwnc %>
+      <%= f.hidden_field :epf, value: epf %>
+      <%= f.hidden_field :epfa, value: epfa %>
+      <%= f.hidden_field :addtn, value: params[:addtn] %>
+      <%= f.hidden_field :desc, value: params[:desc] %>
+      <%= f.hidden_field :dedc, value: dedc %>
+      <%= f.hidden_field :descdc, value: descdc %>
+      <%= f.hidden_field :socs, value: socs %>
+      <%= f.hidden_field :socsa, value: socsa %>
+      <%= f.hidden_field :sip, value: sip %>
+      <%= f.hidden_field :sipa, value: sipa %>
+      <%= f.hidden_field :amtepfa, value: total %>
+      <%= f.hidden_field :psl_id, value: psl_id %>
+      <%= f.hidden_field :id, value: @payslip.id %>
+      <%= f.submit :"UPDATE PAYSLIP", class: 'btn btn-success btn-lg btn-block'%>
+    <% end %>
+    <br><br>
+</div>
+<div class="col-sm-4 bg-white">
+    <div style="background-color:#ffb2b2">
+      <h5 align="center">UNPAID LEAVES FOR <%= "#{$month_name[params[:month].to_i]}-#{params[:year]}" %></h5>
+      <div>
+        <h8>
+          <% if @tchunpaid.present? %>
+            <ul>
+              <% @tchunpaid.each do |lv| %>
+                <% date = Date.new(params[:year].to_i, params[:month].to_i) %>
+                <% date1 = date + 1.months %>
+                <% if (lv.start.month == date.month && lv.start.year == date.year) || (lv.end.month == date.month && lv.end.year == date.year)  %>
+                  <li>
+                    <%= "#{lv.start.strftime('%d-%^b-%y')} to #{lv.end.strftime('%d-%^b-%y')} (#{lv.tot} days)"%>
+                  </li>
+                <% end %>
+              <% end %>
+            </ul>
+          <% else %>
+            <h4 align="center">NO UNPAID LEAVES</h4>
+          <% end %>
+        </h8>
+      </div>
+    </div>
+    <div style="background-color:#cce5cc"><h5 align="center">PAYSLIP ENTRY</h5></div>
+    <%= form_tag editpayslip_path, method: :get, id: "find_kid" do %>
+      <div class="row">
+        <div class="col-md-12">
+          <strong>BASE SALARY (RM)</strong>
+          <%= number_field_tag :amt, amt, 
+                  placeholder: "", 
+                  autofocus: true,  
+                  step: 0.01,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+        </div>
+        <div class="col-md-12">
+          <strong>ALLOWANCE (RM)</strong>
+          <%= number_field_tag :alwnc, alwnc, 
+                  placeholder: "", 
+                  autofocus: true,  
+                  step: 0.01,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %><br>
+          <a href="http://www.kwsp.gov.my/portal/documents/10180/175560/JADUAL_KETIGA_04012019_ENG.pdf" target="_blank">
+            <font color="blue">REFER TO EPF TABLE</font>
+          </a>
+        </div>
+        <div class="col-md-12">
+          <strong>STAFF EPF (RM)</strong>
+          <%= number_field_tag :epf, epf, 
+                  placeholder: "", 
+                  autofocus: true,  
+                  step: 0.01,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+          
+        </div>
+        <div class="col-md-12">
+          <strong>OWNER EPF (RM)</strong>
+          <%= number_field_tag :epfa, epfa, 
+                  placeholder: "", 
+                  autofocus: true,  
+                  step: 0.01,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %><br>
+          <a href="https://www.perkeso.gov.my/index.php/en/social-security-protection/employer-employee-eligibility/rate-of-contributions" target="_blank">
+            <font color="blue">REFER TO SOCSO TABLE</font>
+          </a>
+        </div>
+        <div class="col-md-12">
+          <strong>STAFF SOCSO (RM)</strong>
+          <%= number_field_tag :socs, socs, 
+                  placeholder: "", 
+                  autofocus: true,  
+                  step: 0.01,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+        </div>
+        <div class="col-md-12">
+          <strong>OWNER SOCSO (RM)</strong>
+          <%= number_field_tag :socsa, socsa, 
+                  placeholder: "", 
+                  autofocus: true,  
+                  step: 0.01,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %><br>
+          <a href="https://www.perkeso.gov.my/index.php/ms/pendaftaran-caruman-sip/kadar-caruman-sip" target="_blank">
+            <font color="blue">REFER TO SIP TABLE</font>
+          </a>
+        </div><br>
+        <div class="col-md-12">
+          <strong>STAFF SIP (RM)</strong>
+          <%= number_field_tag :sip, sip, 
+                  placeholder: "", 
+                  autofocus: true,  
+                  step: 0.01,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+        </div>
+        <div class="col-md-12">
+          <strong>OWNER SIP (RM)</strong>
+          <%= number_field_tag :sipa, sipa, 
+                  placeholder: "", 
+                  autofocus: true,  
+                  step: 0.01,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+        </div><br><br><br><br>
+        <div class="col-md-12">
+          <strong>ADDITIONAL (RM)</strong>
+          <%= number_field_tag :addtn, params[:addtn], 
+                  placeholder: "", 
+                  autofocus: true,  
+                  step: 0.01,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+        </div>
+        <div class="col-md-12">
+          <strong>ADDITIONAL DESCRIPTION</strong>
+          <%= text_area_tag :desc, params[:desc], 
+                  placeholder: "", 
+                  autofocus: true,
+                  class: "form-control search-box input-lg", 
+                  style: "text-transform:uppercase" %>
+        </div><br><br><br><br><br>
+        <div class="col-md-12">
+          <strong>DEDUCTION (RM)</strong>
+          <%= number_field_tag :dedc, params[:dedc], 
+                  placeholder: "", 
+                  autofocus: true,  
+                  step: 0.01,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+        </div>
+        <div class="col-md-12">
+          <strong>DEDUCTION DESCRIPTION</strong>
+          <%= text_area_tag :descdc, params[:descdc], 
+                  placeholder: "", 
+                  autofocus: true,
+                  class: "form-control search-box input-lg", 
+                  style: "text-transform:uppercase" %>
+        </div>
+      </div>
+      
+      <br>
+      <%= hidden_field_tag :month, params[:month], value: params[:month] %>
+      <%= hidden_field_tag :tch_id, params[:tch_id], value: params[:tch_id] %>
+      <%= hidden_field_tag :year, params[:year], value: params[:year] %>
+      <%= hidden_field_tag :upd, params[:upd], value: true %>
+      <%= hidden_field_tag :psl, params[:psl], value: @payslip.id %>
+      <%= hidden_field_tag :edit, params[:edit], value: 1 %>
+      <%= button_tag(type: :submit, class: "btn btn-sm btn-primary active", id: "submit_expense") do %>
+        <i class="fa fa-check"></i> UPDATE
+      <% end %>
+    <% end %>
+
+  </div>
+</div>
+</div>
+
