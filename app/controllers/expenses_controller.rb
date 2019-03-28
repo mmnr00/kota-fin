@@ -29,6 +29,7 @@ def my_expenses
 		@taska_payslips = @taska.payslips.where(mth: psldt.month, year: psldt.year)
 		@taska_chart = @taska.expenses.where(month: params[:expense][:month]).where(year: params[:expense][:year]) 
 		@taska_expense = @taska.expenses.where(month: params[:expense][:month]).where(year: params[:expense][:year]).order('UPDATED_AT DESC')
+		#@taska_payments = @taska.payments.where.not(name: "TASKA PLAN").where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
 		@taska_payments = @taska.payments.where.not(name: "TASKA PLAN").where(bill_month: params[:expense][:month]).where(bill_year: params[:expense][:year])
 		@taska_plan = @taska.payments.where(name: "TASKA PLAN").where(paid: true).where('extract(month from updated_at) = ?', mth).where('extract(year from updated_at) = ?', year)
 	else
