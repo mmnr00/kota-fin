@@ -41,7 +41,12 @@
             <span class="count-numbers">
               <% planper = my_time + 1.months %>
               <% plan = @taska.payments.where(bill_month: planper.in_time_zone('Singapore').month).where(name: "TASKA PLAN").where(bill_year: planper.in_time_zone('Singapore').year).where(paid: true).sum(:amount) %>
-              <%= number_with_delimiter(@taska_expense.where(kind: "INCOME").sum(:cost) - @taska_expense.where(kind: "EXPENSE").sum(:cost) + @taska.payments.where(bill_month: month).where.not(name: "TASKA PLAN").where(bill_year: year).where(paid: true).sum(:amount)-plan-@payslips.sum(:amtepfa), :delimiter => ',') %>
+
+              <% bills_paid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: true).where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', month).sum(:amount) %>
+
+              <% disp = @taska_expense.where(kind: "INCOME").sum(:cost) - @taska_expense.where(kind: "EXPENSE").sum(:cost) + bills_paid -plan-@payslips.sum(:amtepfa) %>
+
+              <%= number_with_delimiter(disp.round(2), :delimiter => ',') %>
             </span>
             <span class="count-name">
               <a href="/taska/<%= @taska.id %>/my_expenses?utf8=✓&expense%5Bmonth%5D=<%= month%>&expense%5Byear%5D=<%= year%>&commit=SELECT", style="color:#fff">Profit (RM)<br><%= $month_name[month] %>-<%= year %>
