@@ -238,10 +238,16 @@ class TaskasController < ApplicationController
 
   def bill_account
     @taska = Taska.find(params[:id])
+    paid = params[:paid]
     if params[:month] == "0"
       @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).where(bill_year: params[:year]).order('bill_month ASC')
     else
-      @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).where(bill_month: params[:month]).where(bill_year: params[:year])
+      if paid == "true"
+        @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).where('extract(year  from updated_at) = ?', params[:year]).where('extract(month  from updated_at) = ?', params[:month]).order('updated_at DESC')
+      else
+        @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).where(bill_month: params[:month]).where(bill_year: params[:year]).order('updated_at DESC')
+      end
+      
       #@kid_all_bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
     end
     render action: "bill_account", layout: "dsb-admin-account" 

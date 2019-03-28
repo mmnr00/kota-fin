@@ -39,8 +39,12 @@
                         </font>
                       </a>
                      <% end %>
+                     BILL MONTH :
                      <%= "#{$month_name[bill.bill_month].upcase}" %>-
-                     <%= bill.bill_year %>
+                     <%= bill.bill_year %><br>
+                     <% if bill.paid %>
+                     PAYMENT DATE : <%= "#{bill.updated_at.strftime("%d/%m/%y")} "%>
+                     <% end %>
                     </p>
 
                   </div>
