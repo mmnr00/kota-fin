@@ -58,7 +58,7 @@
           </tr>
           <!-- PAID BILLS -->
           <tr style="background-color:#cce5cc"> 
-            <td>BILLS PAYMENT</td>
+            <td>FEES PAYMENTS</td>
             <td>
               <%= number_with_delimiter(@taska_payments.where(paid: true).sum(:amount).round(2), :delimiter=>',') %>
             </td>

@@ -40,15 +40,7 @@ wb.styles do |style|
     expense = 0
     
       (1..12).each do |m|
-        if (bill_month = @taska_bills.where(bill_month: m)).present?
-          sheet.add_row ["BILLS PAYMENT",
-                      bill_month.first.bill_month,
-                      bill_month.first.bill_year,
-                      bill_month.where(paid: true).sum(:amount),
-                      ""], style: [nil, border_cell]
-          sheet.rows[row+counter].style = bill_cell           
-          counter = counter +1
-        end
+        
         if (psl = @payslips.where(mth: m)).present?
           dt = Date.new(psl.first.year, psl.first.mth)
           psltot = psl.sum(:amtepfa)
@@ -73,9 +65,21 @@ wb.styles do |style|
           expense = expense + plntot
         end 
       end
+
+      if params[:month] != "0"
+          billtot = @taska_bills.where(paid: true).sum(:amount)
+          sheet.add_row ["FEES PAYMENTS",
+                      params[:month],
+                      params[:year],
+                      billtot,
+                      ""], style: [nil, border_cell]
+          sheet.rows[row+counter].style = bill_cell           
+          counter = counter +1
+          income = income + billtot
+      end
     
 
-    income = income + @taska_bills.where(paid: true).sum(:amount) 
+    #income = income + @taska_bills.where(paid: true).sum(:amount) 
     @taska_expenses.each do |exp|
       if exp.kind == "INCOME"
         sheet.add_row [exp.name,
