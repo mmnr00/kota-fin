@@ -41,7 +41,7 @@
             <td></td>
           </tr>
           <!-- TASKA PLAN -->
-          <tr style="background-color:#ffc966"> 
+          <tr style="background-color:#ccccff"> 
             <td>KIDCARE'S BILL</td>
             <td></td>
             <td>
@@ -50,6 +50,22 @@
             <td>
               <% dt = Date.new(year, month) + 1.months %>
               <%= link_to taska_receipts_path(id: params[:id]), 
+              class: "btn btn-sm active", target: '_blank',style: "color:blue" do %>
+                <i class="fa fa-eye"></i> DETAILS
+              <% end %>
+            </td>
+            <td></td>
+          </tr>
+          <!-- PAID BILLS -->
+          <tr style="background-color:#cce5cc"> 
+            <td>BILLS PAYMENT</td>
+            <td>
+              <%= number_with_delimiter(@taska_payments.where(paid: true).sum(:amount).round(2), :delimiter=>',') %>
+            </td>
+            <td>
+            </td>
+            <td>
+              <%= link_to bill_account_path(@taska, month: month, year: year, paid: true), 
               class: "btn btn-sm active", target: '_blank',style: "color:blue" do %>
                 <i class="fa fa-eye"></i> DETAILS
               <% end %>

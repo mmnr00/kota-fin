@@ -25,20 +25,22 @@
       <%= link_to unpaid_xls_path(@taska, paid: true, month: month, year: year, format: :xlsx), class: "btn btn-sm btn-primary active" do %>
         <i class="fa fa-file-excel"></i> ALL BILLS
       <% end %><br><br>
+
       <div class="bg-white">
-        <%= pie_chart @taska_payments.group(:paid).sum(:amount), colors: ["#ff6666","#66b266"], donut: true, legend: false, thousands: "," %>
+        <%= pie_chart @payments_pie.group(:paid).sum(:amount), colors: ["#ff6666","#66b266"], donut: true, legend: false, thousands: "," %>
       </div>
       <div class="row">
         <div class="col-sm-6" style="background-color:#66b266">
           <%= link_to bill_account_path(@taska, month: month, year: year, paid: true) do %>
             <h6 align="center"><font color="white">PAID (RM)</font></h6>
-             <h5 align="center"><font color="white"><%= number_with_delimiter(@taska_payments.where(paid: true).sum(:amount), :delimiter => ',') %></font></h5>
+             <h5 align="center"><font color="white"><%= number_with_delimiter(@taska_payments.where(paid: true).sum(:amount), :delimiter => ',') %></font>
+             </h5>
           <% end %>
         </div>
         <div class="col-sm-6" style="background-color:#ff6666">
           <%= link_to bill_account_path(@taska, month: month, year: year, paid: false) do %>
             <h6 align="center"><font color="white">UNPAID (RM)</font></h6>
-             <h5 align="center"><font color="white"><%= number_with_delimiter(@taska_payments.where(paid: false).sum(:amount), :delimiter => ',') %></font></h5>
+             <h5 align="center"><font color="white"><%= number_with_delimiter(@payments_due.where(paid: false).sum(:amount), :delimiter => ',') %></font></h5>
           <% end %>
         </div>
       </div>

@@ -41,7 +41,7 @@ wb.styles do |style|
     
       (1..12).each do |m|
         if (bill_month = @taska_bills.where(bill_month: m)).present?
-          sheet.add_row ["#{bill_month.where(paid: true).count} OUT OF #{bill_month.count} BILLS PAID",
+          sheet.add_row ["BILLS PAYMENT",
                       bill_month.first.bill_month,
                       bill_month.first.bill_year,
                       bill_month.where(paid: true).sum(:amount),
