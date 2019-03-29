@@ -25,13 +25,18 @@ def my_expenses
 	mth = params[:expense][:month].to_i
 	year = params[:expense][:year].to_i
 	if params[:expense][:month].present?
-		psldt = Date.new(year,mth)
+		dt = Date.new(year,mth)
+		psldt = dt - 1.months
 		@taska_payslips = @taska.payslips.where(mth: psldt.month, year: psldt.year)
 		@taska_chart = @taska.expenses.where(month: params[:expense][:month]).where(year: params[:expense][:year]) 
 		@taska_expense = @taska.expenses.where(month: params[:expense][:month]).where(year: params[:expense][:year]).order('UPDATED_AT DESC')
+
+		payment = @taska.payments.where.not(name: "TASKA PLAN").where(bill_month: params[:expense][:month]).where(bill_year: params[:expense][:year])
+		
 		@taska_payments = @taska.payments.where.not(name: "TASKA PLAN").where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
-		@payments_due = @taska.payments.where.not(name: "TASKA PLAN").where(bill_month: params[:expense][:month]).where(bill_year: params[:expense][:year])
+		@payments_due = payment
 		@payments_pie = @payments_due.where(paid: false).or(@taska_payments.where(paid: true))
+
 		@taska_plan = @taska.payments.where(name: "TASKA PLAN").where(paid: true).where('extract(month from updated_at) = ?', mth).where('extract(year from updated_at) = ?', year)
 	else
 		@taska_payslips = @taska.payslips.where(year: params[:expense][:year])

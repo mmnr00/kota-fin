@@ -28,9 +28,10 @@
             </td>
             <td>
               <% dt = Date.new(year, month) %>
+              <% psldt = dt - 1.months %>
               <%= link_to taskateachers_path(id: params[:id],
-                                            mthpsl: dt.month,
-                                            yrpsl: dt.year,
+                                            mthpsl: psldt.month,
+                                            yrpsl: psldt.year,
                                             tb7_a: "active",
                                             tb7_ar: true,
                                             tb7_d: "show active"), 
