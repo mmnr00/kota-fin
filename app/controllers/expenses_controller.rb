@@ -25,7 +25,6 @@ def my_expenses
 	mth = params[:expense][:month].to_i
 	year = params[:expense][:year].to_i
 	if params[:expense][:month].present?
-		
 		psldt = Date.new(year,mth)
 		@taska_payslips = @taska.payslips.where(mth: psldt.month, year: psldt.year)
 		@taska_chart = @taska.expenses.where(month: params[:expense][:month]).where(year: params[:expense][:year]) 
