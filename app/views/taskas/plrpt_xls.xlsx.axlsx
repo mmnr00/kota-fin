@@ -56,7 +56,7 @@ wb.styles do |style|
       exp = @taska_expense.where(month: m)
 
       income = 0
-      income = exp.where(kind: "INCOME").sum(:cost) + @taska_payments.where(bill_month: m).where(paid: true).sum(:amount)
+      income = exp.where(kind: "INCOME").sum(:cost) + @bill_hash[m]
       income_total = income_total + income
 
       expense = 0
