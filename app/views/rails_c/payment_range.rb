@@ -6,3 +6,8 @@ payment = @taska.payments.where.not(name: "TASKA PLAN")
 curr_pmt = payment.where(bill_month: mth).where(bill_year: year)
 pmt_paid = curr_pmt.where(paid: true)
 cdtn_1=pmt_paid.where("updated_at < ?", dt)
+
+n=0
+(1..12).each do |m|
+n=n+1
+end

@@ -33,10 +33,10 @@
                   <% end %>
                 </td> 
                 <td>
-                  <%= number_with_delimiter(income = (exp.where(kind: "INCOME").sum(:cost) + @taska_payments.where('extract(month from updated_at) = ?', m).where(paid: true).sum(:amount)).round(2), :delimiter=> ',') %>
+                  <%= number_with_delimiter(income = (exp.where(kind: "INCOME").sum(:cost) + @bill_hash[m]).round(2), :delimiter=> ',') %>
                 </td> 
                 <td>
-                  <%= number_with_delimiter(expense = (exp.where(kind: "EXPENSE").sum(:cost) + @taska_payslips.where(mth: (m)).sum(:amtepfa) + @taska_plan.where('extract(month from updated_at) = ?', m).sum(:amount)).round(2), :delimiter=> ',') %>
+                  <%= number_with_delimiter(expense = (exp.where(kind: "EXPENSE").sum(:cost) + @taska_payslips.where(mth: (m-1)).sum(:amtepfa) + @taska_plan.where('extract(month from updated_at) = ?', m).sum(:amount)).round(2), :delimiter=> ',') %>
                 </td>
                 <% if (pending = @taska_payments.where(bill_month: m).where(paid: false).sum(:amount)) > 0 %>
                   <% color = "#ffd27f" %>

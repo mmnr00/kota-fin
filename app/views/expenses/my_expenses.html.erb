@@ -15,7 +15,7 @@
       </h3></br>
       <%= form_for(:expense, :url => {:controller=>'expenses', :action=>'my_expenses'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
         <%= f.select :month, 1..12, rows: 10, class: "form-control", :selected => month, :include_blank => "ALL" %>&nbspmth
-        <%= f.select :year, 2014..2021, rows: 10, class: "form-control", :selected => year %>&nbspyr
+        <%= f.select :year, 2016..2021, rows: 10, class: "form-control", :selected => year %>&nbspyr
           <%= f.submit :"SELECT",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
       <% end %><br>
       
@@ -33,7 +33,20 @@
         <div class="col-sm-6" style="background-color:#66b266">
           <%= link_to bill_account_path(@taska, month: month, year: year, paid: true) do %>
             <h6 align="center"><font color="white">PAID (RM)</font></h6>
-             <h5 align="center"><font color="white"><%= number_with_delimiter(@taska_payments.where(paid: true).sum(:amount), :delimiter => ',') %></font>
+             <h5 align="center">
+              <font color="white">
+                <% if params[:expense][:month].present? %>
+                  <% pay = @taska_payments.where(paid: true).sum(:amount) %>
+                <% else %>
+                  <% 
+                    pay = 0
+                    (1..12).each do |mth|
+                      pay = pay + @bill_hash[mth]
+                    end
+                  %>
+                <% end %>
+                <%= number_with_delimiter(pay, :delimiter => ',') %>
+              </font>
              </h5>
           <% end %>
         </div>
