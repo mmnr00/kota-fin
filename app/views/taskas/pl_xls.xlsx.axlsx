@@ -43,10 +43,11 @@ wb.styles do |style|
         
         if (psl = @payslips.where(mth: m)).present?
           dt = Date.new(psl.first.year, psl.first.mth)
+          psldt = dt + 1.months
           psltot = psl.sum(:amtepfa)
           sheet.add_row ["#{psl.count} PAYSLIPS ISSUED",
-                      dt.month,
-                      dt.year,
+                      psldt.month,
+                      psldt.year,
                       "",
                       psltot], style: [nil, border_cell]
           sheet.rows[row+counter].style = bill_cell           
@@ -67,15 +68,29 @@ wb.styles do |style|
       end
 
       if params[:month] != "0"
-          billtot = @taska_bills.where(paid: true).sum(:amount)
-          sheet.add_row ["FEES PAYMENTS",
-                      params[:month],
-                      params[:year],
-                      billtot,
-                      ""], style: [nil, border_cell]
-          sheet.rows[row+counter].style = bill_cell           
-          counter = counter +1
-          income = income + billtot
+        billtot = @taska_bills.where(paid: true).sum(:amount)
+        sheet.add_row ["FEES PAYMENTS",
+                    params[:month],
+                    params[:year],
+                    billtot,
+                    ""], style: [nil, border_cell]
+        sheet.rows[row+counter].style = bill_cell           
+        counter = counter +1
+        income = income + billtot
+      else
+        billtot = @taska_bills.where(paid: true).sum(:amount)
+        (1..12).each do |mth|
+          if @bill_hash[mth] > 0
+            sheet.add_row ["FEES PAYMENTS",
+                        mth,
+                        params[:year],
+                        @bill_hash[mth],
+                        ""], style: [nil, border_cell]
+            sheet.rows[row+counter].style = bill_cell           
+            counter = counter +1
+          end
+        end
+        income = income + billtot
       end
     
 
