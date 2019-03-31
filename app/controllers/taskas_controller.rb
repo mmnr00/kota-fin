@@ -204,10 +204,45 @@ class TaskasController < ApplicationController
     time = Time.now.in_time_zone('Singapore')
     @mth = time.month
     @yr = time.year 
+    psldt = time - 1.months
     @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false)
     @taska_expense = @taska.expenses.where(month: @mth).where(year: @yr).order('CREATED_AT DESC')
-    @payslips = @taska.payslips.where(mth: @mth, year: @yr)
+    @payslips = @taska.payslips.where(mth: psldt.month, year: psldt.year)
     @applvs = @taska.applvs.where.not(stat: "APPROVED").where.not(stat: "REJECTED")
+    #display expense at front
+    #planper = time + 1.months
+    #plan = @taska.payments.where(bill_month: planper.in_time_zone('Singapore').month).where(name: "TASKA PLAN").where(bill_year: planper.in_time_zone('Singapore').year).where(paid: true).sum(:amount)
+    plan = @taska.payments.where(name: "TASKA PLAN").where(paid: true).where('extract(year  from updated_at) = ?', @yr).where('extract(month  from updated_at) = ?', @mth).sum(:amount)
+    #START BILLS
+      dt = Time.find_zone("Singapore").local(@yr,@mth)
+      payment = @taska.payments.where.not(name: "TASKA PLAN")
+      curr_pmt = payment.where(bill_month: @mth).where(bill_year: @yr)
+      curr_pmt_paid = curr_pmt.where(paid: true)
+      #CDTN_1 = current period pay early
+      cdtn_1 = curr_pmt_paid.where("updated_at < ?", dt)
+      #CDTN_2 = current period pay this month
+      cdtn_2 = curr_pmt_paid.where('extract(year  from updated_at) = ?', @yr).where('extract(month  from updated_at) = ?', @mth)
+      #CDTN_3 = previous period pay this month
+      dt_lp = dt
+      stp_lp = Time.find_zone("Singapore").local(2016,1)
+      cdtn_3 = nil
+      while dt_lp >= stp_lp
+        if cdtn_3.blank?    
+          cdtn_3 = payment.where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', @yr).where('extract(month  from updated_at) = ?', @mth)
+        else
+          tmp = payment.where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', @yr).where('extract(month  from updated_at) = ?', @mth)
+          cdtn_3 = cdtn_3.or(tmp)
+        end
+        dt_lp = dt_lp - 1.months
+      end
+      taska_payments = cdtn_1.or(cdtn_2.or(cdtn_3))
+
+      bills_paid = taska_payments.where(paid: true).sum(:amount)
+      #bills_paid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: true).where('extract(year  from updated_at) = ?', @yr).where('extract(month  from updated_at) = ?', @mth).sum(:amount)
+
+    #END BILLS
+    @disp = @taska_expense.where(kind: "INCOME").sum(:cost) - @taska_expense.where(kind: "EXPENSE").sum(:cost) + bills_paid -plan-@payslips.sum(:amtepfa)
+
     session[:taska_id] = @taska.id
     session[:taska_name] = @taska.name  
     render action: "show", layout: "dsb-admin-overview" 
