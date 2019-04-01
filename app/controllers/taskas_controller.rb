@@ -792,13 +792,23 @@ class TaskasController < ApplicationController
   def editpayslip
     @payslip = Payslip.find(params[:psl])
     @teacher = @payslip.teacher
+    unpaid_leave = @taska.tsklvs.where(name: "UNPAID LEAVE").first
+    @tchunpaid = @teacher.applvs.where(kind: unpaid_leave.id, stat: "APPROVED").order('start ASC')
+    @count = 0
+    @tchunpaid.each do |lv|
+      if (lv.start.month == params[:month].to_i && lv.start.year == params[:year].to_i) && (lv.end.month == params[:month].to_i && lv.end.year == params[:year].to_i)
+        @count += lv.tot
+      end
+    end
 
     render action: "editpayslip", layout: "dsb-admin-teacher"
   end
 
   def updpayslip
-    @payslip = Payslip.find(params[:payslip][:id])
+    @payslip = Payslip.find(params[:payslip][:psl])
     @payslip.update(payslip_params)
+    redirect_to tchpayslip_path(id: @payslip.taska_id,
+                                tch_id: @payslip.teacher_id)
   end
 
   # END TEACHER PAYSLIP

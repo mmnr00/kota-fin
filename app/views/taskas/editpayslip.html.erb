@@ -35,7 +35,7 @@
   <% total = gross + epfa.to_f + socsa.to_f + sipa.to_f %>
   <% psl_id = @payslip.psl_id %>
   <%= render 'taskas/payslip', amt: amt, alwnc: alwnc, epf: epf, epfa: epfa, socs: socs, socsa: socsa, sip: sip, sipa: sipa %>
-  <%= form_for(:payslip, :url => {:controller=>'taskas', :action=>'updpayslip'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+  <%= form_for(@payslip, :url => {:controller=>'taskas', :action=>'updpayslip'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
       <br>
       <!-- FORM ENTRY CREATION -->
       <%= f.hidden_field :mth, value: params[:month] %>
@@ -56,7 +56,8 @@
       <%= f.hidden_field :sipa, value: sipa %>
       <%= f.hidden_field :amtepfa, value: total %>
       <%= f.hidden_field :psl_id, value: psl_id %>
-      <%= f.hidden_field :id, value: @payslip.id %>
+      <%= f.hidden_field :id, value: @payslip.taska_id %>
+      <%= f.hidden_field :psl, value: @payslip.id %>
       <%= f.submit :"UPDATE PAYSLIP", class: 'btn btn-success btn-lg btn-block'%>
     <% end %>
     <br><br>
