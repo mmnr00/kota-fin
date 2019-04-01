@@ -15,6 +15,7 @@ class PaymentsController < ApplicationController
     if @bill.present?
     #@kid = @bill.kid
       @bill.paid = params[:billplz][:paid]
+      @bill.mtd = "BILLPLZ"
       @bill.save
       if @bill.paid
         flash[:success] = "Bill was successfully paid"

@@ -43,7 +43,8 @@
                      <%= "#{$month_name[bill.bill_month].upcase}" %>-
                      <%= bill.bill_year %><br>
                      <% if bill.paid %>
-                     PAYMENT DATE : <%= "#{bill.updated_at.strftime("%d/%m/%y")} "%>
+                     PAYMENT DATE : <%= "#{bill.updated_at.strftime("%d/%m/%y")} "%><br>
+                     METHOD : <%= bill.mtd %>
                      <% end %>
                     </p>
 
