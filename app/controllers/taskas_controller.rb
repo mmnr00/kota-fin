@@ -745,12 +745,13 @@ class TaskasController < ApplicationController
   def crtpayslip
     @payslip = Payslip.new(payslip_params)
     if @payslip.save
-      mth = @payslip.mth
-      yr = @payslip.year
-      tsk = @payslip.taska
-      tch = @payslip.teacher
-      tchd = tch.tchdetail
-      if (Rails.env.production?) && (@payslip.notf)
+      
+      if (Rails.env.production?) && (@payslip.notf == 1)
+        mth = @payslip.mth
+        yr = @payslip.year
+        tsk = @payslip.taska
+        tch = @payslip.teacher
+        tchd = tch.tchdetail
         #SEND EMAIL
         mail = SendGrid::Mail.new
         mail.from = SendGrid::Email.new(email: 'do-not-reply@kidcare.my', name: 'KidCare')
@@ -780,8 +781,10 @@ class TaskasController < ApplicationController
         mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
         sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
         @response = sg.client.mail._('send').post(request_body: mail.to_json)
-      end
-      flash[:success] = "PAYSLIP CREATION SUCCESSFULL"
+        flash[:success] = "PAYSLIP CREATION SUCCESSFULL AND NOTIFICATION EMAIL SENT TO STAFF"
+      else
+        flash[:success] = "PAYSLIP CREATION SUCCESSFULL"
+      end   
     else
       flash[:danger] = "PAYSLIP CREATION FAILED. PLEASE TRY AGAIN"
     end
@@ -808,10 +811,44 @@ class TaskasController < ApplicationController
     psl = params[:payslip]
     @payslip = Payslip.where(teacher_id: psl[:teacher_id]).where(taska_id: psl[:taska_id]).where(psl_id: psl[:psl_id]).first
     if @payslip.update(payslip_params)
-      if psl[:notf] == "1"
-        flash[:success] = "Payslip Updated with email"
+      if (Rails.env.production?) && (psl[:notf] == "1")
+        mth = @payslip.mth
+        yr = @payslip.year
+        tsk = @payslip.taska
+        tch = @payslip.teacher
+        tchd = tch.tchdetail
+        #SEND EMAIL
+        mail = SendGrid::Mail.new
+        mail.from = SendGrid::Email.new(email: 'do-not-reply@kidcare.my', name: 'KidCare')
+        mail.subject = "NEW PAYSLIP FOR #{$month_name[mth]}-#{yr}"
+        #Personalisation, add cc
+        personalization = SendGrid::Personalization.new
+        personalization.add_to(SendGrid::Email.new(email: "#{tch.email}"))
+        personalization.add_cc(SendGrid::Email.new(email: "#{tsk.email}"))
+        mail.add_personalization(personalization)
+        #add content
+        msg = "<html>
+                <body>
+                  Hi <strong>#{tchd.name.upcase}</strong><br><br>
+
+
+                  <strong>#{tsk.name.upcase}</strong> had created your payslip for <strong>#{$month_name[mth]}-#{yr}</strong>.<br>
+                  <br>
+
+                  Please login to view.<br> 
+
+                  Many thanks for your continous support.<br><br>
+
+                  Powered by <strong>www.kidcare.my</strong>
+                </body>
+              </html>"
+        #sending email
+        mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
+        sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
+        @response = sg.client.mail._('send').post(request_body: mail.to_json)
+        flash[:success] = "PAYSLIP UPDATE SUCCESSFULL AND NOTIFICATION EMAIL SENT TO STAFF"
       else
-        flash[:success] = "Payslip Updated"
+        flash[:success] = "PAYSLIP UPDATE SUCCESSFULL"
       end
       #redirect_to viewpsl_path(psl: @payslip.id)
     else

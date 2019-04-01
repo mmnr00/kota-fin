@@ -7,7 +7,7 @@
   <div class="card-body">
     <div class="container"><div class="row">
       <% image = @taska.fotos.where(foto_name: "CENTER LOGO").first %>
-      <% @tchpayslips.each do |psl| %>
+      <% @tchpayslips.where(notf: 1).each do |psl| %>
         <div class="col-xs-12 col-sm-6 col-md-3">
           <div class="frontside">
             <div class="card">
