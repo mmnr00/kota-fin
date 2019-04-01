@@ -750,7 +750,7 @@ class TaskasController < ApplicationController
       tsk = @payslip.taska
       tch = @payslip.teacher
       tchd = tch.tchdetail
-      if Rails.env.production?
+      if (Rails.env.production?) && (@payslip.notf)
         #SEND EMAIL
         mail = SendGrid::Mail.new
         mail.from = SendGrid::Email.new(email: 'do-not-reply@kidcare.my', name: 'KidCare')
@@ -805,10 +805,20 @@ class TaskasController < ApplicationController
   end
 
   def updpayslip
-    @payslip = Payslip.find(params[:payslip][:psl])
-    @payslip.update(payslip_params)
-    redirect_to tchpayslip_path(id: @payslip.taska_id,
-                                tch_id: @payslip.teacher_id)
+    psl = params[:payslip]
+    @payslip = Payslip.where(teacher_id: psl[:teacher_id]).where(taska_id: psl[:taska_id]).where(psl_id: psl[:psl_id]).first
+    if @payslip.update(payslip_params)
+      if psl[:notf] == "1"
+        flash[:success] = "Payslip Updated with email"
+      else
+        flash[:success] = "Payslip Updated"
+      end
+      #redirect_to viewpsl_path(psl: @payslip.id)
+    else
+      flash[:danger] = "Update failed. Please try again"
+      
+    end
+    redirect_to viewpsl_path(psl: @payslip.id)
   end
 
   # END TEACHER PAYSLIP
@@ -999,7 +1009,8 @@ class TaskasController < ApplicationController
                                       :sip,
                                       :sipa,
                                       :dedc,
-                                      :descdc)
+                                      :descdc,
+                                      :notf)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

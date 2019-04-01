@@ -59,6 +59,8 @@
       <%= f.hidden_field :sipa, value: sipa %>
       <%= f.hidden_field :amtepfa, value: total %>
       <%= f.hidden_field :psl_id, value: psl_id %>
+      <%= f.check_box :notf, checked: true %> <strong>NOTIFY STAFF VIA EMAIL</strong>
+      <br><br>
       <%= f.submit :"CREATE PAYSLIP", class: 'btn btn-success btn-lg btn-block'%>
     <% end %>
     <br><br>
