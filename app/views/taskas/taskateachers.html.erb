@@ -436,7 +436,7 @@
                           </td>
                           <td>
                             <%= link_to "VIEW", viewpsl_path(psl: psl.id), class: 'btn btn-sm btn-info', target: '_blank'%>
-                            <% if 1==0 %><%= link_to "EDIT", editpayslip_path(psl: psl.id), class: 'btn btn-sm btn-warning', target: '_blank'%><% end %>
+                            <% if 1==1 %><%= link_to "EDIT", editpayslip_path(psl: psl.id), class: 'btn btn-sm btn-warning', target: '_blank'%><% end %>
                             <%= link_to "DELETE", dltpsl_path(psl: psl.id,
                                                               allpsl: true,
                                                               tb7_a: params[:tb7_a],
