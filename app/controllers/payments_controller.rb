@@ -398,7 +398,7 @@ class PaymentsController < ApplicationController
               @client.messages.create(
                 to: "+6#{@taska.phone_1}#{@taska.phone_2}",
                 from: ENV["TWILIO_PHONE_NO"],
-                body: "[#{@taska.name}] New bill from KidCare for #{$month_name[period.month]}-#{period.year} . Please click at this link <#{view_invoice_taska_url(taska: taska, payment: @payment)}> to make payment. Thank you for your continous support."
+                body: "[#{@taska.name}] New bill from KidCare for #{$month_name[period.month]}-#{period.year} . Please click at this link <#{view_invoice_taska_url(taska: taska, payment: @payment)}> to make payment. Your account will expire on #{taska.expire.strftime('%d-%^b-%y')}.Thank you for your continous support."
               )
             end
             flash[:notice] = "SUCCESS CREATED FOR #{ctr} TASKAS"
@@ -454,12 +454,13 @@ class PaymentsController < ApplicationController
           if @payment.save
             Tskbill.create(real: real/100, disc: (real*(1-@taska.discount))/100, payment_id: @payment.id)
           end
-          if Rails.env.production?
+          if 1==1
+          #if Rails.env.production?
             @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
             @client.messages.create(
               to: "+6#{@taska.phone_1}#{@taska.phone_2}",
               from: ENV["TWILIO_PHONE_NO"],
-              body: "[#{@taska.name}] New bill from KidCare for #{$month_name[params[:mth].to_i]}-#{params[:yr]} . Please click at this link <#{view_invoice_taska_url(taska: @taska, payment: @payment)}> to make payment. Thank you for your continous support."
+              body: "[#{@taska.name}] New bill from KidCare for #{$month_name[params[:mth].to_i]}-#{params[:yr]} . Please click at this link <#{view_invoice_taska_url(taska: @taska, payment: @payment)}> to make payment. Your account will expire on #{@taska.expire.strftime('%d-%^b-%y')}. Thank you for your continous support."
             )
           end
           flash[:notice] = "SUCCESS CREATED FOR #{@taska.name}"
