@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_01_131935) do
+ActiveRecord::Schema.define(version: 2019_04_03_050411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -284,6 +284,7 @@ ActiveRecord::Schema.define(version: 2019_04_01_131935) do
     t.boolean "reminder"
     t.float "discount"
     t.string "mtd"
+    t.string "cltid"
   end
 
   create_table "payslips", force: :cascade do |t|

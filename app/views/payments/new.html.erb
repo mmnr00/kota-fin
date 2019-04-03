@@ -1,3 +1,21 @@
+<% 
+  if Rails.env.development?
+    clt = "andkymil"
+  elsif Rails.env.production? 
+    clt = "x7w_y71n"
+  end
+%>
+
+
+
+<% if @taska.collection_id == clt %>
+
+<div style="background-color:#ff6666">
+  <h3 align="center"><font color="white">UNVERIFIED BANK ACCOUNT</font></h3>
+  <h6 align="center"><font color="white">Unable to track bill payment automatically<br></font></h6>
+</div>
+
+<% end %>
 <div class="container">
   <div class="row">
     <div class="bg-light col-sm-8">

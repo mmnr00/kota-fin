@@ -240,6 +240,7 @@ class PaymentsController < ApplicationController
       @payment.bill_id = data["id"]
       @payment.reminder = false
       @payment.name = "KID BILL"
+      @payment.cltid = data["collection_id"]
       @payment.save
       @taska = @payment.taska
       @addtn.desc = params[:payment][:addtns_attributes]["0"][:desc]
