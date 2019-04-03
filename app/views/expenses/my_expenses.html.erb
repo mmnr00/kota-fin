@@ -44,10 +44,6 @@
                       pay = pay + @bill_hash[mth]
                     end
                   %>
-                  <% @bill_hash.each do |k,v| %>
-                    <%= k %>
-                    <%= v %><br><br>
-                  <% end %>
                 <% end %>
                 <%= number_with_delimiter(pay, :delimiter => ',') %>
 
