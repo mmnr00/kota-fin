@@ -13,13 +13,7 @@
     <% if @taska.expire < $my_time %>
       <% expired = true %>
     <% end %>
-    <% 
-      if Rails.env.development?
-        clt = "andkymil"
-      elsif Rails.env.production? 
-        clt = "x7w_y71n"
-      end
-    %>
+    
     
     <% if !@pdf && @payment.cltid != $clt %>
       <h1 align="right">
