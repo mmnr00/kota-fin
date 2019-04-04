@@ -11,6 +11,12 @@ $my_time = Time.now.in_time_zone('Singapore')
 $trial = 30
 $expire = 11
 
+if Rails.env.development?
+  $clt = "andkymil"
+elsif Rails.env.production? 
+  $clt = "x7w_y71n"
+end
+
 $package_price = 	{ "BASIC"=>80,
 										"STANDARD"=>150,
 										"PREMIUM"=>200,
