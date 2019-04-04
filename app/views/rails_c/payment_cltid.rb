@@ -4,16 +4,13 @@ p.save
 end
 
 Payment.where.not(name: "TASKA PLAN").where(cltid: nil).each do |p|
-p.cltid = "olga_843"
+p.cltid = p.taska.collection_id
 p.save
 end
 
-Taska.where(cltid: nil).each do |t|
-if Rails.env.development?
-t.cltid = "andkymil"
-elsif Rails.env.production?
-t.cltid = "x7w_y71n"
-end
+Taska.where(collection_id: nil).each do |t|
+
+t.collection_id = $clt
 t.save
 end
 

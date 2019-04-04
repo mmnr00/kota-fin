@@ -889,11 +889,12 @@ class TaskasController < ApplicationController
   def create
     @taska = Taska.new(taska_params)
     @taska.expire = Time.now + 1.months
-    if Rails.env.development?
-      @taska.collection_id = "andkymil"
-    elsif Rails.env.production?
-      @taska.collection_id = "x7w_y71n"
-    end
+    # if Rails.env.development?
+    #   @taska.collection_id = "andkymil"
+    # elsif Rails.env.production?
+    #   @taska.collection_id = "x7w_y71n"
+    # end
+    @taska.collection_id = $clt
     if @taska.save
       taska_admin1 = TaskaAdmin.create(taska_id: @taska.id, admin_id: current_admin.id)
       annlv = Tsklv.create(taska_id: @taska.id, 
