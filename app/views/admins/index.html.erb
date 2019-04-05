@@ -11,6 +11,7 @@
         <tr>
           <th style="background-color:#d8b2d8"> ID </th>
           <th style="background-color:#d8b2d8"> NAME </th>
+          <th style="background-color:#d8b2d8"> PLAN </th>
           <th style="background-color:#d8b2d8"> DATE </th>
           <th style="background-color:#d8b2d8"> SUPERVISOR </th>
           <th style="background-color:#d8b2d8"> PHONE </th>
@@ -29,6 +30,7 @@
           <tr>
             <td><%= tsk.id %></td>
             <td><%= tsk.name %></td>
+            <td><%= "#{tsk.plan} (#{$package_child[tsk.plan]})"  %></td>
             <td><%= tsk.created_at.strftime("%d-%m-%y") %></td>
             <td><%= tsk.supervisor %></td>
             <td><%= "#{tsk.phone_1}-#{tsk.phone_2}" %></td>
