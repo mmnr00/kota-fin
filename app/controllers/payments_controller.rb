@@ -390,6 +390,7 @@ class PaymentsController < ApplicationController
             @payment.state = data["state"]
             @payment.paid = data["paid"]
             @payment.bill_id = data["id"]
+            @payment.cltid = data["collection_id"]
             if @payment.save
               Tskbill.create(real: real/100, disc: (real*(1-@taska.discount))/100, payment_id: @payment.id)
             end
@@ -452,6 +453,7 @@ class PaymentsController < ApplicationController
           @payment.state = data["state"]
           @payment.paid = data["paid"]
           @payment.bill_id = data["id"]
+          @payment.cltid = data["collection_id"]
           if @payment.save
             Tskbill.create(real: real/100, disc: (real*(1-@taska.discount))/100, payment_id: @payment.id)
           end

@@ -3,7 +3,7 @@ p.cltid = "fabqzqb0"
 p.save
 end
 
-Payment.where.not(name: "TASKA PLAN").where(cltid: nil).each do |p|
+Payment.where.not(name: "TASKA PLAN").where.not(taska_id: nil).where(cltid: nil).each do |p|
 p.cltid = p.taska.collection_id
 p.save
 end
