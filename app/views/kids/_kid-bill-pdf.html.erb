@@ -119,7 +119,7 @@
                       <strong><%= kb.kid.name %></strong><br>
                       <% if kb.classroom.present? %>
                         FEE FOR CLASSROOM <%= kb.classroom.classroom_name.upcase %>
-                      <% else %>
+                      <% elsif @payment.name == "TASKA BOOKING" %>
                         BOOKING FEE FOR <%= @taska.name.upcase %>
                       <% end %>
                       <% kb.extra.each do |id|%>
@@ -131,8 +131,10 @@
                     <td class="text-right">
                       <% if kb.classroom.present? %>
                         <br><%= kb.classroom.base_fee %>
-                      <% else %>
+                      <% elsif @payment.name == "TASKA BOOKING" %>
                         <%= @payment.amount %>
+                      <% else %>
+                        <br>
                       <% end %>
                       
                       <% kb.extra.each do |id|%>

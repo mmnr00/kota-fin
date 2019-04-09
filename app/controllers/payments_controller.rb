@@ -150,10 +150,17 @@ class PaymentsController < ApplicationController
     par = params[:payments]
     kid = Kid.find(par[:child])
     if kid.payments.where.not(name: "TASKA BOOKING").where(bill_month: par[:month]).where(bill_year: par[:year]).present?
-      flash[:danger] = "BILL ALREADY EXIST FOR #{$month_name[par[:month].to_i]}-#{par[:year]}"
-      redirect_to got_bill_path(taska: par[:taska],
+      flash[:notice] = "BILL ALREADY EXIST FOR #{$month_name[par[:month].to_i]}-#{par[:year]}."
+      # redirect_to got_bill_path(taska: par[:taska],
+      #                           child: par[:child],
+      #                           classroom: par[:classroom])
+      redirect_to new_bill_path(id: par[:taska],
                                 child: par[:child],
-                                classroom: par[:classroom])
+                                classroom: par[:classroom],
+                                month: par[:month],
+                                year: par[:year],
+                                exs: 1)
+
     else
       redirect_to new_bill_path(id: par[:taska],
                                 child: par[:child],
@@ -196,6 +203,11 @@ class PaymentsController < ApplicationController
     end
   end
 
+  def edit_bill
+    @taska = Taska.find(params[:id])
+    render action: "edit_bill", layout: "dsb-admin-classroom" 
+  end
+
   def create
     params.require(:payment).permit(:amount, 
                             :description, 
@@ -204,18 +216,27 @@ class PaymentsController < ApplicationController
                             :kid_id, 
                             :taska_id, 
                             :discount,
+                            :exs,
                             addtns_attributes: [:desc, :amount])
     amount = params[:payment][:amount].to_f*100
     if (desc = params[:payment][:description]) == ""
       desc = "NA"
     end
+    
     @payment = Payment.new
     @addtn = Addtn.new
     @taska = Taska.find(params[:payment][:taska_id])
+    exs = params[:payment][:exs]
+    if exs.blank?
+      collection_id = @taska.collection_id
+    else
+      collection_id = @taska.collection_id2
+    end
     @kid = Kid.find(params[:payment][:kid_id])
+
     url_bill = "#{ENV['BILLPLZ_API']}bills"
     data_billplz = HTTParty.post(url_bill.to_str,
-            :body  => { :collection_id => "#{@taska.collection_id}", 
+            :body  => { :collection_id => "#{collection_id}", 
                         :email=> "#{@kid.parent.email}",
                         :name=> "#{@kid.name}", 
                         :amount=>  amount,
@@ -256,7 +277,12 @@ class PaymentsController < ApplicationController
           body: "New bill from #{@taska.name} . Please click at this link <#{bill_view_url(payment: @payment.id, kid: @kid.id, taska: @kid.taska.id)}> to make payment"
         )
       end
-      kb = KidBill.new(kid_id: @kid.id, payment_id: @payment.id, classroom_id: @kid.classroom.id)
+      if exs.blank?
+        cls = @kid.classroom.id
+      else
+        cls = nil
+      end
+      kb = KidBill.new(kid_id: @kid.id, payment_id: @payment.id, classroom_id: cls)
       @kid.extras.each do |extra|
         kb.extra << extra.id
       end
@@ -264,7 +290,12 @@ class PaymentsController < ApplicationController
 
       if @kid.beradik.count > 0
         @kid.beradik.each do |beradik|
-          kb = KidBill.new(kid_id: beradik.id, payment_id: @payment.id, classroom_id: beradik.classroom.id)
+          if exs.blank?
+            cls = beradik.classroom.id
+          else
+            cls = nil
+          end
+          kb = KidBill.new(kid_id: beradik.id, payment_id: @payment.id, classroom_id: cls)
           beradik.extras.each do |extra|
             kb.extra << extra.id
           end

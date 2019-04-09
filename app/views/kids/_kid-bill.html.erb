@@ -143,7 +143,7 @@
                       <td></td>
                       <td class="text-right"><%= kb.classroom.base_fee %></td>
                       </tr>
-                    <% else %>
+                    <% elsif @payment.name == "TASKA BOOKING" %>
                       <td>BOOKING FEE FOR <%= @taska.name.upcase %></td>
                       <td></td>
                       <td class="text-right"><%= @payment.amount %></td>
