@@ -9,7 +9,7 @@ end
 
 
 Taska.where(collection_id: "x7w_y71n").each do |tsk|
-tsk.collection_id = "x7w_y71n"
+tsk.collection_id2 = "x7w_y71n"
 tsk.save
 end
 
