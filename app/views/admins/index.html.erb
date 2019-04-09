@@ -22,6 +22,7 @@
           <th style="background-color:#d8b2d8"> SSM </th>
           <th style="background-color:#d8b2d8"> EMAIL </th>
           <th style="background-color:#d8b2d8"> BILLPLZ </th>
+          <th style="background-color:#d8b2d8"> BILLPLZ 2 </th>
           <th style="background-color:#d8b2d8"> ACTION </th>
         </tr>
       </thead>
@@ -41,6 +42,7 @@
             <td><%= tsk.ssm_no %></td>
             <td><%= tsk.email %></td>
             <td><%= tsk.collection_id %></td>
+            <td><%= tsk.collection_id2 %></td>
             <td>
               <%= link_to "VIEW", taska_path(tsk), class: "btn btn-sm btn-primary", target: "_blank" %>
               <%= link_to "EDIT", edit_taska_path(tsk, plan: tsk.plan), class: "btn btn-sm btn-success", target: "_blank" %>
