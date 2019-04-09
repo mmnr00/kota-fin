@@ -43,7 +43,13 @@
               </a>
             <% end %>
             <address>
-              <strong><%= @taska.name.upcase %></strong><br>
+              <strong><%= @taska.name.upcase %></strong>
+              <% ssm = @taska.ssm_no %>
+              <% if ssm.present? or ssm != "PLEASE INSERT" %>
+                <%= "(#{ssm})" %><br>
+              <% else %>
+                <br>
+              <% end %>
               <%= @taska.address_1.upcase %><br>
               <%= @taska.address_2.upcase %><br>
               <%= @taska.city.upcase %>&nbsp
