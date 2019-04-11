@@ -1,5 +1,10 @@
 <div class="row">
 
+  <% if params[:type].blank? %>
+    <% tp="ptns" %>
+  <% else %>
+    <% tp=params[:type] %>
+  <% end %>
   <div class="col-sm-6 bg-white">
     <%= form_tag find_ptns_path, remote: true, method: :get, id: "find_kid" do %>
       <div class="form-group text-center col-md-12">
@@ -29,11 +34,7 @@
                     required: true,  
                     class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
           </div><br><br>
-          <% if params[:type].blank? %>
-            <% tp="ptns" %>
-          <% else %>
-            <% tp=params[:type] %>
-          <% end %>
+          
           <%= hidden_field_tag :tp, params[:tp], value: tp%>              
           <div class="col-md-12">
             <%= button_tag(type: :submit, class: "btn btn-sm btn-success active", id: "submit_expense") do %>
@@ -70,4 +71,4 @@
   </h4></font>
 </div><br>
 
-<%= render 'ptns_mmbs/form' %>
+<%= render 'ptns_mmbs/form', tp: tp %>

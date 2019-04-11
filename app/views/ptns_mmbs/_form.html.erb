@@ -1,3 +1,4 @@
+
 <div class='row'>
   <div class='col-lg-8 col-12'>
     <%= form_for(@ptnsmmb, :html => {multipart: true, class: "form-horizontal", role: "form"}) do |f| %>
@@ -306,6 +307,8 @@
           </div>
         </div>
       </div>
+
+      <%= f.hidden_field :tp, value: tp %>
 
 
 

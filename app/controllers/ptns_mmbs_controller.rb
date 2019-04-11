@@ -128,6 +128,7 @@ class PtnsMmbsController < ApplicationController
 																		:ts_ph1,
 																		:ts_ph2,
 																		:email,
+																		:tp,
 																		fotos_attributes: [:foto, :picture, :foto_name])
    end
 
