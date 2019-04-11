@@ -28,7 +28,7 @@ class PtnsMmbsController < ApplicationController
       flash.now[:danger] = "Maklumat tidak lengkap"
     else
     	icf = "#{params[:ic1]}#{params[:ic2]}#{params[:ic3]}"
-      @ptns_find = PtnsMmb.where(icf: icf)
+      @ptns_find = PtnsMmb.where(icf: icf, tp: params[:tp])
       flash.now[:danger] = "Tiada rekod. Sila daftar di ruangan dibawah" unless @ptns_find.present?
     end
     respond_to do |format|

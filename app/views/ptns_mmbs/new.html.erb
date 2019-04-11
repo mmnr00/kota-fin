@@ -28,7 +28,13 @@
                     autofocus: true,
                     required: true,  
                     class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
-          </div><br><br>              
+          </div><br><br>
+          <% if params[:type].blank? %>
+            <% tp="ptns" %>
+          <% else %>
+            <% tp=params[:type] %>
+          <% end %>
+          <%= hidden_field_tag :tp, params[:tp], value: tp%>              
           <div class="col-md-12">
             <%= button_tag(type: :submit, class: "btn btn-sm btn-success active", id: "submit_expense") do %>
                 <i class="fa fa-search"></i> CARI
