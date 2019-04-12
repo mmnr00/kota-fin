@@ -1,41 +1,81 @@
-<div class="table-responsive">
-  <h2>JUMLAH BAYARAN</h2>
-  <table class="table table-striped table-bordered">
-    <thead>
-      <tr style="background-color:#d8b2d8">
-        <th> JENIS KEAHLIAN </th>
-        <th> JUMLAH BAYARAN</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>AHLI BIASA BAHARU </td>
-        <td>RM 30 setahun termasuk RM 10 yuran pendaftaran</td>
-      </tr>
-      <tr>
-        <td>AHLI INSTITUSI BAHARU </td>
-        <td>RM 60 setahun termasuk RM 10 yuran pendaftaran</td>
-      </tr>
-      <tr>
-        <td>MEMPERBAHARUI KEAHLIAN BIASA </td>
-        <td>RM 20 setahun </td>
-      </tr>
-      <tr>
-        <td>MEMPERBAHARUI KEAHLIAN INSTITUSI </td>
-        <td>RM 50 setahun </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+<% if params[:tp] == "ptns" %>
+  <div class="table-responsive">
+    <h2>JUMLAH BAYARAN</h2>
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr style="background-color:#d8b2d8">
+          <th> JENIS KEAHLIAN </th>
+          <th> JUMLAH BAYARAN</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>AHLI BIASA BAHARU </td>
+          <td>RM 30 setahun termasuk RM 10 yuran pendaftaran</td>
+        </tr>
+        <tr>
+          <td>AHLI INSTITUSI BAHARU </td>
+          <td>RM 60 setahun termasuk RM 10 yuran pendaftaran</td>
+        </tr>
+        <tr>
+          <td>MEMPERBAHARUI KEAHLIAN BIASA </td>
+          <td>RM 20 setahun </td>
+        </tr>
+        <tr>
+          <td>MEMPERBAHARUI KEAHLIAN INSTITUSI </td>
+          <td>RM 50 setahun </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
 
 
-<h7>NO AKAUN<br>
-<strong>12-038-01-008185-4</strong></h7><br><br>
-<h7>NAMA BANK   <br><strong>BANK ISLAM MALAYSIA BERHAD</strong></h7><br><br>
-<h7>NAMA AKAUN <br> <strong>PERSATUAN TASKA NEGERI SELANGOR</strong></h7><br>
-<br>
-<%= link_to "PENDAFTARAN BARU", new_ptns_mmb_path, class: "btn btn-sm btn-primary active" %>
+  <h7>NO AKAUN<br>
+  <strong>12-038-01-008185-4</strong></h7><br><br>
+  <h7>NAMA BANK   <br><strong>BANK ISLAM MALAYSIA BERHAD</strong></h7><br><br>
+  <h7>NAMA AKAUN <br> <strong>PERSATUAN TASKA NEGERI SELANGOR</strong></h7><br>
+  <br>
+<% elsif params[:tp] == "kprm" %>
+
+  <div class="table-responsive">
+    <h2>JUMLAH BAYARAN</h2>
+    <table class="table table-striped table-bordered">
+      <thead>
+        <tr style="background-color:#d8b2d8">
+          <th> JENIS KEAHLIAN </th>
+          <th> JUMLAH BAYARAN</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>PENDAFTARAN BARU </td>
+          <td>RM 10 setahun termasuk RM 1 yuran pendaftaran</td>
+        </tr>
+        <tr>
+          <td>PEMBAHARUAN AHLI </td>
+          <td>RM 10 setahun</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h7>NO KPRM<br>
+  <strong>12-038-01-008185-4</strong></h7><br><br>
+  <h7>NAMA BANK   <br><strong>BANK ISLAM MALAYSIA BERHAD</strong></h7><br><br>
+  <h7>NAMA AKAUN <br> <strong>PERSATUAN TASKA NEGERI SELANGOR</strong></h7><br>
+  <br>
+
+<% end %>
+
+<% if params[:tp] == "ptns" %>
+  <% tp=nil %>
+<% elsif params[:tp] == "kprm" %>
+  <% tp=params[:tp] %>
+<% end %>
+
+
+<%= link_to "PENDAFTARAN BARU", new_ptns_mmb_path(type: tp), class: "btn btn-sm btn-primary active" %>
 
 
 

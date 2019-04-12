@@ -9,14 +9,14 @@ class PtnsMmbsController < ApplicationController
 	def create
 		@ptnsmmb = PtnsMmb.new(ptnsmmb_params)
 		icf = "#{@ptnsmmb.ic1}#{@ptnsmmb.ic2}#{@ptnsmmb.ic3}"
-		if PtnsMmb.where(icf: icf).present?
+		if PtnsMmb.where(icf: icf).where(tp: @ptnsmmb.tp).present?
 			flash[:notice] = "NAMA ANDA SUDAH DIDAFTARKAN DALAM SISTEM KAMI"
 			redirect_to new_ptns_mmb_path
 		else
 			@ptnsmmb.icf = icf
 			@ptnsmmb.save
 			flash[:notice] = "PENDAFTARAN BERJAYA. TERIMA KASIH. SILA IKUTI ARAHAN SETERUSNYA"
-			redirect_to after_reg_ptns_path
+			redirect_to after_reg_ptns_path(tp: @ptnsmmb.tp)
 		end	
 	end
 

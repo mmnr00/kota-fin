@@ -141,12 +141,18 @@
       </div>
 
       <!-- MEMBERSHIP TYPE-->
-      <% jenis = ["KEMASKINI MAKLUMAT SAHAJA",
+      <% if params[:type] == "kprm" %>
+        <% jenis = ["PERMOHONAN BARU",
+            "PEMBAHARUAN",
+            ] %>
+      <% else %>
+        <% jenis = ["KEMASKINI MAKLUMAT SAHAJA",
             "AHLI BIASA BAHARU(RM 30 setahun termasuk RM 10 yuran pendaftaran)", 
             "AHLI INSTITUSI BAHARU(RM 60 setahun termasuk RM 10 yuran pendaftaran)", 
             "MEMPERBAHARUI KEAHLIAN BIASA(RM 20 setahun)",
             "MEMPERBAHARUI KEAHLIAN INSTITUSI(RM 50 setahun)"
             ] %>
+      <% end %>
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
