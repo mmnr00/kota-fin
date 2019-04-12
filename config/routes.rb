@@ -35,7 +35,7 @@ Rails.application.routes.draw do
   get '/daftarptns', to: 'ptns_mmbs#new', as: 'new_ptns_mmb'
   #get '/daftarkprm', to: 'ptns_mmbs#new', as: 'new_ptns_mmb'
   get '/find_ptns', to: 'ptns_mmbs#find_ptns', as: 'find_ptns'
-  get '/daftarptns_list123', to: 'ptns_mmbs#list_ptns', as: 'list_ptns'
+  get '/senarai_ahli', to: 'ptns_mmbs#list_ptns', as: 'list_ptns'
   get '/mmb_pdf', to: 'ptns_mmbs#mmb_pdf', as: 'mmb_pdf'
   get '/after_reg_ptns', to: 'ptns_mmbs#after_reg', as: 'after_reg_ptns'
   get '/add_expire', to: 'ptns_mmbs#add_expire'

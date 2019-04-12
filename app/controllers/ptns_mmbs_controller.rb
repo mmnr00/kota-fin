@@ -37,7 +37,17 @@ class PtnsMmbsController < ApplicationController
   end
 
   def list_ptns
-  	@all_mmb = PtnsMmb.all.order('created_at ASC')
+  	passw ={
+  		"ptns"=>"abc345",
+  		"kprm"=>"abc123"
+  	}
+  	@tp=params[:tp]
+  	if params[:pw] == passw[@tp]
+  		@pw = true
+  	else
+  		@pw = false
+  	end
+  	@all_mmb = PtnsMmb.all.order('created_at ASC').where(tp: @tp)
   end
 
   def add_expire

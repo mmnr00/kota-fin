@@ -1,61 +1,87 @@
-<div class="col-sm-12" style="background-color:blue">
-  <font color="white"><h2 align="center">SENARAI NAMA AHLI PTNS</h2></font>
-</div><br>
+<% if params[:pw].blank? %>
+  ENTER PASSWORD <br>
+  <%= form_tag list_ptns_path, method: :get, id: "find_kid" do %>
+    <%= text_field_tag :pw, params[:pw], 
+      placeholder: "", 
+      autofocus: true,
+      class: "form-control search-box input-lg" %>
+    <%= hidden_field_tag :tp, params[:tp], value: params[:tp] %>
+    <%= button_tag(type: :submit, class: "btn btn-sm btn-primary active", id: "submit_expense") do %>
+      <i class="fa fa-check"></i> APPLY
+    <% end %>
+  <% end %>
+<% elsif @pw %>
+  <div class="col-sm-12" style="background-color:blue">
+    <font color="white"><h2 align="center">SENARAI NAMA AHLI <%= @tp.upcase %></h2></font>
+  </div><br>
 
-<div class="table-responsive">
-  <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
-    <thead>
-      <tr style="background-color:#d8b2d8">
-        <th> NAMA </th>
-        <th> NO K/P </th>
-        <th> NO TELEFON </th>
-        <th> TARIKH DAFTAR </th>
-        <th> GAMBAR PASSPORT </th>
-        <th> PROFIL </th>
-        <th> MAKLUMAT </th>
-      </tr>
-    </thead>
-    <tbody> 
-      <% @all_mmb.each do |mmb| %>
-        <tr>
-          <td><%= mmb.name %></td>
-          <td><%= "#{mmb.ic1}-#{mmb.ic2}-#{mmb.ic3}"%></td>
-          <td><%= "#{mmb.ph1}-#{mmb.ph2}"%></td>
-          <td><%= mmb.created_at.to_date.strftime("%d-%m-%y") %></td>
-          <td>
-            <% image = mmb.fotos.where(foto_name: "PTNS MMB").first %>
-              <% if image.present? %>
-                <a href="<%="#{image.picture.url}"%>" target="_blank">
-                  <% if image.picture.content_type == 'application/pdf' %>
-                    <%= image_tag(Foto.where(foto_name: "PDF ICON").first.picture.url, size: "50x50") if image.picture? %>
-                  <% else %>
-                    <%= image_tag(image.picture.url, size: "100x100") if image.picture? %>
-                  <% end %>
-                </a>
-              <% end %>
-          </td>
-          <td>
-            <%= link_to mmb_pdf_path(id: mmb.id, format: :pdf), class: "btn btn-sm active", style: "color:green", target: "_blank" do %>
-                <i class="fa fa-download"></i> CETAK PROFIL
-            <% end %>
-          </td>
-          <td>
-            <%= form_for(mmb, :url => {:controller=>'ptns_mmbs', :action=>'add_expire'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
-              <div class="control-label col-sm-12">
-                <strong>TARIKH LUPUT</strong>
-              </div>
-              <%= f.date_field :expire, class: "form-control", autofocus: true, required: true %><br>
-              <div class="control-label col-sm-12">
-                <strong>NO KEAHLIAN</strong>
-              </div>
-              <%= f.text_field :mmbid, class: "form-control", autofocus: true, required: true %><br>
-              <%= f.hidden_field :id, value: mmb.id %>
-              <%= f.submit :"ADD",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
-            <% end %>
-          </td>
-          
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
+      <thead>
+        <tr style="background-color:#d8b2d8">
+          <th> NAMA </th>
+          <th> NO K/P </th>
+          <th> NO TELEFON </th>
+          <th> TARIKH DAFTAR </th>
+          <th> GAMBAR PASSPORT </th>
+          <th> PROFIL </th>
+          <th> MAKLUMAT </th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+      </thead>
+      <tbody> 
+        <% @all_mmb.each do |mmb| %>
+          <tr>
+            <td><%= mmb.name %></td>
+            <td><%= "#{mmb.ic1}-#{mmb.ic2}-#{mmb.ic3}"%></td>
+            <td><%= "#{mmb.ph1}-#{mmb.ph2}"%></td>
+            <td><%= mmb.created_at.to_date.strftime("%d-%m-%y") %></td>
+            <td>
+              <% image = mmb.fotos.where(foto_name: "PTNS MMB").first %>
+                <% if image.present? %>
+                  <a href="<%="#{image.picture.url}"%>" target="_blank">
+                    <% if image.picture.content_type == 'application/pdf' %>
+                      <%= image_tag(Foto.where(foto_name: "PDF ICON").first.picture.url, size: "50x50") if image.picture? %>
+                    <% else %>
+                      <%= image_tag(image.picture.url, size: "100x100") if image.picture? %>
+                    <% end %>
+                  </a>
+                <% end %>
+            </td>
+            <td>
+              <%= link_to mmb_pdf_path(id: mmb.id, format: :pdf), class: "btn btn-sm active", style: "color:green", target: "_blank" do %>
+                  <i class="fa fa-download"></i> CETAK PROFIL
+              <% end %>
+            </td>
+            <td>
+              <%= form_for(mmb, :url => {:controller=>'ptns_mmbs', :action=>'add_expire'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+                <div class="control-label col-sm-12">
+                  <strong>TARIKH LUPUT</strong>
+                </div>
+                <%= f.date_field :expire, class: "form-control", autofocus: true, required: true %><br>
+                <div class="control-label col-sm-12">
+                  <strong>NO KEAHLIAN</strong>
+                </div>
+                <%= f.text_field :mmbid, class: "form-control", autofocus: true, required: true %><br>
+                <%= f.hidden_field :id, value: mmb.id %>
+                <%= f.submit :"ADD",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
+              <% end %>
+            </td>
+            
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  WRONG PASSWORD. PLEASE TRY AGAIN. 
+  <%= form_tag list_ptns_path, method: :get, id: "find_kid" do %>
+    <%= text_field_tag :pw, params[:pw], 
+      placeholder: "", 
+      autofocus: true,
+      class: "form-control search-box input-lg" %>
+    <%= hidden_field_tag :tp, params[:tp], value: params[:tp] %>
+    <%= button_tag(type: :submit, class: "btn btn-sm btn-primary active", id: "submit_expense") do %>
+      <i class="fa fa-check"></i> APPLY
+    <% end %>
+  <% end %>
+<% end %>

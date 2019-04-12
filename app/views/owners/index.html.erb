@@ -19,7 +19,7 @@
             </tr>
           </thead>
           <tbody>
-            <% @owner.colleges.each do |college| %>
+            <% @owner.colleges.order('start DESC').order('created_at DESC').each do |college| %>
             <tr>
               <td><%= college.name %></td>
               <td><%= college.address %></td>
