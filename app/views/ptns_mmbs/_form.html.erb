@@ -141,6 +141,12 @@
       </div>
 
       <!-- MEMBERSHIP TYPE-->
+      <% jenis = ["KEMASKINI MAKLUMAT SAHAJA",
+            "AHLI BIASA BAHARU(RM 30 setahun termasuk RM 10 yuran pendaftaran)", 
+            "AHLI INSTITUSI BAHARU(RM 60 setahun termasuk RM 10 yuran pendaftaran)", 
+            "MEMPERBAHARUI KEAHLIAN BIASA(RM 20 setahun)",
+            "MEMPERBAHARUI KEAHLIAN INSTITUSI(RM 50 setahun)"
+            ] %>
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
@@ -151,12 +157,7 @@
           <div class="col-sm-8 col-8">
             <%= f.select :mmb, 
             options_for_select(
-            ["KEMASKINI MAKLUMAT SAHAJA",
-            "AHLI BIASA BAHARU(RM 30 setahun termasuk RM 10 yuran pendaftaran)", 
-            "AHLI INSTITUSI BAHARU(RM 60 setahun termasuk RM 10 yuran pendaftaran)", 
-            "MEMPERBAHARUI KEAHLIAN BIASA(RM 20 setahun)",
-            "MEMPERBAHARUI KEAHLIAN INSTITUSI(RM 50 setahun)"
-            ], 
+            jenis, 
             selected: @ptnsmmb.mmb), 
             {include_blank: "SILA PILIH"}, {required: true} %>
           </div>
