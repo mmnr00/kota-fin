@@ -12,7 +12,10 @@
             </p>
             <p class="card-text">
               <% tch.colleges.each do |clg| %>
-              <%= clg.name %>
+                <%= clg.name %><br>
+                <% if @clg != clg %>
+                  <%= link_to "APPLY FOR #{@clg.name}", assg_clg_tch_path(tchd_id: tch.id, clg: @clg.id), class: "btn btn-sm btn-primary", target: "_blank" %>
+                <% end %>
               <% end %>
             </p>
             <%= link_to "EDIT", edit_tchdetail_path(id: tch.id, anis: true), class: "btn btn-sm btn-warning", target: "_blank" %>&nbsp

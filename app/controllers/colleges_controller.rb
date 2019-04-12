@@ -31,6 +31,14 @@ class CollegesController < ApplicationController
 	end
 
 	# FOR ANIS 
+	def assg_clg_tch
+		tchdetail = Tchdetail.find(params[:tchd_id])
+		tch_clg = tchdetail.tchdetail_colleges.first
+		tch_clg.college_id = params[:clg]
+		tch_clg.save
+		flash[:success] = "Registration Successful"
+		redirect_to tchd_anis_path(id: tchdetail.id, anis: true)
+	end
 	def assg_clg
 		tchdetail = Tchdetail.find(params[:tchdetail][:tchd_id])
 		tch_clg = tchdetail.tchdetail_colleges.first

@@ -107,6 +107,7 @@ class TchdetailsController < ApplicationController
   end
 
   def find_tchdetail_reg #find anis in reg
+  	@clg = College.find(params[:id])
     if params[:ic1].blank?
       flash.now[:danger] = "You have entered an empty request"
     elsif params[:ic1] == "ALL"

@@ -31,7 +31,8 @@
                     maxlength: 4,
                     autofocus: true, 
                     class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
-          </div><br><br>              
+          </div><br><br> 
+          <%= hidden_field_tag :id, params[:id], value: params[:id] %>             
           <div class="col-md-12">
             <%= button_tag(type: :submit, class: "btn btn-sm btn-success active", id: "submit_expense") do %>
                 <i class="fa fa-search"></i> FIND
