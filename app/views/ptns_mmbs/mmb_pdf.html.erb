@@ -2,8 +2,14 @@
 <div class="container">
   <div class="panel panel-info">
     <div class="panel-heading">
-      <h3 class="panel-title" align="center"><%= @mmb.name %> (<%= @mmb.mmbid %>)</h3>
+      <h3 class="panel-title" align="center"><%= @mmb.name %> 
+        <% if @mmb.mmbid.present? %>
+        (<%= @mmb.mmbid %>)
+        <% end %>
+      </h3>
+      <% if @mmb.expire.present? %>
       <h4 class="panel-title" align="center"><%= @mmb.expire.strftime("%d-%m-%y") %></h4>
+      <% end %>
     </div>
     <div class="panel-body">
       <div class="row">
@@ -120,9 +126,12 @@
     </div>
   </div>
 </div>
-</div><br><br>
+</div>
 
 
+<%= link_to mmb_pdf_path(id: @mmb.id, pdft: 1, format: :pdf), class: "btn btn-sm btn-success active" do %>
+    <i class="fa fa-download"></i> CETAK PROFIL
+<% end %><br><br>
 
 Powered by&nbsp
 <% image = Foto.all.where(foto_name: "KIDCARE FULL").first %>

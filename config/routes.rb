@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   get '/after_reg_ptns', to: 'ptns_mmbs#after_reg', as: 'after_reg_ptns'
   get '/add_expire', to: 'ptns_mmbs#add_expire'
   get '/add_mmbid', to: 'ptns_mmbs#add_mmbid'
+  get '/mmblist_xls', to: 'ptns_mmbs#mmblist_xls'
 
 
 

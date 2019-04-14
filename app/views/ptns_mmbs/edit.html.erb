@@ -2,4 +2,10 @@
   <font color="white"><h2>KEMASKINI MAKLUMAT AHLI</h2></font>
 </div><br>
 
-<%= render 'ptns_mmbs/form' %>
+<% if params[:type].blank? %>
+    <% tp="ptns" %>
+  <% else %>
+    <% tp=params[:type] %>
+  <% end %>
+
+<%= render 'ptns_mmbs/form', tp: tp %>

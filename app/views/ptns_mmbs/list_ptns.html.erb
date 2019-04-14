@@ -1,5 +1,5 @@
 <% if params[:pw].blank? %>
-  ENTER PASSWORD <br>
+  SILA MASUKKAN KATA LALUAN <br>
   <%= form_tag list_ptns_path, method: :get, id: "find_kid" do %>
     <%= text_field_tag :pw, params[:pw], 
       placeholder: "", 
@@ -7,12 +7,18 @@
       class: "form-control search-box input-lg" %>
     <%= hidden_field_tag :tp, params[:tp], value: params[:tp] %>
     <%= button_tag(type: :submit, class: "btn btn-sm btn-primary active", id: "submit_expense") do %>
-      <i class="fa fa-check"></i> SUBMIT
+      <i class="fa fa-check"></i> HANTAR
     <% end %>
   <% end %>
 <% elsif @pw %>
+
   <div class="col-sm-12" style="background-color:blue">
-    <font color="white"><h2 align="center">SENARAI NAMA AHLI <%= @tp.upcase %></h2></font>
+    <font color="white"><h2 align="center">SENARAI NAMA AHLI <%= @clb %></h2></font>
+  </div><br>
+  <div class="pull-center">
+    <%= link_to mmblist_xls_path(tp: params[:tp], format: :xlsx), class: "btn btn-sm btn-info active" do %>
+      <i class="fa fa-file-excel"></i> MUAT TURUN SENARAI
+    <% end %>
   </div><br>
 
   <div class="table-responsive">
@@ -48,8 +54,8 @@
                 <% end %>
             </td>
             <td>
-              <%= link_to mmb_pdf_path(id: mmb.id, format: :pdf), class: "btn btn-sm active", style: "color:green", target: "_blank" do %>
-                  <i class="fa fa-download"></i> CETAK PROFIL
+              <%= link_to mmb_pdf_path(id: mmb.id), class: "btn btn-sm active", style: "color:green", target: "_blank" do %>
+                  <i class="fa fa-eye"></i> PROFIL LENGKAP
               <% end %>
             </td>
             <td>
@@ -63,6 +69,8 @@
                 </div>
                 <%= f.text_field :mmbid, class: "form-control", autofocus: true, required: true %><br>
                 <%= f.hidden_field :id, value: mmb.id %>
+                <%= f.hidden_field :tp, value: params[:tp] %>
+                <%= f.hidden_field :pw, value: params[:pw] %>
                 <%= f.submit :"ADD",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
               <% end %>
             </td>
@@ -73,7 +81,7 @@
     </table>
   </div>
 <% else %>
-  WRONG PASSWORD. PLEASE TRY AGAIN. 
+  KATA LALUAN TIDAK TEPAT. SILA CUBA LAGI. 
   <%= form_tag list_ptns_path, method: :get, id: "find_kid" do %>
     <%= text_field_tag :pw, params[:pw], 
       placeholder: "", 
@@ -81,7 +89,7 @@
       class: "form-control search-box input-lg" %>
     <%= hidden_field_tag :tp, params[:tp], value: params[:tp] %>
     <%= button_tag(type: :submit, class: "btn btn-sm btn-primary active", id: "submit_expense") do %>
-      <i class="fa fa-check"></i> APPLY
+      <i class="fa fa-check"></i> HANTAR
     <% end %>
   <% end %>
 <% end %>

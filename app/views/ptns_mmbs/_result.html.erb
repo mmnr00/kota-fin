@@ -13,7 +13,7 @@
             <tr>
               <td><%= mmb.name %></td>
               <td>
-                <%= link_to edit_ptns_mmb_path(id: mmb.id), class: "btn btn-sm active", style: "color:green" do %>
+                <%= link_to edit_ptns_mmb_path(id: mmb.id, type: mmb.tp), class: "btn btn-sm active", style: "color:green" do %>
                     <i class="fa fa-edit"></i> UBAH
                 <% end %>
               </td>

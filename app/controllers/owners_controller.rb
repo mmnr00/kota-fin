@@ -4,6 +4,8 @@ class OwnersController < ApplicationController
 
 	def index
 		render action: "index", layout: "dsb-owner-college"
+		#render action: "index", layout: "eip"
+
 
 	end
 	

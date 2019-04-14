@@ -52,7 +52,7 @@
     <br>
   </div>
   <div class="col-sm-5 bg-white">
-    <% if params[:type].blank? %>
+    <% if params[:type].blank? || params[:type] == "ptns" %>
       <%= render 'ptns_mmbs/descptns' %>
     <% elsif params[:type] == "kprm" %>
       <%= render 'ptns_mmbs/desckprm' %>
@@ -63,7 +63,7 @@
 <br><br>
 <div class="col-sm-6" style="background-color:blue">
   <font color="white"><h4>
-    <% if params[:type].blank? %>
+    <% if params[:type].blank? || params[:type] == "ptns" %>
       BORANG PENDAFTARAN AHLI BAHARU DAN KEMASKINI KEAHLIAN PERSATUAN TASKA NEGERI SELANGOR (PTNS)
     <% elsif params[:type] == "kprm" %>
       BORANG PENDAFTARAN AHLI BAHARU DAN KEMASKINI KEAHLIAN KELAB REKSREASI PENGASUH MALAYSIA (KRPM)

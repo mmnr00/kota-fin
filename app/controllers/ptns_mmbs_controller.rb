@@ -1,5 +1,20 @@
 class PtnsMmbsController < ApplicationController
 	before_action :set_all
+
+	def mmblist_xls
+		if params[:tp] == "ptns"
+			@clb = "PERSATUAN TASKA NEGERI SELANGOR"
+		elsif params[:tp] == "kprm"
+			@clb = "KELAB REKREASI PENGASUH MALAYSIA"
+		end
+		@allmmb = PtnsMmb.where(tp: params[:tp])
+		respond_to do |format|
+      #format.html
+      format.xlsx{
+                  response.headers['Content-Disposition'] = 'attachment; filename="SENARAI AHLI.xlsx"'
+      }
+    end
+	end
 	
 	def new
 		@ptnsmmb = PtnsMmb.new
@@ -11,7 +26,7 @@ class PtnsMmbsController < ApplicationController
 		icf = "#{@ptnsmmb.ic1}#{@ptnsmmb.ic2}#{@ptnsmmb.ic3}"
 		if PtnsMmb.where(icf: icf).where(tp: @ptnsmmb.tp).present?
 			flash[:notice] = "NAMA ANDA SUDAH DIDAFTARKAN DALAM SISTEM KAMI"
-			redirect_to new_ptns_mmb_path
+			redirect_to new_ptns_mmb_path(type: @ptnsmmb.tp)
 		else
 			@ptnsmmb.icf = icf
 			@ptnsmmb.save
@@ -42,6 +57,11 @@ class PtnsMmbsController < ApplicationController
   		"kprm"=>"abc123"
   	}
   	@tp=params[:tp]
+  	if @tp == "ptns"
+  		@clb = "PERSATUAN TASKA NEGERI SELANGOR"
+  	elsif @tp == "kprm"
+  		@clb = "KELAB REKREASI PENGASUH MALAYSIA"
+  	end
   	if params[:pw] == passw[@tp]
   		@pw = true
   	else
@@ -51,16 +71,18 @@ class PtnsMmbsController < ApplicationController
   end
 
   def add_expire
-  	params.require(:ptns_mmb).permit(:expire, :mmbid, :id)
+  	#params.require(:ptns_mmb).permit(:expire, :mmbid, :id)
   	mmb = PtnsMmb.find(params[:ptns_mmb][:id])
   	mmb.expire = params[:ptns_mmb][:expire]
   	mmb.mmbid = params[:ptns_mmb][:mmbid]
+  	pw = params[:ptns_mmb][:pw]
+  	tp = params[:ptns_mmb][:tp]
   	if mmb.save
   		flash[:success] = "BERJAYA"
   	else
   		flash[:danger] = "TIDAK BERJAYA"
   	end
-  	redirect_to list_ptns_path
+  	redirect_to list_ptns_path(pw: pw, tp: tp)
   end
 
   def add_mmbid
@@ -99,7 +121,7 @@ class PtnsMmbsController < ApplicationController
 		@ptnsmmb = PtnsMmb.find(params[:id])
 		if @ptnsmmb.update(ptnsmmb_params)
 			flash[:notice] = "Maklumat anda telah dikemaskini"
-			redirect_to new_ptns_mmb_path
+			redirect_to new_ptns_mmb_path(type: @ptnsmmb.tp)
 			
 		else
 			render 'edit'

@@ -1,0 +1,67 @@
+wb = xlsx_package.workbook
+
+wb.styles do |style|
+  header_1 = style.add_style(sz: 20)
+  highlight_cell = style.add_style(bg_color: "EFC376",
+                                  border: Axlsx::STYLE_THIN_BORDER,
+                                  sz: 13,
+                                   alignment: { horizontal: :center })
+  border_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER)       
+  wb.add_worksheet(name: "LIST") do |sheet|
+
+    sheet.add_row ["","SENARAI AHLI #{@clb}"]
+    sheet.add_row [""]
+    sheet.add_row ["NO",
+                  "NAMA",
+                  "NO K/P",
+                  "TARIKH LAHIR",
+                  "NO TELEFON",
+                  "TAHAP PENDIDIKAN",
+                  "ALAMAT KEDIAMAN",
+                  "NAMA TASKA/PJKK",
+                  "ALAMAT TASKA/PJKK",
+                  "STATUS TASKA/PJKK",
+                  "JAWATAN",
+                  "ORANG YANG BOLEH DIHUBUNGI",
+                  "EMAIL",
+                  "JENIS KEAHLIAN",
+                  "NO AHLI",
+                  "TARIKH LUPUT"]
+    sheet.rows[0].style = header_1
+    sheet.rows[2].style = highlight_cell
+    counter = 1
+    row =2
+
+    @allmmb.order('name ASC').each do |mmb|
+      if mmb.expire.present?
+        exp = mmb.expire.strftime('%d-%^b-%Y')
+      else
+        exp = nil
+      end
+      sheet.add_row [counter, 
+                    mmb.name,
+                    "#{mmb.ic1}-#{mmb.ic2}-#{mmb.ic3}",
+                    mmb.dob.strftime('%d-%^b-%Y'),
+                    "#{mmb.ph1}-#{mmb.ph2}",
+                    mmb.edu,
+                    "#{mmb.add1},#{mmb.add2},#{mmb.city},#{mmb.state},#{mmb.postcode}",
+                    mmb.ts_name,
+                    "#{mmb.ts_add1},#{mmb.ts_add2},#{mmb.ts_city},#{mmb.ts_state},#{mmb.ts_postcode}",
+                    mmb.ts_status,
+                    mmb.ts_job,
+                    mmb.ts_owner,
+                    mmb.email,
+                    mmb.mmb,
+                    mmb.mmbid,
+                    exp], 
+      style: [nil, border_cell]
+      sheet.rows[row+counter].style = border_cell
+      counter = counter +1
+    end
+
+  end
+end
+
+
+
+
