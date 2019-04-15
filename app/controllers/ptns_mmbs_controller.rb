@@ -39,7 +39,7 @@ class PtnsMmbsController < ApplicationController
 	end
 
 	def find_ptns
-    if params[:ic1].blank? || params[:ic2].blank? || params[:ic3].blank? 
+    if params[:ic1].blank?
       flash.now[:danger] = "Maklumat tidak lengkap"
     else
     	icf = "#{params[:ic1]}#{params[:ic2]}#{params[:ic3]}"

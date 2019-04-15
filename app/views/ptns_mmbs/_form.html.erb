@@ -1,3 +1,30 @@
+<% 
+
+if tp == "kprm" 
+  jenis = ["PERMOHONAN BARU",
+          "PEMBAHARUAN"] 
+  kp = "NO KAD PENGENALAN/PASSPORT"
+  abai = "ABAIKAN RUANGAN DIBAWAH JIKA ANDA TIDAK BEKERJA"
+  name_ts = "NAMA"
+  syk = "/SYARIKAT"
+  stat_ts = ["TASKA/PJKK BERDAFTAR", "TASKA/PJKK DALAM PROSES", "TASKA/PJKK TIDAK BERDAFTAR", "LAIN-LAIN"]
+  jaw = ["Pengusaha/Pengerusi", "Pengurus/Penyelia", "Ibu-Bapa"]
+elsif tp == "ptns" 
+  jenis = ["KEMASKINI MAKLUMAT SAHAJA",
+          "AHLI BIASA BAHARU(RM 30 setahun termasuk RM 10 yuran pendaftaran)", 
+          "AHLI INSTITUSI BAHARU(RM 60 setahun termasuk RM 10 yuran pendaftaran)", 
+          "MEMPERBAHARUI KEAHLIAN BIASA(RM 20 setahun)",
+          "MEMPERBAHARUI KEAHLIAN INSTITUSI(RM 50 setahun)"] 
+  kp = "NO KAD PENGENALAN"
+  abai ="ABAIKAN RUANGAN DIBAWAH JIKA ANDA TIDAK BEKERJA/MEMILIKI TASKA/PJKK"
+  name_ts = ""
+  syk = ""
+  stat_ts = ["BERDAFTAR", "DALAM PROSES", "TIDAK BERDAFTAR"]
+  jaw = ["Pengusaha/Pengerusi", "Pengurus/Penyelia", "Pengasuh"]
+end 
+
+ %>
+
 
 <div class='row'>
   <div class='col-lg-8 col-12'>
@@ -84,18 +111,18 @@
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>NO KAD PENGENALAN</strong>
+            <strong><%= kp %></strong>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-3 col-4">
-            <%= f.text_field :ic1, maxlength: 6 ,class: "form-control", autofocus: true, required: true %>
+            <%= f.text_field :ic1 ,class: "form-control", autofocus: true, required: true %>
           </div> <strong>-</strong>
           <div class="col-sm-2 col-3">
-           <%= f.text_field :ic2, maxlength: 2, class: "form-control", placeholder: "", autofocus: true, required: true %>
+           <%= f.text_field :ic2, maxlength: 2, class: "form-control", placeholder: "", autofocus: true %>
           </div> <strong>-</strong>
           <div class="col-sm-3 col-4">
-            <%= f.text_field :ic3, maxlength: 4, class: "form-control", placeholder: "", autofocus: true, required: true %>
+            <%= f.text_field :ic3, maxlength: 4, class: "form-control", placeholder: "", autofocus: true %>
           </div>         
         </div>
       </div>
@@ -141,18 +168,7 @@
       </div>
 
       <!-- MEMBERSHIP TYPE-->
-      <% if tp == "kprm" %>
-        <% jenis = ["PERMOHONAN BARU",
-            "PEMBAHARUAN",
-            ] %>
-      <% else %>
-        <% jenis = ["KEMASKINI MAKLUMAT SAHAJA",
-            "AHLI BIASA BAHARU(RM 30 setahun termasuk RM 10 yuran pendaftaran)", 
-            "AHLI INSTITUSI BAHARU(RM 60 setahun termasuk RM 10 yuran pendaftaran)", 
-            "MEMPERBAHARUI KEAHLIAN BIASA(RM 20 setahun)",
-            "MEMPERBAHARUI KEAHLIAN INSTITUSI(RM 50 setahun)"
-            ] %>
-      <% end %>
+      
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
@@ -199,7 +215,7 @@
       </div>
 
       <br><div class="col-sm-10" style="background-color:green">
-        <font color="white"><h6>ABAIKAN RUANGAN DIBAWAH JIKA ANDA TIDAK BEKERJA/MEMILIKI TASKA/PJKK</h6></font>
+        <font color="white"><h6><%= abai %></h6></font>
       </div><br>
 
       <!-- TASKA DETAILS -->
@@ -207,7 +223,7 @@
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>TASKA/PJKK</strong>
+            <strong><%= name_ts %> TASKA/PJKK<%= syk %></strong>
           </div>
         </div>
         <div class="row">
@@ -235,7 +251,7 @@
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>NO TELEFON TASKA/PJKK</strong>
+            <strong>NO TELEFON TASKA/PJKK<%= syk %></strong>
           </div>
         </div>
         <div class="row">
@@ -253,7 +269,7 @@
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>ALAMAT TASKA/PJKK</strong>
+            <strong>ALAMAT TASKA/PJKK<%= syk %></strong>
           </div>
         </div>
         <div class="row">
@@ -281,15 +297,12 @@
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>STATUS TASKA/PJKK</strong>
+            <strong>STATUS TASKA/PJKK<%= syk %></strong>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-8 col-8">
-            <%= f.select :ts_status, options_for_select(["BERDAFTAR", 
-                                                      "DALAM PROSES", 
-                                                      "TIDAK BERDAFTAR"
-                                                      ], 
+            <%= f.select :ts_status, options_for_select(stat_ts, 
                                                       selected: @ptnsmmb.ts_status), 
             {include_blank: "SILA PILIH"} %>
           </div>
@@ -300,15 +313,12 @@
       <div class="form-group"> 
         <div class="row">
           <div class="control-label col-sm-8">
-            <strong>JAWATAN ANDA DI TASKA/PJKK</strong>
+            <strong>JAWATAN ANDA DI TASKA/PJKK<%= syk %></strong>
           </div>
         </div>
         <div class="row">
           <div class="col-sm-8 col-8">
-            <%= f.select :ts_job, options_for_select(["Pengusaha/Pengerusi", 
-                                                      "Pengurus/Penyelia", 
-                                                      "Pengasuh"
-                                                      ], 
+            <%= f.select :ts_job, options_for_select(jaw, 
                                                       selected: @ptnsmmb.ts_job), 
             {include_blank: "SILA PILIH"} %>
           </div>

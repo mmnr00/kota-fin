@@ -2,18 +2,19 @@
 
   <% if params[:type].blank? %>
     <% tp="ptns" %>
-  <% else %>
+    <% psp = "" %>
+  <% elsif params[:type] == "kprm" %>
     <% tp=params[:type] %>
+    <% psp = "ATAU PASSPORT" %>
   <% end %>
   <div class="col-sm-6 bg-white">
     <%= form_tag find_ptns_path, remote: true, method: :get, id: "find_kid" do %>
       <div class="form-group text-center col-md-12">
-        <br><strong>MASUKKAN NO K/P UNTUK SEMAK PENDAFTARAN<br><br></strong>
+        <br><strong>MASUKKAN NO K/P <%= psp %> UNTUK SEMAK PENDAFTARAN<br><br></strong>
         <div class="row">
           <div class="col-sm-4 col-4">
             <%= text_field_tag :ic1, params[:ic1], 
-                    placeholder: "", 
-                    maxlength: 6,
+                    placeholder: "",
                     autofocus: true,
                     required: true,  
                     class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
@@ -22,16 +23,14 @@
             <%= text_field_tag :ic2, params[:ic2], 
                     placeholder: "", 
                     maxlength: 2, 
-                    autofocus: true,
-                    required: true,  
+                    autofocus: true, 
                     class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
           </div>- 
           <div class="col-sm-4 col-4">
             <%= text_field_tag :ic3, params[:ic3], 
                     placeholder: "", 
                     maxlength: 4,
-                    autofocus: true,
-                    required: true,  
+                    autofocus: true, 
                     class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
           </div><br><br>
           
