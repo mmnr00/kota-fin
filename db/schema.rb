@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_11_035931) do
+ActiveRecord::Schema.define(version: 2019_04_15_221428) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -157,6 +157,7 @@ ActiveRecord::Schema.define(version: 2019_04_11_035931) do
     t.integer "ptns_mmb_id"
     t.integer "applv_id"
     t.integer "payment_id"
+    t.integer "parpaym_id"
   end
 
   create_table "kid_bills", force: :cascade do |t|
@@ -248,6 +249,15 @@ ActiveRecord::Schema.define(version: 2019_04_11_035931) do
     t.index ["email"], name: "index_parents_on_email", unique: true
     t.index ["reset_password_token"], name: "index_parents_on_reset_password_token", unique: true
     t.index ["username"], name: "index_parents_on_username", unique: true
+  end
+
+  create_table "parpayms", force: :cascade do |t|
+    t.string "kind"
+    t.float "amt"
+    t.integer "payment_id"
+    t.date "upd"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "payinfos", force: :cascade do |t|

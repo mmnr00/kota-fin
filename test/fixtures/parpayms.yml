@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  kind: MyString
+  amt: 1.5
+  payment_id: 1
+  upd: 2019-04-16
+
+two:
+  kind: MyString
+  amt: 1.5
+  payment_id: 1
+  upd: 2019-04-16
