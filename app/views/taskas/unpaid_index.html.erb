@@ -1,4 +1,4 @@
-<% status = (@taska.expire.to_date - $my_time.to_date).to_i %>
+<% status = (@taska.expire.to_date - Time.now.to_date).to_i %>
 <div class="card mb-3">
     <div class="card-header">
       <i class="fas fa-search"></i>
@@ -25,8 +25,21 @@
                       <i class="fa fa-download"></i> RECEIPT
                     <% end %>
                   <% else %>
-                    <%= link_to bill_view_path(payment: bill.id, kid: @kid.id, taska: @taska.id), class: "btn btn-sm btn-danger active", target:"_blank" do %>
-                      <i class="fa fa-exclamation"></i> UNPAID
+                    <%
+                      sumppm = 0
+                      if bill.parpayms.present?
+                        btn = "btn-warning"
+                        fa = "adjust"
+                        notc = "BALANCE"
+                        sumppm = bill.parpayms.sum(:amt)
+                      else
+                        btn = "btn-danger"
+                        fa = "exclamation"
+                        notc = "UNPAID"
+                      end
+                    %>
+                    <%= link_to bill_view_path(payment: bill.id, kid: @kid.id, taska: @taska.id), class: "btn btn-sm #{btn}", target:"_blank" do %>
+                      <i class="fa fa-<%= "#{fa}" %>"></i> <%= "#{notc}" %>
                     <% end %>
                   <% end %>
                   <div class="card-body text-center">
@@ -49,7 +62,7 @@
                     </p>
 
                   </div>
-                  <%= link_to "RM #{bill.amount}", "#", class: "btn btn-lg btn-info active" %>
+                  <%= link_to "RM #{bill.amount-sumppm}", "#", class: "btn btn-lg btn-info active" %>
                   
                     <% if !bill.paid %>
                       <% if status >=0 %>

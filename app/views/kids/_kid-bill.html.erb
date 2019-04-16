@@ -195,7 +195,12 @@
                     <strong><%= ppm.kind %></strong> made on 
                     <strong><%= ppm.upd.strftime('%d-%^b-%y') %></strong> via
                     <strong><%= ppm.mtd %></strong>
-                    <%= %>
+                    <% img = ppm.fotos.first %>
+                    <% if img.present? && img.picture.present? %>
+                      <a href="<%="#{img.picture.url}"%>" target="_blank">
+                        <font color="blue">[RECEIPT]</font>
+                      </a>
+                    <% end %>
                   </td>
                   <td class="text-right">
                     (<%= amt = ppm.amt %>)
@@ -207,7 +212,17 @@
                 <td class="text-right no-border" colspan="2">
                   <div class="well well-small green"><strong><h4>TOTAL</h4></strong></div>
                 </td>
-                <td class="text-right"><strong><h4><%= (@payment.amount - parpm).round(2) %></h4></strong></td>
+                <td class="text-right">
+                  <strong>
+                    <h4>
+                      <% if paid %>
+                        <%= @payment.amount %>
+                      <% else %>
+                        <%= (@payment.amount - parpm).round(2) %>
+                      <% end %>
+                        
+                    </h4>
+                  </strong></td>
               </tr>
             </tbody>
           </table><br><br><br><br>
