@@ -2,7 +2,15 @@
 <div class="page-content">
   <% if (paid = @payment.paid) %>
     <h1 align="center"><%= link_to "PAID", "#", class: "btn btn-lg btn-success active" %></h1>
-    
+  <% elsif @payment.parpayms.present? && !paid %>
+    <%
+    paympar = 0
+    @payment.parpayms.each do |ppm|
+      paympar = paympar + ppm.amt
+    end
+    amttop=@payment.amount - paympar
+    %>
+    <h1 align="center"><%= link_to "RM #{amttop.round(3)} BALANCE PAYMENT", "#", class: "btn btn-sm btn-warning" %></h1>
   <% else %>
     <h1 align="center"><%= link_to "PENDING PAYMENT", "#", class: "btn btn-sm btn-danger active" %></h1>
     <% trial = false %>
@@ -180,11 +188,26 @@
                 <td class="text-right no-border" colspan="2"><strong>DISCOUNT</strong></td>
                 <td class="text-right">(<%= @payment.discount.to_f %>)</td>
               </tr>
+              <% parpm = 0 %>
+              <% @payment.parpayms.order('upd ASC').each do |ppm| %>
+                <tr>
+                  <td class="text-left no-border" colspan="2">
+                    <strong><%= ppm.kind %></strong> made on 
+                    <strong><%= ppm.upd.strftime('%d-%^b-%y') %></strong> via
+                    <strong><%= ppm.mtd %></strong>
+                    <%= %>
+                  </td>
+                  <td class="text-right">
+                    (<%= amt = ppm.amt %>)
+                    <% parpm = parpm + amt %>
+                  </td>
+              </tr>
+              <% end %>
               <tr>
                 <td class="text-right no-border" colspan="2">
                   <div class="well well-small green"><strong><h4>TOTAL</h4></strong></div>
                 </td>
-                <td class="text-right"><strong><h4><%= @payment.amount %></h4></strong></td>
+                <td class="text-right"><strong><h4><%= (@payment.amount - parpm).round(2) %></h4></strong></td>
               </tr>
             </tbody>
           </table><br><br><br><br>

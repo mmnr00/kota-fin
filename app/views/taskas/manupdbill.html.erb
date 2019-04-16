@@ -4,6 +4,16 @@
   <div class="col-md-6">
     <%= render 'kids/kid-bill' %>
   </div>
+  <% 
+  if @payment.parpayms.present?   
+    a=["PARTIAL PAYMENT", "FINAL PAYMENT"]
+    b=false
+  else
+    a=["FULL PAYMENT", "PARTIAL PAYMENT"]
+    b=true
+  end
+
+  %>
   <div class="col-md-3" style="background-color:#cce5cc"><br><br><br>
     <%= form_for(:bill, :url => {:controller=>'taskas', :action=>'svupdbill'}, :html => {multipart: true, class: "form-horizontal", role: "form"}) do |f| %>
 
@@ -15,7 +25,7 @@
         </div>
         <div class="row">
           <div class="col-sm-8 col-12">
-            <%= f.select :paid, ["PAID", "UNPAID"] ,{include_blank: "SELECT"}, {required: true} %>
+            <%= f.select :paid, a ,{include_blank: "SELECT"}, {required: true} %>
           </div>
         </div>
       </div>
@@ -42,6 +52,22 @@
         <div class="row">
           <div class="col-sm-8 col-12">
             <%= f.select :mtd, ["CDM", "CASH", "ONLINE BANKING", "BILLPLZ", "OTHERS"] ,{include_blank: "SELECT"}, {required: true} %>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group"> <!-- PAYMENT DATE-->
+        <div class="row">
+          <div class="control-label col-sm-8">
+            <strong>PAYMENT AMOUNT</strong>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-10 col-12">
+            <%= f.number_field :amt, class: "form-control", :step => 0.01, autofocus: true %>
+            <% if b %>
+            Leave Blank If Full Payment 
+            <% end %>
           </div>
         </div>
       </div>

@@ -366,9 +366,10 @@ class TaskasController < ApplicationController
   def svupdbill
     bill = params[:bill]
     @taska = Taska.find(bill[:taska_id])
+    @payment = Payment.find(bill[:payment_id])
     #@foto = @taska.fotos.build
-    if bill[:paid] == "PAID"
-      @payment = Payment.find(bill[:payment_id])
+    if bill[:paid] == "FULL PAYMENT"
+      
       @payment.paid = true
       @payment.mtd = bill[:mtd]
       @payment.updated_at = bill[:updated_at]
@@ -381,8 +382,57 @@ class TaskasController < ApplicationController
       else
         flash[:danger] = "UPDATE FAILED"
       end
-    else
-      flash[:danger] = "BILL STATUS UNPAID"
+
+    elsif bill[:paid] == "PARTIAL PAYMENT"
+      currppm = @payment.parpayms.sum(:amt) + bill[:amt].to_f
+      if currppm >= @payment.amount
+        flash[:danger] = "WRONG AMOUNT OR PAYMENT STATUS ENTERED"
+        redirect_to tsk_manupdbill_path(@taska, bill: @payment.id,kid: @payment.kids.first.id ,taska: @taska.id) and return
+      else
+        ppm = Parpaym.new
+        ppm.kind = bill[:paid]
+        ppm.amt = bill[:amt]
+        ppm.payment_id = @payment.id
+        ppm.upd = bill[:updated_at]
+        ppm.mtd = bill[:mtd]
+        if ppm.save
+          @foto = Foto.new
+          @foto.picture = bill[:picture]
+          @foto.foto_name = bill[:foto_name]
+          @foto.parpaym_id = ppm.id
+          @foto.save
+          flash[:notice] = "BILL UPDATED"
+        else
+          flash[:danger] = "UPDATE FAILED"
+        end
+      end
+
+    elsif bill[:paid] == "FINAL PAYMENT"
+      currppm = @payment.parpayms.sum(:amt) + bill[:amt].to_f
+      if currppm != @payment.amount
+        flash[:danger] = "WRONG AMOUNT OR PAYMENT STATUS ENTERED"
+        redirect_to tsk_manupdbill_path(@taska, bill: @payment.id,kid: @payment.kids.first.id ,taska: @taska.id) and return
+      else
+        ppm = Parpaym.new
+        ppm.kind = bill[:paid]
+        ppm.amt = bill[:amt]
+        ppm.payment_id = @payment.id
+        ppm.upd = bill[:updated_at]
+        ppm.mtd = bill[:mtd]
+        @payment.paid = true
+        @payment.mtd = "PLEASE REFER BELOW"
+        @payment.updated_at = bill[:updated_at]
+        if ppm.save && @payment.save
+          @foto = Foto.new
+          @foto.picture = bill[:picture]
+          @foto.foto_name = bill[:foto_name]
+          @foto.parpaym_id = ppm.id
+          @foto.save
+          flash[:notice] = "BILL UPDATED"
+        else
+          flash[:danger] = "UPDATE FAILED"
+        end
+      end
     end
     redirect_to unpaid_index_path(id: bill[:taska_id])
   end
