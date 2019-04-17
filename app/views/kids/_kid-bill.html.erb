@@ -202,7 +202,7 @@
                       </a>
 
                     <% end %>
-                    <% if 1==0 #@admin %>
+                    <% if @admin %>
                       <%= link_to "EDIT", root_path, class: "btn btn-sm btn-warning" %>
                       <%= link_to "DELETE", root_path, class: "btn btn-sm btn-danger" %>
                     <% end %>
@@ -211,7 +211,7 @@
                     (<%= amt = ppm.amt %>)
                     <% parpm = parpm + amt %>
                   </td>
-              </tr>
+                </tr>
               <% end %>
               <tr>
                 <td class="text-right no-border" colspan="2">

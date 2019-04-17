@@ -22,6 +22,7 @@
                     <%= link_to bill_view_path(payment: bill.id, kid: @kid.id, taska: @taska.id), class: "btn btn-sm btn-success active", target:"_blank" do %>
                       <i class="fa fa-download"></i> RECEIPT
                     <% end %>
+                    <% sumppm = 0 %>
                   <% else %>
                     <%
                       sumppm = 0
