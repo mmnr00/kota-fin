@@ -23,8 +23,23 @@
                       <i class="fa fa-download"></i> RECEIPT
                     <% end %>
                   <% else %>
-                    <%= link_to bill_view_path(payment: bill.id, kid: @kid.id, taska: @taska.id), class: "btn btn-sm btn-danger active", target:"_blank" do %>
-                      <i class="fa fa-exclamation"></i> UNPAID
+                    <%
+                      sumppm = 0
+                      if bill.parpayms.present?
+                        btn = "btn-warning"
+                        fa = "adjust"
+                        notc = "BALANCE"
+                        sumppm = bill.parpayms.sum(:amt)
+                        del = false
+                      else
+                        btn = "btn-danger"
+                        fa = "exclamation"
+                        notc = "UNPAID"
+                        del = true
+                      end
+                    %>
+                    <%= link_to bill_view_path(payment: bill.id, kid: @kid.id, taska: @taska.id), class: "btn btn-sm #{btn}", target:"_blank" do %>
+                      <i class="fa fa-<%= fa %>"></i> <%= notc %>
                     <% end %>
                   <% end %>
                   <div class="card-body text-center">
@@ -54,7 +69,7 @@
                     </p>
 
                   </div>
-                  <%= link_to "RM #{bill.amount}", "#", class: "btn btn-lg btn-info active" %>
+                  <%= link_to "RM #{bill.amount - sumppm}", "#", class: "btn btn-lg btn-info active" %>
                   <% if !bill.paid %>
                     <% if status >= 0 %>
                       <% if !bill.reminder %>
@@ -68,9 +83,10 @@
                       <% end %>
                     <% end %>
 
-
+                    <% if del %>
                     <%= link_to payment_path(id: bill.id, taska_id: bill.taska.id, kid_id: @kid.id, account: true, month: params[:month], paid: params[:paid], year: params[:year], taska: @taska.id), method: :delete, :data => {:confirm => 'Are you sure?'}, class: "btn btn-sm active", style: "color:red" do %>
                       <i class="fa fa-trash"></i> DELETE
+                    <% end %>
                     <% end %>
                   <% end %>
                 </div>

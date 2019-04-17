@@ -32,10 +32,12 @@
                         fa = "adjust"
                         notc = "BALANCE"
                         sumppm = bill.parpayms.sum(:amt)
+                        del = false
                       else
                         btn = "btn-danger"
                         fa = "exclamation"
                         notc = "UNPAID"
+                        del = true
                       end
                     %>
                     <%= link_to bill_view_path(payment: bill.id, kid: @kid.id, taska: @taska.id), class: "btn btn-sm #{btn}", target:"_blank" do %>
@@ -81,9 +83,10 @@
                       <% end %>
                     <% end %>
 
-
+                    <% if del %>
                     <%= link_to payment_path(id: bill.id, taska_id: bill.taska.id, kid_id: @kid.id, index: true), method: :delete, :data => {:confirm => 'Are you sure?'}, class: "btn btn-sm active", style: "color:red" do %>
                       <i class="fa fa-trash"></i> DELETE
+                    <% end %>
                     <% end %>
                   
                 </div>

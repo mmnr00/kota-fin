@@ -200,6 +200,11 @@
                       <a href="<%="#{img.picture.url}"%>" target="_blank">
                         <font color="blue">[RECEIPT]</font>
                       </a>
+
+                    <% end %>
+                    <% if @admin %>
+                      <%= link_to "EDIT", root_path, class: "btn btn-sm btn-warning" %>
+                      <%= link_to "DELETE", root_path, class: "btn btn-sm btn-danger" %>
                     <% end %>
                   </td>
                   <td class="text-right">
