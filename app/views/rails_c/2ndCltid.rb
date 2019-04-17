@@ -13,6 +13,7 @@ tsk.collection_id2 = "x7w_y71n"
 tsk.save
 end
 
-t=Taska.find()
-t.collection_id=""
+t=Taska.find(76)
+t.collection_id="zvfa1md1"
+t.collection_id2="orjc1zxi"
 t.save
