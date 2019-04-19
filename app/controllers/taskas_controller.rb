@@ -218,8 +218,11 @@ class TaskasController < ApplicationController
       payment = @taska.payments.where.not(name: "TASKA PLAN")
       curr_pmt = payment.where(bill_month: @mth).where(bill_year: @yr)
       curr_pmt_paid = curr_pmt.where(paid: true)
+      curr_pmt_unpaid = curr_pmt.where(paid: false)
+
       #CDTN_1 = current period pay early
       cdtn_1 = curr_pmt_paid.where("updated_at < ?", dt)
+
       #CDTN_2 = current period pay this month
       cdtn_2 = curr_pmt_paid.where('extract(year  from updated_at) = ?', @yr).where('extract(month  from updated_at) = ?', @mth)
       #CDTN_3 = previous period pay this month
@@ -238,10 +241,30 @@ class TaskasController < ApplicationController
       taska_payments = cdtn_1.or(cdtn_2.or(cdtn_3))
 
       bills_paid = taska_payments.where(paid: true).sum(:amount)
+      #start for partial
+      #CDTN_1 All partials paid this month or previous month for current month bill
+      cdtn_1par = 0.00
+      curr_pmt_unpaid.each do |pmt|
+        if pmt.parpayms.present?
+          cdtn_1par += pmt.parpayms.where("upd < ?", dt).sum(:amt) 
+          cdtn_1par += pmt.parpayms.where('extract(year  from upd) = ?', @yr).where('extract(month  from upd) = ?', @mth).sum(:amt) 
+        end
+      end
+      #CDTN_2 previous months bills paid partially this month
+      cdtn_2par = 0.00
+      dt_lp=dt-1.months
+      while dt_lp >= stp_lp
+        payment.where(paid: false).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).each do |pmt|
+          cdtn_2par += pmt.parpayms.where('extract(year  from upd) = ?', @yr).where('extract(month  from upd) = ?', @mth).sum(:amt)
+        end
+      dt_lp -= 1.months
+      end
+
+      bills_partial = cdtn_1par + cdtn_2par
       #bills_paid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: true).where('extract(year  from updated_at) = ?', @yr).where('extract(month  from updated_at) = ?', @mth).sum(:amount)
 
     #END BILLS
-    @disp = @taska_expense.where(kind: "INCOME").sum(:cost) - @taska_expense.where(kind: "EXPENSE").sum(:cost) + bills_paid -plan-@payslips.sum(:amtepfa)
+    @disp = @taska_expense.where(kind: "INCOME").sum(:cost) - @taska_expense.where(kind: "EXPENSE").sum(:cost) + bills_paid -plan-@payslips.sum(:amtepfa)+bills_partial
 
     session[:taska_id] = @taska.id
     session[:taska_name] = @taska.name  
