@@ -211,6 +211,7 @@ Rails.application.routes.draw do
   get '/find_spv', to: 'taskas#find_spv', as: 'tsk_find_spv'
   get '/add_role/:id', to: 'taskas#add_role', as: 'tsk_add_role'
   get '/rmv_role/:id', to: 'taskas#rmv_role', as: 'tsk_rmv_role'
+  get '/delete_parpym', to: 'taskas#delete_parpaym', as: 'delete_parpaym'
 
   #~PAYSLIPS
   get 'viewpayslips', to: 'payslips#viewpsl', as: 'viewpsl'

@@ -437,6 +437,18 @@ class TaskasController < ApplicationController
     redirect_to unpaid_index_path(id: bill[:taska_id])
   end
 
+  def delete_parpaym
+    @parpaym = Parpaym.find(params[:prppm])
+    @payment = @parpaym.payment
+    @taska = @payment.taska
+    if @parpaym.destroy && @parpaym.fotos.first.destroy
+      flash[:notice] = "SUCCESS"
+    else
+      flash[:danger] = "FAILED"
+    end
+      redirect_to tsk_manupdbill_path(@taska, bill: @payment.id,kid: @payment.kids.first.id ,taska: @taska.id)
+  end
+
   def check_bill
     @taska = Taska.find(params[:id])
     @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).order('bill_year ASC').order('bill_month ASC')
