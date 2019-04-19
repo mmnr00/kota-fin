@@ -22,3 +22,10 @@ heroku run rake db:migrate --app kidcare-prod
 heroku restart --app kidcare-prod
 heroku maintenance:off --app kidcare-prod
 
+disc = (24.0/28.0).to_f
+
+Taska.find([55,56]).each do |t|
+t.discount=disc
+t.save
+end
+
