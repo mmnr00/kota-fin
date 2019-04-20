@@ -259,8 +259,8 @@ class TaskasController < ApplicationController
         end
       dt_lp -= 1.months
       end
-
       bills_partial = cdtn_1par + cdtn_2par
+      #END PARTIAL
       #bills_paid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: true).where('extract(year  from updated_at) = ?', @yr).where('extract(month  from updated_at) = ?', @mth).sum(:amount)
 
     #END BILLS
