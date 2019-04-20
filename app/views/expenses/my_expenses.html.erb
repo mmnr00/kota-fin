@@ -41,12 +41,11 @@
                   <% 
                     pay = 0
                     (1..12).each do |mth|
-                      pay += @bill_hash[mth]
+                      pay += @bill_hash[mth] + @partial_hash[mth]
                     end
                   %>
                 <% end %>
                 <%= number_with_delimiter(pay, :delimiter => ',') %>
-
               </font>
              </h5>
           <% end %>
