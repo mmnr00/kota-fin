@@ -361,12 +361,21 @@ class TaskasController < ApplicationController
           end
           dt_lp = dt_lp - 1.months
         end
+
         #start for partial
         #CDTN_1 All partials paid this month or previous month for current month bill
+        cdtn_1par = nil
+        cdtn_2par = nil
+        @all_par = nil
         curr_pmt_unpaid.each do |pmt|
           if pmt.parpayms.present?
-            cdtn_1par = pmt.parpayms.where("upd < ?", dt)
-            cdtn_1par = pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth)
+            tmp = pmt.parpayms.where("upd < ?", dt).or(pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth))
+            if cdtn_1par.blank?
+              cdtn_1par = tmp unless tmp.blank?
+            else
+              cdtn_1par = cdtn_1par.or(tmp) unless tmp.blank?
+            end
+            #cdtn_1par = cdtn_1par.or(pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth))
           end
         end
         #CDTN_2 previous months bills paid partially this month
@@ -374,13 +383,40 @@ class TaskasController < ApplicationController
         dt_lp=dt-1.months
         while dt_lp >= stp_lp
           payment.where(paid: false).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).each do |pmt|
-            cdtn_2par = pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth)
+            tmp = pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth)
+            if cdtn_2par.blank?
+              cdtn_2par = tmp unless tmp.blank?
+            else
+              cdtn_2par = cdtn_2par.or(tmp) unless tmp.blank?
+            end
           end
         dt_lp -= 1.months
         end
-        @all_par = cdtn_2par
-        #END PARTIAL
-        @kid_unpaid = cdtn_1.or(cdtn_2.or(cdtn_3)).order('updated_at DESC')
+        if cdtn_1par.blank?
+          @all_par = cdtn_2par
+        elsif cdtn_2par.blank?
+          @all_par = cdtn_1par
+        elsif cdtn_1par.present? && cdtn_2par.present?
+          @all_par = cdtn_1par.or(cdtn_2par)
+        end
+        #END PARTIAL 
+
+        @kid_unpaid = cdtn_1.or(cdtn_2.or(cdtn_3))
+        if @all_par.present?
+          @z=[]
+          @k=[]
+          @all_par.each do |parpm|
+            if @kid_unpaid.present?
+              @kid_unpaid = @kid_unpaid.or(Payment.where(id: parpm.payment.id))
+            else
+              @kid_unpaid = Payment.where(id: parpm.payment.id)
+            end
+            @z<<parpm.payment.id
+            @k<<parpm.id
+          end
+        end
+        @kid_unpaid = @kid_unpaid.order('updated_at DESC')
+        #@kid_unpaid = @kid_unpaid.or(@paym_par)
       else
         @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: params[:paid]).where(bill_month: params[:month]).where(bill_year: params[:year]).order('updated_at DESC')
       end
