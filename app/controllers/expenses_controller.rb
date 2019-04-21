@@ -79,7 +79,7 @@ def my_expenses
 			#@taska_payments = @taska.payments.where.not(name: "TASKA PLAN").where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
 			@payments_due = curr_pmt
 			@tot_unpaid = @payments_due.where(paid: false).sum(:amount) - cdtn_1par
-			@payments_pie = curr_pmt.where(paid: false).or(@taska_payments.where(paid: true))
+			#@payments_pie = curr_pmt.where(paid: false).or(@taska_payments.where(paid: true))
 			@payments_pie = {
 										"unpaid"=>@tot_unpaid,
 										"paid"=>@taska_payments.where(paid: true).sum(:amount) + @bills_partial
@@ -98,6 +98,7 @@ def my_expenses
 			@unpaid_hash = Hash.new
 			@taska_payments = nil
 			@tot_unpaid = 0.00
+			@tot_paidyr = 0.00
 			(1..12).each do |mth|
 				dt = Time.find_zone("Singapore").local(year,mth)
 				payment = @taska.payments.where.not(name: "TASKA PLAN")
@@ -151,11 +152,16 @@ def my_expenses
 				@payments_dues = curr_pmt
 				@unpaid_hash[mth] = @payments_dues.where(paid: false).sum(:amount) - cdtn_1par
 				@tot_unpaid += @unpaid_hash[mth]
+				@tot_paidyr += @partial_hash[mth] + @bill_hash[mth]
 			end
-			@bills_partial = 0.00
+			@bills_partial = @partial_hash.values.inject { |a, b| a + b }
 			#@taska_payments = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: year)
 			@payments_due = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: params[:expense][:year])
 			@payments_pie = @payments_due.where(paid: false).or(@taska_payments.where(paid: true))
+			@payments_pie = {
+										"unpaid"=>@tot_unpaid,
+										"paid"=>@tot_paidyr
+											}
 		#TASKA BILLS END
 		@taska_plan = @taska.payments.where(name: "TASKA PLAN").where(paid: true).where('extract(year from updated_at) = ?', params[:expense][:year])
 	end

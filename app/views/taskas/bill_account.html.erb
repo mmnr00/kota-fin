@@ -1,4 +1,5 @@
 <% status = (@taska.expire.to_date - $my_time.to_date).to_i %>
+<%= @all_par %>
 <div class="card mb-3">
     <div class="card-header">
       <% if status >= 0 && params[:paid] == "false" %>
