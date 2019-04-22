@@ -11,7 +11,7 @@
         <tr>
           <th style="background-color:#d8b2d8"> ID </th>
           <th style="background-color:#d8b2d8"> NAME </th>
-          <th style="background-color:#d8b2d8"> PLAN </th>
+          <th style="background-color:#d8b2d8"> BILLING </th>
           <th style="background-color:#d8b2d8"> DATE </th>
           <th style="background-color:#d8b2d8"> SUPERVISOR </th>
           <th style="background-color:#d8b2d8"> PHONE </th>
@@ -28,10 +28,18 @@
       </thead>
       <tbody>
         <% @admin_taska.order('created_at DESC').each do |tsk|%>
+          <%
+            num_kid = tsk.kids.where.not(classroom_id: nil).count
+            unpaid_plan = tsk.payments.where(name: "TASKA PLAN", paid: false).present?
+          %>
           <tr>
             <td><%= tsk.id %></td>
             <td><%= tsk.name %></td>
-            <td><%= "#{tsk.plan} (#{$package_child[tsk.plan]})"  %></td>
+            <td>
+              <%= "#{tsk.plan} (#{$package_child[tsk.plan]})"  %><br>
+              KIDS NO : <%= num_kid %>
+              <%= unpaid_plan %>
+            </td>
             <td><%= tsk.created_at.strftime("%d-%m-%y") %></td>
             <td><%= tsk.supervisor %></td>
             <td><%= "#{tsk.phone_1}-#{tsk.phone_2}" %></td>
