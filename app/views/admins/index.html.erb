@@ -27,18 +27,36 @@
         </tr>
       </thead>
       <tbody>
+        <% 
+          tot_kid = 0 
+          tot_pay = 0.00
+        %>
         <% @admin_taska.order('created_at DESC').each do |tsk|%>
           <%
             num_kid = tsk.kids.where.not(classroom_id: nil).count
+            
             unpaid_plan = tsk.payments.where(name: "TASKA PLAN", paid: false).present?
+            if num_kid > 0 && !unpaid_plan 
+              color = "#cce5cc"
+              if tsk.plan == "PAY PER USE"
+                tsk_pay = num_kid * 2.8 * tsk.discount
+              else
+                tsk_pay = $package_price[tsk.plan] * tsk.discount
+              end
+              tot_pay += tsk_pay
+              tot_kid += num_kid #only active taska
+            else
+              color = nil 
+            end
           %>
-          <tr>
+          <tr style="background-color:<%= color %>">
             <td><%= tsk.id %></td>
             <td><%= tsk.name %></td>
             <td>
               <%= "#{tsk.plan} (#{$package_child[tsk.plan]})"  %><br>
-              KIDS NO : <%= num_kid %>
-              <%= unpaid_plan %>
+              KIDS NO : <%= num_kid %><br>
+              BILL: RM <%= tsk_pay %><br>
+              <%= link_to "CREATE BILL", bill_taska1_monthly_path(pwd:"kidcare@124",id:tsk.id,mth:"",yr:""), class: "btn btn-sm btn-primary", target: "_blank" %>
             </td>
             <td><%= tsk.created_at.strftime("%d-%m-%y") %></td>
             <td><%= tsk.supervisor %></td>
@@ -147,7 +165,6 @@
     <% end %> 
     </div>
     </div>
-
   <!-- TASKA EXPIRY-->        
 
   <% else %>
@@ -156,4 +173,8 @@
 
   <% end %>
 <% end %>
+TOTAL NO OF KIDS = <%= tot_kid %><br>
+EXPECTED PAYMENT = RM <%= tot_pay %>
+
+
 
