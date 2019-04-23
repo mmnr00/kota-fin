@@ -302,6 +302,7 @@ class TaskasController < ApplicationController
     if params[:month] == "0"
       if paid == "true"
         @kid_unpaid = nil
+        @w=[]
         (1..12).each do |m|
           dt = Time.find_zone("Singapore").local(year,m)
           payment = @taska.payments.where.not(name: "TASKA PLAN")
@@ -331,27 +332,21 @@ class TaskasController < ApplicationController
             tmp = @cdtn_1.or(@cdtn_2.or(@cdtn_3))
             @kid_unpaid = @kid_unpaid.or(tmp)
           end
+
           #start for partial
           #CDTN_1 All partials paid this month or previous month for current month bill
           cdtn_1par = nil
           cdtn_2par = nil
-          @all_par = nil
-          @w=[]
+          
           curr_pmt_unpaid.each do |pmt|
             if pmt.parpayms.present?
-              tmp = pmt.parpayms.where("upd < ?", dt).or(pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth))
-              if cdtn_1par.blank?
-                cdtn_1par = tmp unless tmp.blank?
-              else
-                cdtn_1par = cdtn_1par.or(tmp) unless tmp.blank?
-              end
+              tmp = pmt.parpayms.where("upd < ?", dt).or(pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', m)) 
               if tmp.ids.present?
                 tmp.ids.each do |k|
                   @w<<k
                 end
               end
-              @cdtn = cdtn_1par
-              #cdtn_1par = cdtn_1par.or(pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth))
+              
             end
           end
           #CDTN_2 previous months bills paid partially this month
@@ -359,12 +354,7 @@ class TaskasController < ApplicationController
           dt_lp=dt-1.months
           while dt_lp >= stp_lp
             payment.where(paid: false).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).each do |pmt|
-              tmp = pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth)
-              if cdtn_2par.blank?
-                cdtn_2par = tmp unless tmp.blank?
-              else
-                cdtn_2par = cdtn_2par.or(tmp) unless tmp.blank?
-              end
+              tmp = pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', m)
               if tmp.ids.present?
                 tmp.ids.each do |k|
                   @w<<k
@@ -375,7 +365,6 @@ class TaskasController < ApplicationController
           end
           #END PARTIAL 
 
-          #@kid_unpaid = cdtn_1.or(cdtn_2.or(cdtn_3))
           @w.each do |w|
             tmp = Parpaym.find(w)
             if @kid_unpaid.present?
