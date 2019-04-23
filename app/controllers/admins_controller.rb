@@ -5,7 +5,7 @@ class AdminsController < ApplicationController
 		@admin = current_admin
 		@spv = @admin.spv
 		if Rails.env.production?
-			@admin_taska = current_admin.taskas.where.not(id: [5, 9, 1, 44, 45, 4, 48])
+			@admin_taska = current_admin.taskas.where.not(id: [5, 9, 1, 44, 45, 4, 48, 75])
 		else
 			@admin_taska = current_admin.taskas
 		end
