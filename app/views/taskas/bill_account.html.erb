@@ -1,4 +1,7 @@
 <% status = (@taska.expire.to_date - $my_time.to_date).to_i %>
+<%= @w %>
+<%= @kid_unpaid.ids %>
+
 <div class="card mb-3">
     <div class="card-header">
       <% if status >= 0 && params[:paid] == "false" %>
@@ -17,6 +20,7 @@
             <div class="col-xs-12 col-sm-6 col-md-4">
               <div class="frontside">
                 <div class="card">
+                  <%= "#{bill.id} (#{bill.parpayms.ids unless bill.parpayms.blank?})" %>
                   <% @kid = bill.kids.first %>
                   <% if bill.paid %>
                     <%= link_to bill_view_path(payment: bill.id, kid: @kid.id, taska: @taska.id), class: "btn btn-sm btn-success active", target:"_blank" do %>
@@ -70,7 +74,13 @@
                     </p>
 
                   </div>
+                  <% if params[:paid]=="true" && !bill.paid && params[:month] != "0" %>
+                    <%= link_to "RM #{bill.parpayms.where('extract(year  from upd) = ?', params[:year]).where('extract(month  from upd) = ?', params[:month]).sum(:amt)}", "#", class: "btn btn-lg btn-info active" %>
+                  <% elsif params[:paid]=="true" && !bill.paid && params[:month] == "0" %>
+                    <%= link_to "RM #{bill.parpayms.where('extract(year  from upd) = ?', params[:year]).sum(:amt)}", "#", class: "btn btn-lg btn-info active" %>
+                  <% else %>
                   <%= link_to "RM #{bill.amount - sumppm}", "#", class: "btn btn-lg btn-info active" %>
+                  <% end %>
                   <% if !bill.paid %>
                     <% if status >= 0 %>
                       <% if !bill.reminder %>

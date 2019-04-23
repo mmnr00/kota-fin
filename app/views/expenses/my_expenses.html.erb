@@ -27,7 +27,7 @@
       <% end %><br><br>
 
       <div class="bg-white">
-        <%= pie_chart @payments_pie.group(:paid).sum(:amount), colors: ["#ff6666","#66b266"], donut: true, legend: false, thousands: "," %>
+        <%= pie_chart @payments_pie, colors: ["#ff6666","#66b266"], donut: true, legend: false, thousands: "," %>
       </div>
       <div class="row">
         <div class="col-sm-6" style="background-color:#66b266">
@@ -36,17 +36,16 @@
              <h5 align="center">
               <font color="white">
                 <% if params[:expense][:month].present? %>
-                  <% pay = @taska_payments.where(paid: true).sum(:amount) %>
+                  <% pay = @taska_payments.where(paid: true).sum(:amount) + @bills_partial %>
                 <% else %>
                   <% 
                     pay = 0
                     (1..12).each do |mth|
-                      pay = pay + @bill_hash[mth]
+                      pay += @bill_hash[mth] + @partial_hash[mth]
                     end
                   %>
                 <% end %>
                 <%= number_with_delimiter(pay, :delimiter => ',') %>
-
               </font>
              </h5>
           <% end %>
@@ -54,7 +53,7 @@
         <div class="col-sm-6" style="background-color:#ff6666">
           <%= link_to bill_account_path(@taska, month: month, year: year, paid: false) do %>
             <h6 align="center"><font color="white">UNPAID (RM)</font></h6>
-             <h5 align="center"><font color="white"><%= number_with_delimiter(@payments_due.where(paid: false).sum(:amount), :delimiter => ',') %></font></h5>
+             <h5 align="center"><font color="white"><%= number_with_delimiter(@tot_unpaid, :delimiter => ',') %></font></h5>
           <% end %>
         </div>
       </div>
@@ -74,7 +73,7 @@
       <% psltot = @taska_payslips.sum(:amtepfa).round(2) %>
       <% plntot = @taska_plan.sum(:amount).round(2) %>
       <div style="background-color:BLUE"><h2 align="center"><font color="white">
-        <% nett=@taska_expense.where(kind: "INCOME").sum(:cost) - @taska_expense.where(kind: "EXPENSE").sum(:cost) + @taska_payments.where(paid: true).sum(:amount) - @taska_payslips.sum(:amtepfa).round(2) - plntot %>
+        <% nett=@taska_expense.where(kind: "INCOME").sum(:cost) - @taska_expense.where(kind: "EXPENSE").sum(:cost) + @taska_payments.where(paid: true).sum(:amount) - @taska_payslips.sum(:amtepfa).round(2) - plntot + @bills_partial.round(2) %>
         NETT: RM <%= number_with_delimiter(nett.round(2), :delimiter => ',') %>
       </div></font></h2>
       <div class="bg-white">
@@ -82,7 +81,7 @@
         <% if exp["INCOME"] == nil %>
           <% exp["INCOME"] = 0 %>
         <% end %>
-        <% exp["INCOME"] = exp["INCOME"] + @taska_payments.where(paid: true).sum(:amount) %>
+        <% exp["INCOME"] = exp["INCOME"] + @taska_payments.where(paid: true).sum(:amount) + @bills_partial %>
         <% if exp["EXPENSE"] == nil %>
           <% exp["EXPENSE"] = psltot + plntot %>
         <% else %>
@@ -91,7 +90,7 @@
         <%= bar_chart exp, colors: ["brown"]%>
       </div><br>
       <div style="background-color:GREEN"><h4 align="center"><font color="white">
-        INCOME: RM <%= number_with_delimiter((@taska_expense.where(kind: "INCOME").sum(:cost)+@taska_payments.where(paid: true).sum(:amount).round(2)), :delimiter => ',') %>
+        INCOME: RM <%= number_with_delimiter((@taska_expense.where(kind: "INCOME").sum(:cost)+@taska_payments.where(paid: true).sum(:amount).round(2)+ @bills_partial.round(2)), :delimiter => ',') %>
       </div></font></h4>
       <div style="background-color:red"><h4 align="center"><font color="white">
         EXPENSE: RM <%= number_with_delimiter(((@taska_expense.where(kind: "EXPENSE").sum(:cost)+ psltot + plntot).round(2)), :delimiter => ',') %>

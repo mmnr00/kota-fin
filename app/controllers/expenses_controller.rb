@@ -30,10 +30,12 @@ def my_expenses
 		@taska_payslips = @taska.payslips.where(mth: psldt.month, year: psldt.year)
 		@taska_chart = @taska.expenses.where(month: params[:expense][:month]).where(year: params[:expense][:year]) 
 		@taska_expense = @taska.expenses.where(month: params[:expense][:month]).where(year: params[:expense][:year]).order('UPDATED_AT DESC')
+
 		#TASKA BILLS START
 			payment = @taska.payments.where.not(name: "TASKA PLAN")
 			curr_pmt = payment.where(bill_month: mth).where(bill_year: year)
 			curr_pmt_paid = curr_pmt.where(paid: true)
+			curr_pmt_unpaid = curr_pmt.where(paid: false)
 			#CDTN_1 = current period pay early
 			cdtn_1 = curr_pmt_paid.where("updated_at < ?", dt)
 			#CDTN_2 = current period pay this month
@@ -52,10 +54,38 @@ def my_expenses
 				dt_lp = dt_lp - 1.months
 			end
 			@taska_payments = cdtn_1.or(cdtn_2.or(cdtn_3))
+
+			#start for partial
+      #CDTN_1 All partials paid this month or previous month for current month bill
+      cdtn_1par = 0.00
+      curr_pmt_unpaid.each do |pmt|
+        if pmt.parpayms.present?
+          cdtn_1par += pmt.parpayms.where("upd < ?", dt).sum(:amt) 
+          cdtn_1par += pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth).sum(:amt) 
+        end
+      end
+      #CDTN_2 previous months bills paid partially this month
+      cdtn_2par = 0.00
+      dt_lp=dt-1.months
+      while dt_lp >= stp_lp
+        payment.where(paid: false).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).each do |pmt|
+          cdtn_2par += pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth).sum(:amt)
+        end
+      dt_lp -= 1.months
+      end
+      @bills_partial = cdtn_1par + cdtn_2par
+      #END PARTIAL
+
 			#@taska_payments = @taska.payments.where.not(name: "TASKA PLAN").where('extract(year  from updated_at) = ?', year).where('extract(month  from updated_at) = ?', mth)
 			@payments_due = curr_pmt
-			@payments_pie = curr_pmt.where(paid: false).or(@taska_payments.where(paid: true))
+			@tot_unpaid = @payments_due.where(paid: false).sum(:amount) - cdtn_1par
+			#@payments_pie = curr_pmt.where(paid: false).or(@taska_payments.where(paid: true))
+			@payments_pie = {
+										"unpaid"=>@tot_unpaid,
+										"paid"=>@taska_payments.where(paid: true).sum(:amount) + @bills_partial
+											}
 		#TASKA BILLS END
+
 		@taska_plan = @taska.payments.where(name: "TASKA PLAN").where(paid: true).where('extract(month from updated_at) = ?', mth).where('extract(year from updated_at) = ?', year)
 	else #yearly report
 		@taska_payslips = @taska.payslips.where(year: params[:expense][:year])
@@ -64,12 +94,17 @@ def my_expenses
 		#TASKA BILLS START
 			#HASH FOR BILLS
 			@bill_hash = Hash.new
+			@partial_hash = Hash.new
+			@unpaid_hash = Hash.new
 			@taska_payments = nil
+			@tot_unpaid = 0.00
+			@tot_paidyr = 0.00
 			(1..12).each do |mth|
 				dt = Time.find_zone("Singapore").local(year,mth)
 				payment = @taska.payments.where.not(name: "TASKA PLAN")
 				curr_pmt = payment.where(bill_month: mth).where(bill_year: year)
 				curr_pmt_paid = curr_pmt.where(paid: true)
+				curr_pmt_unpaid = curr_pmt.where(paid: false)
 				#CDTN_1 = current period pay early
 				cdtn_1 = curr_pmt_paid.where("updated_at < ?", dt)
 				#CDTN_2 = current period pay this month
@@ -94,10 +129,39 @@ def my_expenses
 				else
 					@taska_payments = @taska_payments.or(all_payments)
 				end
+				#START PARTIAL
+				#CDTN_1 All partials paid this month or previous month for current month bill
+	      cdtn_1par = 0.00
+	      curr_pmt_unpaid.each do |pmt|
+	        if pmt.parpayms.present?
+	          cdtn_1par += pmt.parpayms.where("upd < ?", dt).sum(:amt) 
+	          cdtn_1par += pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth).sum(:amt) 
+	        end
+	      end
+	      #CDTN_2 previous months bills paid partially this month
+	      cdtn_2par = 0.00
+	      dt_lp=dt-1.months
+	      while dt_lp >= stp_lp
+	        payment.where(paid: false).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).each do |pmt|
+	          cdtn_2par += pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth).sum(:amt)
+	        end
+	      dt_lp -= 1.months
+	      end
+	      @partial_hash[mth] = cdtn_1par + cdtn_2par
+				#END PARTIAL
+				@payments_dues = curr_pmt
+				@unpaid_hash[mth] = @payments_dues.where(paid: false).sum(:amount) - cdtn_1par
+				@tot_unpaid += @unpaid_hash[mth]
+				@tot_paidyr += @partial_hash[mth] + @bill_hash[mth]
 			end
+			@bills_partial = @partial_hash.values.inject { |a, b| a + b }
 			#@taska_payments = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: year)
 			@payments_due = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: params[:expense][:year])
 			@payments_pie = @payments_due.where(paid: false).or(@taska_payments.where(paid: true))
+			@payments_pie = {
+										"unpaid"=>@tot_unpaid,
+										"paid"=>@tot_paidyr
+											}
 		#TASKA BILLS END
 		@taska_plan = @taska.payments.where(name: "TASKA PLAN").where(paid: true).where('extract(year from updated_at) = ?', params[:expense][:year])
 	end

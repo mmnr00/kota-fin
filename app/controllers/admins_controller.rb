@@ -14,7 +14,7 @@ class AdminsController < ApplicationController
 			@taska_name = taska.name
 		end
 		#if @admin_taska.count == 1 ; redirect_to taska_path(@taska_id) end
-		#render action: "index", layout: "dsb-admin-overview"
+		#render action: "index", layout: "eip"
 
 	end
 
