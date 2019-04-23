@@ -1,10 +1,9 @@
 <% status = (@taska.expire.to_date - $my_time.to_date).to_i %>
-<%= @all_par.ids unless @all_par.blank? %>
-<%= @all_par.class unless @all_par.blank? %>
-<%= @z %>
+ALL PAR:<%= @all_par.ids unless @all_par.blank? %>
+@z:<%= @z %>
 
-<%= @k %>
-<%= @kid_unpaid.ids %>
+@k:<%= @k %>
+ALL BILLS:<%= @kid_unpaid.ids %>
 <div class="card mb-3">
     <div class="card-header">
       <% if status >= 0 && params[:paid] == "false" %>

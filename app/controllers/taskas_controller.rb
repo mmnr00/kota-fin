@@ -408,11 +408,11 @@ class TaskasController < ApplicationController
           @all_par.each do |parpm|
             if @kid_unpaid.present?
               @kid_unpaid = @kid_unpaid.or(Payment.where(id: parpm.payment.id))
+              @z<<parpm.payment_id
+            @k<<parpm.id
             else
               @kid_unpaid = Payment.where(id: parpm.payment.id)
             end
-            @z<<parpm.payment.id
-            @k<<parpm.id
           end
         end
         @kid_unpaid = @kid_unpaid.order('updated_at DESC')
