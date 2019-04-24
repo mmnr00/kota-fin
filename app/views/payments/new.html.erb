@@ -23,7 +23,6 @@
 
 <% end %>
 
-
 <div class="container">
   <div class="row">
     <div class="bg-light col-sm-8">
@@ -98,7 +97,26 @@
                     <%= f.submit :"ADD",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
                   </div>
                 <% end %></p>
-
+                <hr>
+                  <strong>OT CHARGES</strong>
+                  <%= form_for(@kid, :url => {:controller=>'extras', :action=>'add_kid_extras'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+                    <p align="center"><%= f.select :extra_ids, 
+                      options_from_collection_for_select(@kid.taska.extras.order('name ASC'), :id, :name),{include_blank: "SELECT EXTRA"} %>                        
+                    <%= f.hidden_field :kid_id, value: @kid.id %>
+                    <%= f.hidden_field :child, value: params[:child] %>
+                    <%= f.hidden_field :classroom, value: params[:classroom] %>
+                    <%= f.hidden_field :month, value: params[:month] %>
+                    <%= f.hidden_field :year, value: params[:year] %>
+                    <%= f.hidden_field :id, value: params[:id] %>
+                    <%= f.hidden_field :addtn, value: params[:addtn] %>
+                    <%= f.hidden_field :discount, value: params[:discount] %>
+                    <%= f.hidden_field :desc, value: params[:desc] %>
+                    <%= f.hidden_field :exs, value: params[:exs] %>
+                    <div style="width: 50%; margin: 0 auto;">
+                      <%= f.submit :"ADD",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
+                    </div>
+                <% end %></p>
+                <hr>
               </div>
             </div>
           </div>
@@ -187,6 +205,9 @@
                     <%= f.submit :"ADD",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
                   </div>
                 <% end %></p>
+                <hr>
+                  <strong>OT CHARGES</strong>
+                <hr>
 
                   </div>
                 </div>
