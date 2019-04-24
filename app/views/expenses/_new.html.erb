@@ -4,7 +4,7 @@
 			
 			<div class="form-group"> <!-- name -->
 				<div class="control-label col-sm-2">
-					<strong>NAME</strong>
+					<strong>NAMA</strong>
 				</div>
 				<div class="col-sm-6">
 					<%= f.text_field :name, class: "form-control", autofocus: true, required: true %>
@@ -40,6 +40,37 @@
           <% end %>
         </div>
       </div>
+
+      <!-- START NEW ENTRY -->
+
+      <div class="form-group"> <!-- ENTRY DATE -->
+        <div class="control-label col-sm-2">
+          <strong>DATE</strong>
+        </div>
+        <div class="col-sm-6">
+          <%= f.date_field :dt, class: "form-control", autofocus: true, required: true %>
+        </div>
+      </div>
+
+      <div class="form-group"> <!-- COMPANY -->
+        <div class="control-label col-sm-2">
+          <strong>COMPANY</strong>
+        </div>
+        <div class="col-sm-6">
+          <%= f.text_field :coname, class: "form-control", autofocus: true %>
+        </div>
+      </div>
+
+      <div class="form-group"> <!-- CATEGORY -->
+        <div class="control-label col-sm-2">
+          <strong>CATEGORY</strong>
+        </div>
+        <div class="col-sm-6">
+          <%= f.text_field :catg, class: "form-control", autofocus: true %>
+        </div>
+      </div>
+
+      <!-- END NEW ENTRY -->
 
       
 

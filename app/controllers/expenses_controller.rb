@@ -29,7 +29,7 @@ def my_expenses
 		psldt = dt - 1.months
 		@taska_payslips = @taska.payslips.where(mth: psldt.month, year: psldt.year)
 		@taska_chart = @taska.expenses.where(month: params[:expense][:month]).where(year: params[:expense][:year]) 
-		@taska_expense = @taska.expenses.where(month: params[:expense][:month]).where(year: params[:expense][:year]).order('UPDATED_AT DESC')
+		@taska_expense = @taska.expenses.where(month: params[:expense][:month]).where(year: params[:expense][:year])
 
 		#TASKA BILLS START
 			payment = @taska.payments.where.not(name: "TASKA PLAN")
@@ -429,6 +429,9 @@ end
 																			:year, 
 																			:taska_id, 
 																			:kind,
+																			:dt,
+																			:coname,
+																			:catg,
 																			fotos_attributes: [:foto, :picture, :foto_name])
 	end
 	def redirect_ori
