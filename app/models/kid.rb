@@ -14,6 +14,7 @@ class Kid < ApplicationRecord
 	has_many :payments, through: :kid_bills
 	has_many :kid_extras
 	has_many :extras, through: :kid_extras
+	has_many :otkids
 	include HTTParty
 
 

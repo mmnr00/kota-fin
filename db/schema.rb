@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_16_122224) do
+ActiveRecord::Schema.define(version: 2019_04_24_214127) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,6 +122,9 @@ ActiveRecord::Schema.define(version: 2019_04_16_122224) do
     t.integer "month"
     t.integer "year"
     t.string "kind"
+    t.date "dt"
+    t.string "coname"
+    t.string "catg"
   end
 
   create_table "extras", force: :cascade do |t|
@@ -212,6 +215,14 @@ ActiveRecord::Schema.define(version: 2019_04_16_122224) do
   create_table "kidtsks", force: :cascade do |t|
     t.integer "kid_id"
     t.integer "taska_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "otkids", force: :cascade do |t|
+    t.integer "kid_id"
+    t.integer "payment_id"
+    t.float "amt"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

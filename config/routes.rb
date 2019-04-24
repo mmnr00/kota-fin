@@ -75,6 +75,9 @@ Rails.application.routes.draw do
   get 'add_kid_extras', to: 'extras#add_kid_extras'
   get 'remove_kid_extras', to: 'extras#remove_kid_extras'
 
+  #~OTKIDS
+  get 'crt_otkid', to: 'otkids#crt_otkid'
+
   #~ANISATTS
   get 'accept_attendance', to: 'anisatts#accept', as: 'accept_anis'
   get 'remove_attendance', to: 'anisatts#remove', as: 'remove_anis'

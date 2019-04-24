@@ -9,6 +9,7 @@ class Payment < ApplicationRecord
 	has_one :tskbill
 	has_many :fotos
 	has_many :parpayms
+	has_many :otkids
 	accepts_nested_attributes_for :addtns
 	accepts_nested_attributes_for :fotos
 	include HTTParty
