@@ -99,6 +99,7 @@
               </thead>
               <tbody>
                 <% @payment.kid_bills.each do |kb| %>
+                  <% gototk = (otk=kb.kid.otkids.where(payment_id: @payment.id).first).present? %>
                   <tr>
                     <td>
                       <strong><%= kb.kid.name %></strong><br>
@@ -106,6 +107,9 @@
                         FEE FOR CLASSROOM <%= kb.classroom.classroom_name.upcase %>
                       <% elsif @payment.name == "TASKA BOOKING" %>
                         BOOKING FEE FOR <%= @taska.name.upcase %>
+                      <% end %>
+                      <% if gototk %>
+                        <br>OVERTIME CHARGES
                       <% end %>
                       <% kb.extra.each do |id|%>
                         <% extra = Extra.find(id) %>
@@ -121,7 +125,9 @@
                       <% else %>
                         <br>
                       <% end %>
-                      
+                      <% if gototk %>
+                        <br><%= otk.amt %>
+                      <% end %>
                       <% kb.extra.each do |id|%>
                         <% extra = Extra.find(id) %>
                         <br><%= extra.price %>

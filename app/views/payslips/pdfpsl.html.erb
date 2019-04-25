@@ -1,3 +1,5 @@
+<% if @payslip.taska_id == 54 %>
+
 <%= render 'taskas/payslip', amt: @payslip.amt, alwnc: @payslip.alwnc, epf: @payslip.epf, epfa: @payslip.epfa, socs: @payslip.socs, socsa: @payslip.socsa, sip: @payslip.sip, sipa: @payslip.sipa %>
 <br>
 <br>
@@ -13,3 +15,38 @@ Powered by&nbsp
     </a>
   <% end %>
 www.kidcare.my
+<%= render 'taskas/payslip', amt: @payslip.amt, alwnc: @payslip.alwnc, epf: @payslip.epf, epfa: @payslip.epfa, socs: @payslip.socs, socsa: @payslip.socsa, sip: @payslip.sip, sipa: @payslip.sipa %>
+<br>
+<br>
+Powered by&nbsp
+<% image = Foto.all.where(foto_name: "KIDCARE FULL").first %>
+  <% if image.picture.present? %>
+    <a href="<%="#{image.picture.url}"%>" target="_blank">
+      <% if @pdf %>
+        <%= wicked_pdf_image_tag(image.picture.url, size: "87x30") %>
+      <% else %>
+        <%= image_tag(image.picture.url, size: "87x30") %>
+      <% end %>
+    </a>
+  <% end %>
+www.kidcare.my
+
+<% else %>
+
+<%= render 'taskas/payslip', amt: @payslip.amt, alwnc: @payslip.alwnc, epf: @payslip.epf, epfa: @payslip.epfa, socs: @payslip.socs, socsa: @payslip.socsa, sip: @payslip.sip, sipa: @payslip.sipa %>
+<br>
+<br>
+Powered by&nbsp
+<% image = Foto.all.where(foto_name: "KIDCARE FULL").first %>
+  <% if image.picture.present? %>
+    <a href="<%="#{image.picture.url}"%>" target="_blank">
+      <% if @pdf %>
+        <%= wicked_pdf_image_tag(image.picture.url, size: "87x30") %>
+      <% else %>
+        <%= image_tag(image.picture.url, size: "87x30") %>
+      <% end %>
+    </a>
+  <% end %>
+www.kidcare.my
+
+<% end %>

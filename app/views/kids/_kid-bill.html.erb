@@ -157,6 +157,13 @@
                       <td class="text-right"><%= @payment.amount %></td>
                     <% end %>
                   </tr>
+                  <% if (otk=kb.kid.otkids.where(payment_id: @payment.id).first).present? %>
+                    <tr class="noBorder">
+                      <td>Overtime Charges</td>
+                      <td></td>
+                      <td class="text-right"><%= otk.amt %></td>
+                    </tr>
+                  <% end %>
                   <% kb.extra.each do |id|%>
                     <tr class="noBorder">
                       
