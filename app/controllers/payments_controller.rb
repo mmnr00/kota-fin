@@ -636,6 +636,9 @@ class PaymentsController < ApplicationController
 
   def destroy
     @payment = Payment.find(params[:id])
+    # addtn = @payment.addtns
+    # kb = @payment.kid_bills
+    # otk = @payment.otkids
     @taska = @payment.taska
     if params[:kid_id].present?
       @kid = Kid.find(params[:kid_id])
@@ -646,7 +649,11 @@ class PaymentsController < ApplicationController
     data_billplz = HTTParty.delete(url_bill.to_str,
                                   :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
                                   :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+    # addtn.delete_all unless addtn.blank?
+    # kb.delete_all unless kb.blank?
+    # otk.delete_all unless otk.blank?
     @payment.destroy
+    
     #render json: data_billplz and return
     flash[:notice] = "Bills was successfully deleted"
     if params[:index].present?
