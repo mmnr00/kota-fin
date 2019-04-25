@@ -268,21 +268,17 @@ class PaymentsController < ApplicationController
       @addtn.amount = params[:payment][:addtns_attributes]["0"][:amount]
       @addtn.payment_id = @payment.id
       @addtn.save
-      # start send sms to parents
-      if Rails.env.production?
-        @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
-        @client.messages.create(
-          to: "+6#{@kid.ph_1}#{@kid.ph_2}",
-          from: ENV["TWILIO_PHONE_NO"],
-          body: "New bill from #{@taska.name} . Please click at this link <#{bill_view_url(payment: @payment.id, kid: @kid.id, taska: @kid.taska.id)}> to make payment"
-        )
-      end
+      
       if exs.blank?
         cls = @kid.classroom.id
       else
         cls = nil
       end
       kb = KidBill.new(kid_id: @kid.id, payment_id: @payment.id, classroom_id: cls)
+      if (ot = @kid.otkids.where(payment_id: nil).first).present?
+        ot.payment_id = @payment.id
+        ot.save
+      end
       @kid.extras.each do |extra|
         kb.extra << extra.id
       end
@@ -300,7 +296,21 @@ class PaymentsController < ApplicationController
             kb.extra << extra.id
           end
           kb.save
+          if (ot = beradik.otkids.where(payment_id: nil).first).present?
+            ot.payment_id = @payment.id
+            ot.save
+          end
         end
+
+      end
+      # start send sms to parents
+      if Rails.env.production?
+        @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
+        @client.messages.create(
+          to: "+6#{@kid.ph_1}#{@kid.ph_2}",
+          from: ENV["TWILIO_PHONE_NO"],
+          body: "New bill from #{@taska.name} . Please click at this link <#{bill_view_url(payment: @payment.id, kid: @kid.id, taska: @kid.taska.id)}> to make payment"
+        )
       end
       flash[:success] = "Bills created successfully and SMS send to #{@kid.ph_1}#{@kid.ph_2}"
       redirect_to classroom_path(@kid.classroom)
