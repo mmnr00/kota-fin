@@ -100,7 +100,25 @@
                 <hr>
                   <strong>OT CHARGES(RM)</strong>
                     <% if (otk=@kid.otkids.where(payment_id: nil).first).present? %>
-                      <%= "#{otk.id}=>#{otk.amt}"%>
+                      <div class="notice notice-warning">
+                        <a href="<%= rmv_otkid_url(child: @kid.id,
+                                                      kid_id: @kid.id,
+                                                      otkid_id: otk.id,
+                                                      classroom: params[:classroom],
+                                                      month: params[:month],
+                                                      year: params[:year],
+                                                      id: params[:id],
+                                                      discount: params[:discount],
+                                                      addtn: params[:addtn],
+                                                      desc: params[:desc],
+                                                      exs: params[:exs])%>">
+
+                      <div class="pull-right text-danger">
+                        <i class="fa fa-trash"></i>
+                      </div>
+                    </a>
+                        <%= "#{otk.id}=>#{otk.amt}"%>
+                      </div>
                       <% total_bill = total_bill + otk.amt %>
                     <% else %>
                       <%= form_for(:otkid, :url => {:controller=>'otkids', :action=>'crt_otkid'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>

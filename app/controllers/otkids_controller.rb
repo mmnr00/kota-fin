@@ -9,4 +9,10 @@ class OtkidsController < ApplicationController
 		redirect_to root_path
 	end
 
+	def rmv_otkid
+		@otkid = Otkid.find(params[:otkid_id])
+		@otkid.destroy
+		redirect_to root_path
+	end
+
 end

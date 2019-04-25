@@ -77,6 +77,7 @@ Rails.application.routes.draw do
 
   #~OTKIDS
   get 'crt_otkid', to: 'otkids#crt_otkid'
+  get 'rmv_otkid', to: 'otkids#rmv_otkid'
 
   #~ANISATTS
   get 'accept_attendance', to: 'anisatts#accept', as: 'accept_anis'
