@@ -61,11 +61,11 @@ wb.styles do |style|
 
       expense = 0
       expense = exp.where(kind: "EXPENSE").sum(:cost)
-      expense = expense + @payslips.where(mth: m).sum(:amtepfa) + @taska_plan.where('extract(month from updated_at) = ?', m).sum(:amount)
+      expense = expense + @payslips.where(mth: m-1).sum(:amtepfa) + @taska_plan.where('extract(month from updated_at) = ?', m).sum(:amount)
       expense_total = expense_total + expense
 
       unpaid = 0
-      unpaid = @taska_payments.where(bill_month: m).where(paid: false).sum(:amount)
+      unpaid = @unpaid_hash[m]
       unpaid_total = unpaid_total + unpaid
 
       profit = 0 

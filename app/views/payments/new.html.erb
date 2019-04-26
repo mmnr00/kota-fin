@@ -119,7 +119,7 @@
                     </a>
                         <%= otk.amt.round(2) %>
                       </div>
-                      <% total_bill = total_bill + otk.amt %>
+                      <% total_bill = total_bill + otk.amt.round(2) %>
                     <% else %>
                       <%= form_for(:otkid, :url => {:controller=>'otkids', :action=>'crt_otkid'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
                         <%= f.number_field :amt, rows: 10, class: "form-control", :step => 0.01, required: true %>                       
@@ -250,7 +250,7 @@
                     </a>
                         <%= otk.amt.round(2) %>
                       </div>
-                      <% total_bill = total_bill + otk.amt %>
+                      <% total_bill = total_bill + otk.amt.round(2) %>
                     <% else %>
                       <%= form_for(:otkid, :url => {:controller=>'otkids', :action=>'crt_otkid'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
                         <%= f.number_field :amt, rows: 10, class: "form-control", :step => 0.01, required: true %>                       

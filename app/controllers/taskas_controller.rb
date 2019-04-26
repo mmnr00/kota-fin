@@ -784,12 +784,16 @@ class TaskasController < ApplicationController
     #START BILLS
     @taska_payments = nil
     @bill_hash = Hash.new
+    @unpaid_hash = Hash.new
+    @tot_par = 0.00
+    @tot_unpaid = 0.00
     year = params[:year].to_i
     (1..12).each do |mth|
       dt = Time.find_zone("Singapore").local(year,mth)
       payment = @taska.payments.where.not(name: "TASKA PLAN")
       curr_pmt = payment.where(bill_month: mth).where(bill_year: year)
       curr_pmt_paid = curr_pmt.where(paid: true)
+      curr_pmt_unpaid = curr_pmt.where(paid: false)
       #CDTN_1 = current period pay early
       cdtn_1 = curr_pmt_paid.where("updated_at < ?", dt)
       #CDTN_2 = current period pay this month
@@ -808,7 +812,31 @@ class TaskasController < ApplicationController
         dt_lp = dt_lp - 1.months
       end
       all_payments = cdtn_1.or(cdtn_2.or(cdtn_3))
-      @bill_hash[mth]= all_payments.where(paid: true).sum(:amount)
+      #start for partial
+      #CDTN_1 All partials paid this month or previous month for current month bill
+      cdtn_1par = 0.00
+      curr_pmt_unpaid.each do |pmt|
+        if pmt.parpayms.present?
+          cdtn_1par += pmt.parpayms.where("upd < ?", dt).sum(:amt) 
+          cdtn_1par += pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth).sum(:amt) 
+        end
+      end
+      #CDTN_2 previous months bills paid partially this month
+      cdtn_2par = 0.00
+      dt_lp=dt-1.months
+      while dt_lp >= stp_lp
+        payment.where(paid: false).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).each do |pmt|
+          cdtn_2par += pmt.parpayms.where('extract(year  from upd) = ?', year).where('extract(month  from upd) = ?', mth).sum(:amt)
+        end
+      dt_lp -= 1.months
+      end
+      @bills_partial = cdtn_1par + cdtn_2par
+      @tot_par += @bills_partial
+      @payments_dues = curr_pmt
+      @unpaid_hash[mth] = @payments_dues.where(paid: false).sum(:amount) - cdtn_1par
+      @tot_unpaid += @unpaid_hash[mth]
+      #END PARTIAL
+      @bill_hash[mth]= all_payments.where(paid: true).sum(:amount) + @bills_partial
       if @taska_payments.blank?
         @taska_payments = all_payments
       else
