@@ -19,12 +19,16 @@
           <%= f.submit :"SELECT",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>
       <% end %><br>
       
+      <% if 1==0 %>
       <%= link_to unpaid_xls_path(@taska, paid: false, month: month, year: year, format: :xlsx), class: "btn btn-sm btn-danger active" do %>
         <i class="fa fa-file-excel"></i> ALL UNPAID BILLS
       <% end %><br><br>
       <%= link_to unpaid_xls_path(@taska, paid: true, month: month, year: year, format: :xlsx), class: "btn btn-sm btn-primary active" do %>
         <i class="fa fa-file-excel"></i> ALL BILLS
       <% end %><br><br>
+      <% end %>
+
+
       <div class="bg-white">
         <%= pie_chart @taska_payments.group(:paid).sum(:amount), colors: ["#ff6666","#66b266"], donut: true, legend: false, thousands: "," %>
       </div>

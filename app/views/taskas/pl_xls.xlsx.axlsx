@@ -1,5 +1,5 @@
 wb = xlsx_package.workbook
-col_widths= [50,10,10,20,20]
+col_widths= [50,10,10,25,20,20,20,20]
 wb.styles do |style|
   header_1 = style.add_style(b: true, sz: 30)
   highlight_cell = style.add_style(bg_color: "EFC376",
@@ -30,6 +30,9 @@ wb.styles do |style|
     sheet.add_row ["ITEM",
                   "MONTH",
                   "YEAR",
+                  "COMPANY NAME",
+                  "ENTRY DATE",
+                  "CATEGORY",
                   "INCOME",
                   "EXPENSE"]
     sheet.rows[0].style = header_1
@@ -48,6 +51,9 @@ wb.styles do |style|
           sheet.add_row ["#{psl.count} PAYSLIPS ISSUED",
                       psldt.month,
                       psldt.year,
+                      "NA",
+                      "NA",
+                      "NA",
                       "",
                       psltot], style: [nil, border_cell]
           sheet.rows[row+counter].style = bill_cell           
@@ -57,8 +63,11 @@ wb.styles do |style|
         if (pln = @taska_plan.where('extract(month from updated_at) = ?', m)).present?
           plntot = pln.sum(:amount)
           sheet.add_row ["KIDCARE'S BILL",
-                      pln.first.created_at.month,
-                      pln.first.created_at.year,
+                      pln.first.bill_month,
+                      pln.first.bill_year,
+                      "NA",
+                      "NA",
+                      "NA",
                       "",
                       plntot], style: [nil, border_cell]
           sheet.rows[row+counter].style = bill_cell           
@@ -68,22 +77,28 @@ wb.styles do |style|
       end
 
       if params[:month] != "0"
-        billtot = @taska_bills.where(paid: true).sum(:amount)
+        billtot = @taska_bills.where(paid: true).sum(:amount) +@bills_partial.round(2)
         sheet.add_row ["FEES PAYMENTS",
                     params[:month],
                     params[:year],
+                    "NA",
+                    "NA",
+                    "NA",
                     billtot,
                     ""], style: [nil, border_cell]
         sheet.rows[row+counter].style = bill_cell           
         counter = counter +1
         income = income + billtot
       else
-        billtot = @taska_bills.where(paid: true).sum(:amount)
+        billtot = @taska_bills.where(paid: true).sum(:amount) + @tot_par
         (1..12).each do |mth|
           if @bill_hash[mth] > 0
             sheet.add_row ["FEES PAYMENTS",
                         mth,
                         params[:year],
+                        "NA",
+                        "NA",
+                        "NA",
                         @bill_hash[mth],
                         ""], style: [nil, border_cell]
             sheet.rows[row+counter].style = bill_cell           
@@ -95,11 +110,14 @@ wb.styles do |style|
     
 
     #income = income + @taska_bills.where(paid: true).sum(:amount) 
-    @taska_expenses.each do |exp|
+    @taska_expenses.order('dt DESC').each do |exp|
       if exp.kind == "INCOME"
         sheet.add_row [exp.name,
                       exp.month,
                       exp.year,
+                      exp.coname,
+                      exp.dt.strftime('%d/%m/%y'),
+                      exp.catg,
                       exp.cost,
                       ""],
                       style: [nil, border_cell] 
@@ -111,6 +129,9 @@ wb.styles do |style|
         sheet.add_row [exp.name,
                     exp.month,
                     exp.year,
+                    exp.coname,
+                    exp.dt.strftime('%d/%m/%y'),
+                    exp.catg,
                     "",
                     exp.cost]
                     
@@ -120,26 +141,27 @@ wb.styles do |style|
       end
     end
     
-    sheet.add_row ["TOTAL","","",income,expense]
+    sheet.add_row ["TOTAL","","","","","",income,expense]
     sheet.rows[counter+row].style = total_cell
     counter = counter + 1
-    sheet.merge_cells sheet.rows.last.cells[(0..2)]
-    sheet.add_row ["NETT INCOME","","",income-expense,""]
+    sheet.merge_cells sheet.rows.last.cells[(0..5)]
+    sheet.add_row ["NETT INCOME","","","","","",income-expense,""]
     sheet.rows[counter+row].style = nett_cell
-    sheet.merge_cells sheet.rows.last.cells[(0..2)]
-    sheet.merge_cells sheet.rows.last.cells[(3..4)]
+    sheet.merge_cells sheet.rows.last.cells[(0..5)]
+    sheet.merge_cells sheet.rows.last.cells[(6..7)]
     sheet.column_widths *col_widths
 
-    
-    sheet.add_chart(Axlsx::Pie3DChart, :start_at => "G3", :end_at => "P14", :title => "BILLING SUMMARY FOR #{$month_name[params[:month].to_i]} #{params[:year]}") do |chart|
+    if 1==0
+    sheet.add_chart(Axlsx::Pie3DChart, :start_at => "J16", :end_at => "V28", :title => "BILLING SUMMARY FOR #{$month_name[params[:month].to_i]} #{params[:year]}") do |chart|
       chart.add_series :data => 
                             [@taska_bills.where(paid: true).sum(:amount), 
                             @taska_bills.where(paid: false).sum(:amount)], :labels => ["PAID","UNPAID"],  :colors => ["66b266","ff6666"]
       chart.d_lbls.show_val = true
       chart.d_lbls.show_percent = true
     end
+    end
 
-    sheet.add_chart(Axlsx::Bar3DChart, :start_at => "G16", :end_at => "P28", :title => "ACCOUNTING SUMMARY FOR #{$month_name[params[:month].to_i]} #{params[:year]}") do |chart|
+    sheet.add_chart(Axlsx::Bar3DChart, :start_at => "J3", :end_at => "V14", :title => "ACCOUNTING SUMMARY FOR #{$month_name[params[:month].to_i]} #{params[:year]}") do |chart|
       chart.add_series :data => 
                             [expense,
                             income], :labels => ["EXPENSE","INCOME"],  :colors => [ 'FF0000','00FF00']
