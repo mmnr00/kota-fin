@@ -15,6 +15,9 @@
             <th> INCOME </th>
             <th>EXPENSE</th>
             <th>ACTION</th>
+            <th>COMPANY NAME</th>
+            <th>ENTRY DATE</th>
+            <th>CATEGORY</th>
             <th>DOCUMENT</th>
           </tr>
         </thead>
@@ -39,7 +42,10 @@
                 <i class="fa fa-eye"></i> DETAILS
               <% end %>
             </td>
-            <td></td>
+            <td>NA</td>
+            <td>NA</td>
+            <td>NA</td>
+            <td>NA</td>
           </tr>
           <!-- TASKA PLAN -->
           <tr style="background-color:#ccccff"> 
@@ -55,7 +61,10 @@
                 <i class="fa fa-eye"></i> DETAILS
               <% end %>
             </td>
-            <td></td>
+            <td>NA</td>
+            <td>NA</td>
+            <td>NA</td>
+            <td>NA</td>
           </tr>
           <!-- PAID BILLS -->
           <tr style="background-color:#cce5cc"> 
@@ -71,9 +80,12 @@
                 <i class="fa fa-eye"></i> DETAILS
               <% end %>
             </td>
-            <td></td>
+            <td>NA</td>
+            <td>NA</td>
+            <td>NA</td>
+            <td>NA</td>
           </tr>
-          <% @taska_expense.each do |exp| %>
+          <% @taska_expense.order('dt DESC').each do |exp| %>
             <tr>
               <td><%= exp.name %></td>
               <% if exp.kind == "INCOME" %>
@@ -97,6 +109,9 @@
                   <% end %>
                 <% end %>
               </td>
+              <td><%= exp.coname %></td>
+              <td><%= exp.dt.strftime('%d/%^b/%y') %></td>
+              <td><%= exp.catg %></td>
               <td>
                 <% image = exp.fotos.where(foto_name: "EXPENSE DOC").first %>
                 <% if image.present? %>
