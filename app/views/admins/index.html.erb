@@ -56,6 +56,7 @@
               <%= "#{tsk.plan} (#{$package_child[tsk.plan]})"  %><br>
               KIDS NO : <%= num_kid %><br>
               BILL: RM <%= tsk_pay %><br>
+              <%= "#{(tsk.expire.to_date - Time.now.to_date).to_i} DAYS" %><br>
               <%= link_to "CREATE BILL", bill_taska1_monthly_path(pwd:"kidcare@124",id:tsk.id,mth:"",yr:""), class: "btn btn-sm btn-primary", target: "_blank" %>
             </td>
             <td><%= tsk.created_at.strftime("%d-%m-%y") %></td>
