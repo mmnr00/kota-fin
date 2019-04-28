@@ -117,12 +117,14 @@
                         <i class="fa fa-trash"></i>
                       </div>
                     </a>
-                        <%= otk.amt.round(2) %>
+                        <strong><%= otk.amt.round(2) %></strong><br>
+                        <%= otk.descotk %>
                       </div>
                       <% total_bill = total_bill + otk.amt.round(2) %>
                     <% else %>
                       <%= form_for(:otkid, :url => {:controller=>'otkids', :action=>'crt_otkid'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
-                        <%= f.number_field :amt, rows: 10, class: "form-control", :step => 0.01, required: true %>                       
+                        <%= f.number_field :amt, rows: 10, class: "form-control", :step => 0.01, placeholder: "AMOUNT", required: true %>   
+                        <%= f.text_area :descotk, class: "form-control", placeholder: "DESCRIPTION", autofocus: true %>                    
                         <%= f.hidden_field :kid_id, value: @kid.id %>
                         <%= f.hidden_field :child, value: params[:child] %>
                         <%= f.hidden_field :classroom, value: params[:classroom] %>
@@ -248,12 +250,14 @@
                         <i class="fa fa-trash"></i>
                       </div>
                     </a>
-                        <%= otk.amt.round(2) %>
+                        <strong><%= otk.amt.round(2) %></strong><br>
+                        <%= otk.descotk %>
                       </div>
                       <% total_bill = total_bill + otk.amt.round(2) %>
                     <% else %>
                       <%= form_for(:otkid, :url => {:controller=>'otkids', :action=>'crt_otkid'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
-                        <%= f.number_field :amt, rows: 10, class: "form-control", :step => 0.01, required: true %>                       
+                        <%= f.number_field :amt, rows: 10, class: "form-control", :step => 0.01, placeholder: "AMOUNT", required: true %>   
+                        <%= f.text_area :descotk, class: "form-control", placeholder: "DESCRIPTION", autofocus: true %>                       
                         <%= f.hidden_field :kid_id, value: beradik.id %>
                         <%= f.hidden_field :child, value: params[:child] %>
                         <%= f.hidden_field :classroom, value: params[:classroom] %>

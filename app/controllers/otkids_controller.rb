@@ -4,6 +4,7 @@ class OtkidsController < ApplicationController
 		otk = params[:otkid]
 		@otkid = Otkid.new
 		@otkid.amt = otk[:amt]
+		@otkid.descotk = otk[:descotk]
 		@otkid.kid_id = otk[:kid_id]
 		@otkid.save
 		flash[:notice] = "Overtime successfully added"

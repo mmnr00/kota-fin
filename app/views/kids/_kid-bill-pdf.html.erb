@@ -109,7 +109,7 @@
                         BOOKING FEE FOR <%= @taska.name.upcase %>
                       <% end %>
                       <% if gototk %>
-                        <br>OVERTIME CHARGES
+                        <br>OVERTIME (<%= otk.descotk %>)
                       <% end %>
                       <% kb.extra.each do |id|%>
                         <% extra = Extra.find(id) %>
