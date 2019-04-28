@@ -12,7 +12,7 @@ wb.styles do |style|
     sheet.add_row [""]
     sheet.add_row ["MONTH",
                   "YEAR",
-                  "ID",
+                  "BILL_ID",
                   "TOTAL(RM)",
                   "NAME",
                   "CLASSROOM",
@@ -66,6 +66,8 @@ wb.styles do |style|
     end
   end
 end
+
+
 
 
 

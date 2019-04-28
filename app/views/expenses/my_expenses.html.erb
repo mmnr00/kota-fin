@@ -20,11 +20,11 @@
       <% end %><br>
       
       <% if 1==0 %>
-      <%= link_to unpaid_xls_path(@taska, paid: false, month: month, year: year, format: :xlsx), class: "btn btn-sm btn-danger active" do %>
-        <i class="fa fa-file-excel"></i> ALL UNPAID BILLS
+      <%= link_to unpaid_xls_path(@taska, paid: true, month: month, year: year, format: :xlsx), class: "btn btn-sm btn-success" do %>
+        <i class="fa fa-file-excel"></i> PAID BILLS LIST
       <% end %><br><br>
-      <%= link_to unpaid_xls_path(@taska, paid: true, month: month, year: year, format: :xlsx), class: "btn btn-sm btn-primary active" do %>
-        <i class="fa fa-file-excel"></i> ALL BILLS
+      <%= link_to unpaid_xls_path(@taska, paid: false, month: month, year: year, format: :xlsx), class: "btn btn-sm btn-danger" do %>
+        <i class="fa fa-file-excel"></i> UNPAID BILLS LIST
       <% end %><br><br>
       <% end %>
 
