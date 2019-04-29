@@ -50,7 +50,11 @@
   <h2 align="center">PLEASE COMPLETE YOUR DETAILS</h2>
 <% end %>
 
+<% if params[:clse] == "1" %>
+PENDAFTARAN DITUTUP
+<% else %>
 <%= render 'tchdetails/form' %>
+<% end %>
 
 
 
