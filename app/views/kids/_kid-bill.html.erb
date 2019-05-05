@@ -23,13 +23,13 @@
     <% end %>
     
     
-    <% if !@pdf && @payment.cltid != $clt %>
+    <% if !@pdf && @payment.cltid != $clt %><% if @taska.id != 72 %>
       <h1 align="right">
         <%= link_to "#{ENV['BILLPLZ_URL']}/bills/#{@payment.bill_id}", class: "btn btn-lg btn-info active" do %>
           <i></i> PAY
         <% end %>
       </h1>
-    <% end %>
+    <% end %><% end %>
   <% end %>
 </div>
 
