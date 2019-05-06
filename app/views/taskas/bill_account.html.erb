@@ -71,8 +71,20 @@
                     </p>
 
                   </div>
+                  <%
+                    amt = 0
+                    dtbill = Date.new(bill.bill_year,bill.bill_month)
+                    bill.parpayms.each do |prp|
+                      if prp.upd < dtbill
+                        amt += prp.amt
+                      end
+                    end
+                    amt += bill.parpayms.where('extract(year  from upd) = ?', params[:year]).where('extract(month  from upd) = ?', params[:month]).sum(:amt)
+                  %>
+                  <%=  %>
                   <% if params[:paid]=="true" && !bill.paid && params[:month] != "0" %>
-                    <%= link_to "RM #{bill.parpayms.where('extract(year  from upd) = ?', params[:year]).where('extract(month  from upd) = ?', params[:month]).sum(:amt)}", "#", class: "btn btn-lg btn-info active" %>
+
+                    <%= link_to "RM #{amt}", "#", class: "btn btn-lg btn-info active" %>
                   <% elsif params[:paid]=="true" && !bill.paid && params[:month] == "0" %>
                     <%= link_to "RM #{bill.parpayms.where('extract(year  from upd) = ?', params[:year]).sum(:amt)}", "#", class: "btn btn-lg btn-info active" %>
                   <% else %>
