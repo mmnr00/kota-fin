@@ -21,10 +21,7 @@
       
       <% if 1==1 %>
       <%= link_to unpaid_xls_path(@taska, paid: true, month: month, year: year, format: :xlsx), class: "btn btn-sm btn-success" do %>
-        <i class="fa fa-file-excel"></i> PAID BILLS LIST
-      <% end %><br><br>
-      <%= link_to unpaid_xls_path(@taska, paid: false, month: month, year: year, format: :xlsx), class: "btn btn-sm btn-danger" do %>
-        <i class="fa fa-file-excel"></i> UNPAID BILLS LIST
+        <i class="fa fa-file-excel"></i> BILLS LIST
       <% end %><br><br>
       <% end %>
 

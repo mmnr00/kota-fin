@@ -7,7 +7,7 @@ wb.styles do |style|
                                   sz: 13,
                                    alignment: { horizontal: :center })
   border_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER)       
-  wb.add_worksheet(name: "PAYMENT LIST") do |sheet|
+  wb.add_worksheet(name: "PAID BILL LIST") do |sheet|
     sheet.add_row ["BILL LIST FOR #{@taska.name.upcase}"]
     sheet.add_row [""]
     sheet.add_row ["",
@@ -16,25 +16,129 @@ wb.styles do |style|
                   "TOTAL(RM)",
                   "PAYMENT DATE",
                   "METHOD",
-                  "DETAILS",
-                  "STATUS"]
+                  "CHILDREN"]
     sheet.rows[0].style = header_1
     sheet.rows[2].style = highlight_cell
     counter = 1
     row =2
-    @bills.each do |bill|
+    @bills.where(paid: true).each do |bill|
+      a= ""
+      bill.kid_bills.each do |kb|
+        a=a+"\n"+kb.kid.name
+      end
       sheet.add_row ["",
                     "#{$month_name[bill.bill_month.to_i]}-#{bill.bill_year}",
                     bill.bill_id,
                     bill.amount,
                     bill.updated_at.strftime('%d-%m-%y'),
                     bill.mtd,
-                    "INSERT DETAILS",
-                    bill.paid], style: [nil, border_cell]
+                    a], style: [nil, border_cell]
       sheet.rows[row+counter].style = border_cell
       counter = counter +1
       sheet.column_widths *col_widths
     end
+  
+  end
+
+  wb.add_worksheet(name: "UNPAID BILL LIST") do |sheet|
+    sheet.add_row ["BILL LIST FOR #{@taska.name.upcase}"]
+    sheet.add_row [""]
+    sheet.add_row ["",
+                  "PERIOD",
+                  "ID",
+                  "TOTAL(RM)",
+                  "CHILDREN"]
+    sheet.rows[0].style = header_1
+    sheet.rows[2].style = highlight_cell
+    counter = 1
+    row =2
+    @unpaid_bills.each do |bill|
+      if !bill.parpayms.present? 
+        a= ""
+      bill.kid_bills.each do |kb|
+        a=a+"\n"+kb.kid.name
+      end
+      sheet.add_row ["",
+                    "#{$month_name[bill.bill_month.to_i]}-#{bill.bill_year}",
+                    bill.bill_id,
+                    bill.amount,
+                    a], style: [nil, border_cell]
+      sheet.rows[row+counter].style = border_cell
+      counter = counter +1
+      sheet.column_widths *col_widths
+      end
+    end
+  
+  end
+
+  wb.add_worksheet(name: "PARTIAL PAYMENT LIST") do |sheet|
+    sheet.add_row ["PAYMENT LIST FOR #{@taska.name.upcase}"]
+    sheet.add_row [""]
+    sheet.add_row ["",
+                  "PERIOD",
+                  "ID",
+                  "TOTAL(RM)",
+                  "PAYMENT DATE",
+                  "METHOD",
+                  "CHILDREN"]
+    sheet.rows[0].style = header_1
+    sheet.rows[2].style = highlight_cell
+    counter = 1
+    row =2
+
+    @bills.where(paid: false).each do |bill|
+
+      dtbill = Date.new(bill.bill_year,bill.bill_month)
+      ppmarr =[]
+      if params[:month] != "0"
+        currdt = Date.new(params[:year].to_i, params[:month].to_i)
+        a= ""
+        bill.kid_bills.each do |kb|
+          a=a+"\n"+kb.kid.name
+        end
+        bill.parpayms.each do |ppm|
+          if ppm.upd < dtbill || (ppm.upd.month == currdt.month && ppm.upd.year == currdt.year)
+          sheet.add_row ["",
+                        "#{$month_name[bill.bill_month.to_i]}-#{bill.bill_year}",
+                        bill.bill_id,
+                        ppm.amt,
+                        ppm.upd.strftime('%d-%m-%y'),
+                        ppm.mtd,
+                        a], style: [nil, border_cell]
+          sheet.rows[row+counter].style = border_cell
+          counter = counter +1
+          sheet.column_widths *col_widths
+          end
+        end
+      else
+        
+        (1..12).each do |mth|
+          currdt = Date.new(params[:year].to_i, mth)
+          a= ""
+          bill.kid_bills.each do |kb|
+            a=a+"\n"+kb.kid.name
+          end
+          bill.parpayms.each do |ppm|
+            
+            if ((ppm.upd < dtbill) || (ppm.upd.month == currdt.month && ppm.upd.year == currdt.year)) && (!ppmarr.include? ppm.id)
+            sheet.add_row ["",
+                          "#{$month_name[bill.bill_month.to_i]}-#{bill.bill_year}",
+                          "#{bill.bill_id}(#{ppm.id}-#{mth})",
+                          ppm.amt,
+                          ppm.upd.strftime('%d-%m-%y'),
+                          ppm.mtd,
+                          a], style: [nil, border_cell]
+            sheet.rows[row+counter].style = border_cell
+            counter = counter +1
+            sheet.column_widths *col_widths
+            ppmarr<<ppm.id
+            end
+          end
+        end
+      end
+
+    end
+  
   end
 end
 

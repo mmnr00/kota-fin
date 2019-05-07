@@ -237,7 +237,7 @@ class PaymentsController < ApplicationController
     url_bill = "#{ENV['BILLPLZ_API']}bills"
     data_billplz = HTTParty.post(url_bill.to_str,
             :body  => { :collection_id => "#{collection_id}", 
-                        :email=> "#{@kid.parent.email}",
+                        :email=> "bill@kidcare.my",
                         :name=> "#{@kid.name}", 
                         :amount=>  amount,
                         :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
