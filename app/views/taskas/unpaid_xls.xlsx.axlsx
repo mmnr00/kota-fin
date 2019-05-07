@@ -10,58 +10,29 @@ wb.styles do |style|
   wb.add_worksheet(name: "PAYMENT LIST") do |sheet|
     sheet.add_row ["BILL LIST FOR #{@taska.name.upcase}"]
     sheet.add_row [""]
-    sheet.add_row ["MONTH",
-                  "YEAR",
-                  "BILL_ID",
+    sheet.add_row ["",
+                  "PERIOD",
+                  "ID",
                   "TOTAL(RM)",
-                  "NAME",
-                  "CLASSROOM",
-                  "EXTRA",
-                  "PAID"]
+                  "PAYMENT DATE",
+                  "METHOD",
+                  "DETAILS",
+                  "STATUS"]
     sheet.rows[0].style = header_1
     sheet.rows[2].style = highlight_cell
     counter = 1
     row =2
     @bills.each do |bill|
-      bill.kid_bills.each do |kd|
-        if kd.extra.present?
-          kd.extra.each do |exid|
-            extra = Extra.find(exid)
-            sheet.add_row [kd.payment.bill_month,
-                          kd.payment.bill_year,
-                          kd.payment.bill_id,
-                          kd.payment.amount,
-                          kd.kid.name,
-                          kd.kid.classroom.classroom_name,
-                          extra.name,
-                          kd.payment.paid], style: [nil, border_cell]
-            sheet.rows[row+counter].style = border_cell
-            counter = counter +1
-          end
-        elsif !kd.kid.classroom.present?
-          sheet.add_row [kd.payment.bill_month,
-                          kd.payment.bill_year,
-                          kd.payment.bill_id,
-                          kd.payment.amount,
-                          kd.kid.name,
-                          kd.payment.name,
-                          "",
-                          kd.payment.paid], style: [nil, border_cell]
-            sheet.rows[row+counter].style = border_cell
-            counter = counter +1
-        else
-          sheet.add_row [kd.payment.bill_month,
-                          kd.payment.bill_year,
-                          kd.payment.bill_id,
-                          kd.payment.amount,
-                          kd.kid.name,
-                          kd.kid.classroom.classroom_name,
-                          "",
-                          kd.payment.paid], style: [nil, border_cell]
-            sheet.rows[row+counter].style = border_cell
-            counter = counter +1
-        end
-      end
+      sheet.add_row ["",
+                    "#{$month_name[bill.bill_month.to_i]}-#{bill.bill_year}",
+                    bill.bill_id,
+                    bill.amount,
+                    bill.updated_at.strftime('%d-%m-%y'),
+                    bill.mtd,
+                    "INSERT DETAILS",
+                    bill.paid], style: [nil, border_cell]
+      sheet.rows[row+counter].style = border_cell
+      counter = counter +1
       sheet.column_widths *col_widths
     end
   end
