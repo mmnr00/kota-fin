@@ -4,60 +4,58 @@
   <h3 align="center">(ANAK ISTIMEWA SELANGOR)</h3>
   <p align="center"><img src="https://s3.amazonaws.com/kidcare-prod/uploads/foto/picture/others/Screen+Shot+2019-01-28+at+8.26.23+PM.png" height="203px" width="700px" ></p>
   </div></div><br>
-
-  <div class="row">
-    <div class='col-lg-8 col-12 bg-white'>
-      <%= form_tag find_tchdetail_reg_path, remote: true, method: :get, id: "find_kid" do %>
-        <div class="form-group text-center col-md-12">
-          <br><strong>PLEASE ENTER IC/NO TO CHECK REGISTRATION<br><br></strong>
-          <div class="row">
-            <div class="col-sm-4 col-4">
-              <%= text_field_tag :ic1, params[:ic1], 
-                      placeholder: "", 
-                      maxlength: 6,
-                      autofocus: true, 
-                      class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
-            </div>-   
-            <div class="col-sm-3 col-3">
-              <%= text_field_tag :ic2, params[:ic2], 
-                      placeholder: "", 
-                      maxlength: 2, 
-                      autofocus: true, 
-                      class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
-            </div>- 
-            <div class="col-sm-4 col-4">
-              <%= text_field_tag :ic3, params[:ic3], 
-                      placeholder: "", 
-                      maxlength: 4,
-                      autofocus: true, 
-                      class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
-            </div><br><br> 
-            <%= hidden_field_tag :id, params[:id], value: params[:id] %>             
-            <div class="col-md-12">
-              <%= button_tag(type: :submit, class: "btn btn-sm btn-success active", id: "submit_expense") do %>
-                  <i class="fa fa-search"></i> FIND
-              <% end %>
-            </div>
-          </div><br>
-          <div id="result_kid">
-            <%= render 'tchdetails/result-reg' %> 
-          </div>
-        </div>
-      <%end%>
-    </div>
-  </div><br>
 <% else %>
-
   <% if params[:id].present? %>
-    <h2 align="center">NEW REGISRATION FOR</h2> 
-    <h4 align="center"><%= @college.name %>&nbsp
+    <h2>NEW REGISRATION FOR</h2> 
+    <h4><%= @college.name %>&nbsp
       (<%= "#{@college.start.strftime("%d-%^b-%y")} to #{@college.end.strftime("%d-%^b-%y")}" %>)  
     </h4>
   <% else %>
     <h2 align="center">PLEASE COMPLETE YOUR DETAILS</h2> 
-  <% end %>
-  
+  <% end %> 
 <% end %>
+
+<div class="row">
+  <div class='col-lg-8 col-12 bg-white'>
+    <%= form_tag find_tchdetail_reg_path, remote: true, method: :get, id: "find_kid" do %>
+      <div class="form-group text-center col-md-12">
+        <br><strong>PLEASE ENTER IC/NO TO CHECK REGISTRATION<br><br></strong>
+        <div class="row">
+          <div class="col-sm-4 col-4">
+            <%= text_field_tag :ic1, params[:ic1], 
+                    placeholder: "", 
+                    maxlength: 6,
+                    autofocus: true, 
+                    class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+          </div>-   
+          <div class="col-sm-3 col-3">
+            <%= text_field_tag :ic2, params[:ic2], 
+                    placeholder: "", 
+                    maxlength: 2, 
+                    autofocus: true, 
+                    class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+          </div>- 
+          <div class="col-sm-4 col-4">
+            <%= text_field_tag :ic3, params[:ic3], 
+                    placeholder: "", 
+                    maxlength: 4,
+                    autofocus: true, 
+                    class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+          </div><br><br> 
+          <%= hidden_field_tag :id, params[:id], value: params[:id] %>             
+          <div class="col-md-12">
+            <%= button_tag(type: :submit, class: "btn btn-sm btn-success active", id: "submit_expense") do %>
+                <i class="fa fa-search"></i> FIND
+            <% end %>
+          </div>
+        </div><br>
+        <div id="result_kid">
+          <%= render 'tchdetails/result-reg' %> 
+        </div>
+      </div>
+    <%end%>
+  </div>
+</div><br>
 
 <% if params[:clse] == "1" %>
   PENDAFTARAN DITUTUP

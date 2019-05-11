@@ -47,7 +47,7 @@
             <td><%= tch.name %></td>
             <td><%= "#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3}"%></td>
             <td>
-              <%= link_to "EDIT", edit_tchdetail_path(id: tch.id, anis: true), class: "btn btn-sm btn-warning", target: "_blank" %>&nbsp
+              <%= link_to "EDIT", edit_tchdetail_path(id: tch.id, anis: tch.anis), class: "btn btn-sm btn-warning", target: "_blank" %>&nbsp
               <%= link_to "VIEW", tchd_anis_path(id: tch.id), class: "btn btn-sm btn-info", target: "_blank" %> 
             </td>
             <td>
@@ -70,10 +70,16 @@
   </div>
 </div>
 
-
-  
 <br><br>
-<strong>Registration Link</strong> = <%= link_to "#{new_tchdetail_url}?id=#{@college.id}&anis=true", new_tchdetail_path(id: @college.id, anis: true), style: "color:blue" %><br><br>
+<% 
+  if @owner.id == 5
+    anis = "true"
+    anisl = "&anis=true"
+  else
+    anis = nil
+  end 
+%>
+<strong>Registration Link</strong> = <%= link_to "#{new_tchdetail_url}?id=#{@college.id}#{anisl}", new_tchdetail_path(id: @college.id, anis: anis), style: "color:blue" %><br><br>
 
 
 

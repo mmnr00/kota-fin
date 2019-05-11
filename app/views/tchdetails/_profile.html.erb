@@ -36,7 +36,7 @@
                   <%= "#{@tchdetail.phone_1}-""#{@tchdetail.phone_2}" %>
                 </td>
               </tr>
-              <% if @tchdetail.anis != "true" %>
+              <% if @tchdetail.teacher.present? %>
                 <tr>
                   <td><strong>EMAIL:</strong></td>
                   <td>

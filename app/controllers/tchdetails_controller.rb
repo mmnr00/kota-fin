@@ -93,7 +93,7 @@ class TchdetailsController < ApplicationController
 					render :new
 				end
 			end
-			redirect_to tchd_anis_path(id: @tchdetail.id, anis: true)
+			redirect_to tchd_anis_path(id: @tchdetail.id, anis: @tchdetail.anis)
 		end
 	end
 
@@ -155,12 +155,21 @@ class TchdetailsController < ApplicationController
 
   def find_tchdetail_reg #find anis in reg
   	@clg = College.find(params[:id])
+  	@own = @clg.owners.last
+  	tchdc = nil
+		@own.colleges.each do |clg|
+			if tchdc.blank?
+				tchdc = clg.tchdetails
+			else
+				tchdc = tchdc.or(clg.tchdetails)
+			end
+		end
     if params[:ic1].blank?
       flash.now[:danger] = "You have entered an empty request"
     elsif params[:ic1] == "ALL"
     	@find_tchdetail = Tchdetail.where(anis: "true")
     else
-      @find_tchdetail = Tchdetail.where(anis: "true",ic_1: params[:ic1],ic_2: params[:ic2],ic_3: params[:ic3])
+      @find_tchdetail = tchdc.where(ic_1: params[:ic1],ic_2: params[:ic2],ic_3: params[:ic3])
       #flash.now[:danger] = "Cannot find child" unless @kid_search.present?
       flash.now[:danger] = "NO MATCHED DATA" unless @find_tchdetail.present?
     end
@@ -226,8 +235,9 @@ class TchdetailsController < ApplicationController
 		#@classroom = Classroom.find(params[:classroom])
 		if @tchdetail.update(tchdetail_params)
 			flash[:notice] = "Teacher was successfully updated"
-			if @tchdetail.anis == "true" && !params[:tsktch] == "true"
-				redirect_to tchd_anis_path(id: @tchdetail.id, anis: true)
+			if @tchdetail.teacher.blank?
+			#if @tchdetail.anis == "true" && !params[:tsktch] == "true"
+				redirect_to tchd_anis_path(id: @tchdetail.id, anis: @tchdetail.anis)
 			else
 				redirect_to teacher_taska_path(@teacher)
 			end
