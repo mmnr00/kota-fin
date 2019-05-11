@@ -124,10 +124,22 @@ clg = College.find(46)
 clg.courses.each do |crs|
 crs.anisprogs.each do |prog|
 clg.tchdetails.each do |tchd|
+if prog.name != "BREAK"
 Anisatt.create(course_id: crs.id, tchdetail_id: tchd.id, anisprog_id: prog.id, att: true)
 end
 end
 end
+end
+
+clg = College.find(46)
+nodob=[]
+clg.tchdetails.each do |tchd|
+if tchd.dob.blank?
+nodob<<tchd.id
+end
+end
+
+
 
 
 
