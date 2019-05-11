@@ -294,8 +294,7 @@
         </div>
       </div>
 
-      <!-- ANIS ONLY -->
-      <% if params[:anis] == "true" %>
+      <% if params[:id].present? %>
         <!-- TASKA DETAILS -->
         <div class="form-group"> <!-- taska name -->
           <div class="row">
@@ -366,7 +365,10 @@
             </div>
           </div>
         </div>
+      <% end %>
 
+      <!-- ANIS ONLY -->
+      <% if params[:anis] == "true" %>
         <div class="form-group"> <!-- DUN -->
             <div class="row">
               <div class="control-label col-sm-8">
@@ -472,11 +474,11 @@
             </div>
           </div>
           <%= f.hidden_field :anis, value: params[:anis] %>
-        <% end %>
+      <% end %>
       
 
       <%= f.hidden_field :college_id, value: params[:id] %>
-      <%= f.hidden_field :tsktch, value: params[:tsktch] %>
+      
 
               
         <div class="form-group">
