@@ -268,6 +268,7 @@ class TchdetailsController < ApplicationController
       																	:phone_1, 
       																	:phone_2, 
       																	:marital, 
+      																	:email,
       																	:category,
       																	:address_1, 
       																	:address_2,

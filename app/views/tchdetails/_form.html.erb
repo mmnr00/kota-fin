@@ -51,6 +51,22 @@
           </div>
         </div>
 
+        <% if params[:id].present? %>
+          <!-- EMAIL -->
+          <div class="form-group"> 
+            <div class="row">
+              <div class="control-label col-sm-8">
+                <strong>EMAIL</strong>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-8 col-12">
+                <%= f.email_field :email, required: true %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+
         <!-- DOB -->
         <div class="form-group"> 
           <div class="row">
@@ -144,7 +160,7 @@
         <div class="form-group"> <!-- ADDRESS-->
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>HOME ADDRESS</strong>
+              <strong>CORRESPONDENCE ADDRESS</strong>
             </div>
           </div>
           <div class="row">
@@ -179,7 +195,8 @@
               <%= f.select :education, options_for_select(["PHD", 
                                                         "Master", 
                                                         "Degree",
-                                                        "Diploma/STPM",
+                                                        "Diploma",
+                                                        "STPM",
                                                         "SPM/SPMV/MCE/O-Level",
                                                         "Sijil Kemahiran",
                                                         "Others"
@@ -299,7 +316,7 @@
         <div class="form-group"> <!-- taska name -->
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>TASKA/PJKK NAME</strong>
+              <strong>INSTITUTION NAME</strong>
             </div>
           </div>
           <div class="row">
@@ -312,7 +329,7 @@
         <div class="form-group"> <!-- taska owner name -->
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>TASKA/PJKK OWNER'S NAME</strong>
+              <strong>INSTITUTION OWNER'S NAME</strong>
             </div>
           </div>
           <div class="row">
@@ -325,7 +342,7 @@
         <div class="form-group"> <!-- Taska Owner PHONE-->
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>TASKA/PJKK OWNER'S NAME PHONE NO</strong>
+              <strong>INSTITUTION OWNER'S NAME PHONE NO</strong>
             </div>
           </div>
           <div class="row">
@@ -342,7 +359,7 @@
         <div class="form-group"> <!-- TASKA ADDRESS-->
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>TASKA/PJKK ADDRESS</strong>
+              <strong>INSTITUTION ADDRESS</strong>
             </div>
           </div>
           <div class="row">

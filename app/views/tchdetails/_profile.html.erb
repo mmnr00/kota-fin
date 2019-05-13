@@ -36,14 +36,16 @@
                   <%= "#{@tchdetail.phone_1}-""#{@tchdetail.phone_2}" %>
                 </td>
               </tr>
-              <% if @tchdetail.teacher.present? %>
-                <tr>
-                  <td><strong>EMAIL:</strong></td>
-                  <td>
+              <tr>
+                <td><strong>EMAIL:</strong></td>
+                <td>
+                  <% if @tchdetail.teacher.present? %>
                     <%= "#{@tchdetail.teacher.email}" %>
-                  </td>
+                  <% else %>
+                    <%= "#{@tchdetail.email}" %>
+                  <% end %>
+                </td>
               </tr>
-              <% end %>
               <tr>
                 <td><strong>MARITAL STATUS:</strong></td>
                 <td>
