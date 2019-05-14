@@ -37,6 +37,22 @@ class ParentsController < ApplicationController
     end
 	end
 
+	def prntschtsk
+		render action: "prntschtsk", layout: "dsb-parent-child"
+	end
+
+	def prntfndtsk
+		if params[:tskname].blank?
+			flash[:danger] = "NO INPUT ENTERED"
+		else
+			@taskas = Taska.where("name like?", "%#{params[:tskname].upcase}%")
+			flash[:danger] = "NO MATCHED DATA" unless @taskas.present?
+		end
+		respond_to do |format|
+      format.js { render partial: 'parents/prntrsttsk' } 
+    end
+	end
+
 	def mrg_kid
 		@kid = Kid.find(params[:kid_id])
 		@kid.parent_id = @parent.id

@@ -166,6 +166,8 @@ Rails.application.routes.draw do
   get '/check_kid', to: 'parents#check_kid', as: 'check_kid'
   get '/sch_kid', to: 'parents#sch_kid', as: 'sch_kid'
   get '/mrg_kid', to: 'parents#mrg_kid', as: 'mrg_kid'
+  get '/prntschtsk', to: 'parents#prntschtsk', as: 'prntschtsk'
+  get '/prntfndtsk', to: 'parents#prntfndtsk', as: 'prntfndtsk'
   get '/parent/:id/view_receipt', to: 'parents#view_receipt', as: 'view_receipt'
   get '/parent/:id/individual_bill', to: 'parents#individual_bill', as: 'parents_individual_bill'
   get '/parent/:id/pay_bill', to: 'parents#parents_pay_bill', as: 'parents_pay_bill'

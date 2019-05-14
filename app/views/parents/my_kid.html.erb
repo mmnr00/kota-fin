@@ -41,7 +41,7 @@
                          AWAITING CONFIRMATION FROM CENTER <br><br>
                       <% end %>
                     <% else %>
-                      <%= link_to "ADD", index_parent_path(id: @parent.id, kid_id: kid.id), class: "btn btn-sm btn-danger active" %><br>
+                      <%= link_to "ADD", prntschtsk_path(kid_id: kid.id), class: "btn btn-sm btn-danger active" %><br>
                       NA<br>
                     <% end %>
                     <%= link_to "EDIT DETAILS", edit_kid_path(kid), class: "btn btn-sm btn-primary active" %>
