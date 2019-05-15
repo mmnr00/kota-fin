@@ -14,7 +14,7 @@ class FotosController < ApplicationController
       elsif @parent
       	@kid = @foto.kid
       	redirect_to edit_kid_path(@kid)
-      elsif @tchdetail.present? && @tchdetail.anis == "true"
+      elsif @tchdetail.present? #&& @tchdetail.anis == "true"
         redirect_to edit_tchdetail_path(@tchdetail)
       elsif @admin
         if @foto.taska.present?

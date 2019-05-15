@@ -120,6 +120,9 @@ class PtnsMmbsController < ApplicationController
 	def update
 		@ptnsmmb = PtnsMmb.find(params[:id])
 		if @ptnsmmb.update(ptnsmmb_params)
+			newic="#{@ptnsmmb.ic1}#{@ptnsmmb.ic2}#{@ptnsmmb.ic3}"
+			@ptnsmmb.icf=newic
+			@ptnsmmb.save
 			flash[:notice] = "Maklumat anda telah dikemaskini"
 			redirect_to new_ptns_mmb_path(type: @ptnsmmb.tp)
 			

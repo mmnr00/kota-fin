@@ -47,14 +47,19 @@ class ClassroomsController < ApplicationController
 	end
 
 	def destroy
-		@classroom = @classroom = Classroom.find(params[:id])
+		@classroom = Classroom.find(params[:id])
 		@admin = current_admin
 		@taska = Taska.find(@classroom.taska_id)
-		if @classroom.destroy
-			flash[:success] = "Classroom was successfully deleted"
+		if @classroom.kids.count > 0
+			flash[:danger] = "Please remove all children before deleting"
 		else
-			flash[:danger] = "Classroom was unsuccessfully deleted. Please try again"
+			if @classroom.destroy
+				flash[:success] = "Classroom was successfully deleted"
+			else
+				flash[:danger] = "Classroom was unsuccessfully deleted. Please try again"
+			end
 		end
+		
 		redirect_to classroom_index_path(@taska)
 	end
 

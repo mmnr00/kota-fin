@@ -100,9 +100,27 @@
                 <td>
                 </td>
               </tr>
+              <tr>
+                <td><strong>DEPOSIT PAYMENT RECEIPT:</strong></td>
+                <td>
+                  <% image = @fotos.where(foto_name: "DEPOSIT PAYMENT RECEIPT").first %>
+                  <% if image.picture.present? %>
+                    <a href="<%="#{image.picture.url}"%>" target="_blank">
+                      <% if @pdf %>
+                        <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
+                      <% else %>
+                        <%= image_tag(image.picture.url, size: "50x50") %>
+                      <% end %>
+                    </a>
+                  <% else %>
+                    No photo uploaded &nbsp
+                  <% end %>
+                <td>
+                </td>
+              </tr>
               <!-- START TASKA DETAILS -->
               <tr>
-                <td><strong>TASKA NAME:</strong></td>
+                <td><strong>INSTITUTION NAME:</strong></td>
                 <td>
                   <% if @tchdetail.ts_name.present? %>
                   <%= "#{@tchdetail.ts_name.upcase}" %>
@@ -111,7 +129,7 @@
               </tr>
 
               <tr>
-                <td><strong>TASKA OWNER NAME:</strong></td>
+                <td><strong>INSTITUTION OWNER NAME:</strong></td>
                 <td>
                   <% if @tchdetail.ts_owner_name.present? %>
                   <%= "#{@tchdetail.ts_owner_name.upcase}" %>
@@ -119,13 +137,13 @@
                 </td>
               </tr>
               <tr>
-                <td><strong>TASKA OWNER PHONE NO:</strong></td>
+                <td><strong>INSTITUTION OWNER PHONE NO:</strong></td>
                 <td>
                   <%= "#{@tchdetail.ts_phone_1}-""#{@tchdetail.ts_phone_2}" %>
                 </td>
               </tr>
               <tr>
-                <td><strong>TASKA ADDRESS:</strong></td>
+                <td><strong>INSTITUTION ADDRESS:</strong></td>
                 <td>
                   <% if @tchdetail.ts_address_1.present? %>
                   <%= "#{@tchdetail.ts_address_1.upcase}" %><br>
@@ -156,7 +174,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td><strong>POST IN TASKA/PJKK</strong></td>
+                  <td><strong>POST IN INSTITUTION</strong></td>
                   <td>
                     <%= @tchdetail.post %>
                   </td>
