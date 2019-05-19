@@ -100,24 +100,26 @@
                 <td>
                 </td>
               </tr>
-              <tr>
-                <td><strong>DEPOSIT PAYMENT RECEIPT:</strong></td>
-                <td>
-                  <% image = @fotos.where(foto_name: "DEPOSIT PAYMENT RECEIPT").first %>
-                  <% if image.picture.present? %>
-                    <a href="<%="#{image.picture.url}"%>" target="_blank">
-                      <% if @pdf %>
-                        <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
-                      <% else %>
-                        <%= image_tag(image.picture.url, size: "50x50") %>
-                      <% end %>
-                    </a>
-                  <% else %>
-                    No photo uploaded &nbsp
-                  <% end %>
-                <td>
-                </td>
-              </tr>
+              <% image = @fotos.where(foto_name: "DEPOSIT PAYMENT RECEIPT").first %>
+              <% if image.present? %>
+                <tr>
+                  <td><strong>DEPOSIT PAYMENT RECEIPT:</strong></td>
+                  <td>
+                    
+                    <% if image.picture.present? %>
+                      <a href="<%="#{image.picture.url}"%>" target="_blank">
+                        <% if @pdf %>
+                          <%= wicked_pdf_image_tag(image.picture.url, size: "50x50") %>
+                        <% else %>
+                          <%= image_tag(image.picture.url, size: "50x50") %>
+                        <% end %>
+                      </a>
+                    <% else %>
+                      No photo uploaded &nbsp
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
               <!-- START TASKA DETAILS -->
               <tr>
                 <td><strong>INSTITUTION NAME:</strong></td>
