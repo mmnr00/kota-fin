@@ -35,7 +35,7 @@
               <% if @kid_unpaid.present? %>
                 <%= @kid_unpaid.sum(:amount).round(2)%>
               <% else %>
-                666.66
+                0.00
               <% end %>
             </a>
           </span>
