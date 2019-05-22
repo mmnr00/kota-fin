@@ -65,7 +65,7 @@
                   <% end %>
 
       <!-------------- START CREATE BILLS------------->
-                  <% if $my_time < @taska.expire %>
+                  <% if Time.now < @taska.expire %>
                     <a class="btn icon-btn btn-brown pull-right active" href="/got_bill?taska=<%= @classroom.taska.id %>&child=<%= kid.id %>&classroom=<%= @classroom.id %>" >
                       <font color="blue">
                         <span class="fa fa-plus"></span> 

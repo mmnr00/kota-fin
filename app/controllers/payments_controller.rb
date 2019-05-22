@@ -499,7 +499,7 @@ class PaymentsController < ApplicationController
             Tskbill.create(real: real/100, disc: (real*(1-@taska.discount))/100, payment_id: @payment.id)
           end
           #if 1==1
-          if Rails.env.production? && 1==1
+          if Rails.env.production? && 1==0
             @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
             @client.messages.create(
               to: "+6#{@taska.phone_1}#{@taska.phone_2}",
