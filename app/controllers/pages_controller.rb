@@ -8,6 +8,9 @@ class PagesController < ApplicationController
 	def index
 	end
 
+	def tutorial
+	end
+
 	def sendgrid
 		mail = SendGrid::Mail.new
 		mail.from = SendGrid::Email.new(email: 'do-not-reply@kidcare.my', name: 'KidCare')

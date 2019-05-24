@@ -205,6 +205,9 @@ class TaskasController < ApplicationController
     @mth = time.month
     @yr = time.year 
     psldt = time - 1.months
+
+
+
     @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false)
     @taska_expense = @taska.expenses.where(month: @mth).where(year: @yr).order('CREATED_AT DESC')
     @payslips = @taska.payslips.where(mth: psldt.month, year: psldt.year)
@@ -472,6 +475,22 @@ class TaskasController < ApplicationController
 
   def unpaid_index
     @taska = Taska.find(params[:id])
+    #check all unpaid bills with billplz
+    pre_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false)
+    pre_unpaid.each do |pb|
+      url_bill = "#{ENV['BILLPLZ_API']}bills/#{pb.bill_id}"
+      data_billplz = HTTParty.get(url_bill.to_str,
+              :body  => {}.to_json, 
+                          #:callback_url=>  "YOUR RETURN URL"}.to_json,
+              :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+              :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+      #render json: data_billplz and return
+      data = JSON.parse(data_billplz.to_s)
+      if data["paid"] == true
+        pb.paid = true
+        pb.updated_at = data["paid_at"]
+      end
+    end
     @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).order('bill_year ASC').order('bill_month ASC')
     @kid_all_bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
     render action: "unpaid_index", layout: "dsb-admin-overview" 
