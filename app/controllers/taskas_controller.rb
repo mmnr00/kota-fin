@@ -489,6 +489,7 @@ class TaskasController < ApplicationController
       if data["paid"] == true
         pb.paid = true
         pb.updated_at = data["paid_at"]
+        pb.save
       end
     end
     @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).order('bill_year ASC').order('bill_month ASC')
