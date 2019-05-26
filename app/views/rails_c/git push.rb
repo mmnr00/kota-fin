@@ -3,7 +3,7 @@ git commit -m "tsk"
 git push
 
 git checkout master_n
-git merge 1fbc
+git merge 10fbc
 git push
 
 git checkout production_n
@@ -11,8 +11,8 @@ git merge master_n
 git push
 
 git diff HEAD master_n
-git diff HEAD 1fbc
-git checkout 1fbc
+git diff HEAD 10fbc
+git checkout 10fbc
 
 heroku maintenance:on --app kidcare-prod
 dropdb prod-bcup -U MustakhimRehan
