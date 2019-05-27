@@ -7,7 +7,7 @@ ruby '2.5.1'
 gem 'rails', '~> 5.2.1'
 # Use sqlite3 as the database for Active Record
 
-gem 'sass'
+gem 'sass-rails'
 gem 'devise'
 gem 'twitter-bootstrap-rails'
 gem 'jquery-rails'
