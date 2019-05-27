@@ -7,7 +7,7 @@ ruby '2.5.1'
 gem 'rails', '~> 5.2.1'
 # Use sqlite3 as the database for Active Record
 
-
+gem 'sass'
 gem 'devise'
 gem 'twitter-bootstrap-rails'
 gem 'jquery-rails'
@@ -88,7 +88,7 @@ group :development do
   gem 'capistrano-bundler', require: false
   gem 'capistrano3-puma',   require: false
   gem 'wkhtmltopdf-binary-edge'
-  gem 'sass'
+  
 end
 
 group :test do
