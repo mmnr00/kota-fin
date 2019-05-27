@@ -476,20 +476,22 @@ class TaskasController < ApplicationController
   def unpaid_index
     @taska = Taska.find(params[:id])
     #check all unpaid bills with billplz
-    pre_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false)
-    pre_unpaid.each do |pb|
-      url_bill = "#{ENV['BILLPLZ_API']}bills/#{pb.bill_id}"
-      data_billplz = HTTParty.get(url_bill.to_str,
-              :body  => {}.to_json, 
-                          #:callback_url=>  "YOUR RETURN URL"}.to_json,
-              :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
-              :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
-      #render json: data_billplz and return
-      data = JSON.parse(data_billplz.to_s)
-      if data["paid"] == true
-        pb.paid = true
-        pb.updated_at = data["paid_at"]
-        pb.save
+    if Rails.env.production?
+      pre_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false)
+      pre_unpaid.each do |pb|
+        url_bill = "#{ENV['BILLPLZ_API']}bills/#{pb.bill_id}"
+        data_billplz = HTTParty.get(url_bill.to_str,
+                :body  => {}.to_json, 
+                            #:callback_url=>  "YOUR RETURN URL"}.to_json,
+                :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+                :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+        #render json: data_billplz and return
+        data = JSON.parse(data_billplz.to_s)
+        if data["paid"] == true
+          pb.paid = true
+          pb.updated_at = data["paid_at"]
+          pb.save
+        end
       end
     end
     @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).order('bill_year ASC').order('bill_month ASC')
