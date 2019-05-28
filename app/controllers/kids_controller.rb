@@ -321,7 +321,7 @@ class KidsController < ApplicationController
 	def check_bill
 		payment = Payment.find(params[:payment]) 
 		#check payment status
-		if !payment.paid 
+		if !payment.paid && Rails.env.production?
 			url_bill = "#{ENV['BILLPLZ_API']}bills/#{payment.bill_id}"
       data_billplz = HTTParty.get(url_bill.to_str,
               :body  => { }.to_json, 
@@ -332,6 +332,8 @@ class KidsController < ApplicationController
       data = JSON.parse(data_billplz.to_s)
       if data["id"].present? && (data["paid"] == true)
       	payment.paid = data["paid"]
+      	payment.mtd = "BILLPLZ"
+      	payment.updated_at = data["paid_at"]
       	payment.save
       end
 		end
