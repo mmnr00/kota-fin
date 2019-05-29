@@ -276,12 +276,21 @@ class PaymentsController < ApplicationController
         cls = nil
       end
       kb = KidBill.new(kid_id: @kid.id, payment_id: @payment.id, classroom_id: cls)
+      kb.kidname = @kid.name
+      kb.kidic = "#{@kid.ic_1}-#{@kid.ic_2}-#{@kid.ic_3}"
+      if cls.present?
+        clsr = @kid.classroom
+        kb.clsname = clsr.classroom_name
+        kb.clsfee = clsr.base_fee
+      end
       if (ot = @kid.otkids.where(payment_id: nil).first).present?
         ot.payment_id = @payment.id
         ot.save
       end
       @kid.extras.each do |extra|
         kb.extra << extra.id
+        extra = Extra.find(extra.id)
+        kb.extradtl[extra.name] = extra.price
       end
       kb.save
 
@@ -293,8 +302,17 @@ class PaymentsController < ApplicationController
             cls = nil
           end
           kb = KidBill.new(kid_id: beradik.id, payment_id: @payment.id, classroom_id: cls)
+          kb.kidname = beradik.name
+          kb.kidic = "#{beradik.ic_1}-#{beradik.ic_2}-#{beradik.ic_3}"
+          if cls.present?
+            clsr = beradik.classroom
+            kb.clsname = clsr.classroom_name
+            kb.clsfee = clsr.base_fee
+          end
           beradik.extras.each do |extra|
             kb.extra << extra.id
+            extra = Extra.find(extra.id)
+            kb.extradtl[extra.name] = extra.price
           end
           kb.save
           if (ot = beradik.otkids.where(payment_id: nil).first).present?

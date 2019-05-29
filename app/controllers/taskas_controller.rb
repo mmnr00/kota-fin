@@ -502,7 +502,8 @@ class TaskasController < ApplicationController
   def manupdbill
     @pdf = false
     @payment = Payment.find(params[:bill]) 
-    @kid = Kid.find(params[:kid])
+    #@kid = Kid.find(params[:kid])
+    @kid = @payment.kids.first
     @taska = Taska.find(params[:taska])
     @fotos = @taska.fotos
     render action: "manupdbill", layout: "dsb-admin-overview"

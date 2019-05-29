@@ -147,9 +147,9 @@
                   </td>
                   <tr class="noBorder">
                     <% if kb.classroom.present? %>
-                      <td>FEE FOR CLASSROOM <%= kb.classroom.classroom_name.upcase %></td>
+                      <td>FEE FOR CLASSROOM <%= kb.clsname.upcase %></td>
                       <td></td>
-                      <td class="text-right"><%= kb.classroom.base_fee %></td>
+                      <td class="text-right"><%= kb.clsfee %></td>
                       </tr>
                     <% elsif @payment.name == "TASKA BOOKING" %>
                       <td>BOOKING FEE FOR <%= @taska.name.upcase %></td>
@@ -164,13 +164,13 @@
                       <td class="text-right"><%= otk.amt %></td>
                     </tr>
                   <% end %>
-                  <% kb.extra.each do |id|%>
+                  <% kb.extradtl.each do |k,v|%>
                     <tr class="noBorder">
                       
-                        <% extra = Extra.find(id) %>
-                        <td><%= extra.name %></td>
+                        <% #extra = Extra.find(id) %>
+                        <td><%= k %></td>
                         <td></td>
-                        <td class="text-right"><%= extra.price %></td>
+                        <td class="text-right"><%= v %></td>
                       
                     </tr>
                   <% end %>

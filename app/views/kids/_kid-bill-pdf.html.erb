@@ -104,22 +104,22 @@
                     <td>
                       <strong><%= kb.kid.name %></strong><br>
                       <% if kb.classroom.present? %>
-                        FEE FOR CLASSROOM <%= kb.classroom.classroom_name.upcase %>
+                        FEE FOR CLASSROOM <%= kb.clsname.upcase %>
                       <% elsif @payment.name == "TASKA BOOKING" %>
                         BOOKING FEE FOR <%= @taska.name.upcase %>
                       <% end %>
                       <% if gototk %>
                         <br>OVERTIME (<%= otk.descotk %>)
                       <% end %>
-                      <% kb.extra.each do |id|%>
-                        <% extra = Extra.find(id) %>
-                        <br><%= extra.name.upcase %>
+                      <% kb.extradtl.each do |k,v|%>
+                        <% #extra = Extra.find(id) %>
+                        <br><%= k %>
                       <% end %>
                     </td>
                     <td></td>
                     <td class="text-right">
                       <% if kb.classroom.present? %>
-                        <br><%= kb.classroom.base_fee %>
+                        <br><%= kb.clsfee %>
                       <% elsif @payment.name == "TASKA BOOKING" %>
                         <%= @payment.amount %>
                       <% else %>
@@ -128,9 +128,9 @@
                       <% if gototk %>
                         <br><%= otk.amt %>
                       <% end %>
-                      <% kb.extra.each do |id|%>
-                        <% extra = Extra.find(id) %>
-                        <br><%= extra.price %>
+                      <% kb.extradtl.each do |k,v|%>
+                        <% #extra = Extra.find(id) %>
+                        <br><%= v %>
                       <% end %>
                     </td>
                   </tr>
