@@ -722,7 +722,8 @@ class TaskasController < ApplicationController
             @bills = Payment.where(id: tmp.payment.id)
           end
         end
-        @bills = @bills.order('bill_year ASC').order('bill_year ASC')
+        #@bills = @bills.order('bill_year ASC').order('bill_year ASC')
+        @bills = @bills.order('updated_at ASC')
         @unpaid_bills = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).where(bill_month: params[:month]).where(bill_year: params[:year]).order('updated_at DESC')
       end
       #@bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: year, bill_month: mth, paid: paid).order('bill_month ASC')
@@ -814,7 +815,8 @@ class TaskasController < ApplicationController
         end
       end
       #END EVERY MONTH
-      @bills = @bills.order('bill_year ASC').order('bill_month ASC')
+      #@bills = @bills.order('bill_year ASC').order('bill_month ASC')
+      @bills = @bills.order('updated_at ASC')
       @unpaid_bills = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).where(bill_year: params[:year]).order('bill_month ASC')
       #@bills = @taska.payments.where.not(name: "TASKA PLAN").where(bill_year: year, paid: paid).order('bill_month ASC')
       #@unpaid_bills = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).where(bill_year: params[:year]).order('updated_at DESC')

@@ -1,5 +1,5 @@
 wb = xlsx_package.workbook
-col_widths= [10,10,15,15,30,30,30,10]
+col_widths= [10,10,15,15,15,15,30,30,30,10]
 wb.styles do |style|
   header_1 = style.add_style(sz: 20)
   highlight_cell = style.add_style(bg_color: "EFC376",
@@ -14,6 +14,8 @@ wb.styles do |style|
                   "PERIOD",
                   "ID",
                   "TOTAL(RM)",
+                  "FEE(RM)",
+                  "NETT(RM)",
                   "PAYMENT DATE",
                   "METHOD",
                   "CHILDREN"]
@@ -24,12 +26,18 @@ wb.styles do |style|
     @bills.where(paid: true).each do |bill|
       a= ""
       bill.kid_bills.each do |kb|
-        a=a+"\n"+kb.kid.name
+        a=a+"\n"+"; "+kb.kid.name
+      end
+      chrg = 0.00
+      if bill.mtd == "BILLPLZ" && bill.cltid == @taska.collection_id2
+        chrg = 3.00
       end
       sheet.add_row ["",
                     "#{$month_name[bill.bill_month.to_i]}-#{bill.bill_year}",
                     bill.bill_id,
                     bill.amount,
+                    chrg,
+                    "#{bill.amount-chrg}",
                     bill.updated_at.strftime('%d-%m-%y'),
                     bill.mtd,
                     a], style: [nil, border_cell]
