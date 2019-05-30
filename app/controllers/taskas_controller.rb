@@ -1364,7 +1364,7 @@ class TaskasController < ApplicationController
   # POST /taskas.json
   def create
     @taska = Taska.new(taska_params)
-    @taska.expire = Time.now + 1.months
+    @taska.expire = Time.now + 3.months
     # if Rails.env.development?
     #   @taska.collection_id = "andkymil"
     # elsif Rails.env.production?
