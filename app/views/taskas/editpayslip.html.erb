@@ -2,6 +2,7 @@
 <% if params[:upd] == "true" %>
   <% amt = params[:amt] %>
   <% alwnc = params[:alwnc] %>
+  <% fxddc = params[:fxddc] %>
   <% addtn = params[:addtn] %>
   <% desc = params[:desc] %>
   <% epf = params[:epf] %>
@@ -15,6 +16,7 @@
 <% else %>
   <% amt = @payslip.amt %>
   <% alwnc = @payslip.alwnc %>
+  <% fxddc = @payslip.fxddc %>
   <% addtn = @payslip.addtn %>
   <% desc = @payslip.desc %>
   <% epf = @payslip.epf %>
@@ -30,11 +32,11 @@
 <div class="row">
 <div class="col-sm-8 bg-light">
   <div style="background-color:#ccccff"><h4 align="center">UPDATE PAYSLIP</h4></div>
-  <% gross = amt.to_f + alwnc.to_f + addtn.to_f - dedc.to_f %>
+  <% gross = amt.to_f + alwnc.to_f - fxddc.to_f + addtn.to_f - dedc.to_f %>
   <% nett = gross - epf.to_f - socs.to_f - sip.to_f  %>
   <% total = gross + epfa.to_f + socsa.to_f + sipa.to_f %>
   <% psl_id = @payslip.psl_id %>
-  <%= render 'taskas/payslip', amt: amt, alwnc: alwnc, epf: epf, epfa: epfa, socs: socs, socsa: socsa, sip: sip, sipa: sipa %>
+  <%= render 'taskas/payslip', amt: amt, alwnc: alwnc, fxddc: fxddc, epf: epf, epfa: epfa, socs: socs, socsa: socsa, sip: sip, sipa: sipa %>
   <%= form_for(:payslip, :url => {:controller=>'taskas', :action=>'updpayslip'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
       <br>
       <!-- FORM ENTRY CREATION -->
@@ -44,6 +46,7 @@
       <%= f.hidden_field :taska_id, value: @payslip.taska_id %>
       <%= f.hidden_field :amt, value: amt %>
       <%= f.hidden_field :alwnc, value: alwnc %>
+      <%= f.hidden_field :fxddc, value: fxddc %>
       <%= f.hidden_field :epf, value: epf %>
       <%= f.hidden_field :epfa, value: epfa %>
       <%= f.hidden_field :addtn, value: params[:addtn] %>
@@ -103,6 +106,14 @@
         <div class="col-md-12">
           <strong>ALLOWANCE (RM)</strong>
           <%= number_field_tag :alwnc, alwnc, 
+                  placeholder: "", 
+                  autofocus: true,  
+                  step: 0.01,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+        </div>
+        <div class="col-md-12">
+          <strong>FIX DEDUCTION (RM)</strong>
+          <%= number_field_tag :fxddc, fxddc, 
                   placeholder: "", 
                   autofocus: true,  
                   step: 0.01,

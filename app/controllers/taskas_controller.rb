@@ -1501,6 +1501,7 @@ class TaskasController < ApplicationController
     def payinfo_params
       params.require(:tch).permit(:amt,
                                   :alwnc,
+                                  :fxddc,
                                   :epf,
                                   :epfa,
                                   :socs,
@@ -1516,6 +1517,7 @@ class TaskasController < ApplicationController
                                       :year,
                                       :amt,
                                       :alwnc,
+                                      :fxddc,
                                       :epf,
                                       :addtn,
                                       :desc,

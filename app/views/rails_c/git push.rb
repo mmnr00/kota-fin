@@ -24,8 +24,13 @@ heroku maintenance:off --app kidcare-prod
 
 disc = (24.0/28.0).to_f
 
-Taska.find([55,56]).each do |t|
-t.discount=disc
+Taska.find([80,81]).each do |t|
+t.discount = Taska.find(56).discount
 t.save
+end
+
+Payslip.all.each do |pf|
+pf.fxddc = 0.00
+pf.save
 end
 
