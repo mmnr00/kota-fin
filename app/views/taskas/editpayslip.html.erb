@@ -168,7 +168,7 @@
         </div><br><br><br><br>
         <div class="col-md-12">
           <strong>ADDITIONAL (RM)</strong>
-          <%= number_field_tag :addtn, params[:addtn], 
+          <%= number_field_tag :addtn, addtn, 
                   placeholder: "", 
                   autofocus: true,  
                   step: 0.01,
@@ -176,7 +176,7 @@
         </div>
         <div class="col-md-12">
           <strong>ADDITIONAL DESCRIPTION</strong>
-          <%= text_area_tag :desc, params[:desc], 
+          <%= text_area_tag :desc, desc, 
                   placeholder: "", 
                   autofocus: true,
                   class: "form-control search-box input-lg", 
@@ -184,7 +184,7 @@
         </div><br><br><br><br><br>
         <div class="col-md-12">
           <strong>DEDUCTION (RM)</strong>
-          <%= number_field_tag :dedc, params[:dedc], 
+          <%= number_field_tag :dedc, dedc, 
                   placeholder: "", 
                   autofocus: true,  
                   step: 0.01,
@@ -192,7 +192,7 @@
         </div>
         <div class="col-md-12">
           <strong>DEDUCTION DESCRIPTION</strong>
-          <%= text_area_tag :descdc, params[:descdc], 
+          <%= text_area_tag :descdc, descdc, 
                   placeholder: "", 
                   autofocus: true,
                   class: "form-control search-box input-lg", 
