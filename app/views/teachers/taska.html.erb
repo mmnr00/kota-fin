@@ -4,26 +4,17 @@
   <div class="col-sm-12 bg-white">
     <%= form_tag tch_find_taska_path, remote: true, method: :get, id: "find_kid" do %>
       <div class="form-group text-center col-md-12">
-        <br><strong>PLEASE SEARCH FOR A TASKA<br><br></strong>
+        <br><strong>PLEASE SEARCH FOR YOUR CENTER<br><br></strong>
         <div class="row">
           <div class="control-label text-left col-sm-12">
-            <strong>TASKA NAME</strong>
+            <strong>CENTER NAME</strong>
           </div>
           <div class="col-sm-12 col-12">
             <%= text_field_tag :name, params[:name], 
                     placeholder: "",
                     autofocus: true, 
                     class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
-          </div><br><br>
-          <div class="control-label text-left col-sm-12">
-            <strong>TASKA ID</strong>
-          </div> 
-          <div class="col-sm-12 col-12">
-            <%= text_field_tag :dom, params[:dom], 
-                    placeholder: "",
-                    autofocus: true, 
-                    class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
-          </div><br><br>              
+          </div><br><br>           
           <div class="col-md-12">
             <%= button_tag(type: :submit, class: "btn btn-sm btn-success active", id: "submit_expense") do %>
                 <i class="fa fa-search"></i> SEARCH
