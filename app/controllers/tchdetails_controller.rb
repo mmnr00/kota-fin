@@ -54,7 +54,12 @@ class TchdetailsController < ApplicationController
 		@tchdetail = Tchdetail.new(tchdetail_params)
 		pars = params[:tchdetail]
 		if pars[:teacher_id].present? #teacher taska
-
+			if @tchdetail.save
+					redirect_to teacher_taska_path(@tchdetail.teacher)
+			else
+				render @tchdetail.errors.full_messages
+				render :new
+			end
 		elsif pars[:college_id].present? #teacher college
 
 			# @college = College.find(pars[:college_id])
