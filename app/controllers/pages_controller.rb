@@ -11,6 +11,24 @@ class PagesController < ApplicationController
 	def tutorial
 	end
 
+	def tryroo
+		@classroom = Classroom.all
+	end
+
+	def uploadroo
+		xlsx = Roo::Spreadsheet.open(params[:file])
+		header = xlsx.row(xlsx.first_row)
+		((xlsx.first_row+1)..(xlsx.last_row)).each do |n|
+		xlsx.row(n)
+		row = Hash[[header, xlsx.row(n)].transpose]
+			Classroom.create(classroom_name: row["NAME"], taska_id: row["TASKA"], base_fee: row["BASE FEE"])
+		end
+		flash[:success] = "FILE UPLOADED"
+		redirect_to tryroo_path
+	end
+
+	
+
 	def sendgrid
 		mail = SendGrid::Mail.new
 		mail.from = SendGrid::Email.new(email: 'do-not-reply@kidcare.my', name: 'KidCare')

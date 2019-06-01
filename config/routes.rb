@@ -60,6 +60,8 @@ Rails.application.routes.draw do
   get '/443322/classroom_card', to: 'pages#classroom_card'
   get '/443322/sendgrid', to: 'pages#sendgrid'
   get '/tutorial', to: 'pages#tutorial'
+  get '/tryroo', to: 'pages#tryroo'
+  post '/uploadroo', to: 'pages#uploadroo', as: 'uploadroo'
 
 
   get '/443322/bank_status', to: 'pages#bank_status', as: 'bank_status'

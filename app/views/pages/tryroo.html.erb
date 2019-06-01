@@ -1,0 +1,10 @@
+<% @classroom.each do |cls| %>
+  <%= "#{cls.id}  ||  #{cls.classroom_name}  ||  #{cls.base_fee}" %>
+  <br>
+<% end %>
+<br><br>
+
+<%= form_tag uploadroo_path, multipart: true do %>
+<%= file_field_tag :file %>
+<%= submit_tag "Import" %>
+<% end %>
