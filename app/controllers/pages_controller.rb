@@ -14,6 +14,7 @@ class PagesController < ApplicationController
 
 	def tryroo
 		@classroom = Classroom.all
+		@taska = Taska.all
 	end
 
 	def uploadroo
