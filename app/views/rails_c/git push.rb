@@ -29,6 +29,11 @@ t.discount = Taska.find(56).discount
 t.save
 end
 
+Payinfo.all.each do |pf|
+pf.fxddc = 0.00
+pf.save
+end
+
 Payslip.all.each do |pf|
 pf.fxddc = 0.00
 pf.save

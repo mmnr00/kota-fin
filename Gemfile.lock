@@ -447,6 +447,9 @@ GEM
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
     retriable (3.1.2)
+    roo (2.8.2)
+      nokogiri (~> 1)
+      rubyzip (>= 1.2.1, < 2.0.0)
     ruby_dep (1.5.0)
     ruby_http_client (3.3.0)
     rubyzip (1.2.3)
@@ -561,6 +564,7 @@ DEPENDENCIES
   pg (~> 0.11)
   puma (~> 3.11)
   rails (~> 5.2.1)
+  roo
   rubyzip (>= 1.2.1)
   sass
   selenium-webdriver
