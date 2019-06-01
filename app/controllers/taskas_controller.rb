@@ -20,7 +20,11 @@ class TaskasController < ApplicationController
                                   :svupdbill,
                                   :find_spv,
                                   :add_role,
-                                  :rmv_role]
+                                  :rmv_role,
+                                  :xlsclsrm,
+                                  :xlskid,
+                                  :upldclsrm,
+                                  :upldkid]
   before_action :set_all
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
@@ -29,6 +33,43 @@ class TaskasController < ApplicationController
   # GET /taskas.json
   def index
     @taskas = Taska.all
+  end
+
+  def xlsclsrm
+    render action: "xlsclsrm", layout: "dsb-admin-overview" 
+  end
+
+  def upldclsrm
+    xlsx = Roo::Spreadsheet.open(params[:file])
+    header = xlsx.row(xlsx.first_row)
+    ((xlsx.first_row+1)..(xlsx.last_row)).each do |n|
+    xlsx.row(n)
+    row = Hash[[header, xlsx.row(n)].transpose]
+      Classroom.create(classroom_name: row["NAME"], taska_id: @taska.id, base_fee: row["BASE FEE"])
+    end
+    flash[:success] = "FILE UPLOADED"
+    redirect_to taska_path(@taska)
+  end
+
+  def xlskid
+    render action: "xlskid", layout: "dsb-admin-overview"
+  end
+
+  def upldkid
+    xlsx = Roo::Spreadsheet.open(params[:file])
+    header = xlsx.row(xlsx.first_row)
+    ((xlsx.first_row+1)..(xlsx.last_row)).each do |n|
+    xlsx.row(n)
+    row = Hash[[header, xlsx.row(n)].transpose]
+      Kid.create(name: row["NAME"], 
+                parent_id: 1, 
+                taska_id: @taska.id,
+                ic_1: row["IC"][0..5],
+                ic_2: row["IC"][6..7],
+                ic_3: row["IC"][8..11])
+    end
+    flash[:success] = "FILE UPLOADED"
+    redirect_to taska_path(@taska)
   end
 
   def find_spv
@@ -180,98 +221,104 @@ class TaskasController < ApplicationController
   # GET /taskas/1.json
   def show
     # ada kt bawah func set_taska
-    @admin_taska = current_admin.taskas
-    @admintsk = @taska.admins.where.not(id: 4)
-    @unregistered_no = @taska.kids.where(classroom_id: nil).count
-    # #check payment status
-    # all_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false)
-    # all_unpaid.each do |payment|
-    #   if !payment.paid 
-    #     url_bill = "#{ENV['BILLPLZ_API']}bills/#{payment.bill_id}"
-    #     data_billplz = HTTParty.get(url_bill.to_str,
-    #             :body  => { }.to_json, 
-    #                         #:callback_url=>  "YOUR RETURN URL"}.to_json,
-    #             :basic_auth => { :username => "#{ENV['BILLPLZ_APIKEY']}" },
-    #             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
-    #     #render json: data_billplz and return
-    #     data = JSON.parse(data_billplz.to_s)
-    #     if data["id"].present? && (data["paid"] == true)
-    #       payment.paid = data["paid"]
-    #       payment.save
-    #     end
-    #   end
-    # end
-    time = Time.now.in_time_zone('Singapore')
-    @mth = time.month
-    @yr = time.year 
-    psldt = time - 1.months
+    if @taska.classrooms.count < 1
+      redirect_to xlsclsrm_path(@taska)
+    elsif @taska.kids.count < 1
+      redirect_to xlskid_path(@taska)
+    else
+      @admin_taska = current_admin.taskas
+      @admintsk = @taska.admins.where.not(id: 4)
+      @unregistered_no = @taska.kids.where(classroom_id: nil).count
+      # #check payment status
+      # all_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false)
+      # all_unpaid.each do |payment|
+      #   if !payment.paid 
+      #     url_bill = "#{ENV['BILLPLZ_API']}bills/#{payment.bill_id}"
+      #     data_billplz = HTTParty.get(url_bill.to_str,
+      #             :body  => { }.to_json, 
+      #                         #:callback_url=>  "YOUR RETURN URL"}.to_json,
+      #             :basic_auth => { :username => "#{ENV['BILLPLZ_APIKEY']}" },
+      #             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+      #     #render json: data_billplz and return
+      #     data = JSON.parse(data_billplz.to_s)
+      #     if data["id"].present? && (data["paid"] == true)
+      #       payment.paid = data["paid"]
+      #       payment.save
+      #     end
+      #   end
+      # end
+      time = Time.now.in_time_zone('Singapore')
+      @mth = time.month
+      @yr = time.year 
+      psldt = time - 1.months
 
 
 
-    @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false)
-    @taska_expense = @taska.expenses.where(month: @mth).where(year: @yr).order('CREATED_AT DESC')
-    @payslips = @taska.payslips.where(mth: psldt.month, year: psldt.year)
-    @applvs = @taska.applvs.where.not(stat: "APPROVED").where.not(stat: "REJECTED")
-    #display expense at front
-    #planper = time + 1.months
-    #plan = @taska.payments.where(bill_month: planper.in_time_zone('Singapore').month).where(name: "TASKA PLAN").where(bill_year: planper.in_time_zone('Singapore').year).where(paid: true).sum(:amount)
-    plan = @taska.payments.where(name: "TASKA PLAN").where(paid: true).where('extract(year  from updated_at) = ?', @yr).where('extract(month  from updated_at) = ?', @mth).sum(:amount)
-    #START BILLS
-      dt = Time.find_zone("Singapore").local(@yr,@mth)
-      payment = @taska.payments.where.not(name: "TASKA PLAN")
-      curr_pmt = payment.where(bill_month: @mth).where(bill_year: @yr)
-      curr_pmt_paid = curr_pmt.where(paid: true)
-      curr_pmt_unpaid = curr_pmt.where(paid: false)
+      @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false)
+      @taska_expense = @taska.expenses.where(month: @mth).where(year: @yr).order('CREATED_AT DESC')
+      @payslips = @taska.payslips.where(mth: psldt.month, year: psldt.year)
+      @applvs = @taska.applvs.where.not(stat: "APPROVED").where.not(stat: "REJECTED")
+      #display expense at front
+      #planper = time + 1.months
+      #plan = @taska.payments.where(bill_month: planper.in_time_zone('Singapore').month).where(name: "TASKA PLAN").where(bill_year: planper.in_time_zone('Singapore').year).where(paid: true).sum(:amount)
+      plan = @taska.payments.where(name: "TASKA PLAN").where(paid: true).where('extract(year  from updated_at) = ?', @yr).where('extract(month  from updated_at) = ?', @mth).sum(:amount)
+      #START BILLS
+        dt = Time.find_zone("Singapore").local(@yr,@mth)
+        payment = @taska.payments.where.not(name: "TASKA PLAN")
+        curr_pmt = payment.where(bill_month: @mth).where(bill_year: @yr)
+        curr_pmt_paid = curr_pmt.where(paid: true)
+        curr_pmt_unpaid = curr_pmt.where(paid: false)
 
-      #CDTN_1 = current period pay early
-      cdtn_1 = curr_pmt_paid.where("updated_at < ?", dt)
+        #CDTN_1 = current period pay early
+        cdtn_1 = curr_pmt_paid.where("updated_at < ?", dt)
 
-      #CDTN_2 = current period pay this month
-      cdtn_2 = curr_pmt_paid.where('extract(year  from updated_at) = ?', @yr).where('extract(month  from updated_at) = ?', @mth)
-      #CDTN_3 = previous period pay this month
-      dt_lp = dt
-      stp_lp = Time.find_zone("Singapore").local(2016,1)
-      cdtn_3 = nil
-      while dt_lp >= stp_lp
-        if cdtn_3.blank?    
-          cdtn_3 = payment.where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', @yr).where('extract(month  from updated_at) = ?', @mth)
-        else
-          tmp = payment.where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', @yr).where('extract(month  from updated_at) = ?', @mth)
-          cdtn_3 = cdtn_3.or(tmp)
+        #CDTN_2 = current period pay this month
+        cdtn_2 = curr_pmt_paid.where('extract(year  from updated_at) = ?', @yr).where('extract(month  from updated_at) = ?', @mth)
+        #CDTN_3 = previous period pay this month
+        dt_lp = dt
+        stp_lp = Time.find_zone("Singapore").local(2016,1)
+        cdtn_3 = nil
+        while dt_lp >= stp_lp
+          if cdtn_3.blank?    
+            cdtn_3 = payment.where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', @yr).where('extract(month  from updated_at) = ?', @mth)
+          else
+            tmp = payment.where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).where('extract(year  from updated_at) = ?', @yr).where('extract(month  from updated_at) = ?', @mth)
+            cdtn_3 = cdtn_3.or(tmp)
+          end
+          dt_lp = dt_lp - 1.months
         end
-        dt_lp = dt_lp - 1.months
-      end
-      taska_payments = cdtn_1.or(cdtn_2.or(cdtn_3))
+        taska_payments = cdtn_1.or(cdtn_2.or(cdtn_3))
 
-      bills_paid = taska_payments.where(paid: true).sum(:amount)
-      #start for partial
-      #CDTN_1 All partials paid this month or previous month for current month bill
-      cdtn_1par = 0.00
-      curr_pmt_unpaid.each do |pmt|
-        if pmt.parpayms.present?
-          cdtn_1par += pmt.parpayms.where("upd < ?", dt).sum(:amt) 
-          cdtn_1par += pmt.parpayms.where('extract(year  from upd) = ?', @yr).where('extract(month  from upd) = ?', @mth).sum(:amt) 
+        bills_paid = taska_payments.where(paid: true).sum(:amount)
+        #start for partial
+        #CDTN_1 All partials paid this month or previous month for current month bill
+        cdtn_1par = 0.00
+        curr_pmt_unpaid.each do |pmt|
+          if pmt.parpayms.present?
+            cdtn_1par += pmt.parpayms.where("upd < ?", dt).sum(:amt) 
+            cdtn_1par += pmt.parpayms.where('extract(year  from upd) = ?', @yr).where('extract(month  from upd) = ?', @mth).sum(:amt) 
+          end
         end
-      end
-      #CDTN_2 previous months bills paid partially this month
-      cdtn_2par = 0.00
-      dt_lp=dt-1.months
-      while dt_lp >= stp_lp
-        payment.where(paid: false).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).each do |pmt|
-          cdtn_2par += pmt.parpayms.where('extract(year  from upd) = ?', @yr).where('extract(month  from upd) = ?', @mth).sum(:amt)
+        #CDTN_2 previous months bills paid partially this month
+        cdtn_2par = 0.00
+        dt_lp=dt-1.months
+        while dt_lp >= stp_lp
+          payment.where(paid: false).where("bill_month = ? AND bill_year = ?", dt_lp.month, dt_lp.year).each do |pmt|
+            cdtn_2par += pmt.parpayms.where('extract(year  from upd) = ?', @yr).where('extract(month  from upd) = ?', @mth).sum(:amt)
+          end
+        dt_lp -= 1.months
         end
-      dt_lp -= 1.months
-      end
-      bills_partial = cdtn_1par + cdtn_2par
-      #END PARTIAL
-      #bills_paid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: true).where('extract(year  from updated_at) = ?', @yr).where('extract(month  from updated_at) = ?', @mth).sum(:amount)
+        bills_partial = cdtn_1par + cdtn_2par
+        #END PARTIAL
+        #bills_paid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: true).where('extract(year  from updated_at) = ?', @yr).where('extract(month  from updated_at) = ?', @mth).sum(:amount)
 
-    #END BILLS
-    @disp = @taska_expense.where(kind: "INCOME").sum(:cost) - @taska_expense.where(kind: "EXPENSE").sum(:cost) + bills_paid -plan-@payslips.sum(:amtepfa)+bills_partial
+      #END BILLS
+      @disp = @taska_expense.where(kind: "INCOME").sum(:cost) - @taska_expense.where(kind: "EXPENSE").sum(:cost) + bills_paid -plan-@payslips.sum(:amtepfa)+bills_partial
 
-    session[:taska_id] = @taska.id
-    session[:taska_name] = @taska.name  
-    render action: "show", layout: "dsb-admin-overview" 
+      session[:taska_id] = @taska.id
+      session[:taska_name] = @taska.name  
+      render action: "show", layout: "dsb-admin-overview" 
+    end
   end
 
   def sms_reminder
