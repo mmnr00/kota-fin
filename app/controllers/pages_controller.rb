@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
 	 require 'json'
-	 require 'roo'
+	 
 	 before_action :set_all
 	 before_action :superadmin, only: [:bank_status]
 
