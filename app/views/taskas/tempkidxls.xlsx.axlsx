@@ -1,0 +1,62 @@
+wb = xlsx_package.workbook
+
+wb.styles do |style|
+  header_1 = style.add_style(sz: 20)
+  highlight_cell = style.add_style(bg_color: "EFC376",
+                                  border: Axlsx::STYLE_THIN_BORDER,
+                                  sz: 13,
+                                   alignment: { horizontal: :center })
+  border_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER)       
+  wb.add_worksheet(name: "CHILDRENS") do |sheet|
+    sheet.add_row ["","CHILDREN LIST FOR #{@taska.name}"]
+    sheet.add_row [""]
+    sheet.add_row ["NO",
+                  "NAME",
+                  "GENDER",
+                  "MYKID",
+                  "PHONE NO",
+                  "CLASSROOM",
+                  "BIRTHPLACE",
+                  "ARRANGEMENT IN FAMILY",
+                  "ALLERGY",
+                  "FAVOURITE FOOD",
+                  "HOBBY",
+                  "PANEL CLINIC",
+                  "MOTHER'S NAME",
+                  "MOTHER'S PHONE",
+                  "MOTHER'S JOB",
+                  "MOTHER'S JOB ADDRESS",
+                  "FATHER'S NAME",
+                  "FATHER'S PHONE",
+                  "FATHER'S JOB",
+                  "FATHER'S JOB ADDRESS",
+                  "HOUSEHOLD INCOME",
+                  "ALTERNATE PHONE"]
+    sheet.rows[0].style = header_1
+    sheet.rows[2].style = highlight_cell
+    counter = 1
+    row =2
+    Taska.all.each do |kid|
+      sheet.add_row [counter, 
+                    "", 
+                    ""], style: [nil, border_cell]
+      sheet.rows[row+counter].style = border_cell
+      counter = counter +1
+    end
+  end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

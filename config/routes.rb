@@ -222,6 +222,8 @@ Rails.application.routes.draw do
   get '/rmv_role/:id', to: 'taskas#rmv_role', as: 'tsk_rmv_role'
   get '/delete_parpym', to: 'taskas#delete_parpaym', as: 'delete_parpaym'
   get '/taska/:id/xlsclsrm', to: 'taskas#xlsclsrm', as: 'xlsclsrm'
+  get '/tempclsrmxls', to: 'taskas#tempclsrmxls'
+  get '/taska/:id/tempkidxls', to: 'taskas#tempkidxls', as: 'tempkidxls'
   post '/taska/:id/upldclsrm', to: 'taskas#upldclsrm', as: 'upldclsrm'
   get '/taska/:id/xlskid', to: 'taskas#xlskid', as: 'xlskid'
   post '/taska/:id/upldkid', to: 'taskas#upldkid', as: 'upldkid'

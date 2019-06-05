@@ -39,34 +39,73 @@ class TaskasController < ApplicationController
     render action: "xlsclsrm", layout: "dsb-admin-overview" 
   end
 
+  def tempclsrmxls
+    respond_to do |format|
+      #format.html
+      format.xlsx{
+                  response.headers['Content-Disposition'] = 'attachment; filename="Children List.xlsx"'
+      }
+    end
+  end
+
   def upldclsrm
     xlsx = Roo::Spreadsheet.open(params[:file])
     header = xlsx.row(xlsx.first_row)
-    ((xlsx.first_row+1)..(xlsx.last_row)).each do |n|
-    xlsx.row(n)
-    row = Hash[[header, xlsx.row(n)].transpose]
-      Classroom.create(classroom_name: row["NAME"], taska_id: @taska.id, base_fee: row["BASE FEE"])
+    ((xlsx.first_row+2)..(xlsx.last_row)).each do |n|
+      xlsx.row(n)
+      row = Hash[[header, xlsx.row(n)].transpose]
+      Classroom.create(classroom_name: row["NAMA"], 
+                      taska_id: @taska.id, 
+                      description: row["MAKLUMAT"],
+                      base_fee: row["YURAN (RM)"])
     end
-    flash[:success] = "FILE UPLOADED"
-    redirect_to taska_path(@taska)
+    flash[:success] = "CLASSROOMS ADDED"
+    redirect_to classroom_index_path(@taska)
   end
 
   def xlskid
     render action: "xlskid", layout: "dsb-admin-overview"
   end
 
+  def tempkidxls
+    @taska = Taska.find(params[:id])
+    respond_to do |format|
+      #format.html
+      format.xlsx{
+                  response.headers['Content-Disposition'] = 'attachment; filename="Children List.xlsx"'
+      }
+    end
+  end
+
   def upldkid
     xlsx = Roo::Spreadsheet.open(params[:file])
     header = xlsx.row(xlsx.first_row)
-    ((xlsx.first_row+1)..(xlsx.last_row)).each do |n|
+    ((xlsx.first_row+2)..(xlsx.last_row)).each do |n|
     xlsx.row(n)
     row = Hash[[header, xlsx.row(n)].transpose]
-      Kid.create(name: row["NAME"], 
+      if @taska.classrooms.where(id: row["CLASSROOM"]).present?
+        cls = row["CLASSROOM"]
+      else
+        cls = nil
+      end
+      kid=Kid.create(name: row["NAMA"], 
                 parent_id: 1, 
                 taska_id: @taska.id,
-                ic_1: row["IC"][0..5],
-                ic_2: row["IC"][6..7],
-                ic_3: row["IC"][8..11])
+                classroom_id: cls,
+                ic_1: row["MYKID"][0..5],
+                ic_2: row["MYKID"][6..7],
+                ic_3: row["MYKID"][8..11],
+                dob: row["TARIKH LAHIR"].to_date,
+                ph_1: row["NO TELEFON"][0..2],
+                ph_2: row["NO TELEFON"][3..10],
+                father_name: row["NAMA BAPA"],
+                mother_name: row["NAMA IBU"],
+                gender: row["JANTINA"])
+      Foto.create(foto_name:"CHILD MYKID", kid_id: kid.id)
+      Foto.create(foto_name:"CHILDREN PICTURE", kid_id: kid.id)
+      Foto.create(foto_name:"IMMUNIZATION RECORD", kid_id: kid.id)
+      Foto.create(foto_name:"FATHER MYKAD", kid_id: kid.id)
+      Foto.create(foto_name:"MOTHER MYKAD", kid_id: kid.id)
     end
     flash[:success] = "FILE UPLOADED"
     redirect_to taska_path(@taska)
