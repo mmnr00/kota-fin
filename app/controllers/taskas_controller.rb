@@ -43,7 +43,7 @@ class TaskasController < ApplicationController
     respond_to do |format|
       #format.html
       format.xlsx{
-                  response.headers['Content-Disposition'] = 'attachment; filename="Children List.xlsx"'
+                  response.headers['Content-Disposition'] = 'attachment; filename="Classroom Template.xlsx"'
       }
     end
   end

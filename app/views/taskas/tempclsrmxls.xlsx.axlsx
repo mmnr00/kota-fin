@@ -1,5 +1,5 @@
 wb = xlsx_package.workbook
-
+col_widths= [50,10,10,25,20,20,20,20]
 wb.styles do |style|
   header_1 = style.add_style(sz: 20)
   highlight_cell = style.add_style(bg_color: "EFC376",
@@ -7,42 +7,31 @@ wb.styles do |style|
                                   sz: 13,
                                    alignment: { horizontal: :center })
   border_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER)       
-  wb.add_worksheet(name: "CHILDRENS") do |sheet|
-    sheet.add_row ["","CHILDREN LIST FOR"]
+  wb.add_worksheet(name: "BORANG") do |sheet|
+    sheet.add_row ["","BORANG MENAMBAH KELAS"]
     sheet.add_row [""]
-    sheet.add_row ["NO",
-                  "NAME",
-                  "GENDER",
-                  "MYKID",
-                  "PHONE NO",
-                  "CLASSROOM",
-                  "BIRTHPLACE",
-                  "ARRANGEMENT IN FAMILY",
-                  "ALLERGY",
-                  "FAVOURITE FOOD",
-                  "HOBBY",
-                  "PANEL CLINIC",
-                  "MOTHER'S NAME",
-                  "MOTHER'S PHONE",
-                  "MOTHER'S JOB",
-                  "MOTHER'S JOB ADDRESS",
-                  "FATHER'S NAME",
-                  "FATHER'S PHONE",
-                  "FATHER'S JOB",
-                  "FATHER'S JOB ADDRESS",
-                  "HOUSEHOLD INCOME",
-                  "ALTERNATE PHONE"]
+    sheet.add_row ["", "", "",
+                  "NO",
+                  "NAMA",
+                  "MAKLUMAT",
+                  "YURAN (RM)"]
     sheet.rows[0].style = header_1
-    sheet.rows[2].style = highlight_cell
+    #sheet.rows[2].style = highlight_cell
+    (3..6).each do |n|
+      sheet.rows[2].cells[n].style = highlight_cell
+    end
     counter = 1
     row =2
-    Taska.all.each do |kid|
-      sheet.add_row [counter, 
+    (1..10).each do |n|
+      sheet.add_row ["","","",
+                    n, 
                     "", 
-                    ""], style: [nil, border_cell]
-      sheet.rows[row+counter].style = border_cell
+                    "",
+                    ""]
+      #sheet.rows[row+counter].style = border_cell
       counter = counter +1
     end
+    sheet.column_widths *col_widths
   end
 end
 
