@@ -50,14 +50,16 @@ class TaskasController < ApplicationController
 
   def upldclsrm
     xlsx = Roo::Spreadsheet.open(params[:file])
-    header = xlsx.row(xlsx.first_row)
-    ((xlsx.first_row+2)..(xlsx.last_row)).each do |n|
+    header = xlsx.row(xlsx.first_row+2)
+    ((xlsx.first_row+4)..(xlsx.last_row)).each do |n|
       xlsx.row(n)
       row = Hash[[header, xlsx.row(n)].transpose]
-      Classroom.create(classroom_name: row["NAMA"], 
+      if row["NAMA"].present? && row["YURAN (RM)"].present?
+        Classroom.create(classroom_name: row["NAMA"], 
                       taska_id: @taska.id, 
                       description: row["MAKLUMAT"],
                       base_fee: row["YURAN (RM)"])
+      end
     end
     flash[:success] = "CLASSROOMS ADDED"
     redirect_to classroom_index_path(@taska)
