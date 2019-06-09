@@ -1,49 +1,145 @@
 wb = xlsx_package.workbook
-
+col_widths= [5,20,5,29,18,20,18,29,29,14,15]
+col_widths2= [5,5,30,30,20]
 wb.styles do |style|
-  header_1 = style.add_style(sz: 20)
+  header_1 = style.add_style(sz: 20, b: true)
+  dlt_cell = style.add_style(bg_color: "FF0000",
+                            b: true,
+                            fg_color: "FFFFFF",
+                            sz: 13,
+                            alignment: { horizontal: :center })
+  inp_cell = style.add_style(bg_color: "3232ff",
+                            b: true,
+                            fg_color: "FFFFFF",
+                            sz: 13,
+                            alignment: { horizontal: :center })
   highlight_cell = style.add_style(bg_color: "EFC376",
+                                  b: true,
                                   border: Axlsx::STYLE_THIN_BORDER,
-                                  sz: 13,
+                                  sz: 15,
                                    alignment: { horizontal: :center })
-  border_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER)       
-  wb.add_worksheet(name: "CHILDRENS") do |sheet|
-    sheet.add_row ["","CHILDREN LIST FOR #{@taska.name}"]
+  border_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER) 
+  border_cell_eg = style.add_style(border: Axlsx::STYLE_THIN_BORDER,
+                                  bg_color: "cce5cc",
+                                  i: true)       
+  wb.add_worksheet(name: "BORANG") do |sheet|
+    sheet.add_row ["","BORANG MENAMBAH PELAJAR UNTUK #{@taska.name.upcase}"]
+
+    #start header
     sheet.add_row [""]
-    sheet.add_row ["NO",
-                  "NAME",
-                  "GENDER",
+    sheet.add_row ["", "JANGAN DELETE",
+                  "NO",
+                  "NAMA",
                   "MYKID",
-                  "PHONE NO",
-                  "CLASSROOM",
-                  "BIRTHPLACE",
-                  "ARRANGEMENT IN FAMILY",
-                  "ALLERGY",
-                  "FAVOURITE FOOD",
-                  "HOBBY",
-                  "PANEL CLINIC",
-                  "MOTHER'S NAME",
-                  "MOTHER'S PHONE",
-                  "MOTHER'S JOB",
-                  "MOTHER'S JOB ADDRESS",
-                  "FATHER'S NAME",
-                  "FATHER'S PHONE",
-                  "FATHER'S JOB",
-                  "FATHER'S JOB ADDRESS",
-                  "HOUSEHOLD INCOME",
-                  "ALTERNATE PHONE"]
+                  "TARIKH LAHIR",
+                  "NO TELEFON",
+                  "NAMA BAPA",
+                  "NAMA IBU",
+                  "JANTINA",
+                  "ID KELAS"]
     sheet.rows[0].style = header_1
-    sheet.rows[2].style = highlight_cell
+    #sheet.rows[2].style = highlight_cell
+    sheet.rows[2].cells[1].style = dlt_cell
+    (2..10).each do |n|
+      sheet.rows[2].cells[n].style = highlight_cell
+    end
     counter = 1
     row =2
-    Taska.all.each do |kid|
-      sheet.add_row [counter, 
+
+    #start example
+    sheet.add_row ["","JANGAN DELETE",
+                    "cth", 
+                    "Fattah Amin bin Ahmad", 
+                    "930201-02-4432",
+                    "01/02/1993",
+                    "011-62801556",
+                    "Ahmad bin Harun",
+                    "Siti Malika binti Majid",
+                    "MALE/FEMALE",
+                    "113",
+                    "*sila rujuk di tab 'Senarai Kelas' untuk mendapatkan ID Kelas"]
+    sheet.rows[row+counter].cells[1].style = dlt_cell
+    (2..10).each do |n1|
+      sheet.rows[row+counter].cells[n1].style = border_cell_eg
+    end
+    counter += 1
+
+    #start input
+    sheet.add_row ["","MULA DISINI",
+                    1, 
                     "", 
-                    ""], style: [nil, border_cell]
-      sheet.rows[row+counter].style = border_cell
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""]
+    sheet.rows[row+counter].cells[1].style = inp_cell
+    (2..10).each do |n1|
+      sheet.rows[row+counter].cells[n1].style = border_cell
+    end
+    counter += 1
+    
+    #start recurring
+    (2..20).each do |n|
+      sheet.add_row ["","",
+                    n, 
+                    "", 
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""]
+      (2..10).each do |n2|
+        sheet.rows[row+counter].cells[n2].style = border_cell
+      end
       counter = counter +1
     end
+
+    sheet.column_widths *col_widths
   end
+
+  # # SENARAI KELAS 
+  wb.add_worksheet(name: "SENARAI KELAS") do |sheet|
+    sheet.add_row ["","SENARAI KELAS UNTUK #{@taska.name.upcase}"]
+
+    #start header
+    sheet.add_row [""]
+    sheet.add_row ["",
+                  "ID",
+                  "NAMA KELAS",
+                  "MAKLUMAT",
+                  "YURAN (RM)"]
+    sheet.rows[0].style = header_1
+    #sheet.rows[2].style = highlight_cell
+    sheet.rows[2].cells[1].style = dlt_cell
+    (1..4).each do |n|
+      sheet.rows[2].cells[n].style = highlight_cell
+    end
+    counter = 1
+    row =2
+
+    
+    
+    #start recurring
+    @taska.classrooms.each do |cls|
+      sheet.add_row ["",
+                    cls.id, 
+                    cls.classroom_name, 
+                    cls.description,
+                    cls.base_fee.round(2)]
+      (1..4).each do |n2|
+        sheet.rows[row+counter].cells[n2].style = border_cell
+      end
+      counter = counter +1
+    end
+
+    sheet.column_widths *col_widths2
+  end
+
 end
 
 

@@ -74,7 +74,7 @@ class TaskasController < ApplicationController
     respond_to do |format|
       #format.html
       format.xlsx{
-                  response.headers['Content-Disposition'] = 'attachment; filename="Children List.xlsx"'
+                  response.headers['Content-Disposition'] = 'attachment; filename="Borang Tambah Pelajar.xlsx"'
       }
     end
   end
@@ -85,8 +85,8 @@ class TaskasController < ApplicationController
     ((xlsx.first_row+2)..(xlsx.last_row)).each do |n|
     xlsx.row(n)
     row = Hash[[header, xlsx.row(n)].transpose]
-      if @taska.classrooms.where(id: row["CLASSROOM"]).present?
-        cls = row["CLASSROOM"]
+      if @taska.classrooms.where(id: row["ID KELAS"]).present?
+        cls = row["ID KELAS"]
       else
         cls = nil
       end
