@@ -1,41 +1,21 @@
 
 <div class="stepz">
 <h3>
-   REGISTER KIDS XLS
+   HOW TO UPLOAD CHILDREN LIST
 
-</h3>
+</h3><br>
 <ol>
-  
   <li>
-     Place the head of your toothbrush against your teeth, then tilt the bristle tips to a 45 degree angle against the gum line. Move the brush in small circular movements, several times, on all the surfaces of every tooth. 
-  </li>
-  
-  <li>
-     Brush the outer surfaces of each tooth, upper and lower, keeping the bristles angled against the gum line. 
-  </li>
-  
-  <li>
-     Use the same method on the inside surfaces of all your teeth. 
-  </li>
-  
-  <li>
-     Brush the biting surfaces of the teeth. 
-  </li>
-  
-  <li>
-     To clean the inside surfaces of the front teeth, tilt the brush vertically and make several small circular strokes with the front part of the brush. 
-  </li>
-  
-  <li>
-     Brushing your tongue will help freshen your breath and clean your mouth by removing bacteria. If you struggle with your brushing technique, ask your dental team to help you find an effective style that works for you. 
-  </li>
-  <li>
+    Download the file here &nbsp
     <%= link_to tempkidxls_path(@taska, format: :xlsx), class: "btn btn-sm btn-info active" do %>
-      <i class="fa fa-file-excel"></i> DOWNLOAD EXCEL
+      <i class="fa fa-file-excel"></i> CHILDREN UPLOAD FORM
     <% end %>
   </li>
   <li>
-    MUAT NAIK FAIL EXCEL YANG LENGKAP DISINI <br><br>
+    <strong>PLEASE FOLLOW THE TEMPLATE.</strong> Save the file that you had fully filled in. 
+  </li>
+  <li>
+    Choose the file that you had save and click 'Upload' <br><br>
     <%= form_tag upldkid_path, multipart: true do %>
       <%= file_field_tag :file %>
       <%= hidden_field_tag :id, value: @taska.id %>

@@ -30,51 +30,61 @@
         <% 
           tot_kid = 0 
           tot_pay = 0.00
+          tot_kidovr = 0 
+          tot_payovr = 0.00
+          ctr = 0
         %>
         <% @admin_taska.order('created_at DESC').each do |tsk|%>
-          <%
-            num_kid = tsk.kids.where.not(classroom_id: nil).count
-            
-            unpaid_plan = tsk.payments.where(name: "TASKA PLAN", paid: false).present?
-            if num_kid > 0 && !unpaid_plan 
-              color = "#cce5cc"
+          <% if (tsk.expire.to_date - Date.today).to_i > -5 %>
+            <%
+              num_kid = tsk.kids.where.not(classroom_id: nil).count              
+              unpaid_plan = tsk.payments.where(name: "TASKA PLAN", paid: false).present?
               if tsk.plan == "PAY PER USE"
                 tsk_pay = num_kid * 2.8 * tsk.discount
               else
                 tsk_pay = $package_price[tsk.plan] * tsk.discount
               end
-              tot_pay += tsk_pay
-              tot_kid += num_kid #only active taska
-            else
-              color = nil 
-            end
-          %>
-          <tr style="background-color:<%= color %>">
-            <td><%= tsk.id %></td>
-            <td><%= tsk.name %></td>
-            <td>
-              <%= "#{tsk.plan} (#{$package_child[tsk.plan]})"  %><br>
-              KIDS NO : <%= num_kid %><br>
-              BILL: RM <%= tsk_pay %><br>
-              <%= "#{(tsk.expire.to_date - Time.now.to_date).to_i} DAYS" %><br>
-              <%= link_to "CREATE BILL", bill_taska1_monthly_path(pwd:"kidcare@124",id:tsk.id,mth:"",yr:""), class: "btn btn-sm btn-primary", target: "_blank" %>
-            </td>
-            <td><%= tsk.created_at.strftime("%d-%m-%y") %></td>
-            <td><%= tsk.supervisor %></td>
-            <td><%= "#{tsk.phone_1}-#{tsk.phone_2}" %></td>
-            <td><%= tsk.subdomain %></td>
-            <td><%= tsk.bank_name %></td>
-            <td><%= tsk.acc_name %></td>
-            <td><%= tsk.acc_no %></td>
-            <td><%= tsk.ssm_no %></td>
-            <td><%= tsk.email %></td>
-            <td><%= tsk.collection_id %></td>
-            <td><%= tsk.collection_id2 %></td>
-            <td>
-              <%= link_to "VIEW", taska_path(tsk), class: "btn btn-sm btn-primary", target: "_blank" %>
-              <%= link_to "EDIT", edit_taska_path(tsk, plan: tsk.plan), class: "btn btn-sm btn-success", target: "_blank" %>
-            </td>
-          </tr>
+              tot_payovr += tsk_pay
+              tot_kidovr += num_kid
+              if num_kid > 0
+                ctr += 1
+              end
+              if num_kid > 0 && !unpaid_plan 
+                color = "#cce5cc"
+                
+                tot_pay += tsk_pay
+                tot_kid += num_kid #only active taska
+              else
+                color = nil 
+              end
+            %>
+            <tr style="background-color:<%= color %>">
+              <td><%= tsk.id %></td>
+              <td><%= tsk.name %></td>
+              <td>
+                <%= "#{tsk.plan} (#{$package_child[tsk.plan]})"  %><br>
+                KIDS NO : <%= num_kid %><br>
+                BILL: RM <%= tsk_pay %><br>
+                <%= "#{(tsk.expire.to_date - Time.now.to_date).to_i} DAYS" %><br>
+                <%= link_to "CREATE BILL", bill_taska1_monthly_path(pwd:"kidcare@124",id:tsk.id,mth:"",yr:""), class: "btn btn-sm btn-primary", target: "_blank" %>
+              </td>
+              <td><%= tsk.created_at.strftime("%d-%m-%y") %></td>
+              <td><%= tsk.supervisor %></td>
+              <td><%= "#{tsk.phone_1}-#{tsk.phone_2}" %></td>
+              <td><%= tsk.subdomain %></td>
+              <td><%= tsk.bank_name %></td>
+              <td><%= tsk.acc_name %></td>
+              <td><%= tsk.acc_no %></td>
+              <td><%= tsk.ssm_no %></td>
+              <td><%= tsk.email %></td>
+              <td><%= tsk.collection_id %></td>
+              <td><%= tsk.collection_id2 %></td>
+              <td>
+                <%= link_to "VIEW", taska_path(tsk), class: "btn btn-sm btn-primary", target: "_blank" %>
+                <%= link_to "EDIT", edit_taska_path(tsk, plan: tsk.plan), class: "btn btn-sm btn-success", target: "_blank" %>
+              </td>
+            </tr>
+          <% end %>
         <% end %>
       </tbody>
     </table>
@@ -175,6 +185,12 @@
   <% end %>
 <% end %>
 <% if params[:kcadm] == "MUS123" %>
+<strong> OVERALL STATISTICS</strong><br>
+NO OF ACTIVE CENTERS = <%= ctr %> <br>
+TOTAL NO OF KIDS = <%= tot_kidovr %><br>
+EXPECTED PAYMENT = RM <%= tot_payovr %>
+<br><br>
+<strong> CURRENT OUTSTANDING</strong><br>
 TOTAL NO OF KIDS = <%= tot_kid %><br>
 EXPECTED PAYMENT = RM <%= tot_pay %>
 <% end %>

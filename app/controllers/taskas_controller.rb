@@ -81,33 +81,42 @@ class TaskasController < ApplicationController
 
   def upldkid
     xlsx = Roo::Spreadsheet.open(params[:file])
-    header = xlsx.row(xlsx.first_row)
-    ((xlsx.first_row+2)..(xlsx.last_row)).each do |n|
-    xlsx.row(n)
-    row = Hash[[header, xlsx.row(n)].transpose]
-      if @taska.classrooms.where(id: row["ID KELAS"]).present?
-        cls = row["ID KELAS"]
-      else
-        cls = nil
+    header = xlsx.row(xlsx.first_row+2)
+    ((xlsx.first_row+4)..(xlsx.last_row)).each do |n|
+      
+      xlsx.row(n)
+      row = Hash[[header, xlsx.row(n)].transpose]
+      if row["NAMA"].present? && row["MYKID"].present?
+        if @taska.classrooms.where(id: row["ID KELAS"]).present?
+          cls = row["ID KELAS"]
+        else
+          cls = nil
+        end
+        ic1= row["MYKID"][0..5]
+        ic2= row["MYKID"][7..8]
+        ic3= row["MYKID"][10..13]
+        if !@taska.kids.where(ic_1: ic1, ic_2: ic2, ic_3: ic3).present?
+          kid=Kid.create(name: row["NAMA"], 
+                    parent_id: 1, 
+                    taska_id: @taska.id,
+                    classroom_id: cls,
+                    ic_1: row["MYKID"][0..5],
+                    ic_2: row["MYKID"][7..8],
+                    ic_3: row["MYKID"][10..13],
+                    dob: row["TARIKH LAHIR"].to_date,
+                    ph_1: row["NO TELEFON"][0..2],
+                    ph_2: row["NO TELEFON"][4..11],
+                    father_name: row["NAMA BAPA"],
+                    mother_name: row["NAMA IBU"],
+                    gender: row["JANTINA"])
+          Foto.create(foto_name:"CHILD MYKID", kid_id: kid.id)
+          Foto.create(foto_name:"CHILDREN PICTURE", kid_id: kid.id)
+          Foto.create(foto_name:"IMMUNIZATION RECORD", kid_id: kid.id)
+          Foto.create(foto_name:"FATHER MYKAD", kid_id: kid.id)
+          Foto.create(foto_name:"MOTHER MYKAD", kid_id: kid.id)
+        end
       end
-      kid=Kid.create(name: row["NAMA"], 
-                parent_id: 1, 
-                taska_id: @taska.id,
-                classroom_id: cls,
-                ic_1: row["MYKID"][0..5],
-                ic_2: row["MYKID"][6..7],
-                ic_3: row["MYKID"][8..11],
-                dob: row["TARIKH LAHIR"].to_date,
-                ph_1: row["NO TELEFON"][0..2],
-                ph_2: row["NO TELEFON"][3..10],
-                father_name: row["NAMA BAPA"],
-                mother_name: row["NAMA IBU"],
-                gender: row["JANTINA"])
-      Foto.create(foto_name:"CHILD MYKID", kid_id: kid.id)
-      Foto.create(foto_name:"CHILDREN PICTURE", kid_id: kid.id)
-      Foto.create(foto_name:"IMMUNIZATION RECORD", kid_id: kid.id)
-      Foto.create(foto_name:"FATHER MYKAD", kid_id: kid.id)
-      Foto.create(foto_name:"MOTHER MYKAD", kid_id: kid.id)
+
     end
     flash[:success] = "FILE UPLOADED"
     redirect_to taska_path(@taska)
