@@ -1,0 +1,344 @@
+wb = xlsx_package.workbook
+col_widths= [5,40,20,10,30,30,20,20,20]
+col_widths2= [16,20,24,22,16]
+col_widths3= [12,30,42]
+col_widths4= [35,16,15]
+col_widths5= [30,30,15,15,15,11,27]
+wb.styles do |style|
+  header_1 = style.add_style(b: true, sz: 30)
+  header_2 = style.add_style(b: true, sz: 20)
+  highlight_cell = style.add_style(bg_color: "EFC376",
+                                  b: true,
+                                  border: Axlsx::STYLE_THIN_BORDER,
+                                  sz: 15,
+                                  alignment: { horizontal: :center })
+  total_cell = style.add_style(bg_color: "b2b2ff",
+                                  border: Axlsx::STYLE_THIN_BORDER,
+                                  b: true,
+                                  sz: 16,
+                                  alignment: { horizontal: :center })
+  nett_cell = style.add_style(bg_color: "99cc99",
+                                  border: Axlsx::STYLE_THIN_BORDER,
+                                  b: true,
+                                  sz: 22,
+                                  alignment: { horizontal: :center })
+  bill_cell = style.add_style(bg_color: "d8b2d8",
+                                  border: Axlsx::STYLE_THIN_BORDER,
+                                  b: true)
+
+  border_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER,
+                                sz: 13)  
+  border_cellctr = style.add_style(border: Axlsx::STYLE_THIN_BORDER,
+                                sz: 13,
+                                alignment: { horizontal: :center })
+  border_cellwrp = style.add_style(border: Axlsx::STYLE_THIN_BORDER,
+                                sz: 13,
+                                alignment: { horizontal: :center,
+                                             wrap_text: :true})
+  border_cellwrplft = style.add_style(border: Axlsx::STYLE_THIN_BORDER,
+                                sz: 13,
+                                alignment: {vertical: :center,
+                                            wrap_text: :true})
+
+  #1ST SHEET
+  wb.add_worksheet(name: "PARTICIPANTS DETAIL") do |sheet|
+    sheet.add_row ["PARTICIPANT DETAILS FOR"]
+    sheet.add_row [""]
+    sheet.add_row ["NO",
+                  "NAME",
+                  "IC NO",
+                  "AGE",
+                  "CATEGORY",
+                  "DUN",
+                  "INCOME",
+                  "MARITAL",
+                  "GENDER"]
+    sheet.rows[0].style = header_1
+    sheet.rows[2].style = highlight_cell
+    counter = 1
+    row =2
+
+    @tchds.each do |tch|
+      age = Date.today.year - tch.dob.year
+      sheet.add_row [counter,
+                    tch.name,
+                    "#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3}",
+                    age,
+                    tch.post,
+                    tch.dun,
+                    tch.income,
+                    tch.marital,
+                    tch.gender],
+                    style: [nil, border_cell]
+      sheet.rows[row+counter].style = border_cell
+      counter = counter + 1  
+    end
+    sheet.column_widths *col_widths
+
+    sheet.add_chart(Axlsx::Pie3DChart, :start_at => "K3", :end_at => "T18", :title => "PARTICIPANT DUN") do |chart|
+      b = @tchds.group(:dun).count
+      chart.add_series :data => b.values, 
+                       :labels => b.keys
+      chart.d_lbls.show_val = true
+      chart.d_lbls.show_percent = true
+    end
+
+    sheet.add_chart(Axlsx::Pie3DChart, :start_at => "K19", :end_at => "T34", :title => "PARTICIPANT CATEGORY") do |chart|
+      b = @tchds.group(:post).count
+      chart.add_series :data => b.values, 
+                       :labels => b.keys
+      chart.d_lbls.show_val = true
+      chart.d_lbls.show_percent = true
+    end
+
+    sheet.add_chart(Axlsx::Pie3DChart, :start_at => "K35", :end_at => "T50", :title => "PARTICIPANT INCOME") do |chart|
+      b = @tchds.group(:income).count
+      chart.add_series :data => b.values, 
+                       :labels => b.keys
+      chart.d_lbls.show_val = true
+      chart.d_lbls.show_percent = true
+    end
+
+    sheet.add_chart(Axlsx::Pie3DChart, :start_at => "K51", :end_at => "T65", :title => "PARTICIPANT AGE") do |chart|
+      chart.add_series :data => @age.values, 
+                       :labels => @age.keys
+      chart.d_lbls.show_val = true
+      chart.d_lbls.show_percent = true
+    end
+
+    sheet.add_chart(Axlsx::Pie3DChart, :start_at => "K66", :end_at => "T81", :title => "PARTICIPANT MARITAL STATUS") do |chart|
+      b = @tchds.group(:marital).count
+      chart.add_series :data => b.values, 
+                       :labels => b.keys
+      chart.d_lbls.show_val = true
+      chart.d_lbls.show_percent = true
+    end
+
+    sheet.add_chart(Axlsx::Pie3DChart, :start_at => "K82", :end_at => "T97", :title => "PARTICIPANT GENDER") do |chart|
+      b = @tchds.group(:gender).count
+      chart.add_series :data => b.values, 
+                       :labels => b.keys
+      chart.d_lbls.show_val = true
+      chart.d_lbls.show_percent = true
+    end
+  end
+
+  #2ND SHEET
+  wb.add_worksheet(name: "PROGRAMME SUMMARY") do |sheet|
+    sheet.add_row ["PROGRAMME SUMMARY FOR"]
+    sheet.add_row [""]
+    sheet.add_row ["SESSION",
+                  "DATE",
+                  "PROGRAMME NO",
+                  "ATTENDANCE",
+                  "RATING"]
+    sheet.rows[0].style = header_1
+    sheet.rows[2].style = highlight_cell
+    counter = 1
+    row =2
+    #INIT FOR OVERALL DATA
+    ovratt = Hash.new 
+    ovratt["ATTEND"] = 0 
+    ovratt["ABSENT"] = 0 
+    ovrrate = Array.new 
+    totprog = 0
+    @courses.each do |crs|
+      #ATTENDANCE DATA
+      @attendance = Hash.new 
+      @attendance["ATTEND"] = Anisatt.where(course_id: crs.id).where(att: true).count 
+      @attendance["ABSENT"] = (@tchds.count*crs.anisprogs.where.not(name: "BREAK").count) - @attendance["ATTEND"] 
+      per = (@attendance["ATTEND"].to_f / (@attendance["ATTEND"].to_f + @attendance["ABSENT"].to_f))*100 
+      ovratt["ATTEND"] = ovratt["ATTEND"] + @attendance["ATTEND"] 
+      ovratt["ABSENT"] = ovratt["ABSENT"] + @attendance["ABSENT"] 
+      #RATING DATA
+      @anisfeed = Anisfeed.where(course_id: crs.id)
+      rate = @anisfeed.average(:rate)
+      ovrrate << rate
+      #NO OF PROGS
+      prog = crs.anisprogs.where.not(name: "BREAK").count
+      totprog = totprog + prog
+      #START TABLE
+      sheet.add_row [crs.name.upcase,
+                    crs.start.strftime("%d-%^b-%y"),
+                    prog,
+                    number_to_percentage(per, precision: 2),
+                    number_with_precision(rate, :precision => 2)],
+                    style: [nil, border_cell]
+      sheet.rows[row+counter].style = border_cellctr
+      counter = counter + 1  
+    end
+    per = (ovratt["ATTEND"].to_f / (ovratt["ATTEND"].to_f + ovratt["ABSENT"].to_f))*100
+    if !ovrrate.present?
+      rate = (ovrrate.inject{ |sum,el| sum + el }/ovrrate.size)
+    end
+    sheet.add_row ["SUMMARY","",
+                  totprog,number_to_percentage(per, precision: 2),
+                  number_with_precision(rate, :precision => 2)]
+    sheet.rows[counter+row].style = total_cell
+    sheet.merge_cells sheet.rows.last.cells[(0..1)]
+    sheet.column_widths *col_widths2
+  end
+
+  #ATTENDANCE SUMMARY
+  wb.add_worksheet(name: "ATTENDANCE DETAILS") do |sheet|
+    sheet.add_row ["ATTENDANCE DETAILS FOR"]
+    sheet.add_row [""]
+    sheet.add_row ["NO",
+                  "NAME",
+                  "I/C NO",
+                  "ATTENDANCE"]
+    sheet.rows[0].style = header_1
+    sheet.rows[2].style = highlight_cell
+    counter = 1
+    row =2
+    @tchds.each do |tch|
+      peratt = (tch.anisatts.count.to_f / @totalprog.to_f)*100
+      sheet.add_row [counter,
+                    tch.name.upcase,
+                    "#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3}",
+                    "#{number_to_percentage(peratt, precision: 0)} (#{tch.anisatts.count}/#{@totalprog})"],
+                    style: [nil, border_cell]
+      sheet.rows[row+counter].style = border_cellctr
+      counter = counter + 1
+    end
+    sheet.column_widths *col_widths2
+  end
+
+  #COURSES SHEET
+  crsctr = 0
+  @courses.order('start ASC').each do |crs|
+    anisprog = crs.anisprogs.where.not(name: "BREAK").order('start ASC')
+    crsfbc = crs.anisfeeds
+    #COURSE SUMMARY
+    wb.add_worksheet(name: "#{crsctr} SUMMARY") do |sheet|
+
+      sheet.add_row ["FEEDBACK SUMMARY FOR #{crs.name.upcase}"]
+      sheet.add_row [""]
+      sheet.add_row ["AVERAGE RATING: #{number_with_precision(crsfbc.average(:rate), :precision => 2)}"]
+      sheet.add_row ["RATING",
+                    "WHAT DO PEOPLE LIKE",
+                    "WHAT NEEDS TO BE IMPROVED"]
+      sheet.rows[0].style = header_1
+      sheet.rows[2].style = header_2
+      sheet.rows[3].style = highlight_cell
+      counter = 1
+      row =3
+      crsfbc.each do |fbc|
+        sheet.add_row [fbc.rate,
+                      fbc.good,
+                      fbc.bad],
+                      style: [nil, border_cell]
+        sheet.rows[row+counter].style = border_cellwrp
+        counter = counter + 1  
+      end
+      sheet.column_widths *col_widths3
+
+      sheet.add_chart(Axlsx::Bar3DChart, :start_at => "E4", :end_at => "N20", :title => "RATING DISTRIBUTION") do |chart|
+        b = crsfbc.order('rate DESC').group(:rate).count
+        chart.add_series :data => b.values, 
+                         :labels => b.keys
+        chart.d_lbls.show_val = true
+        chart.d_lbls.show_percent = true
+      end
+
+    end
+    #COURSE ATTENDANCE
+    wb.add_worksheet(name: "#{crsctr} ATTENDANCE") do |sheet|
+      sheet.add_row ["ATTENDANCE SUMMARY FOR #{crs.name.upcase}"]
+      sheet.add_row [""]
+      progs = Array.new(['NAME', 'IC NO', 'SUMMARY'])
+      progtot = crs.anisprogs.where.not(name: "BREAK") 
+      progtot.each do |prog|
+        progs << prog.name.upcase
+      end
+      sheet.add_row( progs )
+      sheet.rows[0].style = header_1
+      sheet.rows[2].style = highlight_cell
+      counter = 1
+      row =2
+      @tchds.each do |tch|
+        tchatt = tch.anisatts.where(course_id: crs.id, att: true)
+        per = (tchatt.count.to_f / progtot.count.to_f).to_f*100
+        tcharr = Array.new([ tch.name.upcase,
+                      "#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3}",
+                      " #{tchatt.count}/#{progtot.count} (#{number_to_percentage(per, precision: 0)})"])
+        progtot.each do |prog|
+          pres = tchatt.where(anisprog_id: prog.id).present?
+          if pres
+            tcharr << "PRESENT"
+          else
+            tcharr << "ABSENT"
+          end
+        end
+        sheet.add_row(tcharr)
+        sheet.rows[row+counter].style = border_cell
+        counter = counter + 1
+      end
+      sheet.column_widths *col_widths4
+
+      
+
+    end
+    #COURSE PROGRAMS
+    wb.add_worksheet(name: "#{crsctr} PROGRAMS") do |sheet|
+      sheet.add_row ["PROGRAMMES FOR #{crs.name.upcase}"]
+      sheet.add_row [""]
+      sheet.add_row ["TOPIC",
+                    "SPEAKER",
+                    "DATE",
+                    "START",
+                    "END",
+                    "RATING",
+                    "COMMENTS"]
+      sheet.rows[0].style = header_1
+      sheet.rows[2].style = highlight_cell
+      counter = 1
+      row =2
+
+      anisprog.each do |prog|
+        fbc = prog.feedbacks
+        rate = fbc.average(:rating)
+        progdata = Array.new([prog.name,
+                            prog.lec,
+                            crs.start.strftime("%d-%^b-%y"),
+                            prog.start.strftime("%I:%M %p"),
+                            prog.end.strftime("%I:%M %p"),
+                            number_with_precision(rate, :precision => 2)])
+        comm = "" 
+        nom = 1
+        fbc.each do |fbc|
+          if !fbc.review.blank?
+            comm << "#{nom}. "
+            comm << fbc.review
+            comm << "\n\n"
+            nom = nom + 1
+          end
+        end
+        progdata << comm
+        sheet.add_row progdata,
+                      style: [nil, border_cell]
+        sheet.rows[row+counter].style = border_cellwrplft
+        counter = counter + 1  
+      end
+      sheet.column_widths *col_widths5
+
+    end
+  crsctr += 1
+  end
+
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
