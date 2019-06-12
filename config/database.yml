@@ -16,8 +16,8 @@ development:
   # timeout: 5000
   adapter: postgresql
   encoding: unicode
-  #database: prod-bcup
-  database: pg-prod-kidcare
+  database: prod-bcup
+  #database: pg-prod-kidcare
   pool: 5
   username: #mus-kidcare-sgp1
   password: #Geometr3
@@ -30,8 +30,8 @@ test:
   # timeout: 5000
   adapter: postgresql
   encoding: unicode
-  #database: prod-bcup
-  database: pg-prod-kidcare
+  database: prod-bcup
+  #database: pg-prod-kidcare
   pool: 5
   username: #mus-kidcare-sgp1
   password: #Geometr3
