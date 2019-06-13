@@ -1,5 +1,5 @@
 wb = xlsx_package.workbook
-col_widths= [5,40,20,10,30,30,20,20,20]
+col_widths= [5,40,20,10,30,30,30,20,20,20,30]
 col_widths2= [16,20,24,22,16]
 col_widths3= [12,30,42]
 col_widths4= [35,16,15]
@@ -48,11 +48,15 @@ wb.styles do |style|
                   "NAME",
                   "IC NO",
                   "AGE",
+                  "ADDRESS",
                   "CATEGORY",
                   "DUN",
                   "INCOME",
                   "MARITAL",
-                  "GENDER"]
+                  "GENDER",
+                  "EDUCATION",
+                  "INSTITUTION NAME",
+                  "INSTITUTION ADDRESS"]
     sheet.rows[0].style = header_1
     sheet.rows[2].style = highlight_cell
     counter = 1
@@ -64,11 +68,15 @@ wb.styles do |style|
                     tch.name,
                     "#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3}",
                     age,
+                    "#{tch.address_1},#{tch.address_2},#{tch.city},#{tch.states} #{tch.postcode}",
                     tch.post,
                     tch.dun,
                     tch.income,
                     tch.marital,
-                    tch.gender],
+                    tch.gender,
+                    tch.education,
+                    tch.ts_name,
+                    "#{tch.ts_address_1},#{tch.ts_address_2},#{tch.ts_city},#{tch.ts_states} #{tch.ts_postcode}"],
                     style: [nil, border_cell]
       sheet.rows[row+counter].style = border_cell
       counter = counter + 1  
