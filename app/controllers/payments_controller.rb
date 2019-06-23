@@ -111,6 +111,27 @@ class PaymentsController < ApplicationController
     @pdf = false
     @taska = Taska.find(params[:taska])
     @payment = Payment.find(params[:payment])
+    if !@payment.paid
+      url_bill = "#{ENV['BILLPLZ_API']}bills/#{@payment.bill_id}"
+      data_billplz = HTTParty.get(url_bill.to_str,
+              :body  => {}.to_json, 
+                          #:callback_url=>  "YOUR RETURN URL"}.to_json,
+              :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+              :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+      #render json: data_billplz and return
+      data = JSON.parse(data_billplz.to_s)
+      if data["paid"] == true
+        @payment.paid = true
+        @payment.updated_at = data["paid_at"]
+        @payment.save
+        if (expire = @taska.expire) >= (my_time = Time.now)
+          @taska.expire = expire + 1.months
+        else
+          @taska.expire = my_time + 1.months
+        end
+        @taska.save
+      end
+    end
   end
 
   def pdf_invoice_taska
