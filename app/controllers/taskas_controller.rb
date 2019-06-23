@@ -597,6 +597,7 @@ class TaskasController < ApplicationController
         pb.save
       end
     end
+    flash[:success] = "Payment Status Updated"
     redirect_to unpaid_index_path(@taska)
   end
 
