@@ -573,7 +573,15 @@ class TaskasController < ApplicationController
   def unpaid_index
     @taska = Taska.find(params[:id])
     #check all unpaid bills with billplz
-    if Rails.env.production?
+    
+    @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).order('bill_year ASC').order('bill_month ASC')
+    @kid_all_bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
+    render action: "unpaid_index", layout: "dsb-admin-overview" 
+  end
+
+  def updunpaid
+    @taska = Taska.find(params[:id])
+    if 1==1   
       pre_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false)
       pre_unpaid.each do |pb|
         url_bill = "#{ENV['BILLPLZ_API']}bills/#{pb.bill_id}"
@@ -591,9 +599,7 @@ class TaskasController < ApplicationController
         end
       end
     end
-    @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false).order('bill_year ASC').order('bill_month ASC')
-    @kid_all_bills = @taska.payments.where.not(name: "TASKA PLAN").order('bill_year ASC').order('bill_month ASC')
-    render action: "unpaid_index", layout: "dsb-admin-overview" 
+    redirect_to unpaid_index_path(@taska)
   end
 
   def manupdbill

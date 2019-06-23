@@ -194,6 +194,7 @@ Rails.application.routes.draw do
   get 'register/:id/center/', to: 'taskas#taska_page', as: 'taska_page'
   get '/taska/:id/update_bank', to: 'taskas#update_bank', as: 'update_bank'
   get '/taska/:id/unpaid_index', to: 'taskas#unpaid_index', as: 'unpaid_index'
+  get '/taska/:id/updunpaid', to: 'taskas#updunpaid', as: 'updunpaid'
   get '/taska/receipts/:id/', to: 'taskas#taska_receipts', as: 'taska_receipts'
   get '/taska/unreg_kids/:id/', to: 'taskas#unreg_kids', as: 'unreg_kids'
   get '/taska/:id/all_bills', to: 'taskas#all_bills', as: 'all_bills_taska'
