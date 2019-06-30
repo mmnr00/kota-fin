@@ -74,20 +74,42 @@ b={
 72	=>[	"	174151556	"	]
 }
 
-(1..72).each do |k|
-d=b[k]
+c={
+	1=>["172536846"],
+	2=>["163356592"],
+	3=>["122302757"],
+	4=>["134167235"],
+	5=>["182478628"],
+	6=>["102700232"],
+	7=>["145438691"],
+	8=>["193701192"],
+	9=>["176912876"],
+	10=>["172942742"],
+	11=>["133197947"],
+	12=>["129368437"],
+	13=>["129368437"],
+	14=>["1139960217"],
+	15=>["173005648"],
+	16=>["199131424"],
+	17=>["104645096"],
+	18=>["1126235981"]
+}
+
+
+(1..18).each do |k|
+d=c[k]
 @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
 @client.messages.create(
 	to: "+60#{d[0]}", 
 	from: ENV["TWILIO_PHONE_NO"], 
 	body: "\n MBI Selangor Incorporated 
 	\n Terima kasih kerana mendaftar untuk Program Saringan Percuma anjuran MBI Selangor (INC).
-	\n Tahniah! Anak ada telah disenaraipendek untuk proses pemilihan seterusnya. Untuk makluman, program seterusnya akan diadakan pada 21hb Apr 2019.
+	\n Tahniah! Anak ada telah disenaraipendek untuk proses pemilihan seterusnya. Untuk makluman, program seterusnya akan diadakan pada 14hb July 2019.
 	\n Sila whatsapp maklumat dibawah kepada urusetia Program, Pn Rusmina Sukim di 019-6072688
 	\n 1. Nama Anak
 	\n 2. Umur Anak dan No MyKid
 	\n 3. No yang boleh dihubungi
-	\n Terima kasih atas kerjasama anda."
+	\n TEMPAT ADALAH AMAT TERHAD. SILA HUBUNGI KAMI SEGERA. Terima kasih atas kerjasama anda."
 
 )
 end
