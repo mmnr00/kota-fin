@@ -271,9 +271,9 @@ class TaskasController < ApplicationController
   # GET /taskas/1.json
   def show
     # ada kt bawah func set_taska
-    if @taska.classrooms.count < 1
+    if 1==0 #@taska.classrooms.count < 1
       redirect_to xlsclsrm_path(@taska)
-    elsif @taska.kids.count < 1
+    elsif 2==0 #@taska.kids.count < 1
       redirect_to xlskid_path(@taska)
     else
       @admin_taska = current_admin.taskas
