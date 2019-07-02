@@ -308,10 +308,12 @@ class PaymentsController < ApplicationController
         ot.payment_id = @payment.id
         ot.save
       end
+      cnt=1
       @kid.extras.each do |extra|
         kb.extra << extra.id
         extra = Extra.find(extra.id)
-        kb.extradtl[extra.name] = extra.price
+        kb.extradtl["#{cnt}. #{extra.name}"] = extra.price
+        cnt = cnt + 1
       end
       kb.save
 
