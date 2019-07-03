@@ -2,7 +2,7 @@
   <div class="card-header" style="background-color:#0050be">
     <h3 align="center" style="color:white"> WELCOME TO <%= @college.name %>'s PAGE <%= link_to "Edit Session", edit_college_path(@college), class: "btn btn-sm btn-success active" %> </h3>
     <div align="right">  
-      <%= link_to "Create Course", new_course_path(@college), class: "btn btn-sm btn-warning active" %>
+      <%= link_to "Create Course", new_course_path(college: @college.id), class: "btn btn-sm btn-warning active" %>
     </div>
   </div>
 </div>

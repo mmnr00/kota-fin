@@ -121,7 +121,7 @@ class CoursesController < ApplicationController
 
 	def new
 		@owner = current_owner
-		@college = College.find(params[:id])
+		@college = College.find(params[:college])
 		@course = Course.new
 		@course.fotos.build
 		render action: "new", layout: "dsb-owner-college"

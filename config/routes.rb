@@ -131,7 +131,7 @@ Rails.application.routes.draw do
   get '/college/overall_xls', to: 'colleges#overall_reportxls', as: 'overall_reportxls'
 
   #~COURSE
-  get '/college/:id/courses/new', to: 'courses#new', as: 'new_course'
+  get '/courses/new', to: 'courses#new', as: 'new_course'
   get '/teacher/:id/courses/show', to: 'courses#teacher_course', as: 'teacher_course'
   get '/owner/:id/courses/show', to: 'courses#owner_course', as: 'owner_course'
   get '/course/payment', to: 'courses#payment', as: 'course_payment'
