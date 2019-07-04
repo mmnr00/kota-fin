@@ -176,7 +176,7 @@ class TchdetailsController < ApplicationController
     else
       @find_tchdetail = tchdc.where(ic_1: params[:ic1],ic_2: params[:ic2],ic_3: params[:ic3])
       #flash.now[:danger] = "Cannot find child" unless @kid_search.present?
-      flash.now[:danger] = "NO MATCHED DATA" unless @find_tchdetail.present?
+      flash.now[:danger] = "NO REGISRTATION FOUND. PLEASE REGISTER BELOW" unless @find_tchdetail.present?
     end
     respond_to do |format|
       format.js { render partial: 'tchdetails/result-reg' } 
