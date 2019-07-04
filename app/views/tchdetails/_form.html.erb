@@ -150,6 +150,7 @@
               <%= f.select :category, options_for_select(["Childcare Provider", 
                                                         "Owner", 
                                                         "Supervisor",
+                                                        "Principal",
                                                         "Others"],
                                                         selected: @tchdetail.category),
               {include_blank: "Please Select"}, {required: true} %>          
@@ -345,7 +346,7 @@
         </div>
       </div>
 
-      <% if params[:id].present? %>
+      <% if params[:id].present? && params[:anis] == "true" %>
         <!-- TASKA DETAILS -->
         <div class="form-group"> <!-- taska name -->
           <div class="row">
