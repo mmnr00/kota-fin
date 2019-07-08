@@ -33,7 +33,7 @@
               Unpaid Bills<br>
               RM 
               <% if @kid_unpaid.present? %>
-                <%= @kid_unpaid.sum(:amount).round(2)%>
+                <%= @totkid_unpaid.round(2)%>
               <% else %>
                 0.00
               <% end %>

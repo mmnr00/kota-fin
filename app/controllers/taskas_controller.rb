@@ -301,10 +301,14 @@ class TaskasController < ApplicationController
       @mth = time.month
       @yr = time.year 
       psldt = time - 1.months
-
-
-
+      #calculate unpaid - partial
+      upd_par = 0.00
       @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false)
+      @kid_unpaid.each do |pm|
+        upd_par += pm.parpayms.sum(:amt)
+      end
+      @totkid_unpaid = @kid_unpaid.sum(:amount) - upd_par
+
       @taska_expense = @taska.expenses.where(month: @mth).where(year: @yr).order('CREATED_AT DESC')
       @payslips = @taska.payslips.where(mth: psldt.month, year: psldt.year)
       @applvs = @taska.applvs.where.not(stat: "APPROVED").where.not(stat: "REJECTED")
