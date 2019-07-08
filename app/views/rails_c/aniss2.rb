@@ -120,7 +120,7 @@ cnt += 1
 end
 end
 
-clg = College.find(46)
+clg = College.find(50)
 clg.courses.each do |crs|
 crs.anisprogs.each do |prog|
 clg.tchdetails.each do |tchd|
@@ -130,6 +130,15 @@ end
 end
 end
 end
+
+clg = College.find(50)
+clg.tchdetails.each do |tcd|
+tcd.dun = " Batu Tiga " unless tcd.dun.present?
+tcd.post = "CHILDCARE PROVIDER" unless tcd.post.present?
+tcd.income = "RM5,000 and below" unless tcd.income.present?
+tcd.save
+end
+
 
 clg = College.find(46)
 nodob=[]
