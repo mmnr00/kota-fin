@@ -67,7 +67,7 @@
                     </p>
 
                   </div>
-                  <%= link_to "RM #{bill.amount-sumppm}", "#", class: "btn btn-lg btn-info active" %>
+                  <%= link_to "RM #{(bill.amount-sumppm).round(2)}", "#", class: "btn btn-lg btn-info active" %>
                   
                     <% if !bill.paid %>
                       <% if status >=0 %>

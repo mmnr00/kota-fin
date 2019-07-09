@@ -86,11 +86,11 @@
                   <%=  %>
                   <% if params[:paid]=="true" && !bill.paid && params[:month] != "0" %>
 
-                    <%= link_to "RM #{amt}", "#", class: "btn btn-lg btn-info active" %>
+                    <%= link_to "RM #{amt.round(2)}", "#", class: "btn btn-lg btn-info active" %>
                   <% elsif params[:paid]=="true" && !bill.paid && params[:month] == "0" %>
-                    <%= link_to "RM #{bill.parpayms.where('extract(year  from upd) = ?', params[:year]).sum(:amt)}", "#", class: "btn btn-lg btn-info active" %>
+                    <%= link_to "RM #{(bill.parpayms.where('extract(year  from upd) = ?', params[:year]).sum(:amt)).round(2)}", "#", class: "btn btn-lg btn-info active" %>
                   <% else %>
-                  <%= link_to "RM #{bill.amount - sumppm}", "#", class: "btn btn-lg btn-info active" %>
+                  <%= link_to "RM #{(bill.amount - sumppm).round(2)}", "#", class: "btn btn-lg btn-info active" %>
                   <% end %>
                   <% if !bill.paid %>
                     <% if status >= 0 %>
