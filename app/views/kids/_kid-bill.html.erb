@@ -23,7 +23,7 @@
     <% end %>
     
     
-    <% if !@pdf && @payment.cltid != $clt %><% if @taska.id != 72 %>
+    <% if !@pdf && @payment.cltid != $clt %><% if @taska.blgt %>
       <h1 align="right">
         <%= link_to "#{ENV['BILLPLZ_URL']}/bills/#{@payment.bill_id}", class: "btn btn-lg btn-info active" do %>
           <i></i> PAY
