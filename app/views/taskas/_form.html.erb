@@ -105,6 +105,42 @@
           </div>
         </div>
 
+        <!-- PAYSLIP CALCULATION -->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>PAYSLIP CALCULATION </strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.select :pslm, 
+                            options_for_select([["SAME MONTH", 0],
+                                                ["NEXT MONTH", 1]],
+                                              selected: @taska.pslm,), 
+                              {include_blank: "Please Select"}, {required: true} %> 
+            </div>
+          </div>
+        </div>
+
+        <!-- PAYMENT GATEWAY USAGE -->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>PAYMENT GATEWAY USAGE</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.select :blgt, 
+                            options_for_select([["YES", true],
+                                                ["NO", false]],
+                                              selected: @taska.blgt,), 
+                              {include_blank: "Please Select"}, {required: true} %> 
+            </div>
+          </div>
+        </div>
+
         <h4> Bank Details </h4>
 
         <!-- BANK NAME-->

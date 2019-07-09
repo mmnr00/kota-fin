@@ -113,6 +113,8 @@
         <%= f.hidden_field :acc_no, class: "form-control", autofocus: true, required: true, value: "PLEASE INSERT" %>
         <%= f.hidden_field :ssm_no, class: "form-control", autofocus: true, required: true, style: "text-transform:uppercase", value: "PLEASE INSERT" %>
         <%= f.hidden_field :plan, value: params[:plan] %>
+        <%= f.hidden_field :pslm, value: 1 %>
+        <%= f.hidden_field :blgt, value: true %>
 
       <%= f.fields_for :fotos do |h| %>
         <%= h.hidden_field :foto_name, value: "CENTER LOGO" %>
