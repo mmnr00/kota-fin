@@ -300,7 +300,7 @@ class TaskasController < ApplicationController
       time = Time.now.in_time_zone('Singapore')
       @mth = time.month
       @yr = time.year 
-      psldt = time - 1.months
+      psldt = time - @taska.pslm.months
       #calculate unpaid - partial
       upd_par = 0.00
       @kid_unpaid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: false)
@@ -1041,7 +1041,7 @@ class TaskasController < ApplicationController
       dt = Date.new(params[:year].to_i,params[:month].to_i)
       mth = dt.month
       year = dt.year
-      psldt = dt - 1.months
+      psldt = dt - @taska.pslm.months
       @payslips = @taska.payslips.where(mth: psldt.month, year: psldt.year)
       @taska_expenses = @taska.expenses.where(month: params[:month]).where(year: params[:year])
       #START FOR BILL

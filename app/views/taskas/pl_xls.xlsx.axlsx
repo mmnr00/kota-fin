@@ -46,7 +46,7 @@ wb.styles do |style|
         
         if (psl = @payslips.where(mth: m)).present?
           dt = Date.new(psl.first.year, psl.first.mth)
-          psldt = dt + 1.months
+          psldt = dt + @taska.pslm.months
           psltot = psl.sum(:amtepfa)
           sheet.add_row ["#{psl.count} PAYSLIPS ISSUED",
                       psldt.month,
