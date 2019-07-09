@@ -26,7 +26,7 @@ def my_expenses
 	year = params[:expense][:year].to_i
 	if params[:expense][:month].present?
 		dt = Time.find_zone("Singapore").local(year,mth)
-		psldt = dt - 1.months
+		psldt = dt - @taska.pslm.months
 		@taska_payslips = @taska.payslips.where(mth: psldt.month, year: psldt.year)
 		@taska_chart = @taska.expenses.where(month: params[:expense][:month]).where(year: params[:expense][:year]) 
 		@taska_expense = @taska.expenses.where(month: params[:expense][:month]).where(year: params[:expense][:year])
