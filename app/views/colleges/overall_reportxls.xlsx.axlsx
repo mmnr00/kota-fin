@@ -1,5 +1,6 @@
 wb = xlsx_package.workbook
 col_widths= [5,40,20,10,30,30,30,20,20,20,30]
+col_widths1= [5,22,14]
 col_widths2= [16,20,24,22,16]
 col_widths3= [12,30,42]
 col_widths4= [35,16,15]
@@ -129,6 +130,30 @@ wb.styles do |style|
       chart.d_lbls.show_val = true
       chart.d_lbls.show_percent = true
     end
+  end
+
+  #1STA SHEET
+  wb.add_worksheet(name: "DUN DETAIL") do |sheet|
+    sheet.add_row ["DUN DETAILS"]
+    sheet.add_row [""]
+    sheet.add_row ["NO",
+                  "NAMA DUN",
+                  "BILANGAN"]
+    sheet.rows[0].style = header_1
+    sheet.rows[2].style = highlight_cell
+    counter = 1
+    row =2
+
+    $sel_dun.each do |dn|
+      tchd_dun = @tchds.group(:dun).count
+      sheet.add_row [counter,
+                    dn,
+                    tchd_dun[dn]],
+                    style: [nil, border_cell]
+      sheet.rows[row+counter].style = border_cell
+      counter = counter + 1 
+    end
+    sheet.column_widths *col_widths1
   end
 
   #2ND SHEET

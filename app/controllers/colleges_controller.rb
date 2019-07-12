@@ -117,7 +117,7 @@ class CollegesController < ApplicationController
 	end
 
 	def overall_reportxls
-		@college = College.find([8,46])
+		@college = College.find([8,46,50])
 		@tchds = nil
 		@courses = nil
 		@college.each do |clg|
