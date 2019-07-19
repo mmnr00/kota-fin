@@ -16,6 +16,8 @@ class Teacher < ApplicationRecord
 	has_many :applvs
 	has_many :payslips
 	has_many :payinfos
+	has_many :pslextchs
+	has_many :pslexs, through: :pslextchs
   	devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 

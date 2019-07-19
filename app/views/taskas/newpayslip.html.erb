@@ -1,31 +1,35 @@
 <br>
 
+<%= @payslip.present? %>
+
 <!-- IF FORM RESUBMISSION -->
-<% if params[:upd] == "true" %>
-  <% amt = params[:amt] %>
-  <% alwnc = params[:alwnc] %>
-  <% fxddc = params[:fxddc] %>
-  <% addtn = params[:addtn] %>
-  <% desc = params[:desc] %>
-  <% epf = params[:epf] %>
-  <% epfa = params[:epfa] %>
-  <% socs = params[:socs] %>
-  <% socsa = params[:socsa] %>
-  <% sip = params[:sip] %>
-  <% sipa = params[:sipa] %>
-  <% dedc = params[:dedc] %>
-  <% descdc = params[:descdc] %>
-<% else %>
-  <% amt = @payinfo.amt %>
-  <% alwnc = @payinfo.alwnc %>
-  <% fxddc = @payinfo.fxddc %>
-  <% epf = @payinfo.epf %>
-  <% epfa = @payinfo.epfa %>
-  <% socs = @payinfo.socs %>
-  <% socsa = @payinfo.socsa %>
-  <% sip = @payinfo.sip %>
-  <% sipa = @payinfo.sipa %>
-<% end %>
+ <%
+ if params[:upd] == "true" 
+   amt = params[:amt] 
+   alwnc = params[:alwnc] 
+   fxddc = params[:fxddc] 
+   addtn = params[:addtn] 
+   desc = params[:desc] 
+   epf = params[:epf] 
+   epfa = params[:epfa] 
+   socs = params[:socs] 
+   socsa = params[:socsa] 
+   sip = params[:sip] 
+   sipa = params[:sipa] 
+   dedc = params[:dedc] 
+   descdc = params[:descdc] 
+ else 
+   amt = @payinfo.amt 
+   alwnc = @payinfo.alwnc 
+   fxddc = @payinfo.fxddc 
+   epf = @payinfo.epf 
+   epfa = @payinfo.epfa 
+   socs = @payinfo.socs 
+   socsa = @payinfo.socsa 
+   sip = @payinfo.sip 
+   sipa = @payinfo.sipa 
+ end 
+ %>
 
 <div class="row">
   <!-- FORM SUMMARY -->
@@ -94,6 +98,10 @@
         </h8>
       </div>
     </div>
+    <div style="background-color:#ffd27f"><h5 align="center">PAYSLIP EXTRA</h5></div>
+
+      <%= link_to "NEW EXTRA", newpayslip_path(month: params[:month], tch_id: params[:tch_id], year: params[:year], upd: params[:upd]), class: "btn btn-sm btn-warning active" %>
+
     <div style="background-color:#cce5cc"><h5 align="center">PAYSLIP ENTRY</h5></div>
     <%= form_tag newpayslip_path, method: :get, id: "find_kid" do %>
       <div class="row">
