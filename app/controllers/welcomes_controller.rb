@@ -9,11 +9,15 @@ class WelcomesController < ApplicationController
 	end
 
 	def index2
-		@teacher = current_teacher
-		@admin = current_admin
-		@owner = current_owner
-		@parent = current_parent
-		render action: "index2", layout: "homepage2"
+		if params[:anis].present?
+			redirect_to new_tchdetail_path(id: 52, anis: true)
+		else
+			@teacher = current_teacher
+			@admin = current_admin
+			@owner = current_owner
+			@parent = current_parent
+			render action: "index2", layout: "homepage2"
+		end
 		
 	end
 
