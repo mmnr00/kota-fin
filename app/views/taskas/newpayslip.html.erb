@@ -1,6 +1,6 @@
 <br>
 
-<%= @payslip.present? %>
+<%= params[:xtra] %>
 
 <!-- IF FORM RESUBMISSION -->
  <%
@@ -18,6 +18,7 @@
    sipa = params[:sipa] 
    dedc = params[:dedc] 
    descdc = params[:descdc] 
+   xtra = params[:xtra]
  else 
    amt = @payinfo.amt 
    alwnc = @payinfo.alwnc 
@@ -28,6 +29,7 @@
    socsa = @payinfo.socsa 
    sip = @payinfo.sip 
    sipa = @payinfo.sipa 
+   xtra = params[:xtra]
  end 
  %>
 
@@ -43,7 +45,7 @@
     <% ctr = @taska.payslips.where(mth: params[:month], year: params[:year]).count %>
     <% psl_id = "#{@taska.subdomain}-#{params[:month]}-#{params[:year].last(2)}-#{ctr+1}" %>
 
-    <%= render 'taskas/payslip', amt: amt, alwnc: alwnc, fxddc: fxddc, epf: epf, epfa: epfa, socs: socs, socsa: socsa, sip: sip, sipa: sipa %>
+    <%= render 'taskas/payslip', amt: amt, alwnc: alwnc, fxddc: fxddc, epf: epf, epfa: epfa, socs: socs, socsa: socsa, sip: sip, sipa: sipa, xtra: xtra %>
     <%= form_for(:payslip, :url => {:controller=>'taskas', :action=>'crtpayslip'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
       <br>
       <!-- FORM ENTRY CREATION -->
@@ -100,10 +102,22 @@
     </div>
     <div style="background-color:#ffd27f"><h5 align="center">PAYSLIP EXTRA</h5></div>
 
-      <%= link_to "NEW EXTRA", newpayslip_path(month: params[:month], tch_id: params[:tch_id], year: params[:year], upd: params[:upd]), class: "btn btn-sm btn-warning active" %>
+      <%= link_to "NEW EXTRA", newpayslip_path(month: params[:month], tch_id: params[:tch_id], year: params[:year], upd: params[:upd],amt: params[:amt], 
+                                alwnc: params[:alwnc], 
+                                fxddc: params[:fxddc], 
+                                addtn: params[:addtn], 
+                                desc: params[:desc], 
+                                epf: params[:epf], 
+                                epfa: params[:epfa], 
+                                socs: params[:socs], 
+                                socsa: params[:socsa], 
+                                sip: params[:sip], 
+                                sipa: params[:sipa], 
+                                dedc: params[:dedc], 
+                                descdc: params[:descdc]), class: "btn btn-sm btn-warning active" %>
 
     <div style="background-color:#cce5cc"><h5 align="center">PAYSLIP ENTRY</h5></div>
-    <%= form_tag newpayslip_path, method: :get, id: "find_kid" do %>
+    <%= form_tag newpayslip_path, method: :get do %>
       <div class="row">
         <div class="col-md-12">
           <strong>BASE SALARY (RM)</strong>
@@ -218,7 +232,10 @@
                   autofocus: true,
                   class: "form-control search-box input-lg", 
                   style: "text-transform:uppercase" %>
-        </div>
+        </div><br><br><br><br>
+        <div class= "col-md-12" style="background-color:#ffd27f"><h5 align="center">PAYSLIP EXTRA</h5></div>
+        <%= render 'taskas/nstpsl' %>
+
       </div>
       
       <br>

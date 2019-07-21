@@ -1,0 +1,19 @@
+<!-- TRY NESTED -->
+<% (1..5).each do |n| %>
+<div class="col-md-4">
+  <strong>AMOUNT</strong>
+  <%= number_field_tag "xtra[#{n}][nstamt]", params[:xtra]["#{n}"][:nstamt], 
+          placeholder: "", 
+          autofocus: true,  
+          step: 0.01,
+          class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+</div>
+<div class="col-md-8">
+  <strong>DESCRIPTION</strong>
+  <%= text_area_tag "xtra[#{n}][nstdesc]", params[:xtra]["#{n}"][:nstdesc], 
+          placeholder: "", 
+          autofocus: true,
+          class: "form-control search-box input-lg", 
+          style: "text-transform:uppercase" %>
+</div>
+<% end %>

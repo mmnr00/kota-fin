@@ -101,12 +101,12 @@
         </div>
         </span>
         <table class="table table-hover">
-          <thead>
+          <tbody>
             <tr>
               <th>Items</th>
               <th class="text-right" colspan="2">Amount (RM)</th>
             </tr>
-          </thead>
+          </tbody>
           <tbody>
             <tr>
               <td class="col-md-3"><em>Basic Salary</em></h4></td>
@@ -136,6 +136,31 @@
               </td>
               <td class="col-md-12"><%= descdc %></td>
               <td class="text-center" colspan="2"><font color="red">(<%= dedc %>)</font></td>
+            </tr>
+             <tr>
+              <td class="col-md-3">
+                <em>Extra Items</em>
+              </td>
+              <td class="col-md-12">
+                <% (1..5).each do |n| %><% if (xtradesc=xtra["#{n}"]["nstdesc"]).present? %>
+                  <%= xtradesc %><br>
+                <% end %><% end %>
+              </td>
+              <td class="text-center" colspan="2">
+                <% (1..5).each do |n| %><% if (xtradesc=xtra["#{n}"]["nstdesc"]).present? %>
+                  <%
+                    xtramt = xtra["#{n}"]["nstamt"].to_f
+                    if xtramt < 0
+                      clr = "red"
+                    else
+                      clr = "black"
+                    end
+                  %>
+                  <font color=<%= "#{clr}" %>>
+                    <%= xtramt %><br>
+                  </font>
+                <% end %><% end %>
+              </td>
             </tr>
             <tr>
               <td class="text-right" colspan="2">
