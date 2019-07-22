@@ -1,44 +1,51 @@
-<% if @payslip.present? && !params[:edit].present? %>
-  <% addtn = @payslip.addtn %>
-  <% desc = @payslip.desc %>
-  <% dedc = @payslip.dedc %>
-  <% descdc = @payslip.descdc %>
-  <% month = @payslip.mth %>
-  <% year = @payslip.year %>
-  <% gross = amt.to_f + alwnc.to_f - fxddc.to_f + addtn.to_f - dedc.to_f %>
-  <% nett = gross - epf.to_f - socs.to_f - sip.to_f  %>
-  <% total = gross + epfa.to_f + socsa.to_f + sipa.to_f %>
-  <% date = @payslip.created_at %>
-  <% psl_id = @payslip.psl_id %>
-  <%= xtra = eval(xtra) %>
-<% elsif @payslip.present? && params[:edit] == "1" %>
-  <% addtn = @payslip.addtn %>
-  <% addtn = params[:addtn] %>
-  <% desc = params[:desc] %>
-  <% dedc = params[:dedc] %>
-  <% descdc = params[:descdc] %>
-  <% month = @payslip.mth %>
-  <% year = @payslip.year %>
-  <% gross = amt.to_f + alwnc.to_f - fxddc.to_f + addtn.to_f - dedc.to_f %>
-  <% nett = gross - epf.to_f - socs.to_f - sip.to_f  %>
-  <% total = gross + epfa.to_f + socsa.to_f + sipa.to_f %>
-  <% date = @payslip.created_at %>
-  <% psl_id = @payslip.psl_id %>
-<% else %>
-  <% addtn = params[:addtn] %>
-  <% desc = params[:desc] %>
-  <% dedc = params[:dedc] %>
-  <% descdc = params[:descdc] %>
-  <% month = params[:month] %>
-  <% year = params[:year] %>
-  <% gross = amt.to_f + alwnc.to_f - fxddc.to_f + addtn.to_f - dedc.to_f %>
-  <% nett = gross - epf.to_f - socs.to_f - sip.to_f  %>
-  <% total = gross + epfa.to_f + socsa.to_f + sipa.to_f %>
-  <% date = $my_time.to_date %>
-  <% ctr = @taska.payslips.where(mth: month, year: year).count %>
-  <% psl_id = "#{@taska.subdomain}-#{month}-#{year.last(2)}-#{ctr+1}" %>
-<% end %>
-
+<% if @payslip.present? && !params[:edit].present?
+  addtn = @payslip.addtn
+  desc = @payslip.desc
+  dedc = @payslip.dedc
+  descdc = @payslip.descdc
+  month = @payslip.mth
+  year = @payslip.year
+  gross = amt.to_f + alwnc.to_f - fxddc.to_f + addtn.to_f - dedc.to_f
+  nett = gross - epf.to_f - socs.to_f - sip.to_f 
+  total = gross + epfa.to_f + socsa.to_f + sipa.to_f
+  date = @payslip.created_at
+  psl_id = @payslip.psl_id
+  xtra = eval(xtra)
+elsif @payslip.present? && params[:edit] == "1"
+  addtn = @payslip.addtn
+  addtn = params[:addtn]
+  desc = params[:desc]
+  dedc = params[:dedc]
+  descdc = params[:descdc]
+  month = @payslip.mth
+  year = @payslip.year
+  gross = amt.to_f + alwnc.to_f - fxddc.to_f + addtn.to_f - dedc.to_f
+  nett = gross - epf.to_f - socs.to_f - sip.to_f 
+  total = gross + epfa.to_f + socsa.to_f + sipa.to_f
+  date = @payslip.created_at
+  psl_id = @payslip.psl_id
+else #new payslip only
+  addtn = params[:addtn]
+  desc = params[:desc]
+  dedc = params[:dedc]
+  descdc = params[:descdc]
+  month = params[:month]
+  year = params[:year]
+  if params[:xtra].present?
+    xtraval = 0.00
+    xtrah = eval(params[:xtra].to_s)
+    (1..5).each do |n|
+      xtraval += xtrah["#{n}"]["nstamt"].to_f
+    end
+  end
+  gross = amt.to_f + alwnc.to_f - fxddc.to_f + addtn.to_f - dedc.to_f + xtraval
+  nett = gross - epf.to_f - socs.to_f - sip.to_f 
+  total = gross + epfa.to_f + socsa.to_f + sipa.to_f
+  date = $my_time.to_date
+  ctr = @taska.payslips.where(mth: month, year: year).count
+  psl_id = "#{@taska.subdomain}-#{month}-#{year.last(2)}-#{ctr+1}"
+end %>
+<%= xtraval %>
 
 <!-- START PAYSLIP --> 
 <div class="container">
