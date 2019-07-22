@@ -68,6 +68,7 @@
       <%= f.hidden_field :sipa, value: sipa %>
       <%= f.hidden_field :amtepfa, value: total %>
       <%= f.hidden_field :psl_id, value: psl_id %>
+      <%= f.hidden_field :xtra, value: xtra.to_s %>
       <%= f.check_box :notf, checked: true %> <strong>NOTIFY STAFF VIA EMAIL</strong>
       <br><br>
       <%= f.submit :"CREATE PAYSLIP", class: 'btn btn-success btn-lg btn-block'%>
@@ -100,22 +101,6 @@
         </h8>
       </div>
     </div>
-    <div style="background-color:#ffd27f"><h5 align="center">PAYSLIP EXTRA</h5></div>
-
-      <%= link_to "NEW EXTRA", newpayslip_path(month: params[:month], tch_id: params[:tch_id], year: params[:year], upd: params[:upd],amt: params[:amt], 
-                                alwnc: params[:alwnc], 
-                                fxddc: params[:fxddc], 
-                                addtn: params[:addtn], 
-                                desc: params[:desc], 
-                                epf: params[:epf], 
-                                epfa: params[:epfa], 
-                                socs: params[:socs], 
-                                socsa: params[:socsa], 
-                                sip: params[:sip], 
-                                sipa: params[:sipa], 
-                                dedc: params[:dedc], 
-                                descdc: params[:descdc]), class: "btn btn-sm btn-warning active" %>
-
     <div style="background-color:#cce5cc"><h5 align="center">PAYSLIP ENTRY</h5></div>
     <%= form_tag newpayslip_path, method: :get do %>
       <div class="row">

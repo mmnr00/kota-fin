@@ -142,12 +142,12 @@
                 <em>Extra Items</em>
               </td>
               <td class="col-md-12">
-                <% (1..5).each do |n| %><% if (xtradesc=xtra["#{n}"]["nstdesc"]).present? %>
+                <% if xtra.present? %><% (1..5).each do |n| %><% if (xtradesc=xtra["#{n}"]["nstdesc"]).present? %>
                   <%= xtradesc %><br>
-                <% end %><% end %>
+                <% end %><% end %><% end %>
               </td>
               <td class="text-center" colspan="2">
-                <% (1..5).each do |n| %><% if (xtradesc=xtra["#{n}"]["nstdesc"]).present? %>
+                <% if xtra.present? %><% (1..5).each do |n| %><% if (xtradesc=xtra["#{n}"]["nstdesc"]).present? %>
                   <%
                     xtramt = xtra["#{n}"]["nstamt"].to_f
                     if xtramt < 0
@@ -159,7 +159,7 @@
                   <font color=<%= "#{clr}" %>>
                     <%= xtramt %><br>
                   </font>
-                <% end %><% end %>
+                <% end %><% end %><% end %>
               </td>
             </tr>
             <tr>

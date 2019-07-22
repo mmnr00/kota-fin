@@ -1,16 +1,25 @@
 <!-- TRY NESTED -->
 <% (1..5).each do |n| %>
-<div class="col-md-4">
+<%
+  if params[:xtra].present?
+    nstamt = params[:xtra]["#{n}"][:nstamt]
+    nstdesc = params[:xtra]["#{n}"][:nstdesc]
+  else
+    nstamt = ""
+    nstdesc = ""
+  end 
+%>
+<div class="col-md-5">
   <strong>AMOUNT</strong>
-  <%= number_field_tag "xtra[#{n}][nstamt]", params[:xtra]["#{n}"][:nstamt], 
+  <%= number_field_tag "xtra[#{n}][nstamt]", nstamt, 
           placeholder: "", 
           autofocus: true,  
           step: 0.01,
           class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
 </div>
-<div class="col-md-8">
+<div class="col-md-7">
   <strong>DESCRIPTION</strong>
-  <%= text_area_tag "xtra[#{n}][nstdesc]", params[:xtra]["#{n}"][:nstdesc], 
+  <%= text_area_tag "xtra[#{n}][nstdesc]", nstdesc, 
           placeholder: "", 
           autofocus: true,
           class: "form-control search-box input-lg", 
