@@ -13,6 +13,7 @@
   <% sipa = params[:sipa] %>
   <% dedc = params[:dedc] %>
   <% descdc = params[:descdc] %>
+  <% xtra = params[:xtra] %>
 <% else %>
   <% amt = @payslip.amt %>
   <% alwnc = @payslip.alwnc %>
@@ -27,7 +28,10 @@
   <% sipa = @payslip.sipa %>
   <% dedc = @payslip.dedc %>
   <% descdc = @payslip.descdc %>
+  <% xtra = @payslip.xtra %>
 <% end %>
+
+<%= xtra %>
 
 <div class="row">
 <div class="col-sm-8 bg-light">
@@ -36,7 +40,7 @@
   <% nett = gross - epf.to_f - socs.to_f - sip.to_f  %>
   <% total = gross + epfa.to_f + socsa.to_f + sipa.to_f %>
   <% psl_id = @payslip.psl_id %>
-  <%= render 'taskas/payslip', amt: amt, alwnc: alwnc, fxddc: fxddc, epf: epf, epfa: epfa, socs: socs, socsa: socsa, sip: sip, sipa: sipa %>
+  <%= render 'taskas/payslip', amt: amt, alwnc: alwnc, fxddc: fxddc, epf: epf, epfa: epfa, socs: socs, socsa: socsa, sip: sip, sipa: sipa, xtra: xtra %>
   <%= form_for(:payslip, :url => {:controller=>'taskas', :action=>'updpayslip'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
       <br>
       <!-- FORM ENTRY CREATION -->
