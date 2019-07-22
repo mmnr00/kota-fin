@@ -10,6 +10,7 @@
   <% total = gross + epfa.to_f + socsa.to_f + sipa.to_f %>
   <% date = @payslip.created_at %>
   <% psl_id = @payslip.psl_id %>
+  <%= xtra = eval(xtra) %>
 <% elsif @payslip.present? && params[:edit] == "1" %>
   <% addtn = @payslip.addtn %>
   <% addtn = params[:addtn] %>
@@ -37,6 +38,7 @@
   <% ctr = @taska.payslips.where(mth: month, year: year).count %>
   <% psl_id = "#{@taska.subdomain}-#{month}-#{year.last(2)}-#{ctr+1}" %>
 <% end %>
+
 
 <!-- START PAYSLIP --> 
 <div class="container">

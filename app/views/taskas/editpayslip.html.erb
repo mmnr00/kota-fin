@@ -14,6 +14,7 @@
   <% dedc = params[:dedc] %>
   <% descdc = params[:descdc] %>
   <% xtra = params[:xtra] %>
+  <%= xtraf=xtra.to_s %>
 <% else %>
   <% amt = @payslip.amt %>
   <% alwnc = @payslip.alwnc %>
@@ -31,7 +32,8 @@
   <% xtra = @payslip.xtra %>
 <% end %>
 
-<%= xtra %>
+<%= xtra.class %>
+<%= params[:edit] %>
 
 <div class="row">
 <div class="col-sm-8 bg-light">
@@ -63,6 +65,7 @@
       <%= f.hidden_field :sipa, value: sipa %>
       <%= f.hidden_field :amtepfa, value: total %>
       <%= f.hidden_field :psl_id, value: psl_id %>
+      <%= f.hidden_field :xtra, value: xtraf %>
       <% if @payslip.notf == 1 %>
         <strong>EMAIL NOTIFICATION SENT TO STAFF</strong>
       <% else %>
@@ -212,7 +215,9 @@
                   autofocus: true,
                   class: "form-control search-box input-lg", 
                   style: "text-transform:uppercase" %>
-        </div>
+        </div><br><br><br><br>
+        <div class= "col-md-12" style="background-color:#ffd27f"><h5 align="center">PAYSLIP EXTRA</h5></div>
+        <%= render 'taskas/nstpsl', xtra: xtra %>
       </div>
       
       <br>
