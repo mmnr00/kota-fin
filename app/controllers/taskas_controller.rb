@@ -1638,7 +1638,8 @@ class TaskasController < ApplicationController
                                       :sipa,
                                       :dedc,
                                       :descdc,
-                                      :notf)
+                                      :notf,
+                                      :xtra)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
