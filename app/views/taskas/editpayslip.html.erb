@@ -1,44 +1,59 @@
 <!-- IF FORM RESUBMISSION -->
-<% if params[:upd] == "true" %>
-  <% amt = params[:amt] %>
-  <% alwnc = params[:alwnc] %>
-  <% fxddc = params[:fxddc] %>
-  <% addtn = params[:addtn] %>
-  <% desc = params[:desc] %>
-  <% epf = params[:epf] %>
-  <% epfa = params[:epfa] %>
-  <% socs = params[:socs] %>
-  <% socsa = params[:socsa] %>
-  <% sip = params[:sip] %>
-  <% sipa = params[:sipa] %>
-  <% dedc = params[:dedc] %>
-  <% descdc = params[:descdc] %>
-  <% xtra = params[:xtra] %>
-  <%= xtraf=xtra.to_s %>
-<% else %>
-  <% amt = @payslip.amt %>
-  <% alwnc = @payslip.alwnc %>
-  <% fxddc = @payslip.fxddc %>
-  <% addtn = @payslip.addtn %>
-  <% desc = @payslip.desc %>
-  <% epf = @payslip.epf %>
-  <% epfa = @payslip.epfa %>
-  <% socs = @payslip.socs %>
-  <% socsa = @payslip.socsa %>
-  <% sip = @payslip.sip %>
-  <% sipa = @payslip.sipa %>
-  <% dedc = @payslip.dedc %>
-  <% descdc = @payslip.descdc %>
-  <% xtra = @payslip.xtra %>
-<% end %>
 
-<%= xtra.class %>
-<%= params[:edit] %>
+<% 
+xtraval = 0.00
+if params[:upd] == "true"
+  amt = params[:amt]
+  alwnc = params[:alwnc]
+  fxddc = params[:fxddc]
+  addtn = params[:addtn]
+  desc = params[:desc]
+  epf = params[:epf]
+  epfa = params[:epfa]
+  socs = params[:socs]
+  socsa = params[:socsa]
+  sip = params[:sip]
+  sipa = params[:sipa]
+  dedc = params[:dedc]
+  descdc = params[:descdc]
+  xtra = params[:xtra]
+  xtraf=xtra.to_s
+  if params[:xtra].present?
+      xtrah = eval(params[:xtra].to_s)
+      (1..5).each do |n|
+        xtraval += xtrah["#{n}"]["nstamt"].to_f
+      end
+   end
+else
+  amt = @payslip.amt
+  alwnc = @payslip.alwnc
+  fxddc = @payslip.fxddc
+  addtn = @payslip.addtn
+  desc = @payslip.desc
+  epf = @payslip.epf
+  epfa = @payslip.epfa
+  socs = @payslip.socs
+  socsa = @payslip.socsa
+  sip = @payslip.sip
+  sipa = @payslip.sipa
+  dedc = @payslip.dedc
+  descdc = @payslip.descdc
+  xtra = @payslip.xtra
+  xtraf=xtra.to_s
+  if xtra.present?
+      xtrah = eval(xtra)
+      (1..5).each do |n|
+        xtraval += xtrah["#{n}"]["nstamt"].to_f
+      end
+   end
+end %>
+
+
 
 <div class="row">
 <div class="col-sm-8 bg-light">
   <div style="background-color:#ccccff"><h4 align="center">UPDATE PAYSLIP</h4></div>
-  <% gross = amt.to_f + alwnc.to_f - fxddc.to_f + addtn.to_f - dedc.to_f %>
+  <% gross = amt.to_f + alwnc.to_f - fxddc.to_f + addtn.to_f - dedc.to_f + xtraval %>
   <% nett = gross - epf.to_f - socs.to_f - sip.to_f  %>
   <% total = gross + epfa.to_f + socsa.to_f + sipa.to_f %>
   <% psl_id = @payslip.psl_id %>
