@@ -250,6 +250,7 @@ Rails.application.routes.draw do
   get 'remove_classroom', to: 'kids#remove_classroom'
   get '/print/kid_pdf', to: 'kids#kid_pdf', as: 'kid_profile'
   post '/add_taska', to: 'kids#add_taska'
+  get '/billview', to: 'kids#billvw'
   get '/bill_view', to: 'kids#bill_view'
   get '/bill_pdf', to: 'kids#bill_pdf'
   get '/bill_pdf_booking', to: 'kids#bill_pdf_booking'

@@ -346,12 +346,12 @@ class PaymentsController < ApplicationController
 
       end
       # start send sms to parents
-      if Rails.env.production?
+      if 1==1 #Rails.env.production?
         @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
         @client.messages.create(
           to: "+6#{@kid.ph_1}#{@kid.ph_2}",
           from: ENV["TWILIO_PHONE_NO"],
-          body: "New bill from #{@taska.name} . Please click at this link <#{bill_view_url(payment: @payment.id, kid: @kid.id, taska: @kid.taska.id)}> to make payment"
+          body: "New bill from #{@taska.name} . Please click at this link <#{billview_url(payment: @payment.id, kid: @kid.id, taska: @kid.taska.id)}> to make payment"
         )
       end
       flash[:success] = "Bills created successfully and SMS send to #{@kid.ph_1}#{@kid.ph_2}"

@@ -17,13 +17,14 @@
       <div class="container">
         <div class="row">
           <% @kid_unpaid.each do |bill| %>
+
             
             <!-- Team member -->
             <div class="col-xs-12 col-sm-6 col-md-4">
               <div class="frontside">
                 <div class="card">
                   <% @kid = bill.kids.first %>
-                  <% if bill.paid %>
+                    <% if bill.paid %>
                     <%= link_to bill_view_path(payment: bill.id, kid: @kid.id, taska: @taska.id), class: "btn btn-sm btn-success active", target:"_blank" do %>
                       <i class="fa fa-download"></i> RECEIPT
                     <% end %>

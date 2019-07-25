@@ -18,6 +18,11 @@ class KidsController < ApplicationController
 		render action: "show", layout: "dsb-admin-classroom" 
 	end
 
+	def billvw
+		#redirect_to root_path
+		redirect_to bill_view_path(kid: params[:kid], payment: params[:payment], taska: params[:taska])
+	end
+
 	def new
 			if current_parent.present?
 				@parent = current_parent

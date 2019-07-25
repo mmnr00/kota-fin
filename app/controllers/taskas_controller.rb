@@ -379,12 +379,12 @@ class TaskasController < ApplicationController
     @taska = Taska.find(params[:id])
     @payment = Payment.find(params[:bill])
     @kid = Kid.find(params[:kid])
-    if Rails.env.production?
+    if 1==1 #Rails.env.production?
       @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
         @client.messages.create(
           to: "+6#{@kid.ph_1}#{@kid.ph_2}",
           from: ENV["TWILIO_PHONE_NO"],
-          body: "Reminder from #{@taska.name.upcase}. Please click here <#{bill_view_url(payment: @payment.id, kid: @kid.id, taska: @taska.id)}> to payment."
+          body: "Reminder from #{@taska.name.upcase}. Please click here <#{billview_url(payment: @payment.id, kid: @kid.id, taska: @taska.id)}> to payment."
         )
     end
     @payment.reminder = true
