@@ -48,11 +48,15 @@ class TaskasController < ApplicationController
                 :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
         #render json: data_billplz and return
         data = JSON.parse(data_billplz.to_s)
-        if data["id"].present? && (data["paid"] == true)
-          newarr = [(data["paid_amount"].to_f/100),data["paid_at"].to_time,data["id"]]
+        if data["id"].present? 
+          if (data["paid"] == true)
+            newarr = [(data["paid_amount"].to_f/100),data["paid_at"].to_time,data["id"]]
+            @taska.cred += data["paid_amount"].to_f/100
+          else
+            newarr = 0.00
+          end
           modarr = @taska.hiscred.map { |x| x == data["id"] ? newarr : x }
           @taska.hiscred = modarr
-          @taska.cred += data["paid_amount"].to_f/100
           @taska.save
         end
       end
