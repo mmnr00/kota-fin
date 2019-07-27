@@ -83,15 +83,15 @@
                         <% end %>
                       <% end %>
                       <hr>
-                      <h6 align="center">ADDITIONAL SMS (RM 0.50)</font></h6>
+                      <h6 align="center">ADDITIONAL SMS</font></h6>
                       <%= form_tag sms_reminder_path, method: :get do %>
                         <div class="row">
                           <div class="col-md-1"></div>
                           <div class="col-md-8">
-                            <%= text_field_tag :phk, "01162801556",
+                            <%= text_field_tag :phk, "",
                                 placeholder: "Example: 01162801556",
-                                class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
-                            <i>Enter phone number here</i>
+                                class: "form-control search-box input-lg"%>
+                            <i>Enter phone number(RM 0.50)</i>
                             <%= hidden_field_tag :id, @taska.id %>
                             <%= hidden_field_tag :kid, @kid.id %>
                             <%= hidden_field_tag :bill, bill.id %>

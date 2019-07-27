@@ -446,7 +446,7 @@ class TaskasController < ApplicationController
       phk = "#{@kid.ph_1}#{@kid.ph_2}"
       nufcred = true
     end
-    if 1==0 && nufcred #Rails.env.production?
+    if 1==1 && nufcred #Rails.env.production?
       @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
         @client.messages.create(
           to: "+6#{phk}",
