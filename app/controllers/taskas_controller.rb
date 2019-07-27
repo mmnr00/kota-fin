@@ -38,6 +38,25 @@ class TaskasController < ApplicationController
   end
 
   def hiscrdt
+    @taska.hiscred.each do |hc|
+      if hc.class == String
+        url_bill = "#{ENV['BILLPLZ_API']}bills/#{hc}"
+        data_billplz = HTTParty.get(url_bill.to_str,
+                :body  => { }.to_json, 
+                            #:callback_url=>  "YOUR RETURN URL"}.to_json,
+                :basic_auth => { :username => "#{ENV['BILLPLZ_APIKEY']}" },
+                :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+        #render json: data_billplz and return
+        data = JSON.parse(data_billplz.to_s)
+        if data["id"].present? && (data["paid"] == true)
+          newarr = [(data["paid_amount"].to_f/100),data["paid_at"].to_time,data["id"]]
+          modarr = @taska.hiscred.map { |x| x == data["id"] ? newarr : x }
+          @taska.hiscred = modarr
+          @taska.cred += data["paid_amount"].to_f/100
+          @taska.save
+        end
+      end
+    end
     render action: "hiscrdt", layout: "dsb-admin-overview" 
   end
 
@@ -45,13 +64,13 @@ class TaskasController < ApplicationController
     amt = params[:amt].to_f * 100
     url_bill = "#{ENV['BILLPLZ_API']}bills"
     data_billplz = HTTParty.post(url_bill.to_str,
-            :body  => { :collection_id => "bl3afxgy", 
+            :body  => { :collection_id => "#{ENV['COLLECTION_ID']}", 
                         :email=> "bill@kidcare.my",
-                        :name=> "topcred", 
+                        :name=> "#{@taska.name} Credit Reload", 
                         :amount=>  amt,
-                        :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
-                        :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
-                        :description=>"try desc"}.to_json, 
+                        :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update?taska=#{@taska.id}",
+                        :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update?taska=#{@taska.id}",
+                        :description=>"Credit Reload for #{@taska.name}(#{@taska.id})"}.to_json, 
                         #:callback_url=>  "YOUR RETURN URL"}.to_json,
             :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
             :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
@@ -414,10 +433,16 @@ class TaskasController < ApplicationController
       @kid = Kid.find(params[:kid])
     if params[:xtrarem].present?
       phk = "#{params[:phk]}"
+      if @taska.cred <= 0
+        nufcred = false
+      else
+        nufcred = true
+      end
     else
       phk = "#{@kid.ph_1}#{@kid.ph_2}"
+      nufcred = true
     end
-    if 1==0 #Rails.env.production?
+    if 1==0 && nufcred #Rails.env.production?
       @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
         @client.messages.create(
           to: "+6#{phk}",
@@ -425,14 +450,19 @@ class TaskasController < ApplicationController
           body: "Reminder from #{@taska.name.upcase}. Please click here <#{billview_url(payment: @payment.id, kid: @kid.id, taska: @taska.id)}> to payment."
         )
     end
-    if params[:xtrarem].present?
+    if params[:xtrarem].present? && nufcred
       @taska.hiscred << [-0.5,Time.now,phk,@payment.bill_id]
+      @taska.cred -= 0.5
       @taska.save
     else
       @payment.reminder = true
+      @payment.save
     end
-    @payment.save
-    flash[:success] = "SMS reminder send to +6#{phk}"
+    if nufcred 
+      flash[:success] = "SMS reminder send to +6#{phk}"
+    else
+      flash[:danger] = "Insufficient credit. Please reload"
+    end
     if params[:account].present?
       redirect_to bill_account_path(@taska, 
                                     month: params[:month],

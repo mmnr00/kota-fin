@@ -1,4 +1,4 @@
-<h4> Credit Balance : RM 50 </h4>
+<h4> Credit Balance : RM <%= @taska.cred %> </h4>
 <%= form_tag topcred_path, method: :get do %>
   <div class="row">
     <div class="col-md-4">
@@ -22,7 +22,6 @@
         <th>DATE & TIME</th>
         <th>DESCRIPTION</th>
         <th>AMOUNT (RM)</th>
-        <th>CREDIT BALANCE (RM)</th>
       </tr>
     </thead>
     <tbody>
@@ -34,11 +33,10 @@
             <% if hcr[0] < 0 %>
               SMS Charges for Bill ID <strong><%= hcr[3] %></strong> to <strong><%= hcr[2] %></strong>
             <% else %>
-              CREDIT TOPUP <a href="<%= root_url(id: 52) %>"><font style="color:blue"> VIEW RECEIPTS</font></a>
+              CREDIT TOPUP <a href="<%= "#{ENV['BILLPLZ_URL']}bills/#{hcr[2]}" %>"><font style="color:blue"> VIEW RECEIPTS</font></a>
             <% end %>
           </td>
           <td><%= hcr[0]%></td>
-          <td>30.3</td>
         </tr>
       <% end %>
       <% end %>

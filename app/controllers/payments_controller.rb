@@ -11,34 +11,57 @@ class PaymentsController < ApplicationController
   end
 
   def update
-    @bill = Payment.where(bill_id: "#{params[:billplz][:id]}").first
-    if @bill.present?
-    #@kid = @bill.kid
-      @bill.paid = params[:billplz][:paid]
-      @bill.updated_at = params[:billplz][:paid_at]
-      @bill.mtd = "BILLPLZ"
-      @bill.save
-      if @bill.paid
-        flash[:success] = "Bill was successfully paid"
+    if params[:taska].present? # for credit topup only
+      @taska = Taska.find(params[:taska])
+      url_bill = "#{ENV['BILLPLZ_API']}bills/#{params[:billplz][:id]}"
+      data_billplz = HTTParty.get(url_bill.to_str,
+              :body  => { }.to_json, 
+                          #:callback_url=>  "YOUR RETURN URL"}.to_json,
+              :basic_auth => { :username => "#{ENV['BILLPLZ_APIKEY']}" },
+              :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+      #render json: data_billplz and return
+      data = JSON.parse(data_billplz.to_s)
+      if data["id"].present? && (data["paid"] == true)
+        newarr = [(data["paid_amount"].to_f/100),data["paid_at"].to_time,data["id"]]
+        modarr = @taska.hiscred.map { |x| x == data["id"] ? newarr : x }
+        @taska.hiscred = modarr
+        @taska.cred += data["paid_amount"].to_f/100
+        @taska.save
+        flash[:notice] = "Credit Reload Successful"
       else
-        flash[:danger] = "Bill was not paid due to bank rejection. Please try again"
+        flash[:danger] = "Credit Reload Failed. Please try again"
       end
-      if (@bill.kids.present?)
-        #@parent = @bill.parent
-        redirect_to bill_view_path(payment: @bill.id , kid: @bill.kids.first.id, taska: @bill.taska.id)
-      elsif (@bill.teacher.present?)
-        redirect_to course_payment_pdf_path(payment: @bill.id, format: :pdf)
-      elsif (@bill.taska.present?)
-        @taska = @bill.taska
+      redirect_to hiscrdt_path(id: params[:taska])
+    else
+      @bill = Payment.where(bill_id: "#{params[:billplz][:id]}").first
+      if @bill.present?
+      #@kid = @bill.kid
+        @bill.paid = params[:billplz][:paid]
+        @bill.updated_at = params[:billplz][:paid_at]
+        @bill.mtd = "BILLPLZ"
+        @bill.save
         if @bill.paid
-          if (expire = @taska.expire) >= (my_time = Time.now)
-            @taska.expire = expire + 1.months
-          else
-            @taska.expire = my_time + 1.months
-          end
-          @taska.save
+          flash[:success] = "Bill was successfully paid"
+        else
+          flash[:danger] = "Bill was not paid due to bank rejection. Please try again"
         end
-        redirect_to taska_path(@taska.id)
+        if (@bill.kids.present?)
+          #@parent = @bill.parent
+          redirect_to bill_view_path(payment: @bill.id , kid: @bill.kids.first.id, taska: @bill.taska.id)
+        elsif (@bill.teacher.present?)
+          redirect_to course_payment_pdf_path(payment: @bill.id, format: :pdf)
+        elsif (@bill.taska.present?)
+          @taska = @bill.taska
+          if @bill.paid
+            if (expire = @taska.expire) >= (my_time = Time.now)
+              @taska.expire = expire + 1.months
+            else
+              @taska.expire = my_time + 1.months
+            end
+            @taska.save
+          end
+          redirect_to taska_path(@taska.id)
+        end
       end
     end
   end
