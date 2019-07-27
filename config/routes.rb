@@ -229,6 +229,8 @@ Rails.application.routes.draw do
   post '/taska/:id/upldclsrm', to: 'taskas#upldclsrm', as: 'upldclsrm'
   get '/taska/:id/xlskid', to: 'taskas#xlskid', as: 'xlskid'
   post '/taska/:id/upldkid', to: 'taskas#upldkid', as: 'upldkid'
+  get '/taska/:id/hiscrdt', to: 'taskas#hiscrdt', as: 'hiscrdt'
+  get '/taska/:id/topcred', to: 'taskas#topcred', as: 'topcred'
 
   #~PAYSLIPS
   get 'viewpayslips', to: 'payslips#viewpsl', as: 'viewpsl'

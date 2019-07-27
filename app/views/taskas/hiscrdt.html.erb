@@ -1,0 +1,47 @@
+<h4> Credit Balance : RM 50 </h4>
+<%= form_tag topcred_path, method: :get do %>
+  <div class="row">
+    <div class="col-md-4">
+      <%= select_tag :amt,
+          options_for_select(["10","20","50","100"], selected: "100"),
+          class: "form-control search-box input-lg" %>
+      <i>Please choose amount to topup</i>
+      <%= hidden_field_tag :id, @taska.id %>
+    </div>
+    <div class="col-md-0">
+      <%= button_tag(type: :submit, class: "btn btn-sm btn-primary active", id: "submit_expense") do %>
+        <i class="fa fa-check"></i> TOPUP
+      <% end %>
+    </div>
+  </div>
+<% end %>
+<div class="table-responsive">
+  <table class="table table-striped table-bordered">
+    <thead>
+      <tr style="background-color:#d8b2d8">
+        <th>DATE & TIME</th>
+        <th>DESCRIPTION</th>
+        <th>AMOUNT (RM)</th>
+        <th>CREDIT BALANCE (RM)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @taska.hiscred.reverse.each do |hcr| %>
+      <% if hcr.class == Array %>
+        <tr>
+          <td><%= "#{hcr[1].in_time_zone('Singapore').strftime('%d-%^b-%y')}  (#{hcr[1].in_time_zone('Singapore').strftime('%I:%M %p')})"%></td>
+          <td>
+            <% if hcr[0] < 0 %>
+              SMS Charges for Bill ID <strong><%= hcr[3] %></strong> to <strong><%= hcr[2] %></strong>
+            <% else %>
+              CREDIT TOPUP <a href="<%= root_url(id: 52) %>"><font style="color:blue"> VIEW RECEIPTS</font></a>
+            <% end %>
+          </td>
+          <td><%= hcr[0]%></td>
+          <td>30.3</td>
+        </tr>
+      <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

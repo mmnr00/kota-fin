@@ -24,7 +24,9 @@ class TaskasController < ApplicationController
                                   :xlsclsrm,
                                   :xlskid,
                                   :upldclsrm,
-                                  :upldkid]
+                                  :upldkid,
+                                  :hiscrdt,
+                                  :topcred]
   before_action :set_all
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
@@ -33,6 +35,37 @@ class TaskasController < ApplicationController
   # GET /taskas.json
   def index
     @taskas = Taska.all
+  end
+
+  def hiscrdt
+    render action: "hiscrdt", layout: "dsb-admin-overview" 
+  end
+
+  def topcred
+    amt = params[:amt].to_f * 100
+    url_bill = "#{ENV['BILLPLZ_API']}bills"
+    data_billplz = HTTParty.post(url_bill.to_str,
+            :body  => { :collection_id => "bl3afxgy", 
+                        :email=> "bill@kidcare.my",
+                        :name=> "topcred", 
+                        :amount=>  amt,
+                        :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                        :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                        :description=>"try desc"}.to_json, 
+                        #:callback_url=>  "YOUR RETURN URL"}.to_json,
+            :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+            :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+    #render json: data_billplz and return
+    data = JSON.parse(data_billplz.to_s)
+    if (bill_id=data["id"]).present?
+      @taska.hiscred << bill_id
+      @taska.save
+      redirect_to "#{ENV['BILLPLZ_URL']}/bills/#{bill_id}"
+    else
+      flash[:danger] = "Credit Topup Failed. Please try again"
+      redirect_to hiscrdt_path(@taska)
+    end
+    
   end
 
   def xlsclsrm
@@ -384,7 +417,7 @@ class TaskasController < ApplicationController
     else
       phk = "#{@kid.ph_1}#{@kid.ph_2}"
     end
-    if 1==1 #Rails.env.production?
+    if 1==0 #Rails.env.production?
       @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
         @client.messages.create(
           to: "+6#{phk}",
@@ -393,7 +426,8 @@ class TaskasController < ApplicationController
         )
     end
     if params[:xtrarem].present?
-      @payment.reminder = false
+      @taska.hiscred << [-0.5,Time.now,phk,@payment.bill_id]
+      @taska.save
     else
       @payment.reminder = true
     end
