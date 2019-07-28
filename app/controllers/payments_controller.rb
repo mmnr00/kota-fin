@@ -388,9 +388,12 @@ class PaymentsController < ApplicationController
               from: ENV["TWILIO_PHONE_NO"],
               body: "New bill from #{@taska.name} . Please click at this link <#{billview_url(payment: @payment.id, kid: @kid.id, taska: @kid.taska.id)}> to make payment"
             )
+            @taska.cred -= 0.5
+            @taska.hiscred << [-0.5,Time.now,"#{@kid.sph_1}#{@kid.sph_2}",@payment.bill_id]
+            @taska.save
             flash[:notice] = "Bills created successfully and SMS send to #{@kid.sph_1}#{@kid.sph_2}"
           else
-            flash[:danger] = "Insufficient credit. Bill not send to second phone no"
+            flash[:danger] = "Insufficient credit. SMS not send to second phone number. Please reload"
           end
         end
       end
