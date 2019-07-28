@@ -379,6 +379,8 @@ end
 																	:ic_3,
 																	:ph_1,
 																	:ph_2,
+																	:sph_1,
+																	:sph_2,
 																	:dob,
 																	:birth_place,
 																	:arr_infam,

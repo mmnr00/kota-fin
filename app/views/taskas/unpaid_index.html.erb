@@ -85,8 +85,8 @@
                       <hr>
                       <h6 align="center">ADDITIONAL SMS</font></h6>
                       <%= form_tag sms_reminder_path, method: :get do %>
-                      <%  if 1==0
-                            secph = "01162801556"
+                      <%  if @kid.sph_1.present? && @kid.sph_1.present?
+                            secph = "#{@kid.sph_1}#{@kid.sph_2}"
                           else
                             secph = ""
                           end
