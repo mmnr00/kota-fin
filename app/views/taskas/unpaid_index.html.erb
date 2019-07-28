@@ -64,7 +64,8 @@
                      <%= bill.bill_year %><br>
                      <a href="<%= bill_view_url(payment: bill.id, kid: bill.kids.first.id, taska: @taska.id) %>" target="_blank">
                       <font color="blue"><h7>BILL LINK</h7></font>
-                      </a>
+                      </a><br>
+                      <a>ID: <strong><%= bill.bill_id %></strong></a>
                     </p>
 
                   </div>

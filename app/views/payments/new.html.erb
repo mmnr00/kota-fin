@@ -331,6 +331,13 @@
                 </div>
               </div>
             </div>
+              <div class="control-label col-sm-12">
+                <% if @kid.sph_1.present? && @kid.sph_2.present? %><br>
+                  <%= f.check_box :s2ph, checked: false %> 
+                  <b>SEND BILL TO SECOND PHONE NUMBER (RM 0.50)</b><br>
+                  <i>Please make sure you have sufficient credit</i>
+                <% end %>
+              </div>
           </div>
           
           <div>
