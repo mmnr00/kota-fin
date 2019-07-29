@@ -437,7 +437,7 @@ class TaskasController < ApplicationController
       @kid = Kid.find(params[:kid])
     if params[:xtrarem].present?
       phk = "#{params[:phk]}"
-      if @taska.cred <= 0
+      if @taska.cred < 0.5
         nufcred = false
       else
         nufcred = true
