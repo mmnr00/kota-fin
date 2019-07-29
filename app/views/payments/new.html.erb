@@ -286,14 +286,14 @@
       <% total_bill = total_bill - params[:discount].to_f + params[:addtn].to_f %>
       <div class ="row">
         <div class="bg-primary col-sm-12"><h2 align="center" style="color:white">
-          TOTAL: RM <%= total_bill %></h2></div>
+          TOTAL: RM <%= total_bill.round(2) %></h2></div>
       </div><br>
       <div class ="row">
         <div class="bg-success col-sm-5"><h4 align="center" style="color:white">
-          ADDITIONAL: RM <%= params[:addtn].to_f %></h4></div>
+          ADDITIONAL: RM <%= params[:addtn].to_f.round(2) %></h4></div>
         <div class="col-sm-2"></div>
         <div class="bg-danger col-sm-5"><h4 align="center" style="color:white">
-          DISCOUNT: RM <%= params[:discount].to_f %></h4></div>
+          DISCOUNT: RM <%= params[:discount].to_f.round(2) %></h4></div>
       </div><br><br>
       <div class='col-sm-12'>
         <%= form_for(@payment,:url => {:controller=>'payments', :action=>'create'},:html => {class: "form-horizontal", role: "form"}) do |f| %>
