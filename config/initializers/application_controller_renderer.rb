@@ -6,6 +6,7 @@
 #     https: false
 #   )
 # end
+$anisf = [8,46,50,51]
 $my_time = Time.now.in_time_zone('Singapore')
 
 $trial = 30

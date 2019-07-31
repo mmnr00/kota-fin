@@ -62,16 +62,7 @@ class TchdetailsController < ApplicationController
 			end
 		elsif pars[:college_id].present? #teacher college
 
-			# @college = College.find(pars[:college_id])
-			# owner = @college.owners.last
-
-			# owner.colleges.each do |clg|
-			# 	exs = clg.tchdetails.where(ic_1: @tchdetail.ic_1, ic_2: @tchdetail.ic_2, ic_3: @tchdetail.ic_3)
-			# 	if exs.present?
-			# 		break
-			# 	end
-			# end
-
+		
 			@college = College.find(pars[:college_id])
 			owner = @college.owners.last
 			tchdc = nil
@@ -87,7 +78,7 @@ class TchdetailsController < ApplicationController
 			
 			if exs.present?
 				tchdclg = exs.first.tchdetail_colleges.first
-				tchdclg.college_id = @college.id
+				tchdclg.college_id = @college.id unless !$anisf.include?(@college.id)
 				tchdclg.save
 				@tchdetail = exs.first
 			else
@@ -99,6 +90,8 @@ class TchdetailsController < ApplicationController
 				end
 			end
 			redirect_to tchd_anis_path(id: @tchdetail.id, anis: @tchdetail.anis)
+
+
 		end
 	end
 
