@@ -41,7 +41,10 @@ Rails.application.routes.draw do
   get '/add_expire', to: 'ptns_mmbs#add_expire'
   get '/add_mmbid', to: 'ptns_mmbs#add_mmbid'
   get '/mmblist_xls', to: 'ptns_mmbs#mmblist_xls'
-
+  get '/reg_event', to: 'ptns_mmbs#reg_event'
+  get '/reg_cfm', to: 'ptns_mmbs#reg_cfm'
+  get '/reg_list', to: 'ptns_mmbs#reg_list'
+  get '/reg_listxls', to: 'ptns_mmbs#reg_listxls'
 
 
   #~PAGES

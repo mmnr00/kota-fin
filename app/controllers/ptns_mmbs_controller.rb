@@ -1,6 +1,33 @@
 class PtnsMmbsController < ApplicationController
 	before_action :set_all
 
+	def reg_event
+		@ptnsmmb = PtnsMmb.new
+	end
+
+	def reg_cfm
+		@ptnsmmb = PtnsMmb.new(ptnsmmb_params)
+		if PtnsMmb.where(ic1: @ptnsmmb.ic1,ic2:@ptnsmmb.ic2,ic3:@ptnsmmb.ic3).present?
+			flash[:danger] = "DAH LA NGOK"
+		else
+			if @ptnsmmb.save
+				flash[:success] = "YEAY #{@ptnsmmb.name}"
+			else
+				flash[:warning] = "DOWN"
+			end
+		end
+		redirect_to reg_event_path(evid: @ptnsmmb.tp)
+
+	end
+
+	def reg_list
+		@ptnsmmbs = PtnsMmb.where(tp: params[:evid])
+	end
+
+	def reg_listxls
+		@ptnsmmbs = PtnsMmb.where(tp: params[:evid])
+	end
+
 	def mmblist_xls
 		if params[:tp] == "ptns"
 			@clb = "PERSATUAN TASKA NEGERI SELANGOR"

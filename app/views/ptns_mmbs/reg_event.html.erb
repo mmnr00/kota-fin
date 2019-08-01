@@ -1,0 +1,117 @@
+REG EVENT
+
+<%= form_for(@ptnsmmb, :url => {:controller=>'ptns_mmbs', :action=>'reg_cfm'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+  
+  <div class="form-group"> <!-- name -->
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong>NAMA PENUH</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8 col-12">
+        <%= f.text_field :name, class: "form-control", placeholder: "SEPERTI KAD PENGENALAN", autofocus: true, required: true %>
+      </div>
+    </div>
+  </div>
+
+  <!-- IC -->
+  <div class="form-group"> 
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong>NO KAD PENGENALAN</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 col-4">
+        <%= f.text_field :ic1, maxlength: 6 ,class: "form-control", autofocus: true, required: true %>
+      </div> <strong>-</strong>
+      <div class="col-sm-2 col-3">
+       <%= f.text_field :ic2, maxlength: 2, class: "form-control", placeholder: "", autofocus: true, required: true  %>
+      </div> <strong>-</strong>
+      <div class="col-sm-3 col-4">
+        <%= f.text_field :ic3, maxlength: 4, class: "form-control", placeholder: "", autofocus: true, required: true  %>
+      </div>         
+    </div>
+  </div>
+
+  <!-- ADDRESS-->
+  <div class="form-group"> 
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong>ALAMAT</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8 col-12">
+       <%= f.text_field :add1, class: "form-control", autofocus: true, required: true %> <font size="2">&nbsp</font>
+      </div>
+      <div class="col-sm-8 col-12">
+       <%= f.text_field :add2, class: "form-control", autofocus: true %> <font size="2">&nbsp</font>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3 col-6">
+       <%= f.text_field :city, class: "form-control", autofocus: true, required: true %> <font size="2"> Bandar </font>
+      </div>
+      <div class="col-sm-3 col-5">
+       <%= f.text_field :state, class: "form-control", autofocus: true, required: true %> <font size="2"> Negeri </font>
+      </div>
+      <div class="col-sm-2 col-4">
+       <%= f.number_field :postcode, class: "form-control", autofocus: true, required: true %> <font size="2"> Poskod </font>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOB -->
+  <div class="form-group"> 
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong>TARIKH LAHIR</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8 col-12">
+        <%= f.date_select :dob, 
+                          {order:[:day, :month, :year],
+                          prompt: { day: 'HARI', month: 'BULAN', year: 'TAHUN' },
+                          start_year: 1930,
+                          selected: @ptnsmmb.dob}, 
+                          {required: true} %>
+      </div>
+    </div>
+  </div>
+
+  <!-- YOUR ROLE-->
+  <div class="form-group"> 
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong>PEKERJAAN</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8 col-8">
+        <%= f.select :ts_job, options_for_select(["Pengusaha TASKA", 
+                                                  "Pengurus TASKA",
+                                                  "Pengasuh Di Rumah/TASKA",
+                                                  "Pelajar", 
+                                                  "Ibu-Bapa",
+                                                  "Lain-lain"], 
+                                                  selected: @ptnsmmb.ts_job), 
+        {include_blank: "SILA PILIH"} %>
+      </div>
+    </div>
+  </div>
+
+  <%= f.hidden_field :tp, value: params[:evid] %>
+
+  <!-- SUBMIT BUTTON -->
+  <div class="form-group">
+    <div class="row">
+      <div class="col-sm-offset-2 col-sm-10 col-4">
+        <%= f.submit :"DAFTAR",  class: 'btn btn-primary btn-lg' %>
+      </div>
+    </div>
+  </div>
+
+<% end %>
