@@ -7,7 +7,7 @@ class PtnsMmbsController < ApplicationController
 
 	def reg_cfm
 		@ptnsmmb = PtnsMmb.new(ptnsmmb_params)
-		if PtnsMmb.where(ic1: @ptnsmmb.ic1,ic2:@ptnsmmb.ic2,ic3:@ptnsmmb.ic3).present?
+		if PtnsMmb.where(ic1: @ptnsmmb.ic1,ic2:@ptnsmmb.ic2,ic3:@ptnsmmb.ic3,tp: @ptnsmmb.tp).present?
 			flash[:danger] = "DAH LA NGOK"
 		else
 			if @ptnsmmb.save
@@ -26,6 +26,12 @@ class PtnsMmbsController < ApplicationController
 
 	def reg_listxls
 		@ptnsmmbs = PtnsMmb.where(tp: params[:evid])
+		respond_to do |format|
+      #format.html
+      format.xlsx{
+                  response.headers['Content-Disposition'] = 'attachment; filename="Senarai Pendaftaran.xlsx"'
+      }
+    end
 	end
 
 	def mmblist_xls

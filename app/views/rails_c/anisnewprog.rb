@@ -1,6 +1,6 @@
-College.find(50).courses.each do |crs|
+College.find(51).courses.each do |crs|
 a = crs.dup
-a.college_id = 51
+a.college_id = 54
 a.save
 crs.anisprogs.each do |ap|
 b = ap.dup

@@ -1,0 +1,46 @@
+wb = xlsx_package.workbook
+col_widths= [5,42,15,35,17,25,33]
+wb.styles do |style|
+  header_1 = style.add_style(sz: 20)
+  highlight_cell = style.add_style(bg_color: "EFC376",
+                                  border: Axlsx::STYLE_THIN_BORDER,
+                                  sz: 13,
+                                   alignment: { horizontal: :center })
+  border_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER)       
+  wb.add_worksheet(name: "LIST") do |sheet|
+
+    sheet.add_row ["","SENARAI PENDAFTARAN"]
+    sheet.add_row [""]
+    sheet.add_row ["NO",
+                  "NAMA",
+                  "NO K/P",
+                  "ALAMAT",
+                  "UMUR (TAHUN)",
+                  "STATUS",
+                  "PEKERJAAN",]
+    sheet.rows[0].style = header_1
+    sheet.rows[2].style = highlight_cell
+    counter = 1
+    row =2
+
+    @ptnsmmbs.order('name ASC').each do |mmb|
+    	age = Date.today.year - mmb.dob.year
+      sheet.add_row [counter, 
+                    mmb.name,
+                  	"#{mmb.ic1}-#{mmb.ic2}-#{mmb.ic3}",
+                  	"#{mmb.add1},#{mmb.add2}",
+                  	age,
+                  	mmb.edu,
+                  	mmb.ts_job], 
+      style: [nil, border_cell]
+      sheet.rows[row+counter].style = border_cell
+      counter = counter +1
+      sheet.column_widths *col_widths
+    end
+
+  end
+end
+
+
+
+

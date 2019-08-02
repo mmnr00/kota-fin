@@ -1,4 +1,7 @@
-REG EVENT
+
+<img src=<%= "#{$eventpt[params[:evid]][0]}" %> height="300px" width="300px" >
+<br><br>
+<h4>PENDAFTARAN UNTUK <%= "#{$eventpt[params[:evid]][1]}" %>  </h4>
 
 <%= form_for(@ptnsmmb, :url => {:controller=>'ptns_mmbs', :action=>'reg_cfm'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
   
@@ -78,6 +81,24 @@ REG EVENT
                           start_year: 1930,
                           selected: @ptnsmmb.dob}, 
                           {required: true} %>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATUS PERKAHWINAN -->
+  <div class="form-group"> 
+    <div class="row">
+      <div class="control-label col-sm-8">
+        <strong>STATUS PERKAHWINAN</strong>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-8 col-8">
+        <%= f.select :edu, options_for_select(["Berkahwin", 
+                                                  "Bujang",
+                                                  "Lain-lain"], 
+                                                  selected: @ptnsmmb.edu), 
+        {include_blank: "SILA PILIH"} %>
       </div>
     </div>
   </div>

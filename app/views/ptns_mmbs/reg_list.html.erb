@@ -1,14 +1,23 @@
-<h4>REGISTRATION LIST</h4>
+<img src=<%= "#{$eventpt[params[:evid]][0]}" %> height="300px" width="300px" >
+<br><br>
+<h4>SENARAI PENDAFTARAN <%= "#{$eventpt[params[:evid]][1]}" %></h4>
+<h5><%= @ptnsmmbs.count %> peserta</h5>
+
+<%= link_to reg_listxls_path(evid: params[:evid], format: :xlsx), class: "btn btn-sm btn-info active" do %>
+  <i class="fa fa-file-excel"></i> MUAT TURUN SENARAI
+<% end %>
+
 <div class="table-responsive">
   <table class="table table-striped table-bordered" width="100%" cellspacing="0">
 
     <thead>
       <tr>
-        <th style="background-color:#99cc99">NAME</th>
-        <th style="background-color:#99cc99">IC</th>
-        <th style="background-color:#99cc99">VENUE</th>
-        <th style="background-color:#99cc99">NO OF KIDS</th>
-        <th style="background-color:#99cc99">ACTION</th>
+        <th style="background-color:#99cc99">NAMA</th>
+        <th style="background-color:#99cc99">NO KP</th>
+        <th style="background-color:#99cc99">ALAMAT</th>
+        <th style="background-color:#99cc99">UMUR (TAHUN)</th>
+        <th style="background-color:#99cc99">STATUS</th>
+        <th style="background-color:#99cc99">PEKERJAAN</th>
       </tr>
     </thead>
 
@@ -17,6 +26,10 @@
         <tr>
           <td><%= sc.name %></td>
           <td><%= "#{sc.ic1}-#{sc.ic2}-#{sc.ic3}" %></td>
+          <td><%= "#{sc.add1}-#{sc.add2}-#{sc.ic3}" %></td>
+          <td><%= "#{Date.today.year - sc.dob.year}" %></td>
+          <td><%= sc.edu %></td>
+          <td><%= sc.ts_job %></td>
         </tr>
       <% end %>
     </tbody>
