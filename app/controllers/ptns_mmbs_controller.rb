@@ -8,12 +8,12 @@ class PtnsMmbsController < ApplicationController
 	def reg_cfm
 		@ptnsmmb = PtnsMmb.new(ptnsmmb_params)
 		if PtnsMmb.where(ic1: @ptnsmmb.ic1,ic2:@ptnsmmb.ic2,ic3:@ptnsmmb.ic3,tp: @ptnsmmb.tp).present?
-			flash[:danger] = "DAH LA NGOK"
+			flash[:danger] = "PENDAFTARAN TELAH DIBUAT. TERIMA KASIH"
 		else
 			if @ptnsmmb.save
-				flash[:success] = "YEAY #{@ptnsmmb.name}"
+				flash[:success] = "PENDAFTARAN ANDA BERJAYA #{@ptnsmmb.name}"
 			else
-				flash[:warning] = "DOWN"
+				flash[:warning] = "PENDAFTARAN TIDAK BERJAYA. SILA CUBA LAGI"
 			end
 		end
 		redirect_to reg_event_path(evid: @ptnsmmb.tp)

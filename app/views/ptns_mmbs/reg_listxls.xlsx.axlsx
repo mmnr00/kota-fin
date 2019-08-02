@@ -28,7 +28,7 @@ wb.styles do |style|
       sheet.add_row [counter, 
                     mmb.name,
                   	"#{mmb.ic1}-#{mmb.ic2}-#{mmb.ic3}",
-                  	"#{mmb.add1},#{mmb.add2}",
+                  	"#{mmb.add1}, #{mmb.add2}, #{mmb.city}, #{mmb.state}, #{mmb.postcode}",
                   	age,
                   	mmb.edu,
                   	mmb.ts_job], 
