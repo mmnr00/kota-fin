@@ -45,6 +45,8 @@ Rails.application.routes.draw do
   get '/reg_cfm', to: 'ptns_mmbs#reg_cfm'
   get '/reg_list', to: 'ptns_mmbs#reg_list'
   get '/reg_listxls', to: 'ptns_mmbs#reg_listxls'
+  get '/regedit/:id', to: 'ptns_mmbs#regedit', as: 'regedit'
+  get '/regupd/:id', to: 'ptns_mmbs#regupd'
 
 
   #~PAGES

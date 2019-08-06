@@ -1,5 +1,5 @@
 
-Payment.where(name: "KID BILL").each do |pb|
+Payment.where(name: "KID BILL",paid: true,mtd: nil).each do |pb|
 url_bill = "#{ENV['BILLPLZ_API']}bills/#{pb.bill_id}"
 data_billplz = HTTParty.get(url_bill.to_str,
       :body  => {}.to_json, 
@@ -12,5 +12,11 @@ if data["paid"] == true
 pb.paid = true
 pb.updated_at = data["paid_at"]
 pb.save
+end
+end
+
+Payment.where(name: "KID BILL",paid: true,mtd: nil).each do |pb|
+if pb.taska_id == 54
+puts pb.taska_id
 end
 end

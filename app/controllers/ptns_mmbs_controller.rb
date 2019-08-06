@@ -1,6 +1,20 @@
 class PtnsMmbsController < ApplicationController
 	before_action :set_all
 
+	def regedit
+		@ptnsmmb = PtnsMmb.find(params[:id])
+	end
+
+	def regupd
+		@ptnsmmb = PtnsMmb.find(params[:id])
+		if @ptnsmmb.update(ptnsmmb_params)
+			flash[:success] = "Kemaskini Berjaya"
+		else
+			flash[:danger] = "Tidak berjaya. Sila cuba lagi"
+		end
+		redirect_to reg_list_path(evid: @ptnsmmb.tp)
+	end
+
 	def reg_event
 		@ptnsmmb = PtnsMmb.new
 	end

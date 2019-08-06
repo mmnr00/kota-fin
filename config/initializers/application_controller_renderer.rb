@@ -9,7 +9,7 @@
 
 $anisf = [8,46,50,51]
 $eventpt = {
-            "ptns-1cl"=>["https://kidcare-prod.s3.amazonaws.com/ptns-1.jpeg",
+            "ptns-1"=>["https://kidcare-prod.s3.amazonaws.com/ptns-1.jpeg",
                       "BENGKEL WANITA CAKNA ANAK"]
             }
 

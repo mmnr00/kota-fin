@@ -1,5 +1,5 @@
 wb = xlsx_package.workbook
-col_widths= [5,42,15,35,17,25,33]
+col_widths= [5,42,15,35,17,25,33,25,25,25]
 wb.styles do |style|
   header_1 = style.add_style(sz: 20)
   highlight_cell = style.add_style(bg_color: "EFC376",
@@ -17,7 +17,10 @@ wb.styles do |style|
                   "ALAMAT",
                   "UMUR (TAHUN)",
                   "STATUS",
-                  "PEKERJAAN",]
+                  "PEKERJAAN",
+                  "NO TELEFON",
+                  "EMAIL",
+                  "SIJIL KAP"]
     sheet.rows[0].style = header_1
     sheet.rows[2].style = highlight_cell
     counter = 1
@@ -31,7 +34,10 @@ wb.styles do |style|
                   	"#{mmb.add1}, #{mmb.add2}, #{mmb.city}, #{mmb.state}, #{mmb.postcode}",
                   	age,
                   	mmb.edu,
-                  	mmb.ts_job], 
+                  	mmb.ts_job,
+                    "#{mmb.ph1}-#{mmb.ph2}",
+                    mmb.email,
+                    mmb.ts_status], 
       style: [nil, border_cell]
       sheet.rows[row+counter].style = border_cell
       counter = counter +1
