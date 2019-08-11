@@ -1,5 +1,5 @@
 class TchdetailsController < ApplicationController
-	before_action :set_tchdetail, except: [:new, :create, :find_tchdetail, :find_tchdetail_reg]
+	before_action :set_tchdetail, except: [:new, :create, :find_tchdetail, :find_tchdetail_reg, :tchd_xls]
 	#before_action :rep_responsible?
 	#before_action :authenticate_parent! || :authenticate_admin!
 	before_action :set_all
