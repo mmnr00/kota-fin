@@ -357,10 +357,12 @@ class PaymentsController < ApplicationController
             kb.clsname = clsr.classroom_name
             kb.clsfee = clsr.base_fee
           end
+          cnt=1
           beradik.extras.each do |extra|
             kb.extra << extra.id
             extra = Extra.find(extra.id)
-            kb.extradtl[extra.name] = extra.price
+            kb.extradtl["#{cnt}. #{extra.name}"] = extra.price
+            cnt = cnt + 1
           end
           kb.save
           if (ot = beradik.otkids.where(payment_id: nil).first).present?
