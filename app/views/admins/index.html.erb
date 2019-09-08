@@ -67,7 +67,7 @@
                 KIDS NO : <%= num_kid %><br>
                 BILL: RM <%= tsk_pay %><br>
                 <%= "#{(tsk.expire.to_date - Time.now.to_date).to_i} DAYS" %><br>
-                <%= link_to "CREATE BILL", bill_taska1_monthly_path(pwd:"kidcare@124",id:tsk.id,mth:"",yr:""), class: "btn btn-sm btn-primary", target: "_blank" %>
+                <%= link_to "CREATE BILL", bill_taska1_monthly_path(id:tsk.id), class: "btn btn-sm btn-primary", target: "_blank" %>
               </td>
               <td><%= tsk.created_at.strftime("%d-%m-%y") %></td>
               <td><%= tsk.supervisor %></td>
@@ -95,7 +95,7 @@
     <div class="container">
     <div class="row">
     <% @admin_taska.order('name ASC').each do |taska|%>
-      <% status = (taska.expire.to_date - $my_time.to_date).to_i %>
+      <% status = (taska.expire.to_date - Date.today).to_i %>
       <% trial = !(taska.payments.where(name: "TASKA PLAN").count > 1) %>
       <div class="col-xs-12 col-sm-6 col-md-4">
         <div class="frontside">
@@ -149,8 +149,18 @@
               </div>
             <% end %>
 
+            <!-- CREATE BILL -->
+            <% if status <= $expire %>
+              <div class="col-sm-12" style="padding-top: 10px; background-color:#834C24">
+                  <%= link_to bill_taska1_monthly_path(id: taska.id) do %>
+                    <h6 align="center"><font color="white">RENEW PLAN</font></h6>
+                  <% end %>
+                </div>
+            <% end %>
+
+
             <!-- ACTIVATE BILLS -->
-            <% unpaid = taska.payments.where(name: "TASKA PLAN").where(paid: false) %>
+            <!--<% unpaid = taska.payments.where(name: "TASKA PLAN").where(paid: false) %>
             <% if trial %>
               <% if unpaid.present? %>
                 <div class="col-sm-12" style="padding-top: 10px; background-color:green">
@@ -167,7 +177,7 @@
                   <% end %>
                 </div>
               <% end %>
-            <% end %>
+            <% end %>-->
             
 
           </div>

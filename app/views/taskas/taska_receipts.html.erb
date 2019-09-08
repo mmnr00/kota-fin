@@ -17,6 +17,7 @@
           <% @taska_receipts.order('bill_year DESC').order('bill_month DESC').each do |bill| %>
             <tr>
               <td><%= "#{$month_name[bill.bill_month]}" %>-<%= bill.bill_year %></td>
+              <!-- <td><%= "#{bill.updated_at.strftime('%d-%^b-%y')} to #{(bill.updated_at + 30.days).strftime('%d-%^b-%y')}"%></td> -->
               <td><%= bill.amount %></td>
               <td>
                 <%= link_to view_invoice_taska_path(taska: @taska, payment: bill), class: "btn btn-sm btn-success active", target:"_blank" do %>

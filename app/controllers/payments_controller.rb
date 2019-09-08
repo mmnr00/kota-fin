@@ -540,7 +540,65 @@ class PaymentsController < ApplicationController
     end  
   end
 
-  def bill_taska1_monthly #create bill for one taska
+  def bill_taska1_monthly #taska create own bill
+    @taska = Taska.find(params[:id])
+    bill_plan = @taska.payments.where(name: "TASKA PLAN")
+    dt = Date.today
+    if (a=bill_plan.where(paid: false)).present?
+      a.delete_all
+    end
+    if bill_plan.where(bill_month: dt.month, bill_year: dt.year).present?
+      dt = Date.today + 1.months
+    end
+
+    if (plan=@taska.plan) == "PAY PER USE"
+      kid_count = @taska.kids.where.not(classroom_id: nil).count
+      real = (kid_count*2.8)*100
+      amount = (real*(@taska.discount)).round(1)
+      desc = "(#{kid_count} CHILDRENS)"
+    else
+      real = $package_price[plan].to_f*100
+      amount = real*(@taska.discount)
+    end
+    #expire = $my_time + 12.months
+    url_bill = "#{ENV['BILLPLZ_API']}bills"
+    @payment = Payment.new
+    data_billplz = HTTParty.post(url_bill.to_str,
+                        :body  => { :collection_id => "#{ENV['COLLECTION_ID']}", 
+                        :email=> "#{@taska.email}",
+                        :name=> "#{@taska.name}", 
+                        :amount=>  amount,
+                        :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                        :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                        :description=>"#{@taska.name}'s BILL FOR #{$month_name[dt.month.to_i]} #{dt.year} #{desc}" }.to_json, 
+                        #:callback_url=>  "YOUR RETURN URL"}.to_json,
+              :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+              :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+      data = JSON.parse(data_billplz.to_s)
+    #render json: data_billplz and return
+    if (data["id"].present?)
+      @payment.name = "TASKA PLAN"
+      @payment.amount = data["amount"].to_f/100
+      @payment.description = data["description"]
+      @payment.bill_month = dt.month
+      @payment.bill_year = dt.year
+      @payment.taska_id = @taska.id
+      @payment.state = data["state"]
+      @payment.paid = data["paid"]
+      @payment.bill_id = data["id"]
+      @payment.cltid = data["collection_id"]
+      if @payment.save
+        Tskbill.create(real: real/100, disc: (real*(1-@taska.discount))/100, payment_id: @payment.id)
+      end
+      redirect_to view_invoice_taska_path(taska: @taska, payment: @payment)
+      #flash[:notice] = "SUCCESS CREATED FOR #{@taska.name}"
+    else
+      redirect_to taska_path(@taska)
+      flash[:danger] = "BILL CREATION FAILED. PLEASE TRY AGAIN"
+    end
+  end
+
+  def oldbill_taska1_monthly #create bill for one taska
     if params[:pwd] == "kidcare@123"
       @taska = Taska.find(params[:id])
       bill_plan = @taska.payments.where(name: "TASKA PLAN")
