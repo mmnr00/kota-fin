@@ -1,7 +1,8 @@
 
 <%= render 'payments/invoice-taska' %>
-
-<%= link_to "BACK", :back, class: "btn btn-sm btn-primary active"%>
+<% if @payment.paid %>
+  <%= link_to "DOWNLOAD", pdf_invoice_taska_path(taska: @taska, payment: @payment, format: :pdf), class: "btn btn-sm btn-primary active"%>
+<% end %>
 
 
 

@@ -119,6 +119,7 @@ Rails.application.routes.draw do
   get '/find_tchdetail_reg', to: 'tchdetails#find_tchdetail_reg', as: 'find_tchdetail_reg'
   get '/tchd_anis', to: 'tchdetails#tchd_anis', as: 'tchd_anis'
   get '/tchd_xls', to: 'tchdetails#tchd_xls', as: 'tchd_xls' 
+  get '/market_xls', to: 'tchdetails#market_xls', as: 'market_xls'
 
 
   #~OWNERS (FOR COLLEGE)

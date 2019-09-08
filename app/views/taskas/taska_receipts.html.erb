@@ -14,12 +14,12 @@
           </tr>
         </thead>
         <tbody>
-          <% @taska_receipts.each do |bill| %>
+          <% @taska_receipts.order('bill_year DESC').order('bill_month DESC').each do |bill| %>
             <tr>
               <td><%= "#{$month_name[bill.bill_month]}" %>-<%= bill.bill_year %></td>
               <td><%= bill.amount %></td>
               <td>
-                <%= link_to pdf_invoice_taska_path(taska: @taska, payment: bill, format: :pdf ), class: "btn btn-sm btn-success active", target:"_blank" do %>
+                <%= link_to view_invoice_taska_path(taska: @taska, payment: bill), class: "btn btn-sm btn-success active", target:"_blank" do %>
                       <i class="fa fa-download"></i> RECEIPT
                     <% end %>  
               </td>

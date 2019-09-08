@@ -1,0 +1,52 @@
+wb = xlsx_package.workbook
+
+wb.styles do |style|
+  header_1 = style.add_style(sz: 20)
+  highlight_cell = style.add_style(bg_color: "EFC376",
+                                  border: Axlsx::STYLE_THIN_BORDER,
+                                  sz: 13,
+                                   alignment: { horizontal: :center })
+  border_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER)       
+  wb.add_worksheet(name: "LIST") do |sheet|
+    sheet.add_row ["","MARKET LIST"]
+    sheet.add_row [""]
+    sheet.add_row ["NO",
+                  "TASKA",
+                  "OWNER",
+                  "PHONE NO",
+                  "TASKA ADDRESS"]
+    sheet.rows[0].style = header_1
+    sheet.rows[2].style = highlight_cell
+    counter = 1
+    row =2
+    arr=[]
+    @tchdetails.each do |tch|
+      if tch.ts_name.present? && !(arr.include? tch.ts_name.upcase)
+        arr<<tch.ts_name.upcase
+        sheet.add_row [counter,
+                      "#{tch.ts_name}",
+                      tch.ts_owner_name,
+                      "#{tch.ts_phone_1}-#{tch.ts_phone_2}",
+                      "#{tch.ts_address_1},#{tch.ts_address_2},#{tch.ts_city},#{tch.ts_states},#{tch.ts_postcode}"], 
+        style: [nil, border_cell]
+        sheet.rows[row+counter].style = border_cell
+        counter = counter +1
+      end
+    end 
+  end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
