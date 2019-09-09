@@ -463,7 +463,7 @@
                                                         "CHILDCARE PROVIDER"
                                                           ], 
                                                           selected: @tchdetail.post), 
-                {include_blank: "Please Select"} %>
+                {include_blank: "Please Select"}, {required: true} %>
                 <%= f.hidden_field :teacher_id, value: params[:teacher_id] %>
               </div>
             </div>
