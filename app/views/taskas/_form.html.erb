@@ -62,6 +62,22 @@
           </div>
         </div>
 
+        <!-- taska ratio -->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>CHILDREN/TEACHER RATIO</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.number_field :rato, class: "form-control", autofocus: true, required: true, value: @taska.rato %>
+              Please key-in 0 if you do not wish to set.
+            </div>
+
+          </div>
+        </div>
+
           <!-- discount -->
           <% if @taska.discount.present? %>
             <% discount = @taska.discount %>

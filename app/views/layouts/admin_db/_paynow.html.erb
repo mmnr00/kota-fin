@@ -2,13 +2,33 @@
 
 <% status = (@taska.expire.to_date - Time.now.to_date).to_i %>
 
-
+<!-- EXPIRY -->
 <a href="<%= "#{bill_taska1_monthly_url}"%>?id=<%= @taska.id %>">
-
   <% if status < 11 && status > 0 %>
     <p><button class="w3-button w3-block btn-warning"> <i class="fa fa-exclamation-circle fa-lg"></i>&nbsp&nbspINACTIVE IN <strong><%= status %> DAYS</strong>. PLEASE CLICK HERE TO ACTIVATE</button></p>
   <% elsif status <= 0 %>
     <p><button class="w3-button w3-block btn-danger"> <i class="fa fa-exclamation-circle fa-lg"></i>&nbsp&nbspYOUR ACCOUNT HAS EXPIRED</strong>. PLEASE CLICK HERE TO ACTIVATE</button></p>
   <% end %>
+</a>
 
+<!-- LESS RATIO -->
+<%
+  totch = 0
+  @taska.classrooms.each do |cls|
+    totch = totch + cls.teachers.count
+  end
+  #totch=14
+  totkid=@taska.kids.where.not(classroom_id: nil).count
+  orkid=totch*@taska.rato
+  lesstch = (totkid/@taska.rato - totch + 1).to_f
+
+  # currato = ((totkid=@taska.kids.where.not(classroom_id: nil).count)/totch).to_f
+  # gaptch = (totkid - @taska.rato*totch)/@taska.rato
+  # gaptch = 2.9
+%>
+
+<a href="<%= "#{bill_taska1_monthly_url}"%>?id=<%= @taska.id %>">
+  <% if @taska.rato > 0 && totkid >= orkid %>
+    <p><button class="w3-block btn-info"> <i class="fa fa-exclamation-circle fa-lg"></i>&nbsp&nbspYOU HAVE LESS <strong><%= lesstch.round(0) %></strong> TEACHERS TO MEET QUOTA. CLICK HERE TO REQUEST FROM KIDDOCARE</button></p>
+  <% end %>
 </a>

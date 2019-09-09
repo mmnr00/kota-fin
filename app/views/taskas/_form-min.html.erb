@@ -59,6 +59,25 @@
             <% discount = 1 %>
           <% end %>
           <%= f.hidden_field :discount, class: "form-control", :value => discount, required: true %>
+
+          <%= f.hidden_field :cred, class: "form-control", :value => 0, required: true %>
+
+
+          <!-- taska ratio -->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>CHILDREN/TEACHER RATIO</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.number_field :rato, class: "form-control", autofocus: true, required: true, value: 0 %>
+              Please keep 0 if you do not wish to set.
+            </div>
+
+          </div>
+        </div>
         
 
         <!-- supervisor name -->    
