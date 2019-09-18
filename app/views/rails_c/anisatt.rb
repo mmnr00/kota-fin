@@ -1,4 +1,4 @@
-clg = College.find(55)
+clg = College.find(57)
 tchds = clg.tchdetails
 
 clg.courses.each do |crs|
@@ -9,17 +9,17 @@ end
 end
 end
 
-clg = College.find(55)
+clg = College.find(57)
 tchds = clg.tchdetails
 tchds.each do |tch|
 if !tch.post.present?
-tch.post = "SUPERVISOR/MANAGER"
+tch.post = "CHILDCARE PROVIDER"
 end
-if !tch.dun.present?
-tch.dun = " Rawang  "
-end
-if !tch.income.present?
-tch.income = "RM5,000 and below"
-end
+# if !tch.dun.present?
+# tch.dun = " Rawang  "
+# end
+# if !tch.income.present?
+# tch.income = "RM5,000 and below"
+# end
 tch.save
 end
