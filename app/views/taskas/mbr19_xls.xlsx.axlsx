@@ -1,0 +1,44 @@
+wb = xlsx_package.workbook
+col_widths= [4,29,45,22,29,23]
+wb.styles do |style|
+  header_1 = style.add_style(sz: 20)
+  highlight_cell = style.add_style(bg_color: "EFC376",
+                                  border: Axlsx::STYLE_THIN_BORDER,
+                                  sz: 13,
+                                   alignment: { horizontal: :center })
+  border_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER)       
+  wb.add_worksheet(name: "SENARAI PJKK") do |sheet|
+
+    sheet.add_row ["","SENARAI PJKK MBR 2019"]
+    sheet.add_row [""]
+    sheet.add_row ["NO",
+                  "NAMA PJKK",
+                  "ALAMAT PJKK",
+                  "NAMA PENGUSAHA",
+                  "NO TELEFON PENGUSAHA",
+                  "NO PERMIT"]
+    sheet.rows[0].style = header_1
+    sheet.rows[2].style = highlight_cell
+    counter = 1
+    row =2
+
+    @taskas.order('created_at DESC').each do |tsk|
+      sheet.add_row [counter, 
+                    tsk.name,
+                    "#{tsk.address_1},#{tsk.address_2},#{tsk.city},#{tsk.postcode},#{tsk.states}",
+                    tsk.supervisor,
+                    "#{tsk.phone_1}-#{tsk.phone_2}",
+                    tsk.email
+                    ], 
+      style: [nil, border_cell]
+      sheet.rows[row+counter].style = border_cell
+      counter = counter +1
+    end
+    sheet.column_widths *col_widths
+
+  end
+end
+
+
+
+

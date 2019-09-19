@@ -20,9 +20,17 @@
         </a>
       <% else %>
 
+      <% 
+      if @foto.foto_name == "SENARAI KANAK-KANAK"
+        accp = ".xlsx,xls,.doc,.docx"
+      else
+        accp = "image/jpeg,image/gif,image/png,application/pdf"
+      end
+      %>
+
         <%= image_tag(@foto.picture.url, size: "500x500") if @foto.picture? %>
       <% end %>
-      <%= f.file_field :picture, accept: 'image/jpeg,image/gif,image/png,application/pdf', required: true %>
+      <%= f.file_field :picture, accept: "#{accp}", required: true %>
     </div>
   </div>
 
