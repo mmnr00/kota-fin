@@ -31,8 +31,52 @@ class TaskasController < ApplicationController
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
 
-  # GET /taskas
-  # GET /taskas.json
+  def regmbr19
+    @taska = Taska.new
+    @taska.fotos.build
+  end
+
+  def crtmbr19
+    @taska = Taska.new(taska_params)
+    if (t=Taska.where(name: 
+                    @taska.name, 
+                    email: @taska.email, 
+                    plan: @taska.plan)).present?
+      @taska = t.first
+    end
+    if @taska.save
+      flash[:notice] = "PENDAFTARAN DITERIMA"
+      redirect_to editmbr19_path(id: @taska.id)
+    end
+  end
+
+  def statmbr19
+    @taskas = Taska.where(plan: "mbr19")
+  end
+
+  def editmbr19
+    @taska = Taska.find(params[:id])
+  end
+
+  def updmbr19
+    @taska = Taska.find(params[:taska][:id])
+    if @taska.update(taska_params)
+      flash[:notice] = "KEMASKINI BERJAYA"
+      redirect_to editmbr19_path(id: @taska.id)
+    end
+  end
+
+  def mbr19_xls
+    @taskas = Taska.where(plan: "mbr19")
+    respond_to do |format|
+      #format.html
+      format.xlsx{
+        response.headers['Content-Disposition'] = 'attachment; filename="SENARAI TASKA MBR19.xlsx"'
+      }
+    end
+  end
+
+
   def index
     @taskas = Taska.all
   end
@@ -1547,7 +1591,8 @@ class TaskasController < ApplicationController
   # POST /taskas.json
   def create
     @taska = Taska.new(taska_params)
-    @taska.expire = Time.now + 3.months
+    @taska.expire = Time.now + 1.months
+    @taska.cred = 0.00
     # if Rails.env.development?
     #   @taska.collection_id = "andkymil"
     # elsif Rails.env.production?

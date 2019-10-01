@@ -1,0 +1,46 @@
+<h3>BILANGAN PENDAFTARAN : <%= @taskas.count %></h3>
+<%= link_to mbr19_xls_path(id: 5,format: :xlsx), class: "btn btn-sm btn-success" do %>
+  <i class="fa fa-file-excel"></i> MUAT TURUN SENARAI
+<% end %><br>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered" id="dataTable" width="100%" cellspacing="0">
+    <thead>
+      <tr style="background-color:#d8b2d8">
+        <th> NAMA PJKK </th>
+        <th> ALAMAT PJKK </th>
+        <th> NAMA PENGUSAHA </th>
+        <th> NO TELEFON </th>
+        <th> NO PERMIT PJKK </th>
+        <th> MAKLUMAT KANAK-KANAK </th>
+      </tr>
+    </thead>
+    <tbody> 
+      <% @taskas.order('created_at DESC').each do |tsk| %>
+        <tr>
+          <td>
+            <%= tsk.name %><br>
+            <%= link_to editmbr19_path(id: tsk.id), class: "btn btn-sm btn-info" do %>
+              <i class="fa fa-edit"></i> KEMASKINI
+            <% end %>
+            
+          </td>
+          <td><%= "#{tsk.address_1},#{tsk.address_2},#{tsk.city},#{tsk.postcode},#{tsk.states}"%></td>
+          <td><%= tsk.supervisor %></td>
+          <td><%= "#{tsk.phone_1}-#{tsk.phone_2}" %></td>
+          <td><%= tsk.email %></td>
+          <td>
+            <% image = tsk.fotos.where(foto_name: "SENARAI KANAK-KANAK").first %>
+            <% if image.present? && image.picture.present? %>
+              <a href="<%="#{image.picture.url}"%>" target="_blank">
+                <%= image_tag('filembr.png', size: "100x100") if image.picture? %>
+              </a>
+            <% else %>
+              TIADA FAIL
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
