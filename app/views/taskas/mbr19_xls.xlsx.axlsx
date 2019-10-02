@@ -16,7 +16,8 @@ wb.styles do |style|
                   "ALAMAT PJKK",
                   "NAMA PENGUSAHA",
                   "NO TELEFON PENGUSAHA",
-                  "NO PERMIT"]
+                  "NO PERMIT",
+                  "BIL PESERTA"]
     sheet.rows[0].style = header_1
     sheet.rows[2].style = highlight_cell
     counter = 1
@@ -28,8 +29,8 @@ wb.styles do |style|
                     "#{tsk.address_1},#{tsk.address_2},#{tsk.city},#{tsk.postcode},#{tsk.states}",
                     tsk.supervisor,
                     "#{tsk.phone_1}-#{tsk.phone_2}",
-                    tsk.email
-                    ], 
+                    tsk.email,
+                    tsk.cred], 
       style: [nil, border_cell]
       sheet.rows[row+counter].style = border_cell
       counter = counter +1
