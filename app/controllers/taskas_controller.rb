@@ -1785,6 +1785,7 @@ class TaskasController < ApplicationController
                                     :discount,
                                     :pslm,
                                     :blgt,
+                                    :cred,
                                     fotos_attributes: [:foto, :picture, :foto_name]  )
     end
     def taska_params_bank

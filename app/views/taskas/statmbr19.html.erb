@@ -1,4 +1,5 @@
-<h3>BILANGAN PENDAFTARAN : <%= @taskas.count %></h3>
+<h3>BILANGAN PJKK : <%= @taskas.count %></h3>
+<h3>BILANGAN KANAK-KANAK : <%= @taskas.sum(:cred).round(0) %></h3>
 <%= link_to mbr19_xls_path(id: 5,format: :xlsx), class: "btn btn-sm btn-success" do %>
   <i class="fa fa-file-excel"></i> MUAT TURUN SENARAI
 <% end %><br>
@@ -12,6 +13,7 @@
         <th> NAMA PENGUSAHA </th>
         <th> NO TELEFON </th>
         <th> NO PERMIT PJKK </th>
+        <th> BILANGAN PESERTA </th>
         <th> MAKLUMAT KANAK-KANAK </th>
       </tr>
     </thead>
@@ -29,6 +31,7 @@
           <td><%= tsk.supervisor %></td>
           <td><%= "#{tsk.phone_1}-#{tsk.phone_2}" %></td>
           <td><%= tsk.email %></td>
+          <td><%= tsk.cred.round(0) unless tsk.cred.blank? %></td>
           <td>
             <% image = tsk.fotos.where(foto_name: "SENARAI KANAK-KANAK").first %>
             <% if image.present? && image.picture.present? %>
