@@ -22,7 +22,7 @@
           <tbody>
             <% @owner.colleges.order('start DESC').order('created_at DESC').each do |college| %>
             <tr>
-              <td><%= college.name %></td>
+              <td><%= "#{college.name}(#{college.id})" %></td>
               <td><%= college.address %></td>
               <td>
                 <%= "#{college.start.strftime("%d-%^b-%y")} to #{college.end.strftime("%d-%^b-%y")}" %>
