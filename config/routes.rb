@@ -237,7 +237,7 @@ Rails.application.routes.draw do
   post '/taska/:id/upldkid', to: 'taskas#upldkid', as: 'upldkid'
   get '/taska/:id/hiscrdt', to: 'taskas#hiscrdt', as: 'hiscrdt'
   get '/taska/:id/topcred', to: 'taskas#topcred', as: 'topcred'
-  get '/regmbr19', to: 'taskas#regmbr19'
+  get '/regmbr198997', to: 'taskas#regmbr19'
   post '/crtmbr19', to: 'taskas#crtmbr19'
   get '/statmbr19', to: 'taskas#statmbr19'
   get '/editmbr19', to: 'taskas#editmbr19'
