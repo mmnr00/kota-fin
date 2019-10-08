@@ -1,4 +1,5 @@
 #!/bin/bash
+git checkout 10fbc
 git add -A
 git commit -m "tsk"
 git push
