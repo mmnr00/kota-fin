@@ -1,3 +1,34 @@
-<%= render 'welcomes/cmbr19' %>
+<%= link_to cmbr19pdf_path(name: params[:name], add: params[:add] , format: :pdf), class: "btn btn-sm btn-warning" do %>
+  <i class="fa fa-download"></i> DOWNLOAD
+<% end %>
 
-<%= link_to "download", cmbr19pdf_path(format: :pdf) %>
+<div class="row">
+  <div class="col-sm-9">
+    <%= render 'welcomes/cmbr19' %>
+  </div>
+  <div class="col-sm-3">
+    <%= form_tag cmbr19_path, method: :get do %>
+
+      
+          <font style="font-size: 10px"><strong>CHILDREN NAME</strong></font>
+          <%= text_field_tag :name, params[:name], 
+                  placeholder: "", 
+                  autofocus: true,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+
+          <strong>MYKID NO</strong>
+          <%= text_field_tag :add, params[:add], 
+                  placeholder: "", 
+                  autofocus: true,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+        
+
+      <%= button_tag(type: :submit, class: "btn btn-sm btn-primary active", id: "submit_expense") do %>
+        <i class="fa fa-check"></i> UPDATE
+      <% end %>
+
+
+    <% end %>
+  </div>
+</div>
+
