@@ -25,6 +25,9 @@
             <%= link_to editmbr19_path(id: tsk.id), class: "btn btn-sm btn-info" do %>
               <i class="fa fa-edit"></i> KEMASKINI
             <% end %>
+            <%= link_to cmbr19pdf_path(name: tsk.name, add: "#{tsk.address_1},#{tsk.address_2},#{tsk.city},#{tsk.postcode},#{tsk.states}" , format: :pdf), class: "btn btn-sm btn-warning" do %>
+              <i class="fa fa-download"></i> SIJIL
+            <% end %>
             
           </td>
           <td><%= "#{tsk.address_1},#{tsk.address_2},#{tsk.city},#{tsk.postcode},#{tsk.states}"%></td>

@@ -4,6 +4,30 @@ class WelcomesController < ApplicationController
 	
 	#layout "page"
 
+	def cmbr19
+	end
+
+	def cmbr19pdf
+		@pdf = true
+		respond_to do |format|
+	 		format.html
+	 		format.pdf do
+		   render pdf: "[MBR 2019] #{params[:name].upcase}",
+		   template: "welcomes/cmbr19pdf.html.erb",
+		   disposition: "attachment",
+		   #page_size: "A6",
+		   zoom: 0.8,
+		   # margin: {top: 10,
+		   # 					bottom: 5,
+		   # 					left: 10,
+		   # 					right: 10
+		   # },
+		   orientation: "portrait",
+		   layout: 'pdf.html.erb'
+			end
+		end
+	end
+
 	def index
 		
 	end

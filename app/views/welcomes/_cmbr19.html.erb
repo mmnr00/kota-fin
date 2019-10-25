@@ -1,0 +1,104 @@
+<div class="containers">
+  <div class="row">
+    <div class="bg-white col-sm-12" style="border-style:solid; border-color:#b29600; border-width:5px">
+      <br>
+
+      <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-4">
+          <% if @pdf %>
+            <p align="center"><%= wicked_pdf_image_tag('mbr19/logo.png', size: "240x120") %></p>
+          <% else %>
+            <p align="center"><%= image_tag('mbr19/logo.png', size: "240x120") %></p>
+          <% end %>
+        </div>
+        <div class="col-sm-4"></div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+          <% if @pdf %>
+            <p align="center"><%= wicked_pdf_image_tag('mbr19/banner.png', size: "820x150") %></p>
+          <% else %>
+            <p align="center"><%= image_tag('mbr19/banner.png', size: "820x150") %></p>
+          <% end %>
+          
+        </div>
+        <div class="col-sm-1"></div>
+      </div>
+
+        <p align="center"><font  style="font-family:sacramento; font-size: 50px" >Adalah dengan ini diperakui bahawa</font></p>
+        
+
+        <div class="bg-light">
+          <p align="center"><font  style="font-family:; font-size: 30px" ><strong>
+            <%= params[:name].upcase %>
+          </strong></font></p>
+
+          <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+              <p align="center"><font  style="font-family:; font-size: 20px" >
+                <%= params[:add].upcase %>
+              </font></p>
+            </div>
+            <div class="col-sm-2"></div>
+          </div>
+        </div>
+
+        
+        
+
+        <p align="center"><font  style="font-family:sacramento; font-size: 50px" >telah menjayakan acara</font></p>
+
+        <p align="center"><font  style="font-family:; font-size: 30px" ><strong>MALAYSIA BOOK OF RECORDS</strong></font></p>
+
+        <p align="center"><font  style="font-family:sacramento; font-size: 50px" >untuk penyertaan didalam</font></p>
+
+        <div class="row">
+          <div class="col-sm-2"></div>
+          <div class="col-sm-8">
+            <p align="center" style="font-family:; font-size: 30px"><strong>THE LARGEST SIMULTANEOUS PARTICIPANT BY CHILDREN IN FIRE DRILL EVENT FOR 2019</strong></p>
+          </div>
+          <div class="col-sm-2"></div>
+        </div>
+
+        <p align="center"><font  style="font-family:sacramento; font-size: 50px" >anjuran</font></p>
+
+        <p align="center"><font  style="font-family:; font-size: 20px" >
+          <strong>FAKULTI KEJURUTERAAN ELEKTRIK, UITM</strong><br>
+          <strong>PERSATUAN TASKA NEGERI SELANGOR (PTNS)</strong><br>
+          <strong>JABATAN BOMBA DAN PENYELAMAT MALAYSIA</strong><br>
+          <strong>UNIQUE FIRE INDUSTRY SDN BHD</strong><br>
+          <strong>THE MALAYSIA BOOK OF RECORDS</strong><br>
+        </p>
+
+        <br><br><br><br><br><br>
+        <p align="center"><font  style="font-family:; font-size: 25px" >
+          <strong>HJH MAHANOM BT HJ BASRI P.J.K</strong><br>
+          Presiden<br>
+          Persatuan Taska Negeri Selangor<br>
+        </font></p>
+
+        <div class="row">
+          <div class="col-sm-1"></div>
+          <div class="col-sm-10">
+            <% if @pdf %>
+              <p align="center"><%= wicked_pdf_image_tag('mbr19/footer.png', size: "460x100") %></p>
+            <% else %>
+              <p align="center"><%= image_tag('mbr19/footer.png', size: "460x100") %></p>
+            <% end %>
+            
+          </div>
+          <div class="col-sm-1"></div>
+        </div>
+
+        
+
+
+
+
+    </div>
+  </div>
+</div>
