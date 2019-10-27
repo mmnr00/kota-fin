@@ -38,14 +38,20 @@ class ParentsController < ApplicationController
 	end
 
 	def prntschtsk
-		render action: "prntschtsk", layout: "dsb-parent-child"
+		# @taska = Taska.find(params[:taska_id])
+		# if @taska.present? 
+		# 	redirect_to new_kid_path(taska_id: @taska.id)
+		# else
+		  render action: "prntschtsk", layout: "dsb-parent-child"
+		# end
+		
 	end
 
 	def prntfndtsk
 		if params[:tskname].blank?
 			flash[:danger] = "NO INPUT ENTERED"
 		else
-			@taskas = Taska.where("name like?", "%#{params[:tskname].upcase}%")
+			@taskas = Taska.where("name like?", "%#{params[:tskname]}%").where.not(plan: "mbr19")
 			flash[:danger] = "NO MATCHED DATA" unless @taskas.present?
 		end
 		respond_to do |format|

@@ -13,7 +13,7 @@
                   <%= image_tag(image.picture.url, size: "100x100") %>
                 <% end %>
               </p>
-              <h4 class="card-title"><%= tsk.name %></h4><br>
+              <h4 class="card-title"><%= tsk.name.upcase %></h4><br>
               <p class="card-text">
                 <%= "#{tsk.address_1}" %>
                 <%= "#{tsk.address_2}" %><br>
