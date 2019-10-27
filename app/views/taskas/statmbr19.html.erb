@@ -15,6 +15,7 @@
         <th> NO PERMIT PJKK </th>
         <th> BILANGAN PESERTA </th>
         <th> MAKLUMAT KANAK-KANAK </th>
+        <th> SENARAI SIJIL </th>
       </tr>
     </thead>
     <tbody> 
@@ -25,6 +26,12 @@
             <%= link_to editmbr19_path(id: tsk.id), class: "btn btn-sm btn-info" do %>
               <i class="fa fa-edit"></i> KEMASKINI
             <% end %>
+            <%= link_to cmbr19pdf_path(name: tsk.name, add: "#{tsk.address_1},#{tsk.address_2},#{tsk.city},#{tsk.postcode},#{tsk.states}", format: :pdf), class: "btn btn-sm btn-warning" do %>
+              <i class="fa fa-download"></i> SIJIL TASKA
+            <% end %>
+            <%= link_to cmbr19_path(id: tsk.id, name: tsk.name, add: "#{tsk.address_1},#{tsk.address_2},#{tsk.city},#{tsk.postcode},#{tsk.states}", parc: true, parcn: "", parcm: ""), class: "btn btn-sm btn-success" do %>
+              <i class="fa fa-edit"></i> SIJIL PESERTA
+            <% end %>
             
           </td>
           <td><%= "#{tsk.address_1},#{tsk.address_2},#{tsk.city},#{tsk.postcode},#{tsk.states}"%></td>
@@ -34,6 +41,16 @@
           <td><%= tsk.cred.round(0) unless tsk.cred.blank? %></td>
           <td>
             <% image = tsk.fotos.where(foto_name: "SENARAI KANAK-KANAK").first %>
+            <% if image.present? && image.picture.present? %>
+              <a href="<%="#{image.picture.url}"%>" target="_blank">
+                <%= image_tag('filembr.png', size: "100x100") if image.picture? %>
+              </a>
+            <% else %>
+              TIADA FAIL
+            <% end %>
+          </td>
+          <td>
+            <% image = tsk.fotos.where(foto_name: "SENARAI SIJIL").first %>
             <% if image.present? && image.picture.present? %>
               <a href="<%="#{image.picture.url}"%>" target="_blank">
                 <%= image_tag('filembr.png', size: "100x100") if image.picture? %>

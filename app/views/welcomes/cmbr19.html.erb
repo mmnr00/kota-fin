@@ -1,0 +1,50 @@
+<%= link_to cmbr19pdf_path(name: params[:name], add: params[:add], parc: params[:parc], parcn: params[:parcn], parcm: params[:parcm], format: :pdf), class: "btn btn-sm btn-warning" do %>
+  <i class="fa fa-download"></i> DOWNLOAD
+<% end %>
+
+<div class="row">
+  <div class="col-sm-10">
+    <%= render 'welcomes/cmbr19' %>
+  </div>
+  <div class="col-sm-2">
+    <%= form_tag cmbr19_path, method: :get do %>
+
+      
+        <strong>CHILDREN NAME</strong>
+          <%= text_field_tag :parcn, params[:parcn], 
+                  placeholder: "", 
+                  autofocus: true,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+
+          <strong>MYKID NO</strong>
+          <%= text_field_tag :parcm, params[:parcm], 
+                  placeholder: "", 
+                  autofocus: true,
+                  class: "form-control search-box input-lg", style: "text-transform:uppercase" %>
+
+          <%= hidden_field_tag :name, params[:name] %>
+          <%= hidden_field_tag :add, params[:add] %>
+          <%= hidden_field_tag :parc, params[:parc] %>
+          <%= hidden_field_tag :id, params[:id] %>
+
+          <strong>SENARAI SIJIL</strong>
+          <% image = @taska.fotos.where(foto_name: "SENARAI SIJIL").first %>
+          <% if image.present? && image.picture.present? %>
+            <a href="<%="#{image.picture.url}"%>" target="_blank">
+              <%= image_tag('filembr.png', size: "100x100") if image.picture? %>
+            </a>
+          <% else %>
+            TIADA FAIL
+          <% end %>
+
+      <%= button_tag(type: :submit, class: "btn btn-sm btn-primary active", id: "submit_expense") do %>
+        <i class="fa fa-check"></i> UPDATE
+      <% end %>
+
+
+    <% end %>
+
+
+  </div>
+</div>
+
