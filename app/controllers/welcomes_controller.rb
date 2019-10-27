@@ -5,6 +5,7 @@ class WelcomesController < ApplicationController
 	#layout "page"
 
 	def cmbr19
+		@taska = Taska.find(params[:id])
 	end
 
 	def cmbr19pdf
@@ -16,7 +17,7 @@ class WelcomesController < ApplicationController
 		   template: "welcomes/cmbr19pdf.html.erb",
 		   disposition: "attachment",
 		   #page_size: "A6",
-		   zoom: 0.8,
+		   zoom: 0.65,
 		   # margin: {top: 10,
 		   # 					bottom: 5,
 		   # 					left: 10,

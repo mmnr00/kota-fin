@@ -32,19 +32,44 @@
         
 
         <div class="bg-light">
-          <p align="center"><font  style="font-family:; font-size: 30px" ><strong>
-            <%= params[:name].upcase %>
-          </strong></font></p>
 
-          <div class="row">
-            <div class="col-sm-2"></div>
-            <div class="col-sm-8">
-              <p align="center"><font  style="font-family:; font-size: 20px" >
+          <% if params[:parc].present? %>
+
+            <p align="center">
+              <font  style="font-family:; font-size: 30px" ><strong>
+                <%= params[:parcn].upcase %>
+              </strong></font><br>
+              <font  style="font-family:; font-size: 20px" >
+                <%= params[:parcm] %>
+              </font><br><br>
+              <font  style="font-family:; font-size: 20px" >
+                DARI
+              </font><br><br>
+              <font  style="font-family:; font-size: 20px" ><strong>
+                <%= params[:name].upcase %>
+              </strong></font><br>
+              <font  style="font-family:; font-size: 20px" >
                 <%= params[:add].upcase %>
-              </font></p>
+              </font>
+            </p>
+
+
+          <% else %>
+            <p align="center"><font  style="font-family:; font-size: 30px" ><strong>
+              <%= params[:name].upcase %>
+            </strong></font></p>
+
+            <div class="row">
+              <div class="col-sm-2"></div>
+              <div class="col-sm-8">
+                <p align="center"><font  style="font-family:; font-size: 20px" >
+                  <%= params[:add].upcase %>
+                </font></p>
+              </div>
+              <div class="col-sm-2"></div>
             </div>
-            <div class="col-sm-2"></div>
-          </div>
+          <% end %>
+
         </div>
 
         
@@ -75,11 +100,19 @@
         </p>
 
         <br><br><br><br><br><br>
-        <p align="center"><font  style="font-family:; font-size: 25px" >
-          <strong>HJH MAHANOM BT HJ BASRI P.J.K</strong><br>
+        <p align="center">
+          <font  style="font-family:; font-size: 25px" >
+          <strong>HJH MAHANOM BINTI HJ BASRI P.J.K</strong><br>
           Presiden<br>
           Persatuan Taska Negeri Selangor<br>
-        </font></p>
+          </font>
+          <br><br><br><br><br>
+          <font  style="font-family:; font-size: 25px" >
+          <strong>PROF MADYA TS. DR. MOHAMAD FAHMI HUSSIN @ MOHAMAD</strong><br>
+          Penasihat Program<br>
+          Fakulti Kejuruteraan Elektrik UiTM<br>
+          </font>
+        </p>
 
         <div class="row">
           <div class="col-sm-1"></div>
@@ -102,3 +135,4 @@
     </div>
   </div>
 </div>
+</font></p>
