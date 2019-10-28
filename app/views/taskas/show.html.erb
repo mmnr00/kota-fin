@@ -14,7 +14,7 @@
           <span class="count-name">
             <a href="/taska/unreg_kids/<%= @taska.id %>/", style="color:#fff">New Registrations</a>
             <br><font style="color:#fff">TOTAL: <%= @taska.kids.where.not(classroom_id: nil).count %></font>
-            <% if (plan=@taska.plan) == "PAY PER USE" %>
+            <% if (plan=@taska.plan) == "PAY PER USE" || (plan=@taska.plan) == "PAY PER USE N"  %>
               <% numchild = "NA" %>
             <% else %>
               <% numchild = $package_child[plan] %>
