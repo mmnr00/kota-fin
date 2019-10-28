@@ -47,8 +47,8 @@
             <% if !@spv %>
             <a class="dropdown-item" href="/taskas/<%= @taska.id %>/edit?plan=<%= @taska.plan %>">Edit Center Details
             </a>
-            <a class="dropdown-item" href="/taska/<%= @taska.id %>/chgplan?chg=1">Change Plan
-            </a>
+            <% if 1==0 %><a class="dropdown-item" href="/taska/<%= @taska.id %>/chgplan?chg=1">Change Plan
+            </a><% end %>
             <a class="dropdown-item" href="/register/<%= @taska.id %>/center" target="_blank">View Center Page
             </a>
             <a class="dropdown-item" href="/taska/receipts/<%= @taska.id %>" >View My Receipts

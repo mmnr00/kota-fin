@@ -290,7 +290,7 @@ class KidsController < ApplicationController
 		@classroom = Classroom.find(params[:kid][:classroom_id])
 		@taska = @classroom.taska
 		plan = @taska.plan
-		if plan == "PAY PER USE"
+		if plan == "PAY PER USE" || plan == "PAY PER USE N"
 			kidno = 100000
 		else
 			kidno = $package_child[plan]
