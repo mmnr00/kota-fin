@@ -1600,6 +1600,7 @@ class TaskasController < ApplicationController
     # end
     @taska.collection_id = $clt
     @taska.collection_id2 = $clt
+    @taska.name = @taska.name.upcase
     if @taska.save
       taska_admin1 = TaskaAdmin.create(taska_id: @taska.id, admin_id: current_admin.id)
       annlv = Tsklv.create(taska_id: @taska.id, 
