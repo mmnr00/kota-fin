@@ -152,7 +152,9 @@
         <div class="col-sm-8 col-5">
         <% image = @taska.fotos.where(foto_name: "SENARAI SIJIL").first %>
         <% if image.present? %>
-          <%= image_tag('filembr.png', size: "200x200") if image.picture? %>
+          <a href="<%="#{image.picture.url}"%>" target="_blank">
+            <%= image_tag('filembr.png', size: "100x100") if image.picture? %>
+          </a>
             <div class="row">
             <div class="col-sm-8 col-5">
               <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
@@ -167,7 +169,7 @@
                   <%= h.file_field :picture, accept: '.xlsx,xls,.doc,.docx' %>
                 </div>
               </div>
-              <i>Pastikan anda memuatnaik senarai kanak-kanak dan no mykid dalam format Microsoft Word dan Microsoft Excel sahaja</i>
+              <i></i>
               <% m = 1 %>
             <% end %>
         <% end %>
