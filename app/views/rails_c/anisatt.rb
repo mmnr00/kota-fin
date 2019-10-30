@@ -1,4 +1,4 @@
-clg = College.find(57)
+clg = College.find(60)
 tchds = clg.tchdetails
 
 clg.courses.each do |crs|
