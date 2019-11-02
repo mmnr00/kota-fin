@@ -376,6 +376,7 @@ class TaskasController < ApplicationController
     elsif 2==0 #@taska.kids.count < 1
       redirect_to xlskid_path(@taska)
     else
+      updtskplan()
       @admin_taska = current_admin.taskas
       @admintsk = @taska.admins.where.not(id: 4)
       @unregistered_no = @taska.kids.where(classroom_id: nil).count
@@ -1709,6 +1710,39 @@ class TaskasController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def updtskplan
+      @taska = Taska.find(params[:id])
+      tskpln = @taska.payments.where(name: "TASKA PLAN", paid: false)
+
+      if tskpln.present?
+        tskpln.each do |pb|
+          url_bill = "#{ENV['BILLPLZ_API']}bills/#{pb.bill_id}"
+          data_billplz = HTTParty.get(url_bill.to_str,
+                  :body  => {}.to_json, 
+                              #:callback_url=>  "YOUR RETURN URL"}.to_json,
+                  :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+                  :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+          #render json: data_billplz and return
+          data = JSON.parse(data_billplz.to_s)
+          if data["paid"] == true
+            pb.paid = true
+            pb.updated_at = data["paid_at"]
+            pb.save
+            if (expire = @taska.expire) >= pb.updated_at
+              @taska.expire = expire + 1.months
+            else
+              @taska.expire = pb.updated_at + 1.months
+            end
+            @taska.save
+          elsif data["paid"] == false
+            #delete dekat billplz
+            pb.destroy
+          end
+        end
+      end
+
+    end
+
     def set_taska
       @taska = Taska.find(params[:id])
     end
