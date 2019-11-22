@@ -41,7 +41,7 @@
               num_kid = tsk.kids.where.not(classroom_id: nil).count              
               unpaid_plan = tsk.payments.where(name: "TASKA PLAN", paid: false).present?
               if tsk.plan == "PAY PER USE"
-                tsk_pay = num_kid * 2.8 * tsk.discount
+                tsk_pay = num_kid * $package_price[tsk.plan] * tsk.discount
               else
                 tsk_pay = $package_price[tsk.plan] * tsk.discount
               end
@@ -66,6 +66,7 @@
                 <%= "#{tsk.plan} (#{$package_child[tsk.plan]})"  %><br>
                 KIDS NO : <%= num_kid %><br>
                 BILL: RM <%= tsk_pay %><br>
+                DISC: <%= tsk.discount.round(2) %><br>
                 <%= "#{(tsk.expire.to_date - Time.now.to_date).to_i} DAYS" %><br>
                 <%= link_to "CREATE BILL", bill_taska1_monthly_path(id:tsk.id), class: "btn btn-sm btn-primary", target: "_blank" %>
               </td>
