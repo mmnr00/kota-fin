@@ -7,7 +7,7 @@
 #   )
 # end
 
-$anisf = [8,46,50,51,54,55,57,60]
+$anisf = [8,46,50,51,54,55,57,60,63]
 $eventpt = {
             "ptns-1"=>["https://kidcare-prod.s3.amazonaws.com/ptns-1.jpeg",
                       "BENGKEL WANITA CAKNA ANAK"]
