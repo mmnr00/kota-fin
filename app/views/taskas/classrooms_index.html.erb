@@ -47,6 +47,7 @@
                       <p><%= classroom.description %></p>
                       <p><%= "ID: #{classroom.id}" %></p>
                       <p><strong><%= classroom.kids.count %></strong> children</p>
+                      <p><strong><%= classroom.teachers.count %></strong> teachers</p>
                       <p class="text-muted">FEE: RM <%= classroom.base_fee %></p>
                     </div>
                     <%= link_to classroom_path(classroom), class: "btn btn-sm btn-primary active" do %>

@@ -50,8 +50,8 @@ class ClassroomsController < ApplicationController
 		@classroom = Classroom.find(params[:id])
 		@admin = current_admin
 		@taska = Taska.find(@classroom.taska_id)
-		if @classroom.kids.count > 0
-			flash[:danger] = "Please remove all children before deleting"
+		if @classroom.kids.count > 0 || @classroom.teachers.count > 0
+			flash[:danger] = "Please remove all children and teachers before deleting"
 		else
 			if @classroom.destroy
 				flash[:success] = "Classroom was successfully deleted"
