@@ -1,7 +1,9 @@
 <div class="container">
   <%= link_to "EDIT", edit_tchdetail_path(id: @tchdetail.id), class: "btn btn-lg btn-warning" %>&nbsp
+
   <% if @tchdetail.anis == "true" %>
     <%= link_to "NEW REGISTRATION", new_tchdetail_path(id: @tchdetail.tchdetail_colleges.first.college_id, anis: true), class: "btn btn-lg btn-success" %>
   <% end %>
 </div><br>
 <%= render 'tchdetails/profile' %>
+<%= link_to "PRINT", print_profile_path(id: @tchdetail, owner_id: @owner, format: :pdf), class: "btn btn-lg btn-info active", target: "_blank" %>&nbsp
