@@ -11,12 +11,32 @@
               <%= "#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3}" %>
             </p>
             <p class="card-text">
-              <% tch.colleges.each do |clg| %>
-                <%= clg.name %><br>
-                <% if @clg != clg && !$anisf.include?(clg.id) || 1==1 %>
-                  <%= link_to "APPLY FOR #{@clg.name}", assg_clg_tch_path(tchd_id: tch.id, clg: @clg.id), class: "btn btn-sm btn-primary" %>
-                <% end %>
+              <%
+                showl = false
+                an1 = false
+                an2 = false
+                an1 = true unless (tch.colleges.ids&$anisf).blank?
+                an2 = true unless (tch.colleges.ids&$anis2f).blank?
+                if an1 && an2
+                else
+                  if !tch.colleges.ids.include?(@clg.id) #kalau dah ada xyah masuk
+                    if an1
+                      if !an2 && ($anis2.include?(@clg.id) || $anis2f.include?(@clg.id))
+                        showl = true
+                      end
+                    else
+                      showl = true
+                    end
+                  end
+                end
+              %>
+              <% tch.colleges.each do |exs| %>
+                <%= exs.name %><br> 
               <% end %>
+
+             
+              <%= link_to "APPLY FOR #{@clg.name}", assg_clg_tch_path(tchd_id: tch.id, clg: @clg.id), class: "btn btn-sm btn-primary" unless !showl %>
+
             </p>
             <%= link_to "EDIT", edit_tchdetail_path(id: tch.id, anis: tch.anis), class: "btn btn-sm btn-warning", target: "_blank" %>&nbsp
             <%= link_to "PROFILE", tchd_anis_path(id: tch.id), class: "btn btn-sm btn-info", target: "_blank" %>  

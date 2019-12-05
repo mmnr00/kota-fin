@@ -33,12 +33,21 @@ class CollegesController < ApplicationController
 	# FOR ANIS 
 	def assg_clg_tch
 		tchdetail = Tchdetail.find(params[:tchd_id])
-		tch_clg = tchdetail.tchdetail_colleges.first
+		clgid= tchdetail.colleges.ids
+		if $anis2.include?(params[:clg].to_i) || ($anis2f.include?(params[:clg].to_i) && !(clgid&$anis2).any?)
+			tch_clg = TchdetailCollege.new(tchdetail_id: tchdetail.id)
+		else
+			tch_clg = tchdetail.tchdetail_colleges.last
+		end
 		tch_clg.college_id = params[:clg]
-		tch_clg.save
-		flash[:success] = "Registration Successful"
+		if t=tch_clg.save
+			flash[:success] = "Registration Successful"
+		else
+			flash[:success] = "#{tch_clg.errors.full_messages}"
+		end
 		redirect_to tchd_anis_path(id: tchdetail.id, anis: true)
 	end
+
 	def assg_clg
 		tchdetail = Tchdetail.find(params[:tchdetail][:tchd_id])
 		tch_clg = tchdetail.tchdetail_colleges.first

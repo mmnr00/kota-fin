@@ -36,7 +36,7 @@
             <th style="background-color:#d8b2d8"> NAME </th>
             <th style="background-color:#d8b2d8"> IC NO </th>
             <th style="background-color:#d8b2d8"> PROFILE </th>
-            <th style="background-color:#d8b2d8"> ASSIGN </th>
+            <!-- <th style="background-color:#d8b2d8"> ASSIGN </th> -->
           </tr>
         </thead>
         <tbody>
@@ -50,7 +50,7 @@
               <%= link_to "EDIT", edit_tchdetail_path(id: tch.id, anis: tch.anis), class: "btn btn-sm btn-warning", target: "_blank" %>&nbsp
               <%= link_to "VIEW", tchd_anis_path(id: tch.id), class: "btn btn-sm btn-info", target: "_blank" %> 
             </td>
-            <td>
+            <!-- <td>
               <p><%= form_for(@tch, :url => {:controller=>'colleges', :action=>'assg_clg'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
                   <p align="center"><%= f.select :college_ids, 
                     options_from_collection_for_select(@owner.colleges, :id, :name),{include_blank: "SELECT SESSION"} %>
@@ -60,7 +60,7 @@
                     <%= f.submit :"ASSIGN",  class: 'btn btn-sm btn-success btn-lg', style: "align:center" %>
                   </div>
                 <% end %></p>
-            </td>
+            </td> -->
           </tr>
           <% counter = counter + 1 %>
           <% end %>
