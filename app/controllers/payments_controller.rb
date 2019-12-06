@@ -557,18 +557,14 @@ class PaymentsController < ApplicationController
 
     if (plan=@taska.plan) == "PAY PER USE"
       kid_count = @taska.kids.where.not(classroom_id: nil).count
-      real = (kid_count*2.8)*100
-      amount = (real*(@taska.discount)).round(1)
-      desc = "(#{kid_count} CHILDRENS)"
-    elsif (plan=@taska.plan) == "PAY PER USE N"
-      kid_count = @taska.kids.where.not(classroom_id: nil).count
-      real = (kid_count*3)*100
-      amount = (real*(@taska.discount)).round(1)
       desc = "(#{kid_count} CHILDRENS)"
     else
-      real = $package_price[plan].to_f*100
-      amount = real*(@taska.discount)
+      kid_count = 1
+      desc = ""
     end
+    real = kid_count*$package_price[plan].to_f*100
+    amount = real*(@taska.discount).round(1)
+
     #expire = $my_time + 12.months
     url_bill = "#{ENV['BILLPLZ_API']}bills"
     @payment = Payment.new
