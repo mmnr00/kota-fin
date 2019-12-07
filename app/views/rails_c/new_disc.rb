@@ -16,3 +16,9 @@ t = Taska.find(k)
 t.discount = v.to_f
 t.save
 end
+
+ts=Admin.first.taskas
+ts.each do |t|
+t.expire = Date.today + 3.days
+t.save
+end

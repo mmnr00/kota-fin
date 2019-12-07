@@ -105,10 +105,10 @@
                     <p>Please make the payment based on the schedule provided by the owner</p>
                     </td>
                 </tr>
-                <% if @taska.discount < 1 %>
+                <% if tskbill.disc > 0 #@taska.discount < 1 %>
                 <tr>
                   <td class="text-right no-border"><strong>DISCOUNT</strong></td>
-                  <td class="text-right">(<%= tskbill.disc %>)</td>
+                  <td class="text-right">(<%= tskbill.disc.round(2) %>)</td>
                 </tr>
                 <% end %>
                 <tr>

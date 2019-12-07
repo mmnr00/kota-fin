@@ -563,7 +563,7 @@ class PaymentsController < ApplicationController
       desc = ""
     end
     real = kid_count*$package_price[plan].to_f*100
-    amount = real*(@taska.discount).round(1)
+    amount = (real*(@taska.discount)).round(2)
 
     #expire = $my_time + 12.months
     url_bill = "#{ENV['BILLPLZ_API']}bills"
@@ -616,7 +616,8 @@ class PaymentsController < ApplicationController
           desc = "(#{kid_count} CHILDRENS)"
         else
           real = $package_price[plan].to_f*100
-          amount = real*(@taska.discount)
+          amount1 = real*(@taska.discount)
+          amount = amount1.to_i
         end
         #expire = $my_time + 12.months
         url_bill = "#{ENV['BILLPLZ_API']}bills"

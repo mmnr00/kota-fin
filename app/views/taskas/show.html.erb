@@ -77,7 +77,7 @@
     </div>
   </div>
 
-  <% if @taska.subdomain.present? %>
+  <% if 1==0 %><% if @taska.subdomain.present? %>
     <% if @taska.collection_id.present? %>
       <strong>Taska Website Link</strong> = <%= link_to "http://#{@taska.subdomain}.kidcare.my", taska_page_path, style: "color:blue" %><br><br>
     <% else %>
@@ -100,7 +100,7 @@
         </div>
       </div>
     <% end %><br><br>
-  <% end %>
+  <% end %><% end %><br>
   <!-- ADD SUPERVISOR -->
   <% if !@spv %><div class="row">
     <div class="col-sm-6 bg-white">

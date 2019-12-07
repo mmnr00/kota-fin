@@ -12,19 +12,11 @@
         <tr>
           <th style="background-color:#d8b2d8"> ID </th>
           <th style="background-color:#d8b2d8"> NAME </th>
-          <th style="background-color:#d8b2d8"> BILLING </th>
+          <th style="background-color:#d8b2d8"> BILL </th>
           <th style="background-color:#d8b2d8"> DATE </th>
-          <th style="background-color:#d8b2d8"> SUPERVISOR </th>
-          <th style="background-color:#d8b2d8"> PHONE </th>
-          <th style="background-color:#d8b2d8"> SUBDOMAIN </th>
+          <th style="background-color:#d8b2d8"> ADM </th>
           <th style="background-color:#d8b2d8"> BANK </th>
-          <th style="background-color:#d8b2d8"> ACC NAME </th>
-          <th style="background-color:#d8b2d8"> ACC NO </th>
-          <th style="background-color:#d8b2d8"> SSM </th>
-          <th style="background-color:#d8b2d8"> EMAIL </th>
           <th style="background-color:#d8b2d8"> BILLPLZ </th>
-          <th style="background-color:#d8b2d8"> BILLPLZ 2 </th>
-          <th style="background-color:#d8b2d8"> ACTION </th>
         </tr>
       </thead>
       <tbody>
@@ -61,7 +53,10 @@
             %>
             <tr style="background-color:<%= color %>">
               <td><%= tsk.id %></td>
-              <td><%= tsk.name %></td>
+              <td>
+                <%= link_to "#{tsk.name}", taska_path(tsk), target: "_blank" %><br>
+                <%= link_to "EDIT", edit_taska_path(tsk, plan: tsk.plan), class: "btn btn-sm btn-success", target: "_blank" %>
+              </td>
               <td>
                 <%= "#{tsk.plan} (#{$package_child[tsk.plan]})"  %><br>
                 KIDS NO : <%= num_kid %><br>
@@ -71,19 +66,17 @@
                 <%= link_to "CREATE BILL", bill_taska1_monthly_path(id:tsk.id), class: "btn btn-sm btn-primary", target: "_blank" %>
               </td>
               <td><%= tsk.created_at.strftime("%d-%m-%y") %></td>
-              <td><%= tsk.supervisor %></td>
-              <td><%= "#{tsk.phone_1}-#{tsk.phone_2}" %></td>
-              <td><%= tsk.subdomain %></td>
-              <td><%= tsk.bank_name %></td>
-              <td><%= tsk.acc_name %></td>
-              <td><%= tsk.acc_no %></td>
-              <td><%= tsk.ssm_no %></td>
-              <td><%= tsk.email %></td>
-              <td><%= tsk.collection_id %></td>
-              <td><%= tsk.collection_id2 %></td>
-              <td>
-                <%= link_to "VIEW", taska_path(tsk), class: "btn btn-sm btn-primary", target: "_blank" %>
-                <%= link_to "EDIT", edit_taska_path(tsk, plan: tsk.plan), class: "btn btn-sm btn-success", target: "_blank" %>
+              <td><%= tsk.supervisor %><br>
+                <%= "#{tsk.phone_1}-#{tsk.phone_2}" %><br>
+                <%= tsk.email %>
+              </td>
+              <td><%= tsk.bank_name %><br><br>
+                  <%= tsk.acc_name %><br><br>
+                  <%= tsk.acc_no %><br><br>
+                  <%= tsk.ssm_no %>
+              </td>
+              <td>ID1= <%= tsk.collection_id %><br>
+                  ID2= <%= tsk.collection_id2 %>
               </td>
             </tr>
           <% end %>
