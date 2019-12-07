@@ -10,6 +10,7 @@ a[72]=1
 a[76]=2.8/3
 a[80]=2.4/3
 a[81]=2.4/3
+a[287]=2.4/3
 
 a.each do |k,v|
 t = Taska.find(k)
@@ -17,8 +18,3 @@ t.discount = v.to_f
 t.save
 end
 
-ts=Admin.first.taskas
-ts.each do |t|
-t.expire = Date.today + 3.days
-t.save
-end
