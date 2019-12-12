@@ -12,23 +12,23 @@
             </p>
             <p class="card-text">
               <%
-                showl = false
-                an1 = false
-                an2 = false
-                an1 = true unless (tch.colleges.ids&$anisf).blank?
-                an2 = true unless (tch.colleges.ids&$anis2f).blank?
-                if an1 && an2
-                else
-                  if !tch.colleges.ids.include?(@clg.id) #kalau dah ada xyah masuk
-                    if an1
-                      if !an2 && ($anis2.include?(@clg.id) || $anis2f.include?(@clg.id))
-                        showl = true
-                      end
-                    else
-                      showl = true
-                    end
-                  end
-                end
+                # showl = false
+                # an1 = false
+                # an2 = false
+                # an1 = true unless (tch.colleges.ids&$anisf).blank?
+                # an2 = true unless (tch.colleges.ids&$anis2f).blank?
+                # if an1 && an2
+                # else
+                #   if !tch.colleges.ids.include?(@clg.id) #kalau dah ada xyah masuk
+                #     if an1
+                #       if !an2 && ($anis2.include?(@clg.id) || $anis2f.include?(@clg.id))
+                #         showl = true
+                #       end
+                #     else
+                #       showl = true
+                #     end
+                #   end
+                # end
               %>
               <% tch.colleges.each do |exs| %>
                 <%= exs.name %><br> 
