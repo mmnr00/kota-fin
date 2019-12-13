@@ -53,10 +53,12 @@
             <td>
               <%
                 if $anis2f.include?(@college.id) || $anis2.include?(@college.id)
-                  clgls = College.where(id: ($anis2f+$anis2))
+                  clgls = College.where(id: ($anis2f+$anis2)).order('created_at DESC')
+                  tp = "an2"
                 else
-                  idcl = @owner.colleges.ids 
-                  clgls = College.where(id: idcl - ($anis2f+$anis2))
+                  idcl = @owner.colleges.ids
+                  clgls = College.where(id: idcl - ($anis2f+$anis2)).order('created_at DESC')
+                  tp = "an1"
                 end
               %>
               <p><%= form_for(@tch, :url => {:controller=>'colleges', :action=>'assg_clg'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
@@ -64,6 +66,7 @@
                     options_from_collection_for_select(clgls, :id, :name),{include_blank: "SELECT SESSION"} %>
                   <%= f.hidden_field :curr_clg, value: params[:college] %>
                   <%= f.hidden_field :tchd_id, value: tch.id %>
+                  <%= f.hidden_field :tp, value: tp %>
                   <div style="width: 50%; margin: 0 auto;">
                     <%= f.submit :"ASSIGN",  class: 'btn btn-sm btn-success btn-lg', style: "align:center" %>
                   </div>

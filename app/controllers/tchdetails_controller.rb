@@ -77,13 +77,13 @@ class TchdetailsController < ApplicationController
 			exs = tchdc.where(ic_1: @tchdetail.ic_1, ic_2: @tchdetail.ic_2, ic_3: @tchdetail.ic_3)
 			
 			if exs.present?
-				tchdclg = exs.first.tchdetail_colleges.first
-				tchdclg.college_id = @college.id unless !$anisf.include?(@college.id)
+				tchdclg = exs.first.tchdetail_colleges.where(tp: pars[:tp]).first
+				tchdclg.college_id = @college.id #unless !$anisf.include?(@college.id)
 				tchdclg.save
 				@tchdetail = exs.first
 			else
 				if @tchdetail.save
-					TchdetailCollege.create(college_id: @college.id, tchdetail_id: @tchdetail.id)
+					TchdetailCollege.create(college_id: @college.id, tchdetail_id: @tchdetail.id, tp:pars[:tp])
 				else
 					render @tchdetail.errors.full_messages
 					render :new

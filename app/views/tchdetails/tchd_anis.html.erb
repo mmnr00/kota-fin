@@ -2,7 +2,10 @@
   <%= link_to "EDIT", edit_tchdetail_path(id: @tchdetail.id), class: "btn btn-lg btn-warning" %>&nbsp
 
   <% if @tchdetail.anis == "true" %>
-    <%= link_to "NEW REGISTRATION", new_tchdetail_path(id: @tchdetail.tchdetail_colleges.first.college_id, anis: true), class: "btn btn-lg btn-success" %>
+  <%
+    tcl=@tchdetail.tchdetail_colleges.order('updated_at DESC')
+  %>
+    <%= link_to "NEW REGISTRATION", new_tchdetail_path(id: tcl.first.college_id, anis: true), class: "btn btn-lg btn-success" %>
   <% end %>
 </div><br>
 <%= render 'tchdetails/profile' %>

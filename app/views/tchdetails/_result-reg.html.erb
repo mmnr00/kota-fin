@@ -12,7 +12,17 @@
             </p>
             <p class="card-text">
               <%
-                # showl = false
+                showl = false
+                an1 = false
+                an2 = false
+                if $anis2f.include?(@clg.id) || $anis2.include?(@clg.id)
+                  tp = "an2"
+                  an2 = true unless (tch.colleges.ids&$anis2f).blank?
+                else
+                  tp = "an1"
+                  an1 = true unless (tch.colleges.ids&$anisf).blank?
+                end
+                showl = true unless (tch.tchdetail_colleges.where(tp: tp, college_id: @clg.id).present? || an2 || an1)
                 # an1 = false
                 # an2 = false
                 # an1 = true unless (tch.colleges.ids&$anisf).blank?
@@ -33,9 +43,9 @@
               <% tch.colleges.each do |exs| %>
                 <%= exs.name %><br> 
               <% end %>
-
+              <% "an1(#{an1})--an2(#{an2})" %>
              
-              <%= link_to "APPLY FOR #{@clg.name}", assg_clg_tch_path(tchd_id: tch.id, clg: @clg.id), class: "btn btn-sm btn-primary" unless !showl %>
+              <%= link_to "APPLY FOR #{@clg.name}", assg_clg_tch_path(tchd_id: tch.id, clg: @clg.id, tp: tp), class: "btn btn-sm btn-primary" unless !showl %>
 
             </p>
             <%= link_to "EDIT", edit_tchdetail_path(id: tch.id, anis: tch.anis), class: "btn btn-sm btn-warning", target: "_blank" %>&nbsp
@@ -45,6 +55,8 @@
       </div>
     </div> 
   <% end %>
+<% elsif @find_tchdetail.blank? && params[:ic1].present? && params[:ic2].present? && params[:ic3].present? %>
+  <%= link_to "REGISTER", new_tchdetail_path(id: @clg.id, anis: true, nwt: true), class: "btn btn-sm btn-info" %>
 <% end %>
   
 

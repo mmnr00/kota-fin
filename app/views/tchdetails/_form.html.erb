@@ -473,6 +473,15 @@
       
 
       <%= f.hidden_field :college_id, value: params[:id] %>
+      <%
+      if $anis2.include?(params[:id]) || $anis2f.include?(params[:id])
+        tp="an2"
+      else
+        tp="an1"
+      end
+      %>
+      <%= f.hidden_field :tp, value: tp %>
+
       
 
               
