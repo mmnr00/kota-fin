@@ -9,13 +9,15 @@ end
 
 tc.tchdetail_colleges.each do |tcl|
 
-if $anis2f.include?(tcl.college_id) || $anis2.include?(tcl.college_id)
-tcl.tp = "an2"
-else
-tcl.tp = "an1"
+# if $anis2f.include?(tcl.college_id) || $anis2.include?(tcl.college_id)
+# tcl.tp = "an2"
+# else
+# tcl.tp = "an1"
+# end
+
+# tcl.save
+
+end
 end
 
-tcl.save
-
-end
-end
+TchdetailCollege.where(tchdetail_id: , college_id: ).last
