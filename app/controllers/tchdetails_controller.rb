@@ -167,7 +167,7 @@ class TchdetailsController < ApplicationController
     elsif params[:ic1] == "ALL"
     	@find_tchdetail = Tchdetail.where(anis: "true")
     else
-      @find_tchdetail = Tchdetail.where(anis: "true", ic_1: params[:ic1][0..5],ic_2: params[:ic1][6..7],ic_3: params[:ic1][8..11])
+      @find_tchdetail = Tchdetail.where(anis: "true", ic_1: params[:ic1],ic_2: params[:ic2],ic_3: params[:ic3])
       flash.now[:danger] = "NO REGISRTATION FOUND. PLEASE REGISTER BELOW" unless @find_tchdetail.present?
     end
     respond_to do |format|
