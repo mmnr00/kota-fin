@@ -13,7 +13,14 @@ tsk.collection_id2 = "x7w_y71n"
 tsk.save
 end
 
-t=Taska.find(76)
+t=Taska.where(76)
 t.collection_id="zvfa1md1"
 t.collection_id2="orjc1zxi"
 t.save
+
+ts=Taska.where(id: [276, 277, 286])
+ts.each do |t|
+t.collection_id="6vs70l7u"
+t.collection_id2="pajvgfjy"
+t.save
+end
