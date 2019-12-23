@@ -1,5 +1,5 @@
-old = 65
-nw = 67
+old = 63
+nw = 69
 
 clg=College.find(old)
 clgn = College.find(nw)
