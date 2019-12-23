@@ -64,13 +64,8 @@
 <% end %>
 
 <% if params[:clse] == "1" %>
-<<<<<<< HEAD
   <h1>PENDAFTARAN DITUTUP</h1>
-<% elsif params[:nwt] == "true" %>
-=======
-  PENDAFTARAN DITUTUP
 <% elsif params[:nwt] == "true" || params[:teacher_id].present? %>
->>>>>>> 10fbc
   <%= render 'tchdetails/form' %>
 <% end %>
 
