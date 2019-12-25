@@ -103,7 +103,7 @@
                   <tr>
                     <td>
                       <strong><%= kb.kid.name %></strong><br>
-                      <% if kb.classroom.present? %>
+                      <% if kb.clsname.present? && kb.clsfee.present? %>
                         FEE FOR CLASSROOM <%= kb.clsname.upcase %>
                       <% elsif @payment.name == "TASKA BOOKING" %>
                         BOOKING FEE FOR <%= @taska.name.upcase %>
@@ -118,7 +118,7 @@
                     </td>
                     <td></td>
                     <td class="text-right">
-                      <% if kb.classroom.present? %>
+                      <% if kb.clsname.present? && kb.clsfee.present? %>
                         <br><%= kb.clsfee %>
                       <% elsif @payment.name == "TASKA BOOKING" %>
                         <%= @payment.amount %>
