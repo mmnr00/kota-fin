@@ -146,7 +146,7 @@
                     <strong><%= kb.kid.name %></strong>
                   </td>
                   <tr class="noBorder">
-                    <% if kb.classroom.present? %>
+                    <% if kb.clsname.present? && kb.clsfee.present? %>
                       <td>FEE FOR CLASSROOM <%= kb.clsname.upcase %></td>
                       <td></td>
                       <td class="text-right"><%= kb.clsfee %></td>
