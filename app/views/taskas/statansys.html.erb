@@ -18,6 +18,7 @@
         <th> ALAMAT PJKK </th>
         <th> NAMA PENGUSAHA </th>
         <th> NO TELEFON </th>
+        <th> LINK RSVP </th>
         <th> SENARAI SIJIL </th>
       </tr>
     </thead>
@@ -34,6 +35,9 @@
           <td><%= tsk.address_1 %></td>
           <td><%= tsk.supervisor %></td>
           <td><%= "#{tsk.phone_1}-#{tsk.phone_2}" %></td>
+          <td>
+            <%= link_to "#{root_url}rsvpans?id=#{tsk.id}", rsvpans_path(id: tsk.id), target: "_blank"%>
+          </td>
           <td>
             <% image = tsk.fotos.where(foto_name: "SENARAI SIJIL").first %>
             <% if image.present? && image.picture.present? %>

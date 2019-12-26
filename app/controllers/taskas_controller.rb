@@ -32,6 +32,16 @@ class TaskasController < ApplicationController
   before_action :authenticate_admin!, only: [:new]
 
   #START ANSYS
+  def rsvpans
+    @taska=Taska.find(params[:id])
+  end
+
+  def updrsvp
+  end
+
+  def updrsvpadm
+  end
+
   def regansys
     @taska = Taska.new
     @taska.fotos.build

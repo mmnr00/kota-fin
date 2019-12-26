@@ -241,6 +241,9 @@ Rails.application.routes.draw do
   get '/taska/:id/topcred', to: 'taskas#topcred', as: 'topcred'
 
   ## ANSYS19
+  get '/rsvpans', to: 'taskas#rsvpans'
+  get '/updrsvp', to: 'taskas#updrsvp'
+  get '/updrsvpadm', to: 'taskas#updrsvpadm'
   get '/regansys', to: 'taskas#regansys'
   post '/crtansys', to: 'taskas#crtansys'
   get '/statansys', to: 'taskas#statansys'
