@@ -31,6 +31,83 @@ class TaskasController < ApplicationController
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
 
+  #START ANSYS
+  def rsvpans
+    @taska=Taska.find(params[:id])
+  end
+
+  def updrsvp
+  end
+
+  def updrsvpadm
+  end
+
+  def regansys
+    @taska = Taska.new
+    @taska.fotos.build
+  end
+
+  def crtansys
+    @taska = Taska.new(taska_params)
+    if (t=Taska.where(name: 
+                    @taska.name, 
+                    email: @taska.email, 
+                    plan: @taska.plan)).present?
+      @taska = t.first
+    end
+    if @taska.save
+      flash[:notice] = "PENDAFTARAN DITERIMA"
+      redirect_to statansys_path
+    end
+  end
+
+  def statansys
+    @taskas = Taska.where(plan: "ansys19")
+    if params[:par].present?
+      if params[:par] == "nil"
+        st = nil
+      else
+        st = params[:par]
+      end
+      @tsort = Taska.where(plan: "ansys19", states: st)
+    else
+      @tsort = @taskas
+    end
+  end
+
+  def editansys
+    @taska = Taska.find(params[:id])
+  end
+
+  def updansys
+    @taska = Taska.find(params[:taska][:id])
+    rsvp = params[:taska][:rsvp]
+    if @taska.update(taska_params)
+      flash[:notice] = "KEMASKINI BERJAYA"
+      if rsvp == "0"
+        redirect_to statansys_path
+      else
+        redirect_to succansys_path
+      end
+    end
+  end
+
+  def succansys
+  end
+
+  def ansys_xls
+    @taskas = Taska.where(plan: "ansys19")
+    respond_to do |format|
+      #format.html
+      format.xlsx{
+        response.headers['Content-Disposition'] = 'attachment; filename="SENARAI SYMPOSIUM ANIS.xlsx"'
+      }
+    end
+  end
+  #END ANSYS
+
+
+  # START MBR
   def regmbr19
     @taska = Taska.new
     @taska.fotos.build
@@ -75,6 +152,7 @@ class TaskasController < ApplicationController
       }
     end
   end
+  # END MBR
 
 
   def index
