@@ -1,22 +1,30 @@
-<h2>SENARAI PJKK SIMPOSIUM ANIS 2020</h2>
+<% if params[:att].blank? %>
 
-<%= link_to "ALL", statansys_path, class: "btn btn-sm btn-warning" %>
-<%= link_to "YA", statansys_path(par: "YA"), class: "btn btn-sm btn-warning" %>
-<%= link_to "TIDAK", statansys_path(par: "TIDAK"), class: "btn btn-sm btn-warning" %>
-<%= link_to "TIADA RESPON", statansys_path(par: "nil"), class: "btn btn-sm btn-warning" %>
+  <h2>SENARAI PJKK SIMPOSIUM ANIS 2020</h2>
 
-<br><br>
+  <%= link_to "ALL", statansys_path, class: "btn btn-sm btn-warning" %>
+  <%= link_to "YA", statansys_path(par: "YA"), class: "btn btn-sm btn-warning" %>
+  <%= link_to "TIDAK", statansys_path(par: "TIDAK"), class: "btn btn-sm btn-warning" %>
+  <%= link_to "TIADA RESPON", statansys_path(par: "nil"), class: "btn btn-sm btn-warning" %>
 
-<h5>BIL KESELURUHAN : <%= @taskas.count %></h5>
-<h5>BIL HADIR : <%= @taskas.where(states: "YA").count %></h5>
-<h5>BIL TIDAK HADIR : <%= @taskas.where(states: "TIDAK").count %></h5>
-<h5>BIL TIADA RESPON : <%= @taskas.where(states: nil).count %></h5><br>
+  <br><br>
 
-<%= link_to ansys_xls_path(id: 5,format: :xlsx), class: "btn btn-sm btn-success" do %>
-  <i class="fa fa-file-excel"></i> MUAT TURUN SENARAI
-<% end %>&nbsp&nbsp
-<%= link_to regansys_path, class: "btn btn-sm btn-danger" do %>
-  <i class="fa fa-edit"></i> PENDAFTARAN BARU
+  <h5>BIL KESELURUHAN : <%= @taskas.count %></h5>
+  <h5>BIL HADIR : <%= @taskas.where(states: "YA").count %></h5>
+  <h5>BIL TIDAK HADIR : <%= @taskas.where(states: "TIDAK").count %></h5>
+  <h5>BIL TIADA RESPON : <%= @taskas.where(states: nil).count %></h5><br>
+
+  <%= link_to ansys_xls_path(id: 5,format: :xlsx), class: "btn btn-sm btn-success" do %>
+    <i class="fa fa-file-excel"></i> MUAT TURUN SENARAI
+  <% end %>&nbsp&nbsp
+  <%= link_to regansys_path, class: "btn btn-sm btn-danger" do %>
+    <i class="fa fa-edit"></i> PENDAFTARAN BARU
+  <% end %>
+
+<% else %>
+  
+  <h2>SILA CARI PJKK ANDA DAN KLIK PADA LINK RSVP</h2>
+
 <% end %>
 <br>
 
@@ -35,14 +43,16 @@
     </thead>
     <tbody> 
       <% cnt = 0 %>
-      <% @tsort.order('created_at DESC').each do |tsk| %>
+      <% @tsort.order('name ASC').each do |tsk| %>
         <% cnt += 1 %>
         <tr>
           <td><%= cnt %></td>
           <td>
             <%= tsk.name.upcase %><br>
-            <%= link_to editansys_path(id: tsk.id), class: "btn btn-sm btn-info" do %>
-              <i class="fa fa-edit"></i> KEMASKINI
+            <% if params[:att].blank? %>
+              <%= link_to editansys_path(id: tsk.id), class: "btn btn-sm btn-info" do %>
+                <i class="fa fa-edit"></i> KEMASKINI
+              <% end %>
             <% end %>
             
           </td>
