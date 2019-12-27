@@ -34,11 +34,13 @@
       <tr style="background-color:#d8b2d8">
         <th> NO </th>
         <th> NAMA PJKK </th>
+        <th> LINK RSVP </th>
+        <th> RESPON </th>
         <th> ALAMAT PJKK </th>
         <th> PENGUSAHA </th>
         <th> WAKIL </th>
-        <th> LINK RSVP </th>
-        <th> RESPON </th>
+        <th> NO PERMIT </th>
+        <th> DUN </th>        
       </tr>
     </thead>
     <tbody> 
@@ -53,24 +55,26 @@
               <%= link_to editansys_path(id: tsk.id), class: "btn btn-sm btn-info" do %>
                 <i class="fa fa-edit"></i> KEMASKINI
               <% end %>
-            <% end %>
-            
+            <% end %>   
+          </td>
+          <td>
+            <%= link_to "KLIK DISINI", rsvpans_path(id: tsk.id), class: "btn btn-sm btn-primary"%>
+          </td>
+          <td>
+            <%= tsk.states %>
           </td>
           <td><%= tsk.address_1 %></td>
           <td>
             <%= tsk.supervisor %><br>
-            <%= "#{tsk.phone_1}-#{tsk.phone_2}" %>
+            <%= tsk.phone_1 %>
           </td>
           <td>
             <%= tsk.address_2 %><br>
             <%= tsk.postcode %>
           </td>
-          <td>
-            <%= link_to "#{root_url}rsvpans?id=#{tsk.id}", rsvpans_path(id: tsk.id), target: "_blank"%>
-          </td>
-          <td>
-            <%= tsk.states %>
-          </td>
+          <td><%= tsk.email %></td>
+          <td><%= tsk.city %></td>
+          
         </tr>
       <% end %>
     </tbody>

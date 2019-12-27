@@ -1,5 +1,5 @@
 wb = xlsx_package.workbook
-col_widths= [4,29,45,22,29,23]
+col_widths= [4,29,14,45,22,29,23,23,23,23]
 wb.styles do |style|
   header_1 = style.add_style(sz: 20)
   highlight_cell = style.add_style(bg_color: "EFC376",
@@ -13,24 +13,30 @@ wb.styles do |style|
     sheet.add_row [""]
     sheet.add_row ["NO",
                   "NAMA PJKK",
+                  "KEHADIRAN",
                   "ALAMAT PJKK",
                   "NAMA PENGUSAHA",
-                  "NO TELEFON PENGUSAHA",
+                  "NO TEL PENGUSAHA",
+                  "NAMA WAKIL",
+                  "NO TEL WAKIL",
                   "NO PERMIT",
-                  "BIL PESERTA"]
+                  "DUN"]
     sheet.rows[0].style = header_1
     sheet.rows[2].style = highlight_cell
     counter = 1
     row =2
 
-    @taskas.order('created_at DESC').each do |tsk|
+    @taskas.order('name ASC').each do |tsk|
       sheet.add_row [counter, 
                     tsk.name,
-                    "#{tsk.address_1},#{tsk.address_2},#{tsk.city},#{tsk.postcode},#{tsk.states}",
+                    tsk.states,
+                    tsk.address_1,
                     tsk.supervisor,
-                    "#{tsk.phone_1}-#{tsk.phone_2}",
+                    tsk.phone_1,
+                    tsk.address_2,
+                    tsk.postcode,
                     tsk.email,
-                    tsk.cred], 
+                    tsk.city], 
       style: [nil, border_cell]
       sheet.rows[row+counter].style = border_cell
       counter = counter +1
