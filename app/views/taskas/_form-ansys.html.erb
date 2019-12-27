@@ -2,6 +2,53 @@
   <div class='col-lg-8 col-12'>
     <%= form_for(@taska,:url => {:controller=>'taskas', :action=>"#{acti}"}, :html => {multipart: true, class: "form-horizontal", role: "form"}) do |f| %>
 
+      <% if rsvp == 1 %> <!-- FOR RSVP ONLY -->
+  
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>KEHADIRAN KE SIMPOSIUM ANIS 2019</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.select :states, 
+                            options_for_select([["YA"],
+                                                ["TIDAK"]],
+                                              selected: @taska.states), 
+                              {include_blank: "Sila Pilih"}, {required: true} %> 
+            </div>
+          </div>
+        </div>
+   
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>NAMA WAKIL (JIKA ADA)</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :address_2, class: "form-control", autofocus: true, style: "text-transform:uppercase" %>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>NO TEL WAKIL (JIKA ADA)</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :postcode, class: "form-control", autofocus: true, style: "text-transform:uppercase" %>
+            </div>
+          </div>
+        </div>
+        <hr>
+      <% end %>
+
         <!-- taska name -->    
         <div class="form-group"> 
           <div class="row">
@@ -106,11 +153,12 @@
           </div>
         </div>
 
-      <%= f.hidden_field :id, value: params[:id] %>    
+      <%= f.hidden_field :id, value: params[:id] %>   
+      <%= f.hidden_field :rsvp, value: rsvp %>  
         <div class="form-group">
           <div class="row">
             <div class="col-sm-offset-2 col-sm-10 col-4">
-              <%= f.submit :"DAFTAR",  class: 'btn btn-primary btn-lg' %>
+              <%= f.submit :"HANTAR",  class: 'btn btn-primary btn-lg' %>
             </div>
           </div>
         </div>

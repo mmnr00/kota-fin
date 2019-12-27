@@ -63,6 +63,16 @@ class TaskasController < ApplicationController
 
   def statansys
     @taskas = Taska.where(plan: "ansys19")
+    if params[:par].present?
+      if params[:par] == "nil"
+        st = nil
+      else
+        st = params[:par]
+      end
+      @tsort = Taska.where(plan: "ansys19", states: st)
+    else
+      @tsort = @taskas
+    end
   end
 
   def editansys
@@ -71,10 +81,18 @@ class TaskasController < ApplicationController
 
   def updansys
     @taska = Taska.find(params[:taska][:id])
+    rsvp = params[:taska][:rsvp]
     if @taska.update(taska_params)
       flash[:notice] = "KEMASKINI BERJAYA"
-      redirect_to statansys_path
+      if rsvp == "0"
+        redirect_to statansys_path
+      else
+        redirect_to succansys_path
+      end
     end
+  end
+
+  def succansys
   end
 
   def ansys_xls

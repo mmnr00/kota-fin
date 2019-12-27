@@ -250,6 +250,7 @@ Rails.application.routes.draw do
   get '/editansys', to: 'taskas#editansys'
   patch '/updansys', to: 'taskas#updansys'
   get '/ansys_xls', to: 'taskas#ansys_xls'
+  get '/succansys', to: 'taskas#succansys'
 
   ## MBR 19
   get '/regmbr1987878787', to: 'taskas#regmbr19'
