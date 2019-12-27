@@ -8,7 +8,7 @@ git checkout master_n
 git merge 10fbc
 git push
 
-git checkout production_n
+git checkout prod_n
 git merge master_n
 git push
 
