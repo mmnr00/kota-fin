@@ -251,6 +251,7 @@ Rails.application.routes.draw do
   patch '/updansys', to: 'taskas#updansys'
   get '/ansys_xls', to: 'taskas#ansys_xls'
   get '/succansys', to: 'taskas#succansys'
+  get 'delansys', to: 'taskas#delansys'
 
   ## MBR 19
   get '/regmbr1987878787', to: 'taskas#regmbr19'

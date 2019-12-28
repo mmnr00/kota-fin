@@ -32,6 +32,14 @@ class TaskasController < ApplicationController
   before_action :authenticate_admin!, only: [:new]
 
   #START ANSYS
+  def delansys
+    tsk = Taska.find(params[:id])
+    if tsk.destroy
+      flash[:danger] = "Delete berjaya"
+      redirect_to statansys_path
+    end
+  end
+
   def rsvpans
     @taska=Taska.find(params[:id])
   end

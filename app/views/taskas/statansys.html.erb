@@ -33,11 +33,11 @@
     <thead>
       <tr style="background-color:#d8b2d8">
         <th> NO </th>
+        <th> PENGUSAHA </th>
         <th> NAMA PJKK </th>
         <th> LINK RSVP </th>
         <th> RESPON </th>
         <th> ALAMAT PJKK </th>
-        <th> PENGUSAHA </th>
         <th> WAKIL </th>
         <th> NO PERMIT </th>
         <th> DUN </th>        
@@ -45,15 +45,22 @@
     </thead>
     <tbody> 
       <% cnt = 0 %>
-      <% @tsort.order('name ASC').each do |tsk| %>
+      <% @tsort.order('supervisor ASC').each do |tsk| %>
         <% cnt += 1 %>
         <tr>
           <td><%= cnt %></td>
+          <td>
+            <%= tsk.supervisor %><br>
+            <%= tsk.phone_1 %>
+          </td>
           <td>
             <%= tsk.name.upcase %><br>
             <% if params[:att].blank? %>
               <%= link_to editansys_path(id: tsk.id), class: "btn btn-sm btn-info" do %>
                 <i class="fa fa-edit"></i> KEMASKINI
+              <% end %>
+              <%= link_to delansys_path(id: tsk.id), class: "btn btn-sm btn-danger", data: {confirm:"Anda Pasti?"} do %>
+                <i class="fa fa-danger"></i> PADAM
               <% end %>
             <% end %>   
           </td>
@@ -64,10 +71,6 @@
             <%= tsk.states %>
           </td>
           <td><%= tsk.address_1 %></td>
-          <td>
-            <%= tsk.supervisor %><br>
-            <%= tsk.phone_1 %>
-          </td>
           <td>
             <%= tsk.address_2 %><br>
             <%= tsk.postcode %>
