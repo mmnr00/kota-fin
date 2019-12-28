@@ -239,6 +239,20 @@ Rails.application.routes.draw do
   post '/taska/:id/upldkid', to: 'taskas#upldkid', as: 'upldkid'
   get '/taska/:id/hiscrdt', to: 'taskas#hiscrdt', as: 'hiscrdt'
   get '/taska/:id/topcred', to: 'taskas#topcred', as: 'topcred'
+
+  ## ANSYS19
+  get '/rsvpans', to: 'taskas#rsvpans'
+  get '/updrsvp', to: 'taskas#updrsvp'
+  get '/updrsvpadm', to: 'taskas#updrsvpadm'
+  get '/regansys', to: 'taskas#regansys'
+  post '/crtansys', to: 'taskas#crtansys'
+  get '/statansys', to: 'taskas#statansys'
+  get '/editansys', to: 'taskas#editansys'
+  patch '/updansys', to: 'taskas#updansys'
+  get '/ansys_xls', to: 'taskas#ansys_xls'
+  get '/succansys', to: 'taskas#succansys'
+
+  ## MBR 19
   get '/regmbr1987878787', to: 'taskas#regmbr19'
   post '/crtmbr19', to: 'taskas#crtmbr19'
   get '/statmbr19', to: 'taskas#statmbr19'
