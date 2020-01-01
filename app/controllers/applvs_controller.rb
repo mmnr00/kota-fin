@@ -294,7 +294,7 @@ class ApplvsController < ApplicationController
 	end
 
 	def bal_suff?(tchid,kind,tot)
-		time = Time.now + 1.year
+		time = Time.now
 		teacher = Teacher.find(tchid)
 		#tchlvs = teacher.tchlvs
 		applvs = teacher.applvs.where('extract(year  from start) = ?', time.year)
