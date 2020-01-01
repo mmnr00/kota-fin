@@ -74,11 +74,13 @@ class TeachersController < ApplicationController
 	end
 
 	def tchleave
+		time = Time.now
 		@tchlvs = @teacher.tchlvs
 		@taska = @teacher.taska_teachers.where(stat: true).first.taska
 		@applv = Applv.new
 		@applv.fotos.build
-		@tchapplvs = @teacher.applvs.order('start DESC')
+		@tchapplvs = @teacher.applvs.where('extract(year  from start) = ?', time.year).order('start DESC')
+		@tchapplvs_all = @teacher.applvs.order('start DESC')
 		render action: "tchleave", layout: "dsb-teacher-tsk"
 	end
 

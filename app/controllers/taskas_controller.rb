@@ -1411,9 +1411,11 @@ class TaskasController < ApplicationController
   end
 
   def tchleave
+    time = Time.now
     @teacher = Teacher.find(params[:tch_id])
     @tchlvs = @teacher.tchlvs
-    @tchapplvs = @teacher.applvs.order('start DESC')
+    @tchapplvs = @teacher.applvs.where('extract(year  from start) = ?', time.year).order('start DESC')
+    @tchapplvs_all = @teacher.applvs.order('start DESC')
     render action: "tchleave", layout: "dsb-admin-teacher" 
   end
 

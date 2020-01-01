@@ -59,7 +59,7 @@ class ApplvsController < ApplicationController
 																app_d: "show active")
 		else
 			
-			if @applv.save
+			if @applv.save && 1==0
 			# if 1==1
 				#SEND EMAIL
 				taska = @applv.taska
@@ -294,9 +294,10 @@ class ApplvsController < ApplicationController
 	end
 
 	def bal_suff?(tchid,kind,tot)
+		time = Time.now
 		teacher = Teacher.find(tchid)
 		#tchlvs = teacher.tchlvs
-		applvs = teacher.applvs
+		applvs = teacher.applvs.where('extract(year  from start) = ?', time.year)
 		taska = teacher.taska_teachers.where(stat: true).first.taska
 		tsklvs = taska.tsklvs
 		annlvtsk = tsklvs.where(name: "ANNUAL LEAVE").first
