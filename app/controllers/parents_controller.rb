@@ -51,7 +51,7 @@ class ParentsController < ApplicationController
 		if params[:tskname].blank?
 			flash[:danger] = "NO INPUT ENTERED"
 		else
-			@taskas = Taska.where("name like?", "%#{params[:tskname].upcase}%").where.not(plan: "mbr19")
+			@taskas = Admin.first.taskas.where("name like?", "%#{params[:tskname].upcase}%").where.not(plan: "mbr19")
 			flash[:danger] = "NO MATCHED DATA" unless @taskas.present?
 		end
 		respond_to do |format|
