@@ -4,6 +4,10 @@ class WelcomesController < ApplicationController
 	
 	#layout "page"
 
+	def cikgu_anis
+		redirect_to "https://kidcare.my/ebook_anis.pdf"
+	end
+
 	def cmbr19
 		@taska = Taska.find(params[:id])
 	end

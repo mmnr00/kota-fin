@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   get 'sb_dashboard', to: 'welcomes#sb_dashboard'
   get 'sb_table', to: 'welcomes#sb_table'
   get 'star_rating', to: 'welcomes#star_rating'
+  get 'cikgu_anis', to: 'welcomes#cikgu_anis'
 
   #~PTNSMMB
   get '/daftarptns', to: 'ptns_mmbs#new', as: 'new_ptns_mmb'
