@@ -252,6 +252,7 @@ Rails.application.routes.draw do
   get '/ansys_xls', to: 'taskas#ansys_xls'
   get '/succansys', to: 'taskas#succansys'
   get 'delansys', to: 'taskas#delansys'
+  get 'admansys', to: 'taskas#admansys'
 
   ## MBR 19
   get '/regmbr1987878787', to: 'taskas#regmbr19'

@@ -66,6 +66,13 @@
             <% end %>   
           </td>
           <td>
+            <% if params[:att].blank? %>
+              <% if tsk.states == "TIDAK" || tsk.states == nil %>
+                <%= link_to "HADIR", admansys_path(id: tsk.id, st: "YA"), class: "btn btn-sm btn-success"%>
+              <% else %>
+                <%= link_to "TIDAK HADIR", admansys_path(id: tsk.id, st: "TIDAK"), class: "btn btn-sm btn-danger"%>
+              <% end %>
+            <% end %>
             <%= link_to "KLIK DISINI", rsvpans_path(id: tsk.id), class: "btn btn-sm btn-primary"%>
           </td>
           <td>

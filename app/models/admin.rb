@@ -10,6 +10,8 @@ class Admin < ApplicationRecord
   #attr_accessible :email, :password, :password_confirmation, :remember_me, :username
 
   validates_presence_of :username, :email
+  validates :username, uniqueness: true
+  validates :email, uniqueness: true
 
 
 end
