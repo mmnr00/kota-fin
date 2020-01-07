@@ -26,7 +26,7 @@ class CollegesController < ApplicationController
 	def show_owner
 		@college = College.find(params[:college])
 		@tchdetails = @college.tchdetails.order('name ASC')
-		@tch = Tchdetail.new
+		#@tch = Tchdetail.new
 		render action: "show_owner", layout: "dsb-owner-college"
 	end
 
