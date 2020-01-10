@@ -1,35 +1,54 @@
+<%= @college.name %><br><br>
+<%= params[:part] %>
+
 <div class="table-responsive">
   <table class="table table-striped table-bordered" width="100%" cellspacing="0">
     <thead>
       <tr>
-        <th style="background-color:#d8b2d8"> CNT </th>
-        <th style="background-color:#d8b2d8"> NAME </th>
-        <th style="background-color:#d8b2d8"> IC </th> 
-        <th style="background-color:#d8b2d8"> TRY CLG </th> 
-        <th style="background-color:#d8b2d8"> TRY PROF </th> 
+        <th style="background-color:#d8b2d8"> NO </th>
+        <th style="background-color:#d8b2d8"> NAME (IC) </th>
+        <th style="background-color:#d8b2d8"> ASSIGN SESSION </th> 
+        <th style="background-color:#d8b2d8"> OTHER INFO </th>
+        <th style="background-color:#d8b2d8"> EDIT INFO </th>  
       </tr>
     </thead>
     <tbody>
-      <%= form_for(:tch, :url => {:controller=>'colleges', :action=>'assg_clg'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+      <%= form_for(:ans, :url => {:controller=>'colleges', :action=>'assg_clg'}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
+      <%= f.hidden_field :curr_clg, value: params[:college] %>
       <% cnt = 1 %>
         <% @tchdetails.order('name ASC').each do |tch| %>
           <tr>
             <td><%= cnt %></td>
-            <td><%= tch.name.upcase %></td>
-            <td><%= "#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3}"%></td>
+            <td><%= "#{tch.name.upcase} (#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3})" %></td>
+
             <%= f.fields_for :"#{tch.id}" do |h| %>
-              <td>
-                <%= tch.id %>
-                <%= f.select :college_ids, 
-                    options_from_collection_for_select(@owner.colleges, :id, :name),{include_blank: "SELECT SESSION"} %>
-                <%= h.hidden_field :"tchd_id#{cnt}", value: tch.id %>
-                <%= h.hidden_field :"mus_id#{cnt}", value: tch.id %>
+              <td> <!-- CHOOSE COLLEGE-->
+                <%
+                  if $anis2f.include?(@college.id) || $anis2.include?(@college.id)
+                  clgls = College.where(id: ($anis2f+$anis2)).order('created_at DESC')
+                  tp = "an2"
+                  else
+                    idcl = @owner.colleges.ids
+                    clgls = College.where(id: idcl - ($anis2f+$anis2)).order('created_at DESC')
+                    tp = "an1"
+                  end  
+                %>
+                <%= h.select :college_ids, 
+                    options_from_collection_for_select(clgls, :id, :name),{include_blank: "SELECT"} %>
+                <%= h.hidden_field :tp, value: tp %>
               </td>
               <td>
-                PROFILE
-                <%= h.hidden_field :"second_id#{cnt}", value: tch.id %>
+                <b><%= tch.ts_name.upcase %></b><br>
+                <%= "#{tch.ts_address_1}, #{tch.ts_address_2}, #{tch.city}, #{tch.states}, #{tch.postcode}" %>
+              </td>
+              <td>
+                <b>DUN</b>
+                <%= h.select :dun, options_for_select($sel_dun, 
+                                                      selected: tch.dun), 
+                {include_blank: "Select"}, {required: true} %>
               </td>
             <% end %>
+
           </tr>
           <% cnt = cnt + 1 %>
         <% end %>

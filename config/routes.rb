@@ -132,7 +132,7 @@ Rails.application.routes.draw do
   get '/owner/:id/colleges/new', to: 'colleges#new', as: 'new_college'
   get '/owner/:id/colleges/show', to: 'colleges#show_owner', as: 'show_owner'
   get '/teacher/:id/colleges/show', to: 'colleges#show_teacher', as: 'show_teacher'
-  get '/assg_clg', to: 'colleges#assg_clg'
+  post '/assg_clg', to: 'colleges#assg_clg'
   get '/assg_clg_tch', to: 'colleges#assg_clg_tch'
   get '/anis_reglist', to: 'colleges#anis_reglist'
   get '/college/:id/report', to: 'colleges#college_report', as: 'college_report'

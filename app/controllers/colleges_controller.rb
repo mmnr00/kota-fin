@@ -72,6 +72,25 @@ class CollegesController < ApplicationController
 	end
 
 	def assg_clg
+		curr_clg = params[:ans][:curr_clg]
+		params[:ans].each do |k,v|
+			if k != "curr_clg"
+				tchdetail = Tchdetail.find(k)
+				if v[:college_ids] != ""
+					tch_clg = tchdetail.tchdetail_colleges.where(tp: v[:tp]).first
+					tch_clg.college_id = v[:college_ids]
+					tch_clg.save
+				end
+				tchdetail.dun = v[:dun]
+				tchdetail.save
+			end
+		end
+
+		flash[:success] = "Update Successful"
+		redirect_to show_owner_path(id: @owner.id, college: curr_clg)
+	end
+
+	def assg_clg_old
 		tchdetail = Tchdetail.find(params[:tchdetail][:tchd_id])
 		tch_clg = tchdetail.tchdetail_colleges.where(tp: params[:tchdetail][:tp]).first
 		tch_clg.college_id = params[:tchdetail][:college_ids]
