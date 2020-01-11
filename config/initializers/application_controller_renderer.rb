@@ -99,7 +99,7 @@ $ph_sel19 = {
 									25	=>"	Christmas Day	"},
 						}
             
-$sel_dun = ["  Sungai Air Tawar  " ,
+$sel_dun = [" Sungai Air Tawar  " ,
             " Sabak " ,
             " Sungai Panjang  " ,
             " Sekinchan " ,

@@ -46,7 +46,19 @@
             <% @tchdetails.order('name ASC').each do |tch| %>
               <tr>
                 <td><%= cnt %></td>
-                <td><%= "#{tch.name.upcase} (#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3})" %></td>
+                <td>
+                  <%= "#{tch.name.upcase} (#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3})" %>
+                  <div> 
+                    <% 
+                      image = tch.fotos.where(foto_name: "PROFILE PIC").first 
+                    %>
+                    <% if image.picture.present? %>
+                      <%= image_tag(image.picture.url, size: "100x100") %>
+                    <% else %>
+                      <i>No photo uploaded</i>
+                    <% end %>
+                  </div>
+                </td>
 
                 <%= f.fields_for :"#{tch.id}" do |h| %>
                   <td> <!-- CHOOSE COLLEGE-->
@@ -63,6 +75,8 @@
                     <%= h.select :college_ids, 
                         options_from_collection_for_select(clgls, :id, :name),{include_blank: "SELECT"} %>
                     <%= h.hidden_field :tp, value: tp %>
+                    <%= link_to "EDIT", edit_tchdetail_path(id: tch.id, anis: tch.anis), class: "btn btn-sm btn-warning", target: "_blank" %>&nbsp
+                    <%= link_to "VIEW", tchd_anis_path(id: tch.id), class: "btn btn-sm btn-info", target: "_blank" %> 
                   </td>
                   <td>
                     <b><%= tch.ts_name.upcase %></b><br>
@@ -83,7 +97,7 @@
         </tbody>
 
       </table>
-      <%= f.submit :"ASSIGN",  class: 'btn btn-sm btn-block btn-success btn-lg', style: "align:center" %>
+      <%= f.submit :"UPDATE",  class: 'btn btn-sm btn-block btn-success btn-lg', style: "align:center" %>
       <% end %>
     </div>
   </div>
