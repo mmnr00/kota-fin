@@ -6,7 +6,7 @@
   </div>
   <div class="card-body">
     <div class="container"><div class="row">
-      <% image = @taska.fotos.where(foto_name: "CENTER LOGO").first %>
+      <% #image = @taska.fotos.where(foto_name: "CENTER LOGO").first unless @taska.blank? %>
       <% @tchpayslips.where(notf: 1).each do |psl| %>
         <div class="col-xs-12 col-sm-6 col-md-3">
           <div class="frontside">
@@ -14,13 +14,14 @@
               <div class='col-lg-12 well'><br>
                 <div class="row">
                   <div class="pull-right">
+                    <% image = psl.taska.fotos.where(foto_name: "CENTER LOGO").first %>
                     <% if image.present? && image.picture.present? %>
                       <%= image_tag(image.picture.url, size: "50x50") %>
                     <% end %>
                   </div>&nbsp&nbsp&nbsp&nbsp
                   <h4 align="center"><%= "#{$month_name[psl.mth]}-#{psl.year}" %></h4>
-                  <br>
-                </div><br>
+                  <p style="font-size:10px" align="center"><i><%= psl.taska.name %></i></p>
+                </div>
               </div>
               <div class='col-lg-12'>
                 <% gross = psl.amt.to_f + psl.alwnc.to_f + psl.addtn.to_f - psl.dedc.to_f %>

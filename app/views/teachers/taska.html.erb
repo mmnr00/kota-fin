@@ -70,7 +70,9 @@
         <div class="col-md-4">
           <div class="card-counter primary">
             <i class="fa fa-hand-holding-usd"></i>
-            <% psl = taska.payslips.where(teacher_id: @teacher.id) %>
+            <% #psl = taska.payslips.where(teacher_id: @teacher.id) 
+              psl = @teacher.payslips
+            %>
             <span class="count-numbers"><%= psl.count %></span>
             <span class="count-name">
               <a href="<%= tchpslip_url(@teacher,

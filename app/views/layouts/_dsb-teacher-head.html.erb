@@ -50,7 +50,7 @@
             </a>
             <a class="dropdown-item" href="/teachers/edit">Edit Login
             </a>
-            <a class="dropdown-item" href="#"></a>
+            <a class="dropdown-item" href="<%= tchpslip_url(@teacher)%>">View Payslips</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
             	<p align="center"><%= link_to "LOGOUT", destroy_teacher_session_path, class: "btn btn-sm btn-danger active", method: :delete, :data => {:confirm => 'Are you sure to logout?'} %></p>

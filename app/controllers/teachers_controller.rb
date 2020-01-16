@@ -93,9 +93,12 @@ class TeachersController < ApplicationController
 	end
 
 	def tchpslip
-		@tchpayslips = @teacher.payslips.where(taska_id: params[:tskid]).order('year DESC').order('mth DESC')
-		@taska_classrooms = Taska.find(params[:tskid]).classrooms
-		@taska = Taska.find(params[:tskid])
+		#@tchpayslips = @teacher.payslips.where(taska_id: params[:tskid]).order('year DESC').order('mth DESC')
+		@tchpayslips = @teacher.payslips.order('year DESC').order('mth DESC')
+		if params[:tskid].present?
+			@taska_classrooms = Taska.find(params[:tskid]).classrooms
+			@taska = Taska.find(params[:tskid])
+		end
 		render action: "tchpslip", layout: "dsb-teacher-tsk"
 	end
 
