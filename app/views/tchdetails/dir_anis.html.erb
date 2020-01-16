@@ -1,0 +1,17 @@
+<h2>DIRECTORY ANIS</h2><br>
+
+<% c=1; $sel_dun.each do |dn| %>
+
+  <% if c<10 %>
+    <h4><%= "N0#{c}#{dn.upcase} (#{@tchds.where(dun: dn).count})" %></h4>
+  <% else %>
+    <h4><%= "N#{c}#{dn.upcase} (#{@tchds.where(dun: dn).count})" %></h4>
+  <% end %>
+
+  <% @tchds.where(dun: dn).each do |tc| %>
+    <b><%= tc.name.upcase %></b><br>
+    <%= "#{tc.ic_1}#{tc.ic_2}#{tc.ic_3}"%>
+    <br><br>
+  <% end %>
+  <hr>
+<% c=c+1;end %>

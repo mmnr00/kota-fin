@@ -1,8 +1,16 @@
 class TchdetailsController < ApplicationController
-	before_action :set_tchdetail, except: [:new, :create, :find_tchdetail, :find_tchdetail_reg, :tchd_xls, :market_xls]
+	before_action :set_tchdetail, except: [:new, :create, :find_tchdetail, :find_tchdetail_reg, :tchd_xls, :market_xls, :dir_anis]
 	#before_action :rep_responsible?
 	#before_action :authenticate_parent! || :authenticate_admin!
 	before_action :set_all
+
+	def dir_anis
+		tc_id =[]
+		College.where(id: ($anisf+$anis2f)).each do |clg|
+			tc_id = tc_id + clg.tchdetails.ids
+		end
+		@tchds = Tchdetail.where(id: tc_id)
+	end
 
 	def show
 		@pdf = false

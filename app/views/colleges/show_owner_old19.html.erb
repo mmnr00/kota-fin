@@ -1,0 +1,101 @@
+<div class="card mb-3">
+  <div class="card-header" style="background-color:#0050be">
+    <h3 align="center" style="color:white"> WELCOME TO <%= @college.name %>'s PAGE <%= link_to "Edit Session", edit_college_path(@college), class: "btn btn-sm btn-success active" %> </h3>
+    <div align="right">  
+      <%= link_to "Create Course", new_course_path(college: @college.id), class: "btn btn-sm btn-warning active" %>
+    </div>
+  </div>
+</div>
+
+<% if @college.courses.present? %>
+  <%= link_to "GENERATE REPORT", college_report_path(@college), class: "btn btn-sm btn-info", target: '_blank' %><br><br>
+  <%= render 'colleges/schd' %>
+	
+<% else %>
+	</br>
+	No session created yet. 
+<% end %>
+
+<br>
+
+<div class="card ">
+  <div class="card-header">
+    PARTICIPANT LIST
+    <div class="pull-right">
+      <%= link_to tchd_xls_path(id: @college.id, format: :xlsx), class: "btn btn-sm btn-info active" do %>
+        <i class="fa fa-file-excel"></i> DOWNLOAD ALL DETAILS
+      <% end %>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-striped table-bordered" width="100%" cellspacing="0">
+        <thead>
+          <tr>
+            <th style="background-color:#d8b2d8"> NO </th>
+            <th style="background-color:#d8b2d8"> NAME </th>
+            <th style="background-color:#d8b2d8"> IC NO </th>
+            <th style="background-color:#d8b2d8"> PROFILE </th>
+            <th style="background-color:#d8b2d8"> ASSIGN </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% counter = 1 %>
+          <% @tchdetails.order('name ASC').each do |tch| %>
+          <tr>
+            <td><%= counter %></td>
+            <td><%= tch.name %></td>
+            <td><%= "#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3}"%></td>
+            <td>
+              <%= link_to "EDIT", edit_tchdetail_path(id: tch.id, anis: tch.anis), class: "btn btn-sm btn-warning", target: "_blank" %>&nbsp
+              <%= link_to "VIEW", tchd_anis_path(id: tch.id), class: "btn btn-sm btn-info", target: "_blank" %> 
+            </td>
+            <td>
+              <%
+                if $anis2f.include?(@college.id) || $anis2.include?(@college.id)
+                  clgls = College.where(id: ($anis2f+$anis2)).order('created_at DESC')
+                  tp = "an2"
+                else
+                  idcl = @owner.colleges.ids
+                  clgls = College.where(id: idcl - ($anis2f+$anis2)).order('created_at DESC')
+                  tp = "an1"
+                end
+              %>
+              <p><%= form_for(@tch, :url => {:controller=>'colleges', :action=>'assg_clg'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+                  <p align="center"><%= f.select :college_ids, 
+                    options_from_collection_for_select(clgls, :id, :name),{include_blank: "SELECT SESSION"} %>
+                  <%= f.hidden_field :curr_clg, value: params[:college] %>
+                  <%= f.hidden_field :tchd_id, value: tch.id %>
+                  <%= f.hidden_field :tp, value: tp %>
+                  <div style="width: 50%; margin: 0 auto;">
+                    <%= f.submit :"ASSIGN",  class: 'btn btn-sm btn-success btn-lg', style: "align:center" %>
+                  </div>
+                <% end %></p>
+            </td>
+          </tr>
+          <% counter = counter + 1 %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<br><br>
+<% 
+  if @owner.id == 5
+    anis = "true"
+    anisl = "&anis=true"
+  else
+    anis = nil
+  end 
+%>
+<strong>Registration Link</strong> = <%= link_to "#{new_tchdetail_url}?id=#{@college.id}#{anisl}", new_tchdetail_path(id: @college.id, anis: anis), style: "color:blue" %><br><br>
+
+
+
+
+
+
+
+	
