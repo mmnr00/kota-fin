@@ -62,7 +62,7 @@ class TeachersController < ApplicationController
       flash.now[:danger] = "Blank Input Received"
     else
     	if !params[:name].blank?
-    		@taska_find = Taska.where("name like?", "%#{params[:name].upcase}%")
+    		@taska_find = Admin.first.taskas.where("name like?", "%#{params[:name].upcase}%").where.not(plan: "mbr19")
     	else
     		@taska_find = Taska.where(subdomain: params[:dom])
     	end
