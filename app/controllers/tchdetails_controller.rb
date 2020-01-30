@@ -309,9 +309,13 @@ class TchdetailsController < ApplicationController
       																	:income,
       																	:dob,
       																	:gender,
+      																	:akun,
+      																	:ts_tp,
+      																	:biloku,
+      																	:expjkm,
       																	fotos_attributes: [:foto, :picture, :foto_name] )
     end
-    def tchdetail_params_exs
+    def tchdetail_params_exs #tak pakai dah
       params.require(:tchdetail).permit(:name, 
       																	:ic_1, 
       																	:ic_2, 

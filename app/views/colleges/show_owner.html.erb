@@ -20,7 +20,7 @@
 
 <div class="card ">
   <div class="card-header">
-    PARTICIPANT LIST
+    PARTICIPANT LIST FOR <b><%= @college.name.upcase %></b>
     <div class="pull-right">
       <%= link_to tchd_xls_path(id: @college.id, format: :xlsx), class: "btn btn-sm btn-info active" do %>
         <i class="fa fa-file-excel"></i> DOWNLOAD ALL DETAILS
@@ -47,17 +47,8 @@
               <tr>
                 <td><%= cnt %></td>
                 <td>
-                  <%= "#{tch.name.upcase} (#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3})" %>
-                  <div> 
-                    <% 
-                      image = tch.fotos.where(foto_name: "PROFILE PIC").first 
-                    %>
-                    <% if image.picture.present? %>
-                      <%= image_tag(image.picture.url, size: "100x100") %>
-                    <% else %>
-                      <i>No photo uploaded</i>
-                    <% end %>
-                  </div>
+                  <%= "#{tch.name.upcase}" %><br>
+                  <%= " (#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3})" %>
                 </td>
 
                 <%= f.fields_for :"#{tch.id}" do |h| %>

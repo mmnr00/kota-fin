@@ -413,6 +413,44 @@
             </div>
           </div>
         </div>
+
+        <div class="form-group"> <!-- POST -->
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>INSTITUTION TYPE</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-8">
+              <%= f.select :ts_tp, options_for_select(["TASKA",
+                                                      "TADIKA",
+                                                      "KEMAS",
+                                                      "PPDK",
+                                                      "PPKI",
+                                                      "PERPADUAN",
+                                                      "NGO",
+                                                      "COLLEGE",
+                                                      "OTHERS"
+                                                        ], 
+                                                        selected: @tchdetail.ts_tp), 
+              {include_blank: "Please Select"}, {required: true} %>              
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>NO OF OKU CHILDREN AT INSTITUTION</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.number_field :biloku, class: "form-control", autofocus: true, value: @tchdetail.biloku %>
+            </div>
+          </div>
+        </div>
+
         <div class="form-group"> <!-- DUN -->
           <div class="row">
             <div class="control-label col-sm-8">
@@ -443,6 +481,25 @@
           </div>
         </div>
 
+        <!-- DOB -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>JKM/JPN EXPIRY DATE</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.date_select :expjkm, 
+                                {order:[:day, :month, :year],
+                                prompt: { day: 'DAY', month: 'MONTH', year: 'YEAR' },
+                                start_year: (Time.now - 2.year).year,
+                                selected: @tchdetail.expjkm}, 
+                                {required: true} %>
+            </div>
+          </div>
+        </div>
+
         <div class="form-group"> <!-- POST -->
           <div class="row">
             <div class="control-label col-sm-8">
@@ -456,11 +513,91 @@
                                                       "CHILDCARE PROVIDER"
                                                         ], 
                                                         selected: @tchdetail.post), 
-              {include_blank: "Please Select"}, {required: true} %>
-              <%= f.hidden_field :teacher_id, value: params[:teacher_id] %>
+              {include_blank: "Please Select"}, {required: true} %>              
             </div>
           </div>
         </div>
+
+        <!-- OPEN LEARNING CERT -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>OPEN LEARNING CERT</strong>
+            </div>
+          </div>
+          <div class="row">
+          <div class="col-sm-8 col-5">
+          <% image = @tchdetail.fotos.where(foto_name: "OPLN").first %>
+          <% if image.present? %>
+            <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
+              <div class="row">
+              <div class="col-sm-8 col-5">
+                <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
+              </div>
+              </div>  
+          <% else %>
+            <%= f.fields_for :fotos do |h| %>
+                <div class="row">
+                  <div class="col-sm-8 col-8">
+                    <%= h.hidden_field :foto_name, value: "OPLN" %>
+                    <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png, application/pdf' %>
+                  </div>
+                </div>
+              <% end %>
+          <% end %>
+          </div>
+          </div>
+        </div>
+
+        <!-- PERAKUAN JKM/JPN -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>PERAKUAN JKM/JPN</strong>
+            </div>
+          </div>
+          <div class="row">
+          <div class="col-sm-8 col-5">
+          <% image = @tchdetail.fotos.where(foto_name: "CRTJ").first %>
+          <% if image.present? %>
+            <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
+              <div class="row">
+              <div class="col-sm-8 col-5">
+                <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
+              </div>
+              </div>  
+          <% else %>
+            <%= f.fields_for :fotos do |h| %>
+                <div class="row">
+                  <div class="col-sm-8 col-8">
+                    <%= h.hidden_field :foto_name, value: "CRTJ" %>
+                    <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png, application/pdf' %>
+                  </div>
+                </div>
+              <% end %>
+          <% end %>
+          </div>
+          </div>
+        </div>
+
+        <div class="form-group"> <!-- POST -->
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>PERAKUAN PEMOHON (KLIK JIKA BERSETUJU)</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-8">
+              <%= f.check_box :akun, checked: @tchdetail.akun %>&nbsp&nbsp
+              <i>Saya bersetuju yang PJKK yang dinyatakan diatas dan juga saya berada di <b>NEGERI SELANGOR</b> </i>           
+            </div>
+          </div>
+        </div>
+
+
+        
+
+        <%= f.hidden_field :teacher_id, value: params[:teacher_id] %>
         <%= f.hidden_field :anis, value: params[:anis] %>
         <%= f.hidden_field :college_id, value: params[:id] %>
         <%
@@ -471,12 +608,13 @@
         end
         %>
           <%= f.hidden_field :tp, value: tp %>
-        <% end %>
+      <% end %>
+      <!-- END ANIS -->
 
-      
-        <% if params[:anis] == "true" %>
         
-      <% end %><!-- END ANIS -->
+
+
+      <!-- END ANIS -->
 
       <div class="form-group">
         <div class="row">
