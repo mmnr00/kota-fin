@@ -518,6 +518,68 @@
           </div>
         </div>
 
+        <!-- OPEN LEARNING CERT -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>OPEN LEARNING CERT</strong>
+            </div>
+          </div>
+          <div class="row">
+          <div class="col-sm-8 col-5">
+          <% image = @tchdetail.fotos.where(foto_name: "OPLN").first %>
+          <% if image.present? %>
+            <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
+              <div class="row">
+              <div class="col-sm-8 col-5">
+                <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
+              </div>
+              </div>  
+          <% else %>
+            <%= f.fields_for :fotos do |h| %>
+                <div class="row">
+                  <div class="col-sm-8 col-8">
+                    <%= h.hidden_field :foto_name, value: "OPLN" %>
+                    <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png, application/pdf' %>
+                  </div>
+                </div>
+              <% end %>
+          <% end %>
+          </div>
+          </div>
+        </div>
+
+        <!-- PERAKUAN JKM/JPN -->
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>PERAKUAN JKM/JPN</strong>
+            </div>
+          </div>
+          <div class="row">
+          <div class="col-sm-8 col-5">
+          <% image = @tchdetail.fotos.where(foto_name: "CRTJ").first %>
+          <% if image.present? %>
+            <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
+              <div class="row">
+              <div class="col-sm-8 col-5">
+                <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
+              </div>
+              </div>  
+          <% else %>
+            <%= f.fields_for :fotos do |h| %>
+                <div class="row">
+                  <div class="col-sm-8 col-8">
+                    <%= h.hidden_field :foto_name, value: "CRTJ" %>
+                    <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png, application/pdf' %>
+                  </div>
+                </div>
+              <% end %>
+          <% end %>
+          </div>
+          </div>
+        </div>
+
         <div class="form-group"> <!-- POST -->
           <div class="row">
             <div class="control-label col-sm-8">
@@ -527,7 +589,7 @@
           <div class="row">
             <div class="col-sm-8 col-8">
               <%= f.check_box :akun, checked: @tchdetail.akun %>&nbsp&nbsp
-              <i>Saya bersetuju yang PJKK yang dinyatakan diatas dan juga saya berada berkhidmat di <b>NEGERI SELANGOR</b> </i>           
+              <i>Saya bersetuju yang PJKK yang dinyatakan diatas dan juga saya berada di <b>NEGERI SELANGOR</b> </i>           
             </div>
           </div>
         </div>
@@ -547,6 +609,11 @@
         %>
           <%= f.hidden_field :tp, value: tp %>
       <% end %>
+      <!-- END ANIS -->
+
+        
+
+
       <!-- END ANIS -->
 
       <div class="form-group">
