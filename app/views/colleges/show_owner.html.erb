@@ -44,11 +44,91 @@
           <%= f.hidden_field :curr_clg, value: params[:college] %>
           <% cnt = 1 %>
             <% @tchdetails.order('name ASC').each do |tch| %>
-              <tr>
+              <%
+
+                des1=""
+                url1=nil
+                des2=""
+                url2=nil
+                des3=""
+                url3=nil
+                des4=""
+                url4=nil
+                des4=""
+                url5=nil
+                clrt=nil
+
+                tch.fotos.each do |ft|
+                  if ft.foto_name == "IC FRONT"
+                    url1=ft.picture.url unless ft.picture.blank?
+                  elsif ft.foto_name == "IC BACK"
+                    url2=ft.picture.url unless ft.picture.blank?
+                  elsif ft.foto_name == "PROFILE PIC"
+                    url3=ft.picture.url unless ft.picture.blank?
+                  elsif ft.foto_name == "OPLN"
+                    url4=ft.picture.url unless ft.picture.blank?
+                  elsif ft.foto_name == "CRTJ"
+                    url5=ft.picture.url unless ft.picture.blank?
+                  end      
+                end
+                if url1.blank? || url2.blank? || url3.blank? || url4.blank? || url5.blank?
+                  clrt="#ffcccc"
+                end
+              %>
+              <tr style="background-color:<%= clrt %>">
                 <td><%= cnt %></td>
                 <td>
                   <%= "#{tch.name.upcase}" %><br>
-                  <%= " (#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3})" %>
+                  <%= " (#{tch.ic_1}-#{tch.ic_2}-#{tch.ic_3})" %><br><br>
+
+                  <b>PROFILE PIC:&nbsp</b>
+                  <% if url3.present? %>
+                    <a href="<%="#{url3}"%>" target="_blank">
+                      <font style="color:blue">YES</font>
+                    </a>
+                  <% else %>
+                    NO
+                  <% end %><br>
+
+                  <b>IC FRONT:&nbsp</b>
+                  <% if url1.present? %>
+                    <a href="<%="#{url1}"%>" target="_blank">
+                      <font style="color:blue">YES</font>
+                    </a>
+                  <% else %>
+                    NO
+                  <% end %><br>
+
+                  <b>IC BACK:&nbsp</b>
+                  <% if url2.present? %>
+                    <a href="<%="#{url2}"%>" target="_blank">
+                      <font style="color:blue">YES</font>
+                    </a>
+                  <% else %>
+                    NO
+                  <% end %><br>
+
+                  <b>OPEN LEARNING CERT:&nbsp</b>
+                  <% if url4.present? %>
+                    <a href="<%="#{url4}"%>" target="_blank">
+                      <font style="color:blue">YES</font>
+                    </a>
+                  <% else %>
+                    NO
+                  <% end %><br>
+
+                  <b>JKM/JPN CERT:&nbsp</b>
+                  <% if url5.present? %>
+                    <a href="<%="#{url5}"%>" target="_blank">
+                      <font style="color:blue">YES</font>
+                    </a>
+                  <% else %>
+                    NO
+                  <% end %><br>
+
+
+
+
                 </td>
 
                 <%= f.fields_for :"#{tch.id}" do |h| %>
