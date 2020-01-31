@@ -148,7 +148,7 @@ class PtnsMmbsController < ApplicationController
 		@pdf = true
 		@mmb = PtnsMmb.find(params[:id])
 		respond_to do |format|
-	 		#format.html
+	 		format.html
 	 		format.pdf do
 		   render pdf: "(#{@mmb.name})",
 		   template: "ptns_mmbs/mmb_pdf.html.erb",
