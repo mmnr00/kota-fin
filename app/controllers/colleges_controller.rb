@@ -5,6 +5,10 @@ class CollegesController < ApplicationController
 	def index
 	end
 
+	def infopage
+		@college = College.find(params[:college_id])
+	end
+
 	def new
 		@college = College.new
 		render action: "new", layout: "dsb-owner-college"
@@ -82,6 +86,7 @@ class CollegesController < ApplicationController
 					tch_clg.save
 				end
 				tchdetail.dun = v[:dun]
+				tchdetail.ands = v[:ands]
 				tchdetail.save
 			end
 		end

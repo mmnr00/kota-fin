@@ -7,9 +7,11 @@
           <strong><%= course.name.upcase %></strong>&nbsp
           <%= course.start.strftime("%d-%m-%Y") %>&nbsp
           (<%= course.start.strftime("%A") %>)  
-          <%= link_to "View", owner_course_path(course: course), class: "btn btn-sm btn-success" %> <!-- ID is for course -->
-                &nbsp
-          <%= link_to "Edit", edit_course_path(id: course, owner_id: @owner.id, college: params[:college]), class: "btn btn-sm btn-warning" %>
+          <% if vw == 1 %>
+            <%= link_to "View", owner_course_path(course: course), class: "btn btn-sm btn-success" %> <!-- ID is for course -->
+                  &nbsp
+            <%= link_to "Edit", edit_course_path(id: course, owner_id: @owner.id, college: params[:college]), class: "btn btn-sm btn-warning" %>
+          <% end %>
         </div>
         <div class="card-body">
           <div class="table-responsive">

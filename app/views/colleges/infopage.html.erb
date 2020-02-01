@@ -1,0 +1,25 @@
+<div class='col-12 bg-white'><br>
+  <h2 align="center">MAKLUMAT PROGRAM BENGKEL CIKGU ANiS</h2>
+  <p align="center">
+    <img src="<%= image_path('anis_head.png') %>" height="203px" width="700px" ><br>
+    <strong><%= @college.name %></strong><br>
+    <%= "#{@college.address} (#{@college.start.strftime("%d-%^b-%y")} to #{@college.end.strftime("%d-%^b-%y")})" %>
+  </p><br><br>
+  <!-- LINK OPEN LEARNING -->
+  <h4><u>LAMAN OPEN LEARNING</u></h4>
+  <%= link_to "Open Learning Asas Autisme", "https://www.openlearning.com/courses/ikurnia-asas-autisme/", style: "color:blue", target:"_blank" %><br>
+  <%= link_to "Open Learning Asas Intervensi", "https://www.openlearning.com/courses/ikurnia-asas-intervensi/", style: "color:blue", target:"_blank" %><br>
+
+  <br><br><!-- SENARAI SEMAK DOKUMEN -->
+  <h4><u>SENARAI SEMAK DOKUMEN</u></h4>
+
+  <br><br><!-- SENARAI BARANG KEPERLUAN -->
+  <h4><u>SENARAI BARANG KEPERLUAN</u></h4>
+
+  <br><br><!-- ETIKA PAKAIAN & TEMA -->
+  <h4><u>ETIKA PAKAIAN & TEMA</u></h4>
+
+  <br><br><!-- JADUAL PROGRAM -->
+  <h4><u>JADUAL PROGRAM</u></h4>
+  <%= render 'colleges/schd', vw: 0 %>
+</div><br>

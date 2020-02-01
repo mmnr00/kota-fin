@@ -9,14 +9,16 @@
 
 <% if @college.courses.present? %>
   <%= link_to "GENERATE REPORT", college_report_path(@college), class: "btn btn-sm btn-info", target: '_blank' %><br><br>
-  <%= render 'colleges/schd' %>
+  <%= render 'colleges/schd', vw: 1 %>
   
 <% else %>
   </br>
   No session created yet. 
 <% end %>
 
-<br>
+<br><br>
+
+<strong>Info Page</strong> = <%= link_to "#{infopage_anis_url}?college_id=#{@college.id}", infopage_anis_path(college_id: @college.id), style: "color:blue", target:"_blank" %><br>
 
 <div class="card ">
   <div class="card-header">
@@ -46,16 +48,13 @@
             <% @tchdetails.order('name ASC').each do |tch| %>
               <%
 
-                des1=""
                 url1=nil
-                des2=""
                 url2=nil
-                des3=""
                 url3=nil
-                des4=""
                 url4=nil
-                des4=""
                 url5=nil
+                url6=nil
+                url7=nil
                 clrt=nil
 
                 tch.fotos.each do |ft|
@@ -69,9 +68,13 @@
                     url4=ft.picture.url unless ft.picture.blank?
                   elsif ft.foto_name == "CRTJ"
                     url5=ft.picture.url unless ft.picture.blank?
+                  elsif ft.foto_name == "OPLN1"
+                    url6=ft.picture.url unless ft.picture.blank?
+                  elsif ft.foto_name == "SSM1"
+                    url7=ft.picture.url unless ft.picture.blank?
                   end      
                 end
-                if url1.blank? || url2.blank? || url3.blank? || url4.blank? || url5.blank?
+                if url1.blank? || url2.blank? || url3.blank? || url4.blank? || url5.blank? || url6.blank? || url7.blank?
                   clrt="#ffcccc"
                 end
               %>
@@ -108,7 +111,7 @@
                     NO
                   <% end %><br>
 
-                  <b>OPEN LEARNING:&nbsp</b>
+                  <b>OPLN1:&nbsp</b>
                   <% if url4.present? %>
                     <a href="<%="#{url4}"%>" target="_blank">
                       <font style="color:blue">YES</font>
@@ -117,7 +120,25 @@
                     NO
                   <% end %><br>
 
-                  <b>JKM/JPN CERT:&nbsp</b>
+                  <b>OPLN2:&nbsp</b>
+                  <% if url6.present? %>
+                    <a href="<%="#{url6}"%>" target="_blank">
+                      <font style="color:blue">YES</font>
+                    </a>
+                  <% else %>
+                    NO
+                  <% end %><br>
+
+                  <b>SSM/LETTER:&nbsp</b>
+                  <% if url7.present? %>
+                    <a href="<%="#{url7}"%>" target="_blank">
+                      <font style="color:blue">YES</font>
+                    </a>
+                  <% else %>
+                    NO
+                  <% end %><br>
+
+                  <b>JKM/JPN:&nbsp</b>
                   <% if url5.present? %>
                     <a href="<%="#{url5}"%>" target="_blank">
                       <font style="color:blue">YES</font>
@@ -157,7 +178,10 @@
                     <b>DUN</b>
                     <%= h.select :dun, options_for_select($sel_dun, 
                                                           selected: tch.dun), 
-                    {include_blank: "Select"}, {required: true} %>
+                    {include_blank: "Select"}, {required: true} %><br><br>
+                    <b>REMARKS</b>
+                    <%= h.text_area :ands, class: "form-control", placeholder: "", autofocus: true, value: tch.ands %>
+
                   </td>
                 <% end %>
 
@@ -184,6 +208,7 @@
   end 
 %>
 <strong>Registration Link</strong> = <%= link_to "#{new_tchdetail_url}?id=#{@college.id}#{anisl}", new_tchdetail_path(id: @college.id, anis: anis), style: "color:blue" %><br><br>
+
 
 
 
