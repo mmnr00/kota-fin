@@ -5,6 +5,27 @@ class CollegesController < ApplicationController
 	def index
 	end
 
+	def crtatt
+		@college = College.find(params[:id])
+		prc = true
+		prc = false unless Anisatt.where(course_id: @college.courses.ids).blank?
+		if prc
+			tchds = @college.tchdetails
+			@college.courses.each do |crs|
+				crs.anisprogs.where.not(name: "BREAK").each do |an|
+					tchds.each do |tch|
+						Anisatt.create(course_id: crs.id, tchdetail_id: tch.id, anisprog_id: an.id, att: true)
+					end
+				end
+			end
+			flash[:success] = "Kehadiran dikemaskini untuk semua peserta"
+		else
+			flash[:danger] = "Kehadiran untuk program sudah diwujudkan"
+		end
+		
+		redirect_to show_owner_path(id: current_owner.id, college: @college.id)
+	end
+
 	def infopage
 		@college = College.find(params[:college_id])
 	end
@@ -264,7 +285,7 @@ class CollegesController < ApplicationController
 	end
 
 	def college_params
-			params.require(:college).permit(:name, :address, :start, :end)
+			params.require(:college).permit(:name, :address, :start, :end, :thm)
 	end
 
 end
