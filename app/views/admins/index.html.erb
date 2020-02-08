@@ -1,7 +1,81 @@
 
 <% if !@spv %>
-  <%= link_to "REGISTER NEW CENTER", "#{root_url}taskas/new?plan=PAY+PER+USE&reg=PTNS" , class: "btn btn-xs btn-primary active"%>
+  <%= link_to "REGISTER NEW CENTER", "#{root_url}taskas/new?plan=PAY+PER+USE&reg=PTNS" , class: "btn btn-xs btn-primary active"%><br>
 <% end %>
+
+<% if @admin_taska.count > 1 %><hr>
+  <div class="container">
+    <div class="col-12" style="background-color:#a64ca6">
+      <h3 align="center"><font color="white">OVERALL SUMMARY</font></h3>
+    </div>
+    <div class="row">
+
+      <div class="col-md-3">
+        <div class="card-counter primary">
+          <i class="fa fa-code-fork"></i>
+          <span class="count-numbers"><%= "#" %></span>
+          <span class="count-name">
+            <a href="#", style="color:#fff">New Registrations</a>
+            <br><font style="color:#fff">TOTAL: <%= "#" %></font>
+            <% if 1==1 %>
+              <% "#" %>
+            <% else %>
+              <% "#" %>
+            <% end %>
+            <br><font style="color:#fff">LIMIT: &nbsp<%= "#" %></font>
+          </span>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card-counter danger">
+          <i class="fa fa-exclamation-circle"></i>
+          <span class="count-numbers"><%= "#" %></span>
+          <span class="count-name">
+            <a href="#", style="color:#fff">
+              Unpaid Bills<br>
+              RM 
+              
+            </a>
+          </span>
+        </div>
+      </div>
+
+      <% if !@spv %>
+        <div class="col-md-3">
+          <div class="card-counter success">
+            <i class="fa fa-database"></i>
+            <span class="count-numbers">
+              
+
+              <%= "#" %>
+            </span>
+            <span class="count-name">
+              <a href="#", style="color:#fff">Profit (RM)<br><%= "#" %>-<%= "#" %>
+              </a>
+            </span>
+          </div>
+        </div>
+      <% end %>
+
+      <% if !@spv %>
+      <div class="col-md-3">
+        <div class="card-counter info">
+          <i class="fa fa-users"></i>
+          <span class="count-numbers"><%= "#" %></span>
+          <span class="count-name">
+            <a href="#", style="color:#fff">
+              Pending<br> Leaves
+            </a>
+          </span>
+        </div>
+      </div>
+      <% end %>
+      
+
+    </div>
+  </div>
+<hr><% end %>
 
 </br></br>
 <% if params[:kcadm] == "MUS123" %>
