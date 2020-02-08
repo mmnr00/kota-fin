@@ -20,7 +20,7 @@
 <% end %>
 
 <% if params[:anis] == "true" %>
-<% if !params[:teacher_id].present? && params[:nwt].blank? && params[:clse].blank? && @college.acv %>
+<% if !params[:teacher_id].present? && params[:nwt].blank? && params[:clse].blank? %>
   <div class="row">
     <div class='col-lg-8 col-12 bg-white'>
       <%= form_tag find_tchdetail_reg_path, remote: true, method: :get, id: "find_kid" do %>
@@ -62,8 +62,6 @@
       <%end%>
     </div>
   </div><br>
-<% else %>
-  <h1>PENDAFTARAN DITUTUP</h1>
 <% end %>
 <% end %>
 

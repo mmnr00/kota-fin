@@ -52,6 +52,7 @@ class TchdetailsController < ApplicationController
 		end
 		if params[:id].present?
 			@college = College.find(params[:id])
+			@clg = @college #for resut-reg anis
 		end
 		@tchdetail = Tchdetail.new
 		@tchdetail.fotos.build

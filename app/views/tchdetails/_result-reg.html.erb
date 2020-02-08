@@ -23,7 +23,7 @@
                   an1 = true unless (tch.colleges.ids&$anisf).blank?
                 end
                 #deactivate balik lepas sani settle
-                showl = true unless (tch.tchdetail_colleges.where(tp: tp, college_id: @clg.id).present? || an2 || an1)
+                showl = true unless (tch.tchdetail_colleges.where(tp: tp, college_id: @clg.id).present? || an2 || an1 || !@clg.acv)
 
 
                 # an1 = false
@@ -58,8 +58,10 @@
       </div>
     </div> 
   <% end %>
-<% elsif @find_tchdetail.blank? && params[:ic1].present? && params[:ic2].present? && params[:ic3].present? %>
+<% elsif @find_tchdetail.blank? && params[:ic1].present? && params[:ic2].present? && params[:ic3].present? && @clg.acv %>
   <%= link_to "REGISTER", new_tchdetail_path(id: @clg.id, anis: true, nwt: true), class: "btn btn-sm btn-info" %>
+<% elsif !@clg.acv %>
+  <h3>PENDAFTARAN SUDAH DITUTUP</h3> 
 <% end %>
   
 
