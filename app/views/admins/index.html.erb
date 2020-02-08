@@ -1,28 +1,33 @@
 
 <% if !@spv %>
-  <%= link_to "REGISTER NEW CENTER", "#{root_url}taskas/new?plan=PAY+PER+USE&reg=PTNS" , class: "btn btn-xs btn-primary active"%><br>
+  <%= link_to "REGISTER NEW CENTER", "#{root_url}taskas/new?plan=PAY+PER+USE&reg=PTNS" , class: "btn btn-xs btn-primary active"%>
+  <% if @admin_taska.count > 1 %><% if params[:ovrl].present? %>
+    <%= link_to "HIDE OVERALL", admin_index_path , class: "btn btn-xs btn-danger active"%>
+  <% else %>
+    <%= link_to "SHOW OVERALL", admin_index_path(ovrl: true) , class: "btn btn-xs btn-success active"%>
+  <% end %><% end %>
+  <br>
 <% end %>
 
-<% if @admin_taska.count > 1 %><hr>
+<% if @admin_taska.count > 1 && params[:ovrl].present? %><hr>
   <div class="container">
     <div class="col-12" style="background-color:#a64ca6">
       <h3 align="center"><font color="white">OVERALL SUMMARY</font></h3>
+      <h5 align="center"><font color="white"><%= @actv %> Active Centers</font></h5>
+      <% if current_admin == Admin.first %>
+      <h5 align="center"><font color="white">RM <%= number_with_delimiter(@kcr_inc.round(2), :delimiter => ',') %></font></h5>
+      <% end %>
     </div>
     <div class="row">
 
       <div class="col-md-3">
         <div class="card-counter primary">
           <i class="fa fa-code-fork"></i>
-          <span class="count-numbers"><%= "#" %></span>
+          <span class="count-numbers"><%= @kid_new %></span>
           <span class="count-name">
             <a href="#", style="color:#fff">New Registrations</a>
-            <br><font style="color:#fff">TOTAL: <%= "#" %></font>
-            <% if 1==1 %>
-              <% "#" %>
-            <% else %>
-              <% "#" %>
-            <% end %>
-            <br><font style="color:#fff">LIMIT: &nbsp<%= "#" %></font>
+            <br><font style="color:#fff">TOTAL: <%= @kid_tot %></font>
+            <br>
           </span>
         </div>
       </div>
@@ -30,11 +35,11 @@
       <div class="col-md-3">
         <div class="card-counter danger">
           <i class="fa fa-exclamation-circle"></i>
-          <span class="count-numbers"><%= "#" %></span>
+          <span class="count-numbers"><%= @unpaid_no %></span>
           <span class="count-name">
             <a href="#", style="color:#fff">
               Unpaid Bills<br>
-              RM 
+              RM <%= number_with_delimiter(@unpaid_amt.round(2), :delimiter => ',') %>
               
             </a>
           </span>
@@ -48,10 +53,11 @@
             <span class="count-numbers">
               
 
-              <%= "#" %>
+              <%= number_with_delimiter(@pnl.round(2), :delimiter => ',') %>
             </span>
             <span class="count-name">
-              <a href="#", style="color:#fff">Profit (RM)<br><%= "#" %>-<%= "#" %>
+              <a href="#", style="color:#fff">Profit (RM)<br>
+                <%= $month_name[@mth] %>-<%= @yr %>
               </a>
             </span>
           </div>
@@ -274,5 +280,7 @@ TOTAL NO OF KIDS = <%= tot_kid %><br>
 EXPECTED PAYMENT = RM <%= tot_pay %>
 <% end %>
 
-
+<script language="javascript" type="text/javascript">
+  setTimeout("location.reload();",10000000);
+</script>
 
