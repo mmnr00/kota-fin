@@ -562,7 +562,7 @@ class TaskasController < ApplicationController
         #bills_paid = @taska.payments.where.not(name: "TASKA PLAN").where(paid: true).where('extract(year  from updated_at) = ?', @yr).where('extract(month  from updated_at) = ?', @mth).sum(:amount)
 
       #END BILLS
-      @disp = @taska_expense.where(kind: "INCOME").sum(:cost) - @taska_expense.where(kind: "EXPENSE").sum(:cost) + bills_paid -plan-@payslips.sum(:amtepfa)+bills_partial
+      @disp =  -plan + @taska_expense.where(kind: "INCOME").sum(:cost) - @taska_expense.where(kind: "EXPENSE").sum(:cost) + bills_paid +bills_partial-@payslips.sum(:amtepfa)
 
       session[:taska_id] = @taska.id
       session[:taska_name] = @taska.name  
