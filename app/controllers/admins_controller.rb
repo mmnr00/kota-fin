@@ -21,6 +21,7 @@ class AdminsController < ApplicationController
 		@unpaid_no = 0
 		@unpaid_amt = 0.00
 		@pnl = 0.00
+		@applvs = 0
 
 		#Global Var
 		time = Time.now.in_time_zone('Singapore')
@@ -47,6 +48,9 @@ class AdminsController < ApplicationController
 	          @kcr_inc += $package_price[tsk.plan] * tsk.discount
 	        end
 				end
+
+				#leaves
+				@applvs += tsk.applvs.where.not(stat: "APPROVED").where.not(stat: "REJECTED").count
 
 				#bills
 				unpaid_bill = tsk.payments.where.not(name: "TASKA PLAN").where(paid: false)
