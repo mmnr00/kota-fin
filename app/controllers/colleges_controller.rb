@@ -108,6 +108,8 @@ class CollegesController < ApplicationController
 				end
 				tchdetail.dun = v[:dun]
 				tchdetail.ands = v[:ands]
+				tchdetail.stat = v[:stat]
+				tchdetail.picst = v[:picst]
 				tchdetail.save
 			end
 		end

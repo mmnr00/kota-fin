@@ -77,7 +77,7 @@
                   end      
                 end
                 if url1.blank? || url2.blank? || url3.blank? || url4.blank? || url5.blank? || url6.blank? || url7.blank?
-                  clrt="#ffcccc"
+                  clrt="#ffcccc" unless tch.picst
                 end
               %>
               <tr style="background-color:<%= clrt %>">
@@ -149,13 +149,15 @@
                   <% else %>
                     NO
                   <% end %><br>
+                <%= f.fields_for :"#{tch.id}" do |h| %> <!-- Not align sebab tambah -->
+                  <b>Admin Approval:&nbsp</b> <%= h.check_box :picst, checked: tch.picst %>
 
 
 
 
-                </td>
+                  </td>
 
-                <%= f.fields_for :"#{tch.id}" do |h| %>
+                
                   <td> <!-- CHOOSE COLLEGE-->
                     <%
                       if $anis2f.include?(@college.id) || $anis2.include?(@college.id)
@@ -178,12 +180,16 @@
                     <%= "#{tch.ts_address_1}, #{tch.ts_address_2}, #{tch.city}, #{tch.states}, #{tch.postcode}" %>
                   </td>
                   <td>
-                    <b>DUN</b>
+                    <b>DUN</b><br>
                     <%= h.select :dun, options_for_select($sel_dun, 
                                                           selected: tch.dun), 
                     {include_blank: "Select"}, {required: true} %><br><br>
                     <b>REMARKS</b>
-                    <%= h.text_area :ands, class: "form-control", placeholder: "", autofocus: true, value: tch.ands %>
+                    <%= h.text_area :ands, class: "form-control", placeholder: "", autofocus: true, value: tch.ands %><br>
+                    <b>STATUS</b><br>
+                    <%= h.select :stat, options_for_select(["LULUS","GAGAL","DOKUMEN TIDAK LENGKAP",], 
+                                                          selected: tch.stat), 
+                    {include_blank: "Select"} %>
 
                   </td>
                 <% end %>

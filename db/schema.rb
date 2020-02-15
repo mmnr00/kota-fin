@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_07_213049) do
+ActiveRecord::Schema.define(version: 2020_02_15_062058) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -529,6 +529,8 @@ ActiveRecord::Schema.define(version: 2020_02_07_213049) do
     t.datetime "expjkm"
     t.boolean "akun"
     t.string "ands"
+    t.string "stat"
+    t.boolean "picst"
   end
 
   create_table "tchlvs", force: :cascade do |t|
