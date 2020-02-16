@@ -11,16 +11,24 @@ LOCATION: <%= @college.address %><br>
 NO OF STUDENTS: <%= @college.tchdetails.count %><br><br>
 
 <div class="col-sm-12" style="background-color:#7f7fff"><h3 align="center">PARTICIPANTS' DISTRIBUTION</h3></div>
+  <div class="card">
+    <div class="card-header">
+      <strong>DUN</strong>
+    </div>
+    <div class="card-body">   
+      <%= pie_chart @tchds.group(:dun).count, legend: true, thousands: "," %><br>
+    </div>
+  </div>
 <div class="row">
   <!-- ATTENDANCE SUMMARY -->
   <div class="col-md-4 bg-white"><br>
     <div class="card">
       <div class="card-header">
-        <strong>DUN</strong>
+        <strong>INSTITUTION TYPE</strong>
       </div>
       <div class="card-body">
         
-        <%= pie_chart @tchds.group(:dun).count, legend: true, thousands: "," %><br>
+        <%= pie_chart @tchds.group(:ts_tp).count, legend: true, thousands: "," %><br>
       </div>
     </div>
   </div>

@@ -1,5 +1,5 @@
 wb = xlsx_package.workbook
-col_widths= [5,40,20,10,30,30,20,20,20]
+col_widths= [5,40,20,10,30,30,20,20,20,25]
 col_widths2= [16,20,24,22,16]
 col_widths3= [12,30,42]
 col_widths4= [35,16,15]
@@ -52,7 +52,8 @@ wb.styles do |style|
                   "DUN",
                   "INCOME",
                   "MARITAL",
-                  "GENDER"]
+                  "GENDER",
+                  "INSTITUTION TYPE"]
     sheet.rows[0].style = header_1
     sheet.rows[2].style = highlight_cell
     counter = 1
@@ -68,14 +69,15 @@ wb.styles do |style|
                     tch.dun,
                     tch.income,
                     tch.marital,
-                    tch.gender],
+                    tch.gender,
+                    tch.ts_tp],
                     style: [nil, border_cell]
       sheet.rows[row+counter].style = border_cell
       counter = counter + 1  
     end
     sheet.column_widths *col_widths
 
-    sheet.add_chart(Axlsx::Pie3DChart, :start_at => "K3", :end_at => "T18", :title => "PARTICIPANT DUN") do |chart|
+    sheet.add_chart(Axlsx::Pie3DChart, :start_at => "L3", :end_at => "U18", :title => "PARTICIPANT DUN") do |chart|
       b = @tchds.group(:dun).count
       chart.add_series :data => b.values, 
                        :labels => b.keys
@@ -83,7 +85,7 @@ wb.styles do |style|
       chart.d_lbls.show_percent = true
     end
 
-    sheet.add_chart(Axlsx::Pie3DChart, :start_at => "K19", :end_at => "T34", :title => "PARTICIPANT CATEGORY") do |chart|
+    sheet.add_chart(Axlsx::Pie3DChart, :start_at => "L19", :end_at => "U34", :title => "PARTICIPANT CATEGORY") do |chart|
       b = @tchds.group(:post).count
       chart.add_series :data => b.values, 
                        :labels => b.keys
@@ -91,7 +93,7 @@ wb.styles do |style|
       chart.d_lbls.show_percent = true
     end
 
-    sheet.add_chart(Axlsx::Pie3DChart, :start_at => "K35", :end_at => "T50", :title => "PARTICIPANT INCOME") do |chart|
+    sheet.add_chart(Axlsx::Pie3DChart, :start_at => "L35", :end_at => "U50", :title => "PARTICIPANT INCOME") do |chart|
       b = @tchds.group(:income).count
       chart.add_series :data => b.values, 
                        :labels => b.keys
@@ -99,14 +101,14 @@ wb.styles do |style|
       chart.d_lbls.show_percent = true
     end
 
-    sheet.add_chart(Axlsx::Pie3DChart, :start_at => "K51", :end_at => "T65", :title => "PARTICIPANT AGE") do |chart|
+    sheet.add_chart(Axlsx::Pie3DChart, :start_at => "L51", :end_at => "U65", :title => "PARTICIPANT AGE") do |chart|
       chart.add_series :data => @age.values, 
                        :labels => @age.keys
       chart.d_lbls.show_val = true
       chart.d_lbls.show_percent = true
     end
 
-    sheet.add_chart(Axlsx::Pie3DChart, :start_at => "K66", :end_at => "T81", :title => "PARTICIPANT MARITAL STATUS") do |chart|
+    sheet.add_chart(Axlsx::Pie3DChart, :start_at => "L66", :end_at => "U81", :title => "PARTICIPANT MARITAL STATUS") do |chart|
       b = @tchds.group(:marital).count
       chart.add_series :data => b.values, 
                        :labels => b.keys
@@ -114,8 +116,16 @@ wb.styles do |style|
       chart.d_lbls.show_percent = true
     end
 
-    sheet.add_chart(Axlsx::Pie3DChart, :start_at => "K82", :end_at => "T97", :title => "PARTICIPANT GENDER") do |chart|
+    sheet.add_chart(Axlsx::Pie3DChart, :start_at => "L82", :end_at => "U97", :title => "PARTICIPANT GENDER") do |chart|
       b = @tchds.group(:gender).count
+      chart.add_series :data => b.values, 
+                       :labels => b.keys
+      chart.d_lbls.show_val = true
+      chart.d_lbls.show_percent = true
+    end
+
+    sheet.add_chart(Axlsx::Pie3DChart, :start_at => "L98", :end_at => "U113", :title => "INSTITUTION TYPE") do |chart|
+      b = @tchds.group(:ts_tp).count
       chart.add_series :data => b.values, 
                        :labels => b.keys
       chart.d_lbls.show_val = true
