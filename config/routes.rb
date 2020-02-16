@@ -137,10 +137,10 @@ Rails.application.routes.draw do
   get '/anis_reglist', to: 'colleges#anis_reglist'
   get '/college/:id/report', to: 'colleges#college_report', as: 'college_report'
   get '/college/:id/report_xls', to: 'colleges#college_reportxls', as: 'college_reportxls'
-  get '/college/overall_xls', to: 'colleges#overall_reportxls', as: 'overall_reportxls'
+  post '/college/overall_xls.xlsx', to: 'colleges#overall_reportxls', as: 'overall_reportxls'
   get '/infopage', to: 'colleges#infopage', as: 'infopage_anis'
   get '/crtatt', to: 'colleges#crtatt'
-
+  get 'chsreport', to: 'colleges#chsreport'
 
   #~COURSE
   get '/courses/new', to: 'courses#new', as: 'new_course'

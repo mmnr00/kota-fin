@@ -195,53 +195,74 @@ class CollegesController < ApplicationController
     end
 	end
 
+	def chsreport
+		@colleges = College.where(id: $anisf | $anis2f)
+		render action: "chsreport", layout: "dsb-owner-college"
+	end
+
+	
+
 	def overall_reportxls
-		@college = College.find([8,46,50,51,54,55,57,60,63,65,67,69])
-		#@collegen = College.order('start ASC')
-		@tchds = nil
-		@courses = nil
-		@college.each do |clg|
-			if @tchds.blank?
-				@tchds = clg.tchdetails
-			else
-				@tchds = @tchds.or(clg.tchdetails)
-			end
-			if @courses.blank?
-				@courses = clg.courses.order('start ASC')
-			else
-				@courses = @courses.or(clg.courses.order('start ASC'))
+		clg_ids = []
+		params[:ans].each do |k,v|
+			if v[:picst] == "1"
+				clg_ids << k
 			end
 		end
-		@totalprog = 0
-		@courses.each do |crs|
-			@totalprog = @totalprog + crs.anisprogs.where.not(name: "BREAK").count
-		end
-		@age = Hash.new
-		@age["<20"] = 0
-		@age["20-30"] = 0
-		@age["30-40"] = 0
-		@age["40-50"] = 0
-		@age[">50"] = 0
-		@tchds.each do |tch|
-			age = Date.today.year - tch.dob.year
-			if age < 20
-				@age["<20"] = @age["<20"] + 1
-			elsif age < 30
-				@age["20-30"] = @age["20-30"] + 1
-			elsif age < 40
-				@age["30-40"] = @age["30-40"] + 1
-			elsif age < 50
-				@age["40-50"] = @age["40-50"] + 1
-			elsif age > 50
-				@age[">50"] = @age[">50"] + 1
-			end	
-		end
-		respond_to do |format|
-      #format.html
-      format.xlsx{
-        response.headers['Content-Disposition'] = 'attachment; filename="Report.xlsx"'
-      }
-    end
+
+		if clg_ids.blank?
+			flash[:danger] = "Please Choose A Session"
+			redirect_to chsreport_path
+		else
+			@college = College.find(clg_ids)
+			#@collegen = College.order('start ASC')
+			@tchds = nil
+			@courses = nil
+			@college.each do |clg|
+				if @tchds.blank?
+					@tchds = clg.tchdetails
+				else
+					@tchds = @tchds.or(clg.tchdetails)
+				end
+				if @courses.blank?
+					@courses = clg.courses.order('start ASC')
+				else
+					@courses = @courses.or(clg.courses.order('start ASC'))
+				end
+			end
+			@totalprog = 0
+			@courses.each do |crs|
+				@totalprog = @totalprog + crs.anisprogs.where.not(name: "BREAK").count
+			end
+			@age = Hash.new
+			@age["<20"] = 0
+			@age["20-30"] = 0
+			@age["30-40"] = 0
+			@age["40-50"] = 0
+			@age[">50"] = 0
+			@tchds.each do |tch|
+				age = Date.today.year - tch.dob.year
+				if age < 20
+					@age["<20"] = @age["<20"] + 1
+				elsif age < 30
+					@age["20-30"] = @age["20-30"] + 1
+				elsif age < 40
+					@age["30-40"] = @age["30-40"] + 1
+				elsif age < 50
+					@age["40-50"] = @age["40-50"] + 1
+				elsif age > 50
+					@age[">50"] = @age[">50"] + 1
+				end	
+			end
+			respond_to do |format|
+	      #format.html
+	      format.xlsx{
+	        response.headers['Content-Disposition'] = 'attachment; filename="Report.xlsx"'
+	      }
+	    end
+	    #flash[:success] = "Reports Generated Successfully"
+	    #redirect_to chsreport_path
+	  end
 	end
 
 	# END ANIS

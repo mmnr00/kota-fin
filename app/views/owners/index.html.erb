@@ -3,8 +3,9 @@
 <div class="pull-right">
   <%= link_to tchd_xls_path(id: current_owner.id, all: "true", format: :xlsx), class: "btn btn-sm btn-info active" do %>
     <i class="fa fa-file-excel"></i> DOWNLOAD ALL DETAILS
-  <%= link_to "DOWNLOAD REPORT", overall_reportxls_path(format: :xlsx), class: "btn btn-sm btn-warning", target: "_blank" %>
+  
   <% end %>
+  <%= link_to "OVERALL REPORT", chsreport_path, class: "btn btn-sm btn-warning", target: "_blank" %>
 </div><br><br>
 <% if @owner.colleges.present? %>
   

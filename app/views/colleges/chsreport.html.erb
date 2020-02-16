@@ -1,0 +1,33 @@
+<h2>PLEASE CHOOSE SESSIONS FOR REPORT</h2><br>
+
+
+<div class="table-responsive">
+  <%= form_for(:ans, :url => {:controller=>'colleges', :action=>'overall_reportxls'}, :xlsx => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
+  <table class="table table-striped table-bordered" id="" width="100%" cellspacing="0">
+    <thead>
+      <tr>
+        <th style="background-color:#d8b2d8"> NAME </th>
+        <th style="background-color:#d8b2d8"> LOCATION </th>
+        <th style="background-color:#d8b2d8"> DATE </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @colleges.order('start DESC').order('created_at DESC').each do |college| %>
+        <%= f.fields_for :"#{college.id}" do |h| %>
+          <tr>
+            <td>
+              <%= "#{college.name}" %> 
+              <%= h.check_box :picst, checked: false %>    
+            </td>
+            <td><%= college.address %></td>
+            <td>
+              <%= "#{college.start.strftime("%d-%^b-%y")} to #{college.end.strftime("%d-%^b-%y")}" %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+    <%= f.submit :"GENERATE REPORT",  class: 'btn btn-sm btn-block btn-success btn-lg', style: "align:center" %>
+    <% end %>
+  </table>
+</div>
