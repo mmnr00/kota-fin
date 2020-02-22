@@ -145,7 +145,11 @@ class PtnsMmbsController < ApplicationController
   end
 
   def mmb_pdf
-		@pdf = true
+  	if params[:pdf].present?
+  		@pdf = false
+  	else
+			@pdf = true
+		end
 		@mmb = PtnsMmb.find(params[:id])
 		respond_to do |format|
 	 		format.html
