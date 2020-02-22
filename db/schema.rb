@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_15_062058) do
+ActiveRecord::Schema.define(version: 2020_02_22_011435) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -100,6 +100,8 @@ ActiveRecord::Schema.define(version: 2020_02_15_062058) do
     t.date "end"
     t.string "thm"
     t.boolean "acv"
+    t.datetime "clse"
+    t.boolean "appl"
     t.index ["collection_id"], name: "index_colleges_on_collection_id", unique: true
     t.index ["name"], name: "index_colleges_on_name", unique: true
   end

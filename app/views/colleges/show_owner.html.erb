@@ -187,7 +187,7 @@
                     <b>REMARKS</b>
                     <%= h.text_area :ands, class: "form-control", placeholder: "", autofocus: true, value: tch.ands %><br>
                     <b>STATUS</b><br>
-                    <%= h.select :stat, options_for_select(["LULUS","GAGAL","DOKUMEN TIDAK LENGKAP",], 
+                    <%= h.select :stat, options_for_select(["PERMOHONAN DITERIMA","LULUS","GAGAL","DOKUMEN TIDAK LENGKAP","DALAM PROSES"], 
                                                           selected: tch.stat), 
                     {include_blank: "Select"} %>
 

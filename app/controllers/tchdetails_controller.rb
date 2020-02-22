@@ -98,6 +98,10 @@ class TchdetailsController < ApplicationController
 					render :new
 				end
 			end
+			if @tchdetail.anis = "true"
+				@tchdetail.stat = "PERMOHONAN DITERIMA"
+				@tchdetail.save
+			end
 			redirect_to tchd_anis_path(id: @tchdetail.id, anis: @tchdetail.anis)
 
 

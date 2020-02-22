@@ -309,7 +309,7 @@ class CollegesController < ApplicationController
 	end
 
 	def college_params
-			params.require(:college).permit(:name, :address, :start, :end, :thm)
+			params.require(:college).permit(:name, :address, :start, :end, :thm, :clse)
 	end
 
 end

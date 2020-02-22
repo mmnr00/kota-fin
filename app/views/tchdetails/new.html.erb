@@ -1,12 +1,31 @@
 <% if params[:anis] == "true" %>
   <div class="row"><div class='col-lg-8 col-12 bg-white'>
-  <h2 align="center">APPLICATION FORM FOR CIKGU ANiS</h2>
+  <h2 align="center">BORANG PERMOHOHAN UNTUK CIKGU ANiS</h2>
   <h3 align="center">(ANAK ISTIMEWA SELANGOR)</h3>
   <p align="center">
     <img src="<%= image_path('anis_head.png') %>" height="203px" width="700px" >
     <strong><%= @college.name %></strong><br>
     <%= "#{@college.address} (#{@college.start.strftime("%d-%^b-%y")} to #{@college.end.strftime("%d-%^b-%y")})" %>
   </p>
+  <% if @college.appl %>
+  <hr>
+    <h5><u>TERMA DAN SYARAT PROGRAM</u></h5>
+    <h6>Syarat-syarat permohonan peserta Bengkel Cikgu ANIS</h6>
+    <ol>
+      <li>Warganegara Malaysia</li>
+      <li>Pendidik di TASKA/TADIKA/Pusat Jagaan yang berdaftar di Negeri Selangor </li>
+      <li>TASKA/TADIKA/pusat Jagaan  yang mempunyai perakuan JKM/JPN yang sah</li>
+      <li>Permohonan dari NGO/Kolej perlu disertakan bersama dengan surat permohonan kepada Pengarah Program Bengkel Cg. Anis, Persatuan TASKA Negeri Selangor</li>
+      <li>Mohon pastikan anda mengisi semua keperluan permohonan dan memuat naik dokumen-dokumen yang diperlukan</li>
+      <li>Pemilihan akan dibuat oleh urusetia berdasarkan permohonan yg lengkap bergantung kepada kouta tertentu</li>
+      <li>Anda perlu mengemas kini maklumat anda di dalam sistem pendaftaran jika terdapat sebarang perubahan</li>
+      <li>Semakkan status permohonan diketahui selepas 3 hari daripada tarikh tutup iklan di link ini</li>
+      <li>Peserta yang layak dan berjaya sahaja akan dihubungi oleh pihak urusetia.</li>
+      <li>Sebarang rayuan atau surat menyurat boleh di alamatkan Pengarah Program Bengkel Cg. Anis, Persatuan TASKA Negeri Selangor</li>
+      <li>Tarikh tutup permohonan adalah pada <b><%= @college.clse.strftime("%d-%^b-%y") %></b> (tertakluk kepada pindaan)</li>
+    </ol>
+  <% end %>
+
   </div></div><br>
 <% else %>
   <% if params[:id].present? %>
@@ -25,7 +44,7 @@
     <div class='col-lg-8 col-12 bg-white'>
       <%= form_tag find_tchdetail_reg_path, remote: true, method: :get, id: "find_kid" do %>
         <div class="form-group text-center col-md-12">
-          <br><strong>PLEASE ENTER IC/NO TO CHECK REGISTRATION<br><br></strong>
+          <br><strong>SILA MASUKKAN NO K/P ANDA UNTUK SEMAK STATUS PERMOHONAN<br><br></strong>
           <div class="row">
             <div class="col-sm-4 col-4">
               <%= text_field_tag :ic1, params[:ic1], 
