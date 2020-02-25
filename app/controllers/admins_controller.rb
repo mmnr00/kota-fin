@@ -10,8 +10,8 @@ class AdminsController < ApplicationController
 			@admin_taska = current_admin.taskas
 		end
 		
-		if params[:ovrl].present?
 		#START FOR OVERALL DASHBOARD
+		if params[:ovrl].present?
 
 		#ALL Calculated Variables
 		@actv = 0
