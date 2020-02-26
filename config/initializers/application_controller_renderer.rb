@@ -21,7 +21,7 @@ $my_time = Time.now.in_time_zone('Singapore')
 $trial = 30
 $expire = 11
 
-if Rails.env.development? || (ENV["ROOT_URL_BILLPLZ"] != "https://kidcare-staging.herokuapp.com/")
+if Rails.env.development? || (ENV["ROOT_URL_BILLPLZ"] == "https://kidcare-staging.herokuapp.com/")
   $clt = "andkymil"
 elsif Rails.env.production? 
   $clt = "x7w_y71n"
