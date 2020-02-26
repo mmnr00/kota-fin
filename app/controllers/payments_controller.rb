@@ -374,7 +374,7 @@ class PaymentsController < ApplicationController
       end
       flash[:success] = "Bills created successfully and SMS send to #{@kid.ph_1}#{@kid.ph_2}"
       # start send sms to parents
-      if 1==1 #Rails.env.production?
+      if 1==1 && (ENV["ROOT_URL_BILLPLZ"] != "https://kidcare-staging.herokuapp.com/")#Rails.env.production?
         @client = Twilio::REST::Client.new(ENV["TWILIO_ACCOUNT_SID"], ENV["TWILIO_AUTH_KEY"])
         @client.messages.create(
           to: "+6#{@kid.ph_1}#{@kid.ph_2}",
