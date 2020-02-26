@@ -14,7 +14,7 @@
             <div class="col-xs-12 col-sm-6 col-md-4">
               <div class="frontside">
                 <div class="card">
-                  <% if (bill=kid.payments.where(taska_id: @taska.id).where(name: "TASKA BOOKING").last).present? %>
+                  <% if (bill=kid.payments.where(taska_id: @taska.id).where(name: "TASKA BOOKING").last).present?%>
 
                     <% if !bill.paid %>
                       <%= link_to "UNPAID BOOKING", bill_view_path(payment: bill.id, kid: kid.id, taska: bill.taska.id), class: "btn btn-sm btn-danger active", target: "_blank"%>
@@ -31,7 +31,7 @@
                       <%= link_to "#{image.picture.url}", class: "btn btn-sm btn-success active", target:"_blank" do %>
                         <i class="fa fa-download"></i> BOOKING RECEIPT
                       <% end %>
-                    <% else %>
+                    <% elsif 1==0 %>
                       <%= link_to "#", class: "btn btn-sm btn-danger active" do %>
                         <i class="fa fa-exclamation-triangle"></i> NO RECEIPT UPLOADED
                       <% end %>
@@ -72,7 +72,11 @@
                     <div class="row"><div style="width: 50%; margin: 0 auto;">
                       <%= form_for(@kid, :url => {:controller=>'kids', :action=>'add_classroom'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
                         <%= f.select :classroom_id, 
-                          options_from_collection_for_select(@taska_classrooms.order('classroom_name ASC'), :id, :classroom_name), {include_blank: "Select Classroom"} %><br><br>                        
+                          options_from_collection_for_select(@taska_classrooms.order('classroom_name ASC'), :id, :classroom_name), {include_blank: "Select Classroom"} %><br>  
+                        <%= f.select :taska_id, 
+                          options_from_collection_for_select(@admin.taskas.order('name ASC'), :id, :name), {include_blank: "Select Center"} %><br><br>
+
+                        <%= f.hidden_field :curr_taska, value: params[:id] %>                    
                         <%= f.hidden_field :kid_id, value: kid.id %>
                         <div style="width: 50%; margin: 0 auto;">
                           <%= f.submit :"ADD",  class: 'btn btn-sm btn-warning btn-lg', style: "align:center" %>

@@ -287,24 +287,35 @@ class KidsController < ApplicationController
 
 	def add_classroom
 		@kid = Kid.find(params[:kid][:kid_id])
-		@classroom = Classroom.find(params[:kid][:classroom_id])
-		@taska = @classroom.taska
-		plan = @taska.plan
-		if plan == "PAY PER USE" || plan == "PAY PER USE N"
-			kidno = 100000
-		else
-			kidno = $package_child[plan]
-		end
-		if @taska.kids.where.not(classroom_id: nil).count >= kidno
-			flash[:danger] = "You have reached the maximum no of children allowed for #{plan} plan quote. Please upgrade or choose Pay/Use plan to proceed"
-		else
-			@kid.classroom_id = @classroom.id
+		@taska = Taska.find(params[:kid][:curr_taska])
+		if params[:kid][:taska_id].present? && params[:kid][:classroom_id].blank?
+			@kid.taska_id = params[:kid][:taska_id]
 			@kid.save
-			flash[:notice] = "#{@kid.name} was successfully added to #{@classroom.classroom_name}"
-		end
-		if params[:kid][:change] == "true"
-			redirect_to classroom_path(@classroom)
+			flash[:success] = "Center change successful!"
+			redirect_to unreg_kids_path(@taska)
+		elsif params[:kid][:taska_id].blank? && params[:kid][:classroom_id].present?		
+			@classroom = Classroom.find(params[:kid][:classroom_id])
+			#@taska = @classroom.taska
+			plan = @taska.plan
+			if plan == "PAY PER USE" || plan == "PAY PER USE N"
+				kidno = 100000
+			else
+				kidno = $package_child[plan]
+			end
+			if @taska.kids.where.not(classroom_id: nil).count >= kidno
+				flash[:danger] = "You have reached the maximum no of children allowed for #{plan} plan quote. Please upgrade or choose Pay/Use plan to proceed"
+			else
+				@kid.classroom_id = @classroom.id
+				@kid.save
+				flash[:notice] = "#{@kid.name} was successfully added to #{@classroom.classroom_name}"
+			end
+			if params[:kid][:change] == "true"
+				redirect_to classroom_path(@classroom)
+			else
+				redirect_to unreg_kids_path(@taska)
+			end
 		else
+			flash[:danger] = "Please choose only one option"
 			redirect_to unreg_kids_path(@taska)
 		end
 		
