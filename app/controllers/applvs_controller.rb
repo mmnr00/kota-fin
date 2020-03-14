@@ -59,7 +59,7 @@ class ApplvsController < ApplicationController
 																app_d: "show active")
 		else
 			
-			if @applv.save && 1==0
+			if @applv.save && 1==1
 			# if 1==1
 				#SEND EMAIL
 				taska = @applv.taska

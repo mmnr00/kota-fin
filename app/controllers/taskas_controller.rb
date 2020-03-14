@@ -432,7 +432,7 @@ class TaskasController < ApplicationController
   def all_bills
     @taska = Taska.find(params[:id])
     @kid = Kid.find(params[:kid_id])
-    @kid_bills = @kid.payments.order("paid ASC").order("updated_at ASC")
+    @kid_bills = @kid.payments.where(taska_id: @taska.id).order("paid ASC").order("updated_at ASC")
     render action: "all_bills", layout: "dsb-admin-classroom"
   end
 
