@@ -10,7 +10,9 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+// require rails-ujs
 //= require jquery
+// require twitter/bootstrap
 //= require jquery_ujs
 //= require bootstrap/js/bootstrap.bundle
 //= require activestorage
@@ -28,18 +30,19 @@
 // End for AGENCY
 
 //= require js/webarch
-//= require sb-admin-2
 
 //START FOR ADMIN
+// require jquery_sb-admin/jquery
 //= require jquery-easing_sb-admin/jquery.easing
 //= require chart.js/Chart.min
+// require datatables/jquery.dataTables
+// require datatables/dataTables.bootstrap4
 //= require js_sb-admin/sb-admin.min
+// require js_sb-admin/demo/datatables-demo
 //= require js_sb-admin/demo/chart-area-demo
 //END FOR ADMIN
-//= require bootstrap
 //= require_self
 //= require_tree .
-
 
 var turbolinks = jQuery.Event('turbolinks:load');
 // $(document).trigger(

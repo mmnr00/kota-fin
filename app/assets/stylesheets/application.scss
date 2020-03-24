@@ -1,0 +1,487 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require bootstrap-glyphicons
+ Start for WEBARCH
+ * require plugins/bootstrapv3/css/bootstrap-theme.min.css
+ * require webarch/css/webarch.css 
+ 
+ START ADMIN CARD (in vendor/stylesheets)
+ * require admin_card
+ * require font-awesome-new
+
+START PROFILE_CARD (in vendor/stylesheets)
+ *= require w3
+ *= require font-awesome-min
+
+ Start for AGENCY
+ *= require bootstrap/css/bootstrap
+ *= require fontawesome-free/css/all
+ *= require css_agency/agency
+ End for AGENCY
+
+ *= require sb-admin-2
+ START FOR ADMIN
+ *= require datatables/dataTables.bootstrap4
+ *= require css_sb-admin/sb-admin
+ END FOR ADMIN
+
+
+
+ *= require_tree .
+ *= require_self
+
+ */
+
+ 
+
+/*
+html {
+   -webkit-background-size: cover;
+   -moz-background-size: cover;
+   -o-background-size: cover;
+   background-size: cover;
+}
+
+
+*/
+
+@import "bootstrap";
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+.iframe-container{
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; 
+  height: 0;
+}
+.iframe-container iframe{
+  position: absolute;
+  top:0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+/* START FOR PRICING*/
+
+  @import url(http://fonts.googleapis.com/css?family=Open+Sans:300); 
+/*body{
+    background:#010101;
+}*/
+
+.price_table_container{
+  text-align:center;
+  color:#666;
+  margin-top:35px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.price_table_heading{
+  font-size:36px;
+  padding:10px;
+  background:#EEE;
+}
+
+
+.price_table_row {
+    padding:15px;
+  background: #FFF;
+}
+
+.cost{
+  padding:30px;
+  font-size:30px;
+}
+.cost span{
+  font-size:15px;
+}
+
+.price_table_row:nth-of-type(even) {
+    background: #F8F8F8;
+}
+.btn{
+  border-radius:0px;
+}
+
+.recommended{
+/*USER DEFINED COLOUR*/ 
+background:#FF3A3A; 
+color:#FFF;
+/*USER DEFINED COLOUR*/ 
+padding:3px 0 3px 0;
+margin-top:10px;  
+text-align:center;
+margin-bottom:-35px;
+font-family: 'Open Sans', sans-serif;
+}
+
+
+.spacer{width:100%;height:50px;}
+
+/*Already Defined Colours*/
+/*Background*/
+.primary-bg{background:#337AB7;color:#FFF;}
+.success-bg{background:#5CB85C;color:#FFF;}
+.info-bg{background:#5BC0DE;color:#FFF;}
+.warning-bg{background:#F0AD4E;color:#FFF;}
+.danger-bg{background:#D9534F;color:#FFF;}
+.dark-bg{background:#444;color:#FFF;}
+.royal-bg{background:#8E74E2;color:#FFF;}
+.static-bg{background:#2BB0A6;color:#FFF;}
+
+/*Only Text Colours*/
+.primary-text{background:#FFF;color:#337AB7;}
+.success-text{background:#FFF;color:#5CB85C;}
+.info-text{background:#FFF;color:#5BC0DE;}
+.warning-text{background:#FFF;color:#F0AD4E;}
+.danger-text{background:#FFF;color:#D9534F;}
+.dark-text{background:#FFF;color:#444;}
+.royal-text{background:#FFF;color:#8E74E2;}
+.static-text{background:#FFF;color:#2BB0A6;}
+
+/* require admin_card*/
+.card-counter{
+    box-shadow: 2px 2px 10px #DADADA;
+    margin: 5px;
+    padding: 20px 10px;
+    background-color: #fff;
+    height: 200px;
+    border-radius: 5px;
+    transition: .3s linear all;
+  }
+
+  .card-counter:hover{
+    box-shadow: 4px 4px 20px #DADADA;
+    transition: .3s linear all;
+  }
+
+  .card-counter.primary{
+    background-color: #007bff;
+    color: #FFF;
+  }
+
+  .card-counter.danger{
+    background-color: #ef5350;
+    color: #FFF;
+  }  
+
+  .card-counter.success{
+    background-color: #66bb6a;
+    color: #FFF;
+  }  
+
+  .card-counter.info{
+    background-color: #26c6da;
+    color: #FFF;
+  }  
+
+  .card-counter i{
+    font-size: 5em;
+    opacity: 0.2;
+  }
+
+  .card-counter .count-numbers{
+    position: absolute;
+    right: 35px;
+    top: 20px;
+    font-size: 32px;
+    display: block;
+  }
+
+  .card-counter .count-name{
+    position: absolute;
+    right: 35px;
+    top: 65px;
+    font-style: italic;
+    text-transform: capitalize;
+    opacity: 0.5;
+    display: block;
+    font-size: 18px;
+  }
+  /*vendor/stylesheet/agency_cs
+
+  Padding Top at front page from*/ 
+
+  section#pricing {
+    padding-top: 40px;
+  }
+
+/*Masthead copy and pasted here*/ 
+
+  header.masthead .intro-text {
+  padding-top: 150px;
+  padding-bottom: 50px;
+}
+
+header.masthead .intro-text .intro-heading {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 50px;
+  margin-bottom: 50px;
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+.service-heading {
+  margin: 15px 0;
+  text-transform: uppercase;
+  font-weight: 300;
+}
+
+.service-text {
+  text-align: center;
+  font-weight: 100;
+}
+
+/*teams cards*/
+
+.frontside {
+    position: relative;
+    -webkit-transform: rotateY(0deg);
+    -ms-transform: rotateY(0deg);
+    z-index: 2;
+    margin-bottom: 30px;
+}
+
+/* classroom cards */
+.kad {
+  padding-top: 20px;
+  margin: 0px 0 0px 0;
+  background-color: #ffffff;
+  border: 1px solid #d8d8d8;
+  border-top-width: 0;
+  border-bottom-width: 2px;
+  -webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+  -webkit-box-shadow: none;
+     -moz-box-shadow: none;
+          box-shadow: none;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+
+.kad.hovercard {
+  position: relative;
+  width: 300px;
+  padding-top: 0;
+  overflow: hidden;
+  text-align: center;
+  background-color: #fff;
+}
+
+.kad.hovercard img {
+  width: 300px;
+  height: 200px;
+}
+
+.kad.hovercard .avatar {
+  position: relative;
+  top: -40px;
+  margin-bottom: -40px;
+}
+
+.kad.hovercard .avatar img {
+  width: 80px;
+  height: 80px;
+  max-width: 80px;
+  max-height: 80px;
+  -webkit-border-radius: 50%;
+     -moz-border-radius: 50%;
+          border-radius: 50%;
+}
+
+.kad.hovercard .info {
+  padding: 4px 8px 10px;
+}
+
+.kad.hovercard .info .title {
+  margin-bottom: 4px;
+  font-size: 24px;
+  line-height: 1;
+  color: #262626;
+  vertical-align: middle;
+}
+
+.kad.hovercard .info .desc {
+  overflow: hidden;
+  font-size: 12px;
+  line-height: 20px;
+  color: #737373;
+  text-overflow: ellipsis;
+}
+
+.kad.hovercard .bottom {
+  padding: 0 20px;
+  margin-bottom: 17px;
+}
+
+.kad.people .card-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: inline-block;
+  width: 100%;
+  padding: 10px 20px;
+  line-height: 29px;
+  text-align: center;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.button-kad{
+  color: #bbbbbb;
+  width: 200px;
+  height: 100px;
+  /*add any other properties you want to style*/
+}
+
+/*CARD ALERT FOR PACKAGE*/
+
+.notice {
+    padding: 15px;
+    background-color: #fafafa;
+    border-left: 6px solid #7f7f84;
+    margin-bottom: 10px;
+    -webkit-box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+       -moz-box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+            box-shadow: 0 5px 8px -6px rgba(0,0,0,.2);
+}
+.notice-sm {
+    padding: 10px;
+    font-size: 80%;
+}
+.notice-lg {
+    padding: 35px;
+    font-size: large;
+}
+.notice-success {
+    border-color: #80D651;
+}
+.notice-success>strong {
+    color: #80D651;
+}
+.notice-info {
+    border-color: #45ABCD;
+}
+.notice-info>strong {
+    color: #45ABCD;
+}
+.notice-warning {
+    border-color: #FEAF20;
+}
+.notice-warning>strong {
+    color: #FEAF20;
+}
+.notice-danger {
+    border-color: #d73814;
+}
+.notice-danger>strong {
+    color: #d73814;
+}
+
+
+tr.noBorder td {
+  border: 0;
+}
+
+/*TAB BS BOOTSNIP*/
+
+.project-tab {
+    padding: 0%;
+    margin-top: 0%;
+}
+.project-tab #tabs{
+    background: #007b5e;
+    color: #eee;
+}
+.project-tab #tabs h6.section-title{
+    color: #eee;
+}
+.project-tab #tabs .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    color: #0062cc;
+    background-color: transparent;
+    border-color: transparent transparent #f3f3f3;
+    border-bottom: 3px solid !important;
+    font-size: 16px;
+    font-weight: bold;
+}
+.project-tab .nav-link {
+    border: 1px solid transparent;
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+    color: #0062cc;
+    font-size: 16px;
+    font-weight: 600;
+}
+.project-tab .nav-link:hover {
+    border: none;
+}
+.project-tab thead{
+    background: #f3f3f3;
+    color: #333;
+}
+.project-tab a{
+    text-decoration: none;
+    color: #333;
+    font-weight: 600;
+}
+
+/*PAYSLIP*/
+
+/*INSTRUCTION*/
+
+.stepz li:hover {
+background-color: #eee;   
+}
+
+.stepz {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.stepz li {
+  counter-increment: step-counter;
+  margin-bottom: 10px;
+  list-style-type:none;
+}
+
+.stepz li::before {
+  content: counter(step-counter);
+  margin-right: 5px;
+  font-size: 80%;
+  background-color: rgb(0,200,200);
+  color: white;
+  font-weight: bold;
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+

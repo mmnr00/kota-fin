@@ -4,6 +4,14 @@ class WelcomesController < ApplicationController
 	
 	#layout "page"
 
+	def sb2_dashboard
+		@admin = current_admin
+	end
+
+	def try_bs
+		@admin = current_admin
+	end
+	
 	def cikgu_anis
 		redirect_to "https://kidcare.my/ebook_anis.pdf"
 	end
