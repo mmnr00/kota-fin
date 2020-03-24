@@ -1,17 +1,17 @@
 #!/bin/bash
-git checkout 10fbc
+git checkout dev
 git add -A
 git commit -m "tsk"
 git push
 
-git checkout master_n
-git merge 10fbc
+git checkout staging
+git merge dev
 git push
 
-git checkout production_n
-git merge master_n
+git checkout t-prod
+git merge staging
 git push
 
-git diff HEAD master_n
-git diff HEAD 10fbc
-git checkout 10fbc
+git diff HEAD staging
+git diff HEAD dev
+git checkout dev
