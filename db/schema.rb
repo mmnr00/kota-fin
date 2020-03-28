@@ -230,15 +230,6 @@ ActiveRecord::Schema.define(version: 2020_02_22_011435) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "okids", force: :cascade do |t|
-    t.string "name"
-    t.string "ic"
-    t.integer "college_id"
-    t.boolean "stat"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "otkids", force: :cascade do |t|
     t.integer "kid_id"
     t.integer "payment_id"
@@ -482,13 +473,6 @@ ActiveRecord::Schema.define(version: 2020_02_22_011435) do
     t.string "tp"
   end
 
-  create_table "tchdetail_okids", force: :cascade do |t|
-    t.integer "tchdetail_id"
-    t.integer "okid_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "tchdetails", force: :cascade do |t|
     t.string "name"
     t.string "ic_1"
@@ -516,6 +500,7 @@ ActiveRecord::Schema.define(version: 2020_02_22_011435) do
     t.string "ts_phone_1"
     t.string "ts_phone_2"
     t.integer "college_id"
+    t.string "category"
     t.string "dun"
     t.string "jkm"
     t.string "post"
@@ -523,7 +508,6 @@ ActiveRecord::Schema.define(version: 2020_02_22_011435) do
     t.string "income"
     t.date "dob"
     t.string "gender"
-    t.string "category"
     t.string "email"
     t.string "aku"
     t.string "ts_tp"

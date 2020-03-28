@@ -16,7 +16,7 @@ development:
   # timeout: 5000
   adapter: postgresql
   encoding: unicode
-  database: prod-bcup1
+  database: kota-fin-dev
   #database: pg-prod-kidcare
   pool: 5
   username: #mus-kidcare-sgp1
@@ -30,7 +30,7 @@ test:
   # timeout: 5000
   adapter: postgresql
   encoding: unicode
-  database: prod-bcup1
+  database: kota-fin-dev
   #database: pg-prod-kidcare
   pool: 5
   username: #mus-kidcare-sgp1
