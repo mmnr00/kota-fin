@@ -3973,7 +3973,7 @@ input[type="button"].btn-block {
   justify-content: space-between;
   padding: 0.5rem 1rem;
   padding-top: 0px;
-  color: #0050be;
+  color: #000066;
 
 }
 
@@ -6157,7 +6157,7 @@ button.bg-light:focus {
 }
 
 .bg-blue {
-  background-color: #0050be !important;
+  background-color: #000066 !important;
 }
 
 a.bg-dark:hover, a.bg-dark:focus,
