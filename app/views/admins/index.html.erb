@@ -20,14 +20,15 @@
         <tbody>
           <% @admin_taska.order('name ASC').each do |kuli|%>
             <tr>
-              <td><%= kuli.name.upcase %></td>
+              <td><%= kuli.name.upcase %>
+              </td>
               <td><%= kuli.address_1 %>&nbsp
                 <%= kuli.address_2 %>&nbsp
                 <%= kuli.city %>&nbsp
                 <%= kuli.postcode %>&nbsp<%= kuli.states %><br>  
               </td>
               <td>5</td>
-              <td><%= link_to "VIEW DASHBOARD", taska_path(kuli) , class: "badge badge-info"%></td>
+              <td><%= link_to "VIEW DASHBOARD", taskashow_path(kuli) , class: "badge badge-info"%></td>
               
             </tr>
           <% end %> 

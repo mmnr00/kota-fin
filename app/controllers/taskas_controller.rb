@@ -1,36 +1,41 @@
 class TaskasController < ApplicationController
   
   require 'json'
-  before_action :set_taska, only: [:show,:children_index, 
-                                  :taskateachers, 
-                                  :taskateachers_classroom,
-                                  :classrooms_index, 
-                                  :edit, 
-                                  :update, 
-                                  :destroy, 
-                                  :tchinfo_new, 
-                                  :tchinfo_edit,
-                                  :tchleave,
-                                  :tchpayslip,
-                                  :newpayslip,
-                                  :editpayslip,
-                                  :chgplan,
-                                  :svplan,
-                                  :manupdbill,
-                                  :svupdbill,
-                                  :find_spv,
-                                  :add_role,
-                                  :rmv_role,
-                                  :xlsclsrm,
-                                  :xlskid,
-                                  :upldclsrm,
-                                  :upldkid,
-                                  :hiscrdt,
-                                  :topcred]
+  before_action :set_taska
   before_action :set_all
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
 
+  def show
+    render action: "show", layout: "admin_db/admin_db-resident" 
+  end
+
+  def tsk_ajk
+    render action: "tsk_ajk", layout: "admin_db/admin_db-ajk" 
+  end
+
+  def tsk_fee
+    render action: "tsk_fee", layout: "admin_db/admin_db-fee" 
+  end
+
+  def tsk_financial
+    render action: "tsk_financial", layout: "admin_db/admin_db-financial" 
+  end
+
+  def tsk_vismgmt
+    render action: "tsk_vismgmt", layout: "admin_db/admin_db-vismgmt" 
+  end
+
+  def tsk_activt
+    render action: "tsk_activt", layout: "admin_db/admin_db-activity" 
+  end
+
+  def tsk_newblast
+    render action: "tsk_newblast", layout: "admin_db/admin_db-news" 
+  end
+
+
+  ## OLD TASKAS ##
   #START ANSYS
   def admansys
     tsk = Taska.find(params[:id])
@@ -463,7 +468,7 @@ class TaskasController < ApplicationController
   # GET /taskas/1
 
   # GET /taskas/1.json
-  def show
+  def show_old
     # ada kt bawah func set_taska
     if 1==0 #@taska.classrooms.count < 1
       redirect_to xlsclsrm_path(@taska)

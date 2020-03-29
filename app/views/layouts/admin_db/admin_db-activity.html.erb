@@ -21,16 +21,16 @@
 
      <!-- Nav Item - RESIDENT -->
       <hr class="sidebar-divider my-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="<%= taska_url(@taska) %>">
+      <li class="nav-item">
+        <a class="nav-link" href="<%= taskashow_url(@taska) %>">
           <i class="fas fa-fw fa-home"></i>
-          <span>RESIDENTS</span></a>
+          <span>RESIDENT</span></a>
       </li>
 
       <!-- Nav Item - AJK -->
       <hr class="sidebar-divider my-0">
       <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="<%= tsk_ajk_url(@taska) %>">
           <i class="fas fa-fw fa-users"></i>
           <span>AJK</span></a>
       </li>
@@ -38,7 +38,7 @@
       <!-- Nav Item - FEES -->
       <hr class="sidebar-divider my-0">
       <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="<%= tsk_fee_url(@taska) %>">
           <i class="fas fa-fw fa-file-invoice-dollar"></i>
           <span>FEES</span></a>
       </li>
@@ -46,7 +46,7 @@
       <!-- Nav Item - FINANCIAL -->
       <hr class="sidebar-divider my-0">
       <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="<%= tsk_financial_url(@taska) %>">
           <i class="fas fa-fw fa-chart-bar"></i>
           <span>FINANCIAL</span></a>
       </li>
@@ -54,15 +54,15 @@
       <!-- Nav Item - VISITOR MANAGEMENT -->
       <hr class="sidebar-divider my-0">
       <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="<%= tsk_vismgmt_url(@taska) %>">
           <i class="fas fa-fw fa-door-open"></i>
           <span>VISITOR MANAGEMENT</span></a>
       </li>
 
       <!-- Nav Item - ACTIVITIES -->
       <hr class="sidebar-divider my-0">
-      <li class="nav-item">
-        <a class="nav-link" href="index.html">
+      <li class="nav-item active">
+        <a class="nav-link" href="<%= tsk_activt_url(@taska) %>">
           <i class="fas fa-fw fa-calendar-alt"></i>
           <span>ACTIVITIES</span></a>
       </li>
@@ -70,7 +70,7 @@
       <!-- Nav Item - NEWS BLAST -->
       <hr class="sidebar-divider my-0">
       <li class="nav-item">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="<%= tsk_newblast_url(@taska) %>">
           <i class="fas fa-fw fa-bullhorn"></i>
           <span>NEWS BLAST</span></a>
       </li>
@@ -89,7 +89,7 @@
             <li class="breadcrumb-item">
               Admin Dashboard
             </li>
-            <li class="breadcrumb-item active">Residents for <strong><%= @taska.name.upcase %></strong></li>
+            <li class="breadcrumb-item active">Activities for <strong><%= @taska.name.upcase %></strong></li>
           </ol>
           <div class="bg-light">
             <div class="scontainer">

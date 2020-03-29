@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   
   #devise_for :college_admins
-  resources :taskas
+  resources :taskas, only:[:create,:destroy,:update,:edit]
   resources :expenses, only:[:create,:destroy,:update,:edit]
   resources :ptns_mmbs, only:[:create,:destroy,:update,:edit]
   resources :courses, only:[:create,:destroy,:update,:edit]
@@ -193,6 +193,15 @@ Rails.application.routes.draw do
   get '/parent/:id/all_bills', to: 'parents#all_bills', as: 'all_bills'
 
   #~TASKAS
+  get '/community/:id', to: 'taskas#show', as: 'taskashow'
+  get '/community_ajk/:id', to: 'taskas#tsk_ajk', as: 'tsk_ajk'
+  get '/community_fee/:id', to: 'taskas#tsk_fee', as: 'tsk_fee'
+  get '/community_financial/:id', to: 'taskas#tsk_financial', as: 'tsk_financial'
+  get '/community_vismgmt/:id', to: 'taskas#tsk_vismgmt', as: 'tsk_vismgmt'
+  get '/community_activt/:id', to: 'taskas#tsk_activt', as: 'tsk_activt'
+  get '/community_newblast/:id', to: 'taskas#tsk_newblast', as: 'tsk_newblast'
+  
+  ##OLD routes##
   get '/taska/:id/teachers', to: 'taskas#taskateachers', as: 'taskateachers'
   get '/taska/:id/tchinfo_new', to: 'taskas#tchinfo_new', as: 'tchinfo_new'
   get '/taska/:id/tchinfo_save', to: 'taskas#tchinfo_save', as: 'tchinfo_save'
