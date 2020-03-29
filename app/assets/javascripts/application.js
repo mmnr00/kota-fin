@@ -21,6 +21,7 @@
 
 
 
+
 // Start for AGENCY
 //= require js_agency/jqBootstrapValidation
 //= require js_agency/contact_me
@@ -37,8 +38,11 @@
 //= require js_sb-admin/demo/chart-area-demo
 //END FOR ADMIN
 //= require bootstrap
+//= require datatables/jquery.dataTables.min
+//= require datatables/dataTables.bootstrap4.min
 //= require_self
 //= require_tree .
+
 
 
 var turbolinks = jQuery.Event('turbolinks:load');
