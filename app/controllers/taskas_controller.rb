@@ -7,6 +7,7 @@ class TaskasController < ApplicationController
   before_action :authenticate_admin!, only: [:new]
 
   def show
+    @units = @taska.classrooms
     render action: "show", layout: "admin_db/admin_db-resident" 
   end
 

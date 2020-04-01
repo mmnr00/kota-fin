@@ -1,1 +1,42 @@
-ajk page
+
+
+<div class="container">
+  <div class="row">
+    <% [1,1,1,1,1,1,1,1,1].each do |n| %>
+      <div class="col-lg-2"> 
+        <div class="row">
+          <div class="panel panel-default"  style="border-style: ridge;">
+            <div class="panel-heading" style="background-color:blue">  <h4 style="color:white; text-align:center" >PENGERUSI</h4></div>
+            <div class="panel-body">
+              <div class="">
+                <img alt="" class="img-circle img-responsive"> 
+              </div>
+              <div class="" >
+                <div class="container" >
+                  <h3>John Doe</h3>
+                </div>
+                <hr>
+                <div class="container" >
+                  <i class="fas fa-user">&nbsp&nbsp   013-3333333</i><br>
+                  <i class="fas fa-user">&nbsp&nbsp   No 56, Jalan LEP/3</i><br>
+                  <i class="fas fa-user">&nbsp&nbsp   john@gmail.com</i>
+                </div>
+                <hr>
+                <div class="container" >
+                  <%= link_to "#", class: "text-warning text-right" do %>
+                    <i class="fas fa-edit">Edit</i>
+                  <% end %> &nbsp&nbsp&nbsp
+                  <%= link_to "#", class: "text-danger", :data => {:confirm => 'Are you sure?'} do %>
+                    <i class="fas fa-trash">Delete</i>
+                  <% end %> 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+      </div>
+    <% end %>
+  </div>
+
+</div>

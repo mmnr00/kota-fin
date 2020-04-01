@@ -6,52 +6,52 @@
         <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>CLASSROOM NAME</strong>
+              <strong>Block/Road</strong>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
-              <%= f.text_field :classroom_name, class: "form-control", autofocus: true, required: true %>
-            </div>
-          </div>
-        </div>
-
-        <!-- classroom description -->    
-        <div class="form-group"> 
-          <div class="row">
-            <div class="control-label col-sm-8">
-              <strong>CLASSROOM DESCRIPTION</strong>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-8 col-12">
-              <%= f.text_area :description, class: "form-control", autofocus: true, required: true %>
-              e.g Age Range, Classroom Activities etc
+              <%= f.text_field :classroom_name, style: 'text-transform: uppercase', class: "form-control", autofocus: true, required: true %>
             </div>
           </div>
         </div>
 
         <!-- BASE FEE-->    
-        <div class="form-group"> 
+        <!-- <div class="form-group"> 
           <div class="row">
             <div class="control-label col-sm-8">
-              <strong>CLASSROOM BASE FEE(RM)</strong>
+              <strong>Unit No</strong>
             </div>
           </div>
           <div class="row">
             <div class="col-sm-8 col-12">
               <%= f.number_field :base_fee, class: "form-control", autofocus: true, required: true %>
-              Fee to be used for all children in the classroom
+            </div>
+          </div>
+        </div> -->
+
+        <!-- classroom description -->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>Unit No</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.text_field :description, style: 'text-transform: uppercase', class: "form-control", autofocus: true, required: true %>
             </div>
           </div>
         </div>
+
+        
 
         <%= f.hidden_field :taska_id, value: @taska.id %>
               
         <div class="form-group">
           <div class="row">
             <div class="col-sm-offset-2 col-sm-10 col-4">
-              <%= f.submit class: 'btn btn-primary btn-lg' %>
+              <%= f.submit :"Create Resident", class: 'btn btn-primary btn-md' %>
             </div>
           </div>
         </div>

@@ -7,19 +7,21 @@ class ClassroomsController < ApplicationController
 	end
 
 	def new
-		@taska = Taska.find(params[:taska_id])
+		@taska = Taska.find(params[:community_id])
 		@admin = current_admin
 		@classroom = Classroom.new
-		render action: "new", layout: "dsb-admin-classroom" 
+		render action: "new", layout: "admin_db/admin_db-resident" 
 	end
 
 	def create
 		@admin = current_admin
 		@classroom = Classroom.new(classroom_params)
+		@classroom.classroom_name = @classroom.classroom_name.upcase
+		@classroom.description = @classroom.description.upcase
 		if @classroom.save
 				@taska = Taska.find(@classroom.taska_id)
-        flash[:notice] = "Classroom was successfully created"
-        redirect_to classroom_index_path(@taska)
+        flash[:notice] = "New Resident Successfully Created"
+        redirect_to taskashow_path(@taska)
       else
         render :new      
       end

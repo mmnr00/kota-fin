@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resources :ptns_mmbs, only:[:create,:destroy,:update,:edit]
   resources :courses, only:[:create,:destroy,:update,:edit]
   resources :colleges, only:[:create,:destroy,:update,:edit]
-  resources :classrooms, only:[:new, :create,:destroy,:update,:edit,:show]
+  resources :classrooms, only:[:create,:destroy,:update]
   resources :kids, only:[:show,:create,:destroy,:update,:edit]
   resources :payments, only:[:create,:destroy]
   resources :fotos, only:[:edit, :update ,:destroy]
@@ -310,6 +310,7 @@ Rails.application.routes.draw do
   get '/remove_teacher', to: 'taska_teachers#remove_teacher', as: 'remove_teacher'
 
   #~CLASSROOMS
+  get '/add_unit', to: 'classrooms#new', as: 'add_unit'
   get '/classroom/:id/teachers', to: 'classrooms#taskateachers_classroom', as: 'list_teacher_classroom'
   
   #~TEACHERS_CLASSROOMS
