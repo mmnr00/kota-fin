@@ -1,1 +1,117 @@
-fee page
+<div class="row">
+  <!-- Earnings (Monthly) Card Example -->
+  <div class="col-xl-3 col-md-6 col-sm-6 col-xs-3">
+    <div class="card border-left-primary shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Registered Units</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= @taska.classrooms.count %></div>
+          </div>
+          <div class="col-auto">
+            <i class="fa fa-home fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-3 col-md-6 col-sm-3">
+    <br>
+    <a href="<%= "#{add_unit_url}?community_id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Add New Unit</a>
+  </div>
+
+</div>
+<br>
+<!-- START TABLE -->
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+  <div class="card-header">
+    <div class="row">
+      <%= form_tag taskashow_path, method: :get, id: "find_kid" do %>
+        <%= text_field_tag :sch_str, params[:sch_str], placeholder: "Search Here" %>
+        <%= select_tag :sch_fld, options_for_select(["Block/Road","Unit No", "Name", "IC No","Phone No","Email"], params[:sch_fld]),
+              include_blank: "Select Field", required: true %>
+        <%= hidden_field_tag :id, params[:id], value: params[:id] %>
+        <%= hidden_field_tag :sch, params[:sch], value: true %>
+        <%= button_tag(type: :submit, class: "btn btn-sm btn-success", id: "submit_expense") do %>
+            <i class="fa fa-search"></i> SEARCH
+        <% end %>
+        <%= link_to taskashow_path(@taska), class:"btn btn-sm btn-danger" do %>
+            <i class="fa fa-sync"></i> CLEAR
+        <% end %>
+      <% end %>
+      <div>
+        
+      </div>
+    </div>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive border">
+      <%= form_for(:ans, :url => {:controller=>'taskas', :action=>'show'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+        <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr class="shadow">
+              <th style="background-color:#ffb2b2">BLOCK/ROAD</th>
+              <th style="background-color:#ffb2b2">UNIT NO</th>
+              <th style="background-color:#ffb2b2">OWNER DETAILS</th>
+              <th style="background-color:#ffb2b2">TENANT DETAILS</th>
+              <th style="background-color:#ffb2b2">BILL TO</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @units.each do |un| %>
+              <tr>
+                <td>
+                  <%= un.classroom_name %>
+                  <%= link_to "#", class: "text-warning" do %>
+                    <i class="fas fa-edit"></i>
+                  <% end %> 
+                  <%= link_to "#", class: "text-danger", :data => {:confirm => 'Are you sure?'} do %>
+                    <i class="fas fa-trash"></i>
+                  <% end %>    
+                </td>
+                <td><%= un.description %></td>
+                <td>
+                  <b>NAME :</b><br>
+                  <b>IC NO :</b><br>
+                  <b>PHONE NO :</b><br>
+                  <b>EMAIL :</b><br>
+
+                  <%= link_to "#", class: "text-warning" do %>
+                    <i class="fas fa-edit"></i>
+                  <% end %> 
+                  <%= link_to "#", class: "text-danger", :data => {:confirm => 'Are you sure?'} do %>
+                    <i class="fas fa-trash"></i>
+                  <% end %>  
+                </td>
+                <td>
+                  <b>NAME :</b><br>
+                  <b>IC NO :</b><br>
+                  <b>PHONE NO :</b><br>
+                  <b>EMAIL :</b><br>
+                  <%= link_to "#", class: "text-warning" do %>
+                    <i class="fas fa-edit"></i>
+                  <% end %> 
+                  <%= link_to "#", class: "text-danger", :data => {:confirm => 'Are you sure?'} do %>
+                    <i class="fas fa-trash"></i>
+                  <% end %>  
+                </td>
+                <td>
+                  <%= f.fields_for :"#{un.id}" do |h| %>
+                    <%= h.select :dun, options_for_select(["OWNER","TENANT"], 
+                                                            selected: "OWNER"), 
+                      {include_blank: "Select"}, {required: true} %>
+                  <% end %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <%= f.submit :"UPDATE",  class: 'btn btn-sm btn-block btn-success btn-lg', style: "align:center" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+

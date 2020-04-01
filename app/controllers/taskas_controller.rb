@@ -16,6 +16,7 @@ class TaskasController < ApplicationController
   end
 
   def tsk_fee
+    @units = @taska.classrooms
     render action: "tsk_fee", layout: "admin_db/admin_db-fee" 
   end
 
