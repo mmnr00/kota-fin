@@ -7,6 +7,7 @@ class PaymentsController < ApplicationController
  
   def view_bill
     @payment = Payment.first
+    @taska = Taska.first
   end
 
   ## OLD KIDCARE ##

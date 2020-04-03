@@ -19,10 +19,9 @@
   <% end %>
 </div>
 
-<div class="bg-white">
+<div class="content bg-white">
   <div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-11">
+    <div class="col-md-12">
       <div class="grid simple">
         <div class="grid-body no-border invoice-body"><br> 
 
@@ -55,15 +54,17 @@
             <% else %>
               <h4>INVOICE FOR 
             <% end %>
-            <strong><%= "[RESIDENT NO]" %></strong></h4>
+              <strong><%= "@kid.name.upcase" %></strong></h4>
+            <h6><%= "@kid.ic_1" %>-<%= "@kid.ic_2" %>-<%= "@kid.ic_3" %></h6>
           </div>
 
           <div class="clearfix"></div><br>
             <div class="col-md-12">
               <h4 class="semi-bold">
-                <%= "[TENANT/OWNER NAME]" %></h4>
+                EN <%= "@kid.father_name.upcase" %> / PN <%= "@kid.mother_name.upcase" %></h4>
               <address>
-                <%= "[TENANT/OWNER IC NO]" %><br>
+                <%= "@kid.father_phone" %><br>
+                <%= "@kid.mother_phone" %><br>
               </address>
             </div>
 
@@ -81,7 +82,7 @@
                 <div class="pull-left"> PAYMENT DATE : <%= @payment.updated_at.strftime("%b %d, %Y") %></div><br>
                 <div class="pull-left"> PAYMENT METHOD : 
                   <% if 1==1 %>
-                    <%= "[Billplz/Online Transfer/Cash]" %>
+                    <%= "mtd" %>
                   <% else %>
                     NORMAL BILLPLZ
                   <% end %>
@@ -98,36 +99,72 @@
               </div><br>
             </div>
 
-            <%if 1==1 %>
+            <%if 1==0 %>
               <% table_style = "table-responsive"%>
             <% end %>
             <table class="table <%= table_style %>">
               <thead>
                 <tr>
-                  <th class="text-left">BILL DETAILS FOR <%= "[RESIDENT NO]" %> <%= "[PAYMENT PERIOD]" %> </th>
+                  <th class="text-left">BILL DETAILS FOR <%= "Mus" %> <%= "@payment.bill_year" %> </th>
                   <th></th>
                   <th style="width:140px" class="text-right">AMOUNT (RM)</th>
                 </tr>
               </thead>
               <tbody>
-                <% [1].each do |kb| %>
+                <% [1,1,1,1].each do |kb| %>
                   <tr>
-                    <td colspan="2">
-                      <strong><%= "[RESIDENT NO]" %></strong>
+                    <td colspan="3">
+                      <strong><%= "kb.kid.name" %></strong>
                     </td>
                     <tr class="noBorder">
-                      <td>MONTHLY FEE <%= "" %></td>
-                      <td></td>
-                      <td class="text-right"><%= "[AMOUNT]" %></td>
+                      <% if 1==1 %>
+                        <td>FEE FOR CLASSROOM <%= "kb.clsname.upcase" %></td>
+                        <td></td>
+                        <td class="text-right"><%= "kb.clsfee" %></td>
+                        </tr>
+                      <% elsif "TASKA BOOKING" == "TASKA BOOKING" %>
+                        <td>BOOKING FEE FOR <%= "@taska.name.upcase" %></td>
+                        <td></td>
+                        <td class="text-right"><%= "@payment.amount" %></td>
+                      <% end %>
+                    </tr>
+                    <% if 1==1 %>
+                      <tr class="noBorder">
+                        <td>OVERTIME (<%= "otk.descotk" %>)</td>
+                        <td></td>
+                        <td class="text-right"><%= "otk.amt" %></td>
+                      </tr>
+                    <% end %>
+                    <% [1,1,1].each do |k|%>
+                      <tr class="noBorder">
+                        
+                          <% #extra = Extra.find(id) %>
+                          <td><%= k %></td>
+                          <td></td>
+                          <td class="text-right"><%= k %></td>
+                        
+                      </tr>
+                    <% end %>
                     </tr>
                   </tr>
                 <% end %>
                 <tr>
                   <td class="text-left no-border" colspan="2">
                     <strong>ADDITIONAL DESCRIPTION</strong><br>
-                    <%= "[Description Here]" %>
+                    <%= "@payment.description" %>
                   </td>
                   <td class="text-right"></td>
+                </tr>
+                <tr>
+                  <td class="text-right no-border" colspan="2">
+                    <strong>ADDITIONAL CHARGE</strong><br>
+                    <%= "@payment.addtns.first.desc" %>
+                  </td>
+                  <td class="text-right"><%= "@payment.addtns.first.amount.to_f" %></td>
+                </tr>
+                <tr>
+                  <td class="text-right no-border" colspan="2"><strong>DISCOUNT</strong></td>
+                  <td class="text-right">(<%= "@payment.discount.to_f" %>)</td>
                 </tr>
                 
                 <tr>
@@ -138,7 +175,7 @@
                     <strong>
                       <h4>
                         <% if 1==1 %>
-                          <b><%= "[AMOUNT]" %></b>
+                          <%= "@payment.amount" %>
                         <% else %>
                           <%= "(@payment.amount - parpm).round(2)" %>
                         <% end %>

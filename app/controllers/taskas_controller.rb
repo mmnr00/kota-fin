@@ -6,6 +6,12 @@ class TaskasController < ApplicationController
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
 
+  def edit
+    @fotos = @taska.fotos
+    render action: "edit", layout: "admin_db/admin_db-resident" 
+  end
+
+
   def show
     @units = @taska.classrooms
     render action: "show", layout: "admin_db/admin_db-resident" 
@@ -1757,11 +1763,7 @@ class TaskasController < ApplicationController
   end
 
   # GET /taskas/1/edit
-  def edit
-    @fotos = @taska.fotos
-    render action: "edit", layout: "dsb-admin-overview" 
-  end
-
+  
   
 
   def update_bank
@@ -1788,7 +1790,7 @@ class TaskasController < ApplicationController
         #if @taska.bank_status == nil 
           #redirect_to create_billplz_bank_path(id: @taska.id)
         #else
-          redirect_to taska_path(@taska)
+          redirect_to taskashow_path(@taska)
         #end
         #format.html { redirect_to @taska, notice: 'Taska was successfully updated.' }
         #format.json { render :show, status: :ok, location: @taska }
