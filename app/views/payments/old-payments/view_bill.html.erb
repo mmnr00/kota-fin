@@ -1,0 +1,54 @@
+
+
+<div class="results-block col-md-12">
+	<h3>View Bills for <%= @kid.name %> (month: <%= params[:month]%> & year: <%= params[:year]%> ) </h3>
+	<% if @kid_bills.count > 0 %>
+  <table class="table table-striped table-bordered">
+    <thead>   	
+      <tr>
+        <th>MONTH</th>
+        <th>YEAR</th>
+        <th>AMOUNT</th>
+        <th>PAYMENT</th>
+        <th>ACTION</th>
+      </tr>
+    </thead>
+    <tbody><!-- from /view/classroom/show -->
+        <% @kid_bills.each do |bill| %>
+        <tr>
+          <td><%= bill.bill_month %></td>
+          <td><%= bill.bill_year %></td>
+          <td><%= bill.amount %></td>
+          <% if bill.paid? %>
+          	<td><button class="btn btn-xs btn-success active"> YES </button></td>
+            <td><%= link_to "VIEW RECEIPTS", "https://billplz-staging.herokuapp.com/bills/#{bill.bill_id}", class: "btn btn-xs btn-success active", target: :_blank %></td>
+      		<% else %>
+      			<td><button class="btn btn-xs btn-danger active"> NO </button></td>   
+            <td><%= link_to "DELETE BILL", payment_path(bill_id: bill.bill_id, bill: bill, kid: @kid, month: params[:month], year: params[:year], taska: params[:id] ), method: :delete, data: { confirm: "Are you sure you want to delete the bill?"},class: "btn btn-xs btn-danger active" %></td>
+      		<% end %>
+        </tr>
+        </tr>
+        <% end %>
+        
+    </tbody>
+  </table>
+ <% else %>
+ 	<h1>No bills to display</h1></br>
+ <% end %>
+</div>
+
+<% if @kid_bills.count < 1 %>
+  <%= link_to "Create New Bills for #{@kid.name}", new_bill_path(child: @kid, 
+																							month: params[:month], 
+																							year: params[:year]), 
+																							class: "btn btn-xs btn-success active"%></br></br>
+<% end %>
+<%= link_to "View all bills for month #{params[:month]}-#{params[:year]}", 
+		search_bill_path(	taska_id: params[:id], 
+											month: params[:month], 
+											year: params[:year]), 
+											class: "btn btn-m btn-primary active"%>	
+
+
+
+

@@ -5,7 +5,11 @@ class PaymentsController < ApplicationController
   #ENV['BILLPLZ_APIKEY'] = "6d78d9dd-81ac-4932-981b-75e9004a4f11"
   before_action :set_all
  
+  def view_bill
+    @payment = Payment.first
+  end
 
+  ## OLD KIDCARE ##
   def index
     @taska = Taska.find(params[:id])
   end
@@ -780,7 +784,7 @@ class PaymentsController < ApplicationController
     redirect_to payment_signup_path(@teacher, college_id: @college.id, course_id: @course.id)
   end
 
-  def view_bill
+  def view_bill_old
     @kid = Kid.find(params[:kid])
     @kid_bills = @kid.payments.where(bill_month: params[:month], bill_year: params[:year])
   end

@@ -319,6 +319,9 @@ Rails.application.routes.draw do
   get '/classrooms/:id/xls', to: 'classrooms#classroom_xls', as: 'classroom_xls' 
 
   #~payments
+  get '/view_bill', to: 'payments#view_bill', as: 'view_bill'
+  
+  ## OLD ##
   get '/taska/:id/payment_index', to: 'payments#index', as: 'payment_index'
   get '/taska/:id/create_collection', to: 'payments#create_collection', as: 'create_collection'
   get '/owner/:id/create_collection_college', to: 'payments#create_collection_college', as: 'create_collection_college'
@@ -342,7 +345,7 @@ Rails.application.routes.draw do
   get '/taska/:id/new_bill', to: 'payments#new', as: 'new_bill'
   #get '/taska/:id/edit_bill', to: 'payments#edit_bill', as: 'edit_bill'
   #get '/taska/:id/upd_bill', to: 'payments#upd_bill', as: 'upd_bill'
-  get '/taska/:id/view_bill', to: 'payments#view_bill', as: 'view_bill'
+  
   get '/payments/update', to: 'payments#update', as: 'payment_update'
   post '/teacher/:id/new_bill', to: 'payments#teacher_create_bill', as: 'teacher_create_bill'
 

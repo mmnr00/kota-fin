@@ -1,53 +1,114 @@
 
-
-<div class="results-block col-md-12">
-	<h3>View Bills for <%= @kid.name %> (month: <%= params[:month]%> & year: <%= params[:year]%> ) </h3>
-	<% if @kid_bills.count > 0 %>
-  <table class="table table-striped table-bordered">
-    <thead>   	
-      <tr>
-        <th>MONTH</th>
-        <th>YEAR</th>
-        <th>AMOUNT</th>
-        <th>PAYMENT</th>
-        <th>ACTION</th>
-      </tr>
-    </thead>
-    <tbody><!-- from /view/classroom/show -->
-        <% @kid_bills.each do |bill| %>
-        <tr>
-          <td><%= bill.bill_month %></td>
-          <td><%= bill.bill_year %></td>
-          <td><%= bill.amount %></td>
-          <% if bill.paid? %>
-          	<td><button class="btn btn-xs btn-success active"> YES </button></td>
-            <td><%= link_to "VIEW RECEIPTS", "https://billplz-staging.herokuapp.com/bills/#{bill.bill_id}", class: "btn btn-xs btn-success active", target: :_blank %></td>
-      		<% else %>
-      			<td><button class="btn btn-xs btn-danger active"> NO </button></td>   
-            <td><%= link_to "DELETE BILL", payment_path(bill_id: bill.bill_id, bill: bill, kid: @kid, month: params[:month], year: params[:year], taska: params[:id] ), method: :delete, data: { confirm: "Are you sure you want to delete the bill?"},class: "btn btn-xs btn-danger active" %></td>
-      		<% end %>
-        </tr>
-        </tr>
-        <% end %>
-        
-    </tbody>
-  </table>
- <% else %>
- 	<h1>No bills to display</h1></br>
- <% end %>
+<div class="page-content">
+  <% if true %>
+    <h1 align="center"><%= link_to "PAID", "#", class: "btn btn-lg btn-success shadow" %></h1>
+  <% elsif 1==1 %>
+    
+    <h1 align="center"><%= link_to "RM 50 BALANCE PAYMENT", "#", class: "btn btn-sm btn-warning" %></h1>
+  <% else %>
+    <h1 align="center"><%= link_to "PENDING PAYMENT", "#", class: "btn btn-sm btn-danger active" %></h1>
+  <% end %>
+    
+    
+  <% if 1==1 %>
+    <h1 align="right">
+      <%= link_to "bill_links", class: "btn btn-md btn-info shadow" do %>
+        <i class="far fa-hand-pointer"></i> PAY
+      <% end %>
+    </h1>
+  <% end %>
 </div>
 
-<% if @kid_bills.count < 1 %>
-  <%= link_to "Create New Bills for #{@kid.name}", new_bill_path(child: @kid, 
-																							month: params[:month], 
-																							year: params[:year]), 
-																							class: "btn btn-xs btn-success active"%></br></br>
-<% end %>
-<%= link_to "View all bills for month #{params[:month]}-#{params[:year]}", 
-		search_bill_path(	taska_id: params[:id], 
-											month: params[:month], 
-											year: params[:year]), 
-											class: "btn btn-m btn-primary active"%>	
+<div class="content bg-white">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="grid simple">
+        <div class="grid-body no-border invoice-body"><br> 
+
+          <div class="col-md-12"> 
+            <% image = Taska.first.fotos.where(foto_name: "CENTER LOGO").first %>
+            <% if image.picture.present? %>
+              <a href="#">
+                <% if @pdf %>
+                  <%= wicked_pdf_image_tag(image.picture.url, size: "100x100") %>
+                <% else %>
+                  <%= image_tag(image.picture.url, size: "100x100") %>
+                <% end %>
+              </a>
+            <% end %>
+            <address>
+              <strong><%= "@taska.name.upcase" %></strong><br>
+              <%= "@taska.address_1.upcase " %>
+              <%= "@taska.address_2.upcase" %><br>
+              <%= "@taska.city.upcase" %>&nbsp
+              <%= "@taska.states.upcase" %>&nbsp
+              <%= "@taska.postcode" %><br>
+              <%= "@taska.phone_1 "%>-<%= "@taska.phone_2" %><br>
+              <%= "@taska.email" %>
+            </address>
+          </div><br>
+
+          <div class="col-md-12">
+            <% if 1==1 %>
+              <h4>RECEIPT FOR 
+            <% else %>
+              <h4>INVOICE FOR 
+            <% end %>
+              <strong><%= "@kid.name.upcase" %></strong></h4>
+            <h6><%= "@kid.ic_1" %>-<%= "@kid.ic_2" %>-<%= "@kid.ic_3" %></h6>
+          </div>
+
+          <div class="clearfix"></div><br>
+            <div class="col-md-12">
+              <h4 class="semi-bold">
+                EN <%= "@kid.father_name.upcase" %> / PN <%= "@kid.mother_name.upcase" %></h4>
+              <address>
+                <%= "@kid.father_phone" %><br>
+                <%= "@kid.mother_phone" %><br>
+              </address>
+            </div>
+
+            <div class="col-md-12"><br>
+              <div>
+                <div class="pull-left"> BILL ID : <%= @payment.bill_id %></div>
+                <div class="clearfix"></div>
+              </div>
+              <div>
+                <div class="pull-left"> BILL DATE : <%= @payment.created_at.strftime("%b %d, %Y") %></div>
+                <div class="clearfix"></div>
+              </div>
+              <div>
+                <% if 1==1 %>
+                <div class="pull-left"> PAYMENT DATE : <%= @payment.updated_at.strftime("%b %d, %Y") %></div><br>
+                <div class="pull-left"> PAYMENT METHOD : 
+                  <% if 1==1 %>
+                    <%= "mtd" %>
+                  <% else %>
+                    NORMAL BILLPLZ
+                  <% end %>
+                </div><br>
+                <% if (image = @payment.fotos.first).present? && image.picture.present? %>
+                  <div class="pull-left">
+                    <a href="<%= image.picture.url %>" target="_blank">
+                      <font color="blue">RECEIPT</font>
+                    </a>
+                  </div>
+                <% end %>
+                <% end %>
+                <div class="clearfix"></div>
+              </div><br>
+            </div>
+
+        </div>
+        <% if 1==1 %>
+          <%= link_to view_bill_path(format: :pdf), class: 'btn btn-sm btn-success active' do %>
+            <i class="fa fa-download"></i>&nbspDOWNLOAD
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
