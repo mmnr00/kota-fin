@@ -32,8 +32,8 @@
   <div class="card-header">
     <div class="row">
       <%= form_tag taskashow_path, method: :get, id: "find_kid" do %>
-        <%= text_field_tag :sch_str, params[:sch_str], placeholder: "Search Here" %>
-        <%= select_tag :sch_fld, options_for_select(["Block/Road","Unit No", "Name", "IC No","Phone No","Email"], params[:sch_fld]),
+        <%= text_field_tag :sch_str, params[:sch_str], placeholder: "Search Here", style: 'text-transform: uppercase' %>
+        <%= select_tag :sch_fld, options_for_select(["Block/Road","Unit No", "Name","Phone No","Email", "Plate No"], params[:sch_fld]),
               include_blank: "Select Field", required: true %>
         <%= hidden_field_tag :id, params[:id], value: params[:id] %>
         <%= hidden_field_tag :sch, params[:sch], value: true %>
@@ -43,78 +43,143 @@
         <%= link_to taskashow_path(@taska), class:"btn btn-sm btn-danger" do %>
             <i class="fa fa-sync"></i> CLEAR
         <% end %>
+        <%= "#{@units.count} result(s) found" unless params[:sch_fld].blank? %>
       <% end %>
       <div>
         
       </div>
     </div>
   </div>
+  <% if @units.count < 1 %>
+    <br>
+    <div style="background-color:#ffcccc"><h3 align="center">NO RESULT FOUND</h3></div>
+  <% else %>
   <div class="card-body">
+    
     <div class="table-responsive border">
-      <%= form_for(:ans, :url => {:controller=>'taskas', :action=>'show'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+      <%= form_for(:cls, :url => {:controller=>'classrooms', :action=>'add_topay'}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
         <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
           <thead>
             <tr class="shadow">
-              <th style="background-color:#ffb2b2">BLOCK/ROAD</th>
-              <th style="background-color:#ffb2b2">UNIT NO</th>
+              <th style="background-color:#ffb2b2">RESIDENT</th>
               <th style="background-color:#ffb2b2">OWNER DETAILS</th>
               <th style="background-color:#ffb2b2">TENANT DETAILS</th>
+              <th style="background-color:#ffb2b2">VEHICLES</th>
               <th style="background-color:#ffb2b2">BILL TO</th>
             </tr>
           </thead>
           <tbody>
             <% @units.each do |un| %>
-              <tr>
-                <td>
-                  <%= un.classroom_name %>
-                  <%= link_to "#", class: "text-warning" do %>
-                    <i class="fas fa-edit"></i>
-                  <% end %> 
-                  <%= link_to "#", class: "text-danger", :data => {:confirm => 'Are you sure?'} do %>
-                    <i class="fas fa-trash"></i>
-                  <% end %>    
-                </td>
-                <td><%= un.description %></td>
-                <td>
-                  <b>NAME :</b><br>
-                  <b>IC NO :</b><br>
-                  <b>PHONE NO :</b><br>
-                  <b>EMAIL :</b><br>
+              <%= f.fields_for :"#{un.id}" do |h| %>
+                <tr>
+                  <td>
+                    <b>BLOCK/ROAD</b>
+                    <%= h.text_field :classroom_name, value: un.classroom_name, style: 'text-transform: uppercase', class: "form-control" %><br>
+                    <b>UNIT NO</b>
+                    <%= h.text_field :description, value: un.description, style: 'text-transform: uppercase', class: "form-control" %>
+                    <%= link_to classroom_path(un), method: :delete, class: "text-danger align-left", :data => {:confirm => 'Are you sure?'} do %>
+                      <i class="fas fa-trash"></i>
+                    <% end %>    
+                  </td>
+                  <td>
 
-                  <%= link_to "#", class: "text-warning" do %>
-                    <i class="fas fa-edit"></i>
-                  <% end %> 
-                  <%= link_to "#", class: "text-danger", :data => {:confirm => 'Are you sure?'} do %>
-                    <i class="fas fa-trash"></i>
-                  <% end %>  
-                </td>
-                <td>
-                  <b>NAME :</b><br>
-                  <b>IC NO :</b><br>
-                  <b>PHONE NO :</b><br>
-                  <b>EMAIL :</b><br>
-                  <%= link_to "#", class: "text-warning" do %>
-                    <i class="fas fa-edit"></i>
-                  <% end %> 
-                  <%= link_to "#", class: "text-danger", :data => {:confirm => 'Are you sure?'} do %>
-                    <i class="fas fa-trash"></i>
-                  <% end %>  
-                </td>
-                <td>
-                  <%= f.fields_for :"#{un.id}" do |h| %>
-                    <%= h.select :dun, options_for_select(["OWNER","TENANT"], 
-                                                            selected: "OWNER"), 
+                    <div class="row">
+                      <div class="col-lg-4">
+                        <b>NAME :</b>
+                      </div>
+                      <div class="col-lg-8">
+                        <%= h.text_field :own_name, value: un.own_name, style: 'text-transform: uppercase', class: "form-control" %>
+                      </div>
+                    </div><br>
+                    <div class="row">
+                      <div class="col-lg-4">
+                        <b>DOB :</b>
+                      </div>
+                      <div class="col-lg-8">
+                        <%= h.date_field :own_dob, value: un.own_dob, class: "form-control" %>
+                      </div>
+                    </div><br>
+                    <div class="row">
+                      <div class="col-lg-4">
+                        <b>PHONE :</b>
+                      </div>
+                      <div class="col-lg-8">
+                        <%= h.text_field :own_ph, value: un.own_ph, class: "form-control" %>
+                      </div>
+                    </div><br>
+                    <div class="row">
+                      <div class="col-lg-4">
+                        <b>EMAIL :</b>
+                      </div>
+                      <div class="col-lg-8">
+                        <%= h.email_field :own_email, value: un.own_email, style: 'text-transform: uppercase', class: "form-control" %><br>
+                      </div>
+                    </div>
+
+                  </td>
+                  <td>
+
+                    <div class="row">
+                      <div class="col-lg-4">
+                        <b>NAME :</b>
+                      </div>
+                      <div class="col-lg-8">
+                        <%= h.text_field :tn_name, value: un.tn_name, style: 'text-transform: uppercase', class: "form-control" %>
+                      </div>
+                    </div><br>
+                    <div class="row">
+                      <div class="col-lg-4">
+                        <b>DOB :</b>
+                      </div>
+                      <div class="col-lg-8">
+                        <%= h.date_field :tn_dob, value: un.tn_dob, class: "form-control" %>
+                      </div>
+                    </div><br>
+                    <div class="row">
+                      <div class="col-lg-4">
+                        <b>PHONE :</b>
+                      </div>
+                      <div class="col-lg-8">
+                        <%= h.text_field :tn_ph, value: un.tn_ph, class: "form-control" %>
+                      </div>
+                    </div><br>
+                    <div class="row">
+                      <div class="col-lg-4">
+                        <b>EMAIL :</b>
+                      </div>
+                      <div class="col-lg-8">
+                        <%= h.email_field :tn_email, value: un.tn_email, style: 'text-transform: uppercase', class: "form-control" %>
+                      </div>
+                    </div>
+
+                  </td>
+                  <td>
+                    TOTAL VEHICLE: <b><%= un.vhcls.count %></b>
+                    <ols>
+                      <% un.vhcls.each do |vh| %>
+                        <li><%= vh.plt %></li>
+                      <% end %>
+                    </ol>
+                    <br>
+                    <%= link_to edit_vehicle_path(id: un.id), class:"btn btn-sm btn-warning" do %>
+                        <i class="fa fa-eye"></i> VIEW/EDIT
+                    <% end %>
+                  </td>
+                  <td>
+                    <%= h.select :topay, options_for_select(["OWNER","TENANT"], 
+                                                            selected: un.topay), 
                       {include_blank: "Select"}, {required: true} %>
-                  <% end %>
-                </td>
-              </tr>
-            <% end %>
+                  </td>
+                </tr>
+              <% end %> <!-- END FORM -->
+            <% end %> <!-- END LOOP -->
           </tbody>
         </table>
         <%= f.submit :"UPDATE",  class: 'btn btn-sm btn-block btn-success btn-lg', style: "align:center" %>
       <% end %>
     </div>
   </div>
+  <% end %>
 </div>
 
 

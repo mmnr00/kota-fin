@@ -13,7 +13,53 @@ class TaskasController < ApplicationController
 
 
   def show
-    @units = @taska.classrooms
+    sch = params[:sch_fld]
+    str = params[:sch_str]
+    if str.present?
+      str = str.upcase
+    end
+    if sch.present?
+      if sch == "Block/Road"
+        @units= @taska.classrooms.where('classroom_name LIKE ?', "%#{str}%")
+        #flash[:notice] = "#{@units.count} results found"
+      elsif sch == "Unit No"
+        @units= @taska.classrooms.where('description LIKE ?', "%#{str}%")
+      elsif sch == "Name"
+        cls = @taska.classrooms
+        @units = cls.where('own_name LIKE ?', "%#{str}%").or(cls.where('tn_name LIKE ?', "%#{str}%"))
+      elsif sch == "DOB (DD/MM/YYYY)"
+        date = Date.new(str[6..9].to_i,str[3..4].to_i,str[0..1].to_i)
+        if date.blank?
+          return
+        end
+        @units= @taska.classrooms.where(id: 6)
+      elsif sch == "Phone No"
+        cls = @taska.classrooms
+        @units = cls.where('own_ph LIKE ?', "%#{str}%").or(cls.where('tn_ph LIKE ?', "%#{str}%"))
+      elsif sch == "Email"
+        cls = @taska.classrooms
+        @units = cls.where('own_email LIKE ?', "%#{str}%").or(cls.where('tn_email LIKE ?', "%#{str}%"))
+      elsif sch == "Plate No"
+        cls = @taska.classrooms
+        vhall=nil
+        cls.each do |cl|
+          if vhall.blank?
+            vhall = Vhcl.where(classroom_id: cl.id)
+          else
+            vhall = vhall.or(Vhcl.where(classroom_id: cl.id))
+          end
+        end
+        finvhc = vhall.where('plt LIKE ?', "%#{str}%")
+        @units = cls.where(id: nil)
+        finvhc.each do |vh|
+          @units = @units.or(cls.where(id: vh.classroom_id))
+        end
+        #@units= @taska.classrooms
+      end
+    else
+      @units = @taska.classrooms
+    end
+    @units = @units.order('classroom_name ASC').order('description ASC')
     render action: "show", layout: "admin_db/admin_db-resident" 
   end
 

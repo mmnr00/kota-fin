@@ -1,11 +1,71 @@
 class ClassroomsController < ApplicationController
 
 	before_action :set_admin
-	
-	def index
-		@classrooms = Classroom.all
+
+	def upd_vehicle
+		pars = params[:vhcls]
+		pars.each do |k,v|
+			@vhcl = Vhcl.find(k)
+			@vhcl.plt = v[:plt]
+			@vhcl.brnd = v[:brnd]
+			@vhcl.typ = v[:typ]
+			@vhcl.save
+		end
+		flash[:success] = "Vehicle Update Successfully"
+		redirect_to edit_vehicle_path(id: @vhcl.classroom_id)
 	end
 
+	def del_vehicle
+		@vhcl = Vhcl.find(params[:id])
+		@vhcl.destroy
+		flash[:success] = "Vehicle Deleted Successfully"
+		redirect_to edit_vehicle_path(id: params[:cls_id])
+	end
+
+	def add_vehicle
+		@vhcl = Vhcl.new
+		pars = params[:vhc]
+		@vhcl.plt = pars[:plt].upcase
+		@vhcl.brnd = pars[:brnd].upcase
+		@vhcl.typ = pars[:typ].upcase
+		@vhcl.classroom_id = pars[:id]
+		if @vhcl.save
+			flash[:success] = "Vehicle Successfully Created"
+		else
+			flash[:danger] = "Vehicle Creation Failed"
+		end
+		redirect_to edit_vehicle_path(id: pars[:id])
+	end
+
+	def edit_vehicle
+		@classroom = Classroom.find(params[:id])
+		@vhcls = @classroom.vhcls.order('created_at ASC')
+		@taska = @classroom.taska
+		render action: "edit_vehicle", layout: "admin_db/admin_db-resident" 
+	end
+
+	def add_topay
+		pars = params[:cls]
+		pars.each do |k,v|
+			@clas = Classroom.find(k)
+			@clas.topay = v[:topay]
+			@clas.classroom_name = v[:classroom_name].upcase
+			@clas.description = v[:description].upcase
+			@clas.own_name = v[:own_name].upcase
+			@clas.own_dob = v[:own_dob]
+			@clas.own_ph = v[:own_ph]
+			@clas.own_email = v[:own_email].upcase
+			@clas.tn_name = v[:tn_name].upcase
+      @clas.tn_dob = v[:tn_dob]
+      @clas.tn_ph = v[:tn_ph]
+      @clas.tn_email = v[:tn_email].upcase
+			@clas.save
+		end 
+		flash[:success] = "Data updated"
+		redirect_to taskashow_path(@clas.taska_id)
+	end
+	
+	
 	def new
 		@taska = Taska.find(params[:community_id])
 		@admin = current_admin
@@ -29,11 +89,8 @@ class ClassroomsController < ApplicationController
 
 	def edit
 		@classroom = Classroom.find(params[:id])
-		@admin = current_admin
 		@taska = @classroom.taska
-		render action: "edit", layout: "dsb-admin-classroom" 
-
-
+		render action: "edit", layout: "admin_db/admin_db-resident"  
 	end
 
 	def update
@@ -42,7 +99,7 @@ class ClassroomsController < ApplicationController
 		if @classroom.update(classroom_params)
 				@taska = Taska.find(@classroom.taska_id)
         flash[:notice] = "Classroom was successfully edited"
-        redirect_to classroom_index_path(@taska)
+        redirect_to taskashow_path(@taska)
       else
         render :edit      
       end
@@ -52,17 +109,21 @@ class ClassroomsController < ApplicationController
 		@classroom = Classroom.find(params[:id])
 		@admin = current_admin
 		@taska = Taska.find(@classroom.taska_id)
-		if @classroom.kids.count > 0 || @classroom.teachers.count > 0
+		if 1==0 #@classroom.kids.count > 0 || @classroom.teachers.count > 0
 			flash[:danger] = "Please remove all children and teachers before deleting"
 		else
 			if @classroom.destroy
-				flash[:success] = "Classroom was successfully deleted"
+				flash[:success] = "Unit successfully deleted"
 			else
-				flash[:danger] = "Classroom was unsuccessfully deleted. Please try again"
+				flash[:danger] = "Unit unsuccessfully deleted. Please try again"
 			end
 		end
 		
-		redirect_to classroom_index_path(@taska)
+		redirect_to taskashow_path(@taska)
+	end
+
+	def index
+		@classrooms = Classroom.all
 	end
 
 	def show

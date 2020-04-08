@@ -1,4 +1,5 @@
 class Classroom < ApplicationRecord
+	
 	belongs_to :taska
 	has_many :teachers_classrooms
 	has_many :teachers, through: :teachers_classrooms
@@ -6,6 +7,13 @@ class Classroom < ApplicationRecord
 	has_many :feedbacks
 	has_many :kid_bills
 	has_many :payments, through: :kid_bills
-	
+	has_many :vhcls
+	serialize :vehls,Hash
+
+	private
+
+	def save_classrooms
+		self.classroom_name = self.classroom_name.upcase
+	end
 	
 end

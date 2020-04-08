@@ -310,7 +310,13 @@ Rails.application.routes.draw do
   get '/remove_teacher', to: 'taska_teachers#remove_teacher', as: 'remove_teacher'
 
   #~CLASSROOMS
+  post '/upd_vehicle', to: 'classrooms#upd_vehicle', as: 'upd_vehicle'
+  delete '/del_vehicle', to: 'classrooms#del_vehicle', as: 'del_vehicle' 
+  post '/add_vehicle', to: 'classrooms#add_vehicle', as: 'add_vehicle'
   get '/add_unit', to: 'classrooms#new', as: 'add_unit'
+  get '/edit_vehicle', to: 'classrooms#edit_vehicle', as: 'edit_vehicle'
+  get '/edit_unit', to: 'classrooms#edit', as: 'edit_unit'
+  post '/add_topay', to: 'classrooms#add_topay', as: 'add_topay'
   get '/classroom/:id/teachers', to: 'classrooms#taskateachers_classroom', as: 'list_teacher_classroom'
   
   #~TEACHERS_CLASSROOMS

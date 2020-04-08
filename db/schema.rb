@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_22_011435) do
+ActiveRecord::Schema.define(version: 2020_04_05_040428) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +88,16 @@ ActiveRecord::Schema.define(version: 2020_02_22_011435) do
     t.integer "taska_id"
     t.string "description"
     t.float "base_fee"
+    t.string "topay"
+    t.string "own_name"
+    t.date "own_dob"
+    t.string "own_ph"
+    t.string "own_email"
+    t.string "tn_name"
+    t.date "tn_dob"
+    t.string "tn_ph"
+    t.string "tn_email"
+    t.text "vehls"
   end
 
   create_table "colleges", force: :cascade do |t|
@@ -580,6 +590,15 @@ ActiveRecord::Schema.define(version: 2020_02_22_011435) do
     t.string "desc"
     t.integer "day"
     t.integer "taska_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "vhcls", force: :cascade do |t|
+    t.string "plt"
+    t.string "brnd"
+    t.string "typ"
+    t.string "classroom_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

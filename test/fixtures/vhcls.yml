@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  plt: MyString
+  brnd: MyString
+  typ: MyString
+  classroom_id: MyString
+
+two:
+  plt: MyString
+  brnd: MyString
+  typ: MyString
+  classroom_id: MyString
