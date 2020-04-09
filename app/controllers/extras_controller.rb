@@ -2,11 +2,30 @@ class ExtrasController < ApplicationController
 
 	before_action :set_admin
 
+	def reset_ajk
+		@taska = Taska.find(params[:id])
+		@extra = Extra.find(params[:ajk])
+		@classroom = @extra.classroom
+		if @extra.tp == "o"
+			@classroom.ext_o = nil
+		elsif @extra.tp == "t"
+			@classroom.ext_t = nil
+		end
+		@extra.tp = nil
+		@extra.classroom_id = nil
+
+		@extra.save
+		@classroom.save
+		
+		flash[:notice] = "Reset Successful for #{@extra.name}"
+		redirect_to tsk_ajk_path(id: @taska.id)
+	end
+
 	def new
-		@taska = Taska.find(params[:taska_id])
-		@admin = current_admin
+		@taska = Taska.find(params[:id])
+		# @admin = current_admin
 		@extra = Extra.new
-		render action: "new", layout: "dsb-admin-classroom" 
+		render action: "new", layout: "admin_db/admin_db-ajk" 
 	end
 
 	def create
@@ -22,10 +41,11 @@ class ExtrasController < ApplicationController
 	end
 
 	def edit
-		@extra = Extra.find(params[:id])
-		@admin = current_admin
-		@taska = @extra.taska
-		render action: "edit", layout: "dsb-admin-classroom" 
+		@taska = Taska.find(params[:id])
+		# @extra = Extra.find(params[:id])
+		# @admin = current_admin
+		# @taska = @extra.taska
+		render action: "edit", layout: "admin_db/admin_db-ajk" 
 	end
 
 	def update

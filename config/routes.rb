@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   resources :tchdetails, only:[:show,:create, :destroy, :update, :edit]
   resources :prntdetails, only:[:show, :new, :create, :destroy, :update, :edit]
   resources :ptnssps, only:[:update, :edit]
-  resources :extras, only:[:new, :create, :destroy, :update, :edit]
+  resources :extras, only:[:create, :destroy, :update]
   resources :tsklvs, only:[:new, :create, :destroy, :update, :edit]
   #resources :teachers, only:[:show]
   #resources :taska_teachers, only:[:create,:destroy]
@@ -85,6 +85,11 @@ Rails.application.routes.draw do
   get '/sms', to: 'pages#sms'
 
   #~EXTRAS
+  get 'new_ajk', to: 'extras#new', as: 'new_ajk'
+  get 'edit_ajk', to: 'extras#edit', as: 'edit_ajk'
+  get 'reset_ajk', to: 'extras#reset_ajk', as: 'reset_ajk'
+
+  #OLD EXTRA
   get 'add_kid_extras', to: 'extras#add_kid_extras'
   get 'remove_kid_extras', to: 'extras#remove_kid_extras'
 
@@ -200,6 +205,9 @@ Rails.application.routes.draw do
   get '/community_vismgmt/:id', to: 'taskas#tsk_vismgmt', as: 'tsk_vismgmt'
   get '/community_activt/:id', to: 'taskas#tsk_activt', as: 'tsk_activt'
   get '/community_newblast/:id', to: 'taskas#tsk_newblast', as: 'tsk_newblast'
+  get '/crt_ajk', to: 'taskas#crt_ajk', as: 'crt_ajk'
+  get '/dlt_ajk', to: 'taskas#dlt_ajk', as: 'dlt_ajk'
+  post '/upd_ajk', to: 'taskas#upd_ajk', as: 'upd_ajk'
   
   ##OLD routes##
   get '/taska/:id/teachers', to: 'taskas#taskateachers', as: 'taskateachers'

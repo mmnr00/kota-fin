@@ -1,7 +1,7 @@
 class TaskasController < ApplicationController
   
   require 'json'
-  before_action :set_taska
+  before_action :set_taska, except: [:upd_ajk]
   before_action :set_all
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
@@ -15,6 +15,8 @@ class TaskasController < ApplicationController
   def show
     sch = params[:sch_fld]
     str = params[:sch_str]
+    @all_ajk = @taska.extras
+    @ajks = @taska.extras.where(classroom_id: nil)
     if str.present?
       str = str.upcase
     end
@@ -64,7 +66,32 @@ class TaskasController < ApplicationController
   end
 
   def tsk_ajk
+    @ajks = @taska.extras.order('created_at ASC')
     render action: "tsk_ajk", layout: "admin_db/admin_db-ajk" 
+  end
+
+  def crt_ajk
+    Extra.create(name: "TYPE HERE", taska_id: @taska.id)
+    redirect_to tsk_ajk_path(id: @taska.id)
+  end
+
+  def dlt_ajk
+    @extra = Extra.find(params[:ajk])
+    @extra.destroy
+    redirect_to tsk_ajk_path(id: @taska.id)
+  end
+
+  def upd_ajk
+    pars = params[:ajk]
+    pars.each do |k,v|
+      if k != "id"
+        @extra = Extra.find(k)
+        @extra.name = v[:name].upcase
+        @extra.save
+      end
+    end
+    flash[:success] = "AJK List Updated"
+    redirect_to tsk_ajk_path(id: params[:ajk][:id])
   end
 
   def tsk_fee

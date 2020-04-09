@@ -1,45 +1,93 @@
 <div class="container">
-  <a href="#" class="d-sm-inline-block btn btn-xl btn-info shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Add New Box</a><br><br>
+  <a href="/crt_ajk?id=<%= @taska.id %>" class="d-sm-inline-block btn btn-xl btn-info shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Add New Box</a><br><br>
+
+ 
   <div class="row">
-    <% [1,1,1,1,1,1,1,1,1].each do |n| %>
+    <% 
+      @ajks.each do |aj|
+      if (clsr=aj.classroom).present?
+        add = "#{clsr.description}, #{clsr.classroom_name}"
+        if aj.tp == "t"
+          name_ajk = clsr.tn_name
+          ph_no = clsr.tn_ph   
+          eml = clsr.tn_email
+        elsif aj.tp == "o"
+          name_ajk = clsr.own_name
+          ph_no = clsr.own_ph   
+          eml = clsr.own_email
+        end
+        
+      else
+        name_ajk = "PENDING"
+        ph_no = ""
+        add = ""
+        eml = ""
+      end 
+
+    %>
+      
       <div class="col-lg-3"> 
         <div class="rows">
-          <div class="panel panel-default shadow"  style="border-style: ridge;">
-            <div class="panel-heading" style="background-color:blue">  
+          <%= form_for(:ajk, :url => {:controller=>'taskas', :action=>'upd_ajk'}, :html => {multipart: true, method: :post}) do |f| %>
+          <%= f.fields_for :"#{aj.id}" do |h| %>
+            <div class="panel panel-default shadow"  style="border-style: ridge;">
+              <div class="panel-heading" style="background-color:blue">  
 
-              <h4 style="color:white; text-align:center" >PENGERUSI</h4>
-            </div>
-            <div class="panel-body">
-              <div class="container">
-                <%= image_tag('kidcare_logo/kota_logo_only.png', size: "80x80") %>
+                <h4 style="color:white; text-align:center" >
+                  <% 
+                    if @admin
+                      disb = false
+                    else
+                      disb = true
+                    end 
+                  %>
+                  <%= h.text_field :name, value: aj.name, style: 'text-transform: uppercase; background-color: blue; color: white', class: "form-control", disabled: disb %>
+                </h4>
               </div>
-              <div class="" >
-                <div class="container" >
-                  <h4>David Beckham bin Abdullah</h4>
+              <div class="panel-body">
+                <div class="container">
+                  <%= image_tag('kidcare_logo/kota_logo_only.png', size: "80x80") %>
                 </div>
-                <hr>
-                <div class="container" >
-                  <i class="fas fa-user">&nbsp&nbsp   013-3333333</i><br>
-                  <i class="fas fa-user">&nbsp&nbsp   No 56, Jalan LEP/3</i><br>
-                  <i class="fas fa-user">&nbsp&nbsp   john@gmail.com</i>
-                </div>
-                <hr>
-                <div class="container" >
-                  <%= link_to "#", class: "text-warning text-right" do %>
-                    <i class="fas fa-edit">Edit</i>
-                  <% end %> &nbsp&nbsp&nbsp
-                  <%= link_to "#", class: "text-danger", :data => {:confirm => 'Are you sure?'} do %>
-                    <i class="fas fa-trash">Delete</i>
-                  <% end %> 
+                <div class="" >
+                  <div class="container" >
+                    <h4><%= name_ajk %></h4>
+                  </div>
+                  <hr>
+                  <div class="container" >
+                    <i class="fas fa-mobile">&nbsp&nbsp   <%= ph_no %></i><br>
+                    <i class="fas fa-map-marker">&nbsp&nbsp   <%= add %></i><br>
+                    <i class="fas fa-envelope">&nbsp&nbsp   <%= eml %></i>
+                  </div>
+                  <hr>
+                  <div class="container" >
+                    <% if aj.classroom.present? %>
+                      <%= link_to reset_ajk_path(ajk: aj.id,id: @taska.id), class: "text-info pull-left", :data => {:confirm => 'Are you sure?'} do %>
+                        <i class="fas fa-eraser">&nbspReset</i>
+                      <% end %>
+                      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  
+                    <% else %>
+                      &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp  
+                      <%= link_to dlt_ajk_path(ajk: aj.id,id: @taska.id), class: "text-danger pull-right", :data => {:confirm => 'Are you sure?'} do %>
+                        <i class="fas fa-trash">&nbspDelete</i>
+                      <% end %>
+                    <% end %>
+                    
+                    
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+            
+          <% end %> <!-- END FORM H -->
+          <%= f.hidden_field :id, value: @taska.id %>
+          <% end %> <!-- END FORM F -->
         </div>
         <br>
-      </div>
+      </div>    
     <% end %>
   </div>
+
+
 </div>
 
 

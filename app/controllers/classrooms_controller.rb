@@ -59,6 +59,18 @@ class ClassroomsController < ApplicationController
       @clas.tn_dob = v[:tn_dob]
       @clas.tn_ph = v[:tn_ph]
       @clas.tn_email = v[:tn_email].upcase
+      if v[:ext_o].present?
+      	@clas.ext_o = v[:ext_o]
+      	@extra = Extra.find(v[:ext_o])
+      	@extra.classroom_id = @clas.id
+      	@extra.tp = "o"
+      elsif v[:ext_t].present?
+      	@clas.ext_t = v[:ext_t]
+      	@extra = Extra.find(v[:ext_t])
+      	@extra.classroom_id = @clas.id
+      	@extra.tp = "t"
+      end
+      @extra.save
 			@clas.save
 		end 
 		flash[:success] = "Data updated"
