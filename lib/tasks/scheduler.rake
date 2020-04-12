@@ -1,6 +1,6 @@
 desc "bill_mth"
 task bill_mth: :environment do
-	taska = Taska.where(rato: (Date.today.day-1))
+	taska = Taska.where(rato: (Date.today.day+1))
 	if taska.present?
 
 		taska.each do |tsk|
