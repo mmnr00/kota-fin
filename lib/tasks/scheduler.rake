@@ -58,7 +58,7 @@ task bill_mth: :environment do
 		      #send SMS
 		      url = "https://sms.360.my/gw/bulk360/v1.4?"
 		      usr = "user=admin@kidcare.my&"
-		      ps = "#{ENV['SMS360']}"
+		      ps = "pass=#{ENV['SMS360']}"
 		      to = "to=6#{ph}&"
 		      txt = "text=hi+Mus+#{ENV['BILLPLZ_URL']}bills/#{data["id"]}"
 		      data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}")
