@@ -1,0 +1,71 @@
+<div class="row">
+  
+  <div class="col-lg-8">
+    <div class="card shadow mb-4">
+      <div class="card-header">
+        <b><h7>UPDATE BILL ITEMS</h7></b>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive border">
+          <%= form_for(:cls, :url => {:controller=>'taskas', :action=>'upd_bilitm'}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
+            <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr class="shadow">
+                  <th style="background-color:#ffb2b2">ITEM NAME</th>
+                  <th style="background-color:#ffb2b2">AMOUNT (RM)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr  style="background-color:blue">
+                  <td colspan=2 style="text-align: center">EXISTING ITEMS</td>
+                </tr>
+                <% 
+                  tot = 0.00
+                  cnt = @taska.bilitm.count 
+                  stt = 0
+                %>
+                <% 
+                  @taska.bilitm.each do |k,v|
+                  tot = tot + v 
+                  stt = stt + 1
+                %>
+                <%= f.fields_for :"#{stt}" do |h| %>
+                  <tr>
+                    <td>
+                      <%= h.text_field :itm, value: k, class: "form-control" %>
+                    </td>
+                    <td>
+                      <%= h.number_field :amt, value: v, step: 0.01, class: "form-control" %>    
+                    </td>
+                  </tr>
+                <% end %>
+                <% end %>
+                <tr>
+                  <td><h4>TOTAL</h4></td>
+                  <td><h4><%= tot.round(2) %></h4></td>
+                </tr>
+                <tr  style="background-color:green">
+                  <td colspan=2 style="text-align: center">NEW ITEMS</td>
+                </tr>
+                <% [(cnt+1),(cnt+2),(cnt+3)].each do |n| %>
+                <%= f.fields_for :"#{n}" do |h| %>
+                  <tr>
+                    <td>
+                      <%= h.text_field :itm, value: nil, class: "form-control" %>
+                    </td>
+                    <td>
+                      <%= h.number_field :amt, value: nil, step: 0.01, class: "form-control" %>    
+                    </td>
+                  </tr>
+                <% end %> <!-- END H -->
+                <% end %> <!-- END F -->
+              </tbody>
+            </table>
+            <%= f.hidden_field :id, value: @taska.id %> 
+            <%= f.submit :"UPDATE",  class: 'btn btn-sm btn-block btn-success btn-lg', style: "align:center" %>
+          <% end %><!-- END FORM -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

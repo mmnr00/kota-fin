@@ -208,6 +208,9 @@ Rails.application.routes.draw do
   get '/crt_ajk', to: 'taskas#crt_ajk', as: 'crt_ajk'
   get '/dlt_ajk', to: 'taskas#dlt_ajk', as: 'dlt_ajk'
   post '/upd_ajk', to: 'taskas#upd_ajk', as: 'upd_ajk'
+  get '/shw_bilitm', to: 'taskas#shw_bilitm', as: 'shw_bilitm'
+  post '/upd_bilitm', to: 'taskas#upd_bilitm', as: 'upd_bilitm'
+
   
   ##OLD routes##
   get '/taska/:id/teachers', to: 'taskas#taskateachers', as: 'taskateachers'

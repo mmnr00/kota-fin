@@ -15,6 +15,7 @@ class Taska < ApplicationRecord
 	has_many :applvs
 	has_many :payslips
 	has_many :payinfos
+	serialize :bilitm,Hash
 	serialize :hiscred,Array
 	#before_save :save_taskas
 	accepts_nested_attributes_for :fotos

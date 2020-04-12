@@ -1,10 +1,31 @@
 class TaskasController < ApplicationController
   
   require 'json'
-  before_action :set_taska, except: [:upd_ajk]
+  before_action :set_taska, except: [:upd_ajk,:upd_bilitm]
   before_action :set_all
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
+
+  def upd_bilitm
+    pars = params[:cls]
+    @taska = Taska.find(pars[:id])
+    @taska.bilitm.clear
+    pars.each do |k,v|
+      if k != "id"
+        if v[:itm].present? && v[:amt].present?
+          @taska.bilitm[v[:itm]]=v[:amt].to_f
+        end
+      end
+    end
+    @taska.save
+    flash[:success] = "Bill Items Updated"
+    redirect_to shw_bilitm_path(id: @taska.id)
+  end
+
+  def shw_bilitm
+    render action: "shw_bilitm", layout: "admin_db/admin_db-fee" 
+  end
+
 
   def edit
     @fotos = @taska.fotos
