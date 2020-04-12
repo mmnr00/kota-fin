@@ -21,7 +21,7 @@ heroku pg:pull DATABASE_URL kota-fin-dev --app kota-prod
 heroku pg:reset --app kota-staging
 heroku pg:push kota-fin-dev DATABASE_URL  --app kota-staging
 
-git push prod-heroku production_n:master
+git push heroku staging:master
 #heroku run rake db:migrate --app kidcare-prod
 
 heroku restart --app kidcare-prod

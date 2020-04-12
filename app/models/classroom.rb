@@ -3,6 +3,7 @@ class Classroom < ApplicationRecord
 	belongs_to :taska
 	has_many :extras
 	has_many :vhcls
+	has_many :payments
 	serialize :vehls,Hash
 
 	# OLD KIDCARE
