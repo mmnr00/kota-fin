@@ -45,7 +45,10 @@
 
   <div class="col-lg-6 col-md-6 col-sm-3">
     <br>
-    <a href="<%= "#{shw_bilitm_url}?id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Update Bill Items</a>
+    <a href="<%= "#{shw_bilitm_url}?id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Update Bill Items</a><br>
+    <div class="alert alert-warning" role="alert">
+      Billing Cycle is on <b><%= @taska.rato.round(0) %></b> of every month. Click <a href="/community/edit/<%= @taska.id %>?plan=<%= @taska.plan %>">HERE</a> to change
+    </div>
   </div>
 
 </div>

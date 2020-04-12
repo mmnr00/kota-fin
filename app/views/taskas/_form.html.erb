@@ -256,6 +256,23 @@
           </div>
         </div>
 
+        <!-- Bill Date -->    
+        <div class="form-group"> 
+          <div class="row">
+            <div class="control-label col-sm-8">
+              <strong>Billing Cycle</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8 col-12">
+              <%= f.select :rato, 
+                            options_for_select([*1..28],
+                                              selected: @taska.rato.round(0)), 
+                              {include_blank: "Please Select"}, {required: true} %>
+            </div>
+          </div>
+        </div>
+
         <%= f.hidden_field :plan, value: params[:plan] %>
 
         <!-- START PHOTO UPLOAD -->

@@ -28,7 +28,7 @@
 %>
 
 <a href="<%= "#{bill_taska1_monthly_url}"%>?id=<%= @taska.id %>">
-  <% if @taska.rato > 0 && totkid >= orkid %>
+  <% if @taska.rato > 0 && totkid >= orkid && 1==0 %>
     <p><button class="w3-block btn-info"> <i class="fa fa-exclamation-circle fa-lg"></i>&nbsp&nbspYOU HAVE LESS <strong><%= lesstch.round(0) %></strong> TEACHERS TO MEET QUOTA. CLICK HERE TO REQUEST FROM KIDDOCARE</button></p>
   <% end %>
 </a>

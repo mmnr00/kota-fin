@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   
   #devise_for :college_admins
-  resources :taskas, only:[:create,:destroy,:update,:edit]
+  resources :taskas, only:[:create,:destroy,:update]
   resources :expenses, only:[:create,:destroy,:update,:edit]
   resources :ptns_mmbs, only:[:create,:destroy,:update,:edit]
   resources :courses, only:[:create,:destroy,:update,:edit]
@@ -198,6 +198,7 @@ Rails.application.routes.draw do
   get '/parent/:id/all_bills', to: 'parents#all_bills', as: 'all_bills'
 
   #~TASKAS
+  get '/community/edit/:id', to: 'taskas#edit'
   get '/community/:id', to: 'taskas#show', as: 'taskashow'
   get '/community_ajk/:id', to: 'taskas#tsk_ajk', as: 'tsk_ajk'
   get '/community_fee/:id', to: 'taskas#tsk_fee', as: 'tsk_fee'
