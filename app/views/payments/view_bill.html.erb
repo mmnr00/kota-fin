@@ -1,8 +1,8 @@
 
-<div class="page-content">
-  <% if true %>
+<div class="col-lg-8"><div class="page-content">
+  <% if @payment.paid %>
     <h1 align="center"><%= link_to "PAID", "#", class: "btn btn-lg btn-success shadow" %></h1>
-  <% elsif 1==1 %>
+  <% elsif 1==0 %>
     
     <h1 align="center"><%= link_to "RM 50 BALANCE PAYMENT", "#", class: "btn btn-sm btn-warning" %></h1>
   <% else %>
@@ -10,9 +10,9 @@
   <% end %>
     
     
-  <% if 1==1 %>
+  <% if !@payment.paid %>
     <h1 align="right">
-      <%= link_to "bill_links", class: "btn btn-md btn-info shadow" do %>
+      <%= link_to "#{ENV["BILLPLZ_URL"]}bills/#{@payment.bill_id}", class: "btn btn-md btn-info shadow" do %>
         <i class="far fa-hand-pointer"></i> PAY
       <% end %>
     </h1>
@@ -55,15 +55,16 @@
             <% else %>
               <h4>INVOICE FOR 
             <% end %>
-            <strong><%= "[RESIDENT NO]" %></strong></h4>
+            <strong><%= @kb.clsname %></strong></h4>
           </div>
 
           <div class="clearfix"></div><br>
             <div class="col-md-12">
               <h4 class="semi-bold">
-                <%= "[TENANT/OWNER NAME]" %></h4>
+                <%= @kb.extra[0] %></h4>
               <address>
-                <%= "[TENANT/OWNER IC NO]" %><br>
+                <%= @kb.extra[1] %><br>
+                <%= @kb.extra[2] %><br>
               </address>
             </div>
 
@@ -77,7 +78,7 @@
                 <div class="clearfix"></div>
               </div>
               <div>
-                <% if 1==1 %>
+                <% if @payment.paid %>
                 <div class="pull-left"> PAYMENT DATE : <%= @payment.updated_at.strftime("%b %d, %Y") %></div><br>
                 <div class="pull-left"> PAYMENT METHOD : 
                   <% if 1==1 %>
@@ -104,31 +105,19 @@
             <table class="table <%= table_style %>">
               <thead>
                 <tr>
-                  <th class="text-left">BILL DETAILS FOR <%= "[RESIDENT NO]" %> <%= "[PAYMENT PERIOD]" %> </th>
+                  <th class="text-left">BILL DETAILS FOR  <%= "#{$month_name[@payment.bill_month]}-#{@payment.bill_year}" %> </th>
                   <th></th>
                   <th style="width:140px" class="text-right">AMOUNT (RM)</th>
                 </tr>
               </thead>
               <tbody>
-                <% [1].each do |kb| %>
-                  <tr>
-                    <td colspan="2">
-                      <strong><%= "[RESIDENT NO]" %></strong>
-                    </td>
-                    <tr class="noBorder">
-                      <td>MONTHLY FEE <%= "" %></td>
-                      <td></td>
-                      <td class="text-right"><%= "[AMOUNT]" %></td>
-                    </tr>
+                <% @kb.extradtl.each do |k,v| %>
+                  <tr class="noBorder">
+                    <td><%= k %></td>
+                    <td></td>
+                    <td class="text-right"><%= v.round(2) %></td>
                   </tr>
                 <% end %>
-                <tr>
-                  <td class="text-left no-border" colspan="2">
-                    <strong>ADDITIONAL DESCRIPTION</strong><br>
-                    <%= "[Description Here]" %>
-                  </td>
-                  <td class="text-right"></td>
-                </tr>
                 
                 <tr>
                   <td class="text-right no-border" colspan="2">
@@ -138,7 +127,7 @@
                     <strong>
                       <h4>
                         <% if 1==1 %>
-                          <b><%= "[AMOUNT]" %></b>
+                          <b><%= @payment.amount %></b>
                         <% else %>
                           <%= "(@payment.amount - parpm).round(2)" %>
                         <% end %>
@@ -158,7 +147,7 @@
       </div>
     </div>
   </div>
-</div>
+</div></div>
 
 
 

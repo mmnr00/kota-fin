@@ -12,7 +12,7 @@ class Classroom < ApplicationRecord
 	has_many :kids
 	has_many :feedbacks
 	has_many :kid_bills
-	has_many :payments, through: :kid_bills
+	#has_many :payments, through: :kid_bills
 	
 	
 

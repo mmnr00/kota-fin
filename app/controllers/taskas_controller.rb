@@ -117,6 +117,7 @@ class TaskasController < ApplicationController
 
   def tsk_fee
     @units = @taska.classrooms
+    @payments = @taska.payments.where(name: "RSD M BILL")
     render action: "tsk_fee", layout: "admin_db/admin_db-fee" 
   end
 

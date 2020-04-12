@@ -78,28 +78,31 @@
             <tr class="shadow">
               <th style="background-color:#ffb2b2">MONTH</th>
               <th style="background-color:#ffb2b2">YEAR</th>
-              <th style="background-color:#ffb2b2">BLOCK/ROAD</th>
-              <th style="background-color:#ffb2b2">UNIT NO</th>
-              <th style="background-color:#ffb2b2">OWNER</th>
-              <th style="background-color:#ffb2b2">TENANT</th>
+              <th style="background-color:#ffb2b2">ADDRESS</th>
+              <th style="background-color:#ffb2b2">BILL TO</th>
               <th style="background-color:#ffb2b2">BILL ID</th>
-              <th style="background-color:#ffb2b2">AMOUNT</th>
+              <th style="background-color:#ffb2b2">AMOUNT (RM)</th>
               <th style="background-color:#ffb2b2">STATUS</th>
               <th style="background-color:#ffb2b2">RECEIVED</th>
               <th style="background-color:#ffb2b2">METHOD</th>
             </tr>
           </thead>
           <tbody>
-            <% [1,1,1,1,1].each do |un| %>
+            <% 
+              @payments.each do |un| 
+              kb = un.kid_bill
+              %>
               <tr>
-                <td>03</td>
-                <td>2020</td>
-                <td>JALAN LEP3</td>
-                <td>556</td>
-                <td>DAVID BECKHAM</td>
-                <td>MESSI</td>
-                <td><a href="<%= view_bill_url %>" target="blank"><u>ndnh_uj</u></a></td>
-                <td>150</td>
+                <td><%= un.bill_month %></td>
+                <td><%= un.bill_year %></td>
+                <td><%= kb.clsname %></td>
+                <td>
+                  <%= kb.extra[0] %><br>
+                  <%= kb.extra[1] %><br>
+                  <%= kb.extra[2] %>
+                </td>
+                <td><a href="<%= "#{view_bill_url}?id=#{un.id}" %>" target="blank"><u><%= un.bill_id %></u></a></td>
+                <td><%= un.amount %></td>
                 <td><a href="#"><u>PAID</u></a></td>
                 <td>143</td>
                 <td>E Payment</td>

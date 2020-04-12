@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :colleges, only:[:create,:destroy,:update,:edit]
   resources :classrooms, only:[:create,:destroy,:update]
   resources :kids, only:[:show,:create,:destroy,:update,:edit]
-  resources :payments, only:[:create,:destroy]
+  #resources :payments, only:[:create,:destroy]
   resources :fotos, only:[:edit, :update ,:destroy]
   resources :tchdetails, only:[:show,:create, :destroy, :update, :edit]
   resources :prntdetails, only:[:show, :new, :create, :destroy, :update, :edit]
@@ -336,6 +336,7 @@ Rails.application.routes.draw do
   get '/classrooms/:id/xls', to: 'classrooms#classroom_xls', as: 'classroom_xls' 
 
   #~payments
+  get '/crt_pmt', to: 'payments#crt_pmt', as: 'crt_pmt'
   get '/view_bill', to: 'payments#view_bill', as: 'view_bill'
   
   ## OLD ##

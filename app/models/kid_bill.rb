@@ -1,5 +1,5 @@
 class KidBill < ApplicationRecord
-	belongs_to :kid 
+	belongs_to :kid, optional: true 
 	belongs_to :payment
 	belongs_to :classroom, optional: true
 	serialize :extra,Array
