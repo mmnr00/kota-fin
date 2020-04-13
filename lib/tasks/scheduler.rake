@@ -61,7 +61,14 @@ task bill_mth: :environment do
 		      ps = "pass=#{ENV['SMS360']}"
 		      to = "to=6#{ph}&"
 		      txt = "text=hi+Mus+#{ENV['BILLPLZ_URL']}bills/#{data["id"]}"
-		      data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}")
+		      fixie = URI.parse "http://fixie:0XRRwt4tRdDKwob@velodrome.usefixie.com:80"
+					data_sms = HTTParty.get(
+					  "#{url}#{usr}#{ps}#{to}#{txt}",
+					  http_proxyaddr: fixie.host,
+					  http_proxyport: fixie.port,
+					  http_proxyuser: fixie.user,
+					  http_proxypass: fixie.password
+					)
 
 		      #Create KidBill
 		      KidBill.create(payment_id: @payment.id,
