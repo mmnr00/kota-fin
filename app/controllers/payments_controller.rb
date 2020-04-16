@@ -5,6 +5,42 @@ class PaymentsController < ApplicationController
   #ENV['BILLPLZ_APIKEY'] = "6d78d9dd-81ac-4932-981b-75e9004a4f11"
   before_action :set_all
 
+  def mtl_pmt
+    pars = params[:pmt]
+    nxt = 0
+    pars.each do |k,v|
+      paym = Payment.find(k)
+      nxt = nxt + v.to_i
+    end
+    if nxt == 1 #pegi kt view_bill
+      redirect_to root_path
+    elsif nxt == 0 #pilih something
+      flash[:danger] = "Please Choose a Bill to Pay"
+      pym = Payment.find(pars.keys[0])
+      redirect_to list_bill_path(cls: pym.classroom_id)
+    else #create multiple bills
+
+    end
+  end
+
+  def update
+    @bill = Payment.where(bill_id: "#{params[:billplz][:id]}").first
+    if @bill.present?
+    #@kid = @bill.kid
+      @bill.paid = params[:billplz][:paid]
+      @bill.pdt = params[:billplz][:paid_at]
+      @bill.mtd = "BILLPLZ"
+      
+      if @bill.paid
+        @bill.save
+        flash[:success] = "Bill was successfully paid"
+      else
+        flash[:danger] = "Bill was not paid due to bank rejection. Please try again"
+      end
+      redirect_to view_bill_path(id: @bill.id)
+    end
+  end
+
   def crt_pmt
     @taska = Taska.find(params[:tsk])
     @cls = Classroom.find(params[:cls])
@@ -75,14 +111,12 @@ class PaymentsController < ApplicationController
 
 
     end
-    #SEND SMS
 
 
     flash[:danger] = "Mus"
     redirect_to taskashow_path(@taska)
   end
 
-  #OLD KCR
 
   def view_bill
     @payment = Payment.find(params[:id])
@@ -90,12 +124,18 @@ class PaymentsController < ApplicationController
     @taska = Taska.first
   end
 
+  def list_bill
+    @comm = Classroom.find(params[:cls])
+    @payments = @comm.payments.order('created_at DESC')
+  end
+
+
   ## OLD KIDCARE ##
   def index
     @taska = Taska.find(params[:id])
   end
 
-  def update
+  def update_old
     if params[:taska].present? # for credit topup only
       @taska = Taska.find(params[:taska])
       url_bill = "#{ENV['BILLPLZ_API']}bills/#{params[:billplz][:id]}"
@@ -122,7 +162,7 @@ class PaymentsController < ApplicationController
       if @bill.present?
       #@kid = @bill.kid
         @bill.paid = params[:billplz][:paid]
-        @bill.updated_at = params[:billplz][:paid_at]
+        @bill.pdt = params[:billplz][:paid_at]
         @bill.mtd = "BILLPLZ"
         @bill.save
         if @bill.paid

@@ -339,6 +339,8 @@ Rails.application.routes.draw do
   #~payments
   get '/crt_pmt', to: 'payments#crt_pmt', as: 'crt_pmt'
   get '/view_bill', to: 'payments#view_bill', as: 'view_bill'
+  get '/list_bill', to: 'payments#list_bill', as: 'list_bill'
+  post '/mtl_pmt', to: 'payments#mtl_pmt', as: 'mtl_pmt'
   
   ## OLD ##
   get '/taska/:id/payment_index', to: 'payments#index', as: 'payment_index'

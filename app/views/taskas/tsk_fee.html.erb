@@ -79,25 +79,29 @@
         <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
           <thead>
             <tr class="shadow">
-              <th style="background-color:#ffb2b2">MONTH</th>
-              <th style="background-color:#ffb2b2">YEAR</th>
-              <th style="background-color:#ffb2b2">ADDRESS</th>
-              <th style="background-color:#ffb2b2">BILL TO</th>
-              <th style="background-color:#ffb2b2">BILL ID</th>
-              <th style="background-color:#ffb2b2">AMOUNT (RM)</th>
-              <th style="background-color:#ffb2b2">STATUS</th>
-              <th style="background-color:#ffb2b2">RECEIVED</th>
-              <th style="background-color:#ffb2b2">METHOD</th>
+              <th style="background-color:#ccccff">PERIOD</th>
+              <th style="background-color:#ccccff">ADDRESS</th>
+              <th style="background-color:#ccccff">BILL TO</th>
+              <th style="background-color:#ccccff">BILL ID</th>
+              <th style="background-color:#ccccff">AMOUNT (RM)</th>
+              <th style="background-color:#ccccff">STATUS</th>
+              <th style="background-color:#ccccff">RECEIVED (RM)</th>
             </tr>
           </thead>
           <tbody>
             <% 
               @payments.each do |un| 
               kb = un.kid_bill
+              if un.paid 
+                msg = "PAID"
+                clr = "#99cc99"
+              else
+                msg = "UNPAID"
+                clr = "#ff9999"
+              end
               %>
               <tr>
-                <td><%= un.bill_month %></td>
-                <td><%= un.bill_year %></td>
+                <td><%= "#{un.bill_month}-#{un.bill_year}" %></td>
                 <td><%= kb.clsname %></td>
                 <td>
                   <%= kb.extra[0] %><br>
@@ -106,9 +110,28 @@
                 </td>
                 <td><a href="<%= "#{view_bill_url}?id=#{un.id}" %>" target="blank"><u><%= un.bill_id %></u></a></td>
                 <td><%= un.amount %></td>
-                <td><a href="#"><u>PAID</u></a></td>
-                <td>143</td>
-                <td>E Payment</td>
+                <td style="background-color:<%= clr %>">
+                  <b><%= msg %></b>
+                  <% if un.paid %>
+                    <br><br><p style="font-size:15px;line-height: 0.2;">
+                      <i><%= un.pdt.strftime('%d-%m-%y')%></i>
+                    </p>
+                    <p style="font-size:15px;line-height: 0.1;">
+                      <i><%= un.mtd %></i>
+                    </p>
+                  <% else %>
+                    <br><%= link_to "Update", root_path, class: "btn btn-sm btn-primary"%>
+                  <% end %>
+                </td>
+                <td>
+                  <% if un.paid %>
+                    <% if un.mtd == "BILLPLZ" %>
+                      <%= un.amount - 1.5 %>
+                    <% else %>
+                      <%= un.amount %>
+                    <% end %>
+                  <% end %>
+                </td>
               </tr>
             <% end %>
           </tbody>
