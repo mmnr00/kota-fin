@@ -9,11 +9,12 @@
         <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
           <thead>
             <tr class="shadow">
-              <th style="background-color:#ccccff">BILL DATE</th>
-              <th style="background-color:#ccccff">PERIOD</th>
+              <th style="background-color:#ccccff">
+                <%= f.submit :"ACTION", style: "align:center" %>
+              </th>
               <th style="background-color:#ccccff">AMOUNT (RM)</th>
               <th style="background-color:#ccccff">STATUS</th>
-              <th style="background-color:#ccccff">ACTION</th>
+              
             </tr>
           </thead>
           <tbody>
@@ -27,24 +28,23 @@
               end
             %>
               <tr>
-                <td><%= pyn.created_at.strftime('%d-%b-%Y') %></td>
-                <td><%= "#{pyn.bill_month}-#{pyn.bill_year}"%></td>
-                <td><%= pyn.amount.round(2) %></td>
-                <td style="background-color:<%= clr %>">
-                  <b><%= msg %></b>
-                </td>
                 <td>
                   <% if pyn.paid %> 
                     <%= link_to "Receipt", view_bill_path(id: pyn.id), class: "btn btn-sm btn-primary", target: "_blank" %>
                   <% else %>
-                    <%= f.check_box :"#{pyn.id}", checked: false %> Click and Enter To Pay
+                    <%= f.check_box :"#{pyn.id}", checked: false %> Pay
                   <% end %>
                 </td>
+                <td><%= pyn.amount.round(2) %></td>
+                <td style="background-color:<%= clr %>">
+                  <a href="<%= view_bill_url(id: pyn.id)%>" target="_blank"><b><%= msg %></b></a>
+                </td>
+                
               </tr>
             <% end %> <!-- END LOOP -->
           </tbody>
+
         </table>
-        <%= f.submit :"UPDATE",  class: 'btn btn-sm btn-block btn-success btn-lg', style: "align:center" %>
       <% end %>
     </div>
   </div>

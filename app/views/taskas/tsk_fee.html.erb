@@ -9,12 +9,9 @@
             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">No of bills paid</div>
             <div class="row no-gutters align-items-center">
               <div class="col-auto">
-                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">255</div>
+                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><%= "#{@bill_paid} / #{@payments.count}" %></div>
               </div>
               <div class="col">
-                <div class="progress progress-sm mr-2">
-                  <div class="progress-bar bg-info" role="progressbar" style="width: 39.2%" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
-                </div>
               </div>
             </div>
           </div>
@@ -25,7 +22,6 @@
       </div>
     </div>
   </div>
-
   <!-- Earnings (Monthly) Card Example -->
   <div class="col-lg-3 col-md-6 col-sm-6 col-xs-3">
     <div class="card border-left-success shadow h-100 py-2">
@@ -33,7 +29,7 @@
         <div class="row no-gutters align-items-center">
           <div class="col mr-2">
             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Amount Received (RM)</div>
-            <div class="h5 mb-0 font-weight-bold text-gray-800">215,000</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= number_with_delimiter(@amt.round(2), :delimiter => ',')  %></div>
           </div>
           <div class="col-auto">
             <i class="fas fa-coins fa-2x text-gray-300"></i>
@@ -45,7 +41,8 @@
 
   <div class="col-lg-6 col-md-6 col-sm-3">
     <br>
-    <a href="<%= "#{shw_bilitm_url}?id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Update Bill Items</a><br>
+    <a href="<%= "#{shw_bilitm_url}?id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Update Bill Items</a>
+    <a href="<%= "#{updall_pmt_url}?id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-info shadow-sm"><i class="fas fa-sync fa-sm text-white-50"></i> Update Status</a><br>
     <div class="alert alert-warning" role="alert">
       Billing Cycle is on <b><%= @taska.rato.round(0) %></b> of every month. Click <a href="/community/edit/<%= @taska.id %>?plan=<%= @taska.plan %>">HERE</a> to change
     </div>
@@ -59,10 +56,15 @@
   <div class="card-header">
     <div class="row">
       <%= form_tag tsk_fee_path, method: :get, id: "find_kid" do %>
-        <%= text_field_tag :sch_yr, params[:sch_yr], placeholder: "Search Year" %>
+      <% 
+        yr_s = Date.today.year - 2
+        yr_e = Date.today.year + 2
+      %>
+        <%= select_tag :sch_yr, options_for_select(yr_s..yr_e, params[:sch_yr]), include_blank: "ALL YEAR" %>
+        <%= select_tag :sch_stt, options_for_select(["PAID","UNPAID"], params[:sch_stt]), include_blank: "STATUS" %>
         <%= text_field_tag :sch_str, params[:sch_str], placeholder: "Search Item" %>
-        <%= select_tag :sch_fld, options_for_select(["Month","Year", "Unit No", "Block/Road","IC No","Bill_ID"], params[:sch_fld]),
-              include_blank: "Select Field", required: true %>
+        <%= select_tag :sch_fld, options_for_select(["Month", "Unit No", "Block/Road","Phone No","Name","Email","Bill ID"], params[:sch_fld]),
+              include_blank: "Select Field" %>
         <%= hidden_field_tag :id, params[:id], value: params[:id] %>
         <%= hidden_field_tag :sch, params[:sch], value: true %>
         <%= button_tag(type: :submit, class: "btn btn-sm btn-success", id: "submit_expense") do %>
@@ -70,6 +72,9 @@
         <% end %>
         <%= link_to tsk_fee_path(@taska), class:"btn btn-sm btn-danger" do %>
             <i class="fa fa-sync"></i> CLEAR
+        <% end %>
+        <% if params[:sch].present? %>
+          <span class="badge badge-dark"><b><%= @payments.count %></b> result(s) found</span>
         <% end %>
       <% end %>
     </div>
@@ -90,7 +95,7 @@
           </thead>
           <tbody>
             <% 
-              @payments.each do |un| 
+              @payments.order('created_at DESC').each do |un| 
               kb = un.kid_bill
               if un.paid 
                 msg = "PAID"
@@ -125,7 +130,7 @@
                 </td>
                 <td>
                   <% if un.paid %>
-                    <% if un.mtd == "BILLPLZ" %>
+                    <% if un.mtd.include? "BILLPLZ" %>
                       <%= un.amount - 1.5 %>
                     <% else %>
                       <%= un.amount %>

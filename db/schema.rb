@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_15_082249) do
+ActiveRecord::Schema.define(version: 2020_04_17_080007) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -337,6 +337,7 @@ ActiveRecord::Schema.define(version: 2020_04_15_082249) do
     t.boolean "s2ph"
     t.integer "classroom_id"
     t.date "pdt"
+    t.string "bill_id2"
   end
 
   create_table "payslips", force: :cascade do |t|
@@ -479,6 +480,8 @@ ActiveRecord::Schema.define(version: 2020_04_15_082249) do
     t.text "hiscred"
     t.float "rato"
     t.text "bilitm"
+    t.string "emblz"
+    t.text "cltarr"
     t.index ["subdomain"], name: "index_taskas_on_subdomain", unique: true
   end
 

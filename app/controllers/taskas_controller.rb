@@ -116,8 +116,57 @@ class TaskasController < ApplicationController
   end
 
   def tsk_fee
-    @units = @taska.classrooms
     @payments = @taska.payments.where(name: "RSD M BILL")
+    if params[:sch].present?
+      str = params[:sch_str]
+
+      if params[:sch_yr].present?
+        @payments = @payments.where(bill_year: params[:sch_yr].to_i)
+      end
+
+      if params[:sch_stt] == "PAID"
+        @payments = @payments.where(paid: true)
+      elsif params[:sch_stt] == "UNPAID"
+        @payments = @payments.where(paid: false)
+      end
+
+      kb = KidBill.where(payment_id: @payments.ids)
+      arr = []
+      if params[:sch_fld] == "Month"
+        @payments = @payments.where(bill_month: params[:sch_str])
+
+      elsif params[:sch_fld] == "Unit No" || params[:sch_fld] == "Block/Road"
+        kb = kb.where('clsname LIKE ?', "%#{str.upcase}%")
+        kb.each do |k|
+          arr<<k.payment_id
+        end
+        @payments = @payments.where(id: arr)
+
+      elsif params[:sch_fld] == "Phone No" || params[:sch_fld] == "Name" || params[:sch_fld] == "Email"
+        kb.each do |k|
+         arr<<k.payment_id unless !k.extra.any? {|s| s.include? str.upcase}
+        end
+        @payments = @payments.where(id: arr)
+
+      elsif params[:sch_fld] == "Bill ID"
+        @payments = @payments.where('bill_id LIKE ?', "%#{str}%")
+      end
+
+    end
+
+    #calculate report
+    @amt = 0.00
+    @bill_paid = 0
+    @payments.each do |pmt|
+      if pmt.paid
+        @amt = @amt + pmt.amount
+        if pmt.mtd.include? "BILLPLZ"
+          @amt = @amt - 1.5
+        end 
+        @bill_paid += 1
+      end
+    end
+
     render action: "tsk_fee", layout: "admin_db/admin_db-fee" 
   end
 

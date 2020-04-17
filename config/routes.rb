@@ -341,6 +341,7 @@ Rails.application.routes.draw do
   get '/view_bill', to: 'payments#view_bill', as: 'view_bill'
   get '/list_bill', to: 'payments#list_bill', as: 'list_bill'
   post '/mtl_pmt', to: 'payments#mtl_pmt', as: 'mtl_pmt'
+  get '/updall_pmt', to: 'payments#updall_pmt', as: 'updall_pmt'
   
   ## OLD ##
   get '/taska/:id/payment_index', to: 'payments#index', as: 'payment_index'

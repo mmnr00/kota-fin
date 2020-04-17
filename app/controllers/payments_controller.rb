@@ -5,39 +5,167 @@ class PaymentsController < ApplicationController
   #ENV['BILLPLZ_APIKEY'] = "6d78d9dd-81ac-4932-981b-75e9004a4f11"
   before_action :set_all
 
+  def updall_pmt
+    @taska = Taska.find(params[:id])
+    @payments = @taska.payments.where(name: "RSD M BILL",paid: false)
+    @payments.each do |pmt|
+
+      nomore = false
+      if pmt.bill_id2.present?
+        bill_id = pmt.bill_id2
+        mtd = "Billplz via #{bill_id}"
+        url_bill = "#{ENV['BILLPLZ_API']}bills/#{bill_id}"
+        data_billplz = HTTParty.get(url_bill.to_str,
+                :body  => {}.to_json, 
+                            #:callback_url=>  "YOUR RETURN URL"}.to_json,
+                :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+                :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+        #render json: data_billplz and return
+        data = JSON.parse(data_billplz.to_s)
+        if data["paid"] == true
+          pmt.paid = true
+          pmt.mtd = mtd
+          pmt.pdt = data["paid_at"]
+          pmt.save
+          nomore = true
+        else
+          bill_id = pmt.bill_id
+          mtd = "BILLPLZ"
+        end
+      else
+        bill_id = pmt.bill_id
+        mtd = "BILLPLZ"
+      end
+
+      if !nomore 
+        url_bill = "#{ENV['BILLPLZ_API']}bills/#{bill_id}"
+        data_billplz = HTTParty.get(url_bill.to_str,
+                :body  => {}.to_json, 
+                            #:callback_url=>  "YOUR RETURN URL"}.to_json,
+                :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+                :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+        #render json: data_billplz and return
+        data = JSON.parse(data_billplz.to_s)
+        if data["paid"] == true
+          pmt.paid = true
+          pmt.mtd = mtd
+          pmt.pdt = data["paid_at"]
+          pmt.save
+        end
+      end
+
+    end
+    flash[:success] = "Bills Updated"
+    redirect_to tsk_fee_path(id: @taska.id)
+  end
+
   def mtl_pmt
     pars = params[:pmt]
     nxt = 0
+    arr_pm = []
     pars.each do |k,v|
       paym = Payment.find(k)
       nxt = nxt + v.to_i
+      arr_pm<<k unless v.to_i < 1
     end
     if nxt == 1 #pegi kt view_bill
-      redirect_to root_path
+      redirect_to view_bill_path(id: arr_pm[0])
+
     elsif nxt == 0 #pilih something
       flash[:danger] = "Please Choose a Bill to Pay"
       pym = Payment.find(pars.keys[0])
       redirect_to list_bill_path(cls: pym.classroom_id)
+
     else #create multiple bills
+
+      @payments = Payment.where(id: arr_pm)
+      @taska = @payments.first.taska
+      @cls = @payments.first.classroom
+      tot = @payments.sum(:amount)
+      bill_ids = []
+      @payments.each do |pm|
+        bill_ids << pm.bill_id
+      end
+
+      #FIND OR CREATE COLLECTION
+      bill_cnt = bill_ids.count
+      if @taska.cltarr[bill_cnt].blank?
+        url = "#{ENV['BILLPLZ_API']}collections"
+        data_billplz = HTTParty.post(url.to_str,
+                :body  => { :title => "#{bill_cnt}_#{@taska.emblz}",
+                            :split_payment => {:email=>@taska.emblz,:fixed_cut=>(bill_cnt*150),:split_header=>true},
+                          }.to_json, 
+                            #:callback_url=>  "YOUR RETURN URL"}.to_json,
+                :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+                :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+        #render json: data_billplz and return
+        data = JSON.parse(data_billplz.to_s)
+        @taska.cltarr[bill_cnt] = data["id"]
+        @taska.save
+      end
+
+
+
+      #CREATE BILLPLZ BILL
+      url_bill = "#{ENV['BILLPLZ_API']}bills"
+      data_billplz = HTTParty.post(url_bill.to_str,
+              :body  => { :collection_id => @taska.cltarr[bill_cnt], 
+                          :email=> "bill@kota.my",
+                          :name=> "#{@cls.description} #{@cls.classroom_name}", 
+                          :amount=>  tot*100,
+                          :reference_1_label => "Payment for Bill ID",
+                          :reference_1 => bill_ids.to_s,
+                          :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                          :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                          :description=>"Bill For #{@cls.description} #{@cls.classroom_name}"}.to_json, 
+                          #:callback_url=>  "YOUR RETURN URL"}.to_json,
+              :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+              :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+      #render json: data_billplz and return
+      data = JSON.parse(data_billplz.to_s)
+      if data["id"].present?
+        @payments.each do |pm|
+          pm.bill_id2 = data["id"]
+          pm.save
+        end
+        redirect_to "#{ENV["BILLPLZ_URL"]}bills/#{data["id"]}"
+      else
+        flash[:danger] = "Payment Unsuccessful. Please try again"
+        redirect_to list_bill_path(cls: @cls.id)
+      end
+
 
     end
   end
 
   def update
-    @bill = Payment.where(bill_id: "#{params[:billplz][:id]}").first
-    if @bill.present?
-    #@kid = @bill.kid
-      @bill.paid = params[:billplz][:paid]
-      @bill.pdt = params[:billplz][:paid_at]
-      @bill.mtd = "BILLPLZ"
-      
-      if @bill.paid
-        @bill.save
-        flash[:success] = "Bill was successfully paid"
-      else
-        flash[:danger] = "Bill was not paid due to bank rejection. Please try again"
+    @payments = Payment.where(bill_id2: "#{params[:billplz][:id]}")
+    if @payments.present?
+      @cls = @payments.first.classroom
+      @payments.each do |bill|
+        bill.paid = params[:billplz][:paid]
+        bill.pdt = params[:billplz][:paid_at]
+        bill.mtd = "Billplz via #{params[:billplz][:id]}"
+        bill.save
       end
-      redirect_to view_bill_path(id: @bill.id)
+      flash[:success] = "Payment Successful"
+      redirect_to list_bill_path(cls: @cls.id)
+    else
+      @bill = Payment.where(bill_id: "#{params[:billplz][:id]}").first
+      if @bill.present?
+      #@kid = @bill.kid
+        @bill.paid = params[:billplz][:paid]
+        @bill.pdt = params[:billplz][:paid_at]
+        @bill.mtd = "BILLPLZ"
+        
+        if @bill.paid
+          @bill.save
+          flash[:success] = "Bill was successfully paid"
+        else
+          flash[:danger] = "Bill was not paid due to bank rejection. Please try again"
+        end
+        redirect_to view_bill_path(id: @bill.id)
+      end
     end
   end
 
