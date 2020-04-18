@@ -19,7 +19,13 @@
   <div class="col-lg-6 col-md-6 col-sm-3">
     <br>
     <a href="<%= "#{add_unit_url}?community_id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Add New Unit</a>
-    <a href="<%= "#{add_unit_url}?community_id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-info shadow-sm"><i class="fas fa-upload fa-sm text-white-50"></i> Upload Excel</a>
+    <% if @admin == Admin.first %><br><br>
+      <%= form_tag upld_res_path, multipart: true do %>
+        <%= file_field_tag :file %>
+        <%= hidden_field_tag :id, @taska.id %>
+        <%= submit_tag "Upload" %>
+      <% end %>
+    <% end %>
   </div>
 
   
@@ -56,7 +62,7 @@
   <% else %>
   <div class="card-body">
     
-    <div class="table-responsive border">
+    <div class="table table-responsive border">
       <%= form_for(:cls, :url => {:controller=>'classrooms', :action=>'add_topay'}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
         <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
           <thead>
@@ -77,10 +83,10 @@
               <%= f.fields_for :"#{un.id}" do |h| %>
                 <tr>
                   <td>
-                    <b>BLOCK/ROAD</b>
-                    <%= h.text_field :classroom_name, value: un.classroom_name, style: 'text-transform: uppercase', class: "form-control" %><br>
-                    <b>UNIT NO</b>
-                    <%= h.text_field :description, value: un.description, style: 'text-transform: uppercase', class: "form-control" %>
+                    <b>BLOCK/ROAD</b><br>
+                    <%= h.text_field :classroom_name, value: un.classroom_name, style: 'text-transform: uppercase; width: 100%', class: "" %><br>
+                    <b>UNIT NO</b><br>
+                    <%= h.text_field :description, value: un.description, style: 'text-transform: uppercase; width: 100%', class: "form-controls" %><br>
                     <%= link_to classroom_path(un), method: :delete, class: "text-danger align-left", :data => {:confirm => 'Are you sure?'} do %>
                       <i class="fas fa-trash"></i>
                     <% end %>  
@@ -92,113 +98,51 @@
                   </td>
                   <td>
 
-                    <div class="row">
-                      <div class="col-lg-4">
-                        <b>NAME :</b>
-                      </div>
-                      <div class="col-lg-8">
-                        <%= h.text_field :own_name, value: un.own_name, style: 'text-transform: uppercase', class: "form-control" %>
-                      </div>
-                    </div><br>
-                    <div class="row">
-                      <div class="col-lg-4">
-                        <b>DOB :</b>
-                      </div>
-                      <div class="col-lg-8">
-                        <%= h.date_field :own_dob, value: un.own_dob, class: "form-control" %>
-                      </div>
-                    </div><br>
-                    <div class="row">
-                      <div class="col-lg-4">
-                        <b>PHONE :</b>
-                      </div>
-                      <div class="col-lg-8">
-                        <%= h.text_field :own_ph, value: un.own_ph, class: "form-control" %>
-                      </div>
-                    </div><br>
-                    <div class="row">
-                      <div class="col-lg-4">
-                        <b>EMAIL :</b>
-                      </div>
-                      <div class="col-lg-8">
-                        <%= h.email_field :own_email, value: un.own_email, style: 'text-transform: uppercase', class: "form-control" %><br>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-lg-4">
-                        <b>AJK :</b>
-                      </div>
-                      <div class="col-lg-8">
-                        <% if ajk.present? %>
-                          <span class="badge badge-primary"><%= ajk.first.name unless ajk.first.tp == "t" %></span>
-                          <%= h.hidden_field :ext_o, value: un.ext_o %>
-                        <% else %>
-                          <%= h.select :ext_o, 
-                          options_from_collection_for_select(@ajks.order('created_at ASC'), :id, :name), {include_blank: "Select"} %>
-                        <% end %>
-                      </div>
-                    </div>
+                    <b>NAME</b><br>
+                    <%= h.text_field :own_name, value: un.own_name, style: 'text-transform: uppercase; width: 100%', class: "" %><br>
+                    <b>DOB</b><br>
+                    <%= h.date_field :own_dob, value: un.own_dob, class: "", style: 'text-transform: uppercase; width: 100%' %><br>
+                    <b>PHONE NO</b><br>
+                    <%= h.text_field :own_ph, value: un.own_ph, class: "", style: 'text-transform: uppercase; width: 100%' %><br>
+                    <b>EMAIL</b><br>
+                    <%= h.email_field :own_email, value: un.own_email, style: 'text-transform: uppercase; width: 100%', class: "" %><br>
+                    <% if ajk.present? && ajk.first.tp == "o" %>
+                      <span class="badge badge-primary"><h7><%= ajk.first.name %></h7></span>
+                      <%= h.hidden_field :ext_o, value: un.ext_o %>
+                    <% elsif ajk.blank? && @ajks.present? %>
+                      <b>AJK</b><br>
+                      <%= h.select :ext_o, 
+                      options_from_collection_for_select(@ajks.order('created_at ASC'), :id, :name), {include_blank: "Select"} %>
+                    <% end %>
 
                   </td>
                   <td>
 
-                    <div class="row">
-                      <div class="col-lg-4">
-                        <b>NAME :</b>
-                      </div>
-                      <div class="col-lg-8">
-                        <%= h.text_field :tn_name, value: un.tn_name, style: 'text-transform: uppercase', class: "form-control" %>
-                      </div>
-                    </div><br>
-                    <div class="row">
-                      <div class="col-lg-4">
-                        <b>DOB :</b>
-                      </div>
-                      <div class="col-lg-8">
-                        <%= h.date_field :tn_dob, value: un.tn_dob, class: "form-control" %>
-                      </div>
-                    </div><br>
-                    <div class="row">
-                      <div class="col-lg-4">
-                        <b>PHONE :</b>
-                      </div>
-                      <div class="col-lg-8">
-                        <%= h.text_field :tn_ph, value: un.tn_ph, class: "form-control" %>
-                      </div>
-                    </div><br>
-                    <div class="row">
-                      <div class="col-lg-4">
-                        <b>EMAIL :</b>
-                      </div>
-                      <div class="col-lg-8">
-                        <%= h.email_field :tn_email, value: un.tn_email, style: 'text-transform: uppercase', class: "form-control" %>
-                      </div>
-                    </div><br>
-                    <div class="row">
-                      <div class="col-lg-4">
-                        <b>AJK :</b>
-                      </div>
-                      <div class="col-lg-8">
-                        <% if ajk.present? %>
-                          <span class="badge badge-primary"><%= ajk.first.name unless ajk.first.tp == "o" %></span>
-                          <%= h.hidden_field :ext_t, value: un.ext_t %>
-                        <% else %>
-                          <%= h.select :ext_t, 
-                          options_from_collection_for_select(@ajks.order('created_at ASC'), :id, :name), {include_blank: "Select"} %>
-                        <% end %>
-                        
-                      </div>
-                    </div>
-
+                    <b>NAME</b><br>
+                    <%= h.text_field :tn_name, value: un.tn_name, style: 'text-transform: uppercase; width: 100%', class: ""%><br>
+                    <b>DOB</b><br>
+                    <%= h.date_field :tn_dob, value: un.tn_dob, class: "", style: 'text-transform: uppercase; width: 100%' %><br>
+                    <b>PHONE NO</b><br>
+                    <%= h.text_field :tn_ph, value: un.tn_ph, style: 'text-transform: uppercase; width: 100%', class: "" %><br>
+                    <b>EMAIL</b><br>
+                    <%= h.email_field :tn_email, value: un.tn_email, style: 'text-transform: uppercase; width: 100%', class: "" %><br>
+                    <% if ajk.present? && ajk.first.tp == "t" %>
+                      <span class="badge badge-primary"><h7><%= ajk.first.name %></h7></span>
+                      <%= h.hidden_field :ext_t, value: un.ext_t %>
+                    <% elsif ajk.blank? && @ajks.present? %>
+                      <b>AJK</b><br>
+                      <%= h.select :ext_t, 
+                      options_from_collection_for_select(@ajks.order('created_at ASC'), :id, :name), {include_blank: "Select"} %>
+                    <% end %>
+                    
                   </td>
                   <td>
-                    TOTAL VEHICLE: <b><%= un.vhcls.count %></b>
-                    <ols>
-                      <% un.vhcls.each do |vh| %>
-                        <li><%= vh.plt %></li>
-                      <% end %>
-                    </ol>
-                    <br>
+                    TOTAL VEHICLE: <b><%= un.vhcls.count %></b><br>
+                    <% un.vhcls.each do |vh| %>
+                      <span class="badge badge-info">
+                        <h7><%= vh.plt %></h7>
+                      </span><br>
+                    <% end %><br>
                     <%= link_to edit_vehicle_path(id: un.id), class:"btn btn-sm btn-warning" do %>
                         <i class="fa fa-eye"></i> VIEW/EDIT
                     <% end %>

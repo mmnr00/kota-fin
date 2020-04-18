@@ -6,6 +6,68 @@ class TaskasController < ApplicationController
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
 
+  def upld_res
+    xlsx = Roo::Spreadsheet.open(params[:file])
+    header = xlsx.row(xlsx.first_row+2)
+    tskcls = @taska.classrooms
+    ((xlsx.first_row+4)..(xlsx.last_row)).each do |n|
+      
+      xlsx.row(n)
+      row = Hash[[header, xlsx.row(n)].transpose]
+      if row["BLOCK/ROAD"].present? && row["UNIT NO"].present?
+
+        #owner details
+        own_dtl=row["OWNER DETAILS"].split(";")
+        own_name = own_dtl[0]
+        own_dob = own_dtl[1].to_date
+        own_ph = own_dtl[2]
+        own_email = own_dtl[3]
+
+        #tenant details
+        tn_dtl=row["TENANT DETAILS"].split(";")
+        tn_name = tn_dtl[0]
+        tn_dob = tn_dtl[1].to_date
+        tn_ph = tn_dtl[2]
+        tn_email = tn_dtl[3]
+
+
+        #check existing
+        if (cls=tskcls.where(classroom_name: row["BLOCK/ROAD"],description: row["UNIT NO"])).present?
+          clsr = cls.update(topay: row["BILL TO"],
+                            taska_id: @taska.id,
+                            own_name: own_name,
+                            own_dob: own_dob,
+                            own_ph: own_ph,
+                            own_email: own_email,
+                            tn_name: tn_name,
+                            tn_dob: tn_dob,
+                            tn_ph: tn_ph,
+                            tn_email: tn_email)
+        else
+          clsr = Classroom.create(classroom_name: row["BLOCK/ROAD"],
+                                  description: row["UNIT NO"],
+                                  topay: row["BILL TO"],
+                                  taska_id: @taska.id,
+                                  own_name: own_name,
+                                  own_dob: own_dob,
+                                  own_ph: own_ph,
+                                  own_email: own_email,
+                                  tn_name: tn_name,
+                                  tn_dob: tn_dob,
+                                  tn_ph: tn_ph,
+                                  tn_email: tn_email)
+        end
+
+        #create vehicle
+        
+
+      end
+
+    end
+    flash[:success] = "FILE UPLOADED"
+    redirect_to taskashow_path(@taska)
+  end
+
   def upd_bilitm
     pars = params[:cls]
     @taska = Taska.find(pars[:id])
