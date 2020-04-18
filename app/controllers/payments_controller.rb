@@ -5,6 +5,57 @@ class PaymentsController < ApplicationController
   #ENV['BILLPLZ_APIKEY'] = "6d78d9dd-81ac-4932-981b-75e9004a4f11"
   before_action :set_all
 
+  def man_pmt
+    @taska = Taska.find(params[:tsk])
+    @admin = current_admin
+    @payment = Payment.find(params[:pmt])
+    @kb = @payment.kid_bill
+    render action: "man_pmt", layout: "admin_db/admin_db-fee" 
+  end
+
+  def upd_pmt
+    pars = params[:bill]
+    @taska = Taska.find(pars[:tsk])
+    @payment = Payment.find(pars[:pmt])
+
+    @payment.mtd = pars[:mtd]
+    @payment.pdt = pars[:pdt]
+    @payment.adm = pars[:adm]
+    @payment.paid = true
+    if @payment.save
+      flash[:success] = "Bill Update Successful"
+    else
+      flash[:success] = "Bill Update Failed"
+    end
+
+    redirect_to tsk_fee_path(id: @taska.id,
+                            sch_str: @payment.bill_id, 
+                            sch_fld: "Bill ID",
+                            sch: true)
+  end
+
+  def rev_pmt
+    @taska = Taska.find(params[:tsk])
+    @payment = Payment.find(params[:pmt])
+
+    @payment.mtd = nil
+    @payment.pdt = nil
+    @payment.adm = nil
+    @payment.paid = false
+    if @payment.save
+      flash[:success] = "Bill Revert Successful"
+    else
+      flash[:success] = "Bill Revert Failed"
+    end
+    redirect_to tsk_fee_path(id: @taska.id,
+                            sch_str: @payment.bill_id, 
+                            sch_fld: "Bill ID",
+                            sch: true)
+  end
+
+  def del_pmt
+  end
+
   def updall_pmt
     @taska = Taska.find(params[:id])
     @payments = @taska.payments.where(name: "RSD M BILL",paid: false)
@@ -249,7 +300,7 @@ class PaymentsController < ApplicationController
   def view_bill
     @payment = Payment.find(params[:id])
     @kb = @payment.kid_bill
-    @taska = Taska.first
+    @taska = @payment.taska
   end
 
   def list_bill

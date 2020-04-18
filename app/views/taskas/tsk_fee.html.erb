@@ -124,8 +124,14 @@
                     <p style="font-size:15px;line-height: 0.1;">
                       <i><%= un.mtd %></i>
                     </p>
+                    <% if !un.mtd.include? "BILLPLZ" %>
+                      <p style="font-size:15px;line-height: 0.1;">
+                        Updated by <b><%= Admin.find(un.adm).username %></b> on <b><%= un.updated_at.strftime('%d-%m-%y') %></b>
+                      </p>
+                      <%= link_to "Revert", rev_pmt_path(tsk: @taska.id,pmt: un.id), class: "btn btn-sm btn-info"%>
+                    <% end %>
                   <% else %>
-                    <br><%= link_to "Update", root_path, class: "btn btn-sm btn-primary"%>
+                    <br><%= link_to "Update", man_pmt_path(tsk: @taska.id,pmt: un.id), class: "btn btn-sm btn-primary"%>
                   <% end %>
                 </td>
                 <td>

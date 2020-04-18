@@ -19,135 +19,14 @@
   <% end %>
 </div>
 
-<div class="bg-white">
-  <div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-11">
-      <div class="grid simple">
-        <div class="grid-body no-border invoice-body"><br> 
+<%= render 'payments/bill' %>
 
-          <div class="col-md-12"> 
-            <% image = Taska.first.fotos.where(foto_name: "CENTER LOGO").first %>
-            <% if image.picture.present? %>
-              <a href="#">
-                <% if @pdf %>
-                  <%= wicked_pdf_image_tag(image.picture.url, size: "100x100") %>
-                <% else %>
-                  <%= image_tag(image.picture.url, size: "100x100") %>
-                <% end %>
-              </a>
-            <% end %>
-            <address>
-              <strong><%= @taska.name.upcase %></strong><br>
-              <%= @taska.address_1.upcase %>
-              <%= @taska.address_2.upcase %><br>
-              <%= @taska.city.upcase %>&nbsp
-              <%= @taska.states.upcase %>&nbsp
-              <%= @taska.postcode %><br>
-              <%= @taska.phone_1 %>-<%= @taska.phone_2 %><br>
-              <%= @taska.email %>
-            </address>
-          </div><br>
+<% if 1==1 %>
+  <%= link_to view_bill_path(format: :pdf), class: 'btn btn-sm btn-success active' do %>
+    <i class="fa fa-download"></i>&nbspDOWNLOAD
+  <% end %>
+<% end %>
 
-          <div class="col-md-12">
-            <% if 1==1 %>
-              <h4>RECEIPT FOR 
-            <% else %>
-              <h4>INVOICE FOR 
-            <% end %>
-            <strong><%= @kb.clsname %></strong></h4>
-          </div>
-
-          <div class="clearfix"></div><br>
-            <div class="col-md-12">
-              <h4 class="semi-bold">
-                <%= @kb.extra[0] %></h4>
-              <address>
-                <%= @kb.extra[1] %><br>
-                <%= @kb.extra[2] %><br>
-              </address>
-            </div>
-
-            <div class="col-md-12"><br>
-              <div>
-                <div class="pull-left"> BILL ID : <%= @payment.bill_id %></div>
-                <div class="clearfix"></div>
-              </div>
-              <div>
-                <div class="pull-left"> BILL DATE : <%= @payment.created_at.strftime("%b %d, %Y") %></div>
-                <div class="clearfix"></div>
-              </div>
-              <div>
-                <% if @payment.paid %>
-                <div class="pull-left"> PAYMENT DATE : <%= @payment.updated_at.strftime("%b %d, %Y") %></div><br>
-                <div class="pull-left"> PAYMENT METHOD : 
-                  <% if 1==1 %>
-                    <%= "[Billplz/Online Transfer/Cash]" %>
-                  <% else %>
-                    NORMAL BILLPLZ
-                  <% end %>
-                </div><br>
-                <% if (image = @payment.fotos.first).present? && image.picture.present? %>
-                  <div class="pull-left">
-                    <a href="<%= image.picture.url %>" target="_blank">
-                      <font color="blue">RECEIPT</font>
-                    </a>
-                  </div>
-                <% end %>
-                <% end %>
-                <div class="clearfix"></div>
-              </div><br>
-            </div>
-
-            <%if 1==1 %>
-              <% table_style = "table-responsive"%>
-            <% end %>
-            <table class="table <%= table_style %>">
-              <thead>
-                <tr>
-                  <th class="text-left">BILL DETAILS FOR  <%= "#{$month_name[@payment.bill_month]}-#{@payment.bill_year}" %> </th>
-                  <th></th>
-                  <th style="width:140px" class="text-right">AMOUNT (RM)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @kb.extradtl.each do |k,v| %>
-                  <tr class="noBorder">
-                    <td><%= k %></td>
-                    <td></td>
-                    <td class="text-right"><%= v.round(2) %></td>
-                  </tr>
-                <% end %>
-                
-                <tr>
-                  <td class="text-right no-border" colspan="2">
-                    <div class="well well-small green"><strong><h4>TOTAL</h4></strong></div>
-                  </td>
-                  <td class="text-right">
-                    <strong>
-                      <h4>
-                        <% if 1==1 %>
-                          <b><%= @payment.amount %></b>
-                        <% else %>
-                          <%= "(@payment.amount - parpm).round(2)" %>
-                        <% end %>
-                          
-                      </h4>
-                    </strong></td>
-                </tr>
-              </tbody>
-            </table><br><br><br><br>
-
-        </div>
-        <% if 1==1 %>
-          <%= link_to view_bill_path(format: :pdf), class: 'btn btn-sm btn-success active' do %>
-            <i class="fa fa-download"></i>&nbspDOWNLOAD
-          <% end %>
-        <% end %>
-      </div>
-    </div>
-  </div>
-</div></div>
 
 
 
