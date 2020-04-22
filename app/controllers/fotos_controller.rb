@@ -19,7 +19,8 @@ class FotosController < ApplicationController
       elsif @admin
         if @foto.taska.present?
         	@taska = @foto.taska
-        	redirect_to edit_taska_path(@taska)
+          flash[:success] = "Photo updated"
+        	redirect_to taskaedit_path(@taska, plan: @taska.plan)
         elsif @foto.expense.present?
           @expense = @foto.expense
           redirect_to edit_expense_path(@expense)

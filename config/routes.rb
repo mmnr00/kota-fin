@@ -199,7 +199,7 @@ Rails.application.routes.draw do
 
   #~TASKAS
   get '/community/new', to: 'taskas#new', as: 'taskanew'
-  get '/community/edit/:id', to: 'taskas#edit'
+  get '/community/edit/:id', to: 'taskas#edit', as: 'taskaedit'
   get '/community/:id', to: 'taskas#show', as: 'taskashow'
   get '/community_ajk/:id', to: 'taskas#tsk_ajk', as: 'tsk_ajk'
   get '/community_fee/:id', to: 'taskas#tsk_fee', as: 'tsk_fee'
