@@ -200,7 +200,7 @@ class PaymentsController < ApplicationController
         bill.save
       end
       flash[:success] = "Payment Successful"
-      redirect_to list_bill_path(cls: @cls.id)
+      redirect_to list_bill_path(cls: @cls.id, redr: 930289328)
     else
       @bill = Payment.where(bill_id: "#{params[:billplz][:id]}").first
       if @bill.present?
@@ -304,7 +304,31 @@ class PaymentsController < ApplicationController
   end
 
   def list_bill
+    if params[:redr].present?
+      @shw = true
+    else
+      @shw = false
+    end
+
     @comm = Classroom.find(params[:cls])
+    if @comm.topay == "OWNER"
+      @nm = @comm.own_name
+    else
+      @nm = @comm.tn_name
+    end
+
+    if params[:sub].present? && !@shw
+      own_vr = (@comm.own_email == params[:em].upcase) && (@comm.own_ph == params[:ph]) && (@comm.own_dob == params[:dob].to_date)
+      tn_vr = (@comm.tn_email == params[:em].upcase) && (@comm.tn_ph == params[:ph]) && (@comm.tn_dob == params[:dob].to_date)
+      if own_vr || tn_vr
+        #flash[:success] = "Details Verified"
+        @shw = true
+      else
+        flash[:danger] = "Details do not matched. Please try again"
+        redirect_to list_bill_path(cls: @comm.id)      
+      end
+    end
+
     @payments = @comm.payments.order('created_at DESC')
   end
 

@@ -1,51 +1,139 @@
 
-<div class="card shadow mb-4">
-  <div class="card-header">
-    Bill List For <b><%= "#{@comm.description} #{@comm.classroom_name}" %></b>
-  </div>
-  <div class="card-body">
-    <div class="table-responsive border">
-      <%= form_for(:pmt, :url => {:controller=>'payments', :action=>'mtl_pmt'}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
-        <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
-          <thead>
-            <tr class="shadow">
-              <th style="background-color:#ccccff">
-                <%= f.submit :"ACTION", style: "align:center" %>
-              </th>
-              <th style="background-color:#ccccff">AMOUNT (RM)</th>
-              <th style="background-color:#ccccff">STATUS</th>
-              
-            </tr>
-          </thead>
-          <tbody>
-            <% @payments.each do |pyn| 
-              if pyn.paid 
-                msg = "Paid"
-                clr = "#99cc99"
-              else
-                msg = "Unpaid"
-                clr = "#ff9999"
-              end
-            %>
-              <tr>
-                <td>
-                  <% if pyn.paid %> 
-                    <%= link_to "Receipt", view_bill_path(id: pyn.id), class: "btn btn-sm btn-primary", target: "_blank" %>
+<% if @shw %>
+  <div class="card shadow mb-4">
+    <div class="card-header">
+      Bill List For <b><%= "#{@comm.description} #{@comm.classroom_name}" %></b>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive border">
+        <%= form_for(:pmt, :url => {:controller=>'payments', :action=>'mtl_pmt'}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
+          <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr class="shadow">
+                <th style="background-color:#ccccff">
+                  <% if @payments.where(paid: false).present? %>
+                    <%= f.submit :"ACTION", style: "align:center" %>
                   <% else %>
-                    <%= f.check_box :"#{pyn.id}", checked: false %> Pay
+                    RECORDS
                   <% end %>
-                </td>
-                <td><%= pyn.amount.round(2) %></td>
-                <td style="background-color:<%= clr %>">
-                  <a href="<%= view_bill_url(id: pyn.id)%>" target="_blank"><b><%= msg %></b></a>
-                </td>
+                </th>
+                <th style="background-color:#ccccff">AMOUNT (RM)</th>
+                <th style="background-color:#ccccff">STATUS</th>
                 
               </tr>
-            <% end %> <!-- END LOOP -->
-          </tbody>
+            </thead>
+            <tbody>
+              <% @payments.each do |pyn| 
+                if pyn.paid 
+                  msg = "Paid"
+                  clr = "#99cc99"
+                else
+                  msg = "Due"
+                  clr = "#ff9999"
+                end
+              %>
+                <tr>
+                  <td>
+                    <% if pyn.paid %> 
+                      <%= link_to "Receipt", view_bill_path(id: pyn.id), class: "btn btn-sm btn-primary", target: "_blank" %>
+                    <% else %>
+                      <%= f.check_box :"#{pyn.id}", checked: false %> <b>PAY</b>
+                    <% end %><br>
+                    
+                    <h1 style="font-size:9px; line-height:1"></h1>
+                    <h1 style="font-size:9px"><b>Period: </b><%= "#{pyn.bill_month}-#{pyn.bill_year}" %></h1>
+                    <h1 style="font-size:9px"><b>Date: </b><%= pyn.created_at.strftime('%d/%m/%y')%></h1>
+                    <h1 style="font-size:9px"><b>ID: </b><%= pyn.bill_id %></h1>
+                  </td>
+                  <td><%= pyn.amount.round(2) %></td>
+                  <td style="background-color:<%= clr %>">
+                    <a href="<%= view_bill_url(id: pyn.id)%>" target="_blank"><b><%= msg %></b></a>
+                  </td>
+                  
+                </tr>
+              <% end %> <!-- END LOOP -->
+            </tbody>
 
-        </table>
-      <% end %>
+          </table>
+        <% end %>
+      </div>
     </div>
   </div>
-</div>
+<% else %>
+  
+
+  <!-- Approach -->
+  <div class="card shadow mb-12">
+    <div class="card-header py-3">
+      <h6 class="m-0 font-weight-bold text-primary">Please Verify</h6>
+    </div>
+    <div class="card-body">
+
+      <div class="col-lg-12 mb-4">
+        <div class="card bg-info text-white shadow">
+          <div class="card-body">
+            <%= "#{@comm.description} #{@comm.classroom_name}"%>
+            <div class="text-white-50 small">
+              <%= @comm.own_name %><br>
+              <%= @comm.tn_name %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- START FORM -->
+      <%= form_tag list_bill_path, method: :get do %>
+
+        <div class="row container">
+        
+          <div class="col-lg-3 col-sm-3"><b>Date Of Birth</b></div>
+          <div class="col-lg-3 col-sm-6">
+            <%= date_field_tag :dob, params[:dob], 
+                    placeholder: "", 
+                    autofocus: true,
+                    required: true,
+                    class: "form-control", 
+                    style: "text-transform:uppercase" %>
+          </div>
+        </div><br>
+
+        <div class="row container">
+        
+          <div class="col-lg-3 col-sm-3"><b>Email</b></div>
+          <div class="col-lg-3 col-sm-6">
+            <%= email_field_tag :em, params[:em], 
+                    placeholder: "", 
+                    autofocus: true,
+                    required: true,
+                    class: "form-control", 
+                    style: "text-transform:uppercase" %>
+          </div>
+        </div><br>
+
+        <div class="row container">
+        
+          <div class="col-lg-3 col-sm-3"><b>Phone No</b></div>
+          <div class="col-lg-3 col-sm-6">
+            <%= text_field_tag :ph, params[:ph], 
+                    placeholder: "", 
+                    autofocus: true,
+                    required: true,
+                    class: "form-control", 
+                    style: "text-transform:uppercase" %>
+          </div>
+        </div><br>
+
+        
+
+        <%= hidden_field_tag :cls, params[:cls], value: params[:cls] %>
+        <%= hidden_field_tag :sub, params[:sub], value: 1 %>
+        <%= button_tag(type: :submit, class: "btn btn-sm btn-block btn-warning", id: "submit_expense") do %>
+          <i class="fa fa-check"></i> Submit
+        <% end %>
+
+      <% end %>
+
+    </div>
+  </div>
+
+<% end %>
