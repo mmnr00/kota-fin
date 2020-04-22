@@ -1,7 +1,7 @@
 class TaskasController < ApplicationController
   
   require 'json'
-  before_action :set_taska, except: [:upd_ajk,:upd_bilitm]
+  before_action :set_taska, except: [:upd_ajk,:upd_bilitm,:new,:create]
   before_action :set_all
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
@@ -32,33 +32,59 @@ class TaskasController < ApplicationController
 
 
         #check existing
-        if (cls=tskcls.where(classroom_name: row["BLOCK/ROAD"],description: row["UNIT NO"])).present?
-          clsr = cls.update(topay: row["BILL TO"],
+        if (cls=tskcls.where(classroom_name: row["BLOCK/ROAD"].upcase,description: row["UNIT NO"].upcase)).present?
+          clsr = cls.first
+          clsr.update(topay: row["BILL TO"],
                             taska_id: @taska.id,
-                            own_name: own_name,
+                            own_name: own_name.upcase,
                             own_dob: own_dob,
                             own_ph: own_ph,
-                            own_email: own_email,
-                            tn_name: tn_name,
+                            own_email: own_email.upcase,
+                            tn_name: tn_name.upcase,
                             tn_dob: tn_dob,
                             tn_ph: tn_ph,
-                            tn_email: tn_email)
+                            tn_email: tn_email.upcase)
+          
+
         else
-          clsr = Classroom.create(classroom_name: row["BLOCK/ROAD"],
-                                  description: row["UNIT NO"],
+          clsr = Classroom.new(classroom_name: row["BLOCK/ROAD"].upcase,
+                                  description: row["UNIT NO"].upcase,
                                   topay: row["BILL TO"],
                                   taska_id: @taska.id,
-                                  own_name: own_name,
+                                  own_name: own_name.upcase,
                                   own_dob: own_dob,
                                   own_ph: own_ph,
-                                  own_email: own_email,
-                                  tn_name: tn_name,
+                                  own_email: own_email.upcase,
+                                  tn_name: tn_name.upcase,
                                   tn_dob: tn_dob,
                                   tn_ph: tn_ph,
-                                  tn_email: tn_email)
+                                  tn_email: tn_email.upcase)
+          clsr.save
         end
 
         #create vehicle
+        if row["VEHICLES LIST"].present?
+          vhcl=row["VEHICLES LIST"].split(";")
+          vhcl.each do |iv|
+            ivn = iv.split(",")
+            cls_vhcl = clsr.vhcls.where(plt: ivn[0]).first
+            if cls_vhcl.present?
+              cls_vhcl.update(plt: ivn[0],
+                        brnd: ivn[1],
+                        typ: ivn[2],
+                        classroom_id: clsr.id)
+            else
+              Vhcl.create(plt: ivn[0],
+                        brnd: ivn[1],
+                        typ: ivn[2],
+                        classroom_id: clsr.id)
+            end
+
+          end
+        end
+
+        #puts "#{vhcl}"
+        #puts vhcl.class
         
 
       end
@@ -1920,18 +1946,18 @@ class TaskasController < ApplicationController
     @taska.plan = "PAY PER USE"
     if @taska.save
       taska_admin1 = TaskaAdmin.create(taska_id: @taska.id, admin_id: current_admin.id)
-      annlv = Tsklv.create(taska_id: @taska.id, 
-                          name: "ANNUAL LEAVE",
-                          desc: "PLEASE INSERT YOUR DESCRIPTION AND THE DEFAULT DAYS",
-                          day: 15)
-      annlv = Tsklv.create(taska_id: @taska.id, 
-                          name: "UNPAID LEAVE",
-                          desc: "PLEASE INSERT YOUR DESCRIPTION AND THE DEFAULT DAYS",
-                          day: 15)
+      # annlv = Tsklv.create(taska_id: @taska.id, 
+      #                     name: "ANNUAL LEAVE",
+      #                     desc: "PLEASE INSERT YOUR DESCRIPTION AND THE DEFAULT DAYS",
+      #                     day: 15)
+      # annlv = Tsklv.create(taska_id: @taska.id, 
+      #                     name: "UNPAID LEAVE",
+      #                     desc: "PLEASE INSERT YOUR DESCRIPTION AND THE DEFAULT DAYS",
+      #                     day: 15)
       if current_admin != Admin.first
         taska_admin2 = TaskaAdmin.create(taska_id: @taska.id, admin_id: Admin.first.id)
       end
-      flash[:notice] = "Taska was successfully created"
+      flash[:notice] = "Community was successfully created"
       #redirect_to create_bill_taska_path(id: @taska)
       redirect_to admin_index_path
     else

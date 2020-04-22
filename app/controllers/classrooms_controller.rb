@@ -23,17 +23,25 @@ class ClassroomsController < ApplicationController
 	end
 
 	def add_vehicle
-		@vhcl = Vhcl.new
+		
 		pars = params[:vhc]
-		@vhcl.plt = pars[:plt].upcase
-		@vhcl.brnd = pars[:brnd].upcase
-		@vhcl.typ = pars[:typ].upcase
-		@vhcl.classroom_id = pars[:id]
-		if @vhcl.save
-			flash[:success] = "Vehicle Successfully Created"
+		clsr = Classroom.find(pars[:id])
+
+		if clsr.vhcls.where(plt: pars[:plt].upcase).present?
+			flash[:danger] = "Vehicle Already in Record"
 		else
-			flash[:danger] = "Vehicle Creation Failed"
+			@vhcl = Vhcl.new
+			@vhcl.plt = pars[:plt].upcase
+			@vhcl.brnd = pars[:brnd].upcase
+			@vhcl.typ = pars[:typ].upcase
+			@vhcl.classroom_id = pars[:id]
+			if @vhcl.save
+				flash[:success] = "Vehicle Successfully Created"
+			else
+				flash[:danger] = "Vehicle Creation Failed"
+			end
 		end
+
 		redirect_to edit_vehicle_path(id: pars[:id])
 	end
 

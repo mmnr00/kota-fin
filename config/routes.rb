@@ -198,6 +198,7 @@ Rails.application.routes.draw do
   get '/parent/:id/all_bills', to: 'parents#all_bills', as: 'all_bills'
 
   #~TASKAS
+  get '/community/new', to: 'taskas#new', as: 'taskanew'
   get '/community/edit/:id', to: 'taskas#edit'
   get '/community/:id', to: 'taskas#show', as: 'taskashow'
   get '/community_ajk/:id', to: 'taskas#tsk_ajk', as: 'tsk_ajk'
