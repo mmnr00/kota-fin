@@ -72,13 +72,14 @@ class ClassroomsController < ApplicationController
       	@extra = Extra.find(v[:ext_o])
       	@extra.classroom_id = @clas.id
       	@extra.tp = "o"
+      	@extra.save
       elsif v[:ext_t].present?
       	@clas.ext_t = v[:ext_t]
       	@extra = Extra.find(v[:ext_t])
       	@extra.classroom_id = @clas.id
       	@extra.tp = "t"
-      end
-      @extra.save
+      	@extra.save
+      end     
 			@clas.save
 		end 
 		flash[:success] = "Data updated"

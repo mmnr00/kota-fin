@@ -7,7 +7,7 @@ class PaymentsController < ApplicationController
 
   def crt_prev
     @taska = Taska.find(params[:tsk])
-    classrooms = @taska.classrooms.where(id: [6,9])
+    classrooms = @taska.classrooms
     # get months and year
     all_month = []
     dt = Date.today + 1.months
