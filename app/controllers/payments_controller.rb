@@ -300,7 +300,7 @@ class PaymentsController < ApplicationController
       if @taska.cltarr[bill_cnt].blank?
         url = "#{ENV['BILLPLZ_API']}collections"
         data_billplz = HTTParty.post(url.to_str,
-                :body  => { :title => "#{bill_cnt}_#{@taska.emblz}",
+                :body  => { :title => "#{bill_cnt}_#{@taska.name}",
                             :split_payment => {:email=>@taska.emblz,:fixed_cut=>(bill_cnt*150),:split_header=>true},
                           }.to_json, 
                             #:callback_url=>  "YOUR RETURN URL"}.to_json,

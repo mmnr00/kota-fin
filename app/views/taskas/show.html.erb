@@ -94,11 +94,12 @@
                     <%= link_to classroom_path(un), method: :delete, class: "text-danger align-left", :data => {:confirm => 'Are you sure?'} do %>
                       <i class="fas fa-trash"></i>
                     <% end %>  
-
-                    <!-- CREATE BILL TEMP -->
-                    <%= link_to "BILL", crt_pmt_path(tsk: @taska.id, cls:un.id), class: "btn btn-sm btn-primary" %>  
-                    <!-- VIEW BILL TEMP -->
-                    <%= link_to "VIEW BILL", list_bill_path(cls:un.id), class: "btn btn-sm btn-primary" %>  
+                    <% if @admin == Admin.first %>
+                      <!-- CREATE BILL TEMP -->
+                      <%= link_to "BILL", crt_pmt_path(tsk: @taska.id, cls:un.id), class: "btn btn-sm btn-primary" %>  
+                      <!-- VIEW BILL TEMP -->
+                      <%= link_to "VIEW BILL", list_bill_path(cls:un.id), class: "btn btn-sm btn-primary" %>  
+                    <% end %>
                   </td>
                   <td>
 
