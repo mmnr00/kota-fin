@@ -47,7 +47,7 @@ class PaymentsController < ApplicationController
       all_month.each do |m|
         # check no payment yet then only create payment 
 
-        if pmt.where(bill_month: m[0], bill_year: m[1]).blank?
+        if pmt.where(bill_month: m[0], bill_year: m[1]).blank? && (tot > 0)
           no_bill = no_bill + 1
           #CREATE BILLPLZ BILL
           url_bill = "#{ENV['BILLPLZ_API']}bills"
@@ -154,7 +154,11 @@ class PaymentsController < ApplicationController
       end # end single email
     end # end classroom
 
-    flash[:success] = "Complete bill for #{@taska.booking.to_i} months"
+    if tot > 0
+      flash[:success] = "Complete bill for #{@taska.booking.to_i} months"
+    else
+      flash[:success] = "Please update Bill Item in Fee Section"
+    end
     redirect_to taskashow_path(@taska)
   end
 
