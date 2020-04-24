@@ -16,19 +16,32 @@ class TaskasController < ApplicationController
       row = Hash[[header, xlsx.row(n)].transpose]
       if row["BLOCK/ROAD"].present? && row["UNIT NO"].present?
 
+        own_name = ""
+        own_dob = ""
+        own_ph = ""
+        own_email = ""
+        tn_name = ""
+        tn_dob = ""
+        tn_ph = ""
+        tn_email = ""
+
         #owner details
-        own_dtl=row["OWNER DETAILS"].split(";")
-        own_name = own_dtl[0]
-        own_dob = own_dtl[1].to_date
-        own_ph = own_dtl[2]
-        own_email = own_dtl[3]
+        if row["OWNER DETAILS"].present?
+          own_dtl=row["OWNER DETAILS"].split(";")
+          own_name = own_dtl[0]
+          own_dob = own_dtl[1].to_date
+          own_ph = own_dtl[2]
+          own_email = own_dtl[3]
+        end
 
         #tenant details
-        tn_dtl=row["TENANT DETAILS"].split(";")
-        tn_name = tn_dtl[0]
-        tn_dob = tn_dtl[1].to_date
-        tn_ph = tn_dtl[2]
-        tn_email = tn_dtl[3]
+        if row["TENANT DETAILS"].present?
+          tn_dtl=row["TENANT DETAILS"].split(";")
+          tn_name = tn_dtl[0]
+          tn_dob = tn_dtl[1].to_date
+          tn_ph = tn_dtl[2]
+          tn_email = tn_dtl[3]
+        end
 
 
         #check existing
