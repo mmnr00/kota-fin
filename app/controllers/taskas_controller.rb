@@ -27,7 +27,7 @@ class TaskasController < ApplicationController
 
         #owner details
         if row["OWNER DETAILS"].present?
-          own_dtl=row["OWNER DETAILS"].split(";")
+          own_dtl=row["OWNER DETAILS"].gsub("\n","").split(";")
           own_name = own_dtl[0]
           own_dob = own_dtl[1].to_date
           own_ph = own_dtl[2]
@@ -36,7 +36,7 @@ class TaskasController < ApplicationController
 
         #tenant details
         if row["TENANT DETAILS"].present?
-          tn_dtl=row["TENANT DETAILS"].split(";")
+          tn_dtl=row["TENANT DETAILS"].gsub("\n","").split(";")
           tn_name = tn_dtl[0]
           tn_dob = tn_dtl[1].to_date
           tn_ph = tn_dtl[2]
@@ -77,8 +77,9 @@ class TaskasController < ApplicationController
 
         #create vehicle
         if row["VEHICLES LIST"].present?
-          vhcl=row["VEHICLES LIST"].split(";")
+          vhcl=row["VEHICLES LIST"].gsub("\n","").split(";")
           vhcl.each do |iv|
+            puts iv
             ivn = iv.split(",")
             cls_vhcl = clsr.vhcls.where(plt: ivn[0]).first
             if cls_vhcl.present?
