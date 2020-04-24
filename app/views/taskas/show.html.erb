@@ -20,11 +20,15 @@
     <br>
     <a href="<%= "#{add_unit_url}?community_id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Add New Unit</a>
     <% if @admin == Admin.first %><br><br>
+
       <%= form_tag upld_res_path, multipart: true do %>
         <%= file_field_tag :file %>
         <%= hidden_field_tag :id, @taska.id %>
         <%= submit_tag "Upload" %>
       <% end %>
+      <br>
+      <%= link_to "Create 3 bills", crt_prev_path(tsk: @taska.id), class:"btn btn-sm btn-danger" %> 
+      <%= link_to "Create Curr", crt_prev_path(tsk: @taska.id, curr: 1), class:"btn btn-sm btn-warning" %>
     <% end %>
   </div>
 

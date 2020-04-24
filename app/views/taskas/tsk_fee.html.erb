@@ -88,14 +88,15 @@
               <th style="background-color:#ccccff">ADDRESS</th>
               <th style="background-color:#ccccff">BILL TO</th>
               <th style="background-color:#ccccff">BILL ID</th>
-              <th style="background-color:#ccccff">AMOUNT (RM)</th>
-              <th style="background-color:#ccccff">STATUS</th>
-              <th style="background-color:#ccccff">RECEIVED (RM)</th>
+              <th style="background-color:#ccccff">AMOUNT(RM)</th>
+              <th style="background-color:#ccccff">STATUS</th>  
+              <th style="background-color:#ccccff">RECEIVED(RM)</th>
+              <th style="background-color:#ccccff">METHOD</th>
             </tr>
           </thead>
           <tbody>
             <% 
-              @payments.order('created_at DESC').each do |un| 
+              @payments.order('bill_year DESC').order('bill_month DESC').order('created_at DESC').each do |un| 
               kb = un.kid_bill
               if un.paid 
                 msg = "PAID"
@@ -106,43 +107,45 @@
               end
               %>
               <tr>
-                <td><%= "#{un.bill_month}-#{un.bill_year}" %></td>
-                <td><%= kb.clsname %></td>
+                <td><span class="badge"><%= "#{un.bill_month}-#{un.bill_year}" %></span></td>
+                <td><span class="badge"><%= kb.clsname %></span></td>
                 <td>
-                  <%= kb.extra[0] %><br>
-                  <%= kb.extra[1] %><br>
-                  <%= kb.extra[2] %>
+                  <span class="badge"><%= kb.extra[0] %></span><br>
+                  <span class="badge"><%= kb.extra[1] %></span><br>
+                  <span class="badge"><%= kb.extra[2] %></span>
                 </td>
                 <td><a href="<%= "#{view_bill_url}?id=#{un.id}" %>" target="blank"><u><%= un.bill_id %></u></a></td>
-                <td><%= un.amount %></td>
+                <td><span class="badge"><%= un.amount %></span></td>
                 <td style="background-color:<%= clr %>">
                   <b><%= msg %></b>
                   <% if un.paid %>
-                    <br><br><p style="font-size:15px;line-height: 0.2;">
-                      <i><%= un.pdt.strftime('%d-%m-%y')%></i>
-                    </p>
-                    <p style="font-size:15px;line-height: 0.1;">
-                      <i><%= un.mtd %></i>
-                    </p>
-                    <% if !un.mtd.include? "BILLPLZ" %>
-                      <p style="font-size:15px;line-height: 0.1;">
-                        Updated by <b><%= Admin.find(un.adm).username %></b> on <b><%= un.updated_at.strftime('%d-%m-%y') %></b>
-                      </p>
-                      <%= link_to "Revert", rev_pmt_path(tsk: @taska.id,pmt: un.id), class: "btn btn-sm btn-info"%>
-                    <% end %>
+                    <br><br>
+                    <!-- <i><%= un.pdt.strftime('%d-%m-%y')%></i> -->
+                    
                   <% else %>
                     <br><%= link_to "Update", man_pmt_path(tsk: @taska.id,pmt: un.id), class: "btn btn-sm btn-primary"%>
                   <% end %>
                 </td>
                 <td>
                   <% if un.paid %>
-                    <% if un.mtd.include? "BILLPLZ" %>
-                      <%= un.amount - 1.5 %>
-                    <% else %>
-                      <%= un.amount %>
-                    <% end %>
+                    <span class="badge">
+                      <% if un.mtd.include? "BILLPLZ" %>
+                        <%= un.amount - 1.5 %>
+                      <% else %>
+                        <%= un.amount %>
+                      <% end %>
+                    </span>
                   <% end %>
                 </td>
+                <td>
+                  <% if un.paid %>
+                      <span class="badge"><i><%= un.mtd %></i></span>
+                    <% if !un.mtd.include? "BILLPLZ" %>
+                        <span class="badge">Updated by <b><%= Admin.find(un.adm).username %></b> on <b><%= un.updated_at.strftime('%d-%m-%y') %></b></span><br>
+                      <%= link_to "Revert", rev_pmt_path(tsk: @taska.id,pmt: un.id), class: "btn btn-sm btn-info"%>
+                    <% end %>
+                  <% end %>
+                </td>  
               </tr>
             <% end %>
           </tbody>

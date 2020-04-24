@@ -5,6 +5,160 @@ class PaymentsController < ApplicationController
   #ENV['BILLPLZ_APIKEY'] = "6d78d9dd-81ac-4932-981b-75e9004a4f11"
   before_action :set_all
 
+  def crt_prev
+    @taska = Taska.find(params[:tsk])
+    classrooms = @taska.classrooms.where(id: [6,9])
+    # get months and year
+    all_month = []
+    dt = Date.today + 1.months
+    if params[:curr].present?
+      curr_mth = [dt.month, dt.year]
+      all_month << curr_mth
+    else
+      (1..@taska.booking.to_i).each do |p|
+        curr_dt = dt - p.months
+        curr_mth = []
+        curr_mth << curr_dt.month
+        curr_mth << curr_dt.year
+        all_month << curr_mth
+      end
+    end
+
+    #init for payment
+    tot = 0.00
+    @taska.bilitm.each do |k,v|
+      tot = tot + v
+    end
+    #create payment for each classrooms
+    classrooms.each do |cls|
+      pmt = cls.payments
+      no_bill = 0
+      #init payment details
+      if cls.topay == "OWNER"
+        ph = cls.own_ph
+        nm = cls.own_name
+        em = cls.own_email
+      elsif cls.topay == "TENANT"
+        ph = cls.tn_ph
+        nm = cls.tn_name
+        em = cls.tn_email
+      end
+
+      all_month.each do |m|
+        # check no payment yet then only create payment 
+
+        if pmt.where(bill_month: m[0], bill_year: m[1]).blank?
+          no_bill = no_bill + 1
+          #CREATE BILLPLZ BILL
+          url_bill = "#{ENV['BILLPLZ_API']}bills"
+          data_billplz = HTTParty.post(url_bill.to_str,
+                  :body  => { :collection_id => @taska.collection_id, 
+                              :email=> "bill@kota.my",
+                              :name=> "#{cls.description} #{cls.classroom_name}", 
+                              :amount=>  tot*100,
+                              :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                              :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                              :description=>"Bill for #{$month_name[m[0]]}-#{m[1]}"}.to_json, 
+                              #:callback_url=>  "YOUR RETURN URL"}.to_json,
+                  :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+                  :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+          #render json: data_billplz and return
+          data = JSON.parse(data_billplz.to_s)
+          #CREATE PAYMENT
+          if data["id"].present?
+            @payment = Payment.new
+            @payment.amount = ((data["amount"].to_f)/100)
+            @payment.description = data["description"]
+            @payment.bill_month = m[0]
+            @payment.bill_year = m[1]
+            @payment.taska_id = @taska.id
+            @payment.classroom_id = cls.id
+            @payment.state = data["state"]
+            @payment.paid = data["paid"]
+            @payment.bill_id = data["id"]
+            @payment.reminder = false
+            @payment.name = "RSD M BILL"
+            @payment.cltid = data["collection_id"]
+            @payment.save
+
+            #Create KidBill
+            KidBill.create(payment_id: @payment.id,
+                          extra: [nm,ph,em], 
+                          extradtl: @taska.bilitm,
+                          clsname: "#{cls.description} #{cls.classroom_name}"
+                          )
+
+            
+
+
+          end # end Data ID
+
+        end #End pmt not exist
+
+      end #end loop month
+
+      #send email and sms
+      if params[:curr].present? && (no_bill > 0)
+
+        #SEND EMAIL
+        mail = SendGrid::Mail.new
+        mail.from = SendGrid::Email.new(email: 'do-not-reply@kota.my', name: "#{@taska.name}")
+        mail.subject = "NEW BILL FOR #{cls.description} #{cls.classroom_name}"
+        #Personalisation, add cc
+        personalization = SendGrid::Personalization.new
+        personalization.add_to(SendGrid::Email.new(email: "#{em}"))
+        personalization.add_cc(SendGrid::Email.new(email: "#{@taska.email}"))
+        mail.add_personalization(personalization)
+        #add content
+        msg = "<html>
+                <body>
+                  Hi <strong>#{nm}</strong><br><br>
+
+
+                  Your new bill from <b>#{@taska.name}<b> is ready. <br><br>
+
+                  Please click <a href=#{list_bill_url(cls: cls.id)}>HERE</a> to view. <br><br>
+
+                  Many thanks for your continous support.<br><br>
+
+                  Powered by <strong>www.kota.my</strong>
+                </body>
+              </html>"
+        #sending email
+        mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
+        sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
+        @response = sg.client.mail._('send').post(request_body: mail.to_json)
+
+        #SEND SMS
+        url = "https://sms.360.my/gw/bulk360/v1.4?"
+        usr = "user=admin@kidcare.my&"
+        ps = "pass=#{ENV['SMS360']}&"
+        to = "to=6#{ph}&"
+        txt = "text=New Bill from #{@taska.name}.\n Click #{list_bill_url(cls: cls.id)} to view. \n Thank You from KoTa.my"
+        if Rails.env.production?
+          
+          fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
+          data_sms = HTTParty.get(
+            "#{url}#{usr}#{ps}#{to}#{txt}",
+            http_proxyaddr: fixie.host,
+            http_proxyport: fixie.port,
+            http_proxyuser: fixie.user,
+            http_proxypass: fixie.password
+          )
+        else 
+          data = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}")
+          #data = "#{url}#{usr}#{ps}#{to}#{txt}"
+        end
+
+
+      end # end single email
+
+    end # end classroom
+
+    flash[:success] = "Complete bill for #{@taska.booking.to_i} months"
+    redirect_to taskashow_path(@taska)
+  end
+
   def man_pmt
     @taska = Taska.find(params[:tsk])
     @admin = current_admin
@@ -64,7 +218,7 @@ class PaymentsController < ApplicationController
       nomore = false
       if pmt.bill_id2.present?
         bill_id = pmt.bill_id2
-        mtd = "Billplz via #{bill_id}"
+        mtd = "BILLPLZ via #{bill_id}"
         url_bill = "#{ENV['BILLPLZ_API']}bills/#{bill_id}"
         data_billplz = HTTParty.get(url_bill.to_str,
                 :body  => {}.to_json, 
@@ -196,7 +350,7 @@ class PaymentsController < ApplicationController
       @payments.each do |bill|
         bill.paid = params[:billplz][:paid]
         bill.pdt = params[:billplz][:paid_at]
-        bill.mtd = "Billplz via #{params[:billplz][:id]}"
+        bill.mtd = "BILLPLZ via #{params[:billplz][:id]}"
         bill.save
       end
       flash[:success] = "Payment Successful"

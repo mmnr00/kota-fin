@@ -55,6 +55,7 @@ task bill_mth: :environment do
 		        nm = cls.tn_name
 		        em = cls.tn_email
 		      end
+		      
 		      #send SMS
 		      url = "https://sms.360.my/gw/bulk360/v1.4?"
 		      usr = "user=admin@kidcare.my&"
