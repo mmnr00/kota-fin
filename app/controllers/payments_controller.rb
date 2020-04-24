@@ -62,8 +62,8 @@ class PaymentsController < ApplicationController
                               #:callback_url=>  "YOUR RETURN URL"}.to_json,
                   :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
                   :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
-          #render json: data_billplz and return
-          data = JSON.parse(data_billplz.to_s)
+          render json: data_billplz and return
+          #data = JSON.parse(data_billplz.to_s)
           #CREATE PAYMENT
           if data["id"].present?
             @payment = Payment.new
@@ -152,7 +152,6 @@ class PaymentsController < ApplicationController
 
 
       end # end single email
-
     end # end classroom
 
     flash[:success] = "Complete bill for #{@taska.booking.to_i} months"
