@@ -12,7 +12,7 @@
               <tr class="shadow">
                 <th style="background-color:#ccccff">
                   <% if @payments.where(paid: false).present? %>
-                    <%= f.submit :"ACTION", style: "align:center" %>
+                    <%= f.submit :"PAY", style: "align:center", class: "btn btn-sm btn-info" %>
                   <% else %>
                     RECORDS
                   <% end %>
@@ -37,7 +37,7 @@
                     <% if pyn.paid %> 
                       <%= link_to "Receipt", view_bill_path(id: pyn.id), class: "btn btn-sm btn-primary", target: "_blank" %>
                     <% else %>
-                      <%= f.check_box :"#{pyn.id}", checked: false %> <b>PAY</b>
+                      <%= f.check_box :"#{pyn.id}", checked: false %> <b>Choose</b>
                     <% end %><br>
                     
                     <h1 style="font-size:9px; line-height:1"></h1>
