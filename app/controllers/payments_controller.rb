@@ -100,55 +100,55 @@ class PaymentsController < ApplicationController
       #send email and sms
       if params[:curr].present? && (no_bill > 0)
 
-        # #SEND EMAIL
-        # mail = SendGrid::Mail.new
-        # mail.from = SendGrid::Email.new(email: 'do-not-reply@kota.my', name: "#{@taska.name}")
-        # mail.subject = "NEW BILL FOR #{cls.description} #{cls.classroom_name}"
-        # #Personalisation, add cc
-        # personalization = SendGrid::Personalization.new
-        # personalization.add_to(SendGrid::Email.new(email: "#{em}"))
-        # personalization.add_cc(SendGrid::Email.new(email: "#{@taska.email}"))
-        # mail.add_personalization(personalization)
-        # #add content
-        # msg = "<html>
-        #         <body>
-        #           Hi <strong>#{nm}</strong><br><br>
+        #SEND EMAIL
+        mail = SendGrid::Mail.new
+        mail.from = SendGrid::Email.new(email: 'do-not-reply@kota.my', name: "#{@taska.name}")
+        mail.subject = "NEW BILL FOR #{cls.description} #{cls.classroom_name}"
+        #Personalisation, add cc
+        personalization = SendGrid::Personalization.new
+        personalization.add_to(SendGrid::Email.new(email: "#{em}"))
+        personalization.add_cc(SendGrid::Email.new(email: "#{@taska.email}"))
+        mail.add_personalization(personalization)
+        #add content
+        msg = "<html>
+                <body>
+                  Hi <strong>#{nm}</strong><br><br>
 
 
-        #           Your new bill from <b>#{@taska.name}<b> is ready. <br><br>
+                  Your new bill from <b>#{@taska.name}<b> is ready. <br><br>
 
-        #           Please click <a href=#{list_bill_url(cls: cls.id)}>HERE</a> to view. <br><br>
+                  Please click <a href=#{list_bill_url(cls: cls.id)}>HERE</a> to view. <br><br>
 
-        #           Many thanks for your continous support.<br><br>
+                  Many thanks for your continous support.<br><br>
 
-        #           Powered by <strong>www.kota.my</strong>
-        #         </body>
-        #       </html>"
-        # #sending email
-        # mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
-        # sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
-        # @response = sg.client.mail._('send').post(request_body: mail.to_json)
+                  Powered by <strong>www.kota.my</strong>
+                </body>
+              </html>"
+        #sending email
+        mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
+        sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
+        #@response = sg.client.mail._('send').post(request_body: mail.to_json)
 
-        # #SEND SMS
-        # url = "https://sms.360.my/gw/bulk360/v1.4?"
-        # usr = "user=admin@kidcare.my&"
-        # ps = "pass=#{ENV['SMS360']}&"
-        # to = "to=6#{ph}&"
-        # txt = "text=New Bill from #{@taska.name}.\n Click #{list_bill_url(cls: cls.id)} to view. \n Thank You from KoTa.my"
-        # if Rails.env.production?
+        #SEND SMS
+        url = "https://sms.360.my/gw/bulk360/v1.4?"
+        usr = "user=admin@kidcare.my&"
+        ps = "pass=#{ENV['SMS360']}&"
+        to = "to=6#{ph}&"
+        txt = "text=New Bill from #{@taska.name}.\n Click #{list_bill_url(cls: cls.id)} to view. \n Thank You from KoTa.my"
+        if Rails.env.production?
           
-        #   fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
-        #   data_sms = HTTParty.get(
-        #     "#{url}#{usr}#{ps}#{to}#{txt}",
-        #     http_proxyaddr: fixie.host,
-        #     http_proxyport: fixie.port,
-        #     http_proxyuser: fixie.user,
-        #     http_proxypass: fixie.password
-        #   )
-        # else 
-        #   data = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}")
-        #   #data = "#{url}#{usr}#{ps}#{to}#{txt}"
-        # end
+          fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
+          # data_sms = HTTParty.get(
+          #   "#{url}#{usr}#{ps}#{to}#{txt}",
+          #   http_proxyaddr: fixie.host,
+          #   http_proxyport: fixie.port,
+          #   http_proxyuser: fixie.user,
+          #   http_proxypass: fixie.password
+          # )
+        else 
+          data = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}")
+          #data = "#{url}#{usr}#{ps}#{to}#{txt}"
+        end
 
 
       end # end single email
