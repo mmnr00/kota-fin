@@ -96,10 +96,11 @@
                     <% end %>  
                     <% if @admin == Admin.first %>
                       <!-- CREATE BILL TEMP -->
-                      <%= link_to "BILL", crt_pmt_path(tsk: @taska.id, cls:un.id), class: "btn btn-sm btn-primary" %>  
-                      <!-- VIEW BILL TEMP -->
-                      <%= link_to "VIEW BILL", list_bill_path(cls:un.id), class: "btn btn-sm btn-primary" %>  
-                    <% end %>
+                      <%= link_to "BILL", crt_pmt_path(tsk: @taska.id, cls:un.id), class: "btn btn-sm btn-primary" %> 
+                    <% end %> 
+                    <!-- VIEW BILL TEMP -->
+                    <%= link_to "VIEW BILL", list_bill_path(cls:un.id, redr:1), class: "btn btn-sm btn-primary" %>  
+                    
                   </td>
                   <td>
 
