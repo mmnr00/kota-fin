@@ -106,6 +106,7 @@ class PaymentsController < ApplicationController
         mail.subject = "NEW BILL FOR #{cls.description} #{cls.classroom_name}"
         #Personalisation, add cc
         personalization = SendGrid::Personalization.new
+        em = "billing123@kota.my" unless em.present?
         personalization.add_to(SendGrid::Email.new(email: "#{em}"))
         personalization.add_cc(SendGrid::Email.new(email: "#{@taska.email}"))
         mail.add_personalization(personalization)
@@ -127,7 +128,7 @@ class PaymentsController < ApplicationController
         #sending email
         mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
         sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
-        #@response = sg.client.mail._('send').post(request_body: mail.to_json)
+        @response = sg.client.mail._('send').post(request_body: mail.to_json)
 
         #SEND SMS
         url = "https://sms.360.my/gw/bulk360/v1.4?"
@@ -138,16 +139,15 @@ class PaymentsController < ApplicationController
         if Rails.env.production?
           
           fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
-          # data_sms = HTTParty.get(
-          #   "#{url}#{usr}#{ps}#{to}#{txt}",
-          #   http_proxyaddr: fixie.host,
-          #   http_proxyport: fixie.port,
-          #   http_proxyuser: fixie.user,
-          #   http_proxypass: fixie.password
-          # )
+          data_sms = HTTParty.get(
+            "#{url}#{usr}#{ps}#{to}#{txt}",
+            http_proxyaddr: fixie.host,
+            http_proxyport: fixie.port,
+            http_proxyuser: fixie.user,
+            http_proxypass: fixie.password
+          )
         else 
-          data = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}")
-          #data = "#{url}#{usr}#{ps}#{to}#{txt}"
+          #data = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}")
         end
 
 
@@ -464,7 +464,7 @@ class PaymentsController < ApplicationController
     if params[:redr].present?
       @shw = true
     else
-      @shw = false
+      @shw = true
     end
 
     @comm = Classroom.find(params[:cls])
