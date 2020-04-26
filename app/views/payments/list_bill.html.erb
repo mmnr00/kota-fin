@@ -12,13 +12,13 @@
               <tr class="shadow">
                 <th style="background-color:#ccccff">
                   <% if @payments.where(paid: false).present? %>
-                    <%= f.submit :"PAY NOW", style: "align:center", class: "btn btn-sm btn-info" %>
+                    <%= f.submit :"PAY NOW", style: "align:center;font-size:10px", class: "btn btn-sm btn-info" %>
                   <% else %>
                     RECORDS
                   <% end %>
                 </th>
-                <th style="background-color:#ccccff">AMOUNT (RM)</th>
-                <th style="background-color:#ccccff">STATUS</th>
+                <th style="background-color:#ccccff;font-size:10px">AMOUNT (RM)</th>
+                <th style="background-color:#ccccff;font-size:10px">STATUS</th>
                 
               </tr>
             </thead>
@@ -37,13 +37,18 @@
                     <% if pyn.paid %> 
                       <%= link_to "Receipt", view_bill_path(id: pyn.id), class: "btn btn-sm btn-primary", target: "_blank" %>
                     <% else %>
-                      <%= f.check_box :"#{pyn.id}", checked: false %> <b>Tick</b>
-                    <% end %><br>
-                    
-                    <h1 style="font-size:9px; line-height:1"></h1>
-                    <h1 style="font-size:9px"><b>Bill Month:<br> </b><%= "#{pyn.bill_month}-#{pyn.bill_year}" %></h1>
-                    <h1 style="font-size:9px"><b>Bill Date:<br> </b><%= pyn.created_at.strftime('%d/%m/%y')%></h1>
-                    <h1 style="font-size:9px"><b>Bill ID:<br> </b><%= pyn.bill_id %></h1>
+                      <div style="white-space: nowrap;font-size:12px;"><%= f.check_box :"#{pyn.id}", checked: false %> <b>Tick</b></div>
+                    <% end %>
+
+                    <div style="white-space: nowrap;font-size:9px;">
+                      <b>Bill Month: </b><%= "#{pyn.bill_month}-#{pyn.bill_year}" %>
+                    </div>
+                    <div style="white-space: nowrap;font-size:9px">
+                      <b>Bill Date: </b><%= pyn.created_at.strftime('%d/%m/%y')%>
+                    </div>
+                    <div style="white-space: nowrap;font-size:9px">
+                      <b>Bill ID: </b><%= pyn.bill_id %>
+                    </div>
                   </td>
                   <td><%= pyn.amount.round(2) %></td>
                   <td style="background-color:<%= clr %>">

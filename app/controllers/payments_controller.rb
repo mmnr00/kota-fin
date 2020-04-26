@@ -458,6 +458,20 @@ class PaymentsController < ApplicationController
     @payment = Payment.find(params[:id])
     @kb = @payment.kid_bill
     @taska = @payment.taska
+    if params[:pdf].present?
+      respond_to do |format|
+        @pdf = true
+        #format.html
+        format.pdf do
+         render pdf: "Receipt for #{@taska.name}",
+         template: "payments/view_bill.html.erb",
+         #disposition: "attachment",
+         #page_size: "A6",
+         #orientation: "landscape",
+         layout: 'pdf.html.erb'
+        end
+      end
+    end
   end
 
   def list_bill

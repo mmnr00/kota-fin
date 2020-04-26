@@ -21,10 +21,13 @@
 
 <%= render 'payments/bill' %>
 
-<% if 1==0 %>
-  <%= link_to view_bill_path(format: :pdf), class: 'btn btn-sm btn-success active' do %>
+<% if @payment.paid && params[:pdf].blank? %>
+  <%= link_to view_bill_path(format: :pdf, id: @payment.id, pdf: 1), class: 'btn btn-sm btn-success active' do %>
     <i class="fa fa-download"></i>&nbspDOWNLOAD
   <% end %>
+<% elsif params[:pdf].present? %>
+  <b>Powered by</b> <u><font style="color:blue">www.kota.my</font></u> &nbsp 
+  <%= wicked_pdf_image_tag('kidcare_logo/kota_logo_full.png', size: "87x30") %>
 <% end %>
 
 

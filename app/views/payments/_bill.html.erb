@@ -49,23 +49,23 @@
 
             <div class="col-md-12"><br>
               <div>
-                <div class="pull-left"> BILL ID : <%= @payment.bill_id %></div>
+                <div class="pull-lefts"> BILL ID : <%= @payment.bill_id %></div>
                 <div class="clearfix"></div>
               </div>
               <div>
-                <div class="pull-left"> BILL DATE : <%= @payment.created_at.strftime("%b %d, %Y") %></div>
+                <div class="pull-lefts"> BILL DATE : <%= @payment.created_at.strftime('%d-%^b-%y') %></div>
                 <div class="clearfix"></div>
               </div>
               <div>
                 <% if @payment.paid %>
-                  <div class="pull-left"> PAYMENT DATE : <%= @payment.pdt.strftime("%b %d, %Y") %></div><br>
-                  <div class="pull-left"> PAYMENT METHOD : 
+                  <div class="pull-lefts"> PAYMENT DATE : <%= @payment.pdt.strftime('%d-%^b-%y') %></div>
+                  <div class="pull-lefts"> PAYMENT METHOD : 
                     <% if 1==1 %>
                       <%= @payment.mtd %>
                     <% else %>
                       NORMAL BILLPLZ
                     <% end %>
-                  </div><br>
+                  </div>
                   <% if (image = @payment.fotos.first).present? && image.picture.present? %>
                     <div class="pull-left">
                       <a href="<%= image.picture.url %>" target="_blank">
@@ -78,7 +78,7 @@
               </div><br>
             </div>
 
-            <%if 1==1 %>
+            <%if 1==0 %>
               <% table_style = "table-responsive"%>
             <% end %>
             <table class="table <%= table_style %>">
@@ -115,7 +115,7 @@
                     </strong></td>
                 </tr>
               </tbody>
-            </table><br><br><br><br>
+            </table><br>
 
         </div>
         
