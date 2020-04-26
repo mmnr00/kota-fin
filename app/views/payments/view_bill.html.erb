@@ -13,7 +13,7 @@
   <% if !@payment.paid %>
     <h1 align="right">
       <%= link_to "#{ENV["BILLPLZ_URL"]}bills/#{@payment.bill_id}", class: "btn btn-md btn-info shadow" do %>
-        <i class="far fa-hand-pointer"></i> PAY
+        <i class="far fa-hand-pointer"></i> PAY NOW
       <% end %>
     </h1>
   <% end %>

@@ -18,7 +18,7 @@
             <% end %>
             <address>
               <strong><%= @taska.name.upcase %></strong><br>
-              <%= @taska.address_1.upcase %>
+              <%= @taska.address_1.upcase %><br>
               <%= @taska.address_2.upcase %><br>
               <%= @taska.city.upcase %>&nbsp
               <%= @taska.states.upcase %>&nbsp
@@ -29,11 +29,11 @@
           </div><br>
 
           <div class="col-md-12">
-            <% if 1==1 %>
-              <h4>RECEIPT FOR 
+            <% if @payment.paid %>
+              <h4>RECEIPT FOR ADRRESS:
             <% else %>
-              <h4>INVOICE FOR 
-            <% end %>
+              <h4>INVOICE FOR ADDRESS:
+            <% end %><br>
             <strong><%= @kb.clsname %></strong></h4>
           </div>
 
@@ -58,21 +58,21 @@
               </div>
               <div>
                 <% if @payment.paid %>
-                <div class="pull-left"> PAYMENT DATE : <%= @payment.updated_at.strftime("%b %d, %Y") %></div><br>
-                <div class="pull-left"> PAYMENT METHOD : 
-                  <% if 1==1 %>
-                    <%= "[Billplz/Online Transfer/Cash]" %>
-                  <% else %>
-                    NORMAL BILLPLZ
+                  <div class="pull-left"> PAYMENT DATE : <%= @payment.pdt.strftime("%b %d, %Y") %></div><br>
+                  <div class="pull-left"> PAYMENT METHOD : 
+                    <% if 1==1 %>
+                      <%= @payment.mtd %>
+                    <% else %>
+                      NORMAL BILLPLZ
+                    <% end %>
+                  </div><br>
+                  <% if (image = @payment.fotos.first).present? && image.picture.present? %>
+                    <div class="pull-left">
+                      <a href="<%= image.picture.url %>" target="_blank">
+                        <font color="blue">RECEIPT</font>
+                      </a>
+                    </div>
                   <% end %>
-                </div><br>
-                <% if (image = @payment.fotos.first).present? && image.picture.present? %>
-                  <div class="pull-left">
-                    <a href="<%= image.picture.url %>" target="_blank">
-                      <font color="blue">RECEIPT</font>
-                    </a>
-                  </div>
-                <% end %>
                 <% end %>
                 <div class="clearfix"></div>
               </div><br>

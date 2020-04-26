@@ -103,7 +103,7 @@ class PaymentsController < ApplicationController
         #SEND EMAIL
         mail = SendGrid::Mail.new
         mail.from = SendGrid::Email.new(email: 'do-not-reply@kota.my', name: "#{@taska.name}")
-        mail.subject = "NEW BILL FOR #{cls.description} #{cls.classroom_name}"
+        mail.subject = "NEW BILL FOR: NO #{cls.description} #{cls.classroom_name}"
         #Personalisation, add cc
         personalization = SendGrid::Personalization.new
         em = "billing123@kota.my" unless em.present?
@@ -116,11 +116,11 @@ class PaymentsController < ApplicationController
                   Hi <strong>#{nm}</strong><br><br>
 
 
-                  Your new bill from <b>#{@taska.name}<b> is ready. <br><br>
+                  Your new bill from <strong>#{@taska.name}</strong> is ready. <br><br>
 
-                  Please click <a href=#{list_bill_url(cls: cls.id)}>HERE</a> to view. <br><br>
+                  Please click <a href=#{list_bill_url(cls: cls.id)}>HERE</a> to view and make payment. <br><br>
 
-                  Many thanks for your continous support.<br><br>
+                  <strong>Taman Kita Tanggungjawab Bersama</strong>.<br><br>
 
                   Powered by <strong>www.kota.my</strong>
                 </body>
@@ -135,7 +135,7 @@ class PaymentsController < ApplicationController
         usr = "user=admin@kidcare.my&"
         ps = "pass=#{ENV['SMS360']}&"
         to = "to=6#{ph}&"
-        txt = "text=New Bill from #{@taska.name}.\n Click #{list_bill_url(cls: cls.id)} to view. \n Thank You from KoTa.my"
+        txt = "text=New Bill from #{@taska.name}.\n Click #{list_bill_url(cls: cls.id)} to view and make payment. Taman Kita Tanggungjawab Bersama. Thank You from KoTa.my"
         if Rails.env.production?
           
           fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
@@ -486,7 +486,8 @@ class PaymentsController < ApplicationController
       end
     end
 
-    @payments = @comm.payments.order('created_at DESC')
+    @payments = @comm.payments.order('bill_year DESC').order('bill_month DESC').order('created_at DESC')
+
   end
 
 
