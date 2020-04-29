@@ -1,8 +1,28 @@
 class FotosController < ApplicationController
-	before_action :set_foto
+	before_action :set_foto, except: [:edit_pic]
 	before_action :set_all
 
+  def edit_pic
+    @taska = Taska.find(params[:tsk]) unless params[:tsk].blank?
+    @foto = Foto.find(params[:id])
+    if params[:tsk].present?
+      render action: "edit_pic", layout: "admin_db/admin_db-resident"
+    end
+  end
+
+  def upd_pic
+  end
+
 	def edit
+    if params[:tp].present? && (cls=@foto.classroom).present?
+
+      if params[:tp] == "o"
+        @nm = cls.own_name
+      elsif params[:tp] == "t"
+        @nm = cls.tn_name
+      end
+
+    end
 	end
 
 
@@ -21,6 +41,9 @@ class FotosController < ApplicationController
         	@taska = @foto.taska
           flash[:success] = "Photo updated"
         	redirect_to taskaedit_path(@taska, plan: @taska.plan)
+        elsif (cls=@foto.classroom).present?
+          flash[:success] = "Profile Photo updated"
+          redirect_to taskashow_path(cls.taska)
         elsif @foto.expense.present?
           @expense = @foto.expense
           redirect_to edit_expense_path(@expense)

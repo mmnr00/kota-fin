@@ -3,6 +3,15 @@
   <div class="form-group">
     <% if @foto.ptns_mmb_id.present? %>
       <h3>SILA PILIH DAN MUAT NAIK GAMBAR</h3>
+    <% elsif (cls=@foto.classroom).present? %> <!-- If classroom ada --> 
+      <strong><%= f.label :name, :class => 'control-label col-lg-2' %></strong>
+      <div class="col-lg-4">
+        <%= f.text_field :mus, value: @nm ,:class => 'form-control', disabled: true %>
+      </div>
+      <strong><%= f.label :address, :class => 'control-label col-lg-2' %></strong>
+      <div class="col-lg-4">
+        <%= f.text_field :mus, value: "NO #{cls.description} #{cls.classroom_name}" ,:class => 'form-control', disabled: true %>
+      </div>
     <% else %>
       <%= f.label :name, :class => 'control-label col-lg-2' %>
       <div class="col-lg-10">
@@ -12,7 +21,6 @@
     <% end %>
   </div>
   <div class="form-group">
-    <%= f.label :file, :class => 'control-label col-lg-2' %>
     <div class="col-lg-10">
       <% if @foto.picture.content_type == 'application/pdf' %>
         <a href="<%="#{@foto.picture.url}"%>" target="_blank">
@@ -24,9 +32,12 @@
       if @foto.foto_name == "SENARAI KANAK-KANAK" || @foto.foto_name == "SENARAI SIJIL"
         accp = ".xlsx,xls,.doc,.docx"
       else
-        accp = "image/jpeg,image/gif,image/png,application/pdf"
+        #accp = "image/jpeg,image/gif,image/png,application/pdf"
+        accp = "image/jpeg,image/gif,image/png"
       end
       %>
+
+
 
         <%= image_tag(@foto.picture.url, size: "500x500") if @foto.picture? %>
       <% end %>

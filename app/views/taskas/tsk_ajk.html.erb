@@ -5,13 +5,19 @@
   <div class="row">
     <% 
       @ajks.each do |aj|
+      #img = 'kidcare_logo/kota_logo_only.png'
       if (clsr=aj.classroom).present?
         add = "#{clsr.description}, #{clsr.classroom_name}"
+        
         if aj.tp == "t"
+          foto = clsr.fotos.where(foto_name: "Tenant Pic").first
+          img = foto.picture.url unless foto.picture.blank?
           name_ajk = clsr.tn_name
           ph_no = clsr.tn_ph   
           eml = clsr.tn_email
         elsif aj.tp == "o"
+          foto = clsr.fotos.where(foto_name: "Owner Pic").first
+          img = foto.picture.url unless foto.picture.blank?
           name_ajk = clsr.own_name
           ph_no = clsr.own_ph   
           eml = clsr.own_email
@@ -46,11 +52,15 @@
               </div>
               <div class="panel-body">
                 <div class="container">
-                  <%= image_tag('kidcare_logo/kota_logo_only.png', size: "80x80") %>
+                  <% if img.present? %>
+                    <%= image_tag(img, size: "80x80") %>
+                  <% else %>
+                    <i class="far fa-smile-wink" style="font-size:80px; color:#b2b2b2"></i>
+                  <% end %>
                 </div>
                 <div class="" >
                   <div class="container" >
-                    <h4><%= name_ajk %></h4>
+                    <h6><%= name_ajk %></h6>
                   </div>
                   <hr>
                   <div class="container" >

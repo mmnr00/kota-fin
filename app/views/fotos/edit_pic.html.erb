@@ -1,0 +1,13 @@
+
+<%= form_for(@foto, :url => {:controller=>'fotos', :action=>'edit'}, :html => {multipart: true, class: "form-horizontal", method: :get, role: "form"}) do |f| %>
+
+
+<%= f.submit :"UPDATE",  class: 'btn btn-sm btn-block btn-success btn-lg', style: "align:center" %>
+<% end %>
+
+<h5>
+<%= link_to taskashow_path(1), class: "badge badge-pill badge-info" do %>
+  <i class="fas fa-arrow-circle-left">&nbsp&nbspBack</i>
+<% end %>
+</h5>
+

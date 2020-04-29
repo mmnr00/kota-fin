@@ -5,6 +5,7 @@ class Classroom < ApplicationRecord
 	has_many :vhcls
 	has_many :payments
 	serialize :vehls,Hash
+	has_many	:fotos
 
 	# OLD KIDCARE
 	has_many :teachers_classrooms

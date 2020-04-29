@@ -1,4 +1,5 @@
 class Foto < ApplicationRecord
+	belongs_to :classroom, optional: true
 	belongs_to :course, optional: true
 	belongs_to :tchdetail, optional: true
 	belongs_to :kid, optional: true

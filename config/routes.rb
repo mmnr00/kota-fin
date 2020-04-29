@@ -54,6 +54,10 @@ Rails.application.routes.draw do
   get '/regupd/:id', to: 'ptns_mmbs#regupd'
 
 
+  #~FOTOS
+  get '/edit_pic', to: 'fotos#edit_pic', as: 'edit_pic'
+  get '/upd_pic', to: 'fotos#upd_pic', as: 'upd_pic'  
+
   #~PAGES
   get '/443322/about', to: 'pages#about'
   get '/443322/buttons', to: 'pages#buttons'
