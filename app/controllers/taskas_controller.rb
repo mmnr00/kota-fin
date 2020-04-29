@@ -72,7 +72,10 @@ class TaskasController < ApplicationController
                                   tn_dob: tn_dob,
                                   tn_ph: tn_ph,
                                   tn_email: tn_email.upcase)
+          
           clsr.save
+          Foto.create(foto_name:"Owner Pic",classroom_id: clsr.id)
+          Foto.create(foto_name:"Tenant Pic",classroom_id: clsr.id)
         end
 
         #create vehicle

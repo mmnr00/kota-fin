@@ -97,15 +97,24 @@ class ClassroomsController < ApplicationController
 	def create
 		@admin = current_admin
 		@classroom = Classroom.new(classroom_params)
+		@taska = Taska.find(@classroom.taska_id)
 		@classroom.classroom_name = @classroom.classroom_name.upcase
 		@classroom.description = @classroom.description.upcase
-		if @classroom.save
+		if @taska.classrooms.where(classroom_name:@classroom.classroom_name,description:@classroom.description).present?
+			flash[:danger] = "Resident already exist"
+			redirect_to add_unit_path(community_id: @taska.id)
+		else
+			if @classroom.save
+				Foto.create(foto_name:"Owner Pic",classroom_id: @classroom.id)
+				Foto.create(foto_name:"Tenant Pic",classroom_id: @classroom.id)
 				@taska = Taska.find(@classroom.taska_id)
-        flash[:notice] = "New Resident Successfully Created"
-        redirect_to taskashow_path(@taska)
-      else
-        render :new      
-      end
+	      flash[:notice] = "New Resident Successfully Created"
+	      redirect_to taskashow_path(@taska)
+	    else
+	      render :new      
+	    end
+	  end
+
 	end
 
 	def edit
