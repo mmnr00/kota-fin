@@ -10,35 +10,31 @@
           <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
             <thead>
               <tr class="shadow">
-                <th style="background-color:#ccccff">
+                <th style="background-color:#ccccff;font-size:10px">BILLS</th>
+                <th style="background-color:#ccccff;font-size:10px">AMOUNT (RM)</th>
+                <th style="background-color:#ccccff;font-size:10px">
                   <% if @payments.where(paid: false).present? %>
-                    <%= f.submit :"PAY NOW", style: "align:center;font-size:10px", class: "btn btn-sm btn-info" %>
+                    <%= f.submit :"PAY NOW", style: "align:centers;font-size:8px", class: "btn btn-sm btn-info" %>
                   <% else %>
                     RECORDS
                   <% end %>
                 </th>
-                <th style="background-color:#ccccff;font-size:10px">AMOUNT (RM)</th>
-                <th style="background-color:#ccccff;font-size:10px">STATUS</th>
                 
               </tr>
             </thead>
             <tbody>
               <% @payments.each do |pyn| 
-                if pyn.paid 
+                if !pyn.paid 
                   msg = "Paid"
-                  clr = "#99cc99"
+                  clr = "success"
                 else
                   msg = "Not Paid"
-                  clr = "#ff9999"
+                  clr = "danger"
                 end
               %>
                 <tr>
                   <td>
-                    <% if pyn.paid %> 
-                      <%= link_to "Receipt", view_bill_path(id: pyn.id), class: "btn btn-sm btn-primary", target: "_blank" %>
-                    <% else %>
-                      <div style="white-space: nowrap;font-size:12px;"><%= f.check_box :"#{pyn.id}", checked: false %> <b>Tick</b></div>
-                    <% end %>
+                    
 
                     <div style="white-space: nowrap;font-size:9px;">
                       <b>Bill Month: </b><%= "#{pyn.bill_month}-#{pyn.bill_year}" %>
@@ -50,9 +46,16 @@
                       <b>Bill ID: </b><%= pyn.bill_id %>
                     </div>
                   </td>
-                  <td><%= pyn.amount.round(2) %></td>
-                  <td style="background-color:<%= clr %>">
-                    <a href="<%= view_bill_url(id: pyn.id)%>" target="_blank"><b><%= msg %></b></a>
+                  <td style="text-align:center">
+                    <b><%= pyn.amount.round(2) %></b><br>
+                    <%= link_to "#{msg}", view_bill_path(id: pyn.id), class: "badge badge-pill badge-#{clr}", target: "_blank" %>
+                  </td>
+                  <td>
+                    <% if pyn.paid %> 
+                      <%= link_to "Receipt", view_bill_path(id: pyn.id), class: "btn btn-sm btn-primary", target: "_blank" %>
+                    <% else %>
+                      <div style="white-space: nowrap;font-size:12px;"><%= f.check_box :"#{pyn.id}", checked: false %> <b>Tick</b></div>
+                    <% end %>
                   </td>
                   
                 </tr>

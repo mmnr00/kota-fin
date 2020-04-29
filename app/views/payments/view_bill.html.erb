@@ -21,7 +21,7 @@
 
 <%= render 'payments/bill' %>
 
-<% if @payment.paid && params[:pdf].blank? %>
+<% if @payment.paid && params[:pdf].blank? && @admin %>
   <%= link_to view_bill_path(format: :pdf, id: @payment.id, pdf: 1), class: 'btn btn-sm btn-success active' do %>
     <i class="fa fa-download"></i>&nbspDOWNLOAD
   <% end %>

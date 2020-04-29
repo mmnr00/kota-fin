@@ -20,9 +20,10 @@
               <strong><%= @taska.name.upcase %></strong><br>
               <%= @taska.address_1.upcase %><br>
               <%= @taska.address_2.upcase %><br>
+              <%= @taska.postcode %>
               <%= @taska.city.upcase %>&nbsp
               <%= @taska.states.upcase %>&nbsp
-              <%= @taska.postcode %><br>
+              <br>
               <%= @taska.phone_1 %>-<%= @taska.phone_2 %><br>
               <%= @taska.email %>
             </address>
@@ -30,17 +31,17 @@
 
           <div class="col-md-12">
             <% if @payment.paid %>
-              <h4>RECEIPT FOR ADRRESS:
+              <h5>RECEIPT FOR ADRRESS:
             <% else %>
-              <h4>INVOICE FOR ADDRESS:
+              <h5>INVOICE FOR ADDRESS:
             <% end %><br>
-            <strong><%= @kb.clsname %></strong></h4>
+            <strong><%= @kb.clsname %></strong></h5>
           </div>
 
           <div class="clearfix"></div><br>
             <div class="col-md-12">
-              <h4 class="semi-bold">
-                <%= @kb.extra[0] %></h4>
+              <h5 class="semi-bold">
+                <%= @kb.extra[0] %></h5>
               <address>
                 <%= @kb.extra[1] %><br>
                 <%= @kb.extra[2] %><br>
@@ -49,7 +50,7 @@
 
             <div class="col-md-12"><br>
               <div>
-                <div class="pull-lefts"> BILL ID : <%= @payment.bill_id %></div>
+                <div class="pull-lefts"> BILL ID : <%= @payment.bill_id.upcase %></div>
                 <div class="clearfix"></div>
               </div>
               <div>

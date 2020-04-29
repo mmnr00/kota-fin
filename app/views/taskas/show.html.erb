@@ -66,7 +66,7 @@
   <% else %>
   <div class="card-body">
     
-    <div class="table table-responsive border">
+    <div class="table table-responsive border" style="font-size:13px">
       <%= form_for(:cls, :url => {:controller=>'classrooms', :action=>'add_topay'}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
         <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
           <thead>
@@ -96,10 +96,10 @@
                     <% end %>  
                     <% if @admin == Admin.first %>
                       <!-- CREATE BILL TEMP -->
-                      <%= link_to "BILL", crt_pmt_path(tsk: @taska.id, cls:un.id), class: "btn btn-sm btn-primary" %> 
+                      <% link_to "BILL", crt_pmt_path(tsk: @taska.id, cls:un.id), class: "btn btn-sm btn-primary" %> 
                     <% end %> 
                     <!-- VIEW BILL TEMP -->
-                    <%= link_to "VIEW BILL", list_bill_path(cls:un.id, redr:1), class: "btn btn-sm btn-primary" %>  
+                    <%= link_to "VIEW BILL", list_bill_path(cls:un.id, redr:1), class: "badge badge-primary" %>  
                     
                   </td>
                   <td style="width:30%"><!-- OWNER DETAILS -->
@@ -107,8 +107,7 @@
                       <div class="col-lg-9">
                         <b>NAME</b><br>
                         <%= h.text_field :own_name, value: un.own_name, style: 'text-transform: uppercase; width: 100%; fonts-size:13px', class: "" %><br>
-                        <b>DOB</b><br>
-                        <%= h.date_field :own_dob, value: un.own_dob, class: "", style: 'text-transform: uppercase; width: 100%' %><br>
+                        <% h.date_field :own_dob, value: un.own_dob, class: "", style: 'text-transform: uppercase; width: 100%' %>
                         <b>PHONE NO</b><br>
                         <%= h.text_field :own_ph, value: un.own_ph, class: "", style: 'text-transform: uppercase; width: 100%' %><br>
                         <b>EMAIL</b><br>
@@ -143,8 +142,8 @@
                       <div class="col-lg-8">
                         <b>NAME</b><br>
                         <%= h.text_field :tn_name, value: un.tn_name, style: 'text-transform: uppercase; width: 100%', class: ""%><br>
-                        <b>DOB</b><br>
-                        <%= h.date_field :tn_dob, value: un.tn_dob, class: "", style: 'text-transform: uppercase; width: 100%' %><br>
+                        
+                        <% h.date_field :tn_dob, value: un.tn_dob, class: "", style: 'text-transform: uppercase; width: 100%' %>
                         <b>PHONE NO</b><br>
                         <%= h.text_field :tn_ph, value: un.tn_ph, style: 'text-transform: uppercase; width: 100%', class: "" %><br>
                         <b>EMAIL</b><br>

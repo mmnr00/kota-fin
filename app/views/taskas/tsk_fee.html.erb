@@ -79,7 +79,7 @@
       <% end %>
     </div>
   </div>
-  <div class="card-body">
+  <div class="card-body" style="font-size:15px">
     <div class="table-responsive border">
         <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
           <thead>
@@ -101,9 +101,11 @@
               if un.paid 
                 msg = "PAID"
                 clr = "#99cc99"
+                bdg = "success"
               else
-                msg = "UNPAID"
+                msg = "NOT PAID"
                 clr = "#ff9999"
+                bdg = "danger"
               end
               %>
               <tr>
@@ -116,14 +118,14 @@
                 </td>
                 <td><a href="<%= "#{view_bill_url}?id=#{un.id}" %>" target="blank"><u><%= un.bill_id %></u></a></td>
                 <td><span class="badge"><%= un.amount %></span></td>
-                <td style="background-color:<%= clr %>">
-                  <b><%= msg %></b>
+                <td style="">
+                  <b><span class="badge badge-<%= bdg %>"><%= msg %></span></b>
                   <% if un.paid %>
                     <br><br>
                     <!-- <i><%= un.pdt.strftime('%d-%m-%y')%></i> -->
                     
                   <% else %>
-                    <br><%= link_to "Update", man_pmt_path(tsk: @taska.id,pmt: un.id), class: "btn btn-sm btn-primary"%>
+                    <br><%= link_to "Update", man_pmt_path(tsk: @taska.id,pmt: un.id), class: "badge badge-pill badge-warning"%>
                   <% end %>
                 </td>
                 <td>
