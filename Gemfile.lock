@@ -546,7 +546,7 @@ GEM
     wicked_pdf (1.4.0)
       activesupport
     wkhtmltopdf-binary-edge (0.12.5.0)
-    wkhtmltopdf-heroku (2.12.4.0)
+    wkhtmltopdf-heroku (2.12.5.0)
     xml-simple (1.1.5)
     xmlrpc (0.3.0)
     xpath (3.2.0)
@@ -600,7 +600,7 @@ DEPENDENCIES
   web-console (>= 3.3.0)
   wicked_pdf
   wkhtmltopdf-binary-edge
-  wkhtmltopdf-heroku (= 2.12.4)
+  wkhtmltopdf-heroku (= 2.12.5.0)
 
 RUBY VERSION
    ruby 2.5.1p57
