@@ -24,39 +24,43 @@
             </thead>
             <tbody>
               <% @payments.each do |pyn| 
-                if !pyn.paid 
+                if pyn.paid 
                   msg = "Paid"
-                  clr = "success"
+                  clr = "#4ca64c"
+                  colr = "#4ca64c"
                 else
                   msg = "Not Paid"
-                  clr = "danger"
+                  clr = "#ff6666"
+                  colr = "#ff6666"
                 end
               %>
                 <tr>
-                  <td>
-                    
-
+                  <td>    
                     <div style="white-space: nowrap;font-size:9px;">
-                      <b>Bill Month: </b><%= "#{pyn.bill_month}-#{pyn.bill_year}" %>
+                      <b>Month: </b><%= "#{pyn.bill_month}-#{pyn.bill_year}" %>
                     </div>
                     <div style="white-space: nowrap;font-size:9px">
-                      <b>Bill Date: </b><%= pyn.created_at.strftime('%d/%m/%y')%>
+                      <b>Date: </b><%= pyn.created_at.strftime('%d/%m/%y')%>
                     </div>
                     <div style="white-space: nowrap;font-size:9px">
-                      <b>Bill ID: </b><%= pyn.bill_id %>
+                      <b>ID: </b><%= pyn.id %>
                     </div>
                   </td>
-                  <td style="text-align:center">
-                    <b><%= pyn.amount.round(2) %></b><br>
-                    <%= link_to "#{msg}", view_bill_path(id: pyn.id), class: "badge badge-pill badge-#{clr}", target: "_blank" %>
+                  <td style="text-align:center;background-color:<%= colr %>">
+                    <a href="<%= view_bill_url(id: pyn.id) %>" target="_blank">
+                      <div style="color:white;font-size:13px"><b><%= pyn.amount.round(2) %></b></div>
+                      <div style="color:white;font-size:10px"><%= msg %>
+                      </div>
+                    </a>
+                    <!-- <%= link_to "#{msg}", view_bill_path(id: pyn.id), class: "", style:"font-color:white", target: "_blank" %> -->
                   </td>
-                  <td>
+                  <td><div style="text-align:center">
                     <% if pyn.paid %> 
-                      <%= link_to "Receipt", view_bill_path(id: pyn.id), class: "btn btn-sm btn-primary", target: "_blank" %>
+                      <%= link_to "Receipt", view_bill_path(id: pyn.id), class: "badge badge-pill badge-primary", target: "_blank" %>
                     <% else %>
-                      <div style="white-space: nowrap;font-size:12px;"><%= f.check_box :"#{pyn.id}", checked: false %> <b>Tick</b></div>
+                      <%= f.check_box :"#{pyn.id}", checked: false, style: "width:22px;height:22px;" %>
                     <% end %>
-                  </td>
+                  </div></td>
                   
                 </tr>
               <% end %> <!-- END LOOP -->

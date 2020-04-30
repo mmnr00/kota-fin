@@ -126,11 +126,11 @@
                         <div style="text-align:center">
                           <% img = un.fotos.where(foto_name: "Owner Pic").first %>
                           <% if img.present? && img.picture.present? %>
-                            <i class="far fa-check-circle" style="font-size:40px; color:green"></i>
+                            <i class="far fa-check-circle" style="font-size:30px; color:green"></i>
                             <%= link_to "Update", edit_foto_path(tsk: @taska.id,tp: "o",id: img.id), class: "badge badge-pill badge-warning" %>
                             <%= link_to "View", img.picture.url, class: "badge badge-pill badge-success", target: "_blank" %>
                           <% else %>
-                            <i class="far fa-smile-wink" style="font-size:40px"></i>
+                            <i class="far fa-smile-wink" style="font-size:30px"></i>
                             <%= link_to "Upload", edit_foto_path(tsk: @taska.id,tp: "o",id: img.id), class: "badge badge-pill badge-info" %>
                           <% end %>
                         </div>
@@ -139,7 +139,7 @@
                   </td>
                   <td style="width:30%"><!-- TENANT DETAILS -->
                     <div class="row">
-                      <div class="col-lg-8">
+                      <div class="col-lg-9">
                         <b>NAME</b><br>
                         <%= h.text_field :tn_name, value: un.tn_name, style: 'text-transform: uppercase; width: 100%', class: ""%><br>
                         
@@ -157,16 +157,16 @@
                           options_from_collection_for_select(@ajks.order('created_at ASC'), :id, :name), {include_blank: "Select"} %>
                         <% end %>
                       </div>
-                      <div class="col-lg-4">
+                      <div class="col-lg-3">
                         <!-- TENANT FOTO UPLOAD -->
                         <% img = un.fotos.where(foto_name: "Tenant Pic").first %>
                         <div style="text-align:center">
                           <% if img.present? && img.picture.present? %>
-                            <i class="far fa-check-circle" style="font-size:40px; color:green"></i>
+                            <i class="far fa-check-circle" style="font-size:30px; color:green"></i>
                             <%= link_to "Update", edit_foto_path(tsk: @taska.id,tp: "t",id: img.id), class: "badge badge-pill badge-warning" %>
                             <%= link_to "View", img.picture.url, class: "badge badge-pill badge-success", target: "_blank" %>
                           <% else %>
-                            <i class="far fa-smile-wink" style="font-size:40px"></i>
+                            <i class="far fa-smile-wink" style="font-size:30px"></i>
                             <%= link_to "Upload", edit_foto_path(tsk: @taska.id,tp: "t",id: img.id), class: "badge badge-pill badge-info" %>
                           <% end %>
                         </div>

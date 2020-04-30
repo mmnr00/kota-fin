@@ -100,11 +100,11 @@
               kb = un.kid_bill
               if un.paid 
                 msg = "PAID"
-                clr = "#99cc99"
+                clr = "#4ca64c"
                 bdg = "success"
               else
                 msg = "NOT PAID"
-                clr = "#ff9999"
+                clr = "#ff6666"
                 bdg = "danger"
               end
               %>
@@ -118,14 +118,14 @@
                 </td>
                 <td><a href="<%= "#{view_bill_url}?id=#{un.id}" %>" target="blank"><u><%= un.bill_id %></u></a></td>
                 <td><span class="badge"><%= un.amount %></span></td>
-                <td style="">
-                  <b><span class="badge badge-<%= bdg %>"><%= msg %></span></b>
+                <td style="background-color:<%= clr %>;text-align:center">
+                  <b><span class="badge" style="color:white;font-size:15px"><%= msg %></span></b>
                   <% if un.paid %>
                     <br><br>
                     <!-- <i><%= un.pdt.strftime('%d-%m-%y')%></i> -->
                     
                   <% else %>
-                    <br><%= link_to "Update", man_pmt_path(tsk: @taska.id,pmt: un.id), class: "badge badge-pill badge-warning"%>
+                    <br><%= link_to "Update", man_pmt_path(tsk: @taska.id,pmt: un.id), class: "badge badge-light"%>
                   <% end %>
                 </td>
                 <td>
