@@ -9,8 +9,9 @@
             <% image = Taska.first.fotos.where(foto_name: "CENTER LOGO").first %>
             <% if image.picture.present? %>
               <a href="#">
-                <% if @pdf %>
+                <% if params[:pdf].present? %>
                   <%= wicked_pdf_image_tag(image.picture.url, size: "100x100") %>
+                  <%= wicked_pdf_image_tag('kidcare_logo/kota_logo_full.png', size: "87x30") %>
                 <% else %>
                   <%= image_tag(image.picture.url, size: "100x100") %>
                 <% end %>
