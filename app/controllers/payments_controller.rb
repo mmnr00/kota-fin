@@ -458,12 +458,13 @@ class PaymentsController < ApplicationController
     @payment = Payment.find(params[:id])
     @kb = @payment.kid_bill
     @taska = @payment.taska
+    #@cls = @payment.classroom
     if params[:pdf].present?
       respond_to do |format|
         @pdf = true
-        #format.html
+        format.html
         format.pdf do
-         render pdf: "Receipt for #{@taska.name}",
+         render pdf: "Receipt from #{@taska.name}",
          template: "payments/view_bill.html.erb",
          #disposition: "attachment",
          #page_size: "A6",
