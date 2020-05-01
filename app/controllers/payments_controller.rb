@@ -282,7 +282,7 @@ class PaymentsController < ApplicationController
     elsif nxt == 0 #pilih something
       flash[:danger] = "Please Choose a Bill to Pay"
       pym = Payment.find(pars.keys[0])
-      redirect_to list_bill_path(cls: pym.classroom_id)
+      redirect_to list_bill_path(cls: pym.classroom.unq)
 
     else #create multiple bills
 
@@ -339,7 +339,7 @@ class PaymentsController < ApplicationController
         redirect_to "#{ENV["BILLPLZ_URL"]}bills/#{data["id"]}"
       else
         flash[:danger] = "Payment Unsuccessful. Please try again"
-        redirect_to list_bill_path(cls: @cls.id)
+        redirect_to list_bill_path(cls: @cls.unq)
       end
 
 
@@ -357,7 +357,8 @@ class PaymentsController < ApplicationController
         bill.save
       end
       flash[:success] = "Payment Successful"
-      redirect_to list_bill_path(cls: @cls.id, redr: 930289328)
+      unq = (0...20).map { ('a'..'z').to_a[rand(26)] }.join
+      redirect_to list_bill_path(cls: @cls.unq, redr: unq)
     else
       @bill = Payment.where(bill_id: "#{params[:billplz][:id]}").first
       if @bill.present?
@@ -372,7 +373,8 @@ class PaymentsController < ApplicationController
         else
           flash[:danger] = "Bill was not paid due to bank rejection. Please try again"
         end
-        redirect_to view_bill_path(id: @bill.id)
+        unq = (0...20).map { ('a'..'z').to_a[rand(26)] }.join
+        redirect_to list_bill_path(cls: @bill.classroom.unq, redr: unq)
       end
     end
   end
