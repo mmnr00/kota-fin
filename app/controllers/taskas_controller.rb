@@ -72,6 +72,12 @@ class TaskasController < ApplicationController
                                   tn_dob: tn_dob,
                                   tn_ph: tn_ph,
                                   tn_email: tn_email.upcase)
+
+          unq = (0...6).map { ('a'..'z').to_a[rand(26)] }.join
+          while Classroom.where(unq: unq).present? #arr.include? unq 
+            unq = (0...6).map { ('a'..'z').to_a[rand(26)] }.join
+          end
+          clsr.unq = unq
           
           clsr.save
           Foto.create(foto_name:"Owner Pic",classroom_id: clsr.id)
@@ -185,7 +191,11 @@ class TaskasController < ApplicationController
         #@units= @taska.classrooms
       end
     else
-      @units = @taska.classrooms
+      if params[:all].present?
+        @units = @taska.classrooms
+      else
+        @units = @taska.classrooms.where(id: nil)
+      end
     end
     @units = @units.order('classroom_name ASC').order('description ASC')
     render action: "show", layout: "admin_db/admin_db-resident" 

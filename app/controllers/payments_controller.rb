@@ -155,7 +155,7 @@ class PaymentsController < ApplicationController
     end # end classroom
 
     if tot > 0
-      flash[:success] = "Complete bill for #{@taska.booking.to_i} months"
+      flash[:success] = "#{tot} Bills Created"
     else
       flash[:danger] = "Please update Bill Item in Fee Section"
     end

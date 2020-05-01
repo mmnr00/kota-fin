@@ -62,7 +62,11 @@
   </div>
   <% if @units.count < 1 %>
     <br>
-    <div style="background-color:#ffcccc"><h3 align="center">NO RESULT FOUND</h3></div>
+    <% if params[:sch].present? %>
+      <div style="background-color:#ffcccc"><h3 align="center">NO RESULT FOUND</h3></div>
+    <% else %>
+      <%= link_to "Show All Units", taskashow_path(@taska, all: 1), class: "btn btn-sm btn-block btn-success" %><br>
+    <% end %>
   <% else %>
   <div class="card-body">
     

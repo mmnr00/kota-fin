@@ -3,6 +3,14 @@ class AdminsController < ApplicationController
 
 	def index
 		@admin = current_admin
+		@admin_taska = @admin.taskas
+		if @admin.taskas.count < 2
+			redirect_to taskashow_path(@admin.taskas.first)
+		end
+	end
+
+	def index_old1
+		@admin = current_admin
 		@spv = @admin.spv
 		@admin_taska = current_admin.taskas
 		

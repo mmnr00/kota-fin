@@ -104,6 +104,11 @@ class ClassroomsController < ApplicationController
 			flash[:danger] = "Resident already exist"
 			redirect_to add_unit_path(community_id: @taska.id)
 		else
+			unq = (0...6).map { ('a'..'z').to_a[rand(26)] }.join
+			while Classroom.where(unq: unq).present?
+				unq = (0...6).map { ('a'..'z').to_a[rand(26)] }.join
+			end
+			@classroom.unq = unq
 			if @classroom.save
 				Foto.create(foto_name:"Owner Pic",classroom_id: @classroom.id)
 				Foto.create(foto_name:"Tenant Pic",classroom_id: @classroom.id)
@@ -111,7 +116,7 @@ class ClassroomsController < ApplicationController
 	      flash[:notice] = "New Resident Successfully Created"
 	      redirect_to taskashow_path(@taska)
 	    else
-	      render :new      
+	      render :back    
 	    end
 	  end
 
