@@ -30,18 +30,18 @@
     <% if !@pdf %>
       <div class="row bg-light">
         <div class="col-md-6 col-6 bg-white" style="text-align:left">
-          <div style="margin-bottom: -6px; margin-top: 1px">
-            <b style="font-size:13px">Bill Date</b>
+          <div style="margin-bottom: 10px; margin-top: 1px">
+            <b style="font-size:15px">Bill To:</b><br>
+            <%= @kb.extra[0] %>
           </div>
-          <%= @payment.created_at.strftime('%d-%^b-%y') %>
-          <% if @payment.paid %>
-            <br>
-            <div style="margin-bottom: -6px"><b style="font-size:13px">Payment Date</b></div>
-            <%= @payment.pdt.strftime('%d-%^b-%y') %>
-            <br>
-            <div style="margin-bottom: -6px"><b style="font-size:13px">Payment Method</b></div>
-            <%= @payment.mtd %>
-          <% end %>
+          <div style="margin-bottom: 0px"><b style="font-size:15px">
+            <i class="fas fa-mobile"></i></b> &nbsp&nbsp
+            <%= @kb.extra[1] %>
+          </div>
+          <div style="margin-bottom: 0px"><b style="font-size:15px">
+            <i class="fas fa-envelope"></i></b> &nbsp
+            <%= @kb.extra[2] %>
+          </div>
         </div>
         <div class="col-md-6 col-6 bg-white" style="text-align:right">
           <div style="margin-bottom: -6px; margin-top: 1px">
@@ -75,8 +75,10 @@
 
           <tr>
             <td>
-              <i class="fas fa-mobile"></i><br>
-              <%= @kb.extra[1] %>
+              <i class="fas fa-mobile"></i>&nbsp&nbsp
+              <%= @kb.extra[1] %><br>
+              <i class="fas fa-envelope"></i>&nbsp
+              <%= @kb.extra[2] %>
             </td>
             <td></td>
             <td style="text-align:right">
@@ -86,10 +88,7 @@
           </tr>
 
           <tr>
-            <td>
-              <i class="fas fa-envelope"></i><br>
-              <%= @kb.extra[2] %>
-            </td>
+            <td></td>
             <td></td>
             <td style="text-align:right">
               <b>Payment Method:</b><br>
@@ -100,8 +99,58 @@
         
       </table>
     <% end %>
-
+  </div> <!-- END TOP ITEMS -->
+  <br>
+  <div class="container">
+    <div style="font-size:20"><b>CUSTOMER REFERENCE :</b></div>
+    MONTHLY BILLS FOR  <%= "#{@kb.clsname}" %>
+    <br><br>
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="text-left">BILL DETAILS FOR <%= ("#{$month_name[@payment.bill_month]}-#{@payment.bill_year}") %> </th>
+          <th></th>
+          <th style="width:140px" class="text-right">AMOUNT (RM)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @kb.extradtl.each do |k,v| %>
+          <tr class="noBorder">
+            <td><%= k %></td>
+            <td></td>
+            <td class="text-right"><%= v.round(2) %></td>
+          </tr>
+        <% end %>
+        
+        <tr>
+          <td class="text-right no-border" colspan="2">
+            <%
+              if @payment.paid
+                stat = "PAID"
+              else
+                stat = "DUE"
+              end
+            %>
+            <div class="well well-small green"><strong><h4>TOTAL <%= stat %></h4></strong></div>
+          </td>
+          <td class="text-right">
+            <strong>
+              <h4>
+                <% if 1==1 %>
+                  <b><%= @payment.amount %></b>
+                <% else %>
+                  <%= "(@payment.amount - parpm).round(2)" %>
+                <% end %>
+                  
+              </h4>
+            </strong></td>
+        </tr>
+      </tbody>
+    </table>
+    <hr><br>
   </div>
+  
+
 </div>
 
 
