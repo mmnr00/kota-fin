@@ -90,7 +90,7 @@
                     <b>BLOCK/ROAD</b><br>
                     <%= h.text_field :classroom_name, value: un.classroom_name, style: 'text-transform: uppercase; width: 100%', class: "" %><br>
                     <b>UNIT NO</b><br>
-                    <%= h.text_field :description, value: un.description, style: 'text-transform: uppercase; width: 100%', class: "form-controls" %><br>
+                    <%= h.text_field :description, value: un.description, style: 'text-transform: uppercase; width: 100%', class: "form-control" %><br>
                     <%= link_to classroom_path(un), method: :delete, class: "text-danger align-left", :data => {:confirm => 'Are you sure?'} do %>
                       <i class="fas fa-trash"></i>
                     <% end %>  
@@ -99,7 +99,7 @@
                       <% link_to "BILL", crt_pmt_path(tsk: @taska.id, cls:un.id), class: "btn btn-sm btn-primary" %> 
                     <% end %> 
                     <!-- VIEW BILL TEMP -->
-                    <%= link_to "VIEW BILL", list_bill_path(cls:un.id, redr:1), class: "badge badge-primary" %>  
+                    <%= link_to "VIEW BILL", list_bill_path(cls:un.unq, redr:1), class: "badge badge-primary" %>  
                     
                   </td>
                   <td style="width:30%"><!-- OWNER DETAILS -->

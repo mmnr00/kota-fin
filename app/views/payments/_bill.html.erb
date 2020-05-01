@@ -1,128 +1,118 @@
 <div class="bg-white">
-  <div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-11">
-      <div class="grid simple">
-        <div class="grid-body no-border invoice-body"><br> 
-
-          <div class="col-md-12"> 
-            <% image = Taska.first.fotos.where(foto_name: "CENTER LOGO").first %>
-            <% if image.picture.present? %>
-              <a href="<%= image.picture.url %>">
-                <% if params[:pdf].present? %>
-                  <%= wicked_pdf_image_tag(image.picture.url, size: "100x100") %>
-                <% else %>
-                  <%= image_tag(image.picture.url, size: "100x100") %>
-                <% end %>
-              </a>
-            <% end %>
-            <address>
-              <strong><%= @taska.name.upcase %></strong><br>
-              <%= @taska.address_1.upcase %><br>
-              <%= @taska.address_2.upcase %><br>
-              <%= @taska.postcode %>
-              <%= @taska.city.upcase %>&nbsp
-              <%= @taska.states.upcase %>&nbsp
-              <br>
-              <%= @taska.phone_1 %>-<%= @taska.phone_2 %><br>
-              <%= @taska.email %>
-            </address>
-          </div><br>
-
-          <div class="col-md-12">
-            <% if @payment.paid %>
-              <h5>RECEIPT FOR ADRRESS:
-            <% else %>
-              <h5>INVOICE FOR ADDRESS:
-            <% end %><br>
-            <strong><%= @kb.clsname %></strong></h5>
-          </div>
-
-          <div class="clearfix"></div><br>
-            <div class="col-md-12">
-              <h5 class="semi-bold">
-                <%= @kb.extra[0] %></h5>
-              <address>
-                <%= @kb.extra[1] %><br>
-                <%= @kb.extra[2] %><br>
-              </address>
-            </div>
-
-            <div class="col-md-12"><br>
-              <div>
-                <div class="pull-lefts"> BILL ID : <%= @payment.bill_id.upcase %></div>
-                <div class="clearfix"></div>
-              </div>
-              <div>
-                <div class="pull-lefts"> BILL DATE : <%= @payment.created_at.strftime('%d-%^b-%y') %></div>
-                <div class="clearfix"></div>
-              </div>
-              <div>
-                <% if @payment.paid %>
-                  <div class="pull-lefts"> PAYMENT DATE : <%= @payment.pdt.strftime('%d-%^b-%y') %></div>
-                  <div class="pull-lefts"> PAYMENT METHOD : 
-                    <% if 1==1 %>
-                      <%= @payment.mtd %>
-                    <% else %>
-                      NORMAL BILLPLZ
-                    <% end %>
-                  </div>
-                  <% if (image = @payment.fotos.first).present? && image.picture.present? %>
-                    <div class="pull-left">
-                      <a href="<%= image.picture.url %>" target="_blank">
-                        <font color="blue">RECEIPT</font>
-                      </a>
-                    </div>
-                  <% end %>
-                <% end %>
-                <div class="clearfix"></div>
-              </div><br>
-            </div>
-
-            <%if 1==0 %>
-              <% table_style = "table-responsive"%>
-            <% end %>
-            <table class="table <%= table_style %>">
-              <thead>
-                <tr>
-                  <th class="text-left">BILL DETAILS FOR  <%= "#{$month_name[@payment.bill_month]}-#{@payment.bill_year}" %> </th>
-                  <th></th>
-                  <th style="width:140px" class="text-right">AMOUNT (RM)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <% @kb.extradtl.each do |k,v| %>
-                  <tr class="noBorder">
-                    <td><%= k %></td>
-                    <td></td>
-                    <td class="text-right"><%= v.round(2) %></td>
-                  </tr>
-                <% end %>
-                
-                <tr>
-                  <td class="text-right no-border" colspan="2">
-                    <div class="well well-small green"><strong><h4>TOTAL</h4></strong></div>
-                  </td>
-                  <td class="text-right">
-                    <strong>
-                      <h4>
-                        <% if 1==1 %>
-                          <b><%= @payment.amount %></b>
-                        <% else %>
-                          <%= "(@payment.amount - parpm).round(2)" %>
-                        <% end %>
-                          
-                      </h4>
-                    </strong></td>
-                </tr>
-              </tbody>
-            </table><br>
-
-        </div>
-        
-      </div>
-
+  <% if !@payment.paid %>
+    <h1 style="text-align:right; padding-right: 20px">
+      <%= link_to "#{ENV["BILLPLZ_URL"]}bills/#{@payment.bill_id}", class: "btn btn-sm btn-info shadow" do %>
+        <i class="far fa-hand-pointer"></i> PAY NOW
+      <% end %>
+    </h1>
+  <% end %>
+  <div class="container"><br>
+    <div style="font-size:20px">
+      <b>Bill ID: </b><%= @payment.bill_id %>
     </div>
+    <div class="container; col-md-12;" style="text-align:right"> 
+      <% image = @payment.taska.fotos.where(foto_name: "CENTER LOGO").first %>
+      <% if image.picture.present? %>
+        <a href="<%= image.picture.url %>">
+          <% if params[:pdf].present? %>
+            <%= wicked_pdf_image_tag(image.picture.url, size: "150x150") %>
+          <% else %>
+            <%= image_tag(image.picture.url, size: "150x150") %>
+          <% end %>
+        </a>
+      <% end %>
+      <div style="padding-top: 5px">
+        <div style="margin-bottom: -6px"><b style="font-size:18px"><%= @taska.name.upcase %></b></div>
+        <%= "#{@taska.acc_name} (#{@taska.ssm_no})" %>
+      </div>
+    </div><br>
+
+    <% if !@pdf %>
+      <div class="row bg-light">
+        <div class="col-md-6 col-6 bg-white" style="text-align:left">
+          <div style="margin-bottom: -6px; margin-top: 1px">
+            <b style="font-size:13px">Bill Date</b>
+          </div>
+          <%= @payment.created_at.strftime('%d-%^b-%y') %>
+          <% if @payment.paid %>
+            <br>
+            <div style="margin-bottom: -6px"><b style="font-size:13px">Payment Date</b></div>
+            <%= @payment.pdt.strftime('%d-%^b-%y') %>
+            <br>
+            <div style="margin-bottom: -6px"><b style="font-size:13px">Payment Method</b></div>
+            <%= @payment.mtd %>
+          <% end %>
+        </div>
+        <div class="col-md-6 col-6 bg-white" style="text-align:right">
+          <div style="margin-bottom: -6px; margin-top: 1px">
+            <b style="font-size:13px">Bill Date</b>
+          </div>
+          <%= @payment.created_at.strftime('%d-%^b-%y') %>
+          <% if @payment.paid %>
+            <br>
+            <div style="margin-bottom: -6px"><b style="font-size:13px">Payment Date</b></div>
+            <%= @payment.pdt.strftime('%d-%^b-%y') %>
+            <br>
+            <div style="margin-bottom: -6px"><b style="font-size:13px">Payment Method</b></div>
+            <%= @payment.mtd %>
+          <% end %>
+        </div>     
+      </div> <!-- DIV ROW -->
+    <% else %> <!-- IF PRINT PDF -->
+      <table class="table table-borderless table-sm" style="font-size:18px ">
+        <tbody>
+          <tr>
+            <td>
+              <b>Bill To:</b><br>
+              <%= @kb.extra[0] %>
+            </td>
+            <td></td>
+            <td style="text-align:right">
+              <b>Bill Date:</b><br>
+              <%= @payment.created_at.strftime('%d-%^b-%y') %>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <i class="fas fa-mobile"></i><br>
+              <%= @kb.extra[1] %>
+            </td>
+            <td></td>
+            <td style="text-align:right">
+              <b>Payment Date:</b><br>
+              <%= @payment.pdt.strftime('%d-%^b-%y') %>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <i class="fas fa-envelope"></i><br>
+              <%= @kb.extra[2] %>
+            </td>
+            <td></td>
+            <td style="text-align:right">
+              <b>Payment Method:</b><br>
+              <%= @payment.mtd %>
+            </td>
+          </tr>
+        </tbody>    
+        
+      </table>
+    <% end %>
 
   </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+    
+
+  

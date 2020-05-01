@@ -43,7 +43,7 @@
                       <b>Date: </b><%= pyn.created_at.strftime('%d/%m/%y')%>
                     </div>
                     <div style="white-space: nowrap;font-size:9px">
-                      <b>ID: </b><%= pyn.id %>
+                      <b>ID: </b><%= pyn.bill_id %>
                     </div>
                   </td>
                   <td style="text-align:center;background-color:<%= colr %>">
@@ -96,7 +96,7 @@
       <!-- START FORM -->
       <%= form_tag list_bill_path, method: :get do %>
 
-        <div class="row container">
+        <!-- <div class="row container">
         
           <div class="col-lg-3 col-sm-3"><b>Date Of Birth</b></div>
           <div class="col-lg-3 col-sm-6">
@@ -120,7 +120,7 @@
                     class: "form-control", 
                     style: "text-transform:uppercase" %>
           </div>
-        </div><br>
+        </div><br> -->
 
         <div class="row container">
         

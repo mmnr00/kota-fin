@@ -465,6 +465,7 @@ class PaymentsController < ApplicationController
         format.html
         format.pdf do
          render pdf: "Receipt from #{@taska.name}",
+         #viewport_size: '1280x1024',
          template: "payments/view_bill.html.erb",
          #disposition: "attachment",
          #page_size: "A6",
@@ -479,10 +480,10 @@ class PaymentsController < ApplicationController
     if params[:redr].present?
       @shw = true
     else
-      @shw = true
+      @shw = false
     end
 
-    @comm = Classroom.find(params[:cls])
+    @comm = Classroom.where(unq: params[:cls]).first
     if @comm.topay == "OWNER"
       @nm = @comm.own_name
     else
@@ -490,14 +491,14 @@ class PaymentsController < ApplicationController
     end
 
     if params[:sub].present? && !@shw
-      own_vr = (@comm.own_email == params[:em].upcase) && (@comm.own_ph == params[:ph]) && (@comm.own_dob == params[:dob].to_date)
-      tn_vr = (@comm.tn_email == params[:em].upcase) && (@comm.tn_ph == params[:ph]) && (@comm.tn_dob == params[:dob].to_date)
+      own_vr = (@comm.own_ph == params[:ph]) #&& (@comm.own_dob == params[:dob].to_date) && (@comm.own_email == params[:em].upcase)
+      tn_vr = (@comm.tn_ph == params[:ph]) # && (@comm.tn_dob == params[:dob].to_date) && (@comm.tn_email == params[:em].upcase)
       if own_vr || tn_vr
         #flash[:success] = "Details Verified"
         @shw = true
       else
         flash[:danger] = "Details do not matched. Please try again"
-        redirect_to list_bill_path(cls: @comm.id)      
+        redirect_to list_bill_path(cls: @comm.unq)      
       end
     end
 
