@@ -1,12 +1,12 @@
 
 <div class="col-lg-8"><div class="page-content">
   <% if @payment.paid %>
-    <h1 align="center"><%= link_to "PAID", "#", class: "btn btn-lg btn-success shadow" %></h1>
+    <h1 align="center"><%= link_to "Thank you. This bill has been paid", "#", class: "btn btn-block btn-success" %></h1>
   <% elsif 1==0 %>
     
     <h1 align="center"><%= link_to "RM 50 BALANCE PAYMENT", "#", class: "btn btn-sm btn-warning" %></h1>
   <% else %>
-    <h1 align="center"><%= link_to "PENDING PAYMENT", "#", class: "btn btn-sm btn-danger active" %></h1>
+    <h1 align="center"><%= link_to "Pending Payment", "#", class: "btn btn-block btn-danger active" %></h1>
   <% end %>
     
     

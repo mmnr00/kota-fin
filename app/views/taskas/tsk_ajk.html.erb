@@ -51,7 +51,7 @@
                 </h4>
               </div>
               <div class="panel-body">
-                <div class="container">
+                <div class="container" style="text-align: center">
                   <% if img.present? %>
                     <%= image_tag(img, size: "80x80") %>
                   <% else %>
@@ -59,14 +59,41 @@
                   <% end %>
                 </div>
                 <div class="" >
-                  <div class="container" >
+                  <div class="container" style="text-align: center" >
                     <h6><%= name_ajk %></h6>
                   </div>
                   <hr>
                   <div class="container" >
-                    <i class="fas fa-mobile"></i>&nbsp&nbsp   <%= ph_no %><br>
-                    <i class="fas fa-map-marker"></i>&nbsp&nbsp   <%= add %><br>
-                    <i class="fas fa-envelope"></i>&nbsp&nbsp   <%= eml %>
+                    <div class="row">
+                      <div class="col-1">
+                        <i class="fas fa-phone" style="font-size:20px; color:#8c198c"></i> 
+                      </div>
+                      <div class="col-10" style="font-size:13px">
+                        <%= ph_no %>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-1">
+                        <i class="fas fa-map-marker" style="font-size:20px; color:#8c198c"></i>  
+                      </div>
+                      <div class="col-10" style="font-size:13px">
+                        <%= add %>
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                      <div class="col-1">
+                        <i class="fas fa-envelope" style="font-size:20px; color:#8c198c"></i> 
+                      </div>
+                      <div class="col-10" style="font-size:13px">
+                        <%= eml %>
+                      </div>
+                    </div>
+
+                           
+                    
+                      
                   </div>
                   <hr>
                   <div class="container" >
