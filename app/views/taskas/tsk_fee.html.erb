@@ -119,13 +119,13 @@
                 <td><a href="<%= "#{view_bill_url}?id=#{un.id}" %>" target="blank"><u><%= un.bill_id %></u></a></td>
                 <td><span class="badge"><%= un.amount %></span></td>
                 <td style="background-color:<%= clr %>;text-align:center">
-                  <b><span class="badge" style="color:white;font-size:15px"><%= msg %></span></b>
+                  <b><span class="badge" style="color:white;font-size:10px"><%= msg %></span></b>
                   <% if un.paid %>
                     <br><br>
                     <!-- <i><%= un.pdt.strftime('%d-%m-%y')%></i> -->
                     
                   <% else %>
-                    <br><%= link_to "Update", man_pmt_path(tsk: @taska.id,pmt: un.id), class: "badge badge-light"%>
+                    <br><%= link_to "UPDATE", man_pmt_path(tsk: @taska.id,pmt: un.id), class: "badge badge-light", style: "font-size:10px" %>
                   <% end %>
                 </td>
                 <td>
