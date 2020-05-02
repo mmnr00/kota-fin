@@ -328,6 +328,7 @@ Rails.application.routes.draw do
   get '/remove_teacher', to: 'taska_teachers#remove_teacher', as: 'remove_teacher'
 
   #~CLASSROOMS
+  get '/sms_all', to: 'classrooms#sms_all', as: 'sms_all'
   post '/upd_vehicle', to: 'classrooms#upd_vehicle', as: 'upd_vehicle'
   delete '/del_vehicle', to: 'classrooms#del_vehicle', as: 'del_vehicle' 
   post '/add_vehicle', to: 'classrooms#add_vehicle', as: 'add_vehicle'

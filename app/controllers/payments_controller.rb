@@ -113,12 +113,12 @@ class PaymentsController < ApplicationController
         #add content
         msg = "<html>
                 <body>
-                  Hi <strong>#{nm}</strong><br><br>
+                  Dear Mr/Mrs <strong>#{nm}</strong><br><br>
 
 
                   Your new bill from <strong>#{@taska.name}</strong> is ready. <br><br>
 
-                  Please click <a href=#{list_bill_url(cls: cls.id)}>HERE</a> to view and make payment. <br><br>
+                  Please click <a href=#{list_bill_url(cls: cls.unq)}>HERE</a> to view and make payment. <br><br>
 
                   <strong>Taman Kita Tanggungjawab Bersama</strong>.<br><br>
 

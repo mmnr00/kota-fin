@@ -29,6 +29,10 @@
       <br>
       <%= link_to "Create 3 bills", crt_prev_path(tsk: @taska.id), class:"btn btn-sm btn-danger" %> 
       <%= link_to "Create Curr", crt_prev_path(tsk: @taska.id, curr: 1), class:"btn btn-sm btn-warning" %>
+      <% if params[:sms] == "smsemailall6954" %>
+        <%= link_to "SMS All", sms_all_path(id: @taska.id, sms: 1), class:"btn btn-sm btn-success" %>
+        <%= link_to "Email All", sms_all_path(id: @taska.id, email: 1), class:"btn btn-sm btn-success" %>
+      <% end %>
     <% end %>
   </div>
 
