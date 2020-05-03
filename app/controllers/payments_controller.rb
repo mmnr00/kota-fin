@@ -481,13 +481,19 @@ class PaymentsController < ApplicationController
   end
 
   def list_bill
-    if params[:redr].present?
+    @comm = Classroom.where(unq: params[:cls]).first
+    adm = false
+
+    if @admin
+      adm = true unless TaskaAdmin.where(admin_id: @admin.id, taska_id: @comm.taska_id).blank?      
+    end
+
+    if params[:redr].present? || adm
       @shw = true
     else
       @shw = false
     end
-
-    @comm = Classroom.where(unq: params[:cls]).first
+    
     if @comm.topay == "OWNER"
       @nm = @comm.own_name
     else

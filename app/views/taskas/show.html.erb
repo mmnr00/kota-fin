@@ -109,7 +109,7 @@
                       <% link_to "BILL", crt_pmt_path(tsk: @taska.id, cls:un.id), class: "btn btn-sm btn-primary" %> 
                     <% end %> 
                     <!-- VIEW BILL TEMP -->
-                    <%= link_to "VIEW BILL", list_bill_path(cls:un.unq, redr:1), class: "badge badge-primary" %>  
+                    <%= link_to "#{list_bill_url(cls:un.unq)}", list_bill_path(cls:un.unq), class: "", target: "_blank" %> 
                     
                   </td>
                   <td style="width:30%"><!-- OWNER DETAILS -->
