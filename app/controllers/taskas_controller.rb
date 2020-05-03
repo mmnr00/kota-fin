@@ -149,15 +149,26 @@ class TaskasController < ApplicationController
     str = params[:sch_str]
     @all_ajk = @taska.extras
     @ajks = @taska.extras.where(classroom_id: nil)
+
+    @clsrs = @taska.classrooms
+
+    #create array road name
+    @rd_names = []
+    @clsrs.order('classroom_name ASC').each do |cls|
+      @rd_names << cls.classroom_name unless @rd_names.include? cls.classroom_name
+    end
+
     if str.present?
       str = str.upcase
     end
-    if sch.present?
+    if sch.present? || params[:sch].present?
+      @units = @taska.classrooms
+
       if sch == "Block/Road"
         @units= @taska.classrooms.where('classroom_name LIKE ?', "%#{str}%")
         #flash[:notice] = "#{@units.count} results found"
       elsif sch == "Unit No"
-        @units= @taska.classrooms.where('description LIKE ?', "%#{str}%")
+        @units= @taska.classrooms.where(description: str)
       elsif sch == "Name"
         cls = @taska.classrooms
         @units = cls.where('own_name LIKE ?', "%#{str}%").or(cls.where('tn_name LIKE ?', "%#{str}%"))
@@ -188,7 +199,9 @@ class TaskasController < ApplicationController
         finvhc.each do |vh|
           @units = @units.or(cls.where(id: vh.classroom_id))
         end
-        #@units= @taska.classrooms
+      end
+      if params[:blk].present?
+        @units= @units.where(classroom_name: params[:blk])
       end
     else
       if params[:all].present?
@@ -232,10 +245,11 @@ class TaskasController < ApplicationController
 
   def tsk_fee
     @payments = @taska.payments.where(name: "RSD M BILL")
+    @clsrs = @taska.classrooms
 
     #create array road name
     @rd_names = []
-    @taska.classrooms.order('classroom_name ASC').each do |cls|
+    @clsrs.order('classroom_name ASC').each do |cls|
       @rd_names << cls.classroom_name unless @rd_names.include? cls.classroom_name
     end
 
@@ -263,11 +277,8 @@ class TaskasController < ApplicationController
       arr = []
 
       if params[:sch_rd].present?
-        kb = kb.where('clsname LIKE ?', "%#{params[:sch_rd]}%")
-        kb.each do |k|
-          arr<<k.payment_id
-        end
-        @payments = @payments.where(id: arr)
+        cls_rd = @clsrs.where(classroom_name: params[:sch_rd])
+        @payments = @payments.where(classroom_id: cls_rd.ids) unless cls_rd.blank?
       end
 
 
@@ -275,11 +286,13 @@ class TaskasController < ApplicationController
         @payments = @payments.where(bill_month: params[:sch_str])
 
       elsif params[:sch_fld] == "Unit No" || params[:sch_fld] == "Block/Road"
-        kb = kb.where('clsname LIKE ?', "%#{str.upcase}%")
-        kb.each do |k|
-          arr<<k.payment_id
-        end
-        @payments = @payments.where(id: arr)
+        # kb = kb.where('clsname LIKE ?', "%#{str.upcase}%")
+        # kb.each do |k|
+        #   arr<<k.payment_id
+        # end
+        # @payments = @payments.where(id: arr)
+        cls_unt = @clsrs.where(description: str)
+        @payments = @payments.where(classroom_id: cls_unt.ids) unless cls_unt.blank?
 
       elsif params[:sch_fld] == "Phone No" || params[:sch_fld] == "Name" || params[:sch_fld] == "Email"
         kb.each do |k|

@@ -16,7 +16,7 @@
         </div>
         <div class="row">
           <div class="col-sm-10 col-12">
-            <%= f.date_field :pdt, class: "form-control", autofocus: true, required: true %>
+            <%= f.date_field :pdt, class: "form-control", value: Date.today ,autofocus: true, required: true %>
           </div>
         </div>
       </div>
@@ -29,7 +29,9 @@
         </div>
         <div class="row">
           <div class="col-sm-8 col-12">
-            <%= f.select :mtd, ["CDM", "CASH", "ONLINE BANKING","OTHERS"] ,{include_blank: "SELECT"}, {required: true} %>
+            <%= f.select :mtd, 
+              options_for_select(["CDM", "CASH", "ONLINE BANKING","OTHERS"],selected: "CASH"),
+              {include_blank: "SELECT"}, {required: true} %>
           </div>
         </div>
       </div>

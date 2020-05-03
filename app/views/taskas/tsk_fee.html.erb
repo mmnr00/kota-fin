@@ -69,13 +69,21 @@
         <%= select_tag :sch_fld, options_for_select(["Unit No","Phone No","Name","Email","Bill ID"], params[:sch_fld]),
               include_blank: "Select Field" %>
         <%= hidden_field_tag :id, params[:id], value: params[:id] %>
+        <%= hidden_field_tag :shw, params[:shw], value: true %>
         <%= button_tag(type: :submit, class: "btn btn-sm btn-success", id: "submit_expense") do %>
-            <i class="fa fa-search"></i> SEARCH
+            <i class="fa fa-search"></i> Search
         <% end %>
         <%= link_to tsk_fee_path(@taska, sch_yr: Date.today.year, sch_mth: Date.today.month), class:"btn btn-sm btn-danger" do %>
-            <i class="fa fa-sync"></i> CLEAR
+            <i class="fa fa-sync"></i> Clear
         <% end %>
-        <% if 1==1 #params[:sch].present? %>
+
+        <% if params[:shw].blank? %>
+          <%= link_to tsk_fee_path(@taska, sch_yr: Date.today.year, sch_mth: Date.today.month, shw: true), class:"btn btn-sm btn-warning" do %>
+              <i class="fa fa-eye"></i> Show All
+          <% end %>
+        <% end %>
+
+        <% if 1==1 && params[:shw].present? #params[:sch].present? %>
           <span class="badge badge-dark"><b><%= @payments.count %></b> result(s) found</span>
         <% end %>
       <% end %>
@@ -96,7 +104,7 @@
               <th style="background-color:#ccccff">METHOD</th>
             </tr>
           </thead>
-          <tbody>
+          <% if params[:shw].present? %><tbody>
             <% 
               @payments.order('bill_year DESC').order('bill_month DESC').order('created_at DESC').each do |un| 
               kb = un.kid_bill
@@ -127,7 +135,7 @@
                     <!-- <i><%= un.pdt.strftime('%d-%m-%y')%></i> -->
                     
                   <% else %>
-                    <br><%= link_to "UPDATE", man_pmt_path(tsk: @taska.id,pmt: un.id), class: "badge badge-light", style: "font-size:10px" %>
+                    <br><%= link_to "UPDATE", man_pmt_path(tsk: @taska.id,pmt: un.id), class: "badge badge-light", style: "font-size:10px", target: "_blank" %>
                   <% end %>
                 </td>
                 <td>
@@ -152,7 +160,7 @@
                 </td>  
               </tr>
             <% end %>
-          </tbody>
+          </tbody><% end %>
         </table>
     </div>
   </div>

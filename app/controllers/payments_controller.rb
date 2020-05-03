@@ -185,10 +185,12 @@ class PaymentsController < ApplicationController
       flash[:success] = "Bill Update Failed"
     end
 
-    redirect_to tsk_fee_path(id: @taska.id,
-                            sch_str: @payment.bill_id, 
-                            sch_fld: "Bill ID",
-                            sch: true)
+    redirect_to view_bill_path(id: @payment.id)
+
+    # redirect_to tsk_fee_path(id: @taska.id,
+    #                         sch_str: @payment.bill_id, 
+    #                         sch_fld: "Bill ID",
+    #                         sch: true)
   end
 
   def rev_pmt
@@ -264,7 +266,7 @@ class PaymentsController < ApplicationController
 
     end
     flash[:success] = "Bills Updated"
-    redirect_to tsk_fee_path(id: @taska.id)
+    redirect_to tsk_fee_path(id: @taska.id, sch_mth: Date.today.month, sch_year: Date.today.year)
   end
 
   def mtl_pmt

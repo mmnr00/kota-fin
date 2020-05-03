@@ -46,9 +46,11 @@
   <div class="card-header">
     <div class="row">
       <%= form_tag taskashow_path, method: :get, id: "find_kid" do %>
+        <%= select_tag :blk, options_for_select(@rd_names, params[:blk]),
+              include_blank: "All Blocks/Roads" %>
         <%= text_field_tag :sch_str, params[:sch_str], placeholder: "Search Here", style: 'text-transform: uppercase' %>
-        <%= select_tag :sch_fld, options_for_select(["Block/Road","Unit No", "Name","Phone No","Email", "Plate No"], params[:sch_fld]),
-              include_blank: "Select Field", required: true %>
+        <%= select_tag :sch_fld, options_for_select(["Unit No", "Name","Phone No","Email", "Plate No"], params[:sch_fld]),
+              include_blank: "Select Field" %>
         <%= hidden_field_tag :id, params[:id], value: params[:id] %>
         <%= hidden_field_tag :sch, params[:sch], value: true %>
         <%= button_tag(type: :submit, class: "btn btn-sm btn-success", id: "submit_expense") do %>
@@ -57,7 +59,7 @@
         <%= link_to taskashow_path(@taska), class:"btn btn-sm btn-danger" do %>
             <i class="fa fa-sync"></i> CLEAR
         <% end %>
-        <%= "#{@units.count} result(s) found" unless params[:sch_fld].blank? %>
+        <%= "#{@units.count} result(s) found" unless params[:sch].blank? %>
       <% end %>
       <div>
         
