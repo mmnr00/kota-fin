@@ -16,8 +16,8 @@ development:
   # timeout: 5000
   adapter: postgresql
   encoding: unicode
-  database: kota-fin-dev
-  #database: pg-prod-kidcare
+  #database: kota-fin-dev
+  database: kota-fin-prod
   pool: 5
   username: #mus-kidcare-sgp1
   password: #Geometr3
@@ -30,8 +30,8 @@ test:
   # timeout: 5000
   adapter: postgresql
   encoding: unicode
-  database: kota-fin-dev
-  #database: pg-prod-kidcare
+  #database: kota-fin-dev
+  database: kota-fin-prod
   pool: 5
   username: #mus-kidcare-sgp1
   password: #Geometr3

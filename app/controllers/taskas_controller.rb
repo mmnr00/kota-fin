@@ -232,13 +232,27 @@ class TaskasController < ApplicationController
 
   def tsk_fee
     @payments = @taska.payments.where(name: "RSD M BILL")
-    if params[:sch].present?
+
+    #create array road name
+    @rd_names = []
+    @taska.classrooms.order('classroom_name ASC').each do |cls|
+      @rd_names << cls.classroom_name unless @rd_names.include? cls.classroom_name
+    end
+
+    if 1==1  ##params[:sch].present?
       str = params[:sch_str]
 
+      #search year
       if params[:sch_yr].present?
         @payments = @payments.where(bill_year: params[:sch_yr].to_i)
       end
 
+      #search month
+      if params[:sch_mth].present?
+        @payments = @payments.where(bill_month: params[:sch_mth].to_i)
+      end
+
+      #search status
       if params[:sch_stt] == "PAID"
         @payments = @payments.where(paid: true)
       elsif params[:sch_stt] == "UNPAID"
@@ -247,7 +261,17 @@ class TaskasController < ApplicationController
 
       kb = KidBill.where(payment_id: @payments.ids)
       arr = []
-      if params[:sch_fld] == "Month"
+
+      if params[:sch_rd].present?
+        kb = kb.where('clsname LIKE ?', "%#{params[:sch_rd]}%")
+        kb.each do |k|
+          arr<<k.payment_id
+        end
+        @payments = @payments.where(id: arr)
+      end
+
+
+      if params[:sch_fld] == "Month" 
         @payments = @payments.where(bill_month: params[:sch_str])
 
       elsif params[:sch_fld] == "Unit No" || params[:sch_fld] == "Block/Road"

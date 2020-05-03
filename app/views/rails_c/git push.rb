@@ -15,8 +15,9 @@ git diff HEAD 10fbc
 git checkout 10fbc
 
 heroku maintenance:on --app kidcare-prod
-dropdb kota-fin-dev -U MustakhimRehan
-heroku pg:pull DATABASE_URL kota-fin-dev --app kota-prod
+
+dropdb kota-fin-prod -U MustakhimRehan
+heroku pg:pull DATABASE_URL kota-fin-prod --app kota-prod
 
 heroku pg:reset --app kota-staging
 heroku pg:push kota-fin-dev DATABASE_URL  --app kota-staging

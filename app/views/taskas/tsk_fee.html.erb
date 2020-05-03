@@ -60,20 +60,22 @@
         yr_s = Date.today.year - 2
         yr_e = Date.today.year + 2
       %>
-        <%= select_tag :sch_yr, options_for_select(yr_s..yr_e, params[:sch_yr]), include_blank: "ALL YEAR" %>
-        <%= select_tag :sch_stt, options_for_select(["PAID","UNPAID"], params[:sch_stt]), include_blank: "STATUS" %>
+        <%= select_tag :sch_yr, options_for_select(yr_s..yr_e, params[:sch_yr]), include_blank: "All Year" %>
+        <%= select_tag :sch_mth, options_for_select(1..12, params[:sch_mth]), include_blank: "All Months" %>
+        <%= select_tag :sch_stt, options_for_select(["PAID","UNPAID"], params[:sch_stt]), include_blank: "All Status" %>
+        <%= select_tag :sch_rd, options_for_select(@rd_names, params[:sch_rd]), include_blank: "All Blocks/Roads" %>
+        
         <%= text_field_tag :sch_str, params[:sch_str], placeholder: "Search Item" %>
-        <%= select_tag :sch_fld, options_for_select(["Month", "Unit No", "Block/Road","Phone No","Name","Email","Bill ID"], params[:sch_fld]),
+        <%= select_tag :sch_fld, options_for_select(["Unit No","Phone No","Name","Email","Bill ID"], params[:sch_fld]),
               include_blank: "Select Field" %>
         <%= hidden_field_tag :id, params[:id], value: params[:id] %>
-        <%= hidden_field_tag :sch, params[:sch], value: true %>
         <%= button_tag(type: :submit, class: "btn btn-sm btn-success", id: "submit_expense") do %>
             <i class="fa fa-search"></i> SEARCH
         <% end %>
-        <%= link_to tsk_fee_path(@taska), class:"btn btn-sm btn-danger" do %>
+        <%= link_to tsk_fee_path(@taska, sch_yr: Date.today.year, sch_mth: Date.today.month), class:"btn btn-sm btn-danger" do %>
             <i class="fa fa-sync"></i> CLEAR
         <% end %>
-        <% if params[:sch].present? %>
+        <% if 1==1 #params[:sch].present? %>
           <span class="badge badge-dark"><b><%= @payments.count %></b> result(s) found</span>
         <% end %>
       <% end %>
