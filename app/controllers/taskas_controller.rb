@@ -14,6 +14,83 @@ class TaskasController < ApplicationController
       
       xlsx.row(n)
       row = Hash[[header, xlsx.row(n)].transpose]
+      if row["BLOCK/ROAD"].present? && row["HOUSE NO"].present?
+
+        own_name = " "
+        own_dob = " "
+        own_ph = " "
+        own_email = " "
+        tn_name = " "
+        tn_dob = " "
+        tn_ph = " "
+        tn_email = " "
+
+        hs_no = row["HOUSE NO"].to_s
+        own_name = row["OWNER NAME"] unless row["OWNER NAME"].blank?
+        own_ph = row["OWNER MOBILE PHONE"] unless row["OWNER MOBILE PHONE"].blank?
+        own_email = row["OWNER EMAIL"] unless row["OWNER EMAIL"].blank?
+        tn_name = row["TENANT NAME"] unless row["TENANT NAME"].blank?
+        tn_ph = row["TENANT MOBILE PHONE"] unless row["TENANT MOBILE PHONE"].blank?
+        tn_email = row["TENANT EMAIL"] unless row["TENANT EMAIL"].blank?
+
+
+        #check existing
+        if (cls=tskcls.where(classroom_name: row["BLOCK/ROAD"].upcase,description: hs_no.upcase)).present?
+          clsr = cls.first
+          clsr.update(topay: row["SEND BILL TO"],
+                            taska_id: @taska.id,
+                            own_name: own_name.upcase,
+                            own_dob: own_dob,
+                            own_ph: own_ph,
+                            own_email: own_email.upcase,
+                            tn_name: tn_name.upcase,
+                            tn_dob: tn_dob,
+                            tn_ph: tn_ph,
+                            tn_email: tn_email.upcase)
+          
+
+        else
+          clsr = Classroom.new(classroom_name: row["BLOCK/ROAD"].upcase,
+                                  description: hs_no.upcase,
+                                  topay: row["SEND BILL TO"],
+                                  taska_id: @taska.id,
+                                  own_name: own_name.upcase,
+                                  own_dob: own_dob,
+                                  own_ph: own_ph,
+                                  own_email: own_email.upcase,
+                                  tn_name: tn_name.upcase,
+                                  tn_dob: tn_dob,
+                                  tn_ph: tn_ph,
+                                  tn_email: tn_email.upcase)
+
+          unq = (0...6).map { ('a'..'z').to_a[rand(26)] }.join
+          while Classroom.where(unq: unq).present? #arr.include? unq 
+            unq = (0...6).map { ('a'..'z').to_a[rand(26)] }.join
+          end
+          clsr.unq = unq
+          
+          clsr.save
+          Foto.create(foto_name:"Owner Pic",classroom_id: clsr.id)
+          Foto.create(foto_name:"Tenant Pic",classroom_id: clsr.id)
+        end #end create 
+
+      end #if hse no and this is present
+
+    end #end all rows
+    flash[:success] = "FILE UPLOADED"
+    redirect_to taskashow_path(@taska)
+  end
+
+
+
+  def upld_res_old
+    xlsx = Roo::Spreadsheet.open(params[:file])
+    header = xlsx.row(xlsx.first_row+2)
+    tskcls = @taska.classrooms
+    ((xlsx.first_row+4)..(xlsx.last_row)).each do |n|
+      
+      xlsx.row(n)
+      row = Hash[[header, xlsx.row(n)].transpose]
       if row["BLOCK/ROAD"].present? && row["UNIT NO"].present?
 
         own_name = ""
