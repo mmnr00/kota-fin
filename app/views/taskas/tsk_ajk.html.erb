@@ -32,7 +32,7 @@
 
     %>
       
-      <div class="col-lg-3 text-break"> 
+      <div class="col-lg-4 col-md-6 col-12 text-break"> 
         <div class="rows">
           <%= form_for(:ajk, :url => {:controller=>'taskas', :action=>'upd_ajk'}, :html => {multipart: true, method: :post}) do |f| %>
           <%= f.fields_for :"#{aj.id}" do |h| %>
