@@ -293,7 +293,9 @@ class TaskasController < ApplicationController
 
   def tsk_ajk
     @ajks = @taska.extras.order('created_at ASC')
-    render action: "tsk_ajk", layout: "admin_db/admin_db-ajk" 
+    if @admin
+      render action: "tsk_ajk", layout: "admin_db/admin_db-ajk" 
+    end
   end
 
   def crt_ajk
