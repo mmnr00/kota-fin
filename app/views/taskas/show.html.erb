@@ -53,10 +53,10 @@
               include_blank: "Select Field" %>
         <%= hidden_field_tag :id, params[:id], value: params[:id] %>
         <%= hidden_field_tag :sch, params[:sch], value: true %>
-        <%= button_tag(type: :submit, class: "btn btn-sm btn-success", id: "submit_expense") do %>
+        <%= button_tag(type: :submit, class: "badge badge-success shadow-none", style: "font-size: 14px; border-style: none",  id: "submit_expense") do %>
             <i class="fa fa-search"></i> SEARCH
         <% end %>
-        <%= link_to taskashow_path(@taska), class:"btn btn-sm btn-danger" do %>
+        <%= link_to taskashow_path(@taska), class: "badge badge-danger shadow-sm", style: "font-size: 14px" do %>
             <i class="fa fa-sync"></i> CLEAR
         <% end %>
         <%= "#{@units.count} result(s) found" unless params[:sch].blank? %>

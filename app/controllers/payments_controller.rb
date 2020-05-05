@@ -135,7 +135,7 @@ class PaymentsController < ApplicationController
         usr = "user=admin@kidcare.my&"
         ps = "pass=#{ENV['SMS360']}&"
         to = "to=6#{ph}&"
-        txt = "text=New Bill from #{@taska.name}.\n Click #{list_bill_url(cls: cls.id)} to view and make payment. Taman Kita Tanggungjawab Bersama. Thank You from KoTa.my"
+        txt = "text=New Bill fr #{@taska.name}.\n Click #{list_bill_url(cls: cls.id)} to pay. TAMAN KITA TANGGUNGJAWAB BERSAMA."
         if Rails.env.production?
           
           fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
