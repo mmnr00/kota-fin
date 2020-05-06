@@ -15,3 +15,5 @@ git push
 git diff HEAD staging
 git diff HEAD dev
 git checkout dev
+
+git push prod-heroku t-prod:master
