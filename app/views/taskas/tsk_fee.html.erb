@@ -70,15 +70,15 @@
               include_blank: "Select Field" %>
         <%= hidden_field_tag :id, params[:id], value: params[:id] %>
         <%= hidden_field_tag :shw, params[:shw], value: true %>
-        <%= button_tag(type: :submit, class: "badge badge-success shadow-none", style: "font-size: 14px; border-style: none", id: "submit_expense") do %>
+        <%= button_tag(type: :submit, class: "badge badge-success shadow-none", style: "font-size: 14px; border-style: none; font-weight: normal", id: "submit_expense") do %>
             <i class="fa fa-search"></i> Search
         <% end %>
-        <%= link_to tsk_fee_path(@taska, sch_yr: Date.today.year, sch_mth: Date.today.month), class: "badge badge-danger shadow-sm", style: "font-size: 14px" do %>
+        <%= link_to tsk_fee_path(@taska, sch_yr: Date.today.year, sch_mth: Date.today.month), class: "badge badge-danger shadow-sm", style: "font-size: 14px; font-weight: normal" do %>
             <i class="fa fa-sync"></i> Clear
         <% end %>
 
         <% if params[:shw].blank? %>
-          <%= link_to tsk_fee_path(@taska, sch_yr: Date.today.year, sch_mth: Date.today.month, shw: true), class: "badge badge-warning shadow-sm", style: "font-size: 14px" do %>
+          <%= link_to tsk_fee_path(@taska, sch_yr: Date.today.year, sch_mth: Date.today.month, shw: true), class: "badge badge-warning shadow-sm", style: "font-size: 14px; font-weight: normal" do %>
               <i class="fa fa-eye"></i> Show All
           <% end %>
         <% end %>
