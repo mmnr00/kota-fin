@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   
   #devise_for :college_admins
   resources :taskas, only:[:create,:destroy,:update]
-  resources :expenses, only:[:create,:destroy,:update,:edit]
+  resources :expenses, only:[:new,:create,:destroy,:update,:edit]
   resources :ptns_mmbs, only:[:create,:destroy,:update,:edit]
   resources :courses, only:[:create,:destroy,:update,:edit]
   resources :colleges, only:[:create,:destroy,:update,:edit]
@@ -304,7 +304,7 @@ Rails.application.routes.draw do
   #~EXPENSES
   get '/taska/:id/expenses_search', to: 'expenses#search', as: 'search_expense'
   get '/taska/:id/my_expenses', to: 'expenses#my_expenses', as: 'my_expenses'
-  get '/taska/:id/expenses/new', to: 'expenses#new', as: 'new_expense'
+  #get '/taska/:id/expenses/new', to: 'expenses#new', as: 'new_expense'
   get '/taska/:id/expenses/month_expense', to: 'expenses#month_expense', as: 'month_expense'
   
   #~KIDS

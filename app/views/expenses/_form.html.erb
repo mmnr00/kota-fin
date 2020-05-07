@@ -1,10 +1,10 @@
 <div class='row'>
-	<div class='col-xs-12'>
+	<div class='col-12'>
 		<%= form_for(@expense, :url => {:controller=>'expenses', :action=>'create'}, :html => {class: "form-horizontal", role: "form"}) do |f| %>
 			
 			<div class="form-group"> <!-- name -->
 				<div class="control-label col-sm-2">
-					<strong>NAMA</strong>
+					<strong>ITEM NAME</strong>
 				</div>
 				<div class="col-sm-6">
 					<%= f.text_field :name, class: "form-control", autofocus: true, required: true %>
@@ -13,7 +13,7 @@
 
 			<div class="form-group"> <!-- cost -->
 				<div class="control-label col-sm-2">
-					<strong>AMOUNT</strong>
+					<strong>AMOUNT(RM)</strong>
 				</div>
 				<div class="col-sm-6">
 					<%= f.number_field :cost, rows: 10, class: "form-control", :step => 0.01, required: true %>
@@ -29,7 +29,7 @@
         </div>
       </div>
 
-      <div class="form-group"> <!-- documents -->
+      <!-- <div class="form-group"> 
         <div class="control-label col-sm-2">
           <strong>DOCUMENTS</strong>
         </div>
@@ -39,7 +39,7 @@
             <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png, application/pdf' %>
           <% end %>
         </div>
-      </div>
+      </div> -->
 
       <!-- START NEW ENTRY -->
 
@@ -54,7 +54,7 @@
 
       <div class="form-group"> <!-- COMPANY -->
         <div class="control-label col-sm-2">
-          <strong>COMPANY</strong>
+          <strong>PERSON IN CHARGE</strong>
         </div>
         <div class="col-sm-6">
           <%= f.text_field :coname, class: "form-control", autofocus: true %>
@@ -63,10 +63,10 @@
 
       <div class="form-group"> <!-- CATEGORY -->
         <div class="control-label col-sm-2">
-          <strong>CATEGORY</strong>
+          <strong>EMAIL</strong>
         </div>
         <div class="col-sm-6">
-          <%= f.text_field :catg, class: "form-control", autofocus: true %>
+          <%= f.email_field :catg, class: "form-control", autofocus: true %>
         </div>
       </div>
 
@@ -74,27 +74,7 @@
 
       
 
-      <div class="container">
-        <div class="row">
-    			<div class="form-group"> <!-- period -->
-    				<div class="control-label col-sm-2">
-    					<strong>MONTH</strong>
-    				</div>
-    				<div class="col-sm-8">
-              <%= f.text_field :month, class: "form-control", value: params[:expense][:month], autofocus: true, readonly: true %>
-    				</div>
-          </div>
-
-          <div class="form-group">
-    				<div class="control-label col-sm-2">
-    					<strong>YEAR</strong>
-    				</div>
-    				<div class="col-sm-8">
-    					<%= f.text_field :year, class: "form-control", value: params[:expense][:year], autofocus: true, readonly: true %>
-    				</div>
-          </div>
-        </div>
-    </div>
+      
 
 				
 
@@ -102,7 +82,7 @@
 
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<%= f.submit "CREATE", class: 'btn btn-primary btn-m' %>
+					<%= f.submit "Submit", class: 'btn btn-primary btn-m' %>
 				</div>
 			</div>
 		<% end %>

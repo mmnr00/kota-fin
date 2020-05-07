@@ -1,18 +1,43 @@
 class ExpensesController < ApplicationController
 	before_action :set_expense, only: [:destroy,:update,:edit]
-	#protect_from_forgery except: [:search]
-
-	
-
-	#def index
-		#@expenses = Expense.all
-		
-	#end
 
 	
 def new
+	@taska = Taska.find(params[:community_id])
+	@admin = current_admin
 	@expense = Expense.new
+	render action: "new", layout: "admin_db/admin_db-financial" 
 end
+
+def create
+	@expense = Expense.new(expense_params)
+	#@expense.taska = session[:taska_id]
+	if @expense.save			
+		flash[:notice] = "Entry was successfully created for #{$month_name[@expense.month.to_i].upcase}-#{@expense.year}"					
+											
+	else
+		flash[:danger] = "Entry creation failed. Please try again."	
+	end
+	redirect_to my_expenses_path(id: @expense.taska_id, expense:{month: @expense.month, year: @expense.year});
+end
+
+def edit
+	@expense = Expense.find(params[:id])
+	@taska = @expense.taska
+	@admin = current_admin
+	render action: "edit", layout: "dsb-admin-account" 
+end
+
+def update
+	if @expense.update(expense_params)
+		flash[:notice] = "Entry was successfully updated"
+		redirect_to my_expenses_path(id: @expense.taska_id, expense:{month: @expense.month, year: @expense.year});
+	else
+		render 'edit'
+	end
+end
+
+
 
 
 
@@ -168,17 +193,7 @@ def my_expenses
 	render action: "my_expenses", layout: "dsb-admin-account" 
 end
 
-def create
-	@expense = Expense.new(expense_params)
-	#@expense.taska = session[:taska_id]
-	if @expense.save			
-		flash[:notice] = "Entry was successfully created for #{$month_name[@expense.month.to_i].upcase}-#{@expense.year}"					
-											
-	else
-		flash[:danger] = "Entry creation failed. Please try again."	
-	end
-	redirect_to my_expenses_path(id: @expense.taska_id, expense:{month: @expense.month, year: @expense.year});
-end
+
 
 
 	
