@@ -31,7 +31,7 @@
   <div class="col-lg-6">
     <div class="row">
 
-      <% if params[:sch_stt] == "Expense" || params[:sch_stt].blank? %>
+      <% if params[:sch_stt] == "Income" || params[:sch_stt].blank? %>
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-md-6 mb-4">
           <div class="card border-left-success shadow h-100 py-2">
@@ -49,7 +49,7 @@
           </div>
         </div>
       <% end %>
-      <% if params[:sch_stt] == "Income" || params[:sch_stt].blank? %>
+      <% if params[:sch_stt] == "Expense" || params[:sch_stt].blank? %>
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-md-6 mb-4">
           <div class="card border-left-danger shadow h-100 py-2">
@@ -71,7 +71,7 @@
 
 
     </div> <!-- DIV ROW -->
-    <a href="<%= "#{add_unit_url}?community_id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Add New Unit</a>
+    <a href="<%= "#{add_unit_url}?community_id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Add New Item</a>
   </div> <!-- DIV COL -6 -->
 
 </div><!-- DIV OVERALL ROW -->
@@ -88,8 +88,8 @@
         <%= select_tag :sch_mth, options_for_select(1..12, params[:sch_mth]), include_blank: "All Months" %>
         <%= select_tag :sch_stt, options_for_select(["Income","Expense"], params[:sch_stt]), include_blank: "All Types" %>
         
-        <%= text_field_tag :sch_str, params[:sch_str], placeholder: "Search Item" %>
-        <%= select_tag :sch_fld, options_for_select(["Unit No","Phone No","Name","Email","Bill ID"], params[:sch_fld]),
+        <% text_field_tag :sch_str, params[:sch_str], placeholder: "Search Item" %>
+        <% select_tag :sch_fld, options_for_select(["Unit No","Phone No","Name","Email","Bill ID"], params[:sch_fld]),
               include_blank: "Select Field" %>
         <%= hidden_field_tag :id, params[:id], value: params[:id] %>
         <%= hidden_field_tag :shw, params[:shw], value: true %>
@@ -115,21 +115,38 @@
   <div class="card-body" style="font-size:15px">
     <div class="table-responsive border">
       <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
-        <thead>
-          <tr class="shadow">
-            <th style="background-color:#ccccff">MONTH</th>
-            <th style="background-color:#ccccff">ADDRESS</th>
-            <th style="background-color:#ccccff">BILL TO</th>
-            <th style="background-color:#ccccff">BILL ID</th>
-            <th style="background-color:#ccccff">AMOUNT(RM)</th>
-            <th style="background-color:#ccccff">STATUS</th>  
-            <th style="background-color:#ccccff">RECEIVED(RM)</th>
-            <th style="background-color:#ccccff">METHOD</th>
-          </tr>
-        </thead>
-        <tbody>
-          
-        </tbody>
+
+        <% if params[:sch_mth].present? || params[:sch_stt].present? %>
+
+          <thead>
+            <tr class="shadow">
+              <th style="background-color:#ccccff">DATE</th>
+              <th style="background-color:#ccccff">DESCRIPTION</th>
+              <th style="background-color:#ccccff">INFLOW (RM)</th>
+              <th style="background-color:#ccccff">OUTFLOW (RM)</th>
+              <th style="background-color:#ccccff">DOCUMENT</th>
+            </tr>
+          </thead>
+          <tbody>
+            <td>Mus</td>
+          </tbody>
+
+        <% elsif params[:sch_mth].blank? && params[:sch_stt].blank? %>
+
+          <thead>
+            <tr class="shadow">
+              <th style="background-color:#ccccff">PERIOD</th>
+              <th style="background-color:#ccccff">INFLOW (RM)</th>
+              <th style="background-color:#ccccff">OUTFLOW (RM)</th>
+              <th style="background-color:#ccccff">NETT (RM)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <td>Mus</td>
+          </tbody>
+
+        <% end %>
+
       </table>
     </div>
   </div>
