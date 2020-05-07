@@ -1,1 +1,315 @@
-<%= render 'taskas/undercon' %>
+<div class="row">
+
+  <!-- Earnings (Monthly) Card Example -->
+  <div class="col-lg-3 col-md-6 col-sm-6 col-xs-3">
+    <div class="card border-left-info shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">No of bills paid</div>
+            <div class="row no-gutters align-items-center">
+              <div class="col-auto">
+                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><%= "#{@bill_paid} / #{@payments.count}" %></div>
+              </div>
+              <div class="col">
+              </div>
+            </div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Earnings (Monthly) Card Example -->
+  <div class="col-lg-3 col-md-6 col-sm-6 col-xs-3">
+    <div class="card border-left-success shadow h-100 py-2">
+      <div class="card-body">
+        <div class="row no-gutters align-items-center">
+          <div class="col mr-2">
+            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Amount Received (RM)</div>
+            <div class="h5 mb-0 font-weight-bold text-gray-800"><%= number_with_delimiter(@amt.round(2), :delimiter => ',')  %></div>
+          </div>
+          <div class="col-auto">
+            <i class="fas fa-coins fa-2x text-gray-300"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-lg-6 col-md-6 col-sm-3">
+    <br>
+    <a href="<%= "#{shw_bilitm_url}?id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Update Bill Items</a>
+    <a href="<%= "#{updall_pmt_url}?id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-info shadow-sm"><i class="fas fa-sync fa-sm text-white-50"></i> Update Status</a><br>
+    <div class="alert alert-warning" role="alert">
+      Billing Cycle is on <b><%= @taska.rato.round(0) %></b> of every month. Click <a href="/community/edit/<%= @taska.id %>?plan=<%= @taska.plan %>">HERE</a> to change
+    </div>
+  </div>
+
+</div>
+<br>
+<!-- START TABLE -->
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+  <div class="card-header">
+    <div class="row">
+      <%= form_tag tsk_fee_path, method: :get, id: "find_kid" do %>
+      <% 
+        yr_s = Date.today.year - 2
+        yr_e = Date.today.year + 2
+      %>
+        <%= select_tag :sch_yr, options_for_select(yr_s..yr_e, params[:sch_yr]), include_blank: "All Year" %>
+        <%= select_tag :sch_mth, options_for_select(1..12, params[:sch_mth]), include_blank: "All Months" %>
+        <%= select_tag :sch_stt, options_for_select(["PAID","UNPAID"], params[:sch_stt]), include_blank: "All Status" %>
+        <%= select_tag :sch_rd, options_for_select(@rd_names, params[:sch_rd]), include_blank: "All Blocks/Roads" %>
+        
+        <%= text_field_tag :sch_str, params[:sch_str], placeholder: "Search Item" %>
+        <%= select_tag :sch_fld, options_for_select(["Unit No","Phone No","Name","Email","Bill ID"], params[:sch_fld]),
+              include_blank: "Select Field" %>
+        <%= hidden_field_tag :id, params[:id], value: params[:id] %>
+        <%= hidden_field_tag :shw, params[:shw], value: true %>
+        <%= button_tag(type: :submit, class: "badge badge-success shadow-none", style: "font-size: 14px; border-style: none; font-weight: normal", id: "submit_expense") do %>
+            <i class="fa fa-search"></i> Search
+        <% end %>
+        <%= link_to tsk_fee_path(@taska, sch_yr: Date.today.year, sch_mth: Date.today.month), class: "badge badge-danger shadow-sm", style: "font-size: 14px; font-weight: normal" do %>
+            <i class="fa fa-sync"></i> Clear
+        <% end %>
+
+        <% if params[:shw].blank? %>
+          <%= link_to tsk_fee_path(@taska, sch_yr: Date.today.year, sch_mth: Date.today.month, shw: true), class: "badge badge-warning shadow-sm", style: "font-size: 14px; font-weight: normal" do %>
+              <i class="fa fa-eye"></i> Show All
+          <% end %>
+        <% end %>
+
+        <% if 1==1 && params[:shw].present? #params[:sch].present? %>
+          <span class="badge badge-dark"><b><%= @payments.count %></b> result(s) found</span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="card-body" style="font-size:15px">
+    <div class="table-responsive border">
+        <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
+          <thead>
+            <tr class="shadow">
+              <th style="background-color:#ccccff">MONTH</th>
+              <th style="background-color:#ccccff">ADDRESS</th>
+              <th style="background-color:#ccccff">BILL TO</th>
+              <th style="background-color:#ccccff">BILL ID</th>
+              <th style="background-color:#ccccff">AMOUNT(RM)</th>
+              <th style="background-color:#ccccff">STATUS</th>  
+              <th style="background-color:#ccccff">RECEIVED(RM)</th>
+              <th style="background-color:#ccccff">METHOD</th>
+            </tr>
+          </thead>
+          <% if params[:shw].present? %><tbody>
+            <% 
+              @payments.order('bill_year DESC').order('bill_month DESC').order('created_at DESC').each do |un| 
+              kb = un.kid_bill
+              if un.paid 
+                msg = "PAID"
+                clr = "#4ca64c"
+                bdg = "success"
+              else
+                msg = "NOT PAID"
+                clr = "#ff6666"
+                bdg = "danger"
+              end
+              %>
+              <tr>
+                <td><span class="badge"><%= "#{un.bill_month}-#{un.bill_year}" %></span></td>
+                <td><span class="badge"><%= kb.clsname %></span></td>
+                <td>
+                  <span class="badge"><%= kb.extra[0] %></span><br>
+                  <span class="badge"><%= kb.extra[1] %></span><br>
+                  <span class="badge"><%= kb.extra[2] %></span>
+                </td>
+                <td><a href="<%= "#{view_bill_url}?id=#{un.id}" %>" target="blank"><u><%= un.bill_id %></u></a></td>
+                <td><span class="badge"><%= un.amount %></span></td>
+                <td style="background-color:<%= clr %>;text-align:center">
+                  <b><span class="badge" style="color:white;font-size:10px"><%= msg %></span></b>
+                  <% if un.paid %>
+                    <br><br>
+                    <!-- <i><%= un.pdt.strftime('%d-%m-%y')%></i> -->
+                    
+                  <% else %>
+                    <br><%= link_to "UPDATE", man_pmt_path(tsk: @taska.id,pmt: un.id), class: "badge badge-light", style: "font-size:10px", target: "_blank" %>
+                  <% end %>
+                </td>
+                <td>
+                  <% if un.paid %>
+                    <span class="badge">
+                      <% if un.mtd.include? "BILLPLZ" %>
+                        <%= un.amount - 1.5 %>
+                      <% else %>
+                        <%= un.amount %>
+                      <% end %>
+                    </span>
+                  <% end %>
+                </td>
+                <td>
+                  <% if un.paid %>
+                      <span class="badge"><i><%= un.mtd %></i></span>
+                    <% if !un.mtd.include? "BILLPLZ" %>
+                        <span class="badge">Updated by <b><%= Admin.find(un.adm).username %></b> on <b><%= un.updated_at.strftime('%d-%m-%y') %></b></span><br>
+                      <%= link_to "Revert", rev_pmt_path(tsk: @taska.id,pmt: un.id), class: "btn btn-sm btn-info", :data => {:confirm => 'Are you sure? Updated payment details will be deleted.'} %>
+                    <% end %>
+                  <% end %>
+                </td>  
+              </tr>
+            <% end %>
+          </tbody><% end %>
+        </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- Project Card Example -->
+<div class="row">
+  <div class="col-lg-6">
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Financial Summary (RM)</h6>
+      </div>
+      <div class="card-body">
+
+        <h4 class="small font-weight-bold">Overall Incomes (Fees/Other Incomes)  <span class="float-right">Total: 47,320.00</span></h4>
+        <div class="mb-4" style="height: 30px;"><div class="row">
+          <div class="progress-bar bg-secondary" role="progressbar" style="width: 60%;height: 30px; font-size:15px" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">42,325.0</div>
+          <div class="progress-bar bg-success" role="progressbar" style="width: 30%;height: 30px; font-size:15px" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">42,325.0</div>
+        </div></div>
+
+        <h4 class="small font-weight-bold">Overall Expenses</h4>
+        <div class="mb-4" style=""><div class="row">
+          <div class="progress-bar bg-danger" role="progressbar" style="width: 70%;height: 30px; font-size:15px" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">42,325.0</div>
+        </div></div>
+
+        <h4 class="small font-weight-bold">Nett</h4>
+        <div class="mb-4" style=""><div class="row">
+          <div class="progress-bar bg-info" role="progressbar" style="width: 20%;height: 30px; font-size:15px" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">42,325.0</div>
+        </div></div>
+        
+      </div>
+    </div>
+
+  </div> <!-- DIV COL-6 -->
+
+  <div class="col-lg-6">
+    <div class="row">
+
+      <% if params[:sch_stt] == "Income" || params[:sch_stt].blank? %>
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-md-6 mb-4">
+          <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-success text-uppercase mb-1">No of Incomes</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">20</div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-hand-holding-usd fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <% if params[:sch_stt] == "Expense" || params[:sch_stt].blank? %>
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-md-6 mb-4">
+          <div class="card border-left-danger shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">NO OF EXPENSES</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-file-invoice-dollar fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      
+
+
+    </div> <!-- DIV ROW -->
+    <a href="<%= "#{add_unit_url}?community_id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Add New Unit</a>
+  </div> <!-- DIV COL -6 -->
+
+</div><!-- DIV OVERALL ROW -->
+
+<div class="card shadow mb-4">
+  <div class="card-header">
+    <div class="row">
+      <%= form_tag tsk_financial_path, method: :get, id: "find_kid" do %>
+      <% 
+        yr_s = Date.today.year - 4
+        yr_e = Date.today.year
+      %>
+        <%= select_tag :sch_yr, options_for_select(yr_s..yr_e, params[:sch_yr]) %>
+        <%= select_tag :sch_mth, options_for_select(1..12, params[:sch_mth]), include_blank: "All Months" %>
+        <%= select_tag :sch_stt, options_for_select(["Income","Expense"], params[:sch_stt]), include_blank: "All Types" %>
+        
+        <% if 1==0 %>
+          <%= text_field_tag :sch_str, params[:sch_str], placeholder: "Search Item" %>
+          <%= select_tag :sch_fld, options_for_select(["Unit No","Phone No","Name","Email","Bill ID"], params[:sch_fld]),
+                include_blank: "Select Field" %>
+        <% end %>
+
+        <%= hidden_field_tag :id, params[:id], value: params[:id] %>
+        <%= hidden_field_tag :shw, params[:shw], value: true %>
+        <%= button_tag(type: :submit, class: "badge badge-success shadow-none", style: "font-size: 14px; border-style: none; font-weight: normal", id: "submit_expense") do %>
+            <i class="fa fa-upload"></i> Update
+        <% end %>
+        <%= link_to tsk_financial_path(@taska, sch_yr: Date.today.year, sch_mth: Date.today.month), class: "badge badge-danger shadow-sm", style: "font-size: 14px; font-weight: normal" do %>
+            <i class="fa fa-sync"></i> Clear
+        <% end %>
+
+        <% if params[:shw].blank? %>
+          <%= link_to tsk_fee_path(@taska, sch_yr: Date.today.year, sch_mth: Date.today.month, shw: true), class: "badge badge-warning shadow-sm", style: "font-size: 14px; font-weight: normal" do %>
+              <i class="fa fa-eye"></i> Show All
+          <% end %>
+        <% end %>
+
+        <% if 1==0 && params[:shw].present? #params[:sch].present? %>
+          <span class="badge badge-dark"><b><%= @payments.count %></b> result(s) found</span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="card-body" style="font-size:15px">
+    <div class="table-responsive border">
+      <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+          <tr class="shadow">
+            <th style="background-color:#ccccff">MONTH</th>
+            <th style="background-color:#ccccff">ADDRESS</th>
+            <th style="background-color:#ccccff">BILL TO</th>
+            <th style="background-color:#ccccff">BILL ID</th>
+            <th style="background-color:#ccccff">AMOUNT(RM)</th>
+            <th style="background-color:#ccccff">STATUS</th>  
+            <th style="background-color:#ccccff">RECEIVED(RM)</th>
+            <th style="background-color:#ccccff">METHOD</th>
+          </tr>
+        </thead>
+        <tbody>
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<script language="javascript" type="text/javascript">
+  //setTimeout("location.reload();",2000);
+</script>
+
+
