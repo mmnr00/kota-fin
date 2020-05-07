@@ -130,6 +130,15 @@
                       root = root_path 
                     %>
                     <%= link_to "View Pic", edit_foto_path(tsk: @taska.id,tp: "o",id: img.id), class: "badge badge-pill badge-#{clr}", target: "" %>
+                    <% if ajk.present? && ajk.first.tp == "o" %>
+                      <span class="badge badge-primary"><h7><%= ajk.first.name %></h7></span>
+                      <%= h.hidden_field :ext_o, value: un.ext_o %>
+                    <% elsif ajk.blank? && @ajks.present? %>
+                      <b>AJK</b><br>
+                      <%= h.select :ext_o, 
+                      options_from_collection_for_select(@ajks.order('created_at ASC'), :id, :name), {include_blank: "Select"} %>
+                    <% end %>
+
                   </td>
                   <td style="width:30%"><!-- TENANT DETAILS -->
                     <b>NAME</b><br>
@@ -148,6 +157,14 @@
                       root = root_path 
                     %>
                     <%= link_to "View Pic", edit_foto_path(tsk: @taska.id,tp: "t",id: img.id), class: "badge badge-pill badge-#{clr}", target: "" %>
+                    <% if ajk.present? && ajk.first.tp == "t" %>
+                      <span class="badge badge-primary"><h7><%= ajk.first.name %></h7></span>
+                      <%= h.hidden_field :ext_t, value: un.ext_t %>
+                    <% elsif ajk.blank? && @ajks.present? %>
+                      <b>AJK</b><br>
+                      <%= h.select :ext_t, 
+                      options_from_collection_for_select(@ajks.order('created_at ASC'), :id, :name), {include_blank: "Select"} %>
+                    <% end %>
                     
                   </td>
 
