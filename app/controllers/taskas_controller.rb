@@ -402,6 +402,19 @@ class TaskasController < ApplicationController
   end
 
   def tsk_financial
+
+    if params[:sch_mth].blank? #whole year
+      @fin_arr = []
+      yr = params[:sch_yr].to_i
+
+      (1..12).each do |n|
+        curr_arr = [n,yr,1400,300]
+        @fin_arr << curr_arr
+      end
+
+    else
+    end
+
     render action: "tsk_financial", layout: "admin_db/admin_db-financial" 
   end
 

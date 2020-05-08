@@ -147,13 +147,29 @@
           <thead>
             <tr class="shadow">
               <th style="background-color:#ccccff">PERIOD</th>
-              <th style="background-color:#ccccff">INFLOW (RM)</th>
-              <th style="background-color:#ccccff">OUTFLOW (RM)</th>
+              <th style="background-color:#ccccff">INCOME (RM)</th>
+              <th style="background-color:#ccccff">EXPENSE (RM)</th>
               <th style="background-color:#ccccff">NETT (RM)</th>
             </tr>
           </thead>
           <tbody>
-            <td>Mus</td>
+            <% @fin_arr.each do |inf| %>
+              <tr>
+                <td><%= "#{$month_name[inf[0]]}-#{inf[1]}"%></td>
+                <td><%= inf[2] %></td>
+                <td><%= inf[3] %></td>
+                <%
+                  clr = "#ffc966"
+                  nett = inf[2] - inf[3]
+                  if nett > 0
+                    clr = "#7fbf7f"
+                  elsif nett < 0
+                     clr = "#ff9999"
+                  end
+                %>
+                <td style="background-color: <%= clr %>"><%= nett %></td>
+              </tr>
+            <% end %>
           </tbody>
 
         <% end %>
