@@ -139,7 +139,14 @@
             </tr>
           </thead>
           <tbody>
-            <td>Mus</td>
+            <% @exps.each do |exp| %>
+              <tr>
+                <td>
+                  <%= exp.name %>
+                  <%= link_to "Edit", edit_expense_path(exp) %>
+                </td>
+              </tr>
+            <% end %>
           </tbody>
 
         <% elsif params[:sch_mth].blank? && params[:sch_stt].blank? %>

@@ -413,6 +413,9 @@ class TaskasController < ApplicationController
       end
 
     else
+      @exps = @taska.expenses.where(
+                              month: params[:sch_mth].to_i,
+                              year: params[:sch_yr].to_i)
     end
 
     render action: "tsk_financial", layout: "admin_db/admin_db-financial" 
