@@ -422,7 +422,17 @@ class TaskasController < ApplicationController
       
 
       (1..12).each do |n|
-        @fin_arr << financial_summ(n,yr)
+        financial_summ(n,yr)
+        if @bills_ovr.blank?
+          @bills_ovr = @ori_bills
+        else
+          @bills_ovr = @bills_ovr.or(@ori_bills)
+        end
+        bilpz = @bil_plz.sum(:amount) - (@bil_plz.count*1.5)
+        @fin_arr << [n,yr,
+                    bilpz + @bil_norm.sum(:amount),
+                    @exps.where(kind: "INCOME").sum(:cost),
+                    @exps.where(kind: "EXPENSE").sum(:cost)]
       end
 
     elsif params[:sch_mth].present? # month only

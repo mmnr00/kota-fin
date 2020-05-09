@@ -1,4 +1,19 @@
+<% 
 
+  if params[:sch_mth].present?
+    paid_no =@ori_bills.where(paid: true).count
+    unpaid_no =@ori_bills.where(paid: false).count
+    no_exp = 5
+    no_inc = 10
+  else
+    paid_no =@bills_ovr.where(paid: true).count
+    unpaid_no =@bills_ovr.where(paid: false).count
+    no_exp = 10
+    no_inc = 5
+  end
+
+  a={"Paid"=> paid_no, "Not Paid"=> unpaid_no}
+%>
 
 <!-- Project Card Example -->
 <div class="row">
@@ -47,7 +62,7 @@
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
                   <div class="text-xs font-weight-bold text-success text-uppercase mb-1">No of Incomes</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800">20</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800"><%= no_inc %></div>
                 </div>
                 <div class="col-auto">
                   <i class="fas fa-hand-holding-usd fa-2x text-gray-300"></i>
@@ -65,7 +80,7 @@
               <div class="row no-gutters align-items-center">
                 <div class="col mr-2">
                   <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">NO OF EXPENSES</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800"><%= no_exp %></div>
                 </div>
                 <div class="col-auto">
                   <i class="fas fa-file-invoice-dollar fa-2x text-gray-300"></i>
@@ -87,9 +102,7 @@
   </div> <!-- DIV COL-6 -->
 
   <div class="col-lg-6"> 
-    <% 
-      a={"Paid"=>@ori_bills.where(paid: true).count, "Not Paid"=>@ori_bills.where(paid: false).count}
-    %>
+    
 
     <div class="card shadow mb-4">
       <div class="card-header py-3">
@@ -98,10 +111,7 @@
       <div class="card-body" style="margin-bottom: -20px ">
         <%= pie_chart a, colors: ["#66b266","#ff6666"], donut: true, legend: "bottom", thousands: "," %>
       </div>
-    </div>
-
-
-    
+    </div> 
 
   </div> <!-- DIV COL -6 -->
 
@@ -206,7 +216,11 @@
           <tbody>
             <% @fin_arr.each do |inf| %>
               <tr style="text-align: center">
-                <td><%= "#{$month_name[inf[0]]}-#{inf[1]}"%></td>
+                <td>
+                  <% str= "#{$month_name[inf[0]]}-#{inf[1]}"%>
+                  <u><%= link_to str, tsk_financial_path(@taska, sch_mth: inf[0], sch_yr: inf[1]) %></u>
+                    
+                </td>
                 <td><%= inf[2] %></td>
                 <td><%= inf[3] %></td>
                 <td><%= inf[4] %></td>
@@ -219,8 +233,7 @@
                      clr = "#ff9999"
                   end
                 %>
-                <td style="background-color: <%= clr %>"><%= nett %></td>        
-                <td><%= inf[5] %></td>
+                <td style="background-color: <%= clr %>"><%= nett %></td>
               </tr>
             <% end %>
           </tbody>
