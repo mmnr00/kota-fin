@@ -401,26 +401,6 @@ class TaskasController < ApplicationController
     render action: "tsk_fee", layout: "admin_db/admin_db-fee" 
   end
 
-  def tsk_financial
-
-    if params[:sch_mth].blank? #whole year
-      @fin_arr = []
-      yr = params[:sch_yr].to_i
-
-      (1..12).each do |n|
-        curr_arr = [n,yr,1400,300]
-        @fin_arr << curr_arr
-      end
-
-    else
-      @exps = @taska.expenses.where(
-                              month: params[:sch_mth].to_i,
-                              year: params[:sch_yr].to_i)
-    end
-
-    render action: "tsk_financial", layout: "admin_db/admin_db-financial" 
-  end
-
   def tsk_vismgmt
     render action: "tsk_vismgmt", layout: "admin_db/admin_db-vismgmt" 
   end
@@ -433,8 +413,181 @@ class TaskasController < ApplicationController
     render action: "tsk_newblast", layout: "admin_db/admin_db-news" 
   end
 
+  def tsk_financial
 
-  ## OLD TASKAS ##
+    yr = params[:sch_yr].to_i
+
+    if params[:sch_mth].blank? #whole year
+      @fin_arr = []
+      
+
+      (1..12).each do |n|
+        @fin_arr << financial_summ(n,yr)
+      end
+
+    elsif params[:sch_mth].present? # month only
+      financial_summ(params[:sch_mth],yr)
+    end
+
+    render action: "tsk_financial", layout: "admin_db/admin_db-financial" 
+  end
+
+
+ 
+
+  private
+    
+    def financial_summ(mth,yr)
+      @exps = @taska.expenses.where(month: mth, year: yr)
+      bills = @taska.payments.where(name: "RSD M BILL", paid: true).where('extract(year  from pdt) = ?', yr).where('extract(month  from pdt) = ?', mth)
+      @bil_plz = bills.where('mtd LIKE ?', "%BILLPLZ%")
+      @bil_norm = bills.where.not('mtd LIKE ?', "%BILLPLZ%")
+      #return arr
+    end
+
+    def updtskplan
+      @taska = Taska.find(params[:id])
+      tskpln = @taska.payments.where(name: "TASKA PLAN", paid: false)
+
+      if tskpln.present?
+        tskpln.each do |pb|
+          url_bill = "#{ENV['BILLPLZ_API']}bills/#{pb.bill_id}"
+          data_billplz = HTTParty.get(url_bill.to_str,
+                  :body  => {}.to_json, 
+                              #:callback_url=>  "YOUR RETURN URL"}.to_json,
+                  :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+                  :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+          #render json: data_billplz and return
+          data = JSON.parse(data_billplz.to_s)
+          if data["paid"] == true
+            pb.paid = true
+            pb.updated_at = data["paid_at"]
+            pb.save
+            if (expire = @taska.expire) >= pb.updated_at
+              @taska.expire = expire + 1.months
+            else
+              @taska.expire = pb.updated_at + 1.months
+            end
+            @taska.save
+          elsif data["paid"] == false
+            #delete dekat billplz
+            pb.destroy
+          end
+        end
+      end
+
+    end
+
+    def set_taska
+      @taska = Taska.find(params[:id])
+    end
+
+    def set_all
+      @teacher = current_teacher
+      @parent = current_parent
+      @admin = current_admin  
+      if @admin.present?
+        @spv = @admin.spv
+      end
+      @owner = current_owner
+    end
+
+    #Create multiple leaves
+    def leave_params(lv)
+      lv.permit(:name, :day, :teacher_id, :taska_id, :tsklv_id)
+    end
+
+    def payinfo_params
+      params.require(:tch).permit(:amt,
+                                  :alwnc,
+                                  :fxddc,
+                                  :epf,
+                                  :epfa,
+                                  :socs,
+                                  :socsa,
+                                  :sip,
+                                  :sipa,
+                                  :teacher_id,
+                                  :taska_id)
+    end
+
+    def payslip_params
+      params.require(:payslip).permit(:mth,
+                                      :year,
+                                      :amt,
+                                      :alwnc,
+                                      :fxddc,
+                                      :epf,
+                                      :addtn,
+                                      :desc,
+                                      :teacher_id,
+                                      :taska_id,
+                                      :epfa,
+                                      :amtepfa,
+                                      :psl_id,
+                                      :socs,
+                                      :socsa,
+                                      :sip,
+                                      :sipa,
+                                      :dedc,
+                                      :descdc,
+                                      :notf,
+                                      :xtra)
+    end
+
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def taska_params
+      params.require(:taska).permit(:name,
+                                    :email,
+                                    :phone_1,
+                                    :phone_2,
+                                    :address_1,
+                                    :address_2,
+                                    :city,
+                                    :states,
+                                    :postcode,
+                                    :supervisor,
+                                    :bank_name,
+                                    :acc_no,
+                                    :acc_name,
+                                    :ssm_no,
+                                    :plan,
+                                    :booking,
+                                    :discount,
+                                    :pslm,
+                                    :blgt,
+                                    :rato,
+                                    :cred,
+                                    fotos_attributes: [:foto, :picture, :foto_name]  )
+    end
+    def taska_params_bank
+      params.require(:taska).permit(:bank_name,
+                                    :acc_no,
+                                    :acc_name,
+                                    :ssm_no)
+    end
+
+    def foto_params
+      params.require(:bill).permit(:foto_name, :picture)
+    end
+
+    def check_admin
+      same = false
+      @taska.admins.each do |admin|
+        if admin == current_admin
+          same = true
+        end
+      end
+      if !same
+        flash[:danger] = "You dont have access"
+        redirect_to admin_index_path
+      end
+    end
+end
+
+################# OLD ############################
+
+ ## OLD TASKAS ##
   #START ANSYS
   def admansys
     tsk = Taska.find(params[:id])
@@ -2203,145 +2356,3 @@ class TaskasController < ApplicationController
     #   format.json { head :no_content }
     # end
   end
-
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def updtskplan
-      @taska = Taska.find(params[:id])
-      tskpln = @taska.payments.where(name: "TASKA PLAN", paid: false)
-
-      if tskpln.present?
-        tskpln.each do |pb|
-          url_bill = "#{ENV['BILLPLZ_API']}bills/#{pb.bill_id}"
-          data_billplz = HTTParty.get(url_bill.to_str,
-                  :body  => {}.to_json, 
-                              #:callback_url=>  "YOUR RETURN URL"}.to_json,
-                  :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
-                  :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
-          #render json: data_billplz and return
-          data = JSON.parse(data_billplz.to_s)
-          if data["paid"] == true
-            pb.paid = true
-            pb.updated_at = data["paid_at"]
-            pb.save
-            if (expire = @taska.expire) >= pb.updated_at
-              @taska.expire = expire + 1.months
-            else
-              @taska.expire = pb.updated_at + 1.months
-            end
-            @taska.save
-          elsif data["paid"] == false
-            #delete dekat billplz
-            pb.destroy
-          end
-        end
-      end
-
-    end
-
-    def set_taska
-      @taska = Taska.find(params[:id])
-    end
-
-    def set_all
-      @teacher = current_teacher
-      @parent = current_parent
-      @admin = current_admin  
-      if @admin.present?
-        @spv = @admin.spv
-      end
-      @owner = current_owner
-    end
-
-    #Create multiple leaves
-    def leave_params(lv)
-      lv.permit(:name, :day, :teacher_id, :taska_id, :tsklv_id)
-    end
-
-    def payinfo_params
-      params.require(:tch).permit(:amt,
-                                  :alwnc,
-                                  :fxddc,
-                                  :epf,
-                                  :epfa,
-                                  :socs,
-                                  :socsa,
-                                  :sip,
-                                  :sipa,
-                                  :teacher_id,
-                                  :taska_id)
-    end
-
-    def payslip_params
-      params.require(:payslip).permit(:mth,
-                                      :year,
-                                      :amt,
-                                      :alwnc,
-                                      :fxddc,
-                                      :epf,
-                                      :addtn,
-                                      :desc,
-                                      :teacher_id,
-                                      :taska_id,
-                                      :epfa,
-                                      :amtepfa,
-                                      :psl_id,
-                                      :socs,
-                                      :socsa,
-                                      :sip,
-                                      :sipa,
-                                      :dedc,
-                                      :descdc,
-                                      :notf,
-                                      :xtra)
-    end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def taska_params
-      params.require(:taska).permit(:name,
-                                    :email,
-                                    :phone_1,
-                                    :phone_2,
-                                    :address_1,
-                                    :address_2,
-                                    :city,
-                                    :states,
-                                    :postcode,
-                                    :supervisor,
-                                    :bank_name,
-                                    :acc_no,
-                                    :acc_name,
-                                    :ssm_no,
-                                    :plan,
-                                    :booking,
-                                    :discount,
-                                    :pslm,
-                                    :blgt,
-                                    :rato,
-                                    :cred,
-                                    fotos_attributes: [:foto, :picture, :foto_name]  )
-    end
-    def taska_params_bank
-      params.require(:taska).permit(:bank_name,
-                                    :acc_no,
-                                    :acc_name,
-                                    :ssm_no)
-    end
-
-    def foto_params
-      params.require(:bill).permit(:foto_name, :picture)
-    end
-
-    def check_admin
-      same = false
-      @taska.admins.each do |admin|
-        if admin == current_admin
-          same = true
-        end
-      end
-      if !same
-        flash[:danger] = "You dont have access"
-        redirect_to admin_index_path
-      end
-    end
-end

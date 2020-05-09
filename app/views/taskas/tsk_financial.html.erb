@@ -1,3 +1,5 @@
+
+
 <!-- Project Card Example -->
 <div class="row">
   <div class="col-lg-6">
@@ -81,7 +83,19 @@
 
 
     </div> <!-- DIV ROW -->
-    <a href="<%= "#{new_expense_url}?community_id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Add New Item</a>
+    <div class="row">
+      <div class="col-lg-2">
+        <a href="<%= "#{new_expense_url}?community_id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Add New Item</a>
+      </div>
+      <div class="col-lg-10">
+        <% 
+          a={"Paid"=>78, "Not Paid"=>1864}
+        %>
+
+        <%= pie_chart a, colors: ["#66b266","#ff6666"], donut: true, legend: "bottom", thousands: "," %>
+      </div>
+
+    </div>
 
   </div> <!-- DIV COL -6 -->
 
@@ -97,7 +111,7 @@
       %>
         <%= select_tag :sch_yr, options_for_select(yr_s..yr_e, params[:sch_yr]) %>
         <%= select_tag :sch_mth, options_for_select(1..12, params[:sch_mth]), include_blank: "All Months" %>
-        <%= select_tag :sch_stt, options_for_select(["Income","Expense"], params[:sch_stt]), include_blank: "All Types" %>
+        <% select_tag :sch_stt, options_for_select(["Income","Expense"], params[:sch_stt]), include_blank: "All Types" %>
         
         <% text_field_tag :sch_str, params[:sch_str], placeholder: "Search Item" %>
         <% select_tag :sch_fld, options_for_select(["Unit No","Phone No","Name","Email","Bill ID"], params[:sch_fld]),
@@ -127,54 +141,80 @@
     <div class="table-responsive border">
       <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
 
-        <% if params[:sch_mth].present? || params[:sch_stt].present? %>
+        <% if params[:sch_mth].present? %>
 
           <thead>
             <tr class="shadow">
-              <th style="background-color:#ccccff">DATE</th>
+              <th style="background-color:#ccccff; width:150px">DATE</th>
               <th style="background-color:#ccccff">DESCRIPTION</th>
-              <th style="background-color:#ccccff">INFLOW (RM)</th>
-              <th style="background-color:#ccccff">OUTFLOW (RM)</th>
-              <th style="background-color:#ccccff">DOCUMENT</th>
+              <th style="background-color:#ccccff; width:150px">INFLOW (RM)</th>
+              <th style="background-color:#ccccff; width:150px">OUTFLOW (RM)</th>
             </tr>
           </thead>
-          <tbody>
-            <% @exps.each do |exp| %>
+          <tbody style="">
+            <tr>
+              <td><%= "#{$month_name[params[:sch_mth].to_i]}-#{params[:sch_yr]}" %></td>
+              <td>Bills Paid via Payment Gateway</td>
+              <td><%= number_with_delimiter(@bil_plz.sum(:amount).round(2), :delimiter => ',')%></td>
+              <td><%= number_with_delimiter((@bil_plz.count*1.5).round(2), :delimiter => ',') %></td>
+            </tr>
+            <tr>
+              <td><%= "#{$month_name[params[:sch_mth].to_i]}-#{params[:sch_yr]}" %></td>
+              <td>Bills Paid via Other Methods</td>
+              <td><%= number_with_delimiter(@bil_norm.sum(:amount).round(2), :delimiter => ',') %></td>
+              <td></td>
+            </tr>
+
+            <% @exps.order('dt ASC').each do |exp| %>
               <tr>
+                <td><%= exp.dt.strftime('%d-%^b-%Y') %></td>
                 <td>
-                  <%= exp.name %>
-                  <%= link_to "Edit", edit_expense_path(exp) %>
+                  <b><%= exp.name %></b>
+                  (<%= exp.name %>)
+                  <br>
+                  <%= link_to "Edit", edit_expense_path(exp), class: "badge badge-warning" %>
+                  <%= link_to "Document", edit_expense_path(exp), class: "badge badge-primary", target: "_blank" %>
                 </td>
+                <% if exp.kind == "INCOME" %>
+                  <td><%= number_with_delimiter(exp.cost.round(2), :delimiter => ',') %></td>
+                  <td></td>
+                <% else %>
+                  <td></td>
+                  <td><%= number_with_delimiter(exp.cost.round(2), :delimiter => ',') %></td>
+                <% end %>
               </tr>
             <% end %>
           </tbody>
 
-        <% elsif params[:sch_mth].blank? && params[:sch_stt].blank? %>
+        <% elsif params[:sch_mth].blank? %>
 
           <thead>
             <tr class="shadow">
               <th style="background-color:#ccccff">PERIOD</th>
-              <th style="background-color:#ccccff">INCOME (RM)</th>
+              <th style="background-color:#ccccff">FEES COLLECTION (RM)</th>
+              <th style="background-color:#ccccff">OTHER INCOME (RM)</th>
               <th style="background-color:#ccccff">EXPENSE (RM)</th>
               <th style="background-color:#ccccff">NETT (RM)</th>
             </tr>
           </thead>
           <tbody>
             <% @fin_arr.each do |inf| %>
-              <tr>
+              <tr style="text-align: center">
                 <td><%= "#{$month_name[inf[0]]}-#{inf[1]}"%></td>
                 <td><%= inf[2] %></td>
                 <td><%= inf[3] %></td>
+                <td><%= inf[4] %></td>
                 <%
                   clr = "#ffc966"
-                  nett = inf[2] - inf[3]
+                  nett = inf[2] + inf[3] - inf[4]
                   if nett > 0
                     clr = "#7fbf7f"
                   elsif nett < 0
                      clr = "#ff9999"
                   end
                 %>
-                <td style="background-color: <%= clr %>"><%= nett %></td>
+                <td style="background-color: <%= clr %>"><%= nett %></td>        
+                <td><%= inf[5] %></td>
               </tr>
             <% end %>
           </tbody>
