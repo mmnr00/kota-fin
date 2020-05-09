@@ -439,7 +439,8 @@ class TaskasController < ApplicationController
     
     def financial_summ(mth,yr)
       @exps = @taska.expenses.where(month: mth, year: yr)
-      bills = @taska.payments.where(name: "RSD M BILL", paid: true).where('extract(year  from pdt) = ?', yr).where('extract(month  from pdt) = ?', mth)
+      @ori_bills = @taska.payments.where(name: "RSD M BILL", bill_year: yr,bill_month: mth)
+      bills = @taska.payments.where(name: "RSD M BILL",paid: true).where('extract(year  from pdt) = ?', yr).where('extract(month  from pdt) = ?', mth)
       @bil_plz = bills.where('mtd LIKE ?', "%BILLPLZ%")
       @bil_norm = bills.where.not('mtd LIKE ?', "%BILLPLZ%")
       #return arr

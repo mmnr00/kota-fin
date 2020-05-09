@@ -37,15 +37,11 @@
         
       </div>
     </div>
-
-  </div> <!-- DIV COL-6 -->
-
-  <div class="col-lg-6">
     <div class="row">
 
       <% if params[:sch_stt] == "Income" || params[:sch_stt].blank? %>
         <!-- Earnings (Monthly) Card Example -->
-        <div class="col-md-6 mb-4">
+        <div class="col-lg-4 mb-4">
           <div class="card border-left-success shadow h-100 py-2">
             <div class="card-body">
               <div class="row no-gutters align-items-center">
@@ -63,7 +59,7 @@
       <% end %>
       <% if params[:sch_stt] == "Expense" || params[:sch_stt].blank? %>
         <!-- Earnings (Monthly) Card Example -->
-        <div class="col-md-6 mb-4">
+        <div class="col-lg-4 mb-4">
           <div class="card border-left-danger shadow h-100 py-2">
             <div class="card-body">
               <div class="row no-gutters align-items-center">
@@ -79,23 +75,33 @@
           </div>
         </div>
       <% end %>
+
+      <div class="col-lg-2 mb-4"><br>
+        <a href="<%= "#{new_expense_url}?community_id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Add New Item</a>
+      </div>
       
 
 
-    </div> <!-- DIV ROW -->
-    <div class="row">
-      <div class="col-lg-2">
-        <a href="<%= "#{new_expense_url}?community_id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Add New Item</a>
-      </div>
-      <div class="col-lg-10">
-        <% 
-          a={"Paid"=>78, "Not Paid"=>1864}
-        %>
+    </div> <!-- DIV ROW CARDS-->
 
+  </div> <!-- DIV COL-6 -->
+
+  <div class="col-lg-6"> 
+    <% 
+      a={"Paid"=>@ori_bills.where(paid: true).count, "Not Paid"=>@ori_bills.where(paid: false).count}
+    %>
+
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Bills Summary</h6>
+      </div>
+      <div class="card-body" style="margin-bottom: -20px ">
         <%= pie_chart a, colors: ["#66b266","#ff6666"], donut: true, legend: "bottom", thousands: "," %>
       </div>
-
     </div>
+
+
+    
 
   </div> <!-- DIV COL -6 -->
 
