@@ -423,11 +423,19 @@ class TaskasController < ApplicationController
 
       (1..12).each do |n|
         financial_summ(n,yr)
+
         if @bills_ovr.blank?
           @bills_ovr = @ori_bills
         else
           @bills_ovr = @bills_ovr.or(@ori_bills)
         end
+
+        if @exps_ovr.blank?
+          @exps_ovr = @exps
+        else
+          @exps_ovr = @exps_ovr.or(@exps)
+        end
+        
         bilpz = @bil_plz.sum(:amount) - (@bil_plz.count*1.5)
         @fin_arr << [n,yr,
                     bilpz + @bil_norm.sum(:amount),
