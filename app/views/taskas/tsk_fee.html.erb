@@ -1,3 +1,4 @@
+<meta name="viewport" content="width=768">
 <div class="row">
 
   <!-- Earnings (Monthly) Card Example -->
@@ -95,11 +96,11 @@
           <thead>
             <tr class="shadow">
               <th style="background-color:#ccccff">MONTH</th>
-              <th style="background-color:#ccccff">ADDRESS</th>
+              <th style="background-color:#ccccff">ADDRESS</th>            
+              <th style="background-color:#ccccff">STATUS</th> 
               <th style="background-color:#ccccff">BILL TO</th>
               <th style="background-color:#ccccff">BILL ID</th>
-              <th style="background-color:#ccccff">AMOUNT(RM)</th>
-              <th style="background-color:#ccccff">STATUS</th>  
+              <th style="background-color:#ccccff">AMOUNT(RM)</th> 
               <th style="background-color:#ccccff">RECEIVED(RM)</th>
               <th style="background-color:#ccccff">METHOD</th>
             </tr>
@@ -121,13 +122,6 @@
               <tr>
                 <td><span class="badge"><%= "#{un.bill_month}-#{un.bill_year}" %></span></td>
                 <td><span class="badge"><%= kb.clsname %></span></td>
-                <td>
-                  <span class="badge"><%= kb.extra[0] %></span><br>
-                  <span class="badge"><%= kb.extra[1] %></span><br>
-                  <span class="badge"><%= kb.extra[2] %></span>
-                </td>
-                <td><a href="<%= "#{view_bill_url}?id=#{un.id}" %>" target="blank"><u><%= un.bill_id %></u></a></td>
-                <td><span class="badge"><%= un.amount %></span></td>
                 <td style="background-color:<%= clr %>;text-align:center">
                   <b><span class="badge" style="color:white;font-size:10px"><%= msg %></span></b>
                   <% if un.paid %>
@@ -138,6 +132,13 @@
                     <br><%= link_to "UPDATE", man_pmt_path(tsk: @taska.id,pmt: un.id), class: "badge badge-light", style: "font-size:10px", target: "_blank" %>
                   <% end %>
                 </td>
+                <td>
+                  <span class="badge"><%= kb.extra[0] %></span><br>
+                  <span class="badge"><%= kb.extra[1] %></span><br>
+                  <span class="badge"><%= kb.extra[2] %></span>
+                </td>
+                <td><a href="<%= "#{view_bill_url}?id=#{un.id}" %>" target="blank"><u><%= un.bill_id %></u></a></td>
+                <td><span class="badge"><%= un.amount %></span></td>    
                 <td>
                   <% if un.paid %>
                     <span class="badge">
@@ -165,5 +166,6 @@
     </div>
   </div>
 </div>
+</meta>
 
 
