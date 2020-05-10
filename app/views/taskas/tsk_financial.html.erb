@@ -7,7 +7,7 @@
     no_inc = @exps.where(kind: "INCOME").count
 
     bill_inc = @bil_plz.sum(:amount) - (@bil_plz.count*1.5)
-    oth_inc = @bil_norm.sum(:amount)
+    oth_inc = @bil_norm.sum(:amount) + @exps.where(kind: "INCOME").sum(:cost)
     tot_exp = @exps.where(kind: "EXPENSE").sum(:cost)
   else
     paid_no =@bills_ovr.where(paid: true).count
@@ -49,16 +49,17 @@
         wd_nt = min_wd
         nt_clr = "green"
 
-        wd_inc = (tot_inc.to_f*100/max_no.to_f) unless (tot_inc.to_f*100/max_no.to_f) < 20
+        wd_inc = (tot_inc.to_f*100/max_no.to_f) unless ((tot_inc.to_f*100/max_no.to_f) < 20) || (max_no <= 0)
 
-        wd_exp = (tot_exp.to_f*100/max_no.to_f) unless (tot_exp.to_f*100/max_no.to_f) < 20
+        wd_exp = (tot_exp.to_f*100/max_no.to_f) unless ((tot_exp.to_f*100/max_no.to_f) < 20) || (max_no <= 0)
 
-        wd_nt = (tot_net.to_f*100/max_no.to_f) unless (tot_net.to_f*100/max_no.to_f) < 20
+        wd_nt = (tot_net.to_f*100/max_no.to_f) unless ((tot_net.to_f*100/max_no.to_f) < 20) || (max_no <= 0)
 
         nt_clr = "red" unless tot_net > 0
 
       %>
 
+      <% max_no <= 0 %>
       <div class="card-body" style="margin-bottom: -20px ">
 
         <!-- INCOMES -->
