@@ -53,36 +53,27 @@
         <tbody>
           <tr>
             <td>
-              <b>Bill To:</b><br>
-              <%= "@kb.extra[0]" %>
+              <b>Received From:</b><br>
+              <%= @expense.coname %>
             </td>
             <td></td>
             <td style="text-align:right">
-              <b>Bill Date:</b><br>
-              <%= "@payment.created_at.strftime('%d-%^b-%y')" %>
+              <b>Date Issued</b><br>
+              <%= @expense.created_at.strftime('%d-%b-%y') %>
             </td>
           </tr>
 
           <tr>
             <td>
               <i class="fas fa-mobile"></i>&nbsp&nbsp
-              <%= "@kb.extra[1]" %><br>
+              <%= @expense.ph %><br>
               <i class="fas fa-envelope"></i>&nbsp
-              <%= "@kb.extra[2] "%>
+              <%= @expense.catg %>
             </td>
             <td></td>
             <td style="text-align:right">
-              <b>Payment Date:</b><br>
-              <%= "@payment.pdt.strftime('%d-%^b-%y')" %>
-            </td>
-          </tr>
-
-          <tr>
-            <td></td>
-            <td></td>
-            <td style="text-align:right">
-              <b>Payment Method:</b><br>
-              <%= "@payment.mtd" %>
+              <b>Date Received</b><br>
+              <%= @expense.dt.strftime('%d-%^b-%y') %>
             </td>
           </tr>
         </tbody>    
@@ -92,7 +83,6 @@
   </div> <!-- END TOP ITEMS -->
   <br>
   <div class="container">
-    <br><br>
     <table class="table">
       <thead>
         <tr>

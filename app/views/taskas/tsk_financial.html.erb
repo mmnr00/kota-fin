@@ -32,7 +32,7 @@
 
   a={"Paid (#{paid_no})"=> paid_no, "Not Paid (#{unpaid_no})"=> unpaid_no}
 %>
-<%= @fin_arr %>
+
 <meta name="viewport" content="width=768">
 <!-- Project Card Example -->
 <div class="row">
@@ -233,7 +233,7 @@
                 <td><%= exp.dt.strftime('%d-%^b-%Y') %></td>
                 <td>
                   <b><%= exp.name %></b>
-                  (<%= exp.exp_id %>)
+                  <i>(ID: <%= exp.exp_id %>)</i>&nbsp&nbsp
                   <%= link_to "Edit", edit_expense_path(exp), class: "badge badge-warning" %>
                   <% if exp.kind == "EXPENSE" %>
                     <%= link_to "Receipt", view_expense_path(id: exp.id), class: "badge badge-primary", target: "_blank" %>
