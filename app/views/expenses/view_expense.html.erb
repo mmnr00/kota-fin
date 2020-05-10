@@ -1,0 +1,14 @@
+<div class="col-lg-8"><div class="page-content">
+  <h1 align="center"><%= link_to "Thank you. This bill has been paid", "#", class: "btn btn-block btn-success" %></h1>
+</div>
+
+<%= render 'expenses/receipt' %>
+
+<% if params[:pdf].blank? %>
+  <%= link_to view_expense_path(format: :pdf, id: @expense.id, pdf: 1), class: 'btn btn-sm btn-success active' do %>
+    <i class="fa fa-download"></i>&nbspDOWNLOAD
+  <% end %>
+<% else %>
+  <b>Powered by</b> <u><font style="color:blue">www.kota.my</font></u> &nbsp 
+  <%= wicked_pdf_image_tag('kidcare_logo/kota_logo_full.png', size: "87x30") %>
+<% end %>

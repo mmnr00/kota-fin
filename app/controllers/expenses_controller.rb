@@ -1,5 +1,27 @@
 class ExpensesController < ApplicationController
-	before_action :set_expense, only: [:destroy,:update,:edit]
+	before_action :set_expense, only: [:destroy,:update,:edit,:view_expense]
+
+
+def view_expense
+	@taska = @expense.taska
+
+	if params[:pdf].present?
+    respond_to do |format|
+      @pdf = true
+      format.html
+      format.pdf do
+       render pdf: "Receipt",
+       #viewport_size: '1280x1024',
+       template: "expenses/view_expense.html.erb",
+       #disposition: "attachment",
+       #page_size: "A6",
+       #orientation: "landscape",
+       layout: 'pdf.html.erb'
+      end
+    end
+  end
+
+end
 
 	
 def new
@@ -14,6 +36,11 @@ def create
 	@taska = @expense.taska
 	@expense.month = @expense.dt.month
 	@expense.year = @expense.dt.year
+	unq = (0...6).map { ('a'..'z').to_a[rand(26)] }.join
+	while Expense.where(exp_id: unq).present?
+		unq = (0...6).map { ('a'..'z').to_a[rand(26)] }.join
+	end
+	@expense.exp_id = unq
 	if @expense.save			
 		flash[:notice] = "New Entry Successfully Created"					
 		redirect_to tsk_financial_path(id: @taska.id, sch_mth: @expense.month, sch_yr: @expense.year)							
@@ -69,6 +96,8 @@ end
 																			:dt,
 																			:coname,
 																			:catg,
+																			:ph,
+																			:desc,
 																			fotos_attributes: [:foto, :picture, :foto_name])
 	end
 	def redirect_ori

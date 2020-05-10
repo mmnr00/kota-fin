@@ -11,6 +11,15 @@
 				</div>
 			</div>
 
+      <div class="form-group"> <!-- name -->
+        <div class="control-label col-sm-2">
+          <strong>ITEM DESCRIPTION</strong>
+        </div>
+        <div class="col-sm-6">
+          <%= f.text_area :desc, class: "form-control", autofocus: true %>
+        </div>
+      </div>
+
 			<div class="form-group"> <!-- cost -->
 				<div class="control-label col-sm-2">
 					<strong>AMOUNT(RM)</strong>
@@ -74,6 +83,15 @@
         </div>
         <div class="col-sm-6">
           <%= f.email_field :catg, class: "form-control", autofocus: true %>
+        </div>
+      </div>
+
+      <div class="form-group"> <!-- CATEGORY -->
+        <div class="control-label col-sm-2">
+          <strong>PHONE NO</strong>
+        </div>
+        <div class="col-sm-6">
+          <%= f.text_field :ph, class: "form-control", autofocus: true %>
         </div>
       </div>
 

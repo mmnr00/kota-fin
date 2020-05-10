@@ -1,0 +1,145 @@
+<div class="bg-white">
+  <div class="container"><br>
+    <div style="font-size:20px">
+      <b>Receipt ID: </b><%= @expense.exp_id %>
+    </div>
+    <div class="container; col-md-12;" style="text-align:right"> 
+      <% image = @expense.taska.fotos.where(foto_name: "CENTER LOGO").first %>
+      <% if image.picture.present? %>
+        <a href="<%= image.picture.url %>">
+          <% if params[:pdf].present? %>
+            <%= wicked_pdf_image_tag(image.picture.url, size: "150x150") %>
+          <% else %>
+            <%= image_tag(image.picture.url, size: "150x150") %>
+          <% end %>
+        </a>
+      <% end %>
+      <div style="padding-top: 5px">
+        <div style="margin-bottom: -6px"><b style="font-size:18px"><%= @taska.name.upcase %></b></div>
+        <%= "#{@taska.acc_name} (#{@taska.ssm_no})" %>
+      </div>
+    </div><br>
+
+    <% if !@pdf %>
+      <div class="row bg-light">
+        <div class="col-md-6 col-12 bg-white" style="text-align:left">
+          <div style="margin-bottom: 10px; margin-top: 1px">
+            <b style="font-size:15px">Bill To:</b><br>
+            <%= "Mus" %>
+          </div>
+          <div style="margin-bottom: 0px"><b style="font-size:15px">
+            <i class="fas fa-mobile"></i></b> &nbsp&nbsp
+            <%= "Mus" %>
+          </div>
+          <div style="margin-bottom: 0px"><b style="font-size:15px">
+            <i class="fas fa-envelope"></i></b> &nbsp
+            <%= "Mus" %>
+          </div>
+        </div>
+        <div class="col-md-6 col-12 bg-white" style="text-align:right">
+          <div style="margin-bottom: -6px; margin-top: 1px">
+            <b style="font-size:13px">Receipt Date</b>
+          </div>
+          <%= @expense.created_at.strftime('%d-%^b-%y') %>
+          <% if 1==1 %>
+            <br>
+            <div style="margin-bottom: -6px"><b style="font-size:13px">Received Date</b></div>
+            <%= @expense.created_at.strftime('%d-%^b-%y') %>
+            <br>
+            <div style="margin-bottom: -6px"><b style="font-size:13px">Payment Method</b></div>
+            <%= "@payment.mtd" %>
+          <% end %>
+        </div>     
+      </div> <!-- DIV ROW -->
+    <% else %> <!-- IF PRINT PDF -->
+      <table class="table table-borderless table-sm" style="font-size:18px ">
+        <tbody>
+          <tr>
+            <td>
+              <b>Bill To:</b><br>
+              <%= "@kb.extra[0]" %>
+            </td>
+            <td></td>
+            <td style="text-align:right">
+              <b>Bill Date:</b><br>
+              <%= "@payment.created_at.strftime('%d-%^b-%y')" %>
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <i class="fas fa-mobile"></i>&nbsp&nbsp
+              <%= "@kb.extra[1]" %><br>
+              <i class="fas fa-envelope"></i>&nbsp
+              <%= "@kb.extra[2] "%>
+            </td>
+            <td></td>
+            <td style="text-align:right">
+              <b>Payment Date:</b><br>
+              <%= "@payment.pdt.strftime('%d-%^b-%y')" %>
+            </td>
+          </tr>
+
+          <tr>
+            <td></td>
+            <td></td>
+            <td style="text-align:right">
+              <b>Payment Method:</b><br>
+              <%= "@payment.mtd" %>
+            </td>
+          </tr>
+        </tbody>    
+        
+      </table>
+    <% end %>
+  </div> <!-- END TOP ITEMS -->
+  <br>
+  <div class="container">
+    <br><br>
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="text-left">RECEIPT DESCRIPTION FOR <%= "MUS" %> </th>
+          <th></th>
+          <th style="width:140px" class="text-right">AMOUNT (RM)</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="noBorder">
+            <td><%= "MUS" %></td>
+            <td></td>
+            <td class="text-right"><%= "MUS" %></td>
+          </tr>
+        
+        <tr>
+          <td class="text-right no-border" colspan="2">
+            
+            <div class="well well-small green"><strong><h4>TOTAL <%= "paid" %></h4></strong></div>
+          </td>
+          <td class="text-right">
+            <strong>
+              <h4>
+                <%= "@payment.amount" %></b>    
+              </h4>
+            </strong></td>
+        </tr>
+      </tbody>
+    </table>
+    <hr><br>
+  </div>
+  
+
+</div>
+
+
+
+
+
+
+
+
+
+
+    
+
+  

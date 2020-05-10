@@ -236,7 +236,7 @@
                   (<%= exp.name %>)
                   <br>
                   <%= link_to "Edit", edit_expense_path(exp), class: "badge badge-warning" %>
-                  <%= link_to "Document", edit_expense_path(exp), class: "badge badge-primary", target: "_blank" %>
+                  <%= link_to "Document", view_expense_path(id: exp.id), class: "badge badge-primary", target: "_blank" %>
                 </td>
                 <% if exp.kind == "INCOME" %>
                   <td><%= number_with_delimiter(exp.cost.round(2), :delimiter => ',') %></td>

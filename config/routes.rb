@@ -302,6 +302,7 @@ Rails.application.routes.draw do
   get 'dltpayslips', to: 'payslips#dltpsl', as: 'dltpsl'
 
   #~EXPENSES
+  get '/view_expense', to: 'expenses#view_expense', as: 'view_expense'
   #patch '/expenses/:id', to: 'expenses#update'
   
   #~KIDS
