@@ -10,6 +10,8 @@ module KidcareTaskaV3
   class Application < Rails::Application
     config.load_defaults 5.2
     config.assets.paths << Rails.root.join("vendor","assets", "fonts")
+    config.time_zone = 'Singapore'
+    config.active_record.default_timezone = :local
     #config.assets.paths << File.join(Rails.root, '/vendor/webarch_core')
     #config.assets.paths << File.join(Rails.root, '/vendor/agency')
     #config.assets.enabled = true

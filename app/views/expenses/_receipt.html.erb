@@ -1,7 +1,7 @@
 <div class="bg-white">
   <div class="container"><br>
     <div style="font-size:20px">
-      <b>Receipt ID: </b><%= @expense.exp_id %>
+      <b>Receipt ID: </b><i><%= @expense.exp_id %></i>
     </div>
     <div class="container; col-md-12;" style="text-align:right"> 
       <% image = @expense.taska.fotos.where(foto_name: "CENTER LOGO").first %>
@@ -24,30 +24,27 @@
       <div class="row bg-light">
         <div class="col-md-6 col-12 bg-white" style="text-align:left">
           <div style="margin-bottom: 10px; margin-top: 1px">
-            <b style="font-size:15px">Bill To:</b><br>
-            <%= "Mus" %>
+            <b style="font-size:15px">Received From:</b><br>
+            <%= @expense.coname %>
           </div>
           <div style="margin-bottom: 0px"><b style="font-size:15px">
             <i class="fas fa-mobile"></i></b> &nbsp&nbsp
-            <%= "Mus" %>
+            <%= @expense.ph %>
           </div>
           <div style="margin-bottom: 0px"><b style="font-size:15px">
             <i class="fas fa-envelope"></i></b> &nbsp
-            <%= "Mus" %>
+            <%= @expense.catg %>
           </div>
         </div>
         <div class="col-md-6 col-12 bg-white" style="text-align:right">
           <div style="margin-bottom: -6px; margin-top: 1px">
-            <b style="font-size:13px">Receipt Date</b>
+            <b style="font-size:13px">Date Issued</b>
           </div>
           <%= @expense.created_at.strftime('%d-%^b-%y') %>
           <% if 1==1 %>
             <br>
-            <div style="margin-bottom: -6px"><b style="font-size:13px">Received Date</b></div>
-            <%= @expense.created_at.strftime('%d-%^b-%y') %>
-            <br>
-            <div style="margin-bottom: -6px"><b style="font-size:13px">Payment Method</b></div>
-            <%= "@payment.mtd" %>
+            <div style="margin-bottom: -6px"><b style="font-size:13px">Date Received</b></div>
+            <%= @expense.dt.strftime('%d-%^b-%y') %>
           <% end %>
         </div>     
       </div> <!-- DIV ROW -->
@@ -99,27 +96,29 @@
     <table class="table">
       <thead>
         <tr>
-          <th class="text-left">RECEIPT DESCRIPTION FOR <%= "MUS" %> </th>
+          <th class="text-left">RECEIPT DESCRIPTION </th>
           <th></th>
           <th style="width:140px" class="text-right">AMOUNT (RM)</th>
         </tr>
       </thead>
       <tbody>
           <tr class="noBorder">
-            <td><%= "MUS" %></td>
-            <td></td>
-            <td class="text-right"><%= "MUS" %></td>
+            <td colspan="2">
+              <b><%= @expense.name %></b><br>
+              <%= @expense.desc %>
+            </td>
+            <td class="text-right"><%= @expense.cost %></td>
           </tr>
         
         <tr>
           <td class="text-right no-border" colspan="2">
             
-            <div class="well well-small green"><strong><h4>TOTAL <%= "paid" %></h4></strong></div>
+            <div class="well well-small green"><strong><h4>TOTAL</h4></strong></div>
           </td>
           <td class="text-right">
             <strong>
               <h4>
-                <%= "@payment.amount" %></b>    
+                <%= @expense.cost %></b>    
               </h4>
             </strong></td>
         </tr>

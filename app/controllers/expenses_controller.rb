@@ -36,9 +36,9 @@ def create
 	@taska = @expense.taska
 	@expense.month = @expense.dt.month
 	@expense.year = @expense.dt.year
-	unq = (0...6).map { ('a'..'z').to_a[rand(26)] }.join
+	unq = (('a'..'z').to_a + (0..9).to_a).sample(6).join
 	while Expense.where(exp_id: unq).present?
-		unq = (0...6).map { ('a'..'z').to_a[rand(26)] }.join
+		unq = (('a'..'z').to_a + (0..9).to_a).sample(6).join
 	end
 	@expense.exp_id = unq
 	if @expense.save			
