@@ -20,7 +20,7 @@ dropdb kota-fin-prod -U MustakhimRehan
 heroku pg:pull DATABASE_URL kota-fin-prod --app kota-prod
 
 heroku pg:reset --app kota-staging
-heroku pg:push kota-fin-dev DATABASE_URL  --app kota-staging
+heroku pg:push kota-fin-prod DATABASE_URL  --app kota-staging
 
 git push heroku staging:master
 #heroku run rake db:migrate --app kidcare-prod
