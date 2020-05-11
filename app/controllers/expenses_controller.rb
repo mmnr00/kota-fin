@@ -28,6 +28,7 @@ def new
 	@taska = Taska.find(params[:community_id])
 	@admin = current_admin
 	@expense = Expense.new
+	@expense.fotos.build
 	render action: "new", layout: "admin_db/admin_db-financial" 
 end
 

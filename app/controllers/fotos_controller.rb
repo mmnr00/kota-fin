@@ -46,7 +46,7 @@ class FotosController < ApplicationController
           redirect_to taskashow_path(cls.taska)
         elsif @foto.expense.present?
           @expense = @foto.expense
-          redirect_to edit_expense_path(@expense)
+          redirect_to edit_expense_path(@expense, tp: @expense.kind)
         elsif @foto.kid.present?
           @kid = @foto.kid
           redirect_to edit_kid_path(@kid)
