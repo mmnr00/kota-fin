@@ -231,7 +231,7 @@
                 <td>
                   <b><%= exp.name %></b>
                   <i>(Created by: <%= Admin.find(exp.adm).username %>)</i>&nbsp&nbsp
-                  <%= link_to "Edit", edit_expense_path(exp), class: "badge badge-warning" %>
+                  <%= link_to "Edit", edit_expense_path(exp, tp: exp.kind), class: "badge badge-warning" %>
                   <% if exp.kind == "INCOME" %>
                     <%= link_to "Receipt", view_expense_path(id: exp.id), class: "badge badge-primary", target: "_blank" %>
                   <% end %>

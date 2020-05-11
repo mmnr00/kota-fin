@@ -1,22 +1,14 @@
 <div class='row'>
-	<div class='col-12'>
+	<div class='col-12' style="font-size:13px">
 		<%= form_for(@expense, :html => {class: "form-horizontal", role: "form"}) do |f| %>
 
+    <%= f.hidden_field :kind, value: params[:tp] %>
     <% if params[:tp] == "INCOME" %>
-      INCOME NEW 
+      INCOME NEW
     <% elsif params[:tp] == "EXPENSE" %>
       EXPENSE NEW
     <% end %>
 
-      <div class="form-group"> <!-- type -->
-        <div class="control-label col-sm-2">
-          <strong>TYPE</strong>
-        </div>
-        <div class="col-sm-12">
-          <%= f.select :kind, options_for_select(["INCOME","EXPENSE"], selected: @expense.kind), class: "form-control", required: true %>
-        </div>
-      </div>
-			
 			<div class="form-group"> <!-- name -->
 				<div class="control-label col-sm-2">
 					<strong>ITEM NAME</strong>
