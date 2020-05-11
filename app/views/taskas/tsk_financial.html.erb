@@ -6,8 +6,8 @@
     no_exp = @exps.where(kind: "EXPENSE").count
     no_inc = @exps.where(kind: "INCOME").count
 
-    bill_inc = @bil_plz.sum(:amount) - (@bil_plz.count*1.5)
-    oth_inc = @bil_norm.sum(:amount) + @exps.where(kind: "INCOME").sum(:cost)
+    bill_inc = @bil_plz.sum(:amount) - (@bil_plz.count*1.5) + @bil_norm.sum(:amount)
+    oth_inc = @exps.where(kind: "INCOME").sum(:cost)
     tot_exp = @exps.where(kind: "EXPENSE").sum(:cost)
   else
     paid_no =@bills_ovr.where(paid: true).count
@@ -30,7 +30,7 @@
   tot_net = tot_inc - tot_exp
   max_no = [tot_inc,tot_exp].max
 
-  a={"Paid (#{paid_no})"=> paid_no, "Not Paid (#{unpaid_no})"=> unpaid_no}
+  a={"Paid (#{paid_no}/#{paid_no+unpaid_no})"=> paid_no, "Not Paid (#{unpaid_no}/#{paid_no+unpaid_no})"=> unpaid_no}
 %>
 
 <meta name="viewport" content="width=768">
@@ -38,9 +38,34 @@
 <div class="row">
   <div class="col-lg-6">
     <div class="card shadow mb-4">
-      <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Financial Summary</h6>
-      </div>
+      <div class="card-header py-3"><div class="row"><div style="padding-left: 15px"></div>
+        <h6 class="m-0 font-weight-bold text-primary">Financial Summary For  </h6>&nbsp&nbsp
+        <%= form_tag tsk_financial_path, method: :get, id: "find_kid" do %>
+          <% 
+            yr_s = Date.today.year - 4
+            yr_e = Date.today.year
+            mt = []
+            $month_name.each do |k,v|
+              mt << [v,k]
+            end
+          %>
+          <%= select_tag :sch_mth, options_for_select(mt, params[:sch_mth]), include_blank: "ALL MONTHS" %>
+          <%= select_tag :sch_yr, options_for_select(yr_s..yr_e, params[:sch_yr]) %> 
+          <% select_tag :sch_stt, options_for_select(["Income","Expense"], params[:sch_stt]), include_blank: "All Types" %>
+          
+          <% text_field_tag :sch_str, params[:sch_str], placeholder: "Search Item" %>
+          <% select_tag :sch_fld, options_for_select(["Unit No","Phone No","Name","Email","Bill ID"], params[:sch_fld]),
+                include_blank: "Select Field" %>
+          <%= hidden_field_tag :id, params[:id], value: params[:id] %>
+          <%= hidden_field_tag :shw, params[:shw], value: true %>
+          <%= button_tag(type: :submit, class: "badge badge-success shadow-none", style: "font-size: 14px; border-style: none; font-weight: normal", id: "submit_expense") do %>
+              <i class="fa fa-search"></i> Search
+          <% end %>
+          <%= link_to tsk_financial_path(@taska, sch_yr: Date.today.year, sch_mth:nil,), class: "badge badge-danger shadow-sm", style: "font-size: 14px; font-weight: normal" do %>
+              <i class="fa fa-sync"></i> Clear
+          <% end %>
+        <% end %>
+      </div></div>
 
       <% #config color and size of bar
         min_wd = 20
@@ -153,7 +178,7 @@
 
     <div class="card shadow mb-4">
       <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Bills Summary</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Fees Summary</h6>
       </div>
       <div class="card-body" style="margin-bottom: -20px ">
         <%= pie_chart a, colors: ["#66b266","#ff7f7f"], donut: true, legend: "bottom", thousands: "," %>
@@ -167,40 +192,10 @@
 <div class="card shadow mb-4">
   <div class="card-header">
     <div class="row">
-      <%= form_tag tsk_financial_path, method: :get, id: "find_kid" do %>
-      <% 
-        yr_s = Date.today.year - 4
-        yr_e = Date.today.year
-      %>
-        <%= select_tag :sch_yr, options_for_select(yr_s..yr_e, params[:sch_yr]) %>
-        <%= select_tag :sch_mth, options_for_select(1..12, params[:sch_mth]), include_blank: "All Months" %>
-        <% select_tag :sch_stt, options_for_select(["Income","Expense"], params[:sch_stt]), include_blank: "All Types" %>
-        
-        <% text_field_tag :sch_str, params[:sch_str], placeholder: "Search Item" %>
-        <% select_tag :sch_fld, options_for_select(["Unit No","Phone No","Name","Email","Bill ID"], params[:sch_fld]),
-              include_blank: "Select Field" %>
-        <%= hidden_field_tag :id, params[:id], value: params[:id] %>
-        <%= hidden_field_tag :shw, params[:shw], value: true %>
-        <%= button_tag(type: :submit, class: "badge badge-success shadow-none", style: "font-size: 14px; border-style: none; font-weight: normal", id: "submit_expense") do %>
-            <i class="fa fa-search"></i> Search
-        <% end %>
-        <%= link_to tsk_financial_path(@taska, sch_yr: Date.today.year, sch_mth:nil,), class: "badge badge-danger shadow-sm", style: "font-size: 14px; font-weight: normal" do %>
-            <i class="fa fa-sync"></i> Clear
-        <% end %>
-
-        <% if params[:shw].blank? && 1==0 %>
-          <%= link_to tsk_fee_path(@taska, sch_yr: Date.today.year, sch_mth: Date.today.month, shw: true), class: "badge badge-warning shadow-sm", style: "font-size: 14px; font-weight: normal" do %>
-              <i class="fa fa-eye"></i> Show All
-          <% end %>
-        <% end %>
-
-        <% if 1==0 && params[:shw].present? #params[:sch].present? %>
-          <span class="badge badge-dark"><b><%= @payments.count %></b> result(s) found</span>
-        <% end %>
-      <% end %>
+      
     </div>
   </div>
-  <div class="card-body" style="font-size:15px">
+  <div class="card-body" style="font-size:13px">
     <div class="table-responsive border">
       <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
 
@@ -217,13 +212,13 @@
           <tbody style="">
             <tr>
               <td><%= "#{$month_name[params[:sch_mth].to_i]}-#{params[:sch_yr]}" %></td>
-              <td>Bills Paid via Payment Gateway</td>
+              <td>Fees Received via Payment Gateway</td>
               <td><%= number_with_delimiter(bill_inc.round(2), :delimiter => ',')%></td>
               <td><% number_with_delimiter((@bil_plz.count*1.5).round(2), :delimiter => ',') %></td>
             </tr>
             <tr>
               <td><%= "#{$month_name[params[:sch_mth].to_i]}-#{params[:sch_yr]}" %></td>
-              <td>Bills Paid via Other Methods</td>
+              <td>Fees Received via Other Methods</td>
               <td><%= number_with_delimiter(@bil_norm.sum(:amount).round(2), :delimiter => ',') %></td>
               <td></td>
             </tr>
@@ -235,7 +230,7 @@
                   <b><%= exp.name %></b>
                   <i>(ID: <%= exp.exp_id %>)</i>&nbsp&nbsp
                   <%= link_to "Edit", edit_expense_path(exp), class: "badge badge-warning" %>
-                  <% if exp.kind == "EXPENSE" %>
+                  <% if exp.kind == "INCOME" %>
                     <%= link_to "Receipt", view_expense_path(id: exp.id), class: "badge badge-primary", target: "_blank" %>
                   <% end %>
                 </td>
