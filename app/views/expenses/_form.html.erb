@@ -3,11 +3,13 @@
 		<%= form_for(@expense, :html => {class: "form-horizontal", role: "form"}) do |f| %>
 
     <%= f.hidden_field :kind, value: params[:tp] %>
+    <div class="col-lg-12">
     <% if params[:tp] == "INCOME" %>
-      INCOME NEW
+      <h4>INCOME FORM</h4>
     <% elsif params[:tp] == "EXPENSE" %>
-      EXPENSE NEW
+      <h4>EXPENSE FORM</h4>
     <% end %>
+    </div>
 
 			<div class="form-group"> <!-- name -->
 				<div class="control-label col-sm-2">
