@@ -41,6 +41,7 @@ def create
 		unq = (('a'..'z').to_a + (0..9).to_a).sample(6).join
 	end
 	@expense.exp_id = unq
+	@expense.adm = current_admin.id
 	if @expense.save			
 		flash[:notice] = "New Entry Successfully Created"					
 		redirect_to tsk_financial_path(id: @taska.id, sch_mth: @expense.month, sch_yr: @expense.year)							

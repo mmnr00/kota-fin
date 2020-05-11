@@ -2,6 +2,12 @@
 	<div class='col-12'>
 		<%= form_for(@expense, :html => {class: "form-horizontal", role: "form"}) do |f| %>
 
+    <% if params[:tp] == "INCOME" %>
+      INCOME NEW 
+    <% elsif params[:tp] == "EXPENSE" %>
+      EXPENSE NEW
+    <% end %>
+
       <div class="form-group"> <!-- type -->
         <div class="control-label col-sm-2">
           <strong>TYPE</strong>

@@ -163,8 +163,10 @@
         </div>
       <% end %>
 
-      <div class="col-lg-2 mb-4"><br>
-        <a href="<%= "#{new_expense_url}?community_id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Add New Item</a>
+      <div class="col-lg-2 mb-4">
+        <a href="<%= "#{new_expense_url}?community_id=#{@taska.id}&tp=INCOME" %>" class="d-sm-inline-block btn btn-xl btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> New Income&nbsp&nbsp</a>
+        <div style="margin-bottom: 20px"></div>
+        <a href="<%= "#{new_expense_url}?community_id=#{@taska.id}&tp=EXPENSE" %>" class="d-sm-inline-block btn btn-xl btn-warning shadow-sm"><i class="fas fa-plus fa-sm text-black-50"></i> New Expense</a>
       </div>
       
 
@@ -228,7 +230,7 @@
                 <td><%= exp.dt.strftime('%d-%^b-%Y') %></td>
                 <td>
                   <b><%= exp.name %></b>
-                  <i>(ID: <%= exp.exp_id %>)</i>&nbsp&nbsp
+                  <i>(Created by: <%= Admin.find(exp.adm).username %>)</i>&nbsp&nbsp
                   <%= link_to "Edit", edit_expense_path(exp), class: "badge badge-warning" %>
                   <% if exp.kind == "INCOME" %>
                     <%= link_to "Receipt", view_expense_path(id: exp.id), class: "badge badge-primary", target: "_blank" %>
