@@ -6,7 +6,7 @@ end
 exp.exp_id = unq
 exp.save
 
-if exp.kind == "EXPENSE"
+if exp.kind == "EXPENSE" && exp.fotos.blank?
 	Foto.create(expense_id: exp.id, foto_name: "EXPENSE DOC")
 end
 
