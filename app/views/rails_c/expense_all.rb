@@ -4,6 +4,7 @@ while Expense.where(exp_id: unq).present?
 unq = (('a'..'z').to_a + (0..9).to_a).sample(6).join
 end
 exp.exp_id = unq
+exp.adm = 1
 exp.save
 
 if exp.kind == "EXPENSE" && exp.fotos.blank?
