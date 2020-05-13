@@ -73,9 +73,15 @@ def update
 end
 
 def destroy
+		@taska = @expense.taska
+		mth = @expense.month
+		yr = @expense.year
+		@expense.fotos.each do |ft|
+			ft.destroy
+		end
 		@expense.destroy
 		flash[:notice] = "Expenses was successfully deleted"
-		redirect_to my_expenses_path(id: @expense.taska_id, expense:{month: @expense.month, year: @expense.year});
+		redirect_to tsk_financial_path(id: @taska.id, sch_mth: mth, sch_yr: yr);
 end
 
 

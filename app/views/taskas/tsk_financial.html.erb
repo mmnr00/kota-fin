@@ -233,7 +233,10 @@
               <tr>
                 <td><%= exp.dt.strftime('%d-%^b-%Y') %></td>
                 <td>
-                  <b><%= exp.name %></b>
+                  <b>
+                    <%= exp.name %>
+                    <%= link_to "Delete", expense_path(id: exp.id), method: :delete, class: "badge badge-danger", :data => {:confirm => 'Are you sure?'} %>
+                  </b>
                   <i>(Created by: <%= Admin.find(exp.adm).username %>)</i>&nbsp&nbsp
                   <%= link_to "Edit", edit_expense_path(exp, tp: exp.kind), class: "badge badge-warning" %>
                   <% if exp.kind == "INCOME" %>
