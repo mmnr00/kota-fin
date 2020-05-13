@@ -6,6 +6,10 @@
     no_exp = @exps.where(kind: "EXPENSE").count
     no_inc = @exps.where(kind: "INCOME").count
 
+    #change logic to reflect strict month
+    @bil_plz = @ori_bills.where(paid: true).where('mtd LIKE ?', "%BILLPLZ%")
+    @bil_norm = @ori_bills.where(paid: true).where.not('mtd LIKE ?', "%BILLPLZ%")
+
     bill_inc = @bil_plz.sum(:amount) - (@bil_plz.count*1.5) + @bil_norm.sum(:amount)
     oth_inc = @exps.where(kind: "INCOME").sum(:cost)
     tot_exp = @exps.where(kind: "EXPENSE").sum(:cost)
@@ -32,7 +36,7 @@
 
   a={"Paid (#{paid_no}/#{paid_no+unpaid_no})"=> paid_no, "Not Paid (#{unpaid_no}/#{paid_no+unpaid_no})"=> unpaid_no}
 %>
-
+<%= @fin_arr %>
 <meta name="viewport" content="width=768">
 <!-- Project Card Example -->
 <div class="row">
@@ -215,7 +219,7 @@
             <tr>
               <td><%= "#{$month_name[params[:sch_mth].to_i]}-#{params[:sch_yr]}" %></td>
               <td>Fees Received via Payment Gateway</td>
-              <td><%= number_with_delimiter(bill_inc.round(2), :delimiter => ',')%></td>
+              <td><%= number_with_delimiter((@bil_plz.sum(:amount)-@bil_plz.count*1.5).round(2), :delimiter => ',')%></td>
               <td><% number_with_delimiter((@bil_plz.count*1.5).round(2), :delimiter => ',') %></td>
             </tr>
             <tr>
@@ -266,7 +270,12 @@
                   <u><%= link_to str, tsk_financial_path(@taska, sch_mth: inf[0], sch_yr: inf[1]) %></u>
                     
                 </td>
-                <td><%= number_with_delimiter(inf[2].round(2), :delimiter => ',') %></td>
+                <td>
+                  <%= 
+                    "#{number_with_delimiter(inf[2].round(2), :delimiter => ',')}
+                    (#{number_with_delimiter(inf[5].round(2), :delimiter => ',')})" 
+                  %>
+                </td>
                 <td><%= number_with_delimiter(inf[3].round(2), :delimiter => ',') %></td>
                 <td><%= number_with_delimiter(inf[4].round(2), :delimiter => ',') %></td>
                 <%

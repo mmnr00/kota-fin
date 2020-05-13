@@ -437,10 +437,20 @@ class TaskasController < ApplicationController
         end
         
         bilpz = @bil_plz.sum(:amount) - (@bil_plz.count*1.5)
+        #new calculation method
+        # bilplz_curr = 0.00
+        # bilnorm_curr = 0.00
+        # bilplz_ovr_curr = 0.00
+
+        bilplz_curr = @ori_bills.where('mtd LIKE ?', "%BILLPLZ%")
+        bilnorm_curr = @ori_bills.where.not('mtd LIKE ?', "%BILLPLZ%")
+        bilplz_ovr_curr = bilplz_curr.sum(:amount) - (bilplz_curr.count*1.5)
+        
         @fin_arr << [n,yr,
-                    bilpz + @bil_norm.sum(:amount),
+                    bilplz_ovr_curr + bilnorm_curr.sum(:amount),
                     @exps.where(kind: "INCOME").sum(:cost),
-                    @exps.where(kind: "EXPENSE").sum(:cost)]
+                    @exps.where(kind: "EXPENSE").sum(:cost),
+                    bilpz + @bil_norm.sum(:amount)]
       end
 
     elsif params[:sch_mth].present? # month only
