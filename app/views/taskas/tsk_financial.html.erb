@@ -1,1 +1,299 @@
-<%= render 'taskas/undercon' %>
+<% 
+
+  if params[:sch_mth].present?
+    paid_no =@ori_bills.where(paid: true).count
+    unpaid_no =@ori_bills.where(paid: false).count
+    no_exp = @exps.where(kind: "EXPENSE").count
+    no_inc = @exps.where(kind: "INCOME").count
+
+    bill_inc = @bil_plz.sum(:amount) - (@bil_plz.count*1.5) + @bil_norm.sum(:amount)
+    oth_inc = @exps.where(kind: "INCOME").sum(:cost)
+    tot_exp = @exps.where(kind: "EXPENSE").sum(:cost)
+  else
+    paid_no =@bills_ovr.where(paid: true).count
+    unpaid_no =@bills_ovr.where(paid: false).count
+    no_exp = @exps_ovr.where(kind: "EXPENSE").count
+    no_inc = @exps_ovr.where(kind: "INCOME").count
+
+    bill_inc = 0.00
+    oth_inc = 0.00
+    tot_exp = 0.00
+    @fin_arr.each do |inf|
+      bill_inc = bill_inc + inf[2]
+      oth_inc = oth_inc + inf[3]
+      tot_exp = tot_exp + inf[4]
+    end
+
+    
+  end
+  tot_inc = bill_inc + oth_inc
+  tot_net = tot_inc - tot_exp
+  max_no = [tot_inc,tot_exp].max
+
+  a={"Paid (#{paid_no}/#{paid_no+unpaid_no})"=> paid_no, "Not Paid (#{unpaid_no}/#{paid_no+unpaid_no})"=> unpaid_no}
+%>
+
+<meta name="viewport" content="width=768">
+<!-- Project Card Example -->
+<div class="row">
+  <div class="col-lg-6">
+    <div class="card shadow mb-4">
+      <div class="card-header py-3"><div class="row"><div style="padding-left: 15px"></div>
+        <h6 class="m-0 font-weight-bold text-primary">Financial Summary For  </h6>&nbsp&nbsp
+        <%= form_tag tsk_financial_path, method: :get, id: "find_kid" do %>
+          <% 
+            yr_s = Date.today.year - 4
+            yr_e = Date.today.year
+            mt = []
+            $month_name.each do |k,v|
+              mt << [v,k]
+            end
+          %>
+          <%= select_tag :sch_mth, options_for_select(mt, params[:sch_mth]), include_blank: "ALL MONTHS" %>
+          <%= select_tag :sch_yr, options_for_select(yr_s..yr_e, params[:sch_yr]) %> 
+          <% select_tag :sch_stt, options_for_select(["Income","Expense"], params[:sch_stt]), include_blank: "All Types" %>
+          
+          <% text_field_tag :sch_str, params[:sch_str], placeholder: "Search Item" %>
+          <% select_tag :sch_fld, options_for_select(["Unit No","Phone No","Name","Email","Bill ID"], params[:sch_fld]),
+                include_blank: "Select Field" %>
+          <%= hidden_field_tag :id, params[:id], value: params[:id] %>
+          <%= hidden_field_tag :shw, params[:shw], value: true %>
+          <%= button_tag(type: :submit, class: "badge badge-success shadow-none", style: "font-size: 14px; border-style: none; font-weight: normal", id: "submit_expense") do %>
+              <i class="fa fa-search"></i> Search
+          <% end %>
+          <%= link_to tsk_financial_path(@taska, sch_yr: Date.today.year, sch_mth:nil,), class: "badge badge-danger shadow-sm", style: "font-size: 14px; font-weight: normal" do %>
+              <i class="fa fa-sync"></i> Clear
+          <% end %>
+        <% end %>
+      </div></div>
+
+      <% #config color and size of bar
+        min_wd = 20
+        wd_inc = min_wd
+        wd_exp = min_wd
+        wd_nt = min_wd
+        nt_clr = "green"
+
+        wd_inc = (tot_inc.to_f*100/max_no.to_f) unless ((tot_inc.to_f*100/max_no.to_f) < 20) || (max_no <= 0)
+
+        wd_exp = (tot_exp.to_f*100/max_no.to_f) unless ((tot_exp.to_f*100/max_no.to_f) < 20) || (max_no <= 0)
+
+        wd_nt = (tot_net.to_f*100/max_no.to_f) unless ((tot_net.to_f*100/max_no.to_f) < 20) || (max_no <= 0)
+
+        nt_clr = "red" unless tot_net > 0
+
+      %>
+
+      <% max_no <= 0 %>
+      <div class="card-body" style="margin-bottom: -20px ">
+
+        <!-- INCOMES -->
+        <h4 class="small font-weight-bold" style="margin-bottom: 2px ">INCOMES (RM)  <span class="float-right"></span></h4>
+        <div class="mb-4" style="height: 30px;">
+          <div class="row" style="margin-left: 0.5px;margin-right: 0.5px;">
+            <div class="progress-bar" role="progressbar" 
+            style="width: <%= wd_inc %>% ;height: 30px; font-size:15px; background-color: #66b266" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"><%= number_with_delimiter(tot_inc.round(2), :delimiter => ',') %> </div>
+            <div class="progress-bar bg-success" role="progressbar" 
+            style="width: 0%;height: 30px; font-size:15px" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">0</div>
+          </div>
+
+          <!-- Description for incomes -->
+          <div class="row" style="margin-left: 0.5px;margin-right: 0.5px;">
+            <div class="font-weight-bold" style="width: 50%;height: 30px; font-size:11px; text-align: center">
+              <i>Fees Collections (<%= number_with_delimiter(bill_inc.round(2), :delimiter => ',') %>)</i>
+            </div>
+            <div class="font-weight-bold" style="width: 50%;height: 30px; font-size:11px; text-align: center">
+              <i>Other Incomes (<%= number_with_delimiter(oth_inc.round(2), :delimiter => ',') %>)</i>
+            </div>
+          </div>
+
+        </div>
+
+        <h4 class="small font-weight-bold" style="margin-bottom: 2px ">EXPENSES (RM)</h4>
+        <div class="mb-4" style=""><div class="rows">
+          <div class="progress-bar" role="progressbar" 
+          style="width: <%= wd_exp %>%;height: 30px; font-size:15px; background-color: #ff7f7f" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"><%= number_with_delimiter(tot_exp.round(2), :delimiter => ',') %> </div>
+        </div></div>
+
+        <h4 class="small font-weight-bold" style="margin-bottom: 2px ">NETT (RM)</h4>
+        <div class="mb-4" style=""><div class="rows">
+          <%
+          %>
+          <div class="progress-bar" role="progressbar" style="width: <%= wd_nt %>%;height: 30px; font-size:15px; background-color: <%= nt_clr %>" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"><%= number_with_delimiter(tot_net.round(2), :delimiter => ',') %> </div>
+        </div></div>
+        
+      </div>
+    </div>
+    <div class="row">
+
+      <% if params[:sch_stt] == "Income" || params[:sch_stt].blank? %>
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-lg-4 mb-4">
+          <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-success text-uppercase mb-1">No of Incomes</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800"><%= no_inc %></div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-hand-holding-usd fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <% if params[:sch_stt] == "Expense" || params[:sch_stt].blank? %>
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-lg-4 mb-4">
+          <div class="card border-left-danger shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">NO OF EXPENSES</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800"><%= no_exp %></div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-file-invoice-dollar fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="col-lg-2 mb-4">
+        <a href="<%= "#{new_expense_url}?community_id=#{@taska.id}&tp=INCOME" %>" class="d-sm-inline-block btn btn-xl btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> New Income&nbsp&nbsp</a>
+        <div style="margin-bottom: 20px"></div>
+        <a href="<%= "#{new_expense_url}?community_id=#{@taska.id}&tp=EXPENSE" %>" class="d-sm-inline-block btn btn-xl btn-warning shadow-sm"><i class="fas fa-plus fa-sm text-black-50"></i> New Expense</a>
+      </div>
+      
+
+
+    </div> <!-- DIV ROW CARDS-->
+
+  </div> <!-- DIV COL-6 -->
+
+  <div class="col-lg-6"> 
+    
+
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Fees Summary</h6>
+      </div>
+      <div class="card-body" style="margin-bottom: -20px ">
+        <%= pie_chart a, colors: ["#66b266","#ff7f7f"], donut: true, legend: "bottom", thousands: "," %>
+      </div>
+    </div> 
+
+  </div> <!-- DIV COL -6 -->
+
+</div><!-- DIV OVERALL ROW -->
+
+<div class="card shadow mb-4">
+  <div class="card-header">
+    <div class="row">
+      
+    </div>
+  </div>
+  <div class="card-body" style="font-size:13px">
+    <div class="table-responsive border">
+      <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
+
+        <% if params[:sch_mth].present? %>
+
+          <thead>
+            <tr class="shadow">
+              <th style="background-color:#ccccff; width:150px">DATE</th>
+              <th style="background-color:#ccccff">DESCRIPTION</th>
+              <th style="background-color:#ccccff; width:150px">INFLOW (RM)</th>
+              <th style="background-color:#ccccff; width:150px">OUTFLOW (RM)</th>
+            </tr>
+          </thead>
+          <tbody style="">
+            <tr>
+              <td><%= "#{$month_name[params[:sch_mth].to_i]}-#{params[:sch_yr]}" %></td>
+              <td>Fees Received via Payment Gateway</td>
+              <td><%= number_with_delimiter(bill_inc.round(2), :delimiter => ',')%></td>
+              <td><% number_with_delimiter((@bil_plz.count*1.5).round(2), :delimiter => ',') %></td>
+            </tr>
+            <tr>
+              <td><%= "#{$month_name[params[:sch_mth].to_i]}-#{params[:sch_yr]}" %></td>
+              <td>Fees Received via Other Methods</td>
+              <td><%= number_with_delimiter(@bil_norm.sum(:amount).round(2), :delimiter => ',') %></td>
+              <td></td>
+            </tr>
+
+            <% @exps.order('dt ASC').each do |exp| %>
+              <tr>
+                <td><%= exp.dt.strftime('%d-%^b-%Y') %></td>
+                <td>
+                  <b><%= exp.name %></b>
+                  <i>(Created by: <%= Admin.find(exp.adm).username %>)</i>&nbsp&nbsp
+                  <%= link_to "Edit", edit_expense_path(exp, tp: exp.kind), class: "badge badge-warning" %>
+                  <% if exp.kind == "INCOME" %>
+                    <%= link_to "Receipt", view_expense_path(id: exp.id), class: "badge badge-primary", target: "_blank" %>
+                  <% end %>
+                </td>
+                <% if exp.kind == "INCOME" %>
+                  <td><%= number_with_delimiter(exp.cost.round(2), :delimiter => ',') %></td>
+                  <td></td>
+                <% else %>
+                  <td></td>
+                  <td><%= number_with_delimiter(exp.cost.round(2), :delimiter => ',') %></td>
+                <% end %>
+              </tr>
+            <% end %>
+          </tbody>
+
+        <% elsif params[:sch_mth].blank? %>
+
+          <thead>
+            <tr class="shadow">
+              <th style="background-color:#ccccff">PERIOD</th>
+              <th style="background-color:#ccccff">FEES COLLECTION (RM)</th>
+              <th style="background-color:#ccccff">OTHER INCOME (RM)</th>
+              <th style="background-color:#ccccff">EXPENSE (RM)</th>
+              <th style="background-color:#ccccff">NETT (RM)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @fin_arr.each do |inf| %>
+              <tr style="text-align: center">
+                <td>
+                  <% str= "#{$month_name[inf[0]]}-#{inf[1]}"%>
+                  <u><%= link_to str, tsk_financial_path(@taska, sch_mth: inf[0], sch_yr: inf[1]) %></u>
+                    
+                </td>
+                <td><%= number_with_delimiter(inf[2].round(2), :delimiter => ',') %></td>
+                <td><%= number_with_delimiter(inf[3].round(2), :delimiter => ',') %></td>
+                <td><%= number_with_delimiter(inf[4].round(2), :delimiter => ',') %></td>
+                <%
+                  clr = "#ffc966"
+                  nett = inf[2] + inf[3] - inf[4]
+                  if nett > 0
+                    clr = "#7fbf7f"
+                  elsif nett < 0
+                     clr = "#ff9999"
+                  end
+                %>
+                <td style="background-color: <%= clr %>"><%= number_with_delimiter(nett.round(2), :delimiter => ',') %></td>
+              </tr>
+            <% end %>
+          </tbody>
+
+        <% end %>
+
+      </table>
+    </div>
+  </div>
+</div>
+</meta>
+
+
+<script language="javascript" type="text/javascript">
+  //setTimeout("location.reload();",2000);
+</script>
+
+

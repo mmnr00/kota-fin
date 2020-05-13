@@ -1,0 +1,147 @@
+<div class='row'>
+	<div class='col-12' style="font-size:13px">
+		<%= form_for(@expense, :html => {class: "form-horizontal", role: "form"}) do |f| %>
+
+    <%= f.hidden_field :kind, value: params[:tp] %>
+    <div class="col-lg-12">
+    <% if params[:tp] == "INCOME" %>
+      <h4>INCOME FORM</h4>
+    <% elsif params[:tp] == "EXPENSE" %>
+      <h4>EXPENSE FORM</h4>
+    <% end %>
+    </div>
+
+			<div class="form-group"> <!-- name -->
+				<div class="control-label col-sm-2">
+					<strong>ITEM NAME</strong>
+				</div>
+				<div class="col-sm-6">
+					<%= f.text_field :name, class: "form-control", autofocus: true, required: true %>
+				</div>
+			</div>
+
+      <div class="form-group"> <!-- name -->
+        <div class="control-label col-sm-2">
+          <strong>ITEM DESCRIPTION</strong>
+        </div>
+        <div class="col-sm-6">
+          <%= f.text_area :desc, class: "form-control", autofocus: true %>
+        </div>
+      </div>
+
+			<div class="form-group"> <!-- cost -->
+				<div class="control-label col-sm-2">
+					<strong>AMOUNT(RM)</strong>
+				</div>
+				<div class="col-sm-6">
+					<%= f.number_field :cost, rows: 10, class: "form-control", :step => 0.01, required: true %>
+				</div>
+			</div>
+
+      
+
+
+      <!-- START NEW ENTRY -->
+      <%
+        if @expense.id.present?
+          dt = @expense.dt
+        else
+          dt = Date.today
+        end
+      %>
+
+      <div class="form-group"> <!-- ENTRY DATE -->
+        <div class="control-label col-sm-2">
+          <strong>DATE</strong>
+        </div>
+        <div class="col-sm-6">
+          <%= f.date_field :dt, class: "form-control", autofocus: true, required: true, value: dt %>
+        </div>
+      </div>
+
+      <% if params[:tp] == "INCOME" %>
+
+        <div class="form-group"> <!-- COMPANY -->
+          <div class="control-label col-sm-2">
+            <strong>RECEIVE FROM</strong>
+          </div>
+          <div class="col-sm-6">
+            <%= f.text_field :coname, class: "form-control", autofocus: true %>
+          </div>
+        </div>
+
+        <div class="form-group"> <!-- CATEGORY -->
+          <div class="control-label col-sm-2">
+            <strong>EMAIL</strong>
+          </div>
+          <div class="col-sm-6">
+            <%= f.email_field :catg, class: "form-control", autofocus: true %>
+          </div>
+        </div>
+
+        <div class="form-group"> <!-- CATEGORY -->
+          <div class="control-label col-sm-2">
+            <strong>PHONE NO</strong>
+          </div>
+          <div class="col-sm-6">
+            <%= f.text_field :ph, class: "form-control", autofocus: true %>
+          </div>
+        </div>
+
+      <% elsif params[:tp] == "EXPENSE" %>
+        <div class="form-group"> 
+          <div class="control-label col-sm-8">
+            <strong> DOCUMENT</strong>
+          </div>
+          <div class="col-sm-8 col-5">
+          <% image = @expense.fotos.where(foto_name: "EXPENSE DOC").first %>
+          <% if image.present? %>
+            <a href="<%="#{image.picture.url}"%>" target="_blank">
+              <% if image.picture.content_type == 'application/pdf' %>
+                <%= image_tag(Foto.where(foto_name: "PDF ICON").first.picture.url, size: "200x200") if image.picture? %>
+              <% else %>
+                <%= image_tag(image.picture.url, size: "200x200") if image.picture? %>
+              <% end %>
+            </a>
+              <div class="row">
+              <div class="col-sm-8 col-5">
+                <strong><%= link_to "EDIT", edit_foto_path(image.id), class: "btn btn-sm btn-success active" %></strong>
+              </div>
+              </div>
+          <% else %>
+            <%= f.fields_for :fotos do |h| %>
+              <div class="row">
+                <div class="col-sm-8 col-8">
+                  <%= h.hidden_field :foto_name, value: "EXPENSE DOC" %>
+                  <%= h.file_field :picture, accept: 'image/jpeg,image/gif,image/png,application/pdf' %>
+                </div>
+              </div>
+              <% m = 1 %>
+            <% end %>
+          <% end %>
+        </div><br>
+      <% end %>
+
+
+
+      
+
+      <!-- END NEW ENTRY -->
+
+      
+
+      
+
+				
+
+			<%= f.hidden_field :taska_id, value: @taska.id %>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<%= f.submit "Submit", class: 'btn btn-primary btn-m' %>
+				</div>
+			</div>
+		<% end %>
+		
+	</div>
+</div>
