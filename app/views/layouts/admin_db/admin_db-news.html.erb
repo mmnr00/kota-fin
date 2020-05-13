@@ -59,21 +59,23 @@
           <span>VISITOR MANAGEMENT</span></a>
       </li>
 
-      <!-- Nav Item - ACTIVITIES -->
-      <hr class="sidebar-divider my-0">
-      <li class="nav-item">
-        <a class="nav-link" href="<%= tsk_activt_url(@taska) %>">
-          <i class="fas fa-fw fa-calendar-alt"></i>
-          <span>ACTIVITIES</span></a>
-      </li>
+      <% if 1==0 %>
+        <!-- Nav Item - ACTIVITIES -->
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item">
+          <a class="nav-link" href="<%= tsk_activt_url(@taska) %>">
+            <i class="fas fa-fw fa-calendar-alt"></i>
+            <span>ACTIVITIES</span></a>
+        </li>
 
-      <!-- Nav Item - NEWS BLAST -->
-      <hr class="sidebar-divider my-0">
-      <li class="nav-item active">
-        <a class="nav-link" href="<%= tsk_newblast_url(@taska) %>">
-          <i class="fas fa-fw fa-bullhorn"></i>
-          <span>NEWS BLAST</span></a>
-      </li>
+        <!-- Nav Item - NEWS BLAST -->
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item">
+          <a class="nav-link" href="<%= tsk_newblast_url(@taska) %>">
+            <i class="fas fa-fw fa-bullhorn"></i>
+            <span>NEWS BLAST</span></a>
+        </li>
+      <% end %>
 
       
       <hr class="sidebar-divider">
