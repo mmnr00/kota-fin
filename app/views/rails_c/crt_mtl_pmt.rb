@@ -1,7 +1,9 @@
+#IMPORTANT TO CHANGE
 @taska = Taska.find(3)
-classrooms = @taska.classrooms
-# get months and year
-all_month = [[1,2020],[2,2020]]
+all_month = [[6,2020]]
+#END CHANGE
+
+classrooms = @taska.classrooms.where(unq: "zllxxv")
 
 #init for payment
 tot = 0.00
@@ -28,7 +30,7 @@ all_month.each do |m|
 # check no payment yet then only create payment 
 
 if pmt.where(bill_month: m[0], bill_year: m[1]).blank? && (tot > 0)
-no_bill = no_bill + 1
+
 #CREATE BILLPLZ BILL
 url_bill = "#{ENV['BILLPLZ_API']}bills"
 data_billplz = HTTParty.post(url_bill.to_str,
@@ -70,12 +72,66 @@ clsname: "#{cls.description} #{cls.classroom_name}"
 )
 
 
-
+no_bill = no_bill + 1
 
 end # end Data ID
-
+sleep 0.2
 end #End pmt not exist
 
 end #end loop month
 
+#SEND EMAIL
+if em.present? && no_bill > 0
+
+mail = SendGrid::Mail.new
+mail.from = SendGrid::Email.new(email: 'billing@kota.my', name: "#{@taska.name}")
+mail.subject = "NEW BILL FOR: NO #{cls.description} #{cls.classroom_name}"
+#Personalisation, add cc
+personalization = SendGrid::Personalization.new
+em = "billing123@kota.my" unless em.present?
+personalization.add_to(SendGrid::Email.new(email: "#{em}"))
+#personalization.add_cc(SendGrid::Email.new(email: "#{@taska.email}"))
+mail.add_personalization(personalization)
+#add content
+msg = "<html>
+<body>
+Dear Mr/Mrs <strong>#{nm}</strong><br><br>
+
+
+Your new bill from <strong>#{@taska.name}</strong> is ready. <br><br>
+
+Please click <a href=https://www.kota.my/list_bill?cls=#{cls.unq}>HERE</a> to view and make payment. <br><br>
+
+<strong>Taman Kita Tanggungjawab Bersama</strong>.<br><br>
+
+Powered by <strong>www.kota.my</strong>
+</body>
+</html>"
+#sending email
+mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
+sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
+@response = sg.client.mail._('send').post(request_body: mail.to_json)
+
+end #END send email
+
+#SEND SMS
+if ph.present? && no_bill > 0
+url = "https://sms.360.my/gw/bulk360/v1.4?"
+usr = "user=admin@kidcare.my&"
+ps = "pass=#{ENV['SMS360']}&"
+to = "to=6#{ph}&"
+txt = "text=New Bill fr #{@taska.name}.\n Click https://www.kota.my/list_bill?cls=#{cls.unq} to pay. TAMAN KITA TANGGUNGJAWAB BERSAMA."
+
+fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
+data_sms = HTTParty.get(
+"#{url}#{usr}#{ps}#{to}#{txt}",
+http_proxyaddr: fixie.host,
+http_proxyport: fixie.port,
+http_proxyuser: fixie.user,
+http_proxypass: fixie.password
+)
+end #end sms
+
+
+sleep 0.2
 end # end classroom
