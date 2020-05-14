@@ -513,7 +513,7 @@ class PaymentsController < ApplicationController
     end
 
     @payments = @comm.payments.order('bill_year DESC').order('bill_month DESC').order('created_at DESC')
-    render action: "list_bill", layout: "list_bill"
+    #render action: "list_bill", layout: "list_bill"
   end
 
 
