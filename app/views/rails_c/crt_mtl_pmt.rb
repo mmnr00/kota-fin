@@ -3,7 +3,7 @@
 all_month = [[6,2020]]
 #END CHANGE
 
-classrooms = @taska.classrooms.where(unq: "zllxxv")
+classrooms = @taska.classrooms
 
 #init for payment
 tot = 0.00

@@ -508,7 +508,7 @@ class PaymentsController < ApplicationController
         @shw = true
       else
         flash[:danger] = "Details do not matched. Please try again"
-        redirect_to list_bill_path(cls: @comm.unq)      
+        redirect_to list_bill_path(cls: @comm.unq) and return      
       end
     end
 
