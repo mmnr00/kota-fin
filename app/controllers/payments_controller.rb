@@ -352,6 +352,9 @@ class PaymentsController < ApplicationController
 
   def update
     @payments = Payment.where(bill_id2: "#{params[:billplz][:id]}")
+    arr_pmt = [] # [0] is id, [1] is list of bills
+    arr_pmt << params[:billplz][:id]
+    arr_pmt << []
     if @payments.present?
       @cls = @payments.first.classroom
       @payments.each do |bill|
@@ -359,6 +362,7 @@ class PaymentsController < ApplicationController
         bill.pdt = params[:billplz][:paid_at]
         bill.mtd = "BILLPLZ via #{params[:billplz][:id]}"
         bill.save
+        arr_pmt[1] << bill.id
       end
       flash[:success] = "Payment Successful"
       unq = (0...20).map { ('a'..'z').to_a[rand(26)] }.join
@@ -366,13 +370,14 @@ class PaymentsController < ApplicationController
     else
       @bill = Payment.where(bill_id: "#{params[:billplz][:id]}").first
       if @bill.present?
-      #@kid = @bill.kid
+
         @bill.paid = params[:billplz][:paid]
         @bill.pdt = params[:billplz][:paid_at]
         @bill.mtd = "BILLPLZ"
         
         if @bill.paid
           @bill.save
+          arr_pmt[1] << @bill.id
           flash[:success] = "Bill was successfully paid"
         else
           flash[:danger] = "Bill was not paid due to bank rejection. Please try again"
@@ -380,7 +385,13 @@ class PaymentsController < ApplicationController
         unq = (0...20).map { ('a'..'z').to_a[rand(26)] }.join
         redirect_to list_bill_path(cls: @bill.classroom.unq, redr: unq)
       end
+    end #end payment present
+
+    #Send email notification
+    if arr_pmt[1].present?
+
     end
+
   end
 
   def crt_pmt
