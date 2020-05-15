@@ -218,53 +218,55 @@ class PaymentsController < ApplicationController
   def updall_pmt
     @taska = Taska.find(params[:id])
     @payments = @taska.payments.where(name: "RSD M BILL",paid: false)
-    @payments.each do |pmt|
+    if 1==0
+      @payments.each do |pmt|
 
-      nomore = false
-      if pmt.bill_id2.present?
-        bill_id = pmt.bill_id2
-        mtd = "BILLPLZ via #{bill_id}"
-        url_bill = "#{ENV['BILLPLZ_API']}bills/#{bill_id}"
-        data_billplz = HTTParty.get(url_bill.to_str,
-                :body  => {}.to_json, 
-                            #:callback_url=>  "YOUR RETURN URL"}.to_json,
-                :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
-                :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
-        #render json: data_billplz and return
-        data = JSON.parse(data_billplz.to_s)
-        if data["paid"] == true
-          pmt.paid = true
-          pmt.mtd = mtd
-          pmt.pdt = data["paid_at"]
-          pmt.save
-          nomore = true
+        nomore = false
+        if pmt.bill_id2.present?
+          bill_id = pmt.bill_id2
+          mtd = "BILLPLZ via #{bill_id}"
+          url_bill = "#{ENV['BILLPLZ_API']}bills/#{bill_id}"
+          data_billplz = HTTParty.get(url_bill.to_str,
+                  :body  => {}.to_json, 
+                              #:callback_url=>  "YOUR RETURN URL"}.to_json,
+                  :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+                  :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+          #render json: data_billplz and return
+          data = JSON.parse(data_billplz.to_s)
+          if data["paid"] == true
+            pmt.paid = true
+            pmt.mtd = mtd
+            pmt.pdt = data["paid_at"]
+            pmt.save
+            nomore = true
+          else
+            bill_id = pmt.bill_id
+            mtd = "BILLPLZ"
+          end
         else
           bill_id = pmt.bill_id
           mtd = "BILLPLZ"
         end
-      else
-        bill_id = pmt.bill_id
-        mtd = "BILLPLZ"
-      end
 
-      if !nomore 
-        url_bill = "#{ENV['BILLPLZ_API']}bills/#{bill_id}"
-        data_billplz = HTTParty.get(url_bill.to_str,
-                :body  => {}.to_json, 
-                            #:callback_url=>  "YOUR RETURN URL"}.to_json,
-                :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
-                :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
-        #render json: data_billplz and return
-        data = JSON.parse(data_billplz.to_s)
-        if data["paid"] == true
-          pmt.paid = true
-          pmt.mtd = mtd
-          pmt.pdt = data["paid_at"]
-          pmt.save
+        if !nomore 
+          url_bill = "#{ENV['BILLPLZ_API']}bills/#{bill_id}"
+          data_billplz = HTTParty.get(url_bill.to_str,
+                  :body  => {}.to_json, 
+                              #:callback_url=>  "YOUR RETURN URL"}.to_json,
+                  :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+                  :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+          #render json: data_billplz and return
+          data = JSON.parse(data_billplz.to_s)
+          if data["paid"] == true
+            pmt.paid = true
+            pmt.mtd = mtd
+            pmt.pdt = data["paid_at"]
+            pmt.save
+          end
         end
-      end
 
-    end
+      end
+    end #end 1==0
     flash[:success] = "Bills Updated"
     redirect_to tsk_fee_path(id: @taska.id, sch_mth: Date.today.month, sch_year: Date.today.year)
   end
