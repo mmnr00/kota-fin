@@ -4,6 +4,10 @@ all_month = [[6,2020]]
 #END CHANGE
 
 classrooms = @taska.classrooms
+arr_em = []
+arr_not_em =[]
+arr_ph = []
+arr_not_ph = []
 
 #init for payment
 tot = 0.00
@@ -111,7 +115,8 @@ Powered by <strong>www.kota.my</strong>
 mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
 sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
 @response = sg.client.mail._('send').post(request_body: mail.to_json)
-
+arr_em << ["#{cls.description} #{cls.classroom_name}",em] unless @response.status_code != "202"
+arr_not_em << ["#{cls.description} #{cls.classroom_name}",em,@response.status_code] unless @response.status_code == "202"
 end #END send email
 
 #SEND SMS
@@ -130,6 +135,8 @@ http_proxyport: fixie.port,
 http_proxyuser: fixie.user,
 http_proxypass: fixie.password
 )
+arr_ph << ["#{cls.description} #{cls.classroom_name}",ph] unless data_sms.parsed_response[0..2] != "200"
+arr_not_ph << ["#{cls.description} #{cls.classroom_name}",ph,data_sms.parsed_response[0..2]] unless data_sms.parsed_response[0..2] == "200"
 end #end sms
 
 
