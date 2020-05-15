@@ -265,7 +265,7 @@ class PaymentsController < ApplicationController
           end
         end
 
-      end
+      end #end loop
     end #end 1==0
     flash[:success] = "Bills Updated"
     redirect_to tsk_fee_path(id: @taska.id, sch_mth: Date.today.month, sch_year: Date.today.year)
@@ -461,6 +461,7 @@ class PaymentsController < ApplicationController
 
 
   def view_bill
+    check_bill(params[:id])
     @payment = Payment.find(params[:id])
     @kb = @payment.kid_bill
     @taska = @payment.taska
@@ -1417,6 +1418,7 @@ class PaymentsController < ApplicationController
 
 
   private
+
   def set_all
     @teacher = current_teacher
     @parent = current_parent
@@ -1425,6 +1427,58 @@ class PaymentsController < ApplicationController
       @spv = @admin.spv
     end  
     @owner = current_owner
+  end
+
+  def check_bill(id)
+    pmt = Payment.find(id) 
+    #check payment status
+    if !pmt.paid # && Rails.env.production?
+
+      nomore = false
+      if pmt.bill_id2.present?
+        bill_id = pmt.bill_id2
+        mtd = "BILLPLZ via #{bill_id}"
+        url_bill = "#{ENV['BILLPLZ_API']}bills/#{bill_id}"
+        data_billplz = HTTParty.get(url_bill.to_str,
+                :body  => {}.to_json, 
+                            #:callback_url=>  "YOUR RETURN URL"}.to_json,
+                :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+                :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+        #render json: data_billplz and return
+        data = JSON.parse(data_billplz.to_s)
+        if data["paid"] == true
+          pmt.paid = true
+          pmt.mtd = mtd
+          pmt.pdt = data["paid_at"]
+          pmt.save
+          nomore = true
+        else
+          bill_id = pmt.bill_id
+          mtd = "BILLPLZ"
+        end
+      else
+        bill_id = pmt.bill_id
+        mtd = "BILLPLZ"
+      end
+
+      if !nomore 
+        url_bill = "#{ENV['BILLPLZ_API']}bills/#{bill_id}"
+        data_billplz = HTTParty.get(url_bill.to_str,
+                :body  => {}.to_json, 
+                            #:callback_url=>  "YOUR RETURN URL"}.to_json,
+                :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+                :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+        #render json: data_billplz and return
+        data = JSON.parse(data_billplz.to_s)
+        if data["paid"] == true
+          pmt.paid = true
+          pmt.mtd = mtd
+          pmt.pdt = data["paid_at"]
+          pmt.save
+        end
+      end
+
+    end #end not paid
   end
   
 
