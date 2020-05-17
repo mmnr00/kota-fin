@@ -7,7 +7,7 @@ mail.subject = "Payment Notification from {cls.name cls.desc}"
 personalization = SendGrid::Personalization.new
 em = "billing123@kota.my" unless em.present?
 personalization.add_to(SendGrid::Email.new(email: "mmnr00@gmail.com"))
-personalization.add_to(SendGrid::Email.new(email: "mustakhim.rehan@gmail.com"))
+personalization.add_cc(SendGrid::Email.new(email: "mustakhim.rehan@gmail.com"))
 #personalization.add_cc(SendGrid::Email.new(email: "#{@taska.email}"))
 mail.add_personalization(personalization)
 
