@@ -420,9 +420,7 @@ class PaymentsController < ApplicationController
 
       Total Payment Received: <b>RM #{tot_bill}</b><br><br>
 
-      Click <a href= #{ENV["BILLPLZ_URL"]}bills/#{arr_pmt[0]}>here</a> to confirm status in payment gateway. <br><br>
-
-      Taman Kita Tanggungjawab Bersama
+      <b>TAMAN KITA TANGGUNGJAWAB KITA BERSAMA</b>
 
       </body>
       </html>"
