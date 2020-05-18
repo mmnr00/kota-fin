@@ -384,12 +384,68 @@ class PaymentsController < ApplicationController
         end
         unq = (0...20).map { ('a'..'z').to_a[rand(26)] }.join
         redirect_to list_bill_path(cls: @bill.classroom.unq, redr: unq)
+
       end
     end #end payment present
 
     #Send email notification
     if arr_pmt[1].present?
-      
+      pm = Payment.find(arr_pmt[1][0])
+      @taska = pm.taska
+      cls = pm.classroom
+
+      #loop thru arr_pmt
+      list_bill = ""
+      tot_bill = 0.00
+      arr_pmt[1].each do |n|
+        pym = Payment.find(n)
+        list_bill = list_bill + 
+        "<li>
+        #{pym.description} (ID: #{pym.bill_id}) - RM #{pym.amount}
+        </li>"
+        tot_bill = tot_bill + pym.amount
+      end
+
+      tot_bill = tot_bill - 1.5*(arr_pmt[1].count)
+
+      #add content
+      msg = "<html>
+      <body>
+      Payment received from <b>#{cls.description} #{cls.classroom_name}</b><br><br>
+
+      Bill List as below:
+      <ul>
+      #{list_bill}
+      </ul>
+
+      Total Payment Received: <b>RM #{tot_bill}</b><br><br>
+
+      Click <a href= #{ENV["BILLPLZ_URL"]}bills/#{arr_pmt[0]}>here</a> to confirm status in payment gateway. <br><br>
+
+      Taman Kita Tanggungjawab Bersama
+
+      </body>
+      </html>"
+
+      #sending email
+      mail = SendGrid::Mail.new
+      mail.from = SendGrid::Email.new(email: 'billing@kota.my', name: "www.kota.my")
+      mail.subject = "Payment Notification from #{cls.description} #{cls.classroom_name}"
+      #Personalisation, add cc
+      personalization = SendGrid::Personalization.new
+      em = pm.kid_bill.extra[2]
+      if em.blank? || (em == @taska.email.upcase)
+      em = "bill@kota.my"
+      end
+      personalization.add_to(SendGrid::Email.new(email: "#{@taska.email}"))
+      personalization.add_cc(SendGrid::Email.new(email: "#{em}"))
+      personalization.add_bcc(SendGrid::Email.new(email: "admin@kidcare.my"))
+      #personalization.add_cc(SendGrid::Email.new(email: "#{@taska.email}"))
+      mail.add_personalization(personalization)
+      mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
+      sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
+      @response = sg.client.mail._('send').post(request_body: mail.to_json)   
+
     end
 
   end
