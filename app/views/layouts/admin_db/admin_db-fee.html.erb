@@ -1,23 +1,24 @@
+
 <%= render 'layouts/admin_db/dsb-admin-head' %>
 
 
       <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-      <!-- Sidebar - Brand -->
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
-        <div class="sidebar-brand-icon ">
-          <%
-            image = @taska.fotos.where(foto_name: "CENTER LOGO").first 
-          %>
-          <% if image.present? && image.picture.present? %>
-            <%= image_tag(image.picture.url, size: "50x50") %>
-          <% else %>
-            <i class="fas fa-smile-beam"></i>
-          <% end %>
-        </div>
-        <div class="sidebar-brand-text mx-3"></div>
-      </a>
+      
+
+      <li class="nav-item" style="text-align:center">
+        <div style="padding-bottom: 10px"></div>
+        <%
+          image = @taska.fotos.where(foto_name: "CENTER LOGO").first 
+        %>
+        <% if image.present? && image.picture.present? %>
+          <%= image_tag(image.picture.url, size: "50x50") %>
+        <% else %>
+          <i class="fas fa-smile-beam"></i>
+        <% end %>
+        <div style="padding-bottom: 10px"></div>
+      </li>
 
      <!-- Nav Item - RESIDENT -->
       <hr class="sidebar-divider my-0">
@@ -105,6 +106,7 @@
       </div>
 
 <%= render 'layouts/admin_db/dsb-admin-foot' %>
+
 
 
         
