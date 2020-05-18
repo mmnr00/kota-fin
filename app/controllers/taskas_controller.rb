@@ -220,6 +220,23 @@ class TaskasController < ApplicationController
     render action: "edit", layout: "admin_db/admin_db-resident" 
   end
 
+  def update
+    if @taska.update(taska_params)
+      flash[:success] = "#{@taska.name} was successfully updated"
+      #if @taska.bank_status == nil 
+        #redirect_to create_billplz_bank_path(id: @taska.id)
+      #else
+        redirect_to taskashow_path(@taska)
+      #end
+      #format.html { redirect_to @taska, notice: 'Taska was successfully updated.' }
+      #format.json { render :show, status: :ok, location: @taska }
+    else
+      flash[:success] = "Update unsuccessfull. Please try again"
+      format.html { render :edit }
+      #format.json { render json: @taska.errors, status: :unprocessable_entity }
+    end
+  end
+
 
   def show
     sch = params[:sch_fld]
@@ -2358,22 +2375,20 @@ end
   # PATCH/PUT /taskas/1
   # PATCH/PUT /taskas/1.json
   def update
-      if @taska.update(taska_params)
-        flash[:success] = "#{@taska.name} was successfully updated"
-        #if @taska.bank_status == nil 
-          #redirect_to create_billplz_bank_path(id: @taska.id)
-        #else
-          redirect_to taskashow_path(@taska)
-        #end
-        #format.html { redirect_to @taska, notice: 'Taska was successfully updated.' }
-        #format.json { render :show, status: :ok, location: @taska }
-      else
-        flash[:success] = "Update unsuccessfull. Please try again"
-        format.html { render :edit }
-        #format.json { render json: @taska.errors, status: :unprocessable_entity }
-      end
-
-    
+    if @taska.update(taska_params)
+      flash[:success] = "#{@taska.name} was successfully updated"
+      #if @taska.bank_status == nil 
+        #redirect_to create_billplz_bank_path(id: @taska.id)
+      #else
+        redirect_to taskashow_path(@taska)
+      #end
+      #format.html { redirect_to @taska, notice: 'Taska was successfully updated.' }
+      #format.json { render :show, status: :ok, location: @taska }
+    else
+      flash[:success] = "Update unsuccessfull. Please try again"
+      format.html { render :edit }
+      #format.json { render json: @taska.errors, status: :unprocessable_entity }
+    end
   end
 
   # DELETE /taskas/1

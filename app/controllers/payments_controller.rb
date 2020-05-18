@@ -389,7 +389,7 @@ class PaymentsController < ApplicationController
 
     #Send email notification
     if arr_pmt[1].present?
-
+      
     end
 
   end
