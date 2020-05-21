@@ -416,9 +416,7 @@ class PaymentsController < ApplicationController
       Bill List as below:
       <ul>
       #{list_bill}
-      </ul>
-
-      Total Payment Received: <b>RM #{tot_bill}</b><br><br>
+      </ul><br><br>
 
       <b>TAMAN KITA TANGGUNGJAWAB KITA BERSAMA</b>
 
@@ -435,9 +433,11 @@ class PaymentsController < ApplicationController
       if em.blank? || (em == @taska.email.upcase)
       em = "bill@kota.my"
       end
-      @taska.admins.each do |adm|
+      @taska.admins.where.not(id: 1).each do |adm|
         personalization.add_to(SendGrid::Email.new(email: "#{adm.email}"))
       end 
+      personalization.add_bcc(SendGrid::Email.new(email: "simplysolutionplt@gmail.com"))
+      personalization.add_bcc(SendGrid::Email.new(email: "admin@kidcare.my"))
       #personalization.add_cc(SendGrid::Email.new(email: "#{@taska.email}"))
       mail.add_personalization(personalization)
       mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
