@@ -1,13 +1,9 @@
 #IMPORTANT TO CHANGE
 @taska = Taska.find(2)
-all_month = [[6,2020]]
+all_month = [[5,2020]]
 #END CHANGE
 
 classrooms = @taska.classrooms
-arr_em = []
-arr_not_em =[]
-arr_ph = []
-arr_not_ph = []
 
 #init for payment
 tot = 0.00
@@ -92,12 +88,15 @@ end # end classroom
 #add content
 msg = "<html>
 <body>
-Dear Mr/Mrs <strong>#{nm}</strong><br><br>
+Dear Admins for <strong>#{@taska.name}</strong>,<br><br>
 
 
-Your new bill from <strong>#{@taska.name}</strong> is ready. <br><br>
+Please be informed that <strong>#{no_bill} Bills</strong> have been created for 
+<strong>#{$month_name[all_month[0][0]]}-#{all_month[0][1]}.</strong>
+<br><br>
 
-Please click <a href=https://www.kota.my/list_bill?cls=#{cls.unq}>HERE</a> to view and make payment. <br><br>
+Email and SMS notification to all residents will be sent in <strong>24 hours.</strong> 
+<br><br>
 
 <strong>Taman Kita Tanggungjawab Bersama</strong>.<br><br>
 
@@ -106,19 +105,24 @@ Powered by <strong>www.kota.my</strong>
 </html>"
 #sending email
 mail = SendGrid::Mail.new
-mail.from = SendGrid::Email.new(email: 'billing@kota.my', name: "#{@taska.name}")
-mail.subject = "NEW BILL FOR: NO #{cls.description} #{cls.classroom_name}"
+mail.from = SendGrid::Email.new(email: 'billing@kota.my', name: "www.kota.my")
+mail.subject = "NEW BILLS CREATION NOTIFICATION FOR #{@taska.name}"
 #Personalisation, add cc
 personalization = SendGrid::Personalization.new
-em = "billing123@kota.my" unless em.present?
-personalization.add_to(SendGrid::Email.new(email: "#{em}"))
+
+@taska.admins.each do |adm|
+personalization.add_to(SendGrid::Email.new(email: "#{adm.email}"))
+end
+
+personalization.add_bcc(SendGrid::Email.new(email: "admin@kidcare.my"))
+personalization.add_bcc(SendGrid::Email.new(email: "simplysolutionplt@gmail.com"))
+
 mail.add_personalization(personalization)
 mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
 sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
-# @response = sg.client.mail._('send').post(request_body: mail.to_json)
-# arr_em << ["#{cls.description} #{cls.classroom_name}",em] unless @response.status_code != "202"
-# arr_not_em << ["#{cls.description} #{cls.classroom_name}",em,@response.status_code] unless @response.status_code == "202"
-end #END send email
+@response = sg.client.mail._('send').post(request_body: mail.to_json)
+
+
 
 
 

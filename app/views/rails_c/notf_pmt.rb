@@ -22,7 +22,7 @@ Bill List as below:
 #{list_bill}
 </ul>
 
-Total Payment Received: <b>RM #{tot_bill}</b><br><br>
+
 
 Click <a href= #{ENV["BILLPLZ_URL"]}bills/#{arr_pmt[0]}>here</a> to confirm status in payment gateway. <br><br>
 
