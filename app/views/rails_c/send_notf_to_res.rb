@@ -54,9 +54,9 @@ Powered by <strong>www.kota.my</strong>
 #sending email
 mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
 sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
-# @response = sg.client.mail._('send').post(request_body: mail.to_json)
-# arr_em << ["#{cls.description} #{cls.classroom_name}",em] unless @response.status_code != "202"
-# arr_not_em << ["#{cls.description} #{cls.classroom_name}",em,@response.status_code] unless @response.status_code == "202"
+@response = sg.client.mail._('send').post(request_body: mail.to_json)
+arr_em << ["#{cls.description} #{cls.classroom_name}",em] unless @response.status_code != "202"
+arr_not_em << ["#{cls.description} #{cls.classroom_name}",em,@response.status_code] unless @response.status_code == "202"
 end #END send email
 
 #SEND SMS
@@ -68,15 +68,15 @@ to = "to=6#{ph}&"
 txt = "text=New Bill fr #{@taska.name}.\n Click https://www.kota.my/list_bill?cls=#{cls.unq} to pay. TAMAN KITA TANGGUNGJAWAB BERSAMA."
 
 fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
-# data_sms = HTTParty.get(
-# "#{url}#{usr}#{ps}#{to}#{txt}",
-# http_proxyaddr: fixie.host,
-# http_proxyport: fixie.port,
-# http_proxyuser: fixie.user,
-# http_proxypass: fixie.password
-# )
-# arr_ph << ["#{cls.description} #{cls.classroom_name}",ph] unless data_sms.parsed_response[0..2] != "200"
-# arr_not_ph << ["#{cls.description} #{cls.classroom_name}",ph,data_sms.parsed_response[0..2]] unless data_sms.parsed_response[0..2] == "200"
+data_sms = HTTParty.get(
+"#{url}#{usr}#{ps}#{to}#{txt}",
+http_proxyaddr: fixie.host,
+http_proxyport: fixie.port,
+http_proxyuser: fixie.user,
+http_proxypass: fixie.password
+)
+arr_ph << ["#{cls.description} #{cls.classroom_name}",ph] unless data_sms.parsed_response[0..2] != "200"
+arr_not_ph << ["#{cls.description} #{cls.classroom_name}",ph,data_sms.parsed_response[0..2]] unless data_sms.parsed_response[0..2] == "200"
 end #end sms
 
 

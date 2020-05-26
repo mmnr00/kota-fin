@@ -6,6 +6,81 @@ class TaskasController < ApplicationController
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
 
+  def remd_bill
+    arr_em = []
+    arr_not_em =[]
+    arr_ph = []
+    arr_not_ph = []
+
+    Classroom.find(params[:cls]).each do |cls|
+      if cls.topay == "OWNER"
+        ph = cls.own_ph
+        em = cls.own_email
+        nm = cls.own_name
+      else
+        ph = cls.tn_ph
+        em = cls.tn_email
+        nm = cls.tn_name
+      end
+
+      #send sms
+      if ph.present?
+        url = "https://sms.360.my/gw/bulk360/v1.4?"
+        usr = "user=admin@kidcare.my&"
+        ps = "pass=#{ENV['SMS360']}&"
+        to = "to=6#{ph}&"
+        txt = "text=Bill Reminder fr #{@taska.name}.\n Click https://www.kota.my/list_bill?cls=#{cls.unq} to pay. TAMAN KITA TANGGUNGJAWAB BERSAMA."
+
+        fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
+        data_sms = HTTParty.get(
+        "#{url}#{usr}#{ps}#{to}#{txt}",
+        http_proxyaddr: fixie.host,
+        http_proxyport: fixie.port,
+        http_proxyuser: fixie.user,
+        http_proxypass: fixie.password
+        )
+        arr_ph << ["#{cls.description} #{cls.classroom_name}",ph] unless data_sms.parsed_response[0..2] != "200"
+        arr_not_ph << ["#{cls.description} #{cls.classroom_name}",ph,data_sms.parsed_response[0..2]] unless data_sms.parsed_response[0..2] == "200"
+      end
+
+      #send email
+      if em.present?
+        
+        #add content
+        msg = "<html>
+        <body>
+        Dear Mr/Mrs <strong>#{nm}</strong><br><br>
+
+
+        Bill reminder from <strong>#{@taska.name}</strong>. <br><br>
+
+        Please click <a href=https://www.kota.my/list_bill?cls=#{cls.unq}>HERE</a> to view and make payment. <br><br>
+
+        <strong>Taman Kita Tanggungjawab Bersama</strong>.<br><br>
+
+        Powered by <strong>www.kota.my</strong>
+        </body>
+        </html>"
+        #sending email
+        mail = SendGrid::Mail.new
+        mail.from = SendGrid::Email.new(email: 'billing@kota.my', name: "#{@taska.name}")
+        mail.subject = "BILL REMINDER FOR: NO #{cls.description} #{cls.classroom_name}"
+        personalization = SendGrid::Personalization.new
+        personalization.add_to(SendGrid::Email.new(email: "#{em}"))
+        mail.add_personalization(personalization)
+        mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
+        sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
+        # @response = sg.client.mail._('send').post(request_body: mail.to_json)
+        # arr_em << ["#{cls.description} #{cls.classroom_name}",em] unless @response.status_code != "202"
+        # arr_not_em << ["#{cls.description} #{cls.classroom_name}",em,@response.status_code] unless @response.status_code == "202"
+      end
+
+    end
+
+    flash[:notice] = "Reminders Successfully Sent To #{params[:cls].count} residents"
+    #redirect_to tsk_fee_path(params[:id], sch_mth: params[:sch_mth], sch_yr: params[:sch_yr])
+  end
+
   def upld_res
     xlsx = Roo::Spreadsheet.open(params[:file])
     header = xlsx.row(xlsx.first_row+2)

@@ -44,7 +44,31 @@
   <div class="col-lg-6 col-md-6 col-sm-3">
     <br>
     <a href="<%= "#{shw_bilitm_url}?id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Update Bill Items</a>
-    <a href="<%= "#{updall_pmt_url}?id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-info shadow-sm"><i class="fas fa-sync fa-sm text-white-50"></i> Update Status</a><br>
+    <a href="<%= "#{updall_pmt_url}?id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-info shadow-sm"><i class="fas fa-sync fa-sm text-white-50"></i> Update Status</a>
+    <%
+      cls_id = []
+      dt = Date.today
+      pym = @taska.payments.where(name: "RSD M BILL",bill_month: dt.month, bill_year: dt.year)
+      while pym.blank?
+        dt = dt - 1.months
+        pym = @taska.payments.where(name: "RSD M BILL",bill_month: dt.month, bill_year: dt.year)
+      end
+      @taska.classrooms.each do |cls|
+        if pym.where(classroom_id: cls.id, paid: false).present?
+          cls_id << cls.id
+        end
+      end
+    %>
+    <% cls_id.count %>
+    <% if @admin == Admin.first %>
+    <%= link_to remd_bill_url(sch_yr: params[:sch_yr], 
+        sch_mth: params[:sch_mth], 
+        cls: cls_id,
+        id: @taska.id), class: "d-sm-inline-block btn btn-xl btn-secondary shadow-sm", :data => {:confirm => "SMS and email reminders will be send to #{cls_id.count} residents" }, method: :post do %>
+      <i class="fas fa-bell fa-sm text-white-50"></i> Send Reminders
+    <% end %>
+    <% end %>
+    <br>
     <div class="alert alert-warning" role="alert">
       Billing Cycle is on <b><%= @taska.rato.round(0) %></b> of every month. Click <a href="/community/edit/<%= @taska.id %>?plan=<%= @taska.plan %>">HERE</a> to change
     </div>

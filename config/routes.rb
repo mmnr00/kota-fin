@@ -217,6 +217,7 @@ Rails.application.routes.draw do
   get '/shw_bilitm', to: 'taskas#shw_bilitm', as: 'shw_bilitm'
   post '/upd_bilitm', to: 'taskas#upd_bilitm', as: 'upd_bilitm'
   post '/upld_res', to: 'taskas#upld_res', as: 'upld_res'
+  post '/remd_bill', to: 'taskas#remd_bill', as: 'remd_bill'
 
   
   ##OLD routes##
