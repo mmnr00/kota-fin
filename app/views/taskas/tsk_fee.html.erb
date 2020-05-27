@@ -59,14 +59,16 @@
         end
       end
     %>
-    <% cls_id.count %>
     <% if @admin == Admin.first %>
-    <%= link_to remd_bill_url(sch_yr: params[:sch_yr], 
-        sch_mth: params[:sch_mth], 
-        cls: cls_id,
-        id: @taska.id), class: "d-sm-inline-block btn btn-xl btn-secondary shadow-sm", :data => {:confirm => "SMS and email reminders will be send to #{cls_id.count} residents" }, method: :post do %>
-      <i class="fas fa-bell fa-sm text-white-50"></i> Send Reminders
+      <%= link_to remd_bill_url(sch_yr: params[:sch_yr], 
+          sch_mth: params[:sch_mth], 
+          cls: cls_id,
+          id: @taska.id), class: "d-sm-inline-block btn btn-xl btn-secondary shadow-sm", :data => {:confirm => "SMS and email reminders will be send to #{cls_id.count} residents" }, method: :post do %>
+        <i class="fas fa-bell fa-sm text-white-50"></i> Send Reminders
+      <% end %>
     <% end %>
+    <%= link_to nw_bill_path(id: @taska.id), class: "d-sm-inline-block btn btn-xl btn-warning shadow-sm" do %>
+      <i class="fas fa-plus-square fa-sm"></i> Create Bill
     <% end %>
     <br>
     <div class="alert alert-warning" role="alert">

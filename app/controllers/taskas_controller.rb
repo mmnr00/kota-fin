@@ -6,6 +6,10 @@ class TaskasController < ApplicationController
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
 
+  def nw_bill
+    render action: "nw_bill", layout: "admin_db/admin_db-fee" 
+  end
+
   def remd_bill
     arr_em = []
     arr_not_em =[]

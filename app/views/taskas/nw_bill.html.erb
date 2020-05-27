@@ -1,0 +1,66 @@
+<div class="card shadow mb-4">
+    <div class="card-header">
+     <b>CREATE NEW BILL</b>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive border">
+        <%= form_for(:pmt, :url => {:controller=>'payments', :action=>'mtl_pmt'}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
+          <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr class="shadow">
+                <th style="background-color:#ccccff;font-size:12px">ADDRESS</th>
+                <th style="background-color:#ccccff;font-size:12px">OWNER DETAILS</th>
+                <th style="background-color:#ccccff;font-size:12px">TENANT DETAILS</th>
+                <th style="background-color:#ccccff;font-size:12px">
+                  <%= f.select :mth, options_for_select(1..12), include_blank: "Month" %>
+                  <%= f.select :yr, options_for_select(2020..2024), include_blank: "Year" %>           
+                  <%= f.submit :"CREATE", style: "align:centers;font-size:10px", class: "btn btn-sm btn-info" %>
+                </th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              <% @taska.classrooms.order('classroom_name ASC').each do |cls| %>
+                <tr>
+                  <td style="width:10%">    
+                    <div style="white-space: nowrap;font-size:12px;">
+                      <%= "#{cls.description}-#{cls.classroom_name}" %>
+                    </div>
+                  </td>
+                  <td style="width:30%">    
+                    <div style="white-space: nowrap;font-size:12px;">
+                      <b>NAME:</b> <%= cls.own_name %>
+                    </div>
+                    <div style="white-space: nowrap;font-size:12px;">
+                      <b>EMAIL:</b> <%= cls.own_email %>
+                    </div>
+                    <div style="white-space: nowrap;font-size:12px;">
+                      <b>PHONE:</b> <%= cls.own_ph %>
+                    </div>
+                  </td>
+                  <td style="width:30%">    
+                    <div style="white-space: nowrap;font-size:12px;">
+                      <b>NAME:</b> <%= cls.tn_name %>
+                    </div>
+                    <div style="white-space: nowrap;font-size:12px;">
+                      <b>EMAIL:</b> <%= cls.tn_email %>
+                    </div>
+                    <div style="white-space: nowrap;font-size:12px;">
+                      <b>PHONE:</b> <%= cls.tn_ph %>
+                    </div>
+                  </td>
+                  <td style="width:20%;text-align: center">    
+                    <div style="font-size:12px;">
+                      <%= f.check_box :"#{cls.id}", checked: false, style: "width:42px;height:42px;" %>
+                    </div>
+                  </td>
+                  
+                </tr>
+              <% end %> <!-- END LOOP -->
+            </tbody>
+
+          </table>
+        <% end %> <!-- FORM -->
+      </div>
+    </div>
+  </div>
