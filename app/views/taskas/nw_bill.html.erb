@@ -21,7 +21,9 @@
                       {include_blank: "Month"}, {required: true} %>
                   <%= f.select :yr, options_for_select(yr_s..yr_e), 
                       {include_blank: "Year"}, {required: true}  %> 
-                  <%= f.check_box :all , checked: false %> Select All &nbsp &nbsp        
+                  <% if @admin == Admin.first %>
+                  <%= f.check_box :all , checked: false %> Select All &nbsp &nbsp 
+                  <% end %>       
                   <%= f.submit :"CREATE", style: "align:centers;font-size:10px", class: "btn btn-sm btn-info" %>
                 </th>
                 
