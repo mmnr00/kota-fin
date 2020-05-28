@@ -4,16 +4,24 @@
     </div>
     <div class="card-body">
       <div class="table-responsive border">
-        <%= form_for(:pmt, :url => {:controller=>'payments', :action=>'mtl_pmt'}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
+        <%= form_for(:pmt, :url => {:controller=>'taskas', :action=>'crt_bill'}, :html => {multipart: true, class: "form-horizontal", method: :post, role: "form"}) do |f| %>
           <table class="table table-bordered table-striped shadow" id="dataTable" width="100%" cellspacing="0">
             <thead>
+              <% 
+                yr_s = Date.today.year - 1
+                yr_e = Date.today.year + 1
+              %>
               <tr class="shadow">
                 <th style="background-color:#ccccff;font-size:12px">ADDRESS</th>
                 <th style="background-color:#ccccff;font-size:12px">OWNER DETAILS</th>
                 <th style="background-color:#ccccff;font-size:12px">TENANT DETAILS</th>
-                <th style="background-color:#ccccff;font-size:12px">
-                  <%= f.select :mth, options_for_select(1..12), include_blank: "Month" %>
-                  <%= f.select :yr, options_for_select(2020..2024), include_blank: "Year" %>           
+                <th style="background-color:#ccccff;font-size:12px;width:50%">
+                  <%= f.hidden_field :id, value: params[:id] %>
+                  <%= f.select :mth, options_for_select(1..12), 
+                      {include_blank: "Month"}, {required: true} %>
+                  <%= f.select :yr, options_for_select(yr_s..yr_e), 
+                      {include_blank: "Year"}, {required: true}  %> 
+                  <%= f.check_box :all , checked: false %> Select All &nbsp &nbsp        
                   <%= f.submit :"CREATE", style: "align:centers;font-size:10px", class: "btn btn-sm btn-info" %>
                 </th>
                 
@@ -51,7 +59,9 @@
                   </td>
                   <td style="width:20%;text-align: center">    
                     <div style="font-size:12px;">
-                      <%= f.check_box :"#{cls.id}", checked: false, style: "width:42px;height:42px;" %>
+                      <%= f.fields_for :cls do |h| %>
+                        <%= h.check_box :"#{cls.id}", checked: false, style: "width:42px;height:42px;" %>
+                      <% end %>
                     </div>
                   </td>
                   

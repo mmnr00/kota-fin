@@ -5,6 +5,14 @@ class PaymentsController < ApplicationController
   #ENV['BILLPLZ_APIKEY'] = "6d78d9dd-81ac-4932-981b-75e9004a4f11"
   before_action :set_all
 
+  def del_pmt   
+    @payment = Payment.find(params[:id])
+    @taska = @payment.taska
+    @payment.destroy
+    flash[:notice] = "Bill deleted"
+    redirect_to tsk_fee_path(@taska, sch_mth: params[:mth] ,sch_yr: params[:yr], shw: true )
+  end
+
   def crt_prev
     @taska = Taska.find(params[:tsk])
     classrooms = @taska.classrooms
@@ -212,8 +220,6 @@ class PaymentsController < ApplicationController
                             sch: true)
   end
 
-  def del_pmt
-  end
 
   def updall_pmt
     @taska = Taska.find(params[:id])

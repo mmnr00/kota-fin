@@ -219,6 +219,7 @@ Rails.application.routes.draw do
   post '/upld_res', to: 'taskas#upld_res', as: 'upld_res'
   post '/remd_bill', to: 'taskas#remd_bill', as: 'remd_bill'
   get '/nw_bill', to: 'taskas#nw_bill', as: 'nw_bill'
+  post '/crt_bill', to: 'taskas#crt_bill', as: 'crt_bill'
 
   
   ##OLD routes##
