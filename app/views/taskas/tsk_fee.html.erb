@@ -166,8 +166,11 @@
                   <span class="badge"><%= kb.extra[2] %></span>
                 </td>
                 <td>
-                  <a href="<%= "#{view_bill_url}?id=#{un.id}" %>" target="blank"><u><%= un.bill_id %></u></a><br>
-                  <%= link_to "DELETE", del_pmt_path(id: un.id, mth: params[:sch_mth], yr: params[:sch_yr]), class: "badge badge-danger", style: "font-size:10px", :data => {:confirm => "Are you sure?" } %>
+                  <a href="<%= "#{view_bill_url}?id=#{un.id}" %>" target="blank"><u><%= un.bill_id %></u></a>
+                  <% if !un.paid %>
+                    <br>
+                    <%= link_to "DELETE", del_pmt_path(id: un.id, mth: params[:sch_mth], yr: params[:sch_yr]), class: "badge badge-danger", style: "font-size:10px", :data => {:confirm => "Are you sure?" } %>
+                  <% end %>
                 </td>
                 <td><span class="badge"><%= un.amount %></span></td>    
                 <td>

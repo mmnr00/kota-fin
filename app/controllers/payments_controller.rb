@@ -217,7 +217,7 @@ class PaymentsController < ApplicationController
     redirect_to tsk_fee_path(id: @taska.id,
                             sch_str: @payment.bill_id, 
                             sch_fld: "Bill ID",
-                            sch: true)
+                            shw: true)
   end
 
 

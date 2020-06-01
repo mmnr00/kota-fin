@@ -217,6 +217,9 @@ class ClassroomsController < ApplicationController
 
 	def destroy
 		@classroom = Classroom.find(params[:id])
+		@classroom.payments.each do |pym|
+			pym.destroy
+		end
 		@admin = current_admin
 		@taska = Taska.find(@classroom.taska_id)
 		if 1==0 #@classroom.kids.count > 0 || @classroom.teachers.count > 0
