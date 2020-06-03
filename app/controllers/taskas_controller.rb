@@ -85,6 +85,16 @@ class TaskasController < ApplicationController
   end
 
   def nw_bill
+    #create array road name
+    @rd_names = []
+    @taska.classrooms.order('classroom_name ASC').each do |cls|
+      @rd_names << cls.classroom_name unless @rd_names.include? cls.classroom_name
+    end
+    @clsrs = @taska.classrooms
+    if params[:sch].present? && params[:blk].present?
+      @clsrs = @clsrs.where(classroom_name: params[:blk])
+      @clsrs = @clsrs.where(description: params[:sch_str]) unless params[:sch_str].blank?
+    end
     render action: "nw_bill", layout: "admin_db/admin_db-fee" 
   end
 

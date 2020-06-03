@@ -1,6 +1,19 @@
+
+<div style="background-color:#ccffff;text-align:center;padding-bottom:5px"><b>CREATE NEW BILL</b></div>
+
 <div class="card shadow mb-4">
     <div class="card-header">
-     <b>CREATE NEW BILL</b>
+      <%= form_tag nw_bill_path, method: :get, id: "find_kid" do %>
+        <%= text_field_tag :sch_str, params[:sch_str], placeholder: "Unit No", style: '' %>
+        <%= select_tag :blk, options_for_select(@rd_names, params[:blk]),
+              include_blank: "All Blocks/Roads" %>
+        <%= hidden_field_tag :id, params[:id], value: params[:id] %>
+        <%= hidden_field_tag :sch, params[:sch], value: true %>
+        <%= button_tag(type: :submit, class: "badge badge-success shadow-none", style: "font-size: 14px; border-style: none; font-weight: normal",  id: "submit_expense") do %>
+            <i class="fa fa-search"></i> Search
+        <% end %>
+      <% end %>
+     
     </div>
     <div class="card-body">
       <div class="table-responsive border">
@@ -13,8 +26,6 @@
               %>
               <tr class="shadow">
                 <th style="background-color:#ccccff;font-size:12px">ADDRESS</th>
-                <th style="background-color:#ccccff;font-size:12px">OWNER DETAILS</th>
-                <th style="background-color:#ccccff;font-size:12px">TENANT DETAILS</th>
                 <th style="background-color:#ccccff;font-size:12px;width:50%">
                   <%= f.hidden_field :id, value: params[:id] %>
                   <%= f.select :mth, options_for_select(1..12), 
@@ -25,16 +36,25 @@
                   <%= f.check_box :all , checked: false %> Select All &nbsp &nbsp 
                   <% end %>       
                   <%= f.submit :"CREATE", style: "align:centers;font-size:10px", class: "btn btn-sm btn-info" %>
-                </th>
-                
+                </th>  
+                <th style="background-color:#ccccff;font-size:12px">OWNER DETAILS</th>
+                <th style="background-color:#ccccff;font-size:12px">TENANT DETAILS</th>
+                    
               </tr>
             </thead>
             <tbody>
-              <% @taska.classrooms.order('classroom_name ASC').each do |cls| %>
+              <% @clsrs.order('classroom_name ASC').each do |cls| %>
                 <tr>
                   <td style="width:10%">    
                     <div style="white-space: nowrap;font-size:12px;">
                       <%= "#{cls.description}-#{cls.classroom_name}" %>
+                    </div>
+                  </td>
+                  <td style="width:20%;text-align: center">    
+                    <div style="font-size:12px;">
+                      <%= f.fields_for :cls do |h| %>
+                        <%= h.check_box :"#{cls.id}", checked: false  %>
+                      <% end %>
                     </div>
                   </td>
                   <td style="width:30%">    
@@ -59,13 +79,7 @@
                       <b>PHONE:</b> <%= cls.tn_ph %>
                     </div>
                   </td>
-                  <td style="width:20%;text-align: center">    
-                    <div style="font-size:12px;">
-                      <%= f.fields_for :cls do |h| %>
-                        <%= h.check_box :"#{cls.id}", checked: false, style: "width:42px;height:42px;" %>
-                      <% end %>
-                    </div>
-                  </td>
+                  
                   
                 </tr>
               <% end %> <!-- END LOOP -->
@@ -76,3 +90,4 @@
       </div>
     </div>
   </div>
+</meta>
