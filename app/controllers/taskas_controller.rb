@@ -116,12 +116,12 @@ class TaskasController < ApplicationController
       end
 
       #send sms
-      if ph.present?
+      if ph.present? && 1==1
         url = "https://sms.360.my/gw/bulk360/v1.4?"
         usr = "user=admin@kidcare.my&"
         ps = "pass=#{ENV['SMS360']}&"
         to = "to=whatsapp:6#{ph}&"
-        txt = "text=Payment reminder from #{@taska.name}. Please click https://www.kota.my/list_bill?cls=#{cls.unq} to view and pay. Thank you for your continuous support. Terima kasih kerana menunaikan tanggungjawab bersama. This is a system generated message. Please do not reply."
+        txt = "text=Payment reminder from #{@taska.name}. Please click https://www.kota.my/list_bill?cls=#{cls.unq} to view and make payment. Thank you for your continuous support. This is a system generated message. Please do not reply."
 
         fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
         data_sms = HTTParty.get(
@@ -143,11 +143,10 @@ class TaskasController < ApplicationController
         <body>
         Dear Mr/Mrs <strong>#{nm}</strong><br><br>
 
+        Payment reminder from <strong>#{@taska.name.upcase}</strong>. Please click https://www.kota.my/list_bill?cls=#{cls.unq} to view and make payment.<br><br>
 
-        Payment reminder from #{@taska.name}.<br> 
-        Please click https://www.kota.my/list_bill?cls=#{cls.unq} to view and pay.<br>
         Thank you for your continuous support. Terima kasih kerana menunaikan tanggungjawab bersama. <br><br>
-        This is a system generated message. Please do not reply.
+        This is a system generated message. Please do not reply.<br><br>
 
         <strong>Taman Kita Tanggungjawab Bersama</strong>.<br><br>
 
@@ -156,7 +155,7 @@ class TaskasController < ApplicationController
         </html>"
         #sending email
         mail = SendGrid::Mail.new
-        mail.from = SendGrid::Email.new(email: 'billing@kota.my', name: "#{@taska.name}")
+        mail.from = SendGrid::Email.new(email: 'billing@kota.my', name: "#{@taska.name.upcase}")
         mail.subject = "BILL REMINDER FOR: NO #{cls.description} #{cls.classroom_name}"
         personalization = SendGrid::Personalization.new
         personalization.add_to(SendGrid::Email.new(email: "#{em}"))
