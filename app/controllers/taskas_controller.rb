@@ -170,7 +170,7 @@ class TaskasController < ApplicationController
     end
 
     flash[:notice] = "Reminders Successfully Sent To #{params[:cls].count} residents"
-    #redirect_to tsk_fee_path(params[:id], sch_mth: params[:sch_mth], sch_yr: params[:sch_yr])
+    redirect_to tsk_fee_path(params[:id], sch_mth: params[:sch_mth], sch_yr: params[:sch_yr])
   end
 
   def upld_res
