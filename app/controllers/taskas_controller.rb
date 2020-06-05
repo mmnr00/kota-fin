@@ -121,7 +121,7 @@ class TaskasController < ApplicationController
         usr = "user=admin@kidcare.my&"
         ps = "pass=#{ENV['SMS360']}&"
         to = "to=whatsapp:6#{ph}&"
-        txt = "text=Payment reminder from #{@taska.name}.\n Please click https://www.kota.my/list_bill?cls=#{cls.unq} to view and pay.\n \n Thank you for your continuous support. Terima kasih kerana menunaikan tanggungjawab bersama. \n \n This is a system generated message. Please do not reply."
+        txt = "text=Payment reminder from #{@taska.name}. Please click https://www.kota.my/list_bill?cls=#{cls.unq} to view and pay. Thank you for your continuous support. Terima kasih kerana menunaikan tanggungjawab bersama. This is a system generated message. Please do not reply."
 
         fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
         data_sms = HTTParty.get(
