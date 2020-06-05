@@ -120,8 +120,8 @@ class TaskasController < ApplicationController
         url = "https://sms.360.my/gw/bulk360/v1.4?"
         usr = "user=admin@kidcare.my&"
         ps = "pass=#{ENV['SMS360']}&"
-        to = "to=6#{ph}&"
-        txt = "text=Bill Reminder fr #{@taska.name}.\n Click https://www.kota.my/list_bill?cls=#{cls.unq} to pay. TAMAN KITA TANGGUNGJAWAB BERSAMA."
+        to = "to=whatsapp:6#{ph}&"
+        txt = "text=Payment reminder from #{@taska.name}.\n Please click https://www.kota.my/list_bill?cls=#{cls.unq} to view and pay.\n \n Thank you for your continuous support. Terima kasih kerana menunaikan tanggungjawab bersama. \n \n This is a system generated message. Please do not reply."
 
         fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
         data_sms = HTTParty.get(
@@ -144,9 +144,10 @@ class TaskasController < ApplicationController
         Dear Mr/Mrs <strong>#{nm}</strong><br><br>
 
 
-        Bill reminder from <strong>#{@taska.name}</strong>. <br><br>
-
-        Please click <a href=https://www.kota.my/list_bill?cls=#{cls.unq}>HERE</a> to view and make payment. <br><br>
+        Payment reminder from #{@taska.name}.<br> 
+        Please click https://www.kota.my/list_bill?cls=#{cls.unq} to view and pay.<br>
+        Thank you for your continuous support. Terima kasih kerana menunaikan tanggungjawab bersama. <br><br>
+        This is a system generated message. Please do not reply.
 
         <strong>Taman Kita Tanggungjawab Bersama</strong>.<br><br>
 
@@ -162,9 +163,9 @@ class TaskasController < ApplicationController
         mail.add_personalization(personalization)
         mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
         sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
-        # @response = sg.client.mail._('send').post(request_body: mail.to_json)
-        # arr_em << ["#{cls.description} #{cls.classroom_name}",em] unless @response.status_code != "202"
-        # arr_not_em << ["#{cls.description} #{cls.classroom_name}",em,@response.status_code] unless @response.status_code == "202"
+        @response = sg.client.mail._('send').post(request_body: mail.to_json)
+        arr_em << ["#{cls.description} #{cls.classroom_name}",em] unless @response.status_code != "202"
+        arr_not_em << ["#{cls.description} #{cls.classroom_name}",em,@response.status_code] unless @response.status_code == "202"
       end
 
     end

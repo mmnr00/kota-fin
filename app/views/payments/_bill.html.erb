@@ -1,5 +1,5 @@
 <div class="bg-white">
-  <% if !@payment.paid %>
+  <% if !@payment.paid && 1==0 %>
     <h1 style="text-align:right; padding-right: 20px">
       <%= link_to "#{ENV["BILLPLZ_URL"]}bills/#{@payment.bill_id}", class: "btn btn-sm btn-info shadow" do %>
         <i class="far fa-hand-pointer"></i> PAY NOW
