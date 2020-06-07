@@ -44,7 +44,9 @@
   <div class="col-lg-6 col-md-6 col-sm-3">
     <br>
     <a href="<%= "#{shw_bilitm_url}?id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Update Bill Items</a>
+    <% if 1==0 %>
     <a href="<%= "#{updall_pmt_url}?id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-info shadow-sm"><i class="fas fa-sync fa-sm text-white-50"></i> Update Status</a>
+    <% end %>
     <%
       cls_id = []
       dt = Date.today - 1.months

@@ -201,10 +201,11 @@ class PaymentsController < ApplicationController
       <body>
       Payment received from <b>#{cls.description} #{cls.classroom_name}</b><br><br>
 
-      Bill List as below:
+      Bill details as below:
       <ul>
       #{list_bill}
       <li>Payment Method: #{pm.mtd}</li>
+      <li>Updated By: #{Admin.find(pm.adm).username}</li>
       </ul><br><br>
 
       <b>TAMAN KITA TANGGUNGJAWAB KITA BERSAMA</b>
@@ -215,11 +216,11 @@ class PaymentsController < ApplicationController
       #sending email
       mail = SendGrid::Mail.new
       mail.from = SendGrid::Email.new(email: 'billing@kota.my', name: "www.kota.my")
-      mail.subject = "Payment Notification from #{cls.description} #{cls.classroom_name}"
+      mail.subject = "Manual Payment Update for #{cls.description} #{cls.classroom_name}"
       #Personalisation, add cc
       personalization = SendGrid::Personalization.new
       em = pm.kid_bill.extra[2]
-      if em.present? || (em != @taska.email.upcase)
+      if em.present? && (em != @taska.email.upcase)
         personalization.add_to(SendGrid::Email.new(email: "#{em}"))
       end
       @taska.admins.where.not(id: 1).each do |adm|
@@ -328,33 +329,34 @@ class PaymentsController < ApplicationController
       arr_pm<<k unless v.to_i < 1
     end
     if nxt == 1 #pegi kt view_bill
-      @payment = Payment.find(arr_pm[0])
-      @cls = @payment.classroom
-      @taska = @payment.taska
-      #CREATE BILLPLZ BILL
-      url_bill = "#{ENV['BILLPLZ_API']}bills"
-      data_billplz = HTTParty.post(url_bill.to_str,
-      :body  => { :collection_id => @taska.collection_id, 
-          :email=> "bill@kota.my",
-          :name=> "#{@cls.description} #{@cls.classroom_name}", 
-          :amount=>  @payment.amount*100,
-          :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
-          :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
-          :description=>"#{@payment.description}"}.to_json, 
-          #:callback_url=>  "YOUR RETURN URL"}.to_json,
-      :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
-      :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
-      #render json: data_billplz and return
-      data = JSON.parse(data_billplz.to_s)
-      if data["id"].present?
-        @payment.bill_id = data["id"]
-        @payment.save
-        redirect_to "#{ENV["BILLPLZ_URL"]}bills/#{data["id"]}"
-      else
-        flash[:danger] = "Payment Unsuccessful. Please try again"
-        redirect_to list_bill_path(cls: @cls.unq)
-      end
-      #redirect_to view_bill_path(id: arr_pm[0])
+      # create new bill
+      # @payment = Payment.find(arr_pm[0])
+      # @cls = @payment.classroom
+      # @taska = @payment.taska
+      # #CREATE BILLPLZ BILL
+      # url_bill = "#{ENV['BILLPLZ_API']}bills"
+      # data_billplz = HTTParty.post(url_bill.to_str,
+      # :body  => { :collection_id => @taska.collection_id, 
+      #     :email=> "bill@kota.my",
+      #     :name=> "#{@cls.description} #{@cls.classroom_name}", 
+      #     :amount=>  @payment.amount*100,
+      #     :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+      #     :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+      #     :description=>"#{@payment.description}"}.to_json, 
+      #     #:callback_url=>  "YOUR RETURN URL"}.to_json,
+      # :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+      # :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+      # #render json: data_billplz and return
+      # data = JSON.parse(data_billplz.to_s)
+      # if data["id"].present?
+      #   @payment.bill_id = data["id"]
+      #   @payment.save
+      #   redirect_to "#{ENV["BILLPLZ_URL"]}bills/#{data["id"]}"
+      # else
+      #   flash[:danger] = "Payment Unsuccessful. Please try again"
+      #   redirect_to list_bill_path(cls: @cls.unq)
+      # end
+      redirect_to view_bill_path(id: arr_pm[0])
 
     elsif nxt == 0 #pilih something
       flash[:danger] = "Please Choose a Bill to Pay"
