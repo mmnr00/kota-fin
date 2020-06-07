@@ -188,17 +188,58 @@ class PaymentsController < ApplicationController
     @payment.adm = pars[:adm]
     @payment.paid = true
     if @payment.save
+      #START SEND EMAIL
+      pm = @payment
+      @taska = pm.taska
+      cls = pm.classroom
+
+     
+      list_bill ="<li>#{pm.description} (ID: #{pm.bill_id}) - RM #{pm.amount}</li>"
+
+      #add content
+      msg = "<html>
+      <body>
+      Payment received from <b>#{cls.description} #{cls.classroom_name}</b><br><br>
+
+      Bill List as below:
+      <ul>
+      #{list_bill}
+      <li>Payment Method: #{pm.mtd}</li>
+      </ul><br><br>
+
+      <b>TAMAN KITA TANGGUNGJAWAB KITA BERSAMA</b>
+
+      </body>
+      </html>"
+
+      #sending email
+      mail = SendGrid::Mail.new
+      mail.from = SendGrid::Email.new(email: 'billing@kota.my', name: "www.kota.my")
+      mail.subject = "Payment Notification from #{cls.description} #{cls.classroom_name}"
+      #Personalisation, add cc
+      personalization = SendGrid::Personalization.new
+      em = pm.kid_bill.extra[2]
+      if em.present? || (em != @taska.email.upcase)
+        personalization.add_to(SendGrid::Email.new(email: "#{em}"))
+      end
+      @taska.admins.where.not(id: 1).each do |adm|
+        personalization.add_to(SendGrid::Email.new(email: "#{adm.email}"))
+      end 
+      personalization.add_bcc(SendGrid::Email.new(email: "simplysolutionplt@gmail.com"))
+      personalization.add_bcc(SendGrid::Email.new(email: "admin@kidcare.my"))
+      #personalization.add_cc(SendGrid::Email.new(email: "#{@taska.email}"))
+      mail.add_personalization(personalization)
+      mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
+      sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
+      @response = sg.client.mail._('send').post(request_body: mail.to_json)  
+      #END SEND EMAIL
+
       flash[:success] = "Bill Update Successful"
     else
       flash[:success] = "Bill Update Failed"
     end
 
     redirect_to view_bill_path(id: @payment.id)
-
-    # redirect_to tsk_fee_path(id: @taska.id,
-    #                         sch_str: @payment.bill_id, 
-    #                         sch_fld: "Bill ID",
-    #                         sch: true)
   end
 
   def rev_pmt
