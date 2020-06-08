@@ -329,34 +329,42 @@ class PaymentsController < ApplicationController
       arr_pm<<k unless v.to_i < 1
     end
     if nxt == 1 #pegi kt view_bill
-      # create new bill
-      # @payment = Payment.find(arr_pm[0])
-      # @cls = @payment.classroom
-      # @taska = @payment.taska
-      # #CREATE BILLPLZ BILL
-      # url_bill = "#{ENV['BILLPLZ_API']}bills"
-      # data_billplz = HTTParty.post(url_bill.to_str,
-      # :body  => { :collection_id => @taska.collection_id, 
-      #     :email=> "bill@kota.my",
-      #     :name=> "#{@cls.description} #{@cls.classroom_name}", 
-      #     :amount=>  @payment.amount*100,
-      #     :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
-      #     :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
-      #     :description=>"#{@payment.description}"}.to_json, 
-      #     #:callback_url=>  "YOUR RETURN URL"}.to_json,
-      # :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
-      # :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
-      # #render json: data_billplz and return
-      # data = JSON.parse(data_billplz.to_s)
-      # if data["id"].present?
-      #   @payment.bill_id = data["id"]
-      #   @payment.save
-      #   redirect_to "#{ENV["BILLPLZ_URL"]}bills/#{data["id"]}"
-      # else
-      #   flash[:danger] = "Payment Unsuccessful. Please try again"
-      #   redirect_to list_bill_path(cls: @cls.unq)
-      # end
-      redirect_to view_bill_path(id: arr_pm[0])
+      check_bill(arr_pm[0])
+      @payment = Payment.find(arr_pm[0])
+      @cls = @payment.classroom
+      if @payment.paid
+        flash[:danger] = "Bills had already been paid"
+        redirect_to list_bill_path(cls: @cls.unq)
+      else
+        #create new bill
+        #@payment = Payment.find(arr_pm[0])
+        @cls = @payment.classroom
+        @taska = @payment.taska
+        #CREATE BILLPLZ BILL
+        url_bill = "#{ENV['BILLPLZ_API']}bills"
+        data_billplz = HTTParty.post(url_bill.to_str,
+        :body  => { :collection_id => @taska.collection_id, 
+            :email=> "bill@kota.my",
+            :name=> "#{@cls.description} #{@cls.classroom_name}", 
+            :amount=>  @payment.amount*100,
+            :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+            :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+            :description=>"#{@payment.description}"}.to_json, 
+            #:callback_url=>  "YOUR RETURN URL"}.to_json,
+        :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+        :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+        #render json: data_billplz and return
+        data = JSON.parse(data_billplz.to_s)
+        if data["id"].present?
+          @payment.bill_id = data["id"]
+          @payment.save
+          redirect_to "#{ENV["BILLPLZ_URL"]}bills/#{data["id"]}"
+        else
+          flash[:danger] = "Payment Unsuccessful. Please try again"
+          redirect_to list_bill_path(cls: @cls.unq)
+        end
+      end
+      #redirect_to view_bill_path(id: arr_pm[0])
 
     elsif nxt == 0 #pilih something
       flash[:danger] = "Please Choose a Bill to Pay"
@@ -366,63 +374,74 @@ class PaymentsController < ApplicationController
     else #create multiple bills
 
       @payments = Payment.where(id: arr_pm)
+      @payments.each do |pm|
+        check_bill(pm.id)
+      end
+      @payments = Payment.where(id: arr_pm)
       @taska = @payments.first.taska
       @cls = @payments.first.classroom
-      tot = @payments.sum(:amount)
-      bill_ids = []
-      @payments.each do |pm|
-        bill_ids << pm.bill_id
-      end
 
-      #FIND OR CREATE COLLECTION
-      bill_cnt = bill_ids.count
-      if @taska.cltarr[bill_cnt].blank?
-        url = "#{ENV['BILLPLZ_API']}collections"
-        data_billplz = HTTParty.post(url.to_str,
-                :body  => { :title => "#{bill_cnt}_#{@taska.name}",
-                            :split_payment => {:email=>@taska.emblz,:fixed_cut=>(bill_cnt*150),:split_header=>true},
-                          }.to_json, 
+      if @payments.where(paid: true).present?
+        flash[:danger] = "One of the bills had already been paid"
+        redirect_to list_bill_path(cls: @cls.unq)
+      else
+        
+        tot = @payments.sum(:amount)
+        bill_ids = []
+        @payments.each do |pm|
+          bill_ids << pm.bill_id
+        end
+
+        #FIND OR CREATE COLLECTION
+        bill_cnt = bill_ids.count
+        if @taska.cltarr[bill_cnt].blank?
+          url = "#{ENV['BILLPLZ_API']}collections"
+          data_billplz = HTTParty.post(url.to_str,
+                  :body  => { :title => "#{bill_cnt}_#{@taska.name}",
+                              :split_payment => {:email=>@taska.emblz,:fixed_cut=>(bill_cnt*150),:split_header=>true},
+                            }.to_json, 
+                              #:callback_url=>  "YOUR RETURN URL"}.to_json,
+                  :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+                  :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+          #render json: data_billplz and return
+          data = JSON.parse(data_billplz.to_s)
+          @taska.cltarr[bill_cnt] = data["id"]
+          @taska.save
+        end
+
+
+
+        #CREATE BILLPLZ BILL
+        url_bill = "#{ENV['BILLPLZ_API']}bills"
+        data_billplz = HTTParty.post(url_bill.to_str,
+                :body  => { :collection_id => @taska.cltarr[bill_cnt], 
+                            :email=> "bill@kota.my",
+                            :name=> "#{@cls.description} #{@cls.classroom_name}", 
+                            :amount=>  tot*100,
+                            :reference_1_label => "Payment for Bill ID",
+                            :reference_1 => bill_ids.to_s,
+                            :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                            :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
+                            :description=>"Bill For #{@cls.description} #{@cls.classroom_name}"}.to_json, 
                             #:callback_url=>  "YOUR RETURN URL"}.to_json,
                 :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
                 :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
         #render json: data_billplz and return
         data = JSON.parse(data_billplz.to_s)
-        @taska.cltarr[bill_cnt] = data["id"]
-        @taska.save
-      end
-
-
-
-      #CREATE BILLPLZ BILL
-      url_bill = "#{ENV['BILLPLZ_API']}bills"
-      data_billplz = HTTParty.post(url_bill.to_str,
-              :body  => { :collection_id => @taska.cltarr[bill_cnt], 
-                          :email=> "bill@kota.my",
-                          :name=> "#{@cls.description} #{@cls.classroom_name}", 
-                          :amount=>  tot*100,
-                          :reference_1_label => "Payment for Bill ID",
-                          :reference_1 => bill_ids.to_s,
-                          :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
-                          :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
-                          :description=>"Bill For #{@cls.description} #{@cls.classroom_name}"}.to_json, 
-                          #:callback_url=>  "YOUR RETURN URL"}.to_json,
-              :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
-              :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
-      #render json: data_billplz and return
-      data = JSON.parse(data_billplz.to_s)
-      if data["id"].present?
-        @payments.each do |pm|
-          pm.bill_id2 = data["id"]
-          pm.save
+        if data["id"].present?
+          @payments.each do |pm|
+            pm.bill_id2 = data["id"]
+            pm.save
+          end
+          redirect_to "#{ENV["BILLPLZ_URL"]}bills/#{data["id"]}"
+        else
+          flash[:danger] = "Payment Unsuccessful. Please try again"
+          redirect_to list_bill_path(cls: @cls.unq)
         end
-        redirect_to "#{ENV["BILLPLZ_URL"]}bills/#{data["id"]}"
-      else
-        flash[:danger] = "Payment Unsuccessful. Please try again"
-        redirect_to list_bill_path(cls: @cls.unq)
-      end
+      end #END NO BILLS PAID
 
 
-    end
+    end #END MULTIPLE BILLS
   end
 
   def update

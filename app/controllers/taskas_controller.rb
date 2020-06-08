@@ -104,6 +104,8 @@ class TaskasController < ApplicationController
     arr_ph = []
     arr_not_ph = []
 
+
+
     Classroom.find(params[:cls]).each do |cls|
       if cls.topay == "OWNER"
         ph = cls.own_ph
@@ -136,7 +138,7 @@ class TaskasController < ApplicationController
       end
 
       #send email
-      if em.present?
+      if em.present? && 1==1
         
         #add content
         msg = "<html>
@@ -169,8 +171,10 @@ class TaskasController < ApplicationController
 
     end
 
+    puts params[:cls].count
+    puts params[:cls].uniq.count
     flash[:notice] = "Reminders Successfully Sent To #{params[:cls].count} residents"
-    redirect_to tsk_fee_path(params[:id], sch_mth: params[:sch_mth], sch_yr: params[:sch_yr])
+    #redirect_to tsk_fee_path(params[:id], sch_mth: params[:sch_mth], sch_yr: params[:sch_yr])
   end
 
   def upld_res
