@@ -35,37 +35,26 @@ class TaskasController < ApplicationController
         end
 
         if pmt.where(bill_month: m[0], bill_year: m[1]).blank? && (tot > 0)
-          #CREATE BILLPLZ BILL
-          url_bill = "#{ENV['BILLPLZ_API']}bills"
-          data_billplz = HTTParty.post(url_bill.to_str,
-          :body  => { :collection_id => @taska.collection_id, 
-              :email=> "bill@kota.my",
-              :name=> "#{cls.description} #{cls.classroom_name}", 
-              :amount=>  tot*100,
-              :callback_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
-              :redirect_url=> "#{ENV['ROOT_URL_BILLPLZ']}payments/update",
-              :description=>"Bill for #{$month_name[m[0]]}-#{m[1]}"}.to_json, 
-              #:callback_url=>  "YOUR RETURN URL"}.to_json,
-          :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
-          :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
-          #render json: data_billplz and return
-          data = JSON.parse(data_billplz.to_s)
-
+          
           #CREATE PAYMENT
-          if data["id"].present?
+          if 1==1 #data["id"].present?
             @payment = Payment.new
-            @payment.amount = ((data["amount"].to_f)/100)
-            @payment.description = data["description"]
+            @payment.amount = tot
+            @payment.description = "Bill for #{$month_name[m[0]]}-#{m[1]}"
             @payment.bill_month = m[0]
             @payment.bill_year = m[1]
             @payment.taska_id = @taska.id
             @payment.classroom_id = cls.id
-            @payment.state = data["state"]
-            @payment.paid = data["paid"]
-            @payment.bill_id = data["id"]
+            @payment.state = "due"
+            @payment.paid = false
+            unq = (0...6).map { ('A'..'Z').to_a[rand(26)] }.join
+            while Payment.where(bill_id: unq).present?
+            unq = (0...6).map { ('A'..'Z').to_a[rand(26)] }.join
+            end
+            @payment.bill_id = unq
             @payment.reminder = false
             @payment.name = "RSD M BILL"
-            @payment.cltid = data["collection_id"]
+            @payment.cltid = @taska.collection_id
             @payment.save
 
             #Create KidBill

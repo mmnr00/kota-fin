@@ -483,7 +483,7 @@ class PaymentsController < ApplicationController
     end #end payment present
 
     #Send email notification
-    if arr_pmt[1].present?
+    if arr_pmt[1].present? && (Rails.env == "production")
       pm = Payment.find(arr_pmt[1][0])
       @taska = pm.taska
       cls = pm.classroom
