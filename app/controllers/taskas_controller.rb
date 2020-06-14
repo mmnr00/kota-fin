@@ -6,6 +6,24 @@ class TaskasController < ApplicationController
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
 
+  def pre_feelist
+    redirect_to root_path
+  end
+
+  def feelist_xls
+
+    @pmts = Payment.where(id: params[:pmt].split)
+    puts params[:pmt]
+
+    respond_to do |format|
+      #format.html
+      format.xlsx{
+        response.headers['Content-Disposition'] = "attachment; filename=Fee List as of #{Date.today.strftime('%d-%m-%y')} (#{Time.now.strftime('%I-%M %p')}).xlsx"
+      }
+    end
+
+  end
+
   def crt_bill
     par = params[:pmt]
     m = [par[:mth].to_i,par[:yr].to_i]
@@ -574,7 +592,7 @@ class TaskasController < ApplicationController
         @bill_paid += 1
       end
     end
-
+    @pmt_ids = @payments.ids
     render action: "tsk_fee", layout: "admin_db/admin_db-fee" 
   end
 

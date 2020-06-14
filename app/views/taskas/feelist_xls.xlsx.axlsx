@@ -1,0 +1,71 @@
+wb = xlsx_package.workbook
+col_widths= [4,8,45,9.5,29,14,18,18,18,31]
+wb.styles do |style|
+  header_1 = style.add_style(sz: 20)
+  highlight_cell = style.add_style(bg_color: "EFC376",
+                                  border: Axlsx::STYLE_THIN_BORDER,
+                                  sz: 13,
+                                   alignment: { horizontal: :center })
+  border_cell = style.add_style(border: Axlsx::STYLE_THIN_BORDER,
+                                alignment: { wrap_text: true })       
+  wb.add_worksheet(name: "Fee List") do |sheet|
+
+    sheet.add_row ["","Fee List for #{@taska.name} as of #{Date.today.strftime('%d-%m-%y')} (#{Time.now.strftime('%I-%M %p')})"]
+    sheet.add_row [""]
+    sheet.add_row ["NO",
+                  "MONTH",
+                  "ADDRESS",
+                  "STATUS",
+                  "BILL TO",
+                  "BILL ID",
+                  "AMOUNT (RM)",
+                  "RECEIVED (RM)",
+                  "METHOD",
+                  "UPDATED BY"]
+    sheet.rows[0].style = header_1
+    sheet.rows[2].style = highlight_cell
+    counter = 1
+    row =2
+
+    @pmts.order('created_at DESC').each do |pm|
+      kb = pm.kid_bill
+      paid = "Unpaid"
+      amt = 0.00
+      mtd = ""
+      updby = ""
+      if pm.paid
+        #for amount
+        paid = "Paid"
+        if pm.mtd.include? "BILLPLZ"
+          amt = pm.amount - 1.5
+        else
+          amt = pm.amount
+        end
+        #for description
+        mtd = pm.mtd
+        if !pm.mtd.include? "BILLPLZ"
+          updby = "#{Admin.find(pm.adm).username} on #{pm.updated_at.strftime('%d-%m-%y')}"
+        end
+      end
+      sheet.add_row [counter,
+                    "#{pm.bill_month}-#{pm.bill_year}",
+                    kb.clsname,
+                    paid,
+                    "#{kb.extra[0]}\r#{kb.extra[1]}\r#{kb.extra[2]}",
+                    pm.bill_id,
+                    pm.amount,
+                    amt, 
+                    mtd,
+                    updby], 
+      style: [nil, border_cell]
+      sheet.rows[row+counter].style = border_cell
+      counter = counter +1
+    end
+    sheet.column_widths *col_widths
+
+  end
+end
+
+
+
+

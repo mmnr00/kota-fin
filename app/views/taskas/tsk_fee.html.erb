@@ -43,9 +43,9 @@
 
   <div class="col-lg-6 col-md-6 col-sm-3">
     <br>
-    <a href="<%= "#{shw_bilitm_url}?id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Update Bill Items</a>
+    <a href="<%= "#{shw_bilitm_url}?id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-edit fa-sm text-white-50"></i> Update Bill Items</a>
     <% if 1==0 %>
-    <a href="<%= "#{updall_pmt_url}?id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-xl btn-info shadow-sm"><i class="fas fa-sync fa-sm text-white-50"></i> Update Status</a>
+    <a href="<%= "#{updall_pmt_url}?id=#{@taska.id}" %>" class="d-sm-inline-block btn btn-sm btn-info shadow-sm"><i class="fas fa-sync fa-sm text-white-50"></i> Update Status</a>
     <% end %>
     <%
       cls_id = []
@@ -65,20 +65,44 @@
       <%= link_to remd_bill_url(sch_yr: params[:sch_yr], 
           sch_mth: params[:sch_mth], 
           cls: cls_id,
-          id: @taska.id), class: "d-sm-inline-block btn btn-xl btn-secondary shadow-sm", :data => {:confirm => "SMS and email reminders will be send to #{cls_id.count} residents" }, method: :post do %>
+          id: @taska.id), class: "d-sm-inline-block btn btn-sm btn-secondary shadow-sm", :data => {:confirm => "SMS and email reminders will be send to #{cls_id.count} residents" }, method: :post do %>
         <i class="fas fa-bell fa-sm text-white-50"></i> Send Reminders
       <% end %>
     <% end %>
-    <%= link_to nw_bill_path(id: @taska.id), class: "d-sm-inline-block btn btn-xl btn-warning shadow-sm" do %>
+    <%= link_to nw_bill_path(id: @taska.id), class: "d-sm-inline-block btn btn-sm btn-warning shadow-sm" do %>
       <i class="fas fa-plus-square fa-sm"></i> Create Bill
     <% end %>
+
+    
+
+    <!-- 
+    <%= link_to feelist_xls_path(id: @taska.id, pmt: @pmt_ids, format: :xlsx), method: :post, class: "d-sm-inline-block btn btn-sm btn-info shadow-sm" do %>
+      <i class="fas fa-file-excel fa-sm"></i> Download Bill List
+    <% end %> -->
+
+
     <br>
     <div class="alert alert-warning" role="alert">
       Billing Cycle is on <b><%= @taska.rato.round(0) %></b> of every month. Click <a href="/community/edit/<%= @taska.id %>?plan=<%= @taska.plan %>">HERE</a> to change
     </div>
-  </div>
+    <div style="margin-top: -10px">
 
+      <%= form_tag feelist_xls_path, method: :post, id: "find_kid" do %>
+
+        <%= hidden_field_tag :id, params[:id], value: params[:id] %>
+        <%= hidden_field_tag :pmt, params[:pmt], value: @pmt_ids %>
+        <%= hidden_field_tag :format, :xlsx %>
+
+        <%= button_tag(type: :submit, class: "btn btn-sm btn-block btn-info", style: "font-size: 14px; border-style: none; font-weight: normal", id: "submit_expense") do %>
+            <i class="fa fa-file-excel"></i> Download List
+        <% end %>
+
+      <% end %>
+
+    </div>
+  </div>
 </div>
+
 <br>
 <!-- START TABLE -->
 <!-- DataTales Example -->
@@ -118,6 +142,7 @@
           <span class="badge badge-dark"><b><%= @payments.count %></b> result(s) found</span>
         <% end %>
       <% end %>
+
     </div>
   </div>
   <div class="card-body" style="font-size:15px">

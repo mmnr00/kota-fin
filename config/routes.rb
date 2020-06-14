@@ -220,6 +220,8 @@ Rails.application.routes.draw do
   post '/remd_bill', to: 'taskas#remd_bill', as: 'remd_bill'
   get '/nw_bill', to: 'taskas#nw_bill', as: 'nw_bill'
   post '/crt_bill', to: 'taskas#crt_bill', as: 'crt_bill'
+  post '/pre_feelist', to: 'taskas#pre_feelist', as: 'pre_feelist'
+  post '/feelist_xls', to: 'taskas#feelist_xls', as: 'feelist_xls'
 
   
   ##OLD routes##
