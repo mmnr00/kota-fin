@@ -483,7 +483,7 @@ class PaymentsController < ApplicationController
     end #end payment present
 
     #Send email notification
-    if arr_pmt[1].present? && (Rails.env == "production")
+    if arr_pmt[1].present?# && (Rails.env == "production")
       pm = Payment.find(arr_pmt[1][0])
       @taska = pm.taska
       cls = pm.classroom
@@ -519,7 +519,7 @@ class PaymentsController < ApplicationController
 
       #sending email
       mail = SendGrid::Mail.new
-      mail.from = SendGrid::Email.new(email: 'billing@kota.my', name: "www.kota.my")
+      mail.from = SendGrid::Email.new(email: 'billing@kota.my', name: "KOTA MY")
       mail.subject = "Payment Notification from #{cls.description} #{cls.classroom_name}"
       #Personalisation, add cc
       personalization = SendGrid::Personalization.new
@@ -537,6 +537,7 @@ class PaymentsController < ApplicationController
       mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
       sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
       @response = sg.client.mail._('send').post(request_body: mail.to_json)   
+      puts "email berapa kali"
 
     end
 

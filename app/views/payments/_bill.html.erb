@@ -8,7 +8,13 @@
   <% end %>
   <div class="container"><br>
     <div style="font-size:20px">
-      <b>Bill ID: </b><%= @payment.bill_id %>
+      <b>
+      <% if @payment.paid %>
+      Receipt
+      <% else %>
+      Bill 
+      <% end %>
+      ID: </b><%= @payment.bill_id %>
     </div>
     <div class="container; col-md-12;" style="text-align:right"> 
       <% image = @payment.taska.fotos.where(foto_name: "CENTER LOGO").first %>
