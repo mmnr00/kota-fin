@@ -17,9 +17,6 @@ wb.styles do |style|
                   "ADDRESS",
                   "STATUS",
                   "BILL TO",
-                  "BILL ID",
-                  "AMOUNT (RM)",
-                  "RECEIVED (RM)",
                   "METHOD",
                   "UPDATED BY"]
     sheet.rows[0].style = header_1
@@ -51,10 +48,7 @@ wb.styles do |style|
                     "#{pm.bill_month}-#{pm.bill_year}",
                     kb.clsname,
                     paid,
-                    "#{kb.extra[0]}\r#{kb.extra[1]}\r#{kb.extra[2]}",
-                    pm.bill_id,
-                    pm.amount,
-                    amt, 
+                    "#{kb.extra[0]}\r#{kb.extra[1]}\r#{kb.extra[2]}", 
                     mtd,
                     updby], 
       style: [nil, border_cell]
