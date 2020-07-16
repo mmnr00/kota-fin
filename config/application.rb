@@ -12,6 +12,9 @@ module KidcareTaskaV3
     config.assets.paths << Rails.root.join("vendor","assets", "fonts")
     config.time_zone = 'Singapore'
     config.active_record.default_timezone = :local
+    config.action_dispatch.default_headers = {
+    'X-Frame-Options' => 'ALLOWALL'
+    }
     #config.assets.paths << File.join(Rails.root, '/vendor/webarch_core')
     #config.assets.paths << File.join(Rails.root, '/vendor/agency')
     #config.assets.enabled = true
