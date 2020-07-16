@@ -1,5 +1,5 @@
 #IMPORTANT TO CHANGE
-@taska = Taska.find(2)
+@taska = Taska.find(3)
 #END CHANGE
 
 classrooms = @taska.classrooms
@@ -10,7 +10,7 @@ arr_not_ph = []
 
 
 #create payment for each classrooms
-classrooms.each do |cls|
+classrooms.where.not(id: 115).each do |cls|
 pmt = cls.payments
 #init payment details
 if cls.topay == "OWNER"
@@ -64,8 +64,8 @@ if ph.present?
 url = "https://sms.360.my/gw/bulk360/v1.4?"
 usr = "user=admin@kidcare.my&"
 ps = "pass=#{ENV['SMS360']}&"
-to = "to=6#{ph}&"
-txt = "text=New Bill fr #{@taska.name}.\n Click https://www.kota.my/list_bill?cls=#{cls.unq} to pay. TAMAN KITA TANGGUNGJAWAB BERSAMA."
+to = "to=whatsapp:6#{ph}&"
+txt = "text=#{@taska.name} : Monthly Fees Notification - Dear Residents, please click https://www.kota.my/list_bill?cls=#{cls.unq} to view and make payment. If you are unable to click the link, please save (add to contact) this number, or reply 'yes' to this message. Thank you for your continuous support - RUSDI B RUSLAN, Pengerusi Persatuan Penduduk Komuniti LEP3"
 
 fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
 data_sms = HTTParty.get(

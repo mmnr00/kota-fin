@@ -1,7 +1,7 @@
 class TaskasController < ApplicationController
   
   require 'json'
-  before_action :set_taska, except: [:upd_ajk,:upd_bilitm,:new,:create,:crt_bill]
+  before_action :set_taska, except: [:upd_ajk,:upd_bilitm,:new,:create,:crt_bill,:new]
   before_action :set_all
   before_action :check_admin, only: [:show]
   before_action :authenticate_admin!, only: [:new]
@@ -654,6 +654,54 @@ class TaskasController < ApplicationController
 
     render action: "tsk_financial", layout: "admin_db/admin_db-financial" 
   end
+
+  # GET /taskas/new
+  def new
+    if params[:chg] == "1"
+      redirect_to tsk_svplan_path(id: params[:id], plan: params[:plan])
+    else
+      @taska = Taska.new
+      @taska.fotos.build
+    end
+  end
+
+  # POST /taskas
+  # POST /taskas.json
+  def create
+    @taska = Taska.new(taska_params)
+    @taska.expire = Time.now + 1.months
+    @taska.cred = 0.00
+    # if Rails.env.development?
+    #   @taska.collection_id = "andkymil"
+    # elsif Rails.env.production?
+    #   @taska.collection_id = "x7w_y71n"
+    # end
+    @taska.collection_id = $clt
+    @taska.collection_id2 = $clt
+    @taska.name = @taska.name.upcase
+    @taska.plan = "PAY PER USE"
+    if @taska.save
+      taska_admin1 = TaskaAdmin.create(taska_id: @taska.id, admin_id: current_admin.id)
+      # annlv = Tsklv.create(taska_id: @taska.id, 
+      #                     name: "ANNUAL LEAVE",
+      #                     desc: "PLEASE INSERT YOUR DESCRIPTION AND THE DEFAULT DAYS",
+      #                     day: 15)
+      # annlv = Tsklv.create(taska_id: @taska.id, 
+      #                     name: "UNPAID LEAVE",
+      #                     desc: "PLEASE INSERT YOUR DESCRIPTION AND THE DEFAULT DAYS",
+      #                     day: 15)
+      if current_admin != Admin.first
+        taska_admin2 = TaskaAdmin.create(taska_id: @taska.id, admin_id: Admin.first.id)
+      end
+      flash[:notice] = "Community was successfully created"
+      #redirect_to create_bill_taska_path(id: @taska)
+      redirect_to admin_index_path
+    else
+      render :new 
+      
+    end  
+  end
+
 
 
  
@@ -2455,52 +2503,6 @@ end
     @taska_classrooms = @taska.classrooms
   end
 
-  # GET /taskas/new
-  def new
-    if params[:chg] == "1"
-      redirect_to tsk_svplan_path(id: params[:id], plan: params[:plan])
-    else
-      @taska = Taska.new
-      @taska.fotos.build
-    end
-  end
-
-  # POST /taskas
-  # POST /taskas.json
-  def create
-    @taska = Taska.new(taska_params)
-    @taska.expire = Time.now + 1.months
-    @taska.cred = 0.00
-    # if Rails.env.development?
-    #   @taska.collection_id = "andkymil"
-    # elsif Rails.env.production?
-    #   @taska.collection_id = "x7w_y71n"
-    # end
-    @taska.collection_id = $clt
-    @taska.collection_id2 = $clt
-    @taska.name = @taska.name.upcase
-    @taska.plan = "PAY PER USE"
-    if @taska.save
-      taska_admin1 = TaskaAdmin.create(taska_id: @taska.id, admin_id: current_admin.id)
-      # annlv = Tsklv.create(taska_id: @taska.id, 
-      #                     name: "ANNUAL LEAVE",
-      #                     desc: "PLEASE INSERT YOUR DESCRIPTION AND THE DEFAULT DAYS",
-      #                     day: 15)
-      # annlv = Tsklv.create(taska_id: @taska.id, 
-      #                     name: "UNPAID LEAVE",
-      #                     desc: "PLEASE INSERT YOUR DESCRIPTION AND THE DEFAULT DAYS",
-      #                     day: 15)
-      if current_admin != Admin.first
-        taska_admin2 = TaskaAdmin.create(taska_id: @taska.id, admin_id: Admin.first.id)
-      end
-      flash[:notice] = "Community was successfully created"
-      #redirect_to create_bill_taska_path(id: @taska)
-      redirect_to admin_index_path
-    else
-      render :new 
-      
-    end  
-  end
 
   def chgplan
     render action: "chgplan", layout: "dsb-admin-overview" 
