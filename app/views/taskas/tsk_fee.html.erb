@@ -51,12 +51,16 @@
       cls_id = []
       dt = Date.today - 1.months
       pym = @taska.payments.where(name: "RSD M BILL",bill_month: dt.month, bill_year: dt.year)
-      cnt = 0
-      while cnt <= 5 #(pym.blank? || cnt <= 3 )
+      if pym.blank?
         dt = dt - 1.months
         pym = @taska.payments.where(name: "RSD M BILL",bill_month: dt.month, bill_year: dt.year)
-        cnt = cnt + 1
       end
+      # cnt = 0
+      # while cnt <= 5 #(pym.blank? || cnt <= 3 )
+      #   dt = dt - 1.months
+      #   pym = @taska.payments.where(name: "RSD M BILL",bill_month: dt.month, bill_year: dt.year)
+      #   cnt = cnt + 1
+      # end
       @taska.classrooms.each do |cls|
         if pym.where(classroom_id: cls.id, paid: false).present?
           cls_id << cls.id
