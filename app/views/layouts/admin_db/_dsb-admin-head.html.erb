@@ -61,9 +61,10 @@
             <a class="dropdown-item" href="#">
             </a>
             <div class="dropdown-divider"></div>
-            <% if 1==0 %><a class="dropdown-item" href="#">Expires On 
+            <a class="dropdown-item" href="#">Expires On 
               <strong><%= @taska.expire.strftime("%d-%^b-%y")%></strong>
             </a>
+            <% if 1==0 %>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="<%= "#{root_url}/taska/#{@taska.id}/hiscrdt"%>">Credit Balance 
               <strong><%= "RM #{@taska.cred.round(2)}" %></strong>
