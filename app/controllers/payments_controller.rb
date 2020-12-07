@@ -5,6 +5,12 @@ class PaymentsController < ApplicationController
   #ENV['BILLPLZ_APIKEY'] = "6d78d9dd-81ac-4932-981b-75e9004a4f11"
   before_action :set_all
 
+  def upd_bill
+    check_bill(params[:id])
+    flash[:notice] = "Bills Updated"
+    redirect_to request.referrer
+  end
+
   def del_pmt   
     @payment = Payment.find(params[:id])
     @taska = @payment.taska
@@ -520,19 +526,39 @@ class PaymentsController < ApplicationController
       #sending email
       mail = SendGrid::Mail.new
       mail.from = SendGrid::Email.new(email: 'billing@kota.my', name: "KOTA MY")
-      mail.subject = "Payment Notification from #{cls.description} #{cls.classroom_name}"
+      mail.subject = "Payment Notification from #{cls.description} #{cls.classroom_name} (#{@taska.name})"
       #Personalisation, add cc
       personalization = SendGrid::Personalization.new
       em = pm.kid_bill.extra[2]
       if em.blank? || (em == @taska.email.upcase)
       em = "bill@kota.my"
       end
-      @taska.admins.where.not(id: 1).each do |adm|
-        personalization.add_to(SendGrid::Email.new(email: "#{adm.email}"))
+      #### OLD EMAIL
+      # @taska.admins.where.not(id: 1).each do |adm|
+      #   personalization.add_to(SendGrid::Email.new(email: "#{adm.email}"))
+      # end 
+      # personalization.add_bcc(SendGrid::Email.new(email: "simplysolutionplt@gmail.com"))
+      # personalization.add_bcc(SendGrid::Email.new(email: "admin@kidcare.my"))
+      # #personalization.add_cc(SendGrid::Email.new(email: "#{@taska.email}"))
+
+      #### NEW EMAIL
+      email_arr = []
+      @taska.admins.each do |adm|
+        (email_array.include? adm.email.upcase) ? arr : arr<<adm.email.upcase
       end 
-      personalization.add_bcc(SendGrid::Email.new(email: "simplysolutionplt@gmail.com"))
-      personalization.add_bcc(SendGrid::Email.new(email: "admin@kidcare.my"))
-      #personalization.add_cc(SendGrid::Email.new(email: "#{@taska.email}"))
+
+      if cls.tn_email? 
+        (email_array.include? cls.tn_email.upcase) ? arr : arr<<cls.tn_email.upcase
+      end
+
+      if cls.own_email? 
+        (email_array.include? cls.own_email.upcase) ? arr : arr<<cls.own_email.upcase
+      end
+
+      email_array.each do |eml|
+        personalization.add_to(SendGrid::Email.new(email: "#{eml}"))
+      end 
+
       mail.add_personalization(personalization)
       mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
       sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])

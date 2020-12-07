@@ -11,7 +11,9 @@
             <thead>
               <tr class="shadow">
                 <th style="background-color:#ccccff;font-size:10px">BILLS</th>
-                <th style="background-color:#ccccff;font-size:10px">AMOUNT (RM)</th>
+                <th style="background-color:#ccccff;font-size:10px">
+                  AMOUNT (RM)
+                </th>
                 <th style="background-color:#ccccff;font-size:10px">
                   <% if @payments.where(paid: false).present? %>
                     <%= f.submit :"PAY NOW", style: "align:centers;font-size:8px", class: "btn btn-sm btn-info" %>
@@ -52,6 +54,10 @@
                       <div style="color:white;font-size:10px"><%= msg %>
                       </div>
                     </a>
+                   <% if !pyn.paid %>
+                      <div style="padding-top: -200px">
+                      <%= link_to "Update", upd_bill_path(id: pyn.id), class: "badge badge-pill badge-secondary", style: "font-size:10px"%> </div>
+                    <% end %>
                     <!-- <%= link_to "#{msg}", view_bill_path(id: pyn.id), class: "", style:"font-color:white", target: "_blank" %> -->
                   </td>
                   <td><div style="text-align:center">

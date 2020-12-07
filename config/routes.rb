@@ -357,6 +357,8 @@ Rails.application.routes.draw do
   post '/upd_pmt', to: 'payments#upd_pmt', as: 'upd_pmt'
   get '/rev_pmt', to: 'payments#rev_pmt', as: 'rev_pmt'
   get '/del_pmt', to: 'payments#del_pmt', as: 'del_pmt'
+  get '/upd_bill', to: 'payments#upd_bill', as: 'upd_bill'
+
 
   
   ## OLD ##

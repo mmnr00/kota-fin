@@ -61,11 +61,14 @@
       #   pym = @taska.payments.where(name: "RSD M BILL",bill_month: dt.month, bill_year: dt.year)
       #   cnt = cnt + 1
       # end
+
       @taska.classrooms.each do |cls|
         if pym.where(classroom_id: cls.id, paid: false).present?
           cls_id << cls.id
         end
       end
+
+      # cls_id = [40]
     %>
     <% if @admin == Admin.first %>
       <%= link_to remd_bill_url(sch_yr: params[:sch_yr], 

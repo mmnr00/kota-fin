@@ -126,20 +126,32 @@ class TaskasController < ApplicationController
 
       #send sms
       if ph.present? && 1==1
-        url = "https://sms.360.my/gw/bulk360/v1.4?"
-        usr = "user=admin@kidcare.my&"
-        ps = "pass=#{ENV['SMS360']}&"
-        to = "to=whatsapp:6#{ph}&"
-        txt = "text=Payment reminder from #{@taska.name}. Please click https://www.kota.my/list_bill?cls=#{cls.unq} to view and make payment. Thank you for your continuous support. This is a system generated message. Please do not reply."
+        # url = "https://sms.360.my/gw/bulk360/v1.4?"
+        # usr = "user=admin@kidcare.my&"
+        # ps = "pass=#{ENV['SMS360']}&"
+        # to = "to=whatsapp:6#{ph}&"
+        # txt = "text=Payment reminder from #{@taska.name}. Please click https://www.kota.my/list_bill?cls=#{cls.unq} to view and make payment. Thank you for your continuous support. This is a system generated message. Please do not reply."
 
-        fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
-        data_sms = HTTParty.get(
-        "#{url}#{usr}#{ps}#{to}#{txt}",
-        http_proxyaddr: fixie.host,
-        http_proxyport: fixie.port,
-        http_proxyuser: fixie.user,
-        http_proxypass: fixie.password
-        )
+        # fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
+        # data_sms = HTTParty.get(
+        # "#{url}#{usr}#{ps}#{to}#{txt}",
+        # http_proxyaddr: fixie.host,
+        # http_proxyport: fixie.port,
+        # http_proxyuser: fixie.user,
+        # http_proxypass: fixie.password
+        # )
+        url = "https://www.isms.com.my/isms_send.php?"
+        usr = "un=kotamy&"
+        ps = "pwd=#{ENV['ismsk']}&"
+        txt = "msg=Payment reminder from #{@taska.name}. Please click https://www.kota.my/list_bill?cls=#{cls.unq} to view and make payment.&"
+        to = "dstno=6#{ph}&"
+        tp = "type=1&"
+        trm = "agreedterm=YES"
+        data_sms = nil
+        puts data_sms
+
+        data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
+
         arr_ph << ["#{cls.description} #{cls.classroom_name}",ph] unless data_sms.parsed_response[0..2] != "200"
         arr_not_ph << ["#{cls.description} #{cls.classroom_name}",ph,data_sms.parsed_response[0..2]] unless data_sms.parsed_response[0..2] == "200"
       end
