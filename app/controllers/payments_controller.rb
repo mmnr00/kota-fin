@@ -401,16 +401,32 @@ class PaymentsController < ApplicationController
         #FIND OR CREATE COLLECTION
         bill_cnt = bill_ids.count
         if @taska.cltarr[bill_cnt].blank?
-          url = "#{ENV['BILLPLZ_API']}collections"
-          data_billplz = HTTParty.post(url.to_str,
-                  :body  => { :title => "#{bill_cnt}_#{@taska.name}",
-                              :split_payment => {:email=>@taska.emblz,:fixed_cut=>(bill_cnt*150),:split_header=>true},
-                            }.to_json, 
+
+
+          ### OLD cltd
+          # url = "#{ENV['BILLPLZ_API']}collections"
+          # data_billplz = HTTParty.post(url.to_str,
+          #         :body  => { :title => "#{bill_cnt}_#{@taska.name}",
+          #                     #:split_payment => {:email=>@taska.emblz,:fixed_cut=>(bill_cnt*150),:split_header=>true},
+          #                     :split_payment => {:email=>@taska.emblz,:fixed_cut=>(bill_cnt*150),:split_header=>true},
+          #                   }.to_json, 
+          #                     #:callback_url=>  "YOUR RETURN URL"}.to_json,
+          #         :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
+          #         :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
+          # #render json: data_billplz and return
+          # data = JSON.parse(data_billplz.to_s)
+
+          ### NEW cltd
+          url4 = "https://www.billplz.com/api/v4/collections"
+          data_billplz = HTTParty.post(url4.to_str,
+                  :body  => {:title => "#{bill_cnt}_#{@taska.name}",:split_payments => [{:email=>"simplysolutionplt@gmail.com",:fixed_cut=>0,:stack_order=>0},{:email=>@taska.emblz,:fixed_cut=>(bill_cnt*150),:stack_order=>1}], :split_header => true}.to_json, 
                               #:callback_url=>  "YOUR RETURN URL"}.to_json,
                   :basic_auth => { :username => ENV['BILLPLZ_APIKEY'] },
                   :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
           #render json: data_billplz and return
           data = JSON.parse(data_billplz.to_s)
+
+
           @taska.cltarr[bill_cnt] = data["id"]
           @taska.save
         end
