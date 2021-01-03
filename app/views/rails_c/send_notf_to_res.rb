@@ -10,7 +10,7 @@ arr_not_ph = []
 
 
 #create payment for each classrooms
-classrooms.where.not(id: 115).each do |cls|
+classrooms.each do |cls|
 pmt = cls.payments
 #init payment details
 if cls.topay == "OWNER"
@@ -61,22 +61,37 @@ end #END send email
 
 #SEND SMS
 if ph.present?
-url = "https://sms.360.my/gw/bulk360/v1.4?"
-usr = "user=admin@kidcare.my&"
-ps = "pass=#{ENV['SMS360']}&"
-to = "to=whatsapp:6#{ph}&"
-txt = "text=#{@taska.name} : Monthly Fees Notification - Dear Residents, please click https://www.kota.my/list_bill?cls=#{cls.unq} to view and make payment. If you are unable to click the link, please save (add to contact) this number, or reply 'yes' to this message. Thank you for your continuous support - RUSDI B RUSLAN, Pengerusi Persatuan Penduduk Komuniti LEP3"
+# url = "https://sms.360.my/gw/bulk360/v1.4?"
+# usr = "user=admin@kidcare.my&"
+# ps = "pass=#{ENV['SMS360']}&"
+# to = "to=whatsapp:6#{ph}&"
+# txt = "text=#{@taska.name} : Monthly Fees Notification - Dear Residents, please click https://www.kota.my/list_bill?cls=#{cls.unq} to view and make payment. If you are unable to click the link, please save (add to contact) this number, or reply 'yes' to this message. Thank you for your continuous support - RUSDI B RUSLAN, Pengerusi Persatuan Penduduk Komuniti LEP3"
 
-fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
-data_sms = HTTParty.get(
-"#{url}#{usr}#{ps}#{to}#{txt}",
-http_proxyaddr: fixie.host,
-http_proxyport: fixie.port,
-http_proxyuser: fixie.user,
-http_proxypass: fixie.password
-)
-arr_ph << ["#{cls.description} #{cls.classroom_name}",ph] unless data_sms.parsed_response[0..2] != "200"
-arr_not_ph << ["#{cls.description} #{cls.classroom_name}",ph,data_sms.parsed_response[0..2]] unless data_sms.parsed_response[0..2] == "200"
+# fixie = URI.parse "http://fixie:2lSaDRfniJz8lOS@velodrome.usefixie.com:80"
+# data_sms = HTTParty.get(
+# "#{url}#{usr}#{ps}#{to}#{txt}",
+# http_proxyaddr: fixie.host,
+# http_proxyport: fixie.port,
+# http_proxyuser: fixie.user,
+# http_proxypass: fixie.password
+# )
+
+puts ph
+
+url = "https://www.isms.com.my/isms_send.php?"
+usr = "un=kotamy&"
+ps = "pwd=#{ENV['isms']}&"
+tp = "type=1&"
+trm = "agreedterm=YES"
+to = "dstno=6#{ph}&"
+txt = "msg=Fee Notification from #{@taska.name} Please click https://www.kota.my/list_bill?cls=#{cls.unq} to make payment.&"
+data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
+puts data_sms
+
+
+
+#arr_ph << ["#{cls.description} #{cls.classroom_name}",ph] unless data_sms.parsed_response[0..2] != "200"
+#arr_not_ph << ["#{cls.description} #{cls.classroom_name}",ph,data_sms.parsed_response[0..2]] unless data_sms.parsed_response[0..2] == "200"
 end #end sms
 
 
