@@ -55,7 +55,7 @@ task res_notf: :environment do
 			mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
 			sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
 			puts mail
-			#@response = sg.client.mail._('send').post(request_body: mail.to_json)
+			@response = sg.client.mail._('send').post(request_body: mail.to_json)
 			#arr_em << ["#{cls.description} #{cls.classroom_name}",em] unless @response.status_code != "202"
 			#arr_not_em << ["#{cls.description} #{cls.classroom_name}",em,@response.status_code] unless @response.status_code == "202"
 		end #END send email
@@ -85,8 +85,8 @@ task res_notf: :environment do
 			tp = "type=1&"
 			trm = "agreedterm=YES"
 			to = "dstno=6#{ph}&"
-			txt = "msg=Fee Notification from #{taska.name} Please click https://www.kota.my/list_bill?cls=#{cls.unq} to make payment.&"
-			#data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
+			txt = "msg=Payment reminder from #{taska.name} Please click https://www.kota.my/list_bill?cls=#{cls.unq} to view and make payment.&"
+			data_sms = HTTParty.get("#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}", timeout: 120)
 			puts "#{url}#{usr}#{ps}#{to}#{txt}#{tp}#{trm}"
 
 
