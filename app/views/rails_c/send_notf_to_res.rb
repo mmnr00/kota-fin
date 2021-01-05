@@ -80,7 +80,7 @@ puts ph
 
 url = "https://www.isms.com.my/isms_send.php?"
 usr = "un=kotamy&"
-ps = "pwd=#{ENV['isms']}&"
+ps = "pwd=#{ENV['ismsk']}&"
 tp = "type=1&"
 trm = "agreedterm=YES"
 to = "dstno=6#{ph}&"
