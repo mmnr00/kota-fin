@@ -18,7 +18,7 @@ gem 'bootstrap'
 gem 'font-awesome-sass'
 # gem 'popper_js', '~> 1.14.7'
 
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 3.12'
 gem 'httparty'
 gem 'chartkick'
 gem 'pg', '~>0.11'
