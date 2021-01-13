@@ -222,7 +222,11 @@
                 </td>
                 <td>
                   <% if un.paid %>
-                      <span class="badge"><i><%= un.mtd %></i></span>
+                      <span class="badge">
+                        <i><%= un.mtd %></i>
+                        on <b><%= un.updated_at.strftime('%d-%m-%y') %></b>
+                      </span>
+
                     <% if !un.mtd.include? "BILLPLZ" %>
                         <span class="badge">Updated by <b><%= Admin.find(un.adm).username %></b> on <b><%= un.updated_at.strftime('%d-%m-%y') %></b></span><br>
                       <%= link_to "Revert", rev_pmt_path(tsk: @taska.id,pmt: un.id), class: "btn btn-sm btn-info", :data => {:confirm => 'Are you sure? Updated payment details will be deleted.'} %>

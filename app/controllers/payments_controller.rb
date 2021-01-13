@@ -558,17 +558,17 @@ class PaymentsController < ApplicationController
       # #personalization.add_cc(SendGrid::Email.new(email: "#{@taska.email}"))
 
       #### NEW EMAIL
-      email_arr = []
+      email_array = []
       @taska.admins.each do |adm|
-        (email_array.include? adm.email.upcase) ? arr : arr<<adm.email.upcase
+        (email_array.include? adm.email.upcase) ? email_array : email_array<<adm.email.upcase
       end 
 
       if cls.tn_email? 
-        (email_array.include? cls.tn_email.upcase) ? arr : arr<<cls.tn_email.upcase
+        (email_array.include? cls.tn_email.upcase) ? email_array : email_array<<cls.tn_email.upcase
       end
 
       if cls.own_email? 
-        (email_array.include? cls.own_email.upcase) ? arr : arr<<cls.own_email.upcase
+        (email_array.include? cls.own_email.upcase) ? email_array : email_array<<cls.own_email.upcase
       end
 
       email_array.each do |eml|
@@ -579,7 +579,8 @@ class PaymentsController < ApplicationController
       mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
       sg = SendGrid::API.new(api_key: ENV['SENDGRID_PASSWORD'])
       @response = sg.client.mail._('send').post(request_body: mail.to_json)   
-      puts "email berapa kali"
+      puts email_array
+      puts @response
 
     end
 
