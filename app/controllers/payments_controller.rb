@@ -489,7 +489,7 @@ class PaymentsController < ApplicationController
 
         @bill.paid = params[:billplz][:paid]
         @bill.pdt = params[:billplz][:paid_at]
-        @bill.mtd = "BILLPLZ via #{params[:billplz][:id]}"
+        @bill.mtd = "BILLPLZ"
         
         if @bill.paid
           @bill.save
