@@ -1,3 +1,7 @@
 <h3> Edit Details for <strong><%= @kid.name %></strong></h3>
 
-<%= render 'kids/form' %>
+<%if (@kid.taska_id.present?) && ($cakna21.include? @kid.taska_id.to_s) %>
+  <%= render 'kids/form-ckn21' %>
+<% else %>
+  <%= render 'kids/form' %>
+<% end %>

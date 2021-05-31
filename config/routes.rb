@@ -358,6 +358,8 @@ Rails.application.routes.draw do
   get '/rev_pmt', to: 'payments#rev_pmt', as: 'rev_pmt'
   get '/del_pmt', to: 'payments#del_pmt', as: 'del_pmt'
   get '/upd_bill', to: 'payments#upd_bill', as: 'upd_bill'
+  get '/payments/update', to: 'payments#update', as: 'payment_update'
+  post '/payments/update_callback', to: 'payments#update_callback'
 
 
   
@@ -386,7 +388,7 @@ Rails.application.routes.draw do
   #get '/taska/:id/edit_bill', to: 'payments#edit_bill', as: 'edit_bill'
   #get '/taska/:id/upd_bill', to: 'payments#upd_bill', as: 'upd_bill'
   
-  get '/payments/update', to: 'payments#update', as: 'payment_update'
+  
   post '/teacher/:id/new_bill', to: 'payments#teacher_create_bill', as: 'teacher_create_bill'
 
 
