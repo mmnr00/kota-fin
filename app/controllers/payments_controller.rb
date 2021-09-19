@@ -233,7 +233,7 @@ class PaymentsController < ApplicationController
         personalization.add_to(SendGrid::Email.new(email: "#{adm.email}"))
       end 
       personalization.add_bcc(SendGrid::Email.new(email: "simplysolutionplt@gmail.com"))
-      personalization.add_bcc(SendGrid::Email.new(email: "admin@kidcare.my"))
+      # personalization.add_bcc(SendGrid::Email.new(email: "admin@kidcare.my"))
       #personalization.add_cc(SendGrid::Email.new(email: "#{@taska.email}"))
       mail.add_personalization(personalization)
       mail.add_content(SendGrid::Content.new(type: 'text/html', value: "#{msg}"))
