@@ -347,6 +347,7 @@ Rails.application.routes.draw do
   get '/classrooms/:id/xls', to: 'classrooms#classroom_xls', as: 'classroom_xls' 
 
   #~payments
+  get '/updall_bill', to: 'payments#updall_bill'
   get '/crt_prev', to: 'payments#crt_prev', as: 'crt_prev'
   get '/crt_pmt', to: 'payments#crt_pmt', as: 'crt_pmt'
   get '/view_bill', to: 'payments#view_bill', as: 'view_bill'

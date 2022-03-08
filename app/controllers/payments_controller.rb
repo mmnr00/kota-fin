@@ -5,6 +5,13 @@ class PaymentsController < ApplicationController
   #ENV['BILLPLZ_APIKEY'] = "6d78d9dd-81ac-4932-981b-75e9004a4f11"
   before_action :set_all
 
+  def updall_bill
+    @payments = Payment.where(paid: false)
+    @payments.each do |pmt|
+      check_bill(pmt.id)
+    end
+  end
+
   def upd_bill
     check_bill(params[:id])
     flash[:notice] = "Bills Updated"
