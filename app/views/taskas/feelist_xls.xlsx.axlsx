@@ -1,5 +1,5 @@
 wb = xlsx_package.workbook
-col_widths= [4,8,45,9.5,29,14,18,18,18,31]
+col_widths= [4,8,9,20,9.5,29,14,18,18,18,31]
 wb.styles do |style|
   header_1 = style.add_style(sz: 20)
   highlight_cell = style.add_style(bg_color: "EFC376",
@@ -14,7 +14,8 @@ wb.styles do |style|
     sheet.add_row [""]
     sheet.add_row ["NO",
                   "MONTH",
-                  "ADDRESS",
+                  "UNIT",
+                  "STREET",
                   "STATUS",
                   "BILL TO",
                   "METHOD",
@@ -46,7 +47,8 @@ wb.styles do |style|
       end
       sheet.add_row [counter,
                     "#{pm.bill_month}-#{pm.bill_year}",
-                    kb.clsname,
+                    kb.clsname.split[0],
+                    kb.clsname.split[1..10].join(" "),
                     paid,
                     "#{kb.extra[0]}\r#{kb.extra[1]}\r#{kb.extra[2]}", 
                     mtd,
