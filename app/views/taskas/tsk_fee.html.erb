@@ -49,7 +49,7 @@
     <% end %>
     <%
       cls_id = []
-      dt = Date.today - 1.months
+      dt = Date.today
       pym = @taska.payments.where(name: "RSD M BILL",bill_month: dt.month, bill_year: dt.year)
       if pym.blank?
         dt = dt - 1.months
