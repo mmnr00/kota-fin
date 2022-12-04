@@ -46,8 +46,8 @@
         <h6 class="m-0 font-weight-bold text-primary">Financial Summary For  </h6>&nbsp&nbsp
         <%= form_tag tsk_financial_path, method: :get, id: "find_kid" do %>
           <% 
-            yr_s = Date.today.year - 4
-            yr_e = Date.today.year
+            yr_s = 2018
+            yr_e = Date.today.year + 2
             mt = []
             $month_name.each do |k,v|
               mt << [v,k]
