@@ -559,7 +559,7 @@ GEM
     ruby2_keywords (0.0.5)
     ruby_http_client (3.5.5)
     rubyzip (2.3.2)
-    sass (3.5.7)
+    sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -606,7 +606,7 @@ GEM
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
-    twilio-ruby (5.73.4)
+    twilio-ruby (5.74.0)
       faraday (>= 0.9, < 3.0)
       jwt (>= 1.5, <= 2.5)
       nokogiri (>= 1.6, < 2.0)
@@ -679,7 +679,7 @@ DEPENDENCIES
   rails (~> 6.1.7)
   roo
   rubyzip (>= 1.2.1)
-  sass (~> 3.5.2)
+  sass
   selenium-webdriver
   sendgrid-ruby
   sinatra!
