@@ -44,7 +44,7 @@ gem 'sendgrid-ruby'
 
 
 
-#gem 'bootstrap-sass'
+gem 'bootstrap-sass'
 gem 'font-awesome-rails'
 
 gem 'uglifier'
